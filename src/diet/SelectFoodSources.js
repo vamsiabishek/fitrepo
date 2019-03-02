@@ -54,6 +54,7 @@ export default class SelectFoodSources extends Component {
       isNonVegetarian: value
     });
   };
+
   onProteinSelectedChange = selectedProteinSources => {
     this.setState({ selectedProteinSources });
   };
@@ -75,6 +76,7 @@ export default class SelectFoodSources extends Component {
       source === "protein" ? "#F1948A" : chipBackgroundColor;
     chipBackgroundColor = source === "carb" ? "#82E0AA" : chipBackgroundColor;
     chipBackgroundColor = source === "fat" ? "#F7DC6F" : chipBackgroundColor;
+
     return {
       container: {
         marginVertical: 100
@@ -109,6 +111,7 @@ export default class SelectFoodSources extends Component {
   };
 
   render() {
+    const { onLevelChange } = this.props;
     const {
       isNonVegetarian,
       selectedProteinSources,
@@ -142,24 +145,6 @@ export default class SelectFoodSources extends Component {
             borderRadius: 20
           }}
         >
-          {/* <View
-            style={{
-              justifyCentent: "center",
-              alignItems: "center",
-              marginVertical: 30,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 30,
-                fontWeight: "bold",
-                fontStyle: "italic",
-                color: "grey"
-              }}
-            >
-              Food sources...
-            </Text>
-            </View> */}
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>{isVegLabel}</Text>
             <Switch
