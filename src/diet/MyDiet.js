@@ -1,15 +1,7 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ImageBackground,
-  Dimensions
-} from "react-native";
-import { Input, Button, Header } from "react-native-elements";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import TotalDietMacros from './TotalDietMarcos'
+import TotalDietMacros from "./TotalDietMarcos";
 
 export default class MyDiet extends Component {
   constructor(props) {
@@ -90,10 +82,18 @@ export default class MyDiet extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly", backgroundColor: "#221E1D", }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            backgroundColor: "#221E1D"
+          }}
+        >
           <TouchableOpacity
             style={
-              activeDay === "training" ? styles.activeDayButton : styles.dayButton
+              activeDay === "training"
+                ? styles.activeDayButton
+                : styles.dayButton
             }
             onPress={() => this.onDayChange("training")}
           >
@@ -109,7 +109,9 @@ export default class MyDiet extends Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={activeDay === "rest" ? styles.activeDayButton : styles.dayButton}
+            style={
+              activeDay === "rest" ? styles.activeDayButton : styles.dayButton
+            }
             onPress={() => this.onDayChange("rest")}
           >
             <Text
@@ -124,7 +126,7 @@ export default class MyDiet extends Component {
             <Icon name="procedures" size={20} color="white" />
           </TouchableOpacity>
         </View>
-        <TotalDietMacros protein='75' carbs='100' fat='20' />
+        <TotalDietMacros protein="75" carbs="100" fat="20" />
       </View>
     );
   }

@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Dimensions
-} from "react-native";
-import { Input, Button, Badge } from "react-native-elements";
+import { StyleSheet, Text, View } from "react-native";
+import { Badge } from "react-native-elements";
+import SourceQuantity from "./SourceQuantity";
 import { calculateTotalCalories } from "./../common/Common";
 
 export default class TotalDietMacros extends Component {
@@ -31,19 +26,10 @@ export default class TotalDietMacros extends Component {
             width: "100%"
           }}
         >
-          <View>
-            <Badge value={protein} status="error" style={{ padding: 15 }} />
-            <Text style={styles.badgeLabel}>{proteinLabel}</Text>
-          </View>
-          <View>
-            <Badge value={carbs} status="success" />
-            <Text style={styles.badgeLabel}>{carbsLabel}</Text>
-          </View>
-          <View>
-            <Badge value={fat} status="warning" />
-            <Text style={styles.badgeLabel}>{fatLabel}</Text>
-          </View>
-          <View>
+          <SourceQuantity source={protein} sourceLabel={proteinLabel} />
+          <SourceQuantity source={carbs} sourceLabel={carbsLabel} />
+          <SourceQuantity source={fat} sourceLabel={fatLabel} />
+          <View style={{ alignItems: "center" }}>
             <Badge value={totalCalories} status="primary" />
             <Text style={styles.badgeLabel}>{totalCalLabel}</Text>
           </View>
@@ -63,6 +49,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 4,
     marginRight: 2,
-    color: 'white',
+    color: "white"
   }
 });

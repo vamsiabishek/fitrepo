@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Button } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 import NumericInput from "react-native-numeric-input";
 

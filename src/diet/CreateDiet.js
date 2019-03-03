@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Dimensions
-} from "react-native";
-import { Input, Button } from "react-native-elements";
+import { StyleSheet, View } from "react-native";
 import DietGoalPlan from "./DietGoalPlan";
 import SelectFoodSources from "./SelectFoodSources";
 
@@ -77,7 +70,7 @@ export default class CreateDiet extends Component {
       selectedFatSources,
       selectedCarbSources
     });
-    this.props.navigation.navigate('MyDiet')
+    this.props.navigation.navigate("MyDiet");
   };
 
   render() {

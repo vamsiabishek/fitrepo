@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Switch,
-  Dimensions
-} from "react-native";
-import { Tooltip, Input, Button } from "react-native-elements";
+import { StyleSheet, Text, View, ScrollView, Switch } from "react-native";
+import { Button } from "react-native-elements";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { proteinSources, fatSources, carbSources } from "./FoodSources";
 
@@ -139,7 +132,15 @@ export default class SelectFoodSources extends Component {
     const fatSourceConfirmText = this.getConfirmText(selectedFatSources);
     return (
       <View style={styles.container}>
-        <ScrollView style={{ maxHeight: 510, marginTop: 30, borderWidth:0, borderColor:'grey', borderRadius:20 }}>
+        <ScrollView
+          style={{
+            maxHeight: 510,
+            marginTop: 30,
+            borderWidth: 0,
+            borderColor: "grey",
+            borderRadius: 20
+          }}
+        >
           {/* <View
             style={{
               justifyCentent: "center",
@@ -301,6 +302,6 @@ const styles = StyleSheet.create({
   multiSelectDropdown: {
     width: 300,
     borderColor: "lightgrey",
-    borderBottomWidth: 1,
+    borderBottomWidth: 1
   }
 });

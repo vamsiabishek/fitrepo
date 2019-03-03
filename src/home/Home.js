@@ -1,12 +1,5 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Dimensions,
-} from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import React, { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 export default class Home extends Component {
   render() {
@@ -14,15 +7,15 @@ export default class Home extends Component {
       <View style={styles.container}>
         <Text>Home Screen</Text>
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-})
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
+  }
+});
