@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import { Text, View, TouchableOpacity, StatusBar } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon1 from "react-native-vector-icons/FontAwesome5";
 import TotalDietMacros from "./TotalDietMarcos";
+import { styles } from "../../assets/style/stylesMyDiet";
 
 export default class MyDiet extends Component {
   constructor(props) {
@@ -10,12 +12,10 @@ export default class MyDiet extends Component {
       activeDay: "training" // others days can be rest or refeed
     };
   }
-
   onDayChange = selectedDay => {
     if (selectedDay === "training") this.setState({ activeDay: "training" });
     else if (selectedDay === "rest") this.setState({ activeDay: "rest" });
   };
-
   render() {
     const { activeDay } = this.state;
     const subHeaderLeftText = "Week 1";
@@ -23,12 +23,13 @@ export default class MyDiet extends Component {
     const subHeaderRightText = "Week 3";
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
         <View
           style={{
             flexDirection: "row",
-            backgroundColor: "#222930",
+            backgroundColor: "#28292B",
             justifyContent: "space-between",
-            paddingVertical: 20,
+            paddingVertical: 0,
             marginTop: 0,
             width: "100%"
           }}
@@ -38,10 +39,10 @@ export default class MyDiet extends Component {
               style={{ flexDirection: "row", marginLeft: 10 }}
               onPress={() => navigation.navigate("Diet")}
             >
-              <Icon name="angle-left" size={30} color="#3498DB" />
+              <Icon name="arrow-left-thick" size={30} color="#00DB8D" />
               <Text
                 style={{
-                  color: "#3498DB",
+                  color: "#00DB8D",
                   fontSize: 18,
                   marginTop: 4,
                   marginLeft: 2
@@ -54,7 +55,7 @@ export default class MyDiet extends Component {
           <View>
             <Text
               style={{
-                color: "#3498DB",
+                color: "#00DB8D",
                 fontSize: 18,
                 marginTop: 4,
                 marginLeft: 2
@@ -70,7 +71,7 @@ export default class MyDiet extends Component {
             >
               <Text
                 style={{
-                  color: "#3498DB",
+                  color: "#00DB8D",
                   fontSize: 18,
                   marginTop: 4,
                   marginRight: 2
@@ -78,7 +79,7 @@ export default class MyDiet extends Component {
               >
                 {subHeaderRightText}
               </Text>
-              <Icon name="angle-right" size={30} color="#3498DB" />
+              <Icon name="arrow-right-thick" size={30} color="#00DB8D" />
             </TouchableOpacity>
           </View>
         </View>
@@ -97,7 +98,7 @@ export default class MyDiet extends Component {
             }
             onPress={() => this.onDayChange("training")}
           >
-            <Icon name="running" size={20} color="white" />
+            <Icon name="run-fast" size={20} color="white" />
             <Text
               style={
                 activeDay === "training"
@@ -123,7 +124,7 @@ export default class MyDiet extends Component {
             >
               Rest Day
             </Text>
-            <Icon name="procedures" size={20} color="white" />
+            <Icon name="sleep" size={20} color="white" />
           </TouchableOpacity>
         </View>
         <TotalDietMacros protein="75" carbs="100" fat="20" />
@@ -131,37 +132,3 @@ export default class MyDiet extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F5FCFF"
-  },
-  activeDayButton: {
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    backgroundColor: "#E25D33",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    flexDirection: "row"
-  },
-  dayButton: {
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    backgroundColor: "#e77d5b",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    flexDirection: "row"
-  },
-  activeDayButtonText: {
-    fontSize: 15,
-    color: "white",
-    paddingHorizontal: 5,
-    fontWeight: "bold"
-  },
-  dayButtonText: {
-    fontSize: 15,
-    color: "white",
-    paddingHorizontal: 5
-  }
-});

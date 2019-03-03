@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-elements";
+import { Text, View, StatusBar } from "react-native";
+import { Input, Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Dropdown } from "react-native-material-dropdown";
 import NumericInput from "react-native-numeric-input";
+import { styles } from "../../assets/style/stylesDietGoalPlan";
 
 export default class DietGoalPlan extends Component {
   constructor(props) {
@@ -64,7 +66,7 @@ export default class DietGoalPlan extends Component {
     let { currentWeight: targetWeight } = this.state;
     if (!goal) goal = selectedGoal;
     if (!program) program = selectedProgram;
-    console.log(goal,program);
+    console.log(goal, program);
     if (!targetWeightChanged) {
       if (goal === "Fat-loss") {
         targetWeight = targetWeight - 3;
@@ -113,117 +115,105 @@ export default class DietGoalPlan extends Component {
       targetWeight,
       goals,
       programs,
-      mealOptions
+      mealOptions,
+      navigation
     } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.viewContainer}>
+          <Text style={styles.titleContainer}>Getting started...</Text>
+        </View>
+        <View style={styles.viewDDContainer}>
+          <Dropdown
+            label={goalDefaultValue}
+            data={goals}
+            baseColor={styles.dropdownBaseColor.color}
+            containerStyle={styles.dropdownContainer}
+            pickerStyle={styles.dropdownPickerStyle}
+            dropdownOffset={styles.dropdownOffset}
+            onChangeText={this.onGoalChange}
+            value={selectedGoal}
+          />
+          <Dropdown
+            label={programDefaultValue}
+            data={programs}
+            baseColor={styles.dropdownBaseColor.color}
+            containerStyle={styles.dropdownContainer}
+            pickerStyle={styles.dropdownPickerStyle}
+            dropdownOffset={styles.dropdownOffset}
+            onChangeText={this.onProgramChange}
+            value={selectedProgram}
+          />
+          <Dropdown
+            label={mealsDefaultValue}
+            data={mealOptions}
+            baseColor={styles.dropdownBaseColor.color}
+            containerStyle={styles.dropdownContainer}
+            pickerStyle={styles.dropdownPickerStyle}
+            dropdownOffset={styles.dropdownOffset}
+            onChangeText={this.onMealsChange}
+            value={selectedMeals}
+          />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Current weight:</Text>
+            <NumericInput
+              value={currentWeight}
+              onChange={value => this.setState({ currentWeight: value })}
+              initValue={currentWeight}
+              totalWidth={80}
+              totalHeight={40}
+              iconSize={25}
+              iconStyle={{ color: "white" }}
+              step={1.5}
+              valueType="integer"
+              rounded
+              textColor="black"
+              rightButtonBackgroundColor="#00DB8D"
+              leftButtonBackgroundColor="#00DB8D"
+              containerStyle={styles.numberPickerContainer}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Target weight:</Text>
+            <NumericInput
+              value={targetWeight}
+              onChange={value => this.setState({ targetWeight: value })}
+              initValue={targetWeight}
+              totalWidth={80}
+              totalHeight={40}
+              iconSize={25}
+              iconStyle={{ color: "white" }}
+              step={1.5}
+              valueType="integer"
+              rounded
+              textColor="black"
+              rightButtonBackgroundColor="#00DB8D"
+              leftButtonBackgroundColor="#00DB8D"
+              containerStyle={styles.numberPickerContainer}
+            />
+          </View>
+        </View>
         <View
           style={{
-            justifyCentent: "center",
-            alignItems: "center",
-            marginTop: 50,
-            marginBottom: 20
+            flexDirection: "row",
+            alignContent: "center",
+            justifyContent: "center"
           }}
         >
-          <Text
-            style={{
-              fontSize: 30,
-              fontWeight: "bold",
-              fontStyle: "italic",
-              color: "grey"
-            }}
-          >
-            Getting started...
-          </Text>
-        </View>
-        <Dropdown
-          label={goalDefaultValue}
-          data={goals}
-          containerStyle={styles.dropdown}
-          dropdownOffset={{ top: 20, left: 0 }}
-          onChangeText={this.onGoalChange}
-          value={selectedGoal}
-        />
-        <Dropdown
-          label={programDefaultValue}
-          data={programs}
-          containerStyle={styles.dropdown}
-          dropdownOffset={{ top: 20, bottom: 20, left: 0 }}
-          onChangeText={this.onProgramChange}
-          value={selectedProgram}
-        />
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Current weight:</Text>
-          <NumericInput
-            value={currentWeight}
-            onChange={value => this.setState({ currentWeight: value })}
-            initValue={currentWeight}
-            totalWidth={80}
-            totalHeight={40}
-            iconSize={25}
-            step={1.5}
-            valueType="integer"
-            rounded
-            textColor="black"
-            iconStyle={{ color: "white" }}
-            rightButtonBackgroundColor="#58D68D"
-            leftButtonBackgroundColor="#58D68D"
-            containerStyle={styles.numberPicker}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Target weight:</Text>
-          <NumericInput
-            value={targetWeight}
-            onChange={value => this.setState({ targetWeight: value })}
-            initValue={targetWeight}
-            totalWidth={80}
-            totalHeight={40}
-            iconSize={25}
-            step={1.5}
-            valueType="integer"
-            rounded
-            textColor="black"
-            iconStyle={{ color: "white" }}
-            rightButtonBackgroundColor="#EC7063"
-            leftButtonBackgroundColor="#EC7063"
-            containerStyle={styles.numberPicker}
-          />
-        </View>
-        <Dropdown
-          label={mealsDefaultValue}
-          data={mealOptions}
-          containerStyle={styles.dropdown}
-          dropdownOffset={{ top: 20, bottom: 20, left: 0 }}
-          onChangeText={this.onMealsChange}
-          value={selectedMeals}
-        />
-        <View style={{ flex: 1, marginTop: 40 }}>
           <Button
-            title="Next"
-            titleStyle={{ fontWeight: "bold", fontSize: 18 }}
-            buttonStyle={{
-              borderWidth: 0,
-              borderColor: "transparent",
-              borderRadius: 20,
-              paddingHorizontal: 15,
-              opacity: 0.7
-            }}
-            containerStyle={{
-              marginVertical: 10,
-              marginHorizontal: 20,
-              height: 40,
-              justifyContent: "center",
-              alignItems: "flex-end"
-            }}
-            icon={{
-              name: "arrow-right",
-              type: "font-awesome",
-              size: 15,
-              color: "white"
-            }}
-            iconRight
-            iconContainerStyle={{ marginLeft: 5 }}
+            title="NEXT"
+            containerStyle={styles.nextButtonContainerStyle}
+            buttonStyle={styles.nextButtonStyle}
+            titleStyle={styles.nextButtonTitleStyle}
+            icon={
+              <Icon
+                name="arrow-right-thick"
+                size={20}
+                style={{ color: "white" }}
+              />
+            }
+            iconRight={true}
             onPress={() => this.onNextClick()}
           />
         </View>
@@ -231,24 +221,3 @@ export default class DietGoalPlan extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  dropdown: {
-    width: 300,
-    padding: 10
-  },
-  inputContainer: {
-    flexDirection: "row",
-    marginVertical: 15,
-    justifyContent: "space-between",
-    marginHorizontal: 30
-  },
-  inputLabel: {
-    marginVertical: 15,
-    marginHorizontal: 10,
-    fontSize: 16
-  },
-  numberPicker: {
-    marginRight: 20
-  }
-});

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import DietGoalPlan from "./DietGoalPlan";
 import SelectFoodSources from "./SelectFoodSources";
+import { styles } from "../../assets/style/stylesCreateDiet";
 
 export default class CreateDiet extends Component {
   constructor(props) {
@@ -111,12 +112,3 @@ export default class CreateDiet extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  }
-});

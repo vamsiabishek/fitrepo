@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, ScrollView, Switch } from "react-native";
+import { Text, View, ScrollView, Switch, StatusBar } from "react-native";
 import { Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { proteinSources, fatSources, carbSources } from "./FoodSources";
+import { styles } from "../../assets/style/stylesSelectFoodSources";
 
 export default class SelectFoodSources extends Component {
   constructor(props) {
@@ -52,7 +54,6 @@ export default class SelectFoodSources extends Component {
       isNonVegetarian: value
     });
   };
-
   onProteinSelectedChange = selectedProteinSources => {
     this.setState({ selectedProteinSources });
   };
@@ -280,28 +281,3 @@ export default class SelectFoodSources extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
-  inputContainer: {
-    flexDirection: "row",
-    marginVertical: 15,
-    justifyContent: "space-between",
-    marginHorizontal: 30,
-    alignItems: "center"
-  },
-  inputLabel: {
-    marginVertical: 15,
-    marginHorizontal: 10,
-    fontSize: 16
-  },
-  multiSelectDropdown: {
-    width: 300,
-    borderColor: "lightgrey",
-    borderBottomWidth: 1
-  }
-});

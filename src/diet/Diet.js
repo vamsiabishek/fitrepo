@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View, StatusBar } from "react-native";
+import { Input, Button } from "react-native-elements";
+import DietGoalPlan from "./DietGoalPlan";
+import SelectFoodSources from "./SelectFoodSources";
+import { styles } from "../../assets/style/stylesDietScreen";
 
 export default class Diet extends Component {
   constructor(props) {
@@ -10,17 +14,11 @@ export default class Diet extends Component {
     const { props } = this.props;
     return (
       <View style={styles.container}>
-        <Text>Diet Home Page</Text>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.viewContainer}>
+          <Text style={styles.titleContainer}>Your Diet Plans..</Text>
+        </View>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  }
-});
