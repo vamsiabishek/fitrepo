@@ -12,10 +12,12 @@ export default class MyDiet extends Component {
       activeDay: "training" // others days can be rest or refeed
     };
   }
+
   onDayChange = selectedDay => {
     if (selectedDay === "training") this.setState({ activeDay: "training" });
     else if (selectedDay === "rest") this.setState({ activeDay: "rest" });
   };
+
   render() {
     const { activeDay } = this.state;
     const subHeaderLeftText = "Week 1";
@@ -27,9 +29,9 @@ export default class MyDiet extends Component {
         <View
           style={{
             flexDirection: "row",
-            backgroundColor: "#28292B",
+            backgroundColor: "#222930",
             justifyContent: "space-between",
-            paddingVertical: 0,
+            paddingVertical: 20,
             marginTop: 0,
             width: "100%"
           }}

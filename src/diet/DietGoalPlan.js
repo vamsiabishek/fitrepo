@@ -116,7 +116,6 @@ export default class DietGoalPlan extends Component {
       goals,
       programs,
       mealOptions,
-      navigation
     } = this.state;
     return (
       <View style={styles.container}>

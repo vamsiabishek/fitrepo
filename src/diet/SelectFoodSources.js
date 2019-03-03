@@ -76,7 +76,6 @@ export default class SelectFoodSources extends Component {
       source === "protein" ? "#F1948A" : chipBackgroundColor;
     chipBackgroundColor = source === "carb" ? "#82E0AA" : chipBackgroundColor;
     chipBackgroundColor = source === "fat" ? "#F7DC6F" : chipBackgroundColor;
-
     return {
       container: {
         marginVertical: 100
@@ -111,7 +110,6 @@ export default class SelectFoodSources extends Component {
   };
 
   render() {
-    const { onLevelChange } = this.props;
     const {
       isNonVegetarian,
       selectedProteinSources,
