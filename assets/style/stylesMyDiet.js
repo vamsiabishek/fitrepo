@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  /*container: {
+  container: {
     flex: 1,
-    justifyContent: "center",
+   /*justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#28292B"
-  },*/
+    backgroundColor: "#28292B"*/
+  },
   viewContainer: {
     justifyContent: "center",
     alignItems: "center",

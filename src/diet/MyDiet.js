@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon1 from "react-native-vector-icons/FontAwesome5";
 import TotalDietMacros from "./TotalDietMarcos";
+import MealsContainer from "./meals/MealsContainer";
 import { styles } from "../../assets/style/stylesMyDiet";
 
 export default class MyDiet extends Component {
@@ -130,6 +131,7 @@ export default class MyDiet extends Component {
           </TouchableOpacity>
         </View>
         <TotalDietMacros protein="75" carbs="100" fat="20" />
+        <MealsContainer />
       </View>
     );
   }
