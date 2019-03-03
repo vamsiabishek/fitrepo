@@ -21,9 +21,38 @@ export default class SelectFoodSources extends Component {
       isNonVegetarian: true,
       selectedProteinSources: props.selectedProteins,
       selectedFatSources: props.selectedFats,
-      selectedCarbSources: props.selectedCarbs,
+      selectedCarbSources: props.selectedCarbs
     };
   }
+
+  onPreviousOrNextClick = progress => {
+    const {
+      selectedProteinSources,
+      selectedFatSources,
+      selectedCarbSources
+    } = this.state;
+    const { setSelectedSources } = this.props;
+    setSelectedSources({
+      selectedProteinSources,
+      selectedFatSources,
+      selectedCarbSources,
+      progress
+    });
+  };
+
+  createDiet = () => {
+    const {
+      selectedProteinSources,
+      selectedFatSources,
+      selectedCarbSources
+    } = this.state;
+    const { createDiet } = this.props;
+    createDiet({
+      selectedProteinSources,
+      selectedFatSources,
+      selectedCarbSources
+    });
+  };
 
   onVegChange = value => {
     this.setState({
@@ -41,16 +70,17 @@ export default class SelectFoodSources extends Component {
     this.setState({ selectedFatSources });
   };
 
-  getConfirmText = selectedList => 
-    selectedList.length ? 'Confirm' : 'Cancel'
-  
-  getSourceLabel = (selectedList, source) => selectedList.length ? `${source}s !` : `Choose your ${source}!`
+  getConfirmText = selectedList => (selectedList.length ? "Confirm" : "Cancel");
+
+  getSourceLabel = (selectedList, source) =>
+    selectedList.length ? `${source}s !` : `Choose your ${source}!`;
 
   getMultiSelectStyle = source => {
-    let chipBackgroundColor = 'grey';
-    chipBackgroundColor = source === 'protein' ? '#F1948A' : chipBackgroundColor;
-    chipBackgroundColor = source === 'carb' ? '#82E0AA' : chipBackgroundColor;
-    chipBackgroundColor = source === 'fat' ? '#F7DC6F' : chipBackgroundColor;
+    let chipBackgroundColor = "grey";
+    chipBackgroundColor =
+      source === "protein" ? "#F1948A" : chipBackgroundColor;
+    chipBackgroundColor = source === "carb" ? "#82E0AA" : chipBackgroundColor;
+    chipBackgroundColor = source === "fat" ? "#F7DC6F" : chipBackgroundColor;
     return {
       container: {
         marginVertical: 100
@@ -81,11 +111,10 @@ export default class SelectFoodSources extends Component {
       selectedItem: {
         color: "red"
       }
-    }
-  }
+    };
+  };
 
   render() {
-    const { onLevelChange } = this.props
     const {
       isNonVegetarian,
       selectedProteinSources,
@@ -96,18 +125,21 @@ export default class SelectFoodSources extends Component {
       selectedCarbSources
     } = this.state;
     const isVegLabel = isNonVegetarian ? "Non-Vegetarian" : "Vegetarian";
-    const proteinSourceLabel = this.getSourceLabel(selectedProteinSources, 'Protein')
-    const carbSourceLabel = this.getSourceLabel(selectedCarbSources, 'Carb')
-    const fatSourceLabel = this.getSourceLabel(selectedFatSources, 'Fat')
-    const multiSelectStyle = {
-      
-    };
-    const proteinSourceConfirmText = this.getConfirmText(selectedProteinSources)
-    const carbSourceConfirmText = this.getConfirmText(selectedCarbSources)
-    const fatSourceConfirmText = this.getConfirmText(selectedFatSources)
+    const proteinSourceLabel = this.getSourceLabel(
+      selectedProteinSources,
+      "Protein"
+    );
+    const carbSourceLabel = this.getSourceLabel(selectedCarbSources, "Carb");
+    const fatSourceLabel = this.getSourceLabel(selectedFatSources, "Fat");
+    const multiSelectStyle = {};
+    const proteinSourceConfirmText = this.getConfirmText(
+      selectedProteinSources
+    );
+    const carbSourceConfirmText = this.getConfirmText(selectedCarbSources);
+    const fatSourceConfirmText = this.getConfirmText(selectedFatSources);
     return (
       <View style={styles.container}>
-        <ScrollView style={{maxHeight:500, marginTop:30}}>
+        <ScrollView style={{ maxHeight: 510, marginTop: 30, borderWidth:0, borderColor:'grey', borderRadius:20 }}>
           {/* <View
             style={{
               justifyCentent: "center",
@@ -146,7 +178,7 @@ export default class SelectFoodSources extends Component {
               onSelectedItemsChange={this.onProteinSelectedChange}
               selectedItems={selectedProteinSources}
               modalAnimationType="slide"
-              styles={this.getMultiSelectStyle('protein')}
+              styles={this.getMultiSelectStyle("protein")}
               colors={{ chipColor: "black" }}
               searchPlaceholderText="Search sources..."
               confirmText={proteinSourceConfirmText}
@@ -163,7 +195,7 @@ export default class SelectFoodSources extends Component {
               onSelectedItemsChange={this.onCarbSelectedChange}
               selectedItems={selectedCarbSources}
               modalAnimationType="slide"
-              styles={this.getMultiSelectStyle('carb')}
+              styles={this.getMultiSelectStyle("carb")}
               colors={{ chipColor: "black" }}
               searchPlaceholderText="Search sources..."
               confirmText={carbSourceConfirmText}
@@ -180,58 +212,68 @@ export default class SelectFoodSources extends Component {
               onSelectedItemsChange={this.onFatSelectedChange}
               selectedItems={selectedFatSources}
               modalAnimationType="slide"
-              styles={this.getMultiSelectStyle('fat')}
+              styles={this.getMultiSelectStyle("fat")}
               colors={{ chipColor: "black" }}
               searchPlaceholderText="Search sources..."
               confirmText={fatSourceConfirmText}
             />
           </View>
         </ScrollView>
-        <View style={{flex:1, marginTop: 40, flexDirection:'row'}}>
+        <View style={{ flex: 1, marginTop: 40, flexDirection: "row" }}>
           <Button
-              title="Prev"
-              titleStyle={{ fontWeight: 'bold', fontSize: 18, }}
-            
-              buttonStyle={{
-                borderWidth: 0,
-                borderColor: 'transparent',
-                borderRadius: 20,
-                paddingHorizontal: 15,
-                opacity: 0.7,
-              }}
-              containerStyle={{ marginVertical: 10, marginHorizontal: 20, height: 40, justifyContent: 'center', alignItems: 'flex-start', }}
-              icon={{
-                name: 'arrow-left',
-                type: 'font-awesome',
-                size: 15,
-                color: 'white',
-              }}
-              iconLeft
-              iconContainerStyle={{ marginLeft: 5 }}
-              onPress={() => onLevelChange(false)}
-            />
+            title="Prev"
+            titleStyle={{ fontWeight: "bold", fontSize: 18 }}
+            buttonStyle={{
+              borderWidth: 0,
+              borderColor: "transparent",
+              borderRadius: 20,
+              paddingHorizontal: 15,
+              opacity: 0.7
+            }}
+            containerStyle={{
+              marginVertical: 10,
+              marginHorizontal: 20,
+              height: 40,
+              justifyContent: "center",
+              alignItems: "flex-start"
+            }}
+            icon={{
+              name: "arrow-left",
+              type: "font-awesome",
+              size: 15,
+              color: "white"
+            }}
+            iconLeft
+            iconContainerStyle={{ marginLeft: 5 }}
+            onPress={() => this.onPreviousOrNextClick(false)}
+          />
           <Button
-              title="Next"
-              titleStyle={{ fontWeight: 'bold', fontSize: 18, }}
-            
-              buttonStyle={{
-                borderWidth: 0,
-                borderColor: 'transparent',
-                borderRadius: 20,
-                paddingHorizontal: 15,
-                opacity: 0.7,
-              }}
-              containerStyle={{ marginVertical: 10, marginHorizontal: 20, height: 40, justifyContent: 'center', alignItems: 'flex-end', }}
-              icon={{
-                name: 'arrow-right',
-                type: 'font-awesome',
-                size: 15,
-                color: 'white',
-              }}
-              iconRight
-              iconContainerStyle={{ marginLeft: 5 }}
-              onPress={() => onLevelChange(true)}
-            />
+            title="Create diet"
+            titleStyle={{ fontWeight: "bold", fontSize: 18 }}
+            buttonStyle={{
+              borderWidth: 0,
+              borderColor: "transparent",
+              borderRadius: 20,
+              paddingHorizontal: 15,
+              opacity: 0.7
+            }}
+            containerStyle={{
+              marginVertical: 10,
+              marginHorizontal: 20,
+              height: 40,
+              justifyContent: "center",
+              alignItems: "flex-end"
+            }}
+            icon={{
+              name: "arrow-right",
+              type: "font-awesome",
+              size: 15,
+              color: "white"
+            }}
+            iconRight
+            iconContainerStyle={{ marginLeft: 5 }}
+            onPress={() => this.createDiet()}
+          />
         </View>
       </View>
     );
@@ -258,8 +300,7 @@ const styles = StyleSheet.create({
   },
   multiSelectDropdown: {
     width: 300,
-    borderColor: 'lightgrey',
-    borderWidth: 1,
-    borderRadius: 20,
+    borderColor: "lightgrey",
+    borderBottomWidth: 1,
   }
 });
