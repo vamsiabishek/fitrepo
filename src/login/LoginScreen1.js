@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import {
-  StyleSheet,
   Text,
   View,
   ImageBackground,
-  Dimensions
+  StatusBar,
+  LayoutAnimation
 } from "react-native";
 import { Input, Button } from "react-native-elements";
-
 import Icon from "react-native-vector-icons/FontAwesome";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+import { styles } from "../../assets/style/stylesLoginScreen";
 
 const BG_IMAGE = require("../../assets/images/barbell.jpg");
 
@@ -20,196 +17,132 @@ export default class LoginScreen1 extends Component {
     super(props);
 
     this.state = {
-      fontLoaded: false,
       email: "",
-      email_valid: true,
+      email_Valid: true,
       password: "",
+      passwordValid: true,
       login_failed: false,
       showLoading: false
     };
   }
-
-  async componentDidMount() {
-    /*await Font.loadAsync({
-      georgia: require('../../../assets/fonts/Georgia.ttf'),
-      regular: require('../../../assets/fonts/Montserrat-Regular.ttf'),
-      light: require('../../../assets/fonts/Montserrat-Light.ttf'),
-      bold: require('../../../assets/fonts/Montserrat-Bold.ttf'),
-    });*/
-
-    this.setState({ fontLoaded: true });
-  }
-
-  validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    return re.test(email);
-  }
-
-  submitLoginCredentials() {
+  validateEmail = email => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const email_Valid = re.test(email);
+    LayoutAnimation.easeInEaseOut();
+    email_Valid || this.emailInput.shake();
+    return email_Valid;
+  };
+  validatePassword = password => {
+    const passwordValid = password.length >= 8;
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ passwordValid });
+    passwordValid || this.passwordInput.shake();
+    return passwordValid;
+  };
+  signUpButttonClicked = () => {
+    const { navigate } = this.props.navigation;
+    navigate("SignUp");
+  };
+  submitLoginCredentials = () => {
     const { showLoading } = this.state;
-
     this.setState({
       showLoading: !showLoading
     });
     const { navigate } = this.props.navigation;
     navigate("HomeScreen");
-  }
+  };
 
   render() {
-    const { email, password, email_valid, showLoading } = this.state;
-
+    const {
+      email,
+      password,
+      passwordValid,
+      email_Valid,
+      showLoading
+    } = this.state;
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
         <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
-          {this.state.fontLoaded ? (
-            <View style={styles.loginView}>
-              <View style={styles.loginTitle}>
-                <View style={{ flexDirection: "row" }}>
-                  <Text style={styles.travelText}>FITLOG</Text>
-                </View>
-              </View>
-              <View style={styles.loginInput}>
-                <Input
-                  leftIcon={
-                    <Icon
-                      name="user-o"
-                      color="rgba(171, 189, 219, 1)"
-                      size={25}
-                    />
-                  }
-                  containerStyle={{ marginVertical: 10 }}
-                  onChangeText={email => this.setState({ email })}
-                  value={email}
-                  inputStyle={{ marginLeft: 10, color: "white" }}
-                  keyboardAppearance="light"
-                  placeholder="Email"
-                  autoFocus={false}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="email-address"
-                  returnKeyType="next"
-                  ref={input => (this.emailInput = input)}
-                  onSubmitEditing={() => {
-                    this.setState({ email_valid: this.validateEmail(email) });
-                    this.passwordInput.focus();
-                  }}
-                  blurOnSubmit={false}
-                  placeholderTextColor="white"
-                  errorStyle={{ textAlign: "center", fontSize: 12 }}
-                  errorMessage={
-                    email_valid ? null : "Please enter a valid email address"
-                  }
-                />
-                <Input
-                  leftIcon={
-                    <Icon
-                      name="lock"
-                      color="rgba(171, 189, 219, 1)"
-                      size={25}
-                    />
-                  }
-                  containerStyle={{ marginVertical: 10 }}
-                  onChangeText={password => this.setState({ password })}
-                  value={password}
-                  inputStyle={{ marginLeft: 10, color: "white" }}
-                  secureTextEntry={true}
-                  keyboardAppearance="light"
-                  placeholder="Password"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="default"
-                  returnKeyType="done"
-                  ref={input => (this.passwordInput = input)}
-                  blurOnSubmit={true}
-                  placeholderTextColor="white"
-                />
-              </View>
-              <Button
-                title="LOG IN"
-                activeOpacity={1}
-                underlayColor="transparent"
-                onPress={this.submitLoginCredentials.bind(this)}
-                loading={showLoading}
-                loadingProps={{ size: "small", color: "white" }}
-                disabled={!email_valid && password.length < 8}
-                buttonStyle={{
-                  height: 50,
-                  width: 250,
-                  backgroundColor: "transparent",
-                  borderWidth: 2,
-                  borderColor: "white",
-                  borderRadius: 30
-                }}
-                containerStyle={{ marginVertical: 10 }}
-                titleStyle={{ fontWeight: "bold", color: "white" }}
-              />
-              <View style={styles.footerView}>
-                <Text style={{ color: "lightblue", paddingVertical: 10 }}>
-                  New here?
-                </Text>
-                <Button
-                  title="Create an Account"
-                  clear
-                  activeOpacity={0.5}
-                  titleStyle={{ color: "white", fontSize: 15 }}
-                  containerStyle={{ marginTop: -5 }}
-                  onPress={() => console.log("Account created")}
-                />
-              </View>
+          <View style={styles.loginView}>
+            <View style={styles.viewContainer}>
+              <Text style={styles.logoText}>FITREPO</Text>
             </View>
-          ) : (
-            <Text>Loading...</Text>
-          )}
+            <View style={styles.loginInput}>
+              <Input
+                leftIcon={<Icon name="user" color="white" size={25} />}
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                onChangeText={email => this.setState({ email })}
+                value={email}
+                keyboardAppearance="light"
+                keyboardType="email-address"
+                placeholder="Email"
+                placeholderTextColor="white"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="email-address"
+                returnKeyType="next"
+                ref={input => (this.emailInput = input)}
+                onSubmitEditing={() => {
+                  this.setState({ email_Valid: this.validateEmail(email) });
+                  this.passwordInput.focus();
+                }}
+                blurOnSubmit={false}
+                errorStyle={styles.errorInputStyle}
+                errorMessage={
+                  email_Valid ? null : "Please enter a valid email address"
+                }
+              />
+              <Input
+                leftIcon={<Icon name="lock" color="white" size={25} />}
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                onChangeText={password => this.setState({ password })}
+                value={password}
+                secureTextEntry={true}
+                keyboardAppearance="light"
+                keyboardType="email-address"
+                placeholder="Password"
+                placeholderTextColor="white"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="default"
+                returnKeyType="go"
+                ref={input => (this.passwordInput = input)}
+                blurOnSubmit={true}
+                onSubmitEditing={() => {
+                  this.setState({
+                    passwordValid: this.validatePassword(password)
+                  });
+                }}
+                errorStyle={styles.errorInputStyle}
+                errorMessage={
+                  passwordValid ? null : "Please enter a valid password"
+                }
+              />
+            </View>
+            <Button
+              title="LOGIN"
+              loading={showLoading}
+              containerStyle={styles.loginButtonContainer}
+              buttonStyle={styles.loginButtonStyle}
+              titleStyle={styles.loginButtonText}
+              onPress={this.submitLoginCredentials.bind(this)}
+            />
+            <View style={styles.signUpHereContainer}>
+              <Text style={styles.newUserText}>New here?</Text>
+              <Button
+                title="SIGN UP"
+                type="clear"
+                buttonStyle={styles.sighUpButtonStyle}
+                titleStyle={styles.signUpButtonTitle}
+                onPress={() => this.signUpButttonClicked()}
+              />
+            </View>
+          </View>
         </ImageBackground>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  bgImage: {
-    flex: 1,
-    top: 0,
-    left: 0,
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  loginView: {
-    marginTop: 150,
-    backgroundColor: "transparent",
-    width: 250,
-    height: 400
-  },
-  loginTitle: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  travelText: {
-    color: "white",
-    fontSize: 30,
-    fontWeight: "bold"
-  },
-  plusText: {
-    color: "white",
-    fontSize: 30,
-    fontWeight: "normal"
-  },
-  loginInput: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  footerView: {
-    marginTop: 20,
-    flex: 0.5,
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
