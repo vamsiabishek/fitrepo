@@ -11,6 +11,7 @@ import {
 import { Input, Button } from "react-native-elements";
 import { styles } from "../../assets/style/stylesSignUpScreen";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { auth, database } from "./../common/FirebaseConfig";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -31,12 +32,41 @@ class SignUp extends Component {
       confirmationPasswordValid: true
     };
   }
-  signup = () => {
+
+  createUserWithDetails = async user => {
+    const { username, email } = this.state;
+    const { navigate } = this.props.navigation;
+    const newUser = {
+      username,
+      email,
+      avatar: "http://i.pravatar.cc/300",
+      weight: 75,
+      height: 175,
+      age: 29,
+      gender: 'male',
+    };
+    database
+      .ref("users")
+      .child(user.uid)
+      .set(newUser)
+      .then(() => {
+        console.log("Successfully create new user with details:");
+        this.setState({ isLoading: false });
+        navigate("HomeScreen");
+      })
+      .catch(error => {
+        this.setState({ isLoading: false });
+        console.log("error while creating new user with details:", error);
+      });
+  };
+
+  signup = async () => {
     LayoutAnimation.easeInEaseOut();
     const usernameValid = this.validateUsername();
     const emailValid = this.validateEmail();
     const passwordValid = this.validatePassword();
     const confirmationPasswordValid = this.validateConfirmationPassword();
+    const { email, password } = this.state;
     if (
       usernameValid &&
       emailValid &&
@@ -44,8 +74,25 @@ class SignUp extends Component {
       confirmationPasswordValid
     ) {
       this.setState({ isLoading: true });
-      const { navigate } = this.props.navigation;
-      navigate("HomeScreen");
+      try {
+        await auth
+          .createUserWithEmailAndPassword(email, password)
+          .then(userObj => this.createUserWithDetails(userObj.user))
+          .catch(error => {
+            this.setState({ isLoading: false });
+            console.log(
+              "error while creating user with email and password:",
+              error
+            );
+            alert(error.message);
+          });
+      } catch (error) {
+        this.setState({ isLoading: false });
+        console.log(
+          "error before creating user with email and password:",
+          error
+        );
+      }
     }
   };
   validateUsername = () => {
