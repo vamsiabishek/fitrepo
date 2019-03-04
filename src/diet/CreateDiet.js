@@ -71,7 +71,24 @@ export default class CreateDiet extends Component {
       selectedFatSources,
       selectedCarbSources
     });
-    this.props.navigation.navigate("MyDiet");
+    const {
+      selectedGoal,
+      seletedProgram,
+      selectedMeals,
+      currentWeight,
+      targetWeight
+    } = this.state;
+    const completeDietOptions = {
+      selectedProteinSources,
+      selectedFatSources,
+      selectedCarbSources,
+      selectedGoal,
+      seletedProgram,
+      selectedMeals,
+      currentWeight,
+      targetWeight
+    };
+    this.props.navigation.navigate("MyDiet", { completeDietOptions });
   };
 
   render() {

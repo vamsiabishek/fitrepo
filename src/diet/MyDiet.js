@@ -5,6 +5,7 @@ import Icon1 from "react-native-vector-icons/FontAwesome5";
 import TotalDietMacros from "./TotalDietMarcos";
 import MealsContainer from "./meals/MealsContainer";
 import { styles } from "../../assets/style/stylesMyDiet";
+import { designDiet } from "../diet/DietAlgorithm";
 
 export default class MyDiet extends Component {
   constructor(props) {
@@ -13,6 +14,13 @@ export default class MyDiet extends Component {
       activeDay: "training" // others days can be rest or refeed
     };
   }
+
+  componentDidMount = () => {
+    const { navigation } = this.props;
+    const completeDietOptions = navigation.getParam("completeDietOptions");
+    console.log("completeDietOptions:", completeDietOptions);
+    designDiet(completeDietOptions);
+  };
 
   onDayChange = selectedDay => {
     if (selectedDay === "training") this.setState({ activeDay: "training" });
