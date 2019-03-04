@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View, ScrollView } from "react-native";
 import Accordion from "react-native-collapsible/Accordion";
 import { meals } from "./meals";
-import { styles } from "./styles/MealContainer";
+import { styles } from "../../../assets/style/stylesMealContainer";
 
 export default class MealsContainer extends Component {
   constructor(props) {
@@ -43,6 +43,7 @@ export default class MealsContainer extends Component {
   setSections = activeSections => {
     this.setState({ activeSections });
   };
+
   render() {
     const multipleSelect = true;
     const { meals, activeSections } = this.state;

@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-const SCREE_WIDTH = Dimensions.get("window").width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -12,30 +12,32 @@ const styles = StyleSheet.create({
   viewContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 70,
-    marginBottom: 30
+    marginTop: 60,
+    marginBottom: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10
   },
   titleContainer: {
-    color: "white", //"#717173",
+    color: "white",
     fontFamily: "Billabong",
     fontSize: 60
-    //fontWeight: "bold",
-    //fontStyle: "italic"
   },
   textContainer: {
     color: "white"
   },
-  viewInputContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: SCREE_WIDTH - 60,
+  scrollviewContainer: {
+    maxWidth: SCREEN_WIDTH - 60,
+    maxHeight: 510,
     backgroundColor: "white",
     borderWidth: 1,
     borderColor: "white",
     borderRadius: 30,
     paddingTop: 10,
     paddingBottom: 20
+  },
+  scrollviewContentContainer: {
+    justifyContent: "center",
+    alignContent: "center"
   },
   inputContainer: {
     flexDirection: "row",
@@ -50,23 +52,36 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   multiSelectDropdown: {
-    width: 300,
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 20
+    width: SCREEN_WIDTH - 60,
+    borderBottomWidth: 0.3,
+    borderColor: "#28292B",
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    color: "black"
   },
-  buttonsContainer: {
-    flex: 1,
+  buttonContainer: {
     flexDirection: "row",
-    marginTop: 40
+    alignContent: "center",
+    justifyContent: "center",
+    marginVertical: 20
   },
   nextButtonContainerStyle: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
-    marginVertical: 10,
+    marginTop: 10,
+    marginBottom: 10,
     marginHorizontal: 20,
+    height: 40
+  },
+  nextButtonContainerStyleC: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 10,
+    marginHorizontal: 20,
+    marginRight: 30,
     height: 40
   },
   nextButtonStyle: {
@@ -77,27 +92,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#00DB8D"
   },
   nextButtonTitleStyle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "white"
-  },
-  prevButtonContainerStyle: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-    marginVertical: 10,
-    marginHorizontal: 20,
-    height: 40
-  },
-  prevButtonStyle: {
-    borderWidth: 0,
-    borderColor: "transparent",
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    backgroundColor: "#00DB8D"
-  },
-  prevButtonTitleStyle: {
     fontSize: 16,
     fontWeight: "bold",
     color: "white"

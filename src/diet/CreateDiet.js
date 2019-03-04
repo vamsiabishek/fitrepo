@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import DietGoalPlan from "./DietGoalPlan";
 import SelectFoodSources from "./SelectFoodSources";
 import { styles } from "../../assets/style/stylesCreateDiet";
@@ -61,6 +61,25 @@ export default class CreateDiet extends Component {
     this.changeSelectionLevel(progress);
   };
 
+  saveDietGoalsPlusBack = ({
+    selectedGoal,
+    selectedProgram,
+    currentWeight,
+    targetWeight,
+    selectedMeals,
+    progress
+  }) => {
+    this.setState({
+      selectedGoal,
+      selectedProgram,
+      currentWeight,
+      targetWeight,
+      selectedMeals
+    });
+    this.changeSelectionLevel(progress);
+    this.props.navigation.navigate("Diet");
+  };
+
   createDiet = ({
     selectedProteinSources,
     selectedFatSources,
@@ -114,6 +133,7 @@ export default class CreateDiet extends Component {
             targetWeight={targetWeight}
             meals={selectedMeals}
             setDietGoals={this.setDietGoals}
+            saveDietGoalsPlusBack={this.saveDietGoalsPlusBack}
           />
         )}
         {selectionLevel === 2 && (

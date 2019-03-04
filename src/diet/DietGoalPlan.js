@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StatusBar } from "react-native";
+import { Text, View } from "react-native";
 import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Dropdown } from "react-native-material-dropdown";
@@ -103,6 +103,25 @@ export default class DietGoalPlan extends Component {
     });
   };
 
+  onBackClick = () => {
+    const {
+      selectedGoal,
+      selectedProgram,
+      selectedMeals,
+      currentWeight,
+      targetWeight
+    } = this.state;
+    const { saveDietGoalsPlusBack } = this.props;
+    saveDietGoalsPlusBack({
+      selectedGoal,
+      selectedProgram,
+      selectedMeals,
+      currentWeight,
+      targetWeight,
+      progress: false
+    });
+  };
+
   render() {
     const goalDefaultValue = "Choose Goal !";
     const programDefaultValue = "Choose Program !";
@@ -115,11 +134,10 @@ export default class DietGoalPlan extends Component {
       targetWeight,
       goals,
       programs,
-      mealOptions,
+      mealOptions
     } = this.state;
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
         <View style={styles.viewContainer}>
           <Text style={styles.titleContainer}>Getting started...</Text>
         </View>
@@ -193,13 +211,22 @@ export default class DietGoalPlan extends Component {
             />
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignContent: "center",
-            justifyContent: "center"
-          }}
-        >
+        <View style={styles.buttonContainer}>
+          <Button
+            title="BACK"
+            containerStyle={styles.nextButtonContainerStyle}
+            buttonStyle={styles.nextButtonStyle}
+            titleStyle={styles.nextButtonTitleStyle}
+            icon={
+              <Icon
+                name="arrow-left-thick"
+                size={20}
+                style={{ color: "white" }}
+              />
+            }
+            iconLeft={true}
+            onPress={() => this.onBackClick()}
+          />
           <Button
             title="NEXT"
             containerStyle={styles.nextButtonContainerStyle}

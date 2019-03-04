@@ -21,6 +21,33 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     color: "white"
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    marginVertical: 20
+  },
+  nextButtonContainerStyle: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 10,
+    marginHorizontal: 20,
+    height: 40
+  },
+  nextButtonStyle: {
+    borderWidth: 0,
+    borderColor: "transparent",
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    backgroundColor: "#00DB8D"
+  },
+  nextButtonTitleStyle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white"
   }
 });
 
