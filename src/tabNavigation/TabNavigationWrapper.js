@@ -21,31 +21,8 @@ const DietStackNavigator = createStackNavigator(
   {
     CreateDiet: {
       screen: CreateDiet,
-      navigationOptions: ({ navigation }) => {
-        return {
-          headerStyle: styles.headerStyle,
-          headerTitleStyle: styles.headerTitleStyle,
-          headerLeft: (
-            <TouchableOpacity
-              style={{ flexDirection: "row", marginLeft: 10 }}
-              onPress={() => navigation.goBack()}
-            >
-              <Icon
-                name="arrow-left-thick"
-                size={20}
-                color={styles.headerTIcolor.color}
-              />
-              <Text
-                style={{
-                  color: styles.headerTextStyle.color,
-                  fontSize: styles.headerTextStyle.fontSize
-                }}
-              >
-                Back
-              </Text>
-            </TouchableOpacity>
-          )
-        };
+      navigationOptions: {
+        header: null
       }
     },
     MyDiet: {
@@ -79,32 +56,8 @@ const DietStackNavigator = createStackNavigator(
     },
     Diet: {
       screen: Diet,
-      navigationOptions: ({ navigation }) => {
-        return {
-          headerRight: (
-            <TouchableOpacity
-              style={{ flexDirection: "row", marginRight: 10 }}
-              onPress={() => navigation.navigate("CreateDiet")}
-            >
-              <Text
-                style={{
-                  color: styles.headerTextStyle.color,
-                  fontSize: styles.headerTextStyle.fontSize
-                }}
-              >
-                Create New
-              </Text>
-              <Icon
-                name="pencil-box"
-                size={20}
-                color={styles.headerTIcolor.color}
-                solid
-              />
-            </TouchableOpacity>
-          ),
-          headerStyle: styles.headerStyle,
-          headerTitleStyle: styles.headerTitleStyle
-        };
+      navigationOptions: {
+        header: null
       }
     }
   },
@@ -115,7 +68,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
   {
     Home: {
       screen: Home,
-      navigationOptions: () => ({
+      navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
           return (
             <Icon
@@ -127,20 +80,12 @@ const AppBottomTabNavigator = createBottomTabNavigator(
               }}
             />
           );
-        },
-        tabBarOptions: {
-          activeTintColor: styles.activeTintColor.color,
-          inactiveTintColor: styles.bottomNavBar.color,
-          labelStyle: styles.labelStyle,
-          style: {
-            backgroundColor: styles.bottomNavBar.backgroundColor
-          }
         }
-      })
+      }
     },
     Diet: {
       screen: DietStackNavigator,
-      navigationOptions: () => ({
+      navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
           return (
             <Icon
@@ -152,20 +97,12 @@ const AppBottomTabNavigator = createBottomTabNavigator(
               }}
             />
           );
-        },
-        tabBarOptions: {
-          activeTintColor: styles.activeTintColor.color,
-          inactiveTintColor: styles.bottomNavBar.color,
-          labelStyle: styles.labelStyle,
-          style: {
-            backgroundColor: styles.bottomNavBar.backgroundColor
-          }
         }
-      })
+      }
     },
     Workouts: {
       screen: Workouts,
-      navigationOptions: () => ({
+      navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
           return (
             <Icon
@@ -177,20 +114,12 @@ const AppBottomTabNavigator = createBottomTabNavigator(
               }}
             />
           );
-        },
-        tabBarOptions: {
-          activeTintColor: styles.activeTintColor.color,
-          inactiveTintColor: styles.bottomNavBar.color,
-          labelStyle: styles.labelStyle,
-          style: {
-            backgroundColor: styles.bottomNavBar.backgroundColor
-          }
         }
-      })
+      }
     },
     Profile: {
       screen: Profile,
-      navigationOptions: () => ({
+      navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
           return (
             <Icon
@@ -202,20 +131,22 @@ const AppBottomTabNavigator = createBottomTabNavigator(
               }}
             />
           );
-        },
-        tabBarOptions: {
-          activeTintColor: styles.activeTintColor.color,
-          inactiveTintColor: styles.bottomNavBar.color,
-          labelStyle: styles.labelStyle,
-          style: {
-            backgroundColor: styles.bottomNavBar.backgroundColor
-          }
         }
-      })
+      }
     }
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+      tabBarOptions: {
+        activeTintColor: styles.activeTintColor.color,
+        inactiveTintColor: styles.bottomNavBar.color,
+        labelStyle: styles.labelStyle,
+        style: {
+          backgroundColor: styles.bottomNavBar.backgroundColor
+        }
+      }
+    }
   }
 );
 

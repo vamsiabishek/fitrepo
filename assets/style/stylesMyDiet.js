@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-   /*justifyContent: "center",
+    flex: 1
+    /*justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#28292B"*/
   },
@@ -22,32 +22,58 @@ const styles = StyleSheet.create({
   textContainer: {
     color: "white"
   },
+  weeklyBarStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingVertical: 20,
+    marginTop: 0,
+    backgroundColor: "#36373A"
+  },
+  weeklyTouchableStyle: {
+    flexDirection: "row",
+    marginLeft: 10
+  },
+  weeklyTextStyle: {
+    marginTop: 4,
+    marginLeft: 2,
+    fontSize: 18,
+    color: "#00DB8D"
+  },
+  weeklyIconStyle: {
+    color: "#00DB8D",
+    paddingTop: 3
+  },
+  dayBarStyle: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    backgroundColor: "#36373A"
+  },
   activeDayButton: {
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    backgroundColor: "#00b272",
-    paddingHorizontal: 20,
+    flexDirection: "row",
+    paddingHorizontal: 40,
     paddingVertical: 12,
-    flexDirection: "row"
+    backgroundColor: "#009e65"
   },
   dayButton: {
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    backgroundColor: "#00DB8D",
-    paddingHorizontal: 20,
+    flexDirection: "row",
+    paddingHorizontal: 40,
     paddingVertical: 12,
-    flexDirection: "row"
+    backgroundColor: "#00DB8D"
   },
   activeDayButtonText: {
     fontSize: 16,
+    fontWeight: "bold",
     color: "white",
     paddingHorizontal: 5,
-    fontWeight: "bold"
+    paddingVertical: 2
   },
   dayButtonText: {
-    fontSize: 16,
+    fontSize: 15,
+    fontWeight: "bold",
     color: "white",
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    paddingVertical: 2
   }
 });
 

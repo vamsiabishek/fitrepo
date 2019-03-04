@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-const SCREE_WIDTH = Dimensions.get("window").width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -12,15 +12,15 @@ const styles = StyleSheet.create({
   viewContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
-    marginBottom: 20
+    marginTop: 40,
+    marginBottom: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10
   },
   titleContainer: {
     color: "white", //"#717173",
     fontFamily: "Billabong",
     fontSize: 60
-    //fontWeight: "bold",
-    //fontStyle: "italic"
   },
   textContainer: {
     color: "white"
@@ -28,13 +28,13 @@ const styles = StyleSheet.create({
   viewDDContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: SCREE_WIDTH - 60,
+    width: SCREEN_WIDTH - 60,
     backgroundColor: "white",
     borderWidth: 1,
     borderColor: "white",
     borderRadius: 30,
     paddingTop: 10,
-    paddingBottom: 20
+    paddingBottom: 10
   },
   dropdownContainer: {
     width: 300,
@@ -71,12 +71,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
+  buttonContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    marginVertical: 20
+  },
   nextButtonContainerStyle: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
-    marginVertical: 10,
+    marginTop: 10,
+    marginBottom: 10,
     marginHorizontal: 20,
     height: 40
   },

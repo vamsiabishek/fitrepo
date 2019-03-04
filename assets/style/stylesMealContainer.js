@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     marginBottom: 20
   },
   header: {
-    backgroundColor: "#5D6D7E",
+    backgroundColor: "#00DB8D",
     padding: 10,
     borderBottomWidth: 1,
     borderColor: "white"
@@ -16,14 +16,15 @@ export const styles = StyleSheet.create({
   headerText: {
     textAlign: "center",
     fontSize: 18,
-    fontWeight: "500"
+    fontWeight: "bold",
+    color: "white"
   },
   content: {
     padding: 20,
-    backgroundColor: "#fff"
+    backgroundColor: "#36373A"
   },
   active: {
-    backgroundColor: "rgba(255,255,255,1)"
+    backgroundColor: "rgba(255,252,255,1)"
   },
   inactive: {
     backgroundColor: "rgba(245,252,255,1)"
@@ -36,15 +37,18 @@ export const styles = StyleSheet.create({
   },
   mealItemName: {
     width: "60%",
-    fontSize: 16
+    fontSize: 16,
+    color: "white"
   },
   mealItemQuantity: {
     width: "40%",
-    fontSize: 16
+    fontSize: 16,
+    color: "white"
   },
   mealItemQuantityLabel: {
     width: "40%",
     fontSize: 16,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: "white"
   }
 });

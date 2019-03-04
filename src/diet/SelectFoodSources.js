@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView, Switch, StatusBar } from "react-native";
+import { Text, View, ScrollView, Switch } from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
@@ -134,14 +134,12 @@ export default class SelectFoodSources extends Component {
     const fatSourceConfirmText = this.getConfirmText(selectedFatSources);
     return (
       <View style={styles.container}>
+        <View style={styles.viewContainer}>
+          <Text style={styles.titleContainer}>Food Sources...</Text>
+        </View>
         <ScrollView
-          style={{
-            maxHeight: 510,
-            marginTop: 30,
-            borderWidth: 0,
-            borderColor: "grey",
-            borderRadius: 20
-          }}
+          style={styles.scrollviewContainer}
+          contentContainerStyle={styles.scrollviewContentContainer}
         >
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>{isVegLabel}</Text>
@@ -204,59 +202,35 @@ export default class SelectFoodSources extends Component {
             />
           </View>
         </ScrollView>
-        <View style={{ flex: 1, marginTop: 40, flexDirection: "row" }}>
+        <View style={styles.buttonContainer}>
           <Button
-            title="Prev"
-            titleStyle={{ fontWeight: "bold", fontSize: 18 }}
-            buttonStyle={{
-              borderWidth: 0,
-              borderColor: "transparent",
-              borderRadius: 20,
-              paddingHorizontal: 15,
-              opacity: 0.7
-            }}
-            containerStyle={{
-              marginVertical: 10,
-              marginHorizontal: 20,
-              height: 40,
-              justifyContent: "center",
-              alignItems: "flex-start"
-            }}
-            icon={{
-              name: "arrow-left",
-              type: "font-awesome",
-              size: 15,
-              color: "white"
-            }}
-            iconLeft
-            iconContainerStyle={{ marginLeft: 5 }}
+            title="BACK"
+            containerStyle={styles.nextButtonContainerStyle}
+            buttonStyle={styles.nextButtonStyle}
+            titleStyle={styles.nextButtonTitleStyle}
+            icon={
+              <Icon
+                name="arrow-left-thick"
+                size={20}
+                style={{ color: "white" }}
+              />
+            }
+            iconLeft={true}
             onPress={() => this.onPreviousOrNextClick(false)}
           />
           <Button
-            title="Create diet"
-            titleStyle={{ fontWeight: "bold", fontSize: 18 }}
-            buttonStyle={{
-              borderWidth: 0,
-              borderColor: "transparent",
-              borderRadius: 20,
-              paddingHorizontal: 15,
-              opacity: 0.7
-            }}
-            containerStyle={{
-              marginVertical: 10,
-              marginHorizontal: 20,
-              height: 40,
-              justifyContent: "center",
-              alignItems: "flex-end"
-            }}
-            icon={{
-              name: "arrow-right",
-              type: "font-awesome",
-              size: 15,
-              color: "white"
-            }}
-            iconRight
-            iconContainerStyle={{ marginLeft: 5 }}
+            title="GET DIET"
+            containerStyle={styles.nextButtonContainerStyleC}
+            buttonStyle={styles.nextButtonStyle}
+            titleStyle={styles.nextButtonTitleStyle}
+            icon={
+              <Icon
+                name="arrow-right-thick"
+                size={20}
+                style={{ color: "white" }}
+              />
+            }
+            iconRight={true}
             onPress={() => this.createDiet()}
           />
         </View>
