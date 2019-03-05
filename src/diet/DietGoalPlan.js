@@ -2,15 +2,20 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import RadioForm from "react-native-simple-radio-button";
 import { Dropdown } from "react-native-material-dropdown";
 import NumericInput from "react-native-numeric-input";
 import { styles } from "../../assets/style/stylesDietGoalPlan";
+import { getPossibleTargetWeights } from "../diet/DietAlgorithm";
+import { f, database } from "./../common/FirebaseConfig";
+import { convertProgramToWeeks } from "../common/Common";
 
 export default class DietGoalPlan extends Component {
   constructor(props) {
     super(props);
     const { goal, program, meals, currentWeight, targetWeight } = props;
     this.state = {
+      user: {},
       selectedGoal: goal,
       selectedProgram: program,
       selectedMeals: meals,
@@ -41,10 +46,27 @@ export default class DietGoalPlan extends Component {
     };
   }
 
+  componentDidMount = async () => {
+    const currentUser = await f.auth().currentUser;
+    database
+      .ref("users")
+      .child(currentUser.uid)
+      .once("value")
+      .then(snapshot => {
+        const user = snapshot.val();
+        this.setState({ user, currentWeight: user.weight });
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching user details in DietGoalPlan:",
+          error
+        );
+      });
+  };
+
   onGoalChange = value => {
     this.setState({
       selectedGoal: value,
-      targetWeight: this.calculateTargetWeight({ goal: value })
     });
   };
 
@@ -122,16 +144,35 @@ export default class DietGoalPlan extends Component {
     });
   };
 
+  getTargetWeightOptions = () => {
+    const targetWeightOptions = [];
+    const { selectedGoal, selectedProgram, currentWeight } = this.state;
+    if (selectedGoal && selectedProgram) {
+      getPossibleTargetWeights(
+        selectedGoal,
+        convertProgramToWeeks(selectedProgram),
+        currentWeight,
+        2
+      ).map(targetWeight => {
+        targetWeightOptions.push({
+          label: `${targetWeight} kg`,
+          value: targetWeight
+        });
+      });
+    }
+    return targetWeightOptions;
+  };
+
   render() {
     const goalDefaultValue = "Choose Goal !";
     const programDefaultValue = "Choose Program !";
     const mealsDefaultValue = "Choose Meals per day !";
+    const targetWeightOptions = this.getTargetWeightOptions();
     const {
       selectedGoal,
       selectedProgram,
       selectedMeals,
       currentWeight,
-      targetWeight,
       goals,
       programs,
       mealOptions
@@ -191,25 +232,31 @@ export default class DietGoalPlan extends Component {
               containerStyle={styles.numberPickerContainer}
             />
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Target weight:</Text>
-            <NumericInput
-              value={targetWeight}
-              onChange={value => this.setState({ targetWeight: value })}
-              initValue={targetWeight}
-              totalWidth={80}
-              totalHeight={40}
-              iconSize={25}
-              iconStyle={{ color: "white" }}
-              step={1.5}
-              valueType="integer"
-              rounded
-              textColor="black"
-              rightButtonBackgroundColor="#00DB8D"
-              leftButtonBackgroundColor="#00DB8D"
-              containerStyle={styles.numberPickerContainer}
-            />
-          </View>
+          {targetWeightOptions.length > 0 && (
+            <View>
+              <Text
+                style={{
+                  justifyContent: "center",
+                  marginVertical: 15,
+                  fontSize: 16
+                }}
+              >
+                Target weight:
+              </Text>
+              <RadioForm
+                radio_props={targetWeightOptions}
+                ref="radioForm"
+                formHorizontal={true}
+                labelHorizontal={true}
+                buttonColor={"#00DB8D"}
+                animation={true}
+                radioStyle={{ paddingRight: 10 }}
+                onPress={value => {
+                  this.setState({ targetWeight: value });
+                }}
+              />
+            </View>
+          )}
         </View>
         <View style={styles.buttonContainer}>
           <Button

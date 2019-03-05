@@ -21,6 +21,7 @@
     "react-native-numeric-input": "^1.6.5",
     "react-native-screens": "^1.0.0-alpha.22",
     "react-native-sectioned-multi-select": "^0.6.5",
+    "react-native-simple-radio-button": "^2.7.3",
     "react-native-vector-icons": "^6.3.0",
     "react-navigation": "^3.3.2"
   },

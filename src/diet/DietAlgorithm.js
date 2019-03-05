@@ -1,4 +1,5 @@
 import { f, auth, database } from "./../common/FirebaseConfig";
+import { convertProgramToWeeks } from "../common/Common";
 
 const MALE = "male";
 const FEMALE = "female";
@@ -41,12 +42,39 @@ const getCalPercent = ({ goal, fitnessLevel, weightLossPerWeek }) => {
   return null;
 };
 
-const calculateBRM = ({ weight, height, age, gender }) => {
+convertGoal = goal => (goal.includes("loss") ? "loss" : "gain");
+
+export const getPossibleTargetWeights = (
+  goal,
+  program,
+  currentWeight,
+  fitnessLevel
+) => {
+  const targetWeights = [];
+  CALORIE_PERCENTS.map(data => {
+    goal = convertGoal(goal);
+    if (
+      program > 0 &&
+      goal.length > 0 &&
+      goal === data.goal &&
+      fitnessLevel === data.level
+    ) {
+      if (goal === WEIGHT_GAIN) {
+        targetWeights.push(currentWeight + data.weight * program);
+      } else if (goal === WEIGHT_LOSS) {
+        targetWeights.push(currentWeight - data.weight * program);
+      }
+    }
+  });
+  return targetWeights;
+};
+
+const calculateBRM = ({ currentWeight, height, age, gender }) => {
   let bmr = 0;
   if (gender === MALE) {
-    bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+    bmr = 10 * currentWeight + 6.25 * height - 5 * age + 5;
   } else if (gender === FEMALE) {
-    bmr = 10 * weight + 6.25 * height - 5 * age + 161;
+    bmr = 10 * currentWeight + 6.25 * height - 5 * age + 161;
   }
   return bmr;
 };
@@ -79,10 +107,13 @@ const getTotalCalIntake = ({
     calculateBRM({ currentWeight, height, age, gender })
   );
   let weightLossPerWeek = 0;
+  goal = convertGoal(goal);
   if (goal === WEIGHT_LOSS) {
-    weightLossPerWeek = (currentWeight - targetWeight) / selectedProgram;
+    weightLossPerWeek =
+      (currentWeight - targetWeight) / convertProgramToWeeks(selectedProgram);
   } else if (goal === WEIGHT_GAIN) {
-    weightLossPerWeek = (targetWeight - currentWeight) / selectedProgram;
+    weightLossPerWeek =
+      (targetWeight - currentWeight) / convertProgramToWeeks(selectedProgram);
   }
   const calPercent = getCalPercent({ goal, fitnessLevel, weightLossPerWeek });
 
@@ -95,7 +126,7 @@ export const designDiet = async ({
   selectedFatSources,
   selectedCarbSources,
   selectedGoal,
-  seletedProgram,
+  selectedProgram,
   selectedMeals,
   currentWeight,
   targetWeight
@@ -116,7 +147,7 @@ export const designDiet = async ({
   console.log("user:", user);
   const totalCalIntake = getTotalCalIntake({
     goal: selectedGoal,
-    seletedProgram,
+    selectedProgram,
     currentWeight,
     targetWeight,
     height: user.height,

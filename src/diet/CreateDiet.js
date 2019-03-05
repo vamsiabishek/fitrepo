@@ -14,7 +14,7 @@ export default class CreateDiet extends Component {
       selectedFatSources: [],
       selectedCarbSources: [],
       selectedGoal: "",
-      seletedProgram: "",
+      selectedProgram: "",
       selectedMeals: "",
       currentWeight: 75,
       targetWeight: 75
@@ -92,7 +92,7 @@ export default class CreateDiet extends Component {
     });
     const {
       selectedGoal,
-      seletedProgram,
+      selectedProgram,
       selectedMeals,
       currentWeight,
       targetWeight
@@ -102,7 +102,7 @@ export default class CreateDiet extends Component {
       selectedFatSources,
       selectedCarbSources,
       selectedGoal,
-      seletedProgram,
+      selectedProgram,
       selectedMeals,
       currentWeight,
       targetWeight
