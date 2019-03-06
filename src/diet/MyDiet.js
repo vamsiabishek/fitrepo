@@ -49,7 +49,9 @@ export default class MyDiet extends Component {
             </TouchableOpacity>
           </View>
           <View>
-            <Text style={styles.weeklyTextStyle}>{subHeaderCenterText}</Text>
+            <Text style={styles.weeklyTextStyleCenter}>
+              {subHeaderCenterText}
+            </Text>
           </View>
           <View style={{ alignItems: "flex-end" }}>
             <TouchableOpacity

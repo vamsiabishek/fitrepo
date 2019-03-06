@@ -13,9 +13,23 @@ import Workouts from "./../workouts/Workouts";
 import Profile from "./../profile/Profile";
 import MyDiet from "./../diet/MyDiet";
 import Diet from "./../diet/Diet";
-import SignUp from "../signup/SignUp";
+import SignUpScreen1 from "../signup/SignUpScreen1";
+import SignUpScreen2 from "../signup/SignUpScreen2";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
+
+const SignUpStackNavigator = createStackNavigator(
+  {
+    SignUpScreen2,
+    SignUpScreen1
+  },
+  {
+    defaultNavigationOptions: {
+      header: null,
+      headerStyle: styles.headerStyle
+    }
+  }
+);
 
 const DietStackNavigator = createStackNavigator(
   {
@@ -61,7 +75,7 @@ const DietStackNavigator = createStackNavigator(
       }
     }
   },
-  { initialRouteName: "Diet" }
+  { initialRouteName: "MyDiet" }
 );
 
 const AppBottomTabNavigator = createBottomTabNavigator(
@@ -142,8 +156,11 @@ const AppBottomTabNavigator = createBottomTabNavigator(
         activeTintColor: styles.activeTintColor.color,
         inactiveTintColor: styles.bottomNavBar.color,
         labelStyle: styles.labelStyle,
+        navBarTransparent: true,
         style: {
+          //backgroundColor: "transparent"
           backgroundColor: styles.bottomNavBar.backgroundColor
+          //opacity: styles.bottomNavBar.opacity
         }
       }
     }
@@ -159,17 +176,15 @@ const HomeStackNavigator = createStackNavigator(
       const { routeName } = navigation.state.routes[navigation.state.index];
       return {
         header: null,
-        headerTitle: routeName,
-        headerStyle: styles.headerStyle,
-        headerTitleStyle: styles.headerTitleStyle
+        headerStyle: styles.headerStyle
       };
     }
   }
 );
 
 const AppSwitchNavigator = createSwitchNavigator({
+  SignUp: SignUpStackNavigator,
   LoginScreen,
-  SignUp,
   HomeScreen: HomeStackNavigator
 });
 

@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 60,
     fontFamily: "Billabong"
-    //marginTop: 20
   },
   userTypesContainer: {
     flexDirection: "row",
@@ -121,7 +120,8 @@ const styles = StyleSheet.create({
   },
   loginHereContainer: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 10
   },
   alreadyAccountText: {
     fontSize: 14,
