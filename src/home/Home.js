@@ -5,13 +5,14 @@ import { styles } from "../../assets/style/stylesHomeScreen";
 
 export default class Home extends Component {
   render() {
+    const { nameOfUser } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Text style={styles.textContainer}>Home Screen</Text>
+        <Text style={styles.textContainer}>
+          Welcome to Home Screen, {nameOfUser}
+        </Text>
       </View>
     );
   }
 }
-
-

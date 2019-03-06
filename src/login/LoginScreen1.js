@@ -7,7 +7,7 @@ import {
   LayoutAnimation
 } from "react-native";
 import { Input, Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
 import { auth } from "./../common/FirebaseConfig";
 
@@ -94,7 +94,7 @@ export default class LoginScreen1 extends Component {
             </View>
             <View style={styles.loginInput}>
               <Input
-                leftIcon={<Icon name="user" color="white" size={25} />}
+                leftIcon={<Icon name="account" color="white" size={25} />}
                 containerStyle={styles.inputContainer}
                 inputStyle={styles.inputStyle}
                 onChangeText={email => this.onEmailChange(email)}

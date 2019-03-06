@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  mealItemHeaderView: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   title: {
     textAlign: "center",
     fontSize: 22,
@@ -8,16 +13,25 @@ export const styles = StyleSheet.create({
     marginBottom: 20
   },
   header: {
-    backgroundColor: "#00DB8D",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#719A70", //"#E08702",
     padding: 10,
     borderBottomWidth: 1,
     borderColor: "white"
   },
   headerText: {
+    alignItems: "flex-start",
     textAlign: "center",
     fontSize: 18,
-    fontWeight: "bold",
-    color: "white"
+    fontWeight: "300",
+    color: "#36373A"
+  },
+  headerIcon: {
+    alignItems: "flex-end",
+    color: "white",
+    opacity: 0.6,
+    paddingHorizontal: 2
   },
   content: {
     padding: 20,

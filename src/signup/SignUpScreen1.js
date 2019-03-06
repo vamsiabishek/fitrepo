@@ -9,23 +9,23 @@ import {
   View
 } from "react-native";
 import { Input, Button } from "react-native-elements";
-import { styles } from "../../assets/style/stylesSignUpScreen";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { auth, database } from "./../common/FirebaseConfig";
+import { styles } from "../../assets/style/stylesSignUpScreen1";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { auth, database } from "../common/FirebaseConfig";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-class SignUp extends Component {
+export default class SignUpScreen1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      username: "",
-      email: "",
-      password: "",
-      confirmationPassword: "",
+      username: "Babitha",
+      email: "babithaisfake3@fake.com",
+      password: "MuchasGracias",
+      confirmationPassword: "MuchasGracias",
       usernameValid: true,
       emailValid: true,
       passwordValid: true,
@@ -43,7 +43,7 @@ class SignUp extends Component {
       weight: 75,
       height: 175,
       age: 29,
-      gender: 'male',
+      gender: "male"
     };
     database
       .ref("users")
@@ -52,7 +52,9 @@ class SignUp extends Component {
       .then(() => {
         console.log("Successfully create new user with details:");
         this.setState({ isLoading: false });
-        navigate("HomeScreen");
+        navigate("SignUpScreen2", {
+          uname: { username }
+        });
       })
       .catch(error => {
         this.setState({ isLoading: false });
@@ -162,7 +164,7 @@ class SignUp extends Component {
             <Input
               placeholder="Username"
               placeholderTextColor={styles.inputStyle.color}
-              leftIcon={<Icon name="user" color="black" size={25} />}
+              leftIcon={<Icon name="account" color="black" size={25} />}
               containerStyle={styles.inputViewContainer}
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.inputStyle}
@@ -186,7 +188,7 @@ class SignUp extends Component {
             />
             <Input
               placeholder="Email"
-              leftIcon={<Icon name="envelope" color="black" size={25} />}
+              leftIcon={<Icon name="email" color="black" size={25} />}
               containerStyle={styles.inputViewContainer}
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.inputStyle}
@@ -219,6 +221,7 @@ class SignUp extends Component {
               errorStyle={styles.errorInputStyle}
               onChangeText={password => this.setState({ password })}
               value={password}
+              secureTextEntry={true}
               keyboardAppearance="light"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -238,7 +241,7 @@ class SignUp extends Component {
             />
             <Input
               placeholder="Confirm Password"
-              leftIcon={<Icon name="lock" color="black" size={27} />}
+              leftIcon={<Icon name="asterisk" color="black" size={27} />}
               containerStyle={styles.inputViewContainer}
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.inputStyle}
@@ -248,6 +251,7 @@ class SignUp extends Component {
                 this.setState({ confirmationPassword })
               }
               value={confirmationPassword}
+              secureTextEntry={true}
               keyboardAppearance="light"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -295,5 +299,3 @@ class SignUp extends Component {
     );
   }
 }
-
-export default SignUp;

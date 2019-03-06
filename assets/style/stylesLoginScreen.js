@@ -81,10 +81,11 @@ const styles = StyleSheet.create({
   signUpHereContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: 10
   },
   newUserText: {
-    fontSize: 15,
+    fontSize: 16,
     color: "white"
   },
   signUpButtonStyle: {
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
   },
   signUpButtonTitle: {
     color: "#00DB8D",
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "bold"
   }
 });

@@ -16,8 +16,6 @@ const styles = StyleSheet.create({
     color: "white", //"#717173",
     fontFamily: "Billabong",
     fontSize: 60
-    //fontWeight: "bold",
-    //fontStyle: "italic"
   },
   textContainer: {
     color: "white"
@@ -31,18 +29,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#36373A"
   },
   weeklyTouchableStyle: {
-    flexDirection: "row",
-    marginLeft: 10
+    flexDirection: "row"
+  },
+  weeklyTextStyleCenter: {
+    marginTop: 4,
+    marginLeft: 2,
+    fontSize: 20,
+    color: "#00DB8D"
   },
   weeklyTextStyle: {
     marginTop: 4,
     marginLeft: 2,
     fontSize: 18,
-    color: "#00DB8D"
+    color: "#009E65"
   },
   weeklyIconStyle: {
-    color: "#00DB8D",
-    paddingTop: 3
+    paddingTop: 3,
+    paddingHorizontal: 3,
+    color: "#009E65"
   },
   dayBarStyle: {
     flexDirection: "row",
@@ -53,13 +57,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 40,
     paddingVertical: 12,
-    backgroundColor: "#009e65"
+    backgroundColor: "#00DB8D"
   },
   dayButton: {
     flexDirection: "row",
     paddingHorizontal: 40,
     paddingVertical: 12,
-    backgroundColor: "#00DB8D"
+    backgroundColor: "#009E65"
   },
   activeDayButtonText: {
     fontSize: 16,
