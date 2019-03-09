@@ -1,17 +1,47 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, StatusBar } from "react-native";
+import { LayoutAnimation, Text, View, StatusBar } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { styles } from "../../assets/style/stylesHomeScreen";
+import { f, database } from "../common/FirebaseConfig";
 
 export default class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      name: ""
+    };
+  }
+  componentDidMount = async () => {
+    const currentUser = await f.auth().currentUser;
+    database
+      .ref("users")
+      .child(currentUser.uid)
+      .once("value")
+      .then(snapshot => {
+        const userLoggedIn = snapshot.val();
+        LayoutAnimation.easeInEaseOut();
+        this.setState({
+          username: userLoggedIn.username,
+          name: userLoggedIn.name
+        });
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching user details in callfectNameOfUser of LoginScreen1:",
+          error
+        );
+      });
+  };
   render() {
-    const { nameOfUser } = this.props;
+    const { username, name } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Text style={styles.textContainer}>
-          Welcome to Home Screen, {nameOfUser}
-        </Text>
+        <View style={styles.viewContainer}>
+          <Text style={styles.headerText}>Welcome {name}!</Text>
+          <Text style={styles.normalText}>This is the Home page.</Text>
+        </View>
       </View>
     );
   }

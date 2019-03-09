@@ -68,37 +68,62 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   errorInputStyle: {
-    marginTop: 0,
+    marginTop: 5,
     textAlign: "center",
     color: "#F44336"
   },
-  goToMedicalIDButtonContainer: {
+  goToHomeButtonContainer: {
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20
   },
-  goToMedicalIDButton: {
+  goToHomeButton: {
     borderRadius: 50,
     width: SCREEN_WIDTH - 40,
     height: 45,
     backgroundColor: "#00DB8D"
   },
-  goToMedicalIDButtonText: {
+  goToHomeButtonText: {
     fontSize: 16,
     fontWeight: "bold",
     color: "white"
   },
-  goToMedicalIDButtonIcon: {
+  goToHomeButtonIcon: {
     paddingLeft: 5,
     color: "white"
+  },
+  skipStepButtonContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20
+  },
+  skipStepButton: {
+    borderRadius: 50,
+    width: SCREEN_WIDTH - 200,
+    height: 35,
+    backgroundColor: "transparent"
+  },
+  skipStepButtonText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    color: "#00DB8D"
+  },
+  skipStepButtonIcon: {
+    paddingTop: 1,
+    paddingLeft: 1,
+    color: "#00DB8D"
   },
   radioButtonView: {
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "flex-start",
     width: SCREEN_WIDTH - 100,
-    marginVertical: 10,
-    paddingHorizontal: 20
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
+    marginTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 5
   },
   radioButtonWrapStyle: {
     marginLeft: 20
@@ -106,6 +131,15 @@ const styles = StyleSheet.create({
   radioButtonOuterIconStyle: {
     color: "black",
     marginBottom: 10
+  },
+  radioButtonViewWOBorder: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    width: SCREEN_WIDTH - 100,
+    marginTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 5
   },
   radioButtonTextIconStyle: {
     flexDirection: "row",
@@ -136,16 +170,57 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     color: "#00DB8D"
   },
-  errorInputStyle: {
-    marginTop: 0,
-    textAlign: "center",
-    color: "#F44336"
+  numericInputButtonView: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "flex-start",
+    width: SCREEN_WIDTH - 100,
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
+    marginTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 5
   },
-  errorInputStyle2: {
-    marginTop: 0,
-    textAlign: "center",
-    color: "#F44336",
-    fontSize: 12
+  numericInputButtonTextIconStyle: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 18
+  },
+  numericInputButtonTextStyle: {
+    flexDirection: "row",
+    paddingTop: 5,
+    marginLeft: 8
+  },
+  numericInputButtonIconStyle: {
+    color: "black",
+    marginBottom: 10
+  },
+  numericInputButtonText: {
+    marginTop: 5,
+    paddingLeft: 9,
+    paddingRight: 10,
+    color: "#44484E",
+    fontSize: 16
+  },
+  numericInputButtonTextSmall: {
+    marginTop: 5,
+    paddingLeft: 9,
+    paddingRight: 10,
+    color: "#44484E",
+    fontSize: 10
+  },
+  numberPickerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 30
+  },
+  numberPickerIconStyle: {
+    color: "white"
+  },
+  numberPickerButtonDes: {
+    color: "black",
+    backgroundColor: "#00DB8D"
   }
 });
 

@@ -9,50 +9,46 @@ import {
 import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
-import { auth } from "./../common/FirebaseConfig";
+import { f, auth, database } from "./../common/FirebaseConfig";
 
 const BG_IMAGE = require("../../assets/images/barbell.jpg");
 
 export default class LoginScreen1 extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      email: "vamsi@gmail.com",
+      //email: "vamsi@gmail.com",
+      email: "trainwithhd@gmail.com",
       emailValid: true,
-      password: "vamsi123",
+      //password: "vamsi123",
+      password: "Diabi29090@",
       passwordValid: true,
       login_failed: false,
       showLoading: false
     };
   }
-  validateEmail = email => {
+  onEmailChange = email => {
+    this.setState({ email });
+  };
+  validateEmail = () => {
+    const { email } = this.state;
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const emailValid = re.test(email);
     LayoutAnimation.easeInEaseOut();
     emailValid || this.emailInput.shake();
     return emailValid;
   };
-  validatePassword = password => {
+  onPasswordChange = password => {
+    this.setState({ password });
+  };
+  validatePassword = () => {
+    const { password } = this.state;
     const passwordValid = password.length >= 8;
     LayoutAnimation.easeInEaseOut();
     this.setState({ passwordValid });
     passwordValid || this.passwordInput.shake();
     return passwordValid;
   };
-  signUpButttonClicked = () => {
-    const { navigate } = this.props.navigation;
-    navigate("SignUp");
-  };
-
-  onEmailChange = email => {
-    this.setState({ email });
-  };
-
-  onPasswordChange = password => {
-    this.setState({ password });
-  };
-
   submitLoginCredentials = () => {
     const { email, password } = this.state;
     const emailValid = this.validateEmail(email);
@@ -63,17 +59,20 @@ export default class LoginScreen1 extends Component {
       this.login();
     }
   };
-
   login = async () => {
     const { email, password } = this.state;
     try {
-      let user = await auth.signInWithEmailAndPassword(email, password);
+      const user = await auth.signInWithEmailAndPassword(email, password);
       this.setState({ showLoading: false });
       this.props.navigation.navigate("HomeScreen");
     } catch (error) {
       this.setState({ showLoading: false });
       alert("Invalid username/password");
     }
+  };
+  signUpButttonClicked = () => {
+    const { navigate } = this.props.navigation;
+    navigate("SignUp");
   };
 
   render() {
@@ -92,55 +91,50 @@ export default class LoginScreen1 extends Component {
             <View style={styles.viewContainer}>
               <Text style={styles.logoText}>FITREPO</Text>
             </View>
-            <View style={styles.loginInput}>
+            <View style={styles.loginInputContainer}>
               <Input
-                leftIcon={<Icon name="account" color="white" size={25} />}
-                containerStyle={styles.inputContainer}
-                inputStyle={styles.inputStyle}
-                onChangeText={email => this.onEmailChange(email)}
-                value={email}
-                keyboardAppearance="light"
-                keyboardType="email-address"
                 placeholder="Email"
                 placeholderTextColor="white"
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                errorStyle={styles.errorInputStyle}
+                leftIcon={<Icon name="account" color="white" size={25} />}
                 autoCapitalize="none"
                 autoCorrect={false}
+                keyboardAppearance="dark"
                 keyboardType="email-address"
-                returnKeyType="next"
+                returnKeyType="done"
+                value={email}
+                onChangeText={value => this.onEmailChange(value)}
                 ref={input => (this.emailInput = input)}
                 onSubmitEditing={() => {
-                  this.setState({ emailValid: this.validateEmail(email) });
+                  this.setState({ emailValid: this.validateEmail });
                   this.passwordInput.focus();
                 }}
-                blurOnSubmit={false}
-                errorStyle={styles.errorInputStyle}
                 errorMessage={
                   emailValid ? null : "Please enter a valid email address"
                 }
               />
               <Input
-                leftIcon={<Icon name="lock" color="white" size={25} />}
-                containerStyle={styles.inputContainer}
-                inputStyle={styles.inputStyle}
-                onChangeText={password => this.onPasswordChange(password)}
-                value={password}
-                secureTextEntry={true}
-                keyboardAppearance="light"
-                keyboardType="email-address"
                 placeholder="Password"
                 placeholderTextColor="white"
+                leftIcon={<Icon name="key-variant" color="white" size={25} />}
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                errorStyle={styles.errorInputStyle}
+                keyboardAppearance="dark"
+                keyboardType="default"
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="default"
                 returnKeyType="go"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={password => this.onPasswordChange(password)}
                 ref={input => (this.passwordInput = input)}
-                blurOnSubmit={true}
                 onSubmitEditing={() => {
-                  this.setState({
-                    passwordValid: this.validatePassword(password)
-                  });
+                  this.setState({ passwordValid: this.validatePassword });
                 }}
-                errorStyle={styles.errorInputStyle}
                 errorMessage={
                   passwordValid ? null : "Please enter a valid password"
                 }
@@ -148,6 +142,14 @@ export default class LoginScreen1 extends Component {
             </View>
             <Button
               title="LOGIN"
+              icon={
+                <Icon
+                  name="login"
+                  size={25}
+                  style={{ paddingLeft: 5, color: "white" }}
+                />
+              }
+              iconRight={true}
               loading={showLoading}
               containerStyle={styles.loginButtonContainer}
               buttonStyle={styles.loginButtonStyle}
@@ -158,9 +160,9 @@ export default class LoginScreen1 extends Component {
               <Text style={styles.newUserText}>New here?</Text>
               <Button
                 title="SIGN UP"
-                type="clear"
                 buttonStyle={styles.sighUpButtonStyle}
                 titleStyle={styles.signUpButtonTitle}
+                type="clear"
                 onPress={() => this.signUpButttonClicked()}
               />
             </View>

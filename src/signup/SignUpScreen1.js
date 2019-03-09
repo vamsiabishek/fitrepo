@@ -12,6 +12,11 @@ import { Input, Button } from "react-native-elements";
 import { styles } from "../../assets/style/stylesSignUpScreen1";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { auth, database } from "../common/FirebaseConfig";
+import {
+  ICON_SIZE,
+  EMAIL_VERIFICATION,
+  PASSWORD_LENGTH_MINIMUM
+} from "../common/Common";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -22,10 +27,10 @@ export default class SignUpScreen1 extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      username: "Babitha",
-      email: "babithaisfake3@fake.com",
-      password: "MuchasGracias",
-      confirmationPassword: "MuchasGracias",
+      username: "",
+      email: "",
+      password: "",
+      confirmationPassword: "",
       usernameValid: true,
       emailValid: true,
       passwordValid: true,
@@ -33,36 +38,64 @@ export default class SignUpScreen1 extends Component {
     };
   }
 
+  validateUsername = () => {
+    const { username } = this.state;
+    const usernameValid = username.length > 0;
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ usernameValid });
+    usernameValid || this.usernameInput.shake();
+    return usernameValid;
+  };
+  validateEmail = () => {
+    const { email } = this.state;
+    const emailValid = EMAIL_VERIFICATION.test(email);
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ emailValid });
+    emailValid || this.emailInput.shake();
+    return emailValid;
+  };
+  validatePassword = () => {
+    const { password } = this.state;
+    const passwordValid = password.length >= PASSWORD_LENGTH_MINIMUM;
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ passwordValid });
+    passwordValid || this.passwordInput.shake();
+    return passwordValid;
+  };
+  validateConfirmationPassword = () => {
+    const { password, confirmationPassword } = this.state;
+    const confirmationPasswordValid = password === confirmationPassword;
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ confirmationPasswordValid });
+    confirmationPasswordValid || this.confirmationPasswordInput.shake();
+    return confirmationPasswordValid;
+  };
   createUserWithDetails = async user => {
     const { username, email } = this.state;
     const { navigate } = this.props.navigation;
     const newUser = {
       username,
-      email,
-      avatar: "http://i.pravatar.cc/300",
-      weight: 75,
-      height: 175,
-      age: 29,
-      gender: "male"
+      email
     };
     database
       .ref("users")
       .child(user.uid)
       .set(newUser)
       .then(() => {
-        console.log("Successfully create new user with details:");
+        //console.log(
+        //  "Successfully create new user with details in page SignUpScreen1."
+        //);
         this.setState({ isLoading: false });
-        navigate("SignUpScreen2", {
-          uname: { username }
-        });
+        navigate("SignUpScreen2");
       })
       .catch(error => {
         this.setState({ isLoading: false });
-        console.log("error while creating new user with details:", error);
+        //console.log(
+        //  "error while creating new user with details in page SignUpScreen1."
+        //);
       });
   };
-
-  signup = async () => {
+  goToSignUpScreen2 = async () => {
     LayoutAnimation.easeInEaseOut();
     const usernameValid = this.validateUsername();
     const emailValid = this.validateEmail();
@@ -82,58 +115,26 @@ export default class SignUpScreen1 extends Component {
           .then(userObj => this.createUserWithDetails(userObj.user))
           .catch(error => {
             this.setState({ isLoading: false });
-            console.log(
-              "error while creating user with email and password:",
-              error
-            );
+            //console.log(
+            //  "error while creating user with email and password",
+            //  error
+            //);
             alert(error.message);
           });
       } catch (error) {
         this.setState({ isLoading: false });
-        console.log(
-          "error before creating user with email and password:",
-          error
-        );
+        //console.log(
+        //  "error before creating user with email and password",
+        //  error
+        //);
       }
     }
   };
-  validateUsername = () => {
-    const { username } = this.state;
-    const usernameValid = username.length > 0;
-    LayoutAnimation.easeInEaseOut();
-    this.setState({ usernameValid });
-    usernameValid || this.usernameInput.shake();
-    return usernameValid;
-  };
-  validateEmail = () => {
-    const { email } = this.state;
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const emailValid = re.test(email);
-    LayoutAnimation.easeInEaseOut();
-    this.setState({ emailValid });
-    emailValid || this.emailInput.shake();
-    return emailValid;
-  };
-  validatePassword = () => {
-    const { password } = this.state;
-    const passwordValid = password.length >= 8;
-    LayoutAnimation.easeInEaseOut();
-    this.setState({ passwordValid });
-    passwordValid || this.passwordInput.shake();
-    return passwordValid;
-  };
-  validateConfirmationPassword = () => {
-    const { password, confirmationPassword } = this.state;
-    const confirmationPasswordValid = password === confirmationPassword;
-    LayoutAnimation.easeInEaseOut();
-    this.setState({ confirmationPasswordValid });
-    confirmationPasswordValid || this.confirmationPasswordInput.shake();
-    return confirmationPasswordValid;
-  };
   loginButtonClicked = () => {
     const { navigate } = this.props.navigation;
-    navigate("LoginScreen");
+    navigate("Login");
   };
+
   render() {
     const {
       isLoading,
@@ -164,19 +165,21 @@ export default class SignUpScreen1 extends Component {
             <Input
               placeholder="Username"
               placeholderTextColor={styles.inputStyle.color}
-              leftIcon={<Icon name="account" color="black" size={25} />}
+              leftIcon={
+                <Icon name="account-box" color="black" size={ICON_SIZE} />
+              }
               containerStyle={styles.inputViewContainer}
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.inputStyle}
               errorStyle={styles.errorInputStyle}
-              onChangeText={username => this.setState({ username })}
-              value={username}
-              keyboardAppearance="light"
-              keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
-              blurOnSubmit={false}
-              returnKeyType="next"
+              blurOnSubmit={true}
+              keyboardAppearance="dark"
+              keyboardType="default"
+              returnKeyType="done"
+              onChangeText={username => this.setState({ username })}
+              value={username}
               ref={input => (this.usernameInput = input)}
               onSubmitEditing={() => {
                 this.setState({ usernameValid: this.validateUsername });
@@ -188,20 +191,20 @@ export default class SignUpScreen1 extends Component {
             />
             <Input
               placeholder="Email"
-              leftIcon={<Icon name="email" color="black" size={25} />}
+              placeholderTextColor={styles.inputStyle.color}
+              leftIcon={<Icon name="email" color="black" size={ICON_SIZE} />}
               containerStyle={styles.inputViewContainer}
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.inputStyle}
-              placeholderTextColor={styles.inputStyle.color}
               errorStyle={styles.errorInputStyle}
-              onChangeText={email => this.setState({ email })}
-              value={email}
-              keyboardAppearance="light"
+              keyboardAppearance="dark"
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
-              blurOnSubmit={false}
-              returnKeyType="next"
+              blurOnSubmit={true}
+              returnKeyType="done"
+              onChangeText={email => this.setState({ email })}
+              value={email}
               ref={input => (this.emailInput = input)}
               onSubmitEditing={() => {
                 this.setState({ emailValid: this.validateEmail });
@@ -213,21 +216,21 @@ export default class SignUpScreen1 extends Component {
             />
             <Input
               placeholder="Password"
-              leftIcon={<Icon name="lock" color="black" size={27} />}
+              leftIcon={<Icon name="lock" color="black" size={ICON_SIZE} />}
               containerStyle={styles.inputViewContainer}
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.inputStyle}
               placeholderTextColor={styles.inputStyle.color}
               errorStyle={styles.errorInputStyle}
-              onChangeText={password => this.setState({ password })}
-              value={password}
               secureTextEntry={true}
-              keyboardAppearance="light"
-              keyboardType="email-address"
+              keyboardAppearance="dark"
+              keyboardType="default"
               autoCapitalize="none"
               autoCorrect={false}
-              blurOnSubmit={false}
-              returnKeyType="next"
+              blurOnSubmit={true}
+              returnKeyType="done"
+              onChangeText={password => this.setState({ password })}
+              value={password}
               ref={input => (this.passwordInput = input)}
               onSubmitEditing={() => {
                 this.setState({ passwordValid: this.validatePassword });
@@ -241,7 +244,7 @@ export default class SignUpScreen1 extends Component {
             />
             <Input
               placeholder="Confirm Password"
-              leftIcon={<Icon name="asterisk" color="black" size={27} />}
+              leftIcon={<Icon name="asterisk" color="black" size={ICON_SIZE} />}
               containerStyle={styles.inputViewContainer}
               inputContainerStyle={styles.inputContainer}
               inputStyle={styles.inputStyle}
@@ -256,14 +259,13 @@ export default class SignUpScreen1 extends Component {
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
-              blurOnSubmit={false}
-              returnKeyType="go"
+              blurOnSubmit={true}
+              returnKeyType="done"
               ref={input => (this.confirmationPasswordInput = input)}
               onSubmitEditing={() => {
                 this.setState({
                   confirmationPasswordValid: this.validateConfirmationPassword
                 });
-                this.signup.focus();
               }}
               errorMessage={
                 confirmationPasswordValid
@@ -273,13 +275,20 @@ export default class SignUpScreen1 extends Component {
             />
           </View>
           <Button
-            title="SIGNUP"
-            loading={isLoading}
+            title="SIGN UP"
             containerStyle={styles.signUpButtonContainer}
             buttonStyle={styles.signUpButton}
             titleStyle={styles.signUpButtonText}
-            onPress={this.signup}
-            disabled={isLoading}
+            icon={
+              <Icon
+                name="account-plus"
+                size={ICON_SIZE}
+                style={styles.signUpButtonIconStyle}
+              />
+            }
+            iconRight={true}
+            loading={isLoading}
+            onPress={this.goToSignUpScreen2}
           />
         </KeyboardAvoidingView>
 

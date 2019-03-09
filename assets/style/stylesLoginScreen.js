@@ -38,12 +38,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold"
   },
-  plusText: {
+  textStyle: {
     color: "white",
-    fontSize: 30,
+    fontSize: 18,
     fontWeight: "normal"
   },
-  loginInput: {
+  loginInputContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"

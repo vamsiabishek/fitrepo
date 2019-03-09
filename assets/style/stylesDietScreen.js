@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
@@ -8,30 +9,35 @@ const styles = StyleSheet.create({
     backgroundColor: "#28292B"
   },
   viewContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 70
+    marginVertical: 20
   },
   titleContainer: {
-    color: "white", //"#717173",
+    color: "white",
     fontFamily: "Billabong",
     fontSize: 60
-    //fontWeight: "bold",
-    //fontStyle: "italic"
   },
   textContainer: {
     color: "white"
   },
+  buttonHeaderContainer: {
+    justifyContent: "flex-start",
+    alignContent:  "stretch",
+    marginTop: 10,
+    paddingLeft: 20,
+    paddingTop: 20
+  },
   buttonContainer: {
-    flexDirection: "row",
-    alignContent: "center",
-    justifyContent: "center",
-    marginVertical: 20
+    width: SCREEN_WIDTH,
+    height: 80,
+    paddingLeft: 20
   },
   nextButtonContainerStyle: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "space-evenly",
+    alignItems: "flex-end",
     marginTop: 10,
     marginBottom: 10,
     marginHorizontal: 20,
@@ -40,15 +46,17 @@ const styles = StyleSheet.create({
   nextButtonStyle: {
     borderWidth: 0,
     borderColor: "transparent",
+    backgroundColor: "transparent",
     borderRadius: 20,
-    paddingHorizontal: 10,
-    backgroundColor: "#00DB8D"
+    paddingHorizontal: 10
   },
   nextButtonTitleStyle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
-    color: "white"
-  }
+    color: "#00DB8D",
+    textDecorationLine: "underline"
+  },
+  nextButtonIconStyle: { color: "#00DB8D", paddingHorizontal: 3 }
 });
 
 export { styles };
