@@ -1,7 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   motherContainer: {
@@ -116,6 +115,10 @@ const styles = StyleSheet.create({
   signUpButtonText: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "white"
+  },
+  signUpButtonIconStyle: {
+    paddingLeft: 5,
     color: "white"
   },
   loginHereContainer: {

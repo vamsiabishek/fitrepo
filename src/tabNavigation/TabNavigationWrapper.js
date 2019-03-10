@@ -15,15 +15,18 @@ import MyDiet from "./../diet/MyDiet";
 import Diet from "./../diet/Diet";
 import SignUpScreen1 from "../signup/SignUpScreen1";
 import SignUpScreen2 from "../signup/SignUpScreen2";
+import SignUpScreen3 from "../signup/SignUpScreen3";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 
 const SignUpStackNavigator = createStackNavigator(
   {
+    SignUpScreen1,
     SignUpScreen2,
-    SignUpScreen1
+    SignUpScreen3
   },
   {
+    initialRouteName: "SignUpScreen1",
     defaultNavigationOptions: {
       header: null,
       headerStyle: styles.headerStyle
@@ -158,9 +161,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
         labelStyle: styles.labelStyle,
         navBarTransparent: true,
         style: {
-          //backgroundColor: "transparent"
           backgroundColor: styles.bottomNavBar.backgroundColor
-          //opacity: styles.bottomNavBar.opacity
         }
       }
     }
@@ -172,20 +173,22 @@ const HomeStackNavigator = createStackNavigator(
     HomeBottomTab: AppBottomTabNavigator
   },
   {
-    defaultNavigationOptions: ({ navigation }) => {
-      const { routeName } = navigation.state.routes[navigation.state.index];
-      return {
-        header: null,
-        headerStyle: styles.headerStyle
-      };
+    defaultNavigationOptions: {
+      header: null,
+      headerStyle: styles.headerStyle
     }
   }
 );
 
-const AppSwitchNavigator = createSwitchNavigator({
-  LoginScreen,
-  SignUp: SignUpStackNavigator,
-  HomeScreen: HomeStackNavigator
-});
+const AppSwitchNavigator = createSwitchNavigator(
+  {
+    Login: LoginScreen,
+    SignUp: SignUpStackNavigator,
+    HomeScreen: HomeStackNavigator
+  },
+  {
+    initialRouteName: "Login"
+  }
+);
 
 export const AppContainer = createAppContainer(AppSwitchNavigator);

@@ -48,6 +48,7 @@ export default class DietGoalPlan extends Component {
 
   componentDidMount = async () => {
     const currentUser = await f.auth().currentUser;
+    console.log("The user details here: " + currentUser);
     database
       .ref("users")
       .child(currentUser.uid)
@@ -66,7 +67,7 @@ export default class DietGoalPlan extends Component {
 
   onGoalChange = value => {
     this.setState({
-      selectedGoal: value,
+      selectedGoal: value
     });
   };
 
