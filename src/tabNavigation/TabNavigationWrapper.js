@@ -161,9 +161,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
         labelStyle: styles.labelStyle,
         navBarTransparent: true,
         style: {
-          //backgroundColor: "transparent"
           backgroundColor: styles.bottomNavBar.backgroundColor
-          //opacity: styles.bottomNavBar.opacity
         }
       }
     }
