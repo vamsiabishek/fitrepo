@@ -13,25 +13,27 @@ export default class Diet extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
+        <View style={styles.buttonHeaderContainer}>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="NEW DIET"
+              containerStyle={styles.nextButtonContainerStyle}
+              buttonStyle={styles.nextButtonStyle}
+              titleStyle={styles.nextButtonTitleStyle}
+              icon={
+                <Icon
+                  name="new-box"
+                  size={20}
+                  style={styles.nextButtonIconStyle}
+                />
+              }
+              iconLeft={true}
+              onPress={() => this.props.navigation.navigate("CreateDiet")}
+            />
+          </View>
+        </View>
         <View style={styles.viewContainer}>
           <Text style={styles.titleContainer}>Your Diet Plans..</Text>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="NEW DIET"
-            containerStyle={styles.nextButtonContainerStyle}
-            buttonStyle={styles.nextButtonStyle}
-            titleStyle={styles.nextButtonTitleStyle}
-            icon={
-              <Icon
-                name="new-box"
-                size={20}
-                style={{ color: "white", paddingHorizontal: 3 }}
-              />
-            }
-            iconRight={true}
-            onPress={() => this.props.navigation.navigate("CreateDiet")}
-          />
         </View>
       </View>
     );

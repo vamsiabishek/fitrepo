@@ -1,3 +1,14 @@
+export const LEVELS_OPTIONS = [
+  { label: "Beginner", value: "Beginner" },
+  { label: "Intermediate", value: "Intermediate" },
+  { label: "Advanced", value: "Advanced" }
+];
+
+export const FOOD_PREFERENCES_OPTIONS = [
+  { label: "Vegetarian", value: "Vegetarian" },
+  { label: "Non-Vegetarian", value: "Non-Vegetarian" }
+];
+
 export const calculateCaloriesFromProteinOrCarbs = amount => amount * 4;
 
 export const calculateCaloriesFromFats = amount => amount * 9;
@@ -28,3 +39,18 @@ export const convertProgramToWeeks = program => {
       return 0;
   }
 };
+
+export const EMAIL_VERIFICATION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+export const PASSWORD_LENGTH_MINIMUM = 8;
+export const ICON_SIZE = 25;
+export const ICON_SIZE_SMALL = 16;
+export const MIN_DATE = new Date("01/01/1960");
+export const MAX_DATE = new Date();
+export const BUTTON_SIZE = 9;
+export const BUTTON_OUTER_SIZE = 18;
+export const NUMERIC_INPUT_WIDTH = 80;
+export const NUMERIC_INPUT_HEIGHT = 40;
+export const MIN_WEIGHT = 40;
+export const MAX_WEIGHT = 110;
+export const MIN_HEIGHT = 140;
+export const MAX_HEIGHT = 199;
