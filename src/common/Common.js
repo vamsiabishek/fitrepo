@@ -1,17 +1,17 @@
-export const calculateCaloriesFromProteinOrCarbs = amount => amount * 4;
+export const calculateCalFromProteinOrCarbs = amount => amount * 4;
 
-export const calculateCaloriesFromFats = amount => amount * 9;
+export const calculateCalFromFats = amount => amount * 9;
 
 export const calculateTotalCalories = ({ protein, carbs, fat }) => {
   let totalCalories = 0;
   totalCalories = protein
-    ? calculateCaloriesFromProteinOrCarbs(protein)
+    ? calculateCalFromProteinOrCarbs(protein)
     : totalCalories;
   totalCalories = carbs
-    ? totalCalories + calculateCaloriesFromProteinOrCarbs(carbs)
+    ? totalCalories + calculateCalFromProteinOrCarbs(carbs)
     : totalCalories;
   totalCalories = fat
-    ? totalCalories + calculateCaloriesFromFats(fat)
+    ? totalCalories + calculateCalFromFats(fat)
     : totalCalories;
   return totalCalories;
 };

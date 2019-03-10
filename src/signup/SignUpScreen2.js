@@ -14,7 +14,6 @@ import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import RadioForm from "react-native-simple-radio-button";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import LocationManagerIOS from "react-native-location-manager-ios";
 import { styles } from "../../assets/style/stylesSignUpScreen2";
 import { auth, database } from "../common/FirebaseConfig";
 

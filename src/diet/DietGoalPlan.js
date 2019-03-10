@@ -6,7 +6,7 @@ import RadioForm from "react-native-simple-radio-button";
 import { Dropdown } from "react-native-material-dropdown";
 import NumericInput from "react-native-numeric-input";
 import { styles } from "../../assets/style/stylesDietGoalPlan";
-import { getPossibleTargetWeights } from "../diet/DietAlgorithm";
+import { getPossibleTargetWeights } from "./Algorithm/DietAlgorithm";
 import { f, database } from "./../common/FirebaseConfig";
 import { convertProgramToWeeks } from "../common/Common";
 

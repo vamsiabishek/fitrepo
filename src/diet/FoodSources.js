@@ -1,4 +1,4 @@
-export const proteinSources = [
+ export const proteinSources = [
   {
     "name": "Vegetarian",
     "id": "veg",
@@ -43,7 +43,7 @@ export const proteinSources = [
   }
 ]
 
-export const fatSources = [
+ export const fatSources = [
   {
     "name": "Nuts",
     "id": "nuts",
@@ -99,7 +99,7 @@ export const fatSources = [
   },
 ]
 
-export const carbSources = [
+ export const carbSources = [
   {
     "name": "Breads",
     "id": "breads",
@@ -154,3 +154,50 @@ export const carbSources = [
     ]
   },
 ]
+
+const selectedProteinSources = [
+  {
+    key: "chicken-breast",
+    value: {
+      fat: 4,
+      isStandardForBeginner: true,
+      isVeg: false,
+      name: "Chicken breast",
+      protein: 31
+    }
+  },
+ /*{
+    key: "egg-white",
+    value: {
+      "isStandardForBeginner" : true,
+      "isVeg" : false,
+      "name" : "Egg White",
+      "protein" : 4
+    }
+  },
+  {
+    key: "egg-whole",
+    value: {
+      "carbs" : 0,
+      "fat" : 4.5,
+      "isStandardForBeginner" : true,
+      "isVeg" : false,
+      "name" : "Whole Egg",
+      "protein" : 6
+    }
+  }, */
+  {
+    key: "rajma",
+    value: {
+      "carbs" : 23,
+      "isStandardForBeginner" : true,
+      "isVeg" : true,
+      "name" : "Rajma",
+      "protein" : 9
+    }
+  } 
+];
+
+module.exports = selectedProteinSources;
+
+

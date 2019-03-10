@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import TotalDietMacros from "./TotalDietMarcos";
 import MealsContainer from "./meals/MealsContainer";
 import { styles } from "../../assets/style/stylesMyDiet";
-import { designDiet } from "../diet/DietAlgorithm";
+import { designDiet } from "../diet/Algorithm/DietAlgorithm";
 
 export default class MyDiet extends Component {
   constructor(props) {
