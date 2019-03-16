@@ -13,7 +13,14 @@ import { convertProgramToWeeks } from "../common/Common";
 export default class DietGoalPlan extends Component {
   constructor(props) {
     super(props);
-    const { goal, program, meals, currentWeight, targetWeight } = props;
+    const {
+      goal,
+      program,
+      meals,
+      currentWeight,
+      targetWeight,
+      screenName
+    } = props;
     this.state = {
       user: {},
       selectedGoal: goal,
@@ -178,10 +185,14 @@ export default class DietGoalPlan extends Component {
       programs,
       mealOptions
     } = this.state;
+    const { screenName } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.viewContainer}>
           <Text style={styles.titleContainer}>Getting started...</Text>
+          <Text style={styles.textContainer}>
+            Hi, {screenName} Please choose your preferences
+          </Text>
         </View>
         <View style={styles.viewDDContainer}>
           <Dropdown

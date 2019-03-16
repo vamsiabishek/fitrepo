@@ -78,6 +78,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white"
   },
+  loginButtonIcon: {
+    paddingLeft: 5,
+    color: "white"
+  },
+  loginButtonDes: {
+    color: "white"
+  },
   signUpHereContainer: {
     flexDirection: "row",
     alignItems: "center",

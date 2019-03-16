@@ -122,6 +122,7 @@ export default class CreateDiet extends Component {
       targetWeight,
       selectedMeals
     } = this.state;
+    const name = this.props.navigation.getParam("screenName");
     return (
       <View style={styles.container}>
         {selectionLevel === 1 && (
@@ -134,6 +135,7 @@ export default class CreateDiet extends Component {
             meals={selectedMeals}
             setDietGoals={this.setDietGoals}
             saveDietGoalsPlusBack={this.saveDietGoalsPlusBack}
+            screenName={name}
           />
         )}
         {selectionLevel === 2 && (
@@ -143,6 +145,7 @@ export default class CreateDiet extends Component {
             selectedCarbs={selectedCarbSources}
             setSelectedSources={this.setSelectedSources}
             createDiet={this.createDiet}
+            screenName={name}
           />
         )}
       </View>
