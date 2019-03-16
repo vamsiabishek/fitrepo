@@ -10,18 +10,22 @@ import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
 import { f, auth, database } from "./../common/FirebaseConfig";
-
-const BG_IMAGE = require("../../assets/images/barbell.jpg");
+import {
+  BG_IMAGE,
+  EMAIL_VERIFICATION,
+  PASSWORD_LENGTH_MINIMUM,
+  ICON_SIZE
+} from "../common/Common";
 
 export default class LoginScreen1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //email: "vamsi@gmail.com",
-      email: "trainwithhd@gmail.com",
+      email: "vamsi@gmail.com",
+      //email: "trainwithhd@gmail.com",
       emailValid: true,
-      //password: "vamsi123",
-      password: "Diabi29090@",
+      password: "vamsi123",
+      //password: "Diabi29090@",
       passwordValid: true,
       login_failed: false,
       showLoading: false
@@ -32,8 +36,7 @@ export default class LoginScreen1 extends Component {
   };
   validateEmail = () => {
     const { email } = this.state;
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const emailValid = re.test(email);
+    const emailValid = EMAIL_VERIFICATION.test(email);
     LayoutAnimation.easeInEaseOut();
     emailValid || this.emailInput.shake();
     return emailValid;
@@ -43,7 +46,7 @@ export default class LoginScreen1 extends Component {
   };
   validatePassword = () => {
     const { password } = this.state;
-    const passwordValid = password.length >= 8;
+    const passwordValid = password.length >= PASSWORD_LENGTH_MINIMUM;
     LayoutAnimation.easeInEaseOut();
     this.setState({ passwordValid });
     passwordValid || this.passwordInput.shake();
@@ -98,7 +101,13 @@ export default class LoginScreen1 extends Component {
                 containerStyle={styles.inputContainer}
                 inputStyle={styles.inputStyle}
                 errorStyle={styles.errorInputStyle}
-                leftIcon={<Icon name="account" color="white" size={25} />}
+                leftIcon={
+                  <Icon
+                    name="account"
+                    color={styles.loginButtonDes.color}
+                    size={ICON_SIZE}
+                  />
+                }
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardAppearance="dark"
@@ -118,7 +127,13 @@ export default class LoginScreen1 extends Component {
               <Input
                 placeholder="Password"
                 placeholderTextColor="white"
-                leftIcon={<Icon name="key-variant" color="white" size={25} />}
+                leftIcon={
+                  <Icon
+                    name="key-variant"
+                    color={styles.loginButtonDes.color}
+                    size={ICON_SIZE}
+                  />
+                }
                 containerStyle={styles.inputContainer}
                 inputStyle={styles.inputStyle}
                 errorStyle={styles.errorInputStyle}
@@ -145,8 +160,8 @@ export default class LoginScreen1 extends Component {
               icon={
                 <Icon
                   name="login"
-                  size={25}
-                  style={{ paddingLeft: 5, color: "white" }}
+                  size={ICON_SIZE}
+                  style={styles.loginButtonIcon}
                 />
               }
               iconRight={true}

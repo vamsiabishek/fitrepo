@@ -3,11 +3,11 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
     paddingBottom: 20,
     paddingTop: 20,
-    backgroundColor: "#28292B",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: "#28292B"
   },
   viewContainer: {
     justifyContent: "center",
@@ -20,15 +20,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   headerText: {
-    justifyContent: "center",
-    alignContent: "center",
     color: "white",
     fontSize: 60,
     fontFamily: "Billabong"
   },
   normalText: {
-    justifyContent: "center",
-    alignContent: "center",
     color: "white"
   }
 });

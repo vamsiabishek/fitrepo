@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   buttonHeaderContainer: {
     justifyContent: "flex-start",
-    alignContent:  "stretch",
+    alignContent: "stretch",
     marginTop: 10,
     paddingLeft: 20,
     paddingTop: 20
@@ -53,10 +53,13 @@ const styles = StyleSheet.create({
   nextButtonTitleStyle: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#00DB8D",
-    textDecorationLine: "underline"
+    color: "#00DB8D"
   },
-  nextButtonIconStyle: { color: "#00DB8D", paddingHorizontal: 3 }
+  nextButtonIconStyle: {
+    color: "#00DB8D",
+    paddingTop: 0,
+    paddingLeft: 2
+  }
 });
 
 export { styles };

@@ -20,7 +20,6 @@ export default class Home extends Component {
       .once("value")
       .then(snapshot => {
         const userLoggedIn = snapshot.val();
-        LayoutAnimation.easeInEaseOut();
         this.setState({
           username: userLoggedIn.username,
           name: userLoggedIn.name
@@ -28,7 +27,7 @@ export default class Home extends Component {
       })
       .catch(error => {
         console.log(
-          "error while fetching user details in callfectNameOfUser of LoginScreen1:",
+          "error while fetching user details in componentDidMount of Home:",
           error
         );
       });

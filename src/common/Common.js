@@ -1,4 +1,3 @@
-
 export const LEVELS_OPTIONS = [
   { label: "Beginner", value: "Beginner" },
   { label: "Intermediate", value: "Intermediate" },
@@ -41,10 +40,30 @@ export const convertProgramToWeeks = program => {
   }
 };
 
+export const GRADIENT_COLORS_ARRAY = [
+  "#00DB8D",
+  //"#29604D",
+  "#3B876C",
+  "#28292B"
+];
+export const LEVEL_COLORS = {
+  ADV: "#FFD80A",
+  INT: "#C4CACE",
+  BEG: "#CD7F32"
+};
+export const GENDER_NAMES = {
+  FEMALE: "chess-queen",
+  MALE: "chess-king",
+  TRANSG: "chess-knight"
+};
+export const BG_IMAGE = require("../../assets/images/barbell.jpg");
 export const EMAIL_VERIFICATION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const PASSWORD_LENGTH_MINIMUM = 8;
+export const AVATAR_SIZE = 100;
 export const ICON_SIZE = 25;
+export const ICON_SIZE_MED = 20;
 export const ICON_SIZE_SMALL = 16;
+export const ICON_SIZE_LARGE = 30;
 export const MIN_DATE = new Date("01/01/1960");
 export const MAX_DATE = new Date();
 export const BUTTON_SIZE = 9;
