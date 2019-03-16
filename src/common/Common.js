@@ -10,7 +10,7 @@ export const FOOD_PREFERENCES_OPTIONS = [
   { label: "Non-Vegetarian", value: "Non-Vegetarian" }
 ];
 
-export const calculateCaloriesFromProteinOrCarbs = amount => amount * 4;
+export const calculateCalFromProteinOrCarbs = amount => amount * 4;
 
 export const calculateCalFromFats = amount => amount * 9;
 
