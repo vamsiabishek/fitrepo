@@ -4,23 +4,31 @@ import Accordion from "react-native-collapsible/Accordion";
 import { meals } from "./meals";
 import { styles } from "../../../assets/style/stylesMealContainer";
 import Icon from "react-native-vector-icons/Octicons";
+import Timeline from "react-native-timeline-listview";
+
 
 export default class MealsContainer extends Component {
   constructor(props) {
     super(props);
+
+    if(meals.length > 0)
+      meals.map(meal => meal.icon = require("../../../assets/images/dish.png"));
+
     this.state = {
       meals,
       activeSections: [0],
-      setIconUp: false
+      setIconUp: false,
+      selected: null
     };
   }
 
   renderHeader = meal => {
-    const triangleArrow = this.state.setIconUp ? "triangle-down" : "triangle-up";
+    const triangleArrow = this.state.setIconUp
+      ? "triangle-down"
+      : "triangle-up";
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>{meal.title}</Text>
-        <Icon name={triangleArrow} size={18} style={styles.headerIcon} />
       </View>
     );
   };
@@ -49,18 +57,85 @@ export default class MealsContainer extends Component {
     this.setState({ setIconUp: true });
   };
 
+  renderSelected = () => {
+    if (this.state.selected)
+      return (
+        <Text style={{ marginTop: 10 }}>
+          Selected event: {this.state.selected.title} at{" "}
+          {this.state.selected.time}
+        </Text>
+      );
+  };
+
+  onEventPress = data => {
+    this.setState({ selected: data });
+  };
+
+  renderDetail = (rowData, sectionID, rowID) => {
+    let title = <Text style={[styles.title]}>{rowData.name}</Text>;
+    var desc = null;
+    if (rowData.sources)
+      desc = (
+        <View style={styles.descriptionContainer}>
+          <View style={styles.mealItem}>
+            <Text style={styles.mealItemName} />
+            <Text style={styles.mealItemQuantityLabel}>Quantity</Text>
+          </View>
+          {rowData.sources.map((source, index) => {
+            return (
+              <View style={styles.mealItem} key={index}>
+                <Text style={styles.mealItemName}>{source.name}</Text>
+                <Text style={styles.mealItemQuantity}>
+                  {source.macroValue} gm
+                </Text>
+              </View>
+            );
+          })}
+        </View>
+      );
+
+    return (
+      <View style={styles.mealContainer}>
+        {title}
+        {desc}
+      </View>
+    );
+  };
+
   render() {
     const multipleSelect = true;
     const { meals, activeSections, setIconUp } = this.state;
     return (
-      <ScrollView style={{ backgroundColor: "#36373A" }}>
-        <Accordion
+      <ScrollView style={{ backgroundColor: "#494b50", }}>
+        {/* <Accordion
           activeSections={activeSections}
           sections={meals}
           expandMultiple={multipleSelect}
           renderHeader={this.renderHeader}
           renderContent={this.renderContent}
           onChange={this.setSections}
+        /> */}
+        {this.renderSelected()}
+        <Timeline
+          style={styles.list}
+          data={this.state.meals}
+          circleSize={35}
+          circleColor="#00DB8D"
+          lineColor="grey"
+          timeStyle={{
+            textAlign: "center",
+            color: "white",
+            borderRadius: 13
+          }}
+          descriptionStyle={{ color: "gray" }}
+          options={{
+            style: { paddingTop: 5 }
+          }}
+          showTime="false"
+          innerCircle={"icon"}
+          //dotColor="skyblue"
+          onEventPress={this.onEventPress}
+          renderDetail={this.renderDetail}
         />
       </ScrollView>
     );

@@ -1,134 +1,92 @@
 export const meals = [
   {
-    title: "Meal 1",
-    data: [
+    name: "Meal 1",
+    sources: [
         {
           name: "Chicken breast",
-          quantity: 80,
-          protein: 31,
-          fat: 4
+          macroQuantity: 93,
+          macroValue: 300,
         },
         {
           name: "Basa fish",
-          quantity: 120,
-          protein: 18,
-          fat: 2.5
+          macroQuantity: 57,
+          macroValue: 219,
         },
         {
           name: "White Potato",
-          quantity: 75,
-          carbs: 24,
-          protein: 2
+          macroQuantity: 24,
+          macroValue: 75,
         },
         {
           name: "Brown rice",
-          quantity: 100,
-          carbs: 20,
-          fat: 2,
-          protein: 3
+          macroQuantity: 24,
+          macroValue: 100,
         },
         {
           name: "Walnuts",
-          quantity: 75,
-          fat: 65,
-          protein: 14,
-          carbs: 15
+          macroQuantity: 12,
+          macroValue: 50,
         },
-        {
-          name: "Almonds",
-          quantity: 100,
-          fat: 49,
-          protein: 14,
-          carbs: 15
-        }
     ]
   },
   {
-    title: "Meal 2",
-    data: [
+    name: "Meal 2",
+    sources: [
       {
         name: "Chicken breast",
-        quantity: 80,
-        protein: 31,
-        fat: 4
+        macroQuantity: 93,
+        macroValue: 300,
       },
       {
         name: "Basa fish",
-        quantity: 120,
-        protein: 18,
-        fat: 2.5
+        macroQuantity: 57,
+        macroValue: 219,
       },
       {
         name: "White Potato",
-        quantity: 75,
-        carbs: 24,
-        protein: 2
+        macroQuantity: 24,
+        macroValue: 75,
       },
       {
         name: "Brown rice",
-        quantity: 100,
-        carbs: 20,
-        fat: 2,
-        protein: 3
+        macroQuantity: 24,
+        macroValue: 100,
       },
       {
         name: "Walnuts",
-        quantity: 75,
-        fat: 65,
-        protein: 14,
-        carbs: 15
+        macroQuantity: 12,
+        macroValue: 50,
       },
-      {
-        name: "Almonds",
-        quantity: 100,
-        fat: 49,
-        protein: 14,
-        carbs: 15
-      }
-  ]
+    ]
   },
   {
-    title: "Meal 3",
-    data: [
+    name: "Meal 3",
+    sources: [
       {
         name: "Chicken breast",
-        quantity: 80,
-        protein: 31,
-        fat: 4
+        macroQuantity: 93,
+        macroValue: 300,
       },
       {
         name: "Basa fish",
-        quantity: 120,
-        protein: 18,
-        fat: 2.5
+        macroQuantity: 57,
+        macroValue: 219,
       },
       {
         name: "White Potato",
-        quantity: 75,
-        carbs: 24,
-        protein: 2
+        macroQuantity: 24,
+        macroValue: 75,
       },
       {
         name: "Brown rice",
-        quantity: 100,
-        carbs: 20,
-        fat: 2,
-        protein: 3
+        macroQuantity: 24,
+        macroValue: 100,
       },
       {
         name: "Walnuts",
-        quantity: 75,
-        fat: 65,
-        protein: 14,
-        carbs: 15
+        macroQuantity: 12,
+        macroValue: 50,
       },
-      {
-        name: "Almonds",
-        quantity: 100,
-        fat: 49,
-        protein: 14,
-        carbs: 15
-      }
-  ]
+    ]
   } 
 ];

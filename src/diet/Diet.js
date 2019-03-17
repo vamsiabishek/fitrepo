@@ -1,17 +1,71 @@
 import React, { Component } from "react";
-import { LayoutAnimation, Text, View, StatusBar } from "react-native";
-import { Button } from "react-native-elements";
+import {
+  LayoutAnimation,
+  Text,
+  View,
+  StatusBar,
+  TouchableOpacity
+} from "react-native";
+import { Button, ButtonGroup } from "react-native-elements";
+import { Dropdown } from "react-native-material-dropdown";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesDietScreen";
 import { f, database } from "../common/FirebaseConfig";
 import { ICON_SIZE_MED } from "../common/Common";
+import CustomListView from "../components/CustomListView";
 
 export default class Diet extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      username: ""
+      username: "",
+      selectedSortOption: "Newest first",
+      sortOptions: [
+        {
+          value: "Newest first",
+          id: "newest-first"
+        },
+        {
+          value: "Rating",
+          id: "rating"
+        }
+      ],
+      currentDietList: "popular",
+      diets: [
+        {
+          goal: "Fat loss",
+          program: "12 Week program",
+          isVegetarian: false,
+          numberOfMeals: "5 Meals per day",
+          likes: "50",
+          dietId: "diet1"
+        },
+        {
+          goal: "Weight gain",
+          program: "12 Week program",
+          isVegetarian: false,
+          numberOfMeals: "5 Meals per day",
+          likes: "10",
+          dietId: "diet2"
+        },
+        {
+          goal: "Fat loss",
+          program: "12 Week program",
+          isVegetarian: true,
+          numberOfMeals: "5 Meals per day",
+          likes: "102",
+          dietId: "diet3"
+        },
+        {
+          goal: "Fat loss",
+          program: "12 Week program",
+          isVegetarian: false,
+          numberOfMeals: "5 Meals per day",
+          likes: "78",
+          dietId: "diet4"
+        }
+      ]
     };
   }
   componentDidMount = async () => {
@@ -36,8 +90,20 @@ export default class Diet extends Component {
       });
   };
 
+  onSortChange = selectedSort => {
+    this.setState({ selectedSortOption: selectedSort });
+  };
+
   render() {
-    const { name, username } = this.state;
+    const {
+      name,
+      username,
+      selectedSortOption,
+      sortOptions,
+      currentDietList,
+      diets
+    } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -64,12 +130,44 @@ export default class Diet extends Component {
             />
           </View>
         </View>
-        <View style={styles.viewContainer}>
-          <Text style={styles.titleContainer}>Your Diet Plans..</Text>
 
-          <Text style={styles.textContainer}>
-            Hi, {name} you can see your current Diets here.
-          </Text>
+        <View style={styles.subHeaderContainer}>
+          <TouchableOpacity
+            style={
+              currentDietList === "popular"
+                ? styles.activeSubHeaderComponents
+                : styles.subHeaderComponents
+            }
+            onPress={() => this.setState({ currentDietList: "popular" })}
+          >
+            <Text style={styles.subHeaderMenuItems}>Popular</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={
+              currentDietList !== "popular"
+                ? styles.activeSubHeaderComponents
+                : styles.subHeaderComponents
+            }
+            onPress={() => this.setState({ currentDietList: "myDiets" })}
+          >
+            <Text style={styles.subHeaderMenuItems}>My Diets</Text>
+          </TouchableOpacity>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.sortLabel}>Sort by</Text>
+            <Dropdown
+              data={sortOptions}
+              baseColor={styles.dropdownBaseColor.color}
+              textColor={styles.dropdownTextColor.color}
+              containerStyle={styles.dropdownContainer}
+              pickerStyle={styles.dropdownPickerStyle}
+              dropdownOffset={styles.dropdownOffset}
+              onChangeText={this.onSortChange}
+              value={selectedSortOption}
+            />
+          </View>
+        </View>
+        <View style={styles.listViewContainer}>
+          <CustomListView diets={this.state.diets} navigation={navigation} />
         </View>
       </View>
     );

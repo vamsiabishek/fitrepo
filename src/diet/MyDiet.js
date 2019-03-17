@@ -28,6 +28,7 @@ export default class MyDiet extends Component {
 
   render() {
     const { activeDay } = this.state;
+    const { navigation } = this.props;
     const subHeaderLeftText = "Week 1";
     const subHeaderCenterText = "Week 2";
     const subHeaderRightText = "Week 3";
