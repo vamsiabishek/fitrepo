@@ -11,6 +11,9 @@ import Home from "./../home/Home";
 import CreateDiet from "../diet/CreateDiet";
 import Workouts from "./../workouts/Workouts";
 import Profile from "./../profile/Profile";
+import EditProfile from "./../profile/EditProfile";
+import EditProfileSubScreen1 from "./../profile/EditProfileSubScreen1";
+import EditProfileSubScreen2 from "./../profile/EditProfileSubScreen2";
 import MyDiet from "./../diet/MyDiet";
 import Diet from "./../diet/Diet";
 import SignUpScreen1 from "../signup/SignUpScreen1";
@@ -27,6 +30,22 @@ const SignUpStackNavigator = createStackNavigator(
   },
   {
     initialRouteName: "SignUpScreen1",
+    defaultNavigationOptions: {
+      header: null,
+      headerStyle: styles.headerStyle
+    }
+  }
+);
+
+const ProfileStackNavigator = createStackNavigator(
+  {
+    Profile,
+    EditProfile,
+    EditProfileSubScreen1,
+    EditProfileSubScreen2
+  },
+  {
+    initialRouteName: "Profile",
     defaultNavigationOptions: {
       header: null,
       headerStyle: styles.headerStyle
@@ -135,7 +154,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
       }
     },
     Profile: {
-      screen: Profile,
+      screen: ProfileStackNavigator,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
           return (
@@ -153,7 +172,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Profile",
+    initialRouteName: "Home",
     defaultNavigationOptions: {
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,

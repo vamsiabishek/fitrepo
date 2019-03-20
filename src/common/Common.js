@@ -51,11 +51,6 @@ export const LEVEL_COLORS = {
   INT: "#C4CACE",
   BEG: "#CD7F32"
 };
-export const GENDER_NAMES = {
-  FEMALE: "chess-queen",
-  MALE: "chess-king",
-  TRANSG: "chess-knight"
-};
 export const BG_IMAGE = require("../../assets/images/barbell.jpg");
 export const EMAIL_VERIFICATION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const PASSWORD_LENGTH_MINIMUM = 8;
