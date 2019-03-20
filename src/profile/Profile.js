@@ -5,10 +5,10 @@ import {
   StatusBar,
   Text,
   View,
-  ImageBackground,
-  ActivityIndicator
+  ActivityIndicator,
+  UIManager
 } from "react-native";
-import { Avatar, Badge, Button, Input, Image } from "react-native-elements";
+import { Avatar, Button } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import StarRating from "react-native-star-rating";
@@ -21,21 +21,22 @@ import {
   GRADIENT_COLORS_ARRAY,
   ICON_SIZE,
   ICON_SIZE_MED,
-  ICON_SIZE_SMALL,
-  ICON_SIZE_LARGE,
-  LEVEL_COLORS,
-  GENDER_NAMES
+  LEVEL_COLORS
 } from "../common/Common";
+
+// Enable LayoutAnimation for Android Devices
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      isPhotoLoading: false,
       uid: "",
       user: {},
-      genderIcon: GENDER_NAMES.TRANSG,
+      avatarSource: "",
+      avatarChanged: false,
       levelColor: LEVEL_COLORS.BEG,
       starRating: 1.5,
       programCompletedPercent: 10, // Completion percent,
@@ -49,7 +50,6 @@ export default class Profile extends Component {
     Math.floor((1 + Math.random()) * 0x1000)
       .toString(16)
       .substring(1);
-
   uniqueImageId = () => {
     return (
       this.RNG() +
@@ -66,7 +66,6 @@ export default class Profile extends Component {
       this.RNG()
     );
   };
-
   uploadImageClicked = () => {
     const uploadOptions = {
       title: "Select Photo",
@@ -75,7 +74,6 @@ export default class Profile extends Component {
         path: "images"
       }
     };
-
     ImagePicker.showImagePicker(uploadOptions, response => {
       console.log("Response = ", response);
       if (response.didCancel) {
@@ -94,15 +92,14 @@ export default class Profile extends Component {
       }
     });
   };
-
   uploadImage = async (uri, base64) => {
     let that = this;
     const fileExtension = uri.slice(uri.lastIndexOf(".") + 1);
     const imageId = that.uniqueImageId();
     const filePath = imageId + "." + fileExtension;
-    const userId = this.state.uid;
+    const { uid } = this.state;
     storage
-      .ref("users/" + userId + "/img")
+      .ref("users/" + uid + "/img")
       .child(filePath)
       .putString(base64, "base64", {
         contentType: "image/jpeg"
@@ -115,24 +112,66 @@ export default class Profile extends Component {
             snapshot.bytesTransferred,
             snapshot.totalBytes
           );
-          this.setState({
-            isPhotoLoading: false
-          });
         },
         error => {},
         () => {
           storage
-            .ref("users/" + userId + "/img")
+            .ref("users/" + uid + "/img")
             .child(filePath)
             .getDownloadURL()
             .then(url => {
               console.log("download url:", url);
+              this.setState({
+                avatarSource: url
+              });
+              this.updateImageInDatabase();
+              this.forceUpdate();
             });
         }
       );
-    console.log(result);
   };
-
+  updateImageInDatabase = () => {
+    const { avatarSource, uid } = this.state;
+    const extraProfilePic = {
+      avatarSource
+    };
+    database
+      .ref("users")
+      .child(uid)
+      .update(extraProfilePic)
+      .then(() => {
+        //console.log("Avatar Source: ", avatarSource);
+        this.setState({
+          avatarChanged: true
+        });
+      })
+      .catch(error => {
+        console.log("error while updating with profile pic url: ", error);
+      });
+  };
+  forceUpdate = () => {
+    //console.log("In force update !");
+    const { uid } = this.state;
+    database
+      .ref("users")
+      .child(uid)
+      .once("value")
+      .then(snapshot => {
+        const userLoggedIn = snapshot.val();
+        this.setState({
+          user: userLoggedIn,
+          avatarChanged: false
+        });
+      });
+  };
+  goToEditProfile = () => {
+    const { navigate } = this.props.navigation;
+    const { user } = this.state;
+    navigate("EditProfile", {
+      userLoggedIn: user
+    });
+    console.log("did navigate work ?");
+  };
   componentDidMount = async () => {
     const currentUser = await f.auth().currentUser;
     this.setState({
@@ -149,20 +188,6 @@ export default class Profile extends Component {
           user: userLoggedIn,
           isLoading: false
         });
-        // Getting the Gender Icon based on Gender.
-        if (userLoggedIn.gender === "Female") {
-          this.setState({
-            genderIcon: GENDER_NAMES.FEMALE
-          });
-        } else if (userLoggedIn.gender === "Male") {
-          this.setState({
-            genderIcon: GENDER_NAMES.MALE
-          });
-        } else {
-          this.setState({
-            genderIcon: GENDER_NAMES.TRANSG
-          });
-        }
         // Getting the Level Color to be used based on the user's Level.
         if (userLoggedIn.level === "Advanced") {
           this.setState({
@@ -188,19 +213,17 @@ export default class Profile extends Component {
         );
       });
   };
-
   render() {
     const {
       isLoading,
+      avatarChanged,
       user,
-      genderIcon,
       levelColor,
       starRating,
       programChosen,
       programCompletedPercent,
       goalChosen,
-      goalCompletedPercent,
-      avatarSource
+      goalCompletedPercent
     } = this.state;
     return (
       <View style={styles.container}>
@@ -217,26 +240,52 @@ export default class Profile extends Component {
                   style={styles.bannergradientStyle}
                 >
                   <View style={styles.avatarContainer}>
-                    <Avatar
-                      size={100}
-                      rounded
-                      overlayContainerStyle={{ backgroundColor: "#636568" }}
-                      uri={avatarSource}
-                      /*icon={{
-                        type: "material-community",
-                        name: genderIcon,
-                        color: "white"
-                      }}*/
-                      showEditButton
-                      editButton={{
-                        type: "material-community",
-                        name: "pencil-outline",
-                        color: "white",
-                        style: { backgroundColor: "#636568" },
-                        size: ICON_SIZE
-                      }}
-                      onEditPress={this.uploadImageClicked}
-                    />
+                    {avatarChanged && (
+                      <Avatar
+                        size={100}
+                        rounded
+                        showEditButton
+                        overlayContainerStyle={{ backgroundColor: "#636568" }}
+                        source={{ uri: user.avatarSource }}
+                        imageProps={{
+                          backgroundColor: "#636568"
+                        }}
+                        renderPlaceholderContent={
+                          <ActivityIndicator color="white" />
+                        }
+                        editButton={{
+                          type: "material-community",
+                          name: "pencil-outline",
+                          color: "white",
+                          style: { backgroundColor: "#636568" },
+                          size: ICON_SIZE
+                        }}
+                        onEditPress={this.uploadImageClicked}
+                      />
+                    )}
+                    {!avatarChanged && (
+                      <Avatar
+                        size={100}
+                        rounded
+                        showEditButton
+                        overlayContainerStyle={{ backgroundColor: "#636568" }}
+                        source={{ uri: user.avatarSource }}
+                        imageProps={{
+                          backgroundColor: "#636568"
+                        }}
+                        renderPlaceholderContent={
+                          <ActivityIndicator color="white" />
+                        }
+                        editButton={{
+                          type: "material-community",
+                          name: "pencil-outline",
+                          color: "white",
+                          style: { backgroundColor: "#636568" },
+                          size: ICON_SIZE
+                        }}
+                        onEditPress={this.uploadImageClicked}
+                      />
+                    )}
                   </View>
                 </LinearGradient>
               </View>
@@ -272,7 +321,20 @@ export default class Profile extends Component {
                 <Text style={styles.profileBannerTextStyle}>Expertise</Text>
               </View>
               <View style={styles.profileSubBannerBoxStyle}>
-                <Icon name="account-edit" size={ICON_SIZE} color="#00DB8D" />
+                <Button
+                  icon={
+                    <Icon
+                      name="account-edit"
+                      size={ICON_SIZE}
+                      color="#00DB8D"
+                    />
+                  }
+                  buttonStyle={{
+                    backgroundColor: "transparent"
+                  }}
+                  onPress={this.goToEditProfile}
+                />
+
                 <Text style={styles.profileBannerTextStyle}>Edit</Text>
               </View>
             </View>
@@ -363,40 +425,6 @@ export default class Profile extends Component {
                 <View style={styles.boxesStyle}>
                   <View style={styles.boxHeaderContainerView}>
                     <Icon
-                      name="dumbbell"
-                      size={ICON_SIZE_MED}
-                      style={styles.boxHeaderIconStyle}
-                    />
-                    <Text style={styles.boxHeaderTextStyle}>Workouts</Text>
-                  </View>
-                  <View style={styles.boxContentColumnContainerStyle}>
-                    <Text style={styles.boxContentTextStyle}>
-                      Work out stuff comes here !
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.boxesContainer}>
-                <View style={styles.boxesStyle}>
-                  <View style={styles.boxHeaderContainerView}>
-                    <Icon
-                      name="nutrition"
-                      size={ICON_SIZE_MED}
-                      style={styles.boxHeaderIconStyle}
-                    />
-                    <Text style={styles.boxHeaderTextStyle}>Diet</Text>
-                  </View>
-                  <View style={styles.boxContentColumnContainerStyle}>
-                    <Text style={styles.boxContentTextStyle}>
-                      Diet stuff comes here !
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.boxesContainer}>
-                <View style={styles.boxesStyle}>
-                  <View style={styles.boxHeaderContainerView}>
-                    <Icon
                       name="postage-stamp"
                       size={ICON_SIZE_MED}
                       style={styles.boxHeaderIconStyle}
@@ -404,9 +432,11 @@ export default class Profile extends Component {
                     <Text style={styles.boxHeaderTextStyle}>Posts</Text>
                   </View>
                   <View style={styles.boxContentColumnContainerStyle}>
-                    <Text style={styles.boxContentTextStyle}>
-                      Post stuff comes here !
-                    </Text>
+                    <View style={styles.boxContentTextStyle}>
+                      <Text style={styles.boxTextStyle}>
+                        Post stuff comes here !
+                      </Text>
+                    </View>
                   </View>
                 </View>
               </View>
