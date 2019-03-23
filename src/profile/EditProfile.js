@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-import { ActivityIndicator, StatusBar, UIManager, View } from "react-native";
+import {
+  ActivityIndicator,
+  StatusBar,
+  Text,
+  UIManager,
+  View
+} from "react-native";
 import { Button, Avatar } from "react-native-elements";
-import ImagePicker from "react-native-image-picker";
 import { styles } from "../../assets/style/stylesEditProfileScreen";
 import EditProfileSubScreen1 from "./EditProfileSubScreen1";
 import EditProfileSubScreen2 from "./EditProfileSubScreen2";
@@ -26,7 +31,6 @@ export default class EditProfile extends Component {
       subScreens: 2
     };
   }
-
   changeSelectedSubScreen = progress => {
     const { selectedSubScreen, subScreens } = this.state;
     const nextScreen = progress ? selectedSubScreen + 1 : selectedSubScreen - 1;
@@ -36,33 +40,23 @@ export default class EditProfile extends Component {
       });
     }
   };
-
-  setSubScreen1UserVals = (setUserPartial, progress) => {
-    this.updateUserProfile(setUserPartial, (inSubScreen2 = false));
+  setSubScreen1UserVals = (userNew, progress) => {
+    this.updateUserProfile(userNew, (subScreen2 = false));
     this.changeSelectedSubScreen(progress);
   };
-
-  setSubScreen2UserVals = setUserPartial => {
-    this.updateUserProfile(setUserPartial);
+  setSubScreen2UserVals = userNew => {
+    this.updateUserProfile(userNew);
   };
-
-  updateUserProfile = async (setUserPartial, inSubScreen2 = true) => {
-    const { navigation } = this.props;
+  updateUserProfile = async (userNew, subScreen2 = true) => {
     const { navigate } = this.props.navigation;
-    const updateProfileWithPartialData = navigation.getParam("updateProfile");
-    const haveNavigated = true;
-    let { user, userId } = this.state;
+    const currentUser = await f.auth().currentUser;
     database
       .ref("users")
-      .child(userId)
-      .update(setUserPartial)
+      .child(currentUser.uid)
+      .update(userNew)
       .then(() => {
-        console.log("Successfully updated existing user with details");
-        updateProfileWithPartialData(setUserPartial, haveNavigated);
-        this.setState({
-          user: { ...user, ...setUserPartial }
-        });
-        if (inSubScreen2 === true) {
+        //console.log("Successfully updated existing user with details");
+        if (subScreen2 === true) {
           navigate("Profile");
         }
       })
