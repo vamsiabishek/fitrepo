@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, ScrollView } from "react-native";
-import Accordion from "react-native-collapsible/Accordion";
-import { meals } from "./meals";
+//import { meals } from "./meals";
 import { styles } from "../../../assets/style/stylesMealContainer";
 import Icon from "react-native-vector-icons/Octicons";
 import Timeline from "react-native-timeline-listview";
@@ -11,24 +10,22 @@ export default class MealsContainer extends Component {
   constructor(props) {
     super(props);
 
-    if(meals.length > 0)
-      meals.map(meal => meal.icon = require("../../../assets/images/dish.png"));
+   // if(meals.length > 0)
+   //   meals.map(meal => meal.icon = require("../../../assets/images/dish.png"));
 
     this.state = {
-      meals,
-      activeSections: [0],
       setIconUp: false,
       selected: null
     };
   }
 
-  renderHeader = meal => {
+ /* renderHeader = meal => {
     const triangleArrow = this.state.setIconUp
       ? "triangle-down"
       : "triangle-up";
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>{meal.title}</Text>
+        <Text style={styles.headerText}>{meal.name}</Text>
       </View>
     );
   };
@@ -50,21 +47,16 @@ export default class MealsContainer extends Component {
         })}
       </View>
     );
-  };
-
-  setSections = activeSections => {
-    this.setState({ activeSections });
-    this.setState({ setIconUp: true });
-  };
+  }; */
 
   renderSelected = () => {
-    if (this.state.selected)
+    /* if (this.state.selected)
       return (
         <Text style={{ marginTop: 10 }}>
           Selected event: {this.state.selected.title} at{" "}
           {this.state.selected.time}
         </Text>
-      );
+      ); */
   };
 
   onEventPress = data => {
@@ -82,11 +74,14 @@ export default class MealsContainer extends Component {
             <Text style={styles.mealItemQuantityLabel}>Quantity</Text>
           </View>
           {rowData.sources.map((source, index) => {
+            let metricUnit = 'gm';
+            if (source.isPerSingleUnit) metricUnit = '';
+            if (source.hasTableSpoon) metricUnit = 'tbsp';
             return (
               <View style={styles.mealItem} key={index}>
                 <Text style={styles.mealItemName}>{source.name}</Text>
                 <Text style={styles.mealItemQuantity}>
-                  {source.macroValue} gm
+                  {source.macroValue} {metricUnit}
                 </Text>
               </View>
             );
@@ -103,22 +98,15 @@ export default class MealsContainer extends Component {
   };
 
   render() {
-    const multipleSelect = true;
-    const { meals, activeSections, setIconUp } = this.state;
+    const { meals } = this.props;
+    if(meals.length > 0)
+      meals.map(meal => meal.icon = require("../../../assets/images/dish.png"));
     return (
       <ScrollView style={{ backgroundColor: "#494b50", }}>
-        {/* <Accordion
-          activeSections={activeSections}
-          sections={meals}
-          expandMultiple={multipleSelect}
-          renderHeader={this.renderHeader}
-          renderContent={this.renderContent}
-          onChange={this.setSections}
-        /> */}
         {this.renderSelected()}
         <Timeline
           style={styles.list}
-          data={this.state.meals}
+          data={meals}
           circleSize={35}
           circleColor="#00DB8D"
           lineColor="grey"
@@ -129,7 +117,8 @@ export default class MealsContainer extends Component {
           }}
           descriptionStyle={{ color: "gray" }}
           options={{
-            style: { paddingTop: 5 }
+            style: { paddingTop: 5 },
+            enableEmptySections: true
           }}
           showTime="false"
           innerCircle={"icon"}

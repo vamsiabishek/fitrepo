@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types'
 import { Text, View, StyleSheet } from "react-native";
 
-export default class SourceQualtity extends Component {
+export default class SourceQuantity extends Component {
   render() {
     const { source, sourceLabel, metric } = this.props
     return (
@@ -14,13 +14,13 @@ export default class SourceQualtity extends Component {
   }
 }
 
-SourceQualtity.propTypes = {
-  source: PropTypes.string.isRequired,
+SourceQuantity.propTypes = {
+  source: PropTypes.number.isRequired,
   sourceLabel: PropTypes.string.isRequired,
   metric: PropTypes.string,
 }
 
-SourceQualtity.defaultProps = {
+SourceQuantity.defaultProps = {
   metric: 'gm',
 }
 
