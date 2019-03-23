@@ -71,17 +71,17 @@ export const styles = StyleSheet.create({
   },
   mealItemName: {
     width: "60%",
-    fontSize: 16,
+    fontSize: 14,
     color: "white"
   },
   mealItemQuantity: {
     width: "40%",
-    fontSize: 16,
+    fontSize: 14,
     color: "white"
   },
   mealItemQuantityLabel: {
     width: "40%",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     textDecorationLine: "underline",
     color: "white"

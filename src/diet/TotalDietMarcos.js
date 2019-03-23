@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Badge } from "react-native-elements";
 import SourceQuantity from "./SourceQuantity";
-import { calculateTotalCalories } from "./../common/Common";
 import { styles } from "../../assets/style/stylesTotalDietMacros";
 
 export default class TotalDietMacros extends Component {
@@ -11,8 +10,7 @@ export default class TotalDietMacros extends Component {
     const proteinLabel = "Protein";
     const fatLabel = "Fat";
     const totalCalLabel = "Calories";
-    const { protein, fat, carbs } = this.props;
-    const totalCalories = calculateTotalCalories({ protein, fat, carbs });
+    const { protein, fat, carbs, totalCal } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.macrosBarStyle}>
@@ -20,7 +18,7 @@ export default class TotalDietMacros extends Component {
           <SourceQuantity source={carbs} sourceLabel={carbsLabel} />
           <SourceQuantity source={fat} sourceLabel={fatLabel} />
           <View style={{ alignItems: "center" }}>
-            <Badge value={totalCalories} status="primary" />
+            <Badge value={totalCal} status="primary" />
             <Text style={styles.badgeLabel}>{totalCalLabel}</Text>
           </View>
         </View>
