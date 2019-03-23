@@ -33,20 +33,6 @@ export default class CreateDiet extends Component {
     }
   };
 
-  setSelectedSources = ({
-    selectedProteinSources,
-    selectedFatSources,
-    selectedCarbSources,
-    progress
-  }) => {
-    this.setState({
-      selectedProteinSources,
-      selectedFatSources,
-      selectedCarbSources
-    });
-    this.changeSelectionLevel(progress);
-  };
-
   setDietGoals = ({
     selectedGoal,
     selectedProgram,
@@ -82,6 +68,20 @@ export default class CreateDiet extends Component {
     });
     this.changeSelectionLevel(progress);
     this.props.navigation.navigate("Diet");
+  };
+
+  setSelectedSources = ({
+    selectedProteinSources,
+    selectedFatSources,
+    selectedCarbSources,
+    progress
+  }) => {
+    this.setState({
+      selectedProteinSources,
+      selectedFatSources,
+      selectedCarbSources
+    });
+    this.changeSelectionLevel(progress);
   };
 
   createDiet = async ({

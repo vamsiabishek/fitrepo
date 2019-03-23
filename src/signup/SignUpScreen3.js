@@ -15,6 +15,7 @@ import RadioForm from "react-native-simple-radio-button";
 import { styles } from "../../assets/style/stylesSignUpScreen3";
 import { auth, database } from "../common/FirebaseConfig";
 import {
+  LEVEL_COLORS,
   LEVELS_OPTIONS,
   FOOD_PREFERENCES_OPTIONS,
   ICON_SIZE,
@@ -47,6 +48,8 @@ export default class SignUpScreen3 extends Component {
       levels: LEVELS_OPTIONS,
       level: "",
       levelValid: true,
+      levelColor: "",
+      starRating: 0,
       foodPreferences: FOOD_PREFERENCES_OPTIONS,
       foodPreference: "",
       foodPreferenceValid: true,
@@ -116,12 +119,30 @@ export default class SignUpScreen3 extends Component {
   };
   goToHomeScreen = async () => {
     LayoutAnimation.easeInEaseOut();
+    const { level } = this.state;
     const weightValid = this.validateWeight();
     const heightValid = this.validateHeight();
     const levelValid = this.validateLevel();
     const foodPreferenceValid = this.validateFoodPreference();
 
     if (weightValid && heightValid && levelValid && foodPreferenceValid) {
+      // Getting the Level Color to be used based on the user's Level.
+      if (level === "Advanced") {
+        this.setState({
+          starRating: 5,
+          levelColor: LEVEL_COLORS.ADV
+        });
+      } else if (level === "Intermediate") {
+        this.setState({
+          starRating: 3.5,
+          levelColor: LEVEL_COLORS.INT
+        });
+      } else {
+        this.setState({
+          starRating: 1.5,
+          levelColor: LEVEL_COLORS.BEG
+        });
+      }
       this.setState({ isLoading: true });
       try {
         const user = await auth.currentUser;
@@ -135,6 +156,8 @@ export default class SignUpScreen3 extends Component {
   updateUserWithOtherDetails = async user => {
     const {
       level,
+      levelColor,
+      starRating,
       weight,
       height,
       foodPreference,
@@ -144,6 +167,8 @@ export default class SignUpScreen3 extends Component {
     const { navigate } = this.props.navigation;
     const extraUserDetails = {
       level,
+      levelColor,
+      starRating,
       weight,
       height,
       foodPreference,
