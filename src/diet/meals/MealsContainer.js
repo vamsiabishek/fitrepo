@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView, Image } from "react-native";
 //import { meals } from "./meals";
 import { styles } from "../../../assets/style/stylesMealContainer";
 import Icon from "react-native-vector-icons/Octicons";
@@ -100,15 +100,16 @@ export default class MealsContainer extends Component {
   render() {
     const { meals } = this.props;
     if(meals.length > 0)
-      meals.map(meal => meal.icon = require("../../../assets/images/dish.png"));
+      meals.map(meal => meal.icon = require("../../../assets/images/meal_1.png"));
     return (
-      <ScrollView style={{ backgroundColor: "#494b50", }}>
+      <ScrollView style={{ backgroundColor: "#28292B", }}>
         {this.renderSelected()}
         <Timeline
           style={styles.list}
           data={meals}
           circleSize={35}
           circleColor="#00DB8D"
+          //circleColor="white"
           lineColor="grey"
           timeStyle={{
             textAlign: "center",

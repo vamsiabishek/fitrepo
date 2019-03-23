@@ -57,6 +57,8 @@ export const GENDER_NAMES = {
   TRANSG: "chess-knight"
 };
 export const BG_IMAGE = require("../../assets/images/barbell.jpg");
+export const NON_VEG_ICON = require("../../assets/images/non-veg.png");
+export const VEG_ICON = require("../../assets/images/veg.png");
 export const EMAIL_VERIFICATION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const PASSWORD_LENGTH_MINIMUM = 8;
 export const AVATAR_SIZE = 100;

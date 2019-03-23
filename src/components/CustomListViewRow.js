@@ -1,8 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Badge } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { ICON_SIZE_MED, ICON_SIZE_LARGE } from "../common/Common";
+import {
+  ICON_SIZE_MED,
+  ICON_SIZE_LARGE,
+  NON_VEG_ICON,
+  VEG_ICON
+} from "../common/Common";
+import { timeConverter } from "../common/Util";
 
 const styles = StyleSheet.create({
   container: {
@@ -17,6 +23,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#494b50",
     elevation: 2
   },
+  titleContainer: {
+    flexDirection: "row"
+  },
   title: {
     fontSize: 17,
     color: "#FFF"
@@ -24,10 +33,27 @@ const styles = StyleSheet.create({
   container_text: {
     marginLeft: 12
   },
+  vegContainer: {
+    backgroundColor: "white",
+    marginLeft: 10,
+    borderRadius: 4
+  },
+  vegIcon: {
+    height: 24,
+    width: 24,
+    paddingLeft: 10
+  },
+  descriptionContainer: {
+    paddingVertical: 6
+  },
   description: {
     fontSize: 13,
     fontStyle: "italic",
     color: "lightgrey"
+  },
+  likesContainer: {
+    flexDirection: "row",
+    paddingTop: 5
   },
   photo: {
     height: 25,
@@ -42,6 +68,21 @@ const styles = StyleSheet.create({
     padding: 3,
     fontWeight: "bold"
   },
+  timeStampContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    marginLeft: 60
+  },
+  timeStamp: {
+    fontSize: 12,
+    color: "lightgrey"
+  },
+  timeStampLabel: {
+    fontSize: 12,
+    color: "lightgrey"
+  },
   rightIcon: {
     flex: 1,
     alignItems: "flex-end",
@@ -50,16 +91,35 @@ const styles = StyleSheet.create({
 });
 
 const CustomListViewRow = ({
-  item: { goal, program, isVegetarian, numberOfMeals, likes, dietId },
+  item: {
+    goal,
+    program,
+    isVegetarian,
+    numberOfMeals,
+    likes,
+    dietId,
+    createdDate
+  },
   navigation
 }) => (
   <View style={styles.container}>
     <View style={styles.container_text}>
-      <Text style={styles.title}>{goal}</Text>
-      <Text style={styles.description}>{program}</Text>
-      <Text style={styles.description}>{numberOfMeals}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{goal}</Text>
+        <TouchableOpacity style={styles.vegContainer}>
+          <Image
+            style={styles.vegIcon}
+            source={isVegetarian ? VEG_ICON : NON_VEG_ICON}
+          />
+        </TouchableOpacity>
+      </View>
 
-      <View style={{ flexDirection: "row", paddingTop: 5 }}>
+      <View style={styles.descriptionContainer}>
+        <Text style={styles.description}>{program}</Text>
+        <Text style={styles.description}>{numberOfMeals}</Text>
+      </View>
+
+      <View style={styles.likesContainer}>
         <Icon
           name="star"
           size={ICON_SIZE_MED}
@@ -69,12 +129,11 @@ const CustomListViewRow = ({
         <Text style={styles.likesLabel}>{likes} Likes</Text>
       </View>
     </View>
-    <View>
-      <Badge
-        value={isVegetarian ? "Vegetarian" : "Non-Vegetarian"}
-        status={isVegetarian ? "success" : "error"}
-      />
+    <View style={styles.timeStampContainer}>
+      <Text style={styles.timeStampLabel}>Created:</Text>
+      <Text style={styles.timeStamp}>{timeConverter(createdDate)}</Text>
     </View>
+
     <View style={styles.rightIcon}>
       <TouchableOpacity onPress={() => navigation.navigate("MyDiet")}>
         <Icon name="chevron-right" size={ICON_SIZE_LARGE} color="grey" />

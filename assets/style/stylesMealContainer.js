@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textShadowColor: 'black',
-    textShadowOffset: {width: -3, height: 2},
+    textShadowOffset: {width: -3, height: 5},
     textShadowRadius: 20,
     color: "#00DB8D"
   },
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     fontWeight: "300",
-   // color: "#36373A",
+    color: "#36373A",
   },
   headerIcon: {
     alignItems: "flex-end",
@@ -50,6 +50,7 @@ export const styles = StyleSheet.create({
   content: {
     padding: 20,
     backgroundColor: "#36373A"
+    //backgroundColor: "#28292B"
   },
   active: {
     backgroundColor: "rgba(255,252,255,1)"
@@ -60,8 +61,12 @@ export const styles = StyleSheet.create({
   mealContainer: {
     flex: 1,
     paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderColor: 'lightgrey',
+    //borderBottomWidth: 1,
+    //borderColor: '#696969',
+    marginLeft: 10,
+    backgroundColor: "#494b50",
+    padding: 10,
+    borderRadius: 15,
   },
   mealItem: {
     flexDirection: "row",
