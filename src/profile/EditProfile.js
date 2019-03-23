@@ -40,22 +40,29 @@ export default class EditProfile extends Component {
       });
     }
   };
-  setSubScreen1UserVals = (userNew, progress) => {
-    this.updateUserProfile(userNew, (subScreen2 = false));
+  setSubScreen1UserVals = (setUserPartial, progress) => {
+    this.updateUserProfile(setUserPartial, (subScreen2 = false));
     this.changeSelectedSubScreen(progress);
   };
-  setSubScreen2UserVals = userNew => {
-    this.updateUserProfile(userNew);
+  setSubScreen2UserVals = setUserPartial => {
+    this.updateUserProfile(setUserPartial);
   };
-  updateUserProfile = async (userNew, subScreen2 = true) => {
+  updateUserProfile = async (setUserPartial, subScreen2 = true) => {
+    const { userId, user } = this.state;
+    const { navigation } = this.props;
     const { navigate } = this.props.navigation;
-    const currentUser = await f.auth().currentUser;
+    const haveNavigated = true;
+    const updateUserOnProfile = navigation.getParam("updateProfileCall");
     database
       .ref("users")
-      .child(currentUser.uid)
-      .update(userNew)
+      .child(userId)
+      .update(setUserPartial)
       .then(() => {
-        //console.log("Successfully updated existing user with details");
+        console.log("Successfully updated existing user with details");
+        this.setState({
+          user: { ...user, ...setUserPartial }
+        });
+        updateUserOnProfile(setUserPartial, haveNavigated);
         if (subScreen2 === true) {
           navigate("Profile");
         }

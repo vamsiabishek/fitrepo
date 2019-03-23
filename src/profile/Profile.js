@@ -52,7 +52,7 @@ export default class Profile extends Component {
     navigate("EditProfile", {
       userLoggedIn: user,
       userId: uid,
-      updateProfile: this.updateProfileCall
+      updateProfileCall: this.updateProfileCall
     });
   };
 
@@ -68,48 +68,6 @@ export default class Profile extends Component {
         isLoading: false
       });
     }
-  };
-  updateImageInDatabase = () => {
-    const { avatarSource, uid } = this.state;
-    const extraProfilePic = {
-      avatarSource
-    };
-    database
-      .ref("users")
-      .child(uid)
-      .update(extraProfilePic)
-      .then(() => {
-        //console.log("Avatar Source: ", avatarSource);
-        this.setState({
-          avatarChanged: true
-        });
-      })
-      .catch(error => {
-        console.log("error while updating with profile pic url: ", error);
-      });
-  };
-  forceUpdate = () => {
-    //console.log("In force update !");
-    const { uid } = this.state;
-    database
-      .ref("users")
-      .child(uid)
-      .once("value")
-      .then(snapshot => {
-        const userLoggedIn = snapshot.val();
-        this.setState({
-          user: userLoggedIn,
-          avatarChanged: false
-        });
-      });
-  };
-  goToEditProfile = () => {
-    const { navigate } = this.props.navigation;
-    const { user } = this.state;
-    navigate("EditProfile", {
-      userLoggedIn: user
-    });
-    console.log("did navigate work ?");
   };
   componentDidMount = async () => {
     const currentUser = await f.auth().currentUser;
