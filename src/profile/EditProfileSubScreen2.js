@@ -20,6 +20,7 @@ import {
   MAX_HEIGHT,
   BUTTON_SIZE,
   BUTTON_OUTER_SIZE,
+  LEVEL_COLORS,
   LEVELS_OPTIONS,
   FOOD_PREFERENCES_OPTIONS,
   NUMERIC_INPUT_WIDTH,
@@ -36,23 +37,38 @@ export default class EditProfileSubScreen2 extends Component {
     this.state = {
       isLoading: false,
       user: props.userDets,
-      weight: props.userDets.weight,
       weightValid: true,
       errorMsgWeight: "",
-      height: props.userDets.height,
       heightValid: true,
       errorMsgHeight: "",
       levels: LEVELS_OPTIONS,
-      level: props.userDets.level,
       levelValid: true,
       foodPreferences: FOOD_PREFERENCES_OPTIONS,
-      foodPreference: props.userDets.foodPreference,
       foodPreferenceValid: true
     };
   }
-
+  handleLevelcolorAndStarRating = level => {
+    // Getting the Level Color to be used based on the user's Level.
+    let { user } = this.state;
+    let starRating, levelColor;
+    if (level === "Advanced") {
+      (starRating = 5), (levelColor = LEVEL_COLORS.ADV);
+    } else if (level === "Intermediate") {
+      (starRating = 3.5), (levelColor = LEVEL_COLORS.INT);
+    } else {
+      (starRating = 1.5), (levelColor = LEVEL_COLORS.BEG);
+    }
+    this.setState({
+      user: {
+        ...user,
+        level,
+        starRating,
+        levelColor
+      }
+    });
+  };
   validateWeight = () => {
-    const { weight } = this.state;
+    const { weight } = this.state.user;
     if (weight !== 0) {
       const weightValid =
         (weight > MIN_WEIGHT || weight === MIN_WEIGHT) &&
@@ -69,7 +85,7 @@ export default class EditProfileSubScreen2 extends Component {
     }
   };
   validateHeight = () => {
-    const { height } = this.state;
+    const { height } = this.state.user;
     if (height !== 0) {
       const heightValid =
         (height > MIN_HEIGHT || height === MIN_HEIGHT) &&
@@ -86,51 +102,55 @@ export default class EditProfileSubScreen2 extends Component {
     }
   };
   validateLevel = () => {
-    const { level } = this.state;
+    const { level } = this.state.user;
     const levelValid = level.length > 0;
     this.setState({ levelValid });
     return levelValid;
   };
   validateFoodPreference = () => {
-    const { foodPreference } = this.state;
+    const { foodPreference } = this.state.user;
     const foodPreferenceValid = foodPreference.length > 0;
     this.setState({ foodPreferenceValid });
     return foodPreferenceValid;
   };
   goToProfile = () => {
     LayoutAnimation.easeInEaseOut();
-    const { user, weight, height, level, foodPreference } = this.state;
+    let { user } = this.state;
+    const {
+      weight,
+      height,
+      level,
+      levelColor,
+      starRating,
+      foodPreference
+    } = this.state.user;
     const weightValid = this.validateWeight();
     const heightValid = this.validateHeight();
     const levelValid = this.validateLevel();
     const foodPreferenceValid = this.validateFoodPreference();
     if (weightValid && heightValid && levelValid && foodPreferenceValid) {
-      let setUser = { ...user };
-      setUser.weight = weight;
-      setUser.height = height;
-      setUser.level = level;
-      setUser.foodPreference = foodPreference;
-      console.log(setUser);
-      this.setState({
-        isLoading: true
-      });
-      this.props.setSubScreenUserVals(setUser);
+      const setUserPartial = {
+        weight,
+        height,
+        level,
+        levelColor,
+        starRating,
+        foodPreference
+      };
+      this.props.setSubScreenUserVals(setUserPartial);
     }
   };
   render() {
     const {
       isLoading,
-      weight,
+      user,
       weightValid,
       errorMsgWeight,
-      height,
       heightValid,
       errorMsgHeight,
       levels,
-      level,
       levelValid,
       foodPreferences,
-      foodPreference,
       foodPreferenceValid
     } = this.state;
     return (
@@ -154,11 +174,13 @@ export default class EditProfileSubScreen2 extends Component {
                     </View>
                   </View>
                   <NumericInput
-                    value={weight}
-                    initValue={weight}
+                    value={user.weight}
+                    initValue={user.weight}
                     minValue={MIN_WEIGHT}
                     maxValue={MAX_WEIGHT}
-                    onChange={value => this.setState({ weight: value })}
+                    onChange={weight =>
+                      this.setState({ user: { ...user, weight } })
+                    }
                     totalWidth={NUMERIC_INPUT_WIDTH}
                     totalHeight={NUMERIC_INPUT_HEIGHT}
                     iconSize={ICON_SIZE}
@@ -192,11 +214,13 @@ export default class EditProfileSubScreen2 extends Component {
                     </View>
                   </View>
                   <NumericInput
-                    value={height}
-                    initValue={height}
+                    value={user.height}
+                    initValue={user.height}
                     minValue={MIN_HEIGHT}
                     maxValue={MAX_HEIGHT}
-                    onChange={value => this.setState({ height: value })}
+                    onChange={height =>
+                      this.setState({ user: { ...user, height } })
+                    }
                     totalWidth={NUMERIC_INPUT_WIDTH}
                     totalHeight={NUMERIC_INPUT_HEIGHT}
                     type="up-down"
@@ -231,7 +255,7 @@ export default class EditProfileSubScreen2 extends Component {
                       formHorizontal={true}
                       labelHorizontal={true}
                       radio_props={levels}
-                      value={level}
+                      value={user.level}
                       ref={input => (this.levelInput = input)}
                       initial={-1}
                       borderWidth={styles.radioButtonDes.borderWidth}
@@ -241,9 +265,9 @@ export default class EditProfileSubScreen2 extends Component {
                       buttonOuterSize={BUTTON_OUTER_SIZE}
                       labelStyle={styles.levelRadioButtonLabelStyle}
                       buttonWrapStyle={styles.radioButtonWrapStyle}
-                      onPress={value => {
-                        this.setState({ level: value });
-                      }}
+                      onPress={level =>
+                        this.handleLevelcolorAndStarRating(level)
+                      }
                     />
                   </View>
                 </View>
@@ -270,7 +294,7 @@ export default class EditProfileSubScreen2 extends Component {
                       formHorizontal={true}
                       labelHorizontal={true}
                       radio_props={foodPreferences}
-                      value={foodPreference}
+                      value={user.foodPreference}
                       ref={input => (this.foodPreferenceInput = input)}
                       initial={-1}
                       borderWidth={styles.radioButtonDes.borderWidth}
@@ -280,8 +304,8 @@ export default class EditProfileSubScreen2 extends Component {
                       buttonOuterSize={BUTTON_OUTER_SIZE}
                       labelStyle={styles.radioButtonLabelStyle}
                       buttonWrapStyle={styles.radioButtonWrapStyle}
-                      onPress={value => {
-                        this.setState({ foodPreference: value });
+                      onPress={foodPreference => {
+                        this.setState({ user: { ...user, foodPreference } });
                       }}
                     />
                   </View>

@@ -33,6 +33,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 120
   },
+  avatarOverlayContainerStyle: {
+    backgroundColor: "#636568"
+  },
+  avatarImagePropsStyle: {
+    backgroundColor: "#636568"
+  },
   profileBannerStyle: {
     justifyContent: "center",
     alignContent: "center",
@@ -71,6 +77,15 @@ const styles = StyleSheet.create({
   profileBannerTextStyle: {
     fontSize: 14,
     color: "white"
+  },
+  profileStarColor: {
+    color: "#f8bf45"
+  },
+  profileButtonIconStyle: {
+    color: "#00DB8D"
+  },
+  profileButtonStyle: {
+    backgroundColor: "transparent"
   },
   scrollViewContainerStyle: {
     flex: 1,
@@ -147,6 +162,24 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "bold",
     color: "white"
+  },
+  avatarHumanOverlayStyle: {
+    backgroundColor: "transparent"
+  },
+  progressCircleColor: {
+    color: "#00DB8D"
+  },
+  progressCircleShadowColor: {
+    color: "#999"
+  },
+  progressCircleBgColor: {
+    color: "#28292B"
+  },
+  progressBarBgColorComplete: {
+    color: "#00DB8D"
+  },
+  progressBarBgColor: {
+    color: "#00DB8D"
   }
 });
 

@@ -69,3 +69,7 @@ export const MIN_WEIGHT = 40;
 export const MAX_WEIGHT = 110;
 export const MIN_HEIGHT = 140;
 export const MAX_HEIGHT = 199;
+export const STAR_RATING_MAX = 5;
+export const PROGRESS_BAR_WIDTH = 300;
+export const PROGRESS_CIRCLE_RADIUS = 65;
+export const PROGRESS_CIRCLE_BORDER_WIDTH = 8;

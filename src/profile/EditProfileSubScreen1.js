@@ -32,29 +32,24 @@ export default class EditProfileSubScreen1 extends Component {
     this.state = {
       isLoading: false,
       user: props.userDets,
-      username: props.userDets.username,
-      email: props.userDets.email,
       usernameValid: true,
       emailValid: true,
-      name: props.userDets.name,
       nameValid: true,
       genders: [
         { label: "Female", value: "Female" },
         { label: "Male", value: "Male" },
         { label: "Other", value: "Other" }
       ],
-      gender: props.userDets.gender,
       genderValid: true,
-      dob: props.userDets.dob,
       isDTPickerVisible: false,
       dobAgeValid: true,
-      age: props.userDets.age,
       errorMsgWtAge: ""
     };
+    this.s;
   }
 
   validateUsername = () => {
-    const { username } = this.state;
+    const { username } = this.state.user;
     const usernameValid = username.length > 0;
     LayoutAnimation.easeInEaseOut();
     this.setState({ usernameValid });
@@ -62,7 +57,7 @@ export default class EditProfileSubScreen1 extends Component {
     return usernameValid;
   };
   validateEmail = () => {
-    const { email } = this.state;
+    const { email } = this.state.user;
     const emailValid = EMAIL_VERIFICATION.test(email);
     LayoutAnimation.easeInEaseOut();
     this.setState({ emailValid });
@@ -88,7 +83,7 @@ export default class EditProfileSubScreen1 extends Component {
     this.hideDTPicker();
   };
   validateName = () => {
-    const { name } = this.state;
+    const { name } = this.state.user;
     const nameValid = name.length > 0;
     LayoutAnimation.easeInEaseOut();
     this.setState({ nameValid });
@@ -96,7 +91,7 @@ export default class EditProfileSubScreen1 extends Component {
     return nameValid;
   };
   validateDobAndAge = () => {
-    const { dob, age } = this.state;
+    const { dob, age } = this.state.user;
     if (age !== null) {
       const dobAgeValid = dob.length > 0 && age > 18;
       const errorMsgWtAge = "You should be 18 years & above!";
@@ -114,7 +109,7 @@ export default class EditProfileSubScreen1 extends Component {
     }
   };
   validateGender = () => {
-    const { gender } = this.state;
+    const { gender } = this.state.user;
     const genderValid = gender.length > 0;
     //LayoutAnimation.easeInEaseOut();
     this.setState({ genderValid });
@@ -122,7 +117,7 @@ export default class EditProfileSubScreen1 extends Component {
   };
   goToNextSubSection = () => {
     LayoutAnimation.easeInEaseOut();
-    const { user, username, name, email, dob, age, gender } = this.state;
+    const { name, username, dob, age, email, gender } = this.state.user;
     const usernameValid = this.validateUsername();
     const emailValid = this.validateEmail();
     const nameValid = this.validateName();
@@ -136,34 +131,27 @@ export default class EditProfileSubScreen1 extends Component {
       nameValid &&
       genderValid
     ) {
-      let setUser = { ...user };
-      setUser.username = username;
-      setUser.name = name;
-      setUser.email = email;
-      setUser.dob = dob;
-      setUser.age = age;
-      setUser.gender = gender;
-      this.setState({
-        isLoading: true
-      });
-      console.log(setUser);
-      this.props.setSubScreenUserVals(setUser, progress);
+      const setUserPartial = {
+        name,
+        username,
+        dob,
+        age,
+        email,
+        gender
+      };
+      this.props.setSubScreenUserVals(setUserPartial, progress);
     }
   };
   render() {
     const {
       isLoading,
-      email,
+      user,
       emailValid,
-      username,
       usernameValid,
-      name,
       nameValid,
       genders,
-      gender,
       genderValid,
       isDTPickerVisible,
-      dob,
       dobAgeValid,
       errorMsgWtAge
     } = this.state;
@@ -192,8 +180,10 @@ export default class EditProfileSubScreen1 extends Component {
                   keyboardAppearance="dark"
                   keyboardType="default"
                   returnKeyType="done"
-                  onChangeText={username => this.setState({ username })}
-                  value={username}
+                  onChangeText={username =>
+                    this.setState({ user: { ...user, username } })
+                  }
+                  value={user.username}
                   ref={input => (this.usernameInput = input)}
                   onSubmitEditing={() => {
                     this.setState({ usernameValid: this.validateUsername });
@@ -219,8 +209,10 @@ export default class EditProfileSubScreen1 extends Component {
                   autoCorrect={false}
                   blurOnSubmit={true}
                   returnKeyType="done"
-                  onChangeText={email => this.setState({ email })}
-                  value={email}
+                  onChangeText={email =>
+                    this.setState({ user: { ...user, email } })
+                  }
+                  value={user.email}
                   ref={input => (this.emailInput = input)}
                   onSubmitEditing={() => {
                     this.setState({ emailValid: this.validateEmail });
@@ -244,8 +236,10 @@ export default class EditProfileSubScreen1 extends Component {
                   inputContainerStyle={styles.inputContainer}
                   inputStyle={styles.inputStyle}
                   errorStyle={styles.errorInputStyle}
-                  onChangeText={name => this.setState({ name })}
-                  value={name}
+                  onChangeText={name =>
+                    this.setState({ user: { ...user, name } })
+                  }
+                  value={user.name}
                   keyboardAppearance="light"
                   keyboardType="default"
                   autoCapitalize="words"
@@ -270,8 +264,10 @@ export default class EditProfileSubScreen1 extends Component {
                     inputContainerStyle={styles.inputContainer}
                     inputStyle={styles.inputStyle}
                     errorStyle={styles.errorInputStyle}
-                    onChangeText={dob => this.setState({ dob })}
-                    value={dob}
+                    onChangeText={dob =>
+                      this.setState({ user: { ...user, dob } })
+                    }
+                    value={user.dob}
                     keyboardAppearance="light"
                     keyboardType="default"
                     autoCorrect={false}
@@ -310,7 +306,7 @@ export default class EditProfileSubScreen1 extends Component {
                         formHorizontal={true}
                         labelHorizontal={true}
                         radio_props={genders}
-                        value={gender}
+                        value={user.gender}
                         ref={input => (this.genderInput = input)}
                         initial={-1}
                         borderWidth={styles.radioButtonDes.borderWidth}
@@ -320,8 +316,8 @@ export default class EditProfileSubScreen1 extends Component {
                         buttonOuterSize={BUTTON_OUTER_SIZE}
                         labelStyle={styles.radioButtonLabelStyle}
                         buttonWrapStyle={styles.radioButtonWrapStyle}
-                        onPress={value => {
-                          this.setState({ gender: value });
+                        onPress={gender => {
+                          this.setState({ user: { ...user, gender } });
                         }}
                       />
                     </View>

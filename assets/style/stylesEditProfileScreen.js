@@ -261,6 +261,12 @@ const styles = StyleSheet.create({
   profileButtonIconStyle: {
     color: "#00DB8D",
     paddingTop: 2
+  },
+  avatarOverlayContainerStyle: {
+    backgroundColor: "#636568"
+  },
+  avatarImagePropsStyle: {
+    backgroundColor: "#636568"
   }
 });
 

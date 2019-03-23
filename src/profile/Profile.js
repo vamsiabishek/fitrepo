@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  LayoutAnimation,
   ScrollView,
   StatusBar,
   Text,
@@ -14,14 +13,17 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import StarRating from "react-native-star-rating";
 import ProgressCircle from "react-native-progress-circle";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
-import ImagePicker from "react-native-image-picker";
 import { styles } from "../../assets/style/stylesProfileScreen";
-import { f, database, storage } from "../common/FirebaseConfig";
+import { f, database } from "../common/FirebaseConfig";
 import {
   GRADIENT_COLORS_ARRAY,
+  AVATAR_SIZE,
   ICON_SIZE,
   ICON_SIZE_MED,
-  LEVEL_COLORS
+  STAR_RATING_MAX,
+  PROGRESS_BAR_WIDTH,
+  PROGRESS_CIRCLE_RADIUS,
+  PROGRESS_CIRCLE_BORDER_WIDTH
 } from "../common/Common";
 
 // Enable LayoutAnimation for Android Devices
@@ -37,141 +39,37 @@ export default class Profile extends Component {
       user: {},
       avatarSource: "",
       avatarChanged: false,
-      levelColor: LEVEL_COLORS.BEG,
-      starRating: 1.5,
       programCompletedPercent: 10, // Completion percent,
       goalCompletedPercent: 30,
       programChosen: "4-week program",
       goalChosen: "Fat-Loss"
     };
   }
-  // randomNumberGenerator
-  RNG = () =>
-    Math.floor((1 + Math.random()) * 0x1000)
-      .toString(16)
-      .substring(1);
-  uniqueImageId = () => {
-    return (
-      this.RNG() +
-      this.RNG() +
-      "-" +
-      this.RNG() +
-      "-" +
-      this.RNG() +
-      "-" +
-      this.RNG() +
-      "-" +
-      this.RNG() +
-      "-" +
-      this.RNG()
-    );
-  };
-  uploadImageClicked = () => {
-    const uploadOptions = {
-      title: "Select Photo",
-      storageOptions: {
-        skipBackup: true,
-        path: "images"
-      }
-    };
-    ImagePicker.showImagePicker(uploadOptions, response => {
-      console.log("Response = ", response);
-      if (response.didCancel) {
-        console.log("User cancelled Image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custon button: ", response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        this.uploadImage(response.uri, response.data);
-        this.setState({
-          avatarSource: source.uri
-        });
-        console.log(this.state.avatarSource);
-      }
-    });
-  };
-  uploadImage = async (uri, base64) => {
-    let that = this;
-    const fileExtension = uri.slice(uri.lastIndexOf(".") + 1);
-    const imageId = that.uniqueImageId();
-    const filePath = imageId + "." + fileExtension;
-    const { uid } = this.state;
-    storage
-      .ref("users/" + uid + "/img")
-      .child(filePath)
-      .putString(base64, "base64", {
-        contentType: "image/jpeg"
-      })
-      .on(
-        "state_changed",
-        snapshot => {
-          console.log(
-            "Progress: ",
-            snapshot.bytesTransferred,
-            snapshot.totalBytes
-          );
-        },
-        error => {},
-        () => {
-          storage
-            .ref("users/" + uid + "/img")
-            .child(filePath)
-            .getDownloadURL()
-            .then(url => {
-              console.log("download url:", url);
-              this.setState({
-                avatarSource: url
-              });
-              this.updateImageInDatabase();
-              this.forceUpdate();
-            });
-        }
-      );
-  };
-  updateImageInDatabase = () => {
-    const { avatarSource, uid } = this.state;
-    const extraProfilePic = {
-      avatarSource
-    };
-    database
-      .ref("users")
-      .child(uid)
-      .update(extraProfilePic)
-      .then(() => {
-        //console.log("Avatar Source: ", avatarSource);
-        this.setState({
-          avatarChanged: true
-        });
-      })
-      .catch(error => {
-        console.log("error while updating with profile pic url: ", error);
-      });
-  };
-  forceUpdate = () => {
-    //console.log("In force update !");
-    const { uid } = this.state;
-    database
-      .ref("users")
-      .child(uid)
-      .once("value")
-      .then(snapshot => {
-        const userLoggedIn = snapshot.val();
-        this.setState({
-          user: userLoggedIn,
-          avatarChanged: false
-        });
-      });
-  };
+
   goToEditProfile = () => {
     const { navigate } = this.props.navigation;
-    const { user } = this.state;
+    const { user, uid } = this.state;
     navigate("EditProfile", {
-      userLoggedIn: user
+      userLoggedIn: user,
+      userId: uid,
+      updateProfile: this.updateProfileCall
     });
-    console.log("did navigate work ?");
   };
+
+  updateProfileCall = (recievedData, haveNavigated = false) => {
+    const { user } = this.state;
+    if (haveNavigated === true) {
+      this.setState({
+        user: { ...user, ...recievedData }
+      });
+    } else {
+      this.setState({
+        user: recievedData,
+        isLoading: false
+      });
+    }
+  };
+
   componentDidMount = async () => {
     const currentUser = await f.auth().currentUser;
     this.setState({
@@ -184,27 +82,7 @@ export default class Profile extends Component {
       .once("value")
       .then(snapshot => {
         const userLoggedIn = snapshot.val();
-        this.setState({
-          user: userLoggedIn,
-          isLoading: false
-        });
-        // Getting the Level Color to be used based on the user's Level.
-        if (userLoggedIn.level === "Advanced") {
-          this.setState({
-            starRating: 5,
-            levelColor: LEVEL_COLORS.ADV
-          });
-        } else if (userLoggedIn.level === "Intermediate") {
-          this.setState({
-            starRating: 3.5,
-            levelColor: LEVEL_COLORS.INT
-          });
-        } else {
-          this.setState({
-            starRating: 1.5,
-            levelColor: LEVEL_COLORS.BEG
-          });
-        }
+        this.updateProfileCall(userLoggedIn);
       })
       .catch(error => {
         console.log(
@@ -213,13 +91,11 @@ export default class Profile extends Component {
         );
       });
   };
+
   render() {
     const {
       isLoading,
-      avatarChanged,
       user,
-      levelColor,
-      starRating,
       programChosen,
       programCompletedPercent,
       goalChosen,
@@ -240,52 +116,18 @@ export default class Profile extends Component {
                   style={styles.bannergradientStyle}
                 >
                   <View style={styles.avatarContainer}>
-                    {avatarChanged && (
-                      <Avatar
-                        size={100}
-                        rounded
-                        showEditButton
-                        overlayContainerStyle={{ backgroundColor: "#636568" }}
-                        source={{ uri: user.avatarSource }}
-                        imageProps={{
-                          backgroundColor: "#636568"
-                        }}
-                        renderPlaceholderContent={
-                          <ActivityIndicator color="white" />
-                        }
-                        editButton={{
-                          type: "material-community",
-                          name: "pencil-outline",
-                          color: "white",
-                          style: { backgroundColor: "#636568" },
-                          size: ICON_SIZE
-                        }}
-                        onEditPress={this.uploadImageClicked}
-                      />
-                    )}
-                    {!avatarChanged && (
-                      <Avatar
-                        size={100}
-                        rounded
-                        showEditButton
-                        overlayContainerStyle={{ backgroundColor: "#636568" }}
-                        source={{ uri: user.avatarSource }}
-                        imageProps={{
-                          backgroundColor: "#636568"
-                        }}
-                        renderPlaceholderContent={
-                          <ActivityIndicator color="white" />
-                        }
-                        editButton={{
-                          type: "material-community",
-                          name: "pencil-outline",
-                          color: "white",
-                          style: { backgroundColor: "#636568" },
-                          size: ICON_SIZE
-                        }}
-                        onEditPress={this.uploadImageClicked}
-                      />
-                    )}
+                    <Avatar
+                      size={AVATAR_SIZE}
+                      rounded
+                      overlayContainerStyle={styles.avatarOverlayContainerStyle}
+                      icon={{
+                        type: "material-community",
+                        name: "chess-bishop",
+                        color: "white"
+                      }}
+                      //source={{ uri: user.avatarSource }}
+                      imageProps={styles.avatarImagePropsStyle}
+                    />
                   </View>
                 </LinearGradient>
               </View>
@@ -301,22 +143,22 @@ export default class Profile extends Component {
                 <Icon
                   name="trophy-variant" // "medal"
                   size={ICON_SIZE}
-                  color={levelColor}
+                  color={user.levelColor}
                 />
                 <Text style={styles.profileBannerTextStyle}>Level</Text>
               </View>
               <View style={styles.profileSubBannerBoxStyle}>
                 <StarRating
                   disabled={false}
-                  maxStars={5}
-                  rating={starRating}
+                  maxStars={STAR_RATING_MAX}
+                  rating={user.starRating}
                   starSize={ICON_SIZE}
                   emptyStar="star-outline"
                   fullStar="star"
                   halfStar="star-half"
                   iconSet="MaterialCommunityIcons"
-                  fullStarColor="#f8bf45"
-                  emptyStarColor="#f8bf45"
+                  fullStarColor={styles.profileStarColor.color}
+                  emptyStarColor={styles.profileStarColor.color}
                 />
                 <Text style={styles.profileBannerTextStyle}>Expertise</Text>
               </View>
@@ -326,12 +168,10 @@ export default class Profile extends Component {
                     <Icon
                       name="account-edit"
                       size={ICON_SIZE}
-                      color="#00DB8D"
+                      style={styles.profileButtonIconStyle}
                     />
                   }
-                  buttonStyle={{
-                    backgroundColor: "transparent"
-                  }}
+                  buttonStyle={styles.profileButtonStyle}
                   onPress={this.goToEditProfile}
                 />
 
@@ -355,31 +195,29 @@ export default class Profile extends Component {
                   <View style={styles.boxContentRowContainerStyle}>
                     <ProgressCircle
                       percent={10}
-                      radius={65}
-                      borderWidth={8}
-                      color="#00db8d"
-                      shadowColor="#999" //"#6b6d72"
-                      bgColor="#28292B"
+                      radius={PROGRESS_CIRCLE_RADIUS}
+                      borderWidth={PROGRESS_CIRCLE_BORDER_WIDTH}
+                      color={styles.progressCircleColor.color}
+                      shadowColor={styles.progressCircleShadowColor.color}
+                      bgColor={styles.progressCircleBgColor.color}
                     >
                       <Avatar
                         rounded
-                        size={100}
+                        size={AVATAR_SIZE}
                         source={require("../../assets/images/edited-Vitruvian-Man.png")}
                         imageProps={{ resizeMode: "contain" }}
-                        overlayContainerStyle={{
-                          backgroundColor: "transparent" // "#28292B"
-                        }}
+                        overlayContainerStyle={styles.avatarHumanOverlayStyle}
                       />
                     </ProgressCircle>
                     <View style={styles.boxContentTextStyle}>
                       <Text style={styles.boxTextStyle}>
-                        Current Weight: 60 kgs
+                        Current Weight: {user.weight} kgs
                       </Text>
                       <Text style={styles.boxTextStyle}>
-                        Target Weight: 54 kgs
+                        Target Weight: 75 kgs
                       </Text>
                       <Text style={styles.boxTextStyle}>
-                        Ideal Weight: (47 - 58) kgs
+                        Ideal Weight: (60 - 80) kgs
                       </Text>
                     </View>
                   </View>
@@ -401,7 +239,7 @@ export default class Profile extends Component {
                         Program choosen: {programChosen}
                       </Text>
                       <ProgressBarAnimated
-                        width={300}
+                        width={PROGRESS_BAR_WIDTH}
                         value={programCompletedPercent}
                         backgroundColorOnComplete="#00DB8D"
                         backgroundColor="#00DB8D"
@@ -412,10 +250,12 @@ export default class Profile extends Component {
                         Goal choosen: {goalChosen}
                       </Text>
                       <ProgressBarAnimated
-                        width={300}
+                        width={PROGRESS_BAR_WIDTH}
                         value={goalCompletedPercent}
-                        backgroundColorOnComplete="#00DB8D"
-                        backgroundColor="#00DB8D"
+                        backgroundColorOnComplete={
+                          styles.progressBarBgColorComplete.color
+                        }
+                        backgroundColor={styles.progressBarBgColor.color}
                       />
                     </View>
                   </View>
