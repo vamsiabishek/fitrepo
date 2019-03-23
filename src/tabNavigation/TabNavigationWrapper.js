@@ -172,7 +172,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Diet",
     defaultNavigationOptions: {
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,

@@ -92,31 +92,26 @@ const styles = StyleSheet.create({
 
 const CustomListViewRow = ({
   item: {
-    goal,
-    program,
-    isVegetarian,
-    numberOfMeals,
-    likes,
-    dietId,
-    createdDate
+    key,
+    value: { selectedGoal, selectedProgram, isVeg, selectedMeals, likes, createdDate }
   },
   navigation
 }) => (
   <View style={styles.container}>
     <View style={styles.container_text}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{goal}</Text>
+        <Text style={styles.title}>{selectedGoal}</Text>
         <TouchableOpacity style={styles.vegContainer}>
           <Image
             style={styles.vegIcon}
-            source={isVegetarian ? VEG_ICON : NON_VEG_ICON}
+            source={isVeg ? VEG_ICON : NON_VEG_ICON}
           />
         </TouchableOpacity>
       </View>
 
       <View style={styles.descriptionContainer}>
-        <Text style={styles.description}>{program}</Text>
-        <Text style={styles.description}>{numberOfMeals}</Text>
+        <Text style={styles.description}>{selectedProgram}</Text>
+        <Text style={styles.description}>{selectedMeals}</Text>
       </View>
 
       <View style={styles.likesContainer}>
@@ -135,7 +130,7 @@ const CustomListViewRow = ({
     </View>
 
     <View style={styles.rightIcon}>
-      <TouchableOpacity onPress={() => navigation.navigate("MyDiet")}>
+      <TouchableOpacity onPress={() => navigation.navigate("MyDiet", {dietId: key})}>
         <Icon name="chevron-right" size={ICON_SIZE_LARGE} color="grey" />
       </TouchableOpacity>
     </View>

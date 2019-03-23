@@ -18,8 +18,8 @@ export default class MyDiet extends Component {
 
   componentDidMount = async () => {
     const { navigation } = this.props;
-    //const dietId = navigation.getParam("dietId");
-    const dietId = "-Lacz7LNx-jwiG0f2REy"
+    const dietId = navigation.getParam("dietId");
+    //const dietId = "-Lacz7LNx-jwiG0f2REy"
     console.log("fetching details for the diet with Id:", dietId);
     const { diet, meals } = await this.fetchDietAndMeals(dietId);
     console.log("diet and meals:", diet, meals);

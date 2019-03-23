@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 });
 
 class CustomListview extends React.Component {
-  _keyExtractor = item => item.dietId;
+  _keyExtractor = item => item.key;
 
   render() {
     const { diets, navigation } = this.props;

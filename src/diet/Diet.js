@@ -32,7 +32,7 @@ export default class Diet extends Component {
           id: "rating"
         }
       ],
-      currentDietList: "popular",
+      currentDietOption: "popular",
       pupularDiets: [],
       myDiets: [],
       isLoading: false,
@@ -160,12 +160,13 @@ export default class Diet extends Component {
       name,
       selectedSortOption,
       sortOptions,
-      currentDietList,
+      currentDietOption,
       popularDiets,
       myDiets,
       isLoading
     } = this.state;
     const { navigation } = this.props;
+    const currentDiet = currentDietOption === "popular" ? popularDiets : myDiets
     return (
       <View style={styles.container}>
         {isLoading && <ActivityIndicator />}
@@ -199,21 +200,21 @@ export default class Diet extends Component {
             <View style={styles.subHeaderContainer}>
               <TouchableOpacity
                 style={
-                  currentDietList === "popular"
+                  currentDietOption === "popular"
                     ? styles.activeSubHeaderComponents
                     : styles.subHeaderComponents
                 }
-                onPress={() => this.setState({ currentDietList: "popular" })}
+                onPress={() => this.setState({ currentDietOption: "popular" })}
               >
                 <Text style={styles.subHeaderMenuItems}>Popular</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={
-                  currentDietList !== "popular"
+                  currentDietOption !== "popular"
                     ? styles.activeSubHeaderComponents
                     : styles.subHeaderComponents
                 }
-                onPress={() => this.setState({ currentDietList: "myDiets" })}
+                onPress={() => this.setState({ currentDietOption: "myDiets" })}
               >
                 <Text style={styles.subHeaderMenuItems}>My Diets</Text>
               </TouchableOpacity>
@@ -233,7 +234,7 @@ export default class Diet extends Component {
             </View>
             <View style={styles.listViewContainer}>
               <CustomListView
-                diets={this.state.diets}
+                diets={currentDiet}
                 navigation={navigation}
               />
             </View>
