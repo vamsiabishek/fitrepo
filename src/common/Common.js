@@ -51,11 +51,6 @@ export const LEVEL_COLORS = {
   INT: "#C4CACE",
   BEG: "#CD7F32"
 };
-export const GENDER_NAMES = {
-  FEMALE: "chess-queen",
-  MALE: "chess-king",
-  TRANSG: "chess-knight"
-};
 export const BG_IMAGE = require("../../assets/images/barbell.jpg");
 export const NON_VEG_ICON = require("../../assets/images/non-veg.png");
 export const VEG_ICON = require("../../assets/images/veg.png");
@@ -76,3 +71,7 @@ export const MIN_WEIGHT = 40;
 export const MAX_WEIGHT = 110;
 export const MIN_HEIGHT = 140;
 export const MAX_HEIGHT = 199;
+export const STAR_RATING_MAX = 5;
+export const PROGRESS_BAR_WIDTH = 300;
+export const PROGRESS_CIRCLE_RADIUS = 65;
+export const PROGRESS_CIRCLE_BORDER_WIDTH = 8;

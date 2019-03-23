@@ -1,138 +1,74 @@
 import React, { Component } from "react";
 import {
-  LayoutAnimation,
   ScrollView,
   StatusBar,
   Text,
   View,
-  ImageBackground,
-  ActivityIndicator
+  ActivityIndicator,
+  UIManager
 } from "react-native";
-import { Avatar, Badge, Button, Input, Image } from "react-native-elements";
+import { Avatar, Button } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import StarRating from "react-native-star-rating";
 import ProgressCircle from "react-native-progress-circle";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
-import ImagePicker from "react-native-image-picker";
 import { styles } from "../../assets/style/stylesProfileScreen";
-import { f, database, storage } from "../common/FirebaseConfig";
+import { f, database } from "../common/FirebaseConfig";
 import {
   GRADIENT_COLORS_ARRAY,
+  AVATAR_SIZE,
   ICON_SIZE,
   ICON_SIZE_MED,
-  ICON_SIZE_SMALL,
-  ICON_SIZE_LARGE,
-  LEVEL_COLORS,
-  GENDER_NAMES
+  STAR_RATING_MAX,
+  PROGRESS_BAR_WIDTH,
+  PROGRESS_CIRCLE_RADIUS,
+  PROGRESS_CIRCLE_BORDER_WIDTH
 } from "../common/Common";
+
+// Enable LayoutAnimation for Android Devices
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      isPhotoLoading: false,
       uid: "",
       user: {},
-      genderIcon: GENDER_NAMES.TRANSG,
-      levelColor: LEVEL_COLORS.BEG,
-      starRating: 1.5,
+      avatarSource: "",
+      avatarChanged: false,
       programCompletedPercent: 10, // Completion percent,
       goalCompletedPercent: 30,
       programChosen: "4-week program",
       goalChosen: "Fat-Loss"
     };
   }
-  // randomNumberGenerator
-  RNG = () =>
-    Math.floor((1 + Math.random()) * 0x1000)
-      .toString(16)
-      .substring(1);
 
-  uniqueImageId = () => {
-    return (
-      this.RNG() +
-      this.RNG() +
-      "-" +
-      this.RNG() +
-      "-" +
-      this.RNG() +
-      "-" +
-      this.RNG() +
-      "-" +
-      this.RNG() +
-      "-" +
-      this.RNG()
-    );
-  };
-
-  uploadImageClicked = () => {
-    const uploadOptions = {
-      title: "Select Photo",
-      storageOptions: {
-        skipBackup: true,
-        path: "images"
-      }
-    };
-
-    ImagePicker.showImagePicker(uploadOptions, response => {
-      console.log("Response = ", response);
-      if (response.didCancel) {
-        console.log("User cancelled Image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custon button: ", response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        this.uploadImage(response.uri, response.data);
-        this.setState({
-          avatarSource: source.uri
-        });
-        console.log(this.state.avatarSource);
-      }
+  goToEditProfile = () => {
+    const { navigate } = this.props.navigation;
+    const { user, uid } = this.state;
+    navigate("EditProfile", {
+      userLoggedIn: user,
+      userId: uid,
+      updateProfileCall: this.updateProfileCall
     });
   };
 
-  uploadImage = async (uri, base64) => {
-    let that = this;
-    const fileExtension = uri.slice(uri.lastIndexOf(".") + 1);
-    const imageId = that.uniqueImageId();
-    const filePath = imageId + "." + fileExtension;
-    const userId = this.state.uid;
-    storage
-      .ref("users/" + userId + "/img")
-      .child(filePath)
-      .putString(base64, "base64", {
-        contentType: "image/jpeg"
-      })
-      .on(
-        "state_changed",
-        snapshot => {
-          console.log(
-            "Progress: ",
-            snapshot.bytesTransferred,
-            snapshot.totalBytes
-          );
-          this.setState({
-            isPhotoLoading: false
-          });
-        },
-        error => {},
-        () => {
-          storage
-            .ref("users/" + userId + "/img")
-            .child(filePath)
-            .getDownloadURL()
-            .then(url => {
-              console.log("download url:", url);
-            });
-        }
-      );
-    console.log(result);
+  updateProfileCall = (recievedData, haveNavigated = false) => {
+    const { user } = this.state;
+    if (haveNavigated === true) {
+      this.setState({
+        user: { ...user, ...recievedData }
+      });
+    } else {
+      this.setState({
+        user: recievedData,
+        isLoading: false
+      });
+    }
   };
-
   componentDidMount = async () => {
     const currentUser = await f.auth().currentUser;
     this.setState({
@@ -145,41 +81,7 @@ export default class Profile extends Component {
       .once("value")
       .then(snapshot => {
         const userLoggedIn = snapshot.val();
-        this.setState({
-          user: userLoggedIn,
-          isLoading: false
-        });
-        // Getting the Gender Icon based on Gender.
-        if (userLoggedIn.gender === "Female") {
-          this.setState({
-            genderIcon: GENDER_NAMES.FEMALE
-          });
-        } else if (userLoggedIn.gender === "Male") {
-          this.setState({
-            genderIcon: GENDER_NAMES.MALE
-          });
-        } else {
-          this.setState({
-            genderIcon: GENDER_NAMES.TRANSG
-          });
-        }
-        // Getting the Level Color to be used based on the user's Level.
-        if (userLoggedIn.level === "Advanced") {
-          this.setState({
-            starRating: 5,
-            levelColor: LEVEL_COLORS.ADV
-          });
-        } else if (userLoggedIn.level === "Intermediate") {
-          this.setState({
-            starRating: 3.5,
-            levelColor: LEVEL_COLORS.INT
-          });
-        } else {
-          this.setState({
-            starRating: 1.5,
-            levelColor: LEVEL_COLORS.BEG
-          });
-        }
+        this.updateProfileCall(userLoggedIn);
       })
       .catch(error => {
         console.log(
@@ -188,19 +90,15 @@ export default class Profile extends Component {
         );
       });
   };
-
   render() {
     const {
       isLoading,
+      avatarChanged,
       user,
-      genderIcon,
-      levelColor,
-      starRating,
       programChosen,
       programCompletedPercent,
       goalChosen,
-      goalCompletedPercent,
-      avatarSource
+      goalCompletedPercent
     } = this.state;
     return (
       <View style={styles.container}>
@@ -218,24 +116,16 @@ export default class Profile extends Component {
                 >
                   <View style={styles.avatarContainer}>
                     <Avatar
-                      size={100}
+                      size={AVATAR_SIZE}
                       rounded
-                      overlayContainerStyle={{ backgroundColor: "#636568" }}
-                      uri={avatarSource}
-                      /*icon={{
+                      overlayContainerStyle={styles.avatarOverlayContainerStyle}
+                      icon={{
                         type: "material-community",
-                        name: genderIcon,
+                        name: "chess-bishop",
                         color: "white"
-                      }}*/
-                      showEditButton
-                      editButton={{
-                        type: "material-community",
-                        name: "pencil-outline",
-                        color: "white",
-                        style: { backgroundColor: "#636568" },
-                        size: ICON_SIZE
                       }}
-                      onEditPress={this.uploadImageClicked}
+                      //source={{ uri: user.avatarSource }}
+                      imageProps={styles.avatarImagePropsStyle}
                     />
                   </View>
                 </LinearGradient>
@@ -252,27 +142,38 @@ export default class Profile extends Component {
                 <Icon
                   name="trophy-variant" // "medal"
                   size={ICON_SIZE}
-                  color={levelColor}
+                  color={user.levelColor}
                 />
                 <Text style={styles.profileBannerTextStyle}>Level</Text>
               </View>
               <View style={styles.profileSubBannerBoxStyle}>
                 <StarRating
                   disabled={false}
-                  maxStars={5}
-                  rating={starRating}
+                  maxStars={STAR_RATING_MAX}
+                  rating={user.starRating}
                   starSize={ICON_SIZE}
                   emptyStar="star-outline"
                   fullStar="star"
                   halfStar="star-half"
                   iconSet="MaterialCommunityIcons"
-                  fullStarColor="#f8bf45"
-                  emptyStarColor="#f8bf45"
+                  fullStarColor={styles.profileStarColor.color}
+                  emptyStarColor={styles.profileStarColor.color}
                 />
                 <Text style={styles.profileBannerTextStyle}>Expertise</Text>
               </View>
               <View style={styles.profileSubBannerBoxStyle}>
-                <Icon name="account-edit" size={ICON_SIZE} color="#00DB8D" />
+                <Button
+                  icon={
+                    <Icon
+                      name="account-edit"
+                      size={ICON_SIZE}
+                      style={styles.profileButtonIconStyle}
+                    />
+                  }
+                  buttonStyle={styles.profileButtonStyle}
+                  onPress={this.goToEditProfile}
+                />
+
                 <Text style={styles.profileBannerTextStyle}>Edit</Text>
               </View>
             </View>
@@ -293,31 +194,29 @@ export default class Profile extends Component {
                   <View style={styles.boxContentRowContainerStyle}>
                     <ProgressCircle
                       percent={10}
-                      radius={65}
-                      borderWidth={8}
-                      color="#00db8d"
-                      shadowColor="#999" //"#6b6d72"
-                      bgColor="#28292B"
+                      radius={PROGRESS_CIRCLE_RADIUS}
+                      borderWidth={PROGRESS_CIRCLE_BORDER_WIDTH}
+                      color={styles.progressCircleColor.color}
+                      shadowColor={styles.progressCircleShadowColor.color}
+                      bgColor={styles.progressCircleBgColor.color}
                     >
                       <Avatar
                         rounded
-                        size={100}
+                        size={AVATAR_SIZE}
                         source={require("../../assets/images/edited-Vitruvian-Man.png")}
                         imageProps={{ resizeMode: "contain" }}
-                        overlayContainerStyle={{
-                          backgroundColor: "transparent" // "#28292B"
-                        }}
+                        overlayContainerStyle={styles.avatarHumanOverlayStyle}
                       />
                     </ProgressCircle>
                     <View style={styles.boxContentTextStyle}>
                       <Text style={styles.boxTextStyle}>
-                        Current Weight: 60 kgs
+                        Current Weight: {user.weight} kgs
                       </Text>
                       <Text style={styles.boxTextStyle}>
-                        Target Weight: 54 kgs
+                        Target Weight: 75 kgs
                       </Text>
                       <Text style={styles.boxTextStyle}>
-                        Ideal Weight: (47 - 58) kgs
+                        Ideal Weight: (60 - 80) kgs
                       </Text>
                     </View>
                   </View>
@@ -339,7 +238,7 @@ export default class Profile extends Component {
                         Program choosen: {programChosen}
                       </Text>
                       <ProgressBarAnimated
-                        width={300}
+                        width={PROGRESS_BAR_WIDTH}
                         value={programCompletedPercent}
                         backgroundColorOnComplete="#00DB8D"
                         backgroundColor="#00DB8D"
@@ -350,46 +249,14 @@ export default class Profile extends Component {
                         Goal choosen: {goalChosen}
                       </Text>
                       <ProgressBarAnimated
-                        width={300}
+                        width={PROGRESS_BAR_WIDTH}
                         value={goalCompletedPercent}
-                        backgroundColorOnComplete="#00DB8D"
-                        backgroundColor="#00DB8D"
+                        backgroundColorOnComplete={
+                          styles.progressBarBgColorComplete.color
+                        }
+                        backgroundColor={styles.progressBarBgColor.color}
                       />
                     </View>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.boxesContainer}>
-                <View style={styles.boxesStyle}>
-                  <View style={styles.boxHeaderContainerView}>
-                    <Icon
-                      name="dumbbell"
-                      size={ICON_SIZE_MED}
-                      style={styles.boxHeaderIconStyle}
-                    />
-                    <Text style={styles.boxHeaderTextStyle}>Workouts</Text>
-                  </View>
-                  <View style={styles.boxContentColumnContainerStyle}>
-                    <Text style={styles.boxContentTextStyle}>
-                      Work out stuff comes here !
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.boxesContainer}>
-                <View style={styles.boxesStyle}>
-                  <View style={styles.boxHeaderContainerView}>
-                    <Icon
-                      name="nutrition"
-                      size={ICON_SIZE_MED}
-                      style={styles.boxHeaderIconStyle}
-                    />
-                    <Text style={styles.boxHeaderTextStyle}>Diet</Text>
-                  </View>
-                  <View style={styles.boxContentColumnContainerStyle}>
-                    <Text style={styles.boxContentTextStyle}>
-                      Diet stuff comes here !
-                    </Text>
                   </View>
                 </View>
               </View>
@@ -404,9 +271,11 @@ export default class Profile extends Component {
                     <Text style={styles.boxHeaderTextStyle}>Posts</Text>
                   </View>
                   <View style={styles.boxContentColumnContainerStyle}>
-                    <Text style={styles.boxContentTextStyle}>
-                      Post stuff comes here !
-                    </Text>
+                    <View style={styles.boxContentTextStyle}>
+                      <Text style={styles.boxTextStyle}>
+                        Post stuff comes here !
+                      </Text>
+                    </View>
                   </View>
                 </View>
               </View>
