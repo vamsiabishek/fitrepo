@@ -27,6 +27,32 @@ export const calculateTotalCalories = ({ protein, carbs, fat }) => {
   return totalCalories;
 };
 
+export const convertLevelToStarRating = level => {
+  switch (level) {
+    case "Advanced":
+      return 5;
+    case "Intermediate":
+      return 3.5;
+    case "Beginner":
+      return 1.5;
+    default:
+      return 0;
+  }
+};
+
+export const convertLevelToLevelColor = level => {
+  switch (level) {
+    case "Advanced":
+      return "#FFD80A";
+    case "Intermediate":
+      return "#C4CACE";
+    case "Beginner":
+      return "#CD7F32";
+    default:
+      return "#00DB8D";
+  }
+};
+
 export const convertProgramToWeeks = program => {
   switch (program) {
     case "4 Week Program":
@@ -46,6 +72,17 @@ export const GRADIENT_COLORS_ARRAY = [
   "#3B876C",
   "#28292B"
 ];
+export const GRADIENT_COLORS_ARRAY_INPUT = [
+  "#99ffcc",
+  "#bcc6c3"
+  //"#ffffff"
+  /*"#7fffcd",
+  "#ffffff"*/
+  /*"#adedd5",
+  //"#c1f4e1",
+  "#ffffff"*/
+];
+export const GRADIENT_COLORS_ARRAY_BUTTON = ["#66ff99", "#00DB8D"]; // ["#00DB8D", "#00ffa4"];
 export const LEVEL_COLORS = {
   ADV: "#FFD80A",
   INT: "#C4CACE",

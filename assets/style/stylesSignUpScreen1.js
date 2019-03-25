@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   motherContainer: {
@@ -10,14 +11,23 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 20,
     paddingTop: 20,
-    backgroundColor: "#28292B",
+    // backgroundColor: "#28292B",
     alignItems: "center",
     justifyContent: "center"
+  },
+  bgImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT
   },
   viewContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 10
+    paddingVertical: 10,
+    marginVertical: 5
+    //backgroundColor: "#FFD80A"
   },
   formContainer: {
     flex: 1,
@@ -31,58 +41,39 @@ const styles = StyleSheet.create({
     fontSize: 60,
     fontFamily: "Billabong"
   },
-  userTypesContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: SCREEN_WIDTH,
-    alignItems: "center",
-    paddingTop: 10
-  },
-  userTypeItemContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    opacity: 1
-  },
-  userTypeItemContainerSelected: {
-    opacity: 1
-  },
-  userTypeMugshot: {
-    margin: 4,
-    height: 70,
-    width: 70
-  },
-  userTypeMugshotSelected: {
-    height: 100,
-    width: 100
-  },
-  userTypeLabel: {
-    color: "white",
-    fontSize: 11
-  },
   inputOuterViewContainer: {
     justifyContent: "center",
     alignItems: "center",
     width: SCREEN_WIDTH - 40,
     borderWidth: 5,
-    borderColor: "white",
-    borderRadius: 40,
-    marginBottom: 10,
-    paddingTop: 10,
-    paddingBottom: 20,
-    backgroundColor: "white"
+    borderColor: "transparent",
+    borderRadius: 50,
+    marginVertical: 5,
+    padding: 10,
+    backgroundColor: "white",
+    opacity: 0.6
+  },
+  inputGradientContainer: {
+    borderColor: "transparent",
+    borderRadius: 60,
+    marginBottom: 5
   },
   inputViewContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: SCREEN_WIDTH,
+    width: "85%",
+    borderColor: "transparent",
+    borderRadius: 50,
     paddingHorizontal: 10,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    marginBottom: 8,
+    backgroundColor: "white"
   },
   inputContainer: {
     justifyContent: "center",
     alignItems: "center",
     width: SCREEN_WIDTH - 100,
-    height: 45,
+    //height: 45,
     borderBottomWidth: 1,
     borderBottomColor: "black",
     marginVertical: 10,
@@ -93,7 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    color: "#44484E",
+    color: "black", // "#44484E",
     fontSize: 16
   },
   errorInputStyle: {
@@ -101,10 +92,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#F44336"
   },
+  signUpButtonGradientContainer: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
   signUpButtonContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20
+    marginTop: 10
   },
   signUpButton: {
     borderRadius: 50,
@@ -124,18 +119,19 @@ const styles = StyleSheet.create({
   loginHereContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10
+    marginTop: 5
+    //backgroundColor: "#4394c6"
   },
   alreadyAccountText: {
-    fontSize: 14,
-    color: "#717173"
+    fontSize: 16,
+    color: "white"
   },
   loginButtonStyle: {
     paddingHorizontal: 2
   },
   loginHereText: {
     color: "#00DB8D", //Green Button
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: "bold"
   }
 });

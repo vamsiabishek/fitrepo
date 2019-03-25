@@ -86,18 +86,11 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     backgroundColor: "transparent" // "white"
   },
-  radioButtonWrapStyle: {
-    marginLeft: 40
-  },
   radioButtonTextIconStyle: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 18
-  },
-  radioButtonOuterIconStyle: {
-    color: "#00DB8D"
-    //backgroundColor: "blue"
   },
   radioButtonTextStyle: {
     flexDirection: "row",
@@ -105,6 +98,13 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingHorizontal: 5
     //backgroundColor: "blue"
+  },
+  radioButtonOuterIconStyle: {
+    color: "#00DB8D"
+    //backgroundColor: "blue"
+  },
+  radioButtonWrapStyle: {
+    marginLeft: 40
   },
   radioButtonsWrapperStyle: {
     justifyContent: "flex-start",

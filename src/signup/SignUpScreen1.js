@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  ImageBackground,
   LayoutAnimation,
   KeyboardAvoidingView,
   ScrollView,
@@ -9,13 +10,17 @@ import {
   View
 } from "react-native";
 import { Input, Button } from "react-native-elements";
+import LinearGradient from "react-native-linear-gradient";
 import { styles } from "../../assets/style/stylesSignUpScreen1";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { auth, database } from "../common/FirebaseConfig";
 import {
-  ICON_SIZE,
   EMAIL_VERIFICATION,
-  PASSWORD_LENGTH_MINIMUM
+  ICON_SIZE,
+  GRADIENT_COLORS_ARRAY,
+  GRADIENT_COLORS_ARRAY_INPUT,
+  PASSWORD_LENGTH_MINIMUM,
+  GRADIENT_COLORS_ARRAY_BUTTON
 } from "../common/Common";
 
 // Enable LayoutAnimation for Android Devices
@@ -148,163 +153,202 @@ export default class SignUpScreen1 extends Component {
       usernameValid
     } = this.state;
     return (
-      <ScrollView
-        scrollEnabled={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.container}
+      <ImageBackground
+        source={require("../../assets/images/SignUp_Photo_Slide_1.jpg")}
+        style={styles.bgImage}
+        /*imageStyle={{
+          opacity: 0.8
+        }}*/
       >
-        <StatusBar barStyle="light-content" />
-        <KeyboardAvoidingView
-          behaviour="position"
-          contentContainerStyle={styles.formContainer}
+        <ScrollView
+          scrollEnabled={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.container}
         >
-          <View style={styles.viewContainer}>
-            <Text style={styles.signUpText}>Sign Up</Text>
-          </View>
-          <View style={styles.inputOuterViewContainer}>
-            <Input
-              placeholder="Username"
-              placeholderTextColor={styles.inputStyle.color}
-              leftIcon={
-                <Icon name="account-box" color="black" size={ICON_SIZE} />
-              }
-              containerStyle={styles.inputViewContainer}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              errorStyle={styles.errorInputStyle}
-              autoCapitalize="none"
-              autoCorrect={false}
-              blurOnSubmit={true}
-              keyboardAppearance="dark"
-              keyboardType="default"
-              returnKeyType="done"
-              onChangeText={username => this.setState({ username })}
-              value={username}
-              ref={input => (this.usernameInput = input)}
-              onSubmitEditing={() => {
-                this.setState({ usernameValid: this.validateUsername });
-                this.emailInput.focus();
-              }}
-              errorMessage={
-                usernameValid ? null : "Your username can't be blank"
-              }
-            />
-            <Input
-              placeholder="Email"
-              placeholderTextColor={styles.inputStyle.color}
-              leftIcon={<Icon name="email" color="black" size={ICON_SIZE} />}
-              containerStyle={styles.inputViewContainer}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              errorStyle={styles.errorInputStyle}
-              keyboardAppearance="dark"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              blurOnSubmit={true}
-              returnKeyType="done"
-              onChangeText={email => this.setState({ email })}
-              value={email}
-              ref={input => (this.emailInput = input)}
-              onSubmitEditing={() => {
-                this.setState({ emailValid: this.validateEmail });
-                this.passwordInput.focus();
-              }}
-              errorMessage={
-                emailValid ? null : "Please enter a valid email address!"
-              }
-            />
-            <Input
-              placeholder="Password"
-              leftIcon={<Icon name="lock" color="black" size={ICON_SIZE} />}
-              containerStyle={styles.inputViewContainer}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              placeholderTextColor={styles.inputStyle.color}
-              errorStyle={styles.errorInputStyle}
-              secureTextEntry={true}
-              keyboardAppearance="dark"
-              keyboardType="default"
-              autoCapitalize="none"
-              autoCorrect={false}
-              blurOnSubmit={true}
-              returnKeyType="done"
-              onChangeText={password => this.setState({ password })}
-              value={password}
-              ref={input => (this.passwordInput = input)}
-              onSubmitEditing={() => {
-                this.setState({ passwordValid: this.validatePassword });
-                this.confirmationPasswordInput.focus();
-              }}
-              errorMessage={
-                passwordValid
-                  ? null
-                  : "Password should have more than 8 charecters!"
-              }
-            />
-            <Input
-              placeholder="Confirm Password"
-              leftIcon={<Icon name="asterisk" color="black" size={ICON_SIZE} />}
-              containerStyle={styles.inputViewContainer}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              placeholderTextColor={styles.inputStyle.color}
-              errorStyle={styles.errorInputStyle}
-              onChangeText={confirmationPassword =>
-                this.setState({ confirmationPassword })
-              }
-              value={confirmationPassword}
-              secureTextEntry={true}
-              keyboardAppearance="light"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              blurOnSubmit={true}
-              returnKeyType="done"
-              ref={input => (this.confirmationPasswordInput = input)}
-              onSubmitEditing={() => {
-                this.setState({
-                  confirmationPasswordValid: this.validateConfirmationPassword
-                });
-              }}
-              errorMessage={
-                confirmationPasswordValid
-                  ? null
-                  : "The Passwords do not match !"
-              }
-            />
-          </View>
-          <Button
-            title="SIGN UP"
-            containerStyle={styles.signUpButtonContainer}
-            buttonStyle={styles.signUpButton}
-            titleStyle={styles.signUpButtonText}
-            icon={
-              <Icon
-                name="account-plus"
-                size={ICON_SIZE}
-                style={styles.signUpButtonIconStyle}
+          <StatusBar barStyle="light-content" />
+          <KeyboardAvoidingView
+            behaviour="position"
+            contentContainerStyle={styles.formContainer}
+          >
+            <View style={styles.viewContainer}>
+              <Text style={styles.signUpText}>Sign Up</Text>
+            </View>
+            <View style={styles.inputOuterViewContainer}>
+              {/*<LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={GRADIENT_COLORS_ARRAY_INPUT}
+                style={styles.inputGradientContainer}
+              >*/}
+              <Input
+                placeholder="Username"
+                placeholderTextColor={styles.inputStyle.color}
+                leftIcon={
+                  <Icon name="account-box" color="black" size={ICON_SIZE} />
+                }
+                containerStyle={styles.inputViewContainer}
+                inputContainerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                errorStyle={styles.errorInputStyle}
+                autoCapitalize="none"
+                autoCorrect={false}
+                blurOnSubmit={true}
+                keyboardAppearance="dark"
+                keyboardType="default"
+                returnKeyType="done"
+                onChangeText={username => this.setState({ username })}
+                value={username}
+                ref={input => (this.usernameInput = input)}
+                onSubmitEditing={() => {
+                  this.setState({ usernameValid: this.validateUsername });
+                  this.emailInput.focus();
+                }}
+                errorMessage={
+                  usernameValid ? null : "Your username can't be blank"
+                }
               />
-            }
-            iconRight={true}
-            loading={isLoading}
-            onPress={this.goToSignUpScreen2}
-          />
-        </KeyboardAvoidingView>
-
-        <View style={styles.loginHereContainer}>
-          <Text style={styles.alreadyAccountText}>
-            Already have an account?
-          </Text>
-          <Button
-            title="LOGIN"
-            type="clear"
-            buttonStyle={styles.loginButtonStyle}
-            titleStyle={styles.loginHereText}
-            onPress={() => this.loginButtonClicked()}
-          />
-        </View>
-      </ScrollView>
+              {/*<LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={GRADIENT_COLORS_ARRAY_INPUT}
+                style={styles.inputGradientContainer}
+              >*/}
+              <Input
+                placeholder="Email"
+                placeholderTextColor={styles.inputStyle.color}
+                leftIcon={<Icon name="email" color="black" size={ICON_SIZE} />}
+                containerStyle={styles.inputViewContainer}
+                inputContainerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                errorStyle={styles.errorInputStyle}
+                keyboardAppearance="dark"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                blurOnSubmit={true}
+                returnKeyType="done"
+                onChangeText={email => this.setState({ email })}
+                value={email}
+                ref={input => (this.emailInput = input)}
+                onSubmitEditing={() => {
+                  this.setState({ emailValid: this.validateEmail });
+                  this.passwordInput.focus();
+                }}
+                errorMessage={
+                  emailValid ? null : "Please enter a valid email address!"
+                }
+              />
+              {/*<LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={GRADIENT_COLORS_ARRAY_INPUT}
+                style={styles.inputGradientContainer}
+              >*/}
+              <Input
+                placeholder="Password"
+                leftIcon={<Icon name="lock" color="black" size={ICON_SIZE} />}
+                containerStyle={styles.inputViewContainer}
+                inputContainerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                placeholderTextColor={styles.inputStyle.color}
+                errorStyle={styles.errorInputStyle}
+                secureTextEntry={true}
+                keyboardAppearance="dark"
+                keyboardType="default"
+                autoCapitalize="none"
+                autoCorrect={false}
+                blurOnSubmit={true}
+                returnKeyType="done"
+                onChangeText={password => this.setState({ password })}
+                value={password}
+                ref={input => (this.passwordInput = input)}
+                onSubmitEditing={() => {
+                  this.setState({ passwordValid: this.validatePassword });
+                  this.confirmationPasswordInput.focus();
+                }}
+                errorMessage={
+                  passwordValid
+                    ? null
+                    : "Password should have more than 8 charecters!"
+                }
+              />
+              {/*<LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={GRADIENT_COLORS_ARRAY_INPUT}
+                style={styles.inputGradientContainer}
+              >*/}
+              <Input
+                placeholder="Confirm Password"
+                leftIcon={
+                  <Icon name="asterisk" color="black" size={ICON_SIZE} />
+                }
+                containerStyle={styles.inputViewContainer}
+                inputContainerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                placeholderTextColor={styles.inputStyle.color}
+                errorStyle={styles.errorInputStyle}
+                onChangeText={confirmationPassword =>
+                  this.setState({ confirmationPassword })
+                }
+                value={confirmationPassword}
+                secureTextEntry={true}
+                keyboardAppearance="light"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                blurOnSubmit={true}
+                returnKeyType="done"
+                ref={input => (this.confirmationPasswordInput = input)}
+                onSubmitEditing={() => {
+                  this.setState({
+                    confirmationPasswordValid: this.validateConfirmationPassword
+                  });
+                }}
+                errorMessage={
+                  confirmationPasswordValid
+                    ? null
+                    : "The Passwords do not match !"
+                }
+              />
+            </View>
+            {/*<LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={GRADIENT_COLORS_ARRAY_BUTTON}
+              style={styles.inputGradientContainer}
+            >*/}
+            <Button
+              title="SIGN UP"
+              containerStyle={styles.signUpButtonContainer}
+              buttonStyle={styles.signUpButton}
+              titleStyle={styles.signUpButtonText}
+              icon={
+                <Icon
+                  name="account-plus"
+                  size={ICON_SIZE}
+                  style={styles.signUpButtonIconStyle}
+                />
+              }
+              iconRight={true}
+              loading={isLoading}
+              onPress={this.goToSignUpScreen2}
+            />
+          </KeyboardAvoidingView>
+          <View style={styles.loginHereContainer}>
+            <Text style={styles.alreadyAccountText}>
+              Already have an account?
+            </Text>
+            <Button
+              title="LOGIN"
+              type="clear"
+              buttonStyle={styles.loginButtonStyle}
+              titleStyle={styles.loginHereText}
+              onPress={() => this.loginButtonClicked()}
+            />
+          </View>
+        </ScrollView>
+      </ImageBackground>
     );
   }
 }
