@@ -97,7 +97,7 @@ const DietStackNavigator = createStackNavigator(
       }
     }
   },
-  { initialRouteName: "Diet" }
+  { initialRouteName: "CreateDiet" }
 );
 
 const AppBottomTabNavigator = createBottomTabNavigator(

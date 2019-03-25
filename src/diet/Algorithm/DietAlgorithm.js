@@ -56,7 +56,7 @@ const getCalPercent = ({ goal, fitnessLevel, weightChangePerWeek }) => {
   return null;
 };
 
-convertGoal = goal => (goal.includes("loss") ? "loss" : "gain");
+convertGoal = goal => (goal === 0 ? "loss" : "gain");
 convertMealsPerDay = mealsPerDay => mealsPerDay.charAt(0);
 
 export const getPossibleTargetWeights = (
@@ -66,8 +66,8 @@ export const getPossibleTargetWeights = (
   fitnessLevel
 ) => {
   const targetWeights = [];
+  goal = convertGoal(goal);
   CALORIE_PERCENTS.map(data => {
-    goal = convertGoal(goal);
     if (
       program > 0 &&
       goal.length > 0 &&
@@ -75,9 +75,9 @@ export const getPossibleTargetWeights = (
       fitnessLevel === data.level
     ) {
       if (goal === WEIGHT_GAIN) {
-        targetWeights.push(currentWeight + data.weight * program);
+        targetWeights.push(currentWeight + (data.weight * program));
       } else if (goal === WEIGHT_LOSS) {
-        targetWeights.push(currentWeight - data.weight * program);
+        targetWeights.push(currentWeight - (data.weight * program));
       }
     }
   });
@@ -122,10 +122,10 @@ const getTotalCalIntake = ({
   let weightChangePerWeek = 0;
   if (goal === WEIGHT_LOSS) {
     weightChangePerWeek =
-      (currentWeight - targetWeight) / convertProgramToWeeks(selectedProgram);
+      (currentWeight - targetWeight) / selectedProgram;
   } else if (goal === WEIGHT_GAIN) {
     weightChangePerWeek =
-      (targetWeight - currentWeight) / convertProgramToWeeks(selectedProgram);
+      (targetWeight - currentWeight) / selectedProgram;
   }
   const calPercent = getCalPercent({ goal, fitnessLevel, weightChangePerWeek });
 
@@ -144,6 +144,16 @@ export const designDiet = async ({
   targetWeight,
   uid
 }) => {
+  console.log(
+    "props",
+    selectedGoal,
+    selectedProgram,
+    selectedMeals,
+    currentWeight,
+    targetWeight,
+    uid
+  );
+
   let user = {};
   await database
     .ref("users")
@@ -158,7 +168,7 @@ export const designDiet = async ({
   console.log("user:", user);
   const goal = convertGoal(selectedGoal);
   let numberOfMeals = 4;
-  if (selectedMeals) numberOfMeals = convertMealsPerDay(selectedMeals);
+  if (selectedMeals) numberOfMeals = selectedMeals;
   const totalCalIntake = getTotalCalIntake({
     goal,
     selectedProgram,
@@ -170,7 +180,9 @@ export const designDiet = async ({
     fitnessLevel: 2
   });
   console.log("Total daily calorie Intake is:", totalCalIntake);
-
+  if(totalCalIntake <= 0){
+    return;
+  }
   const { trainingDayCal, restDayCal } = getCalFromSources(
     goal,
     totalCalIntake
@@ -269,7 +281,10 @@ export const designDiet = async ({
     foodSourceCalories.calFromFatsForRD
   );
 
-  const {trainingDayMeals, restDayMeals} = createMeals({ foodSources, numberOfMeals });
+  const { trainingDayMeals, restDayMeals } = createMeals({
+    foodSources,
+    numberOfMeals
+  });
 
   return {
     calFromProtein,
@@ -278,7 +293,7 @@ export const designDiet = async ({
     calFromCarbsForRD,
     calFromFats,
     calFromFatsForRD,
-    trainingDayMeals, 
+    trainingDayMeals,
     restDayMeals
   };
 };
@@ -395,9 +410,9 @@ const beginnerDefaultSourcesAndCal = async () => {
     defaultSourcesQuantities.push({
       source,
       macroValue: beginnerDefaultQuantity,
-      macroQuantity: beginnerDefaultQuantity * 14,// 14 gm per table spoon
+      macroQuantity: beginnerDefaultQuantity * 14, // 14 gm per table spoon
       macroValueForRD: beginnerDefaultQuantity,
-      macroQuantityForRD: beginnerDefaultQuantity * 14 
+      macroQuantityForRD: beginnerDefaultQuantity * 14
     });
   });
   calFromSources = {

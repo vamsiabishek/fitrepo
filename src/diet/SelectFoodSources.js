@@ -1,24 +1,118 @@
 import React, { Component } from "react";
 import { Text, View, ScrollView, Switch } from "react-native";
 import { Button } from "react-native-elements";
+import { database } from "../common/FirebaseConfig";
+import { createKeyAndNameFromResult } from "../common/Util";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import { proteinSources, fatSources, carbSources } from "./FoodSources";
 import { styles } from "../../assets/style/stylesSelectFoodSources";
 
 export default class SelectFoodSources extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      proteinSources,
-      fatSources,
-      carbSources,
+      proteinSources: [],
+      fatSources: [],
+      carbSources: [],
       isNonVegetarian: true,
       selectedProteinSources: props.selectedProteins,
       selectedFatSources: props.selectedFats,
-      selectedCarbSources: props.selectedCarbs
+      selectedCarbSources: props.selectedCarbs,
     };
+    this.fatSelectPosition = 0;
   }
+
+  componentDidMount = async () => {
+    const [proteinSources, carbSources, fatSources] = await Promise.all([
+      this.fetchProteinSources(),
+      this.fetchCarbSources(),
+      this.fetchFatSources()
+    ]);
+    console.log(proteinSources, carbSources, fatSources);
+    this.setState({
+      proteinSources,
+      fatSources,
+      carbSources
+    });
+  };
+
+  fetchProteinSources = async () => {
+    let proteinSources = [];
+    await database
+      .ref("protein-sources")
+      .once("value")
+      .then(snap => {
+        if (snap.val()) {
+          const results = snap.val();
+          proteinSources = [
+            {
+              name: "Protein Sources",
+              key: "protein",
+              sources: createKeyAndNameFromResult(results)
+            }
+          ];
+        }
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching protein sources in select food sources page",
+          error
+        );
+      });
+    return proteinSources;
+  };
+
+  fetchCarbSources = async () => {
+    let carbSources = [];
+    await database
+      .ref("carb-sources")
+      .once("value")
+      .then(snap => {
+        if (snap.val()) {
+          const results = snap.val();
+          carbSources = [
+            {
+              name: "Carbs",
+              key: "carbs",
+              sources: createKeyAndNameFromResult(results)
+            }
+          ];
+        }
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching carb sources in select food sources page",
+          error
+        );
+      });
+    return carbSources;
+  };
+
+  fetchFatSources = async () => {
+    let fatSources = [];
+    await database
+      .ref("fat-sources")
+      .once("value")
+      .then(snap => {
+        if (snap.val()) {
+          const results = snap.val();
+          fatSources = [
+            {
+              name: "Fats",
+              key: "fats",
+              sources: createKeyAndNameFromResult(results)
+            }
+          ];
+        }
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching fat sources in select food sources page",
+          error
+        );
+      });
+    return fatSources;
+  };
 
   onPreviousOrNextClick = progress => {
     const {
@@ -56,14 +150,27 @@ export default class SelectFoodSources extends Component {
   };
 
   onProteinSelectedChange = selectedProteinSources => {
-    this.setState({ selectedProteinSources });
+    if(this.validateSelectedSources(selectedProteinSources))
+      this.setState({ selectedProteinSources });
   };
   onCarbSelectedChange = selectedCarbSources => {
-    this.setState({ selectedCarbSources });
+    if(this.validateSelectedSources(selectedCarbSources))
+      this.setState({ selectedCarbSources });
   };
   onFatSelectedChange = selectedFatSources => {
-    this.setState({ selectedFatSources });
+    if(this.validateSelectedSources(selectedFatSources))
+      this.setState({ selectedFatSources });
+    if(this.scrollView)
+      this.scrollView.scrollTo({y: this.fatSelectPosition - 250});
   };
+
+  validateSelectedSources = selectedSources => {
+    if(selectedSources.length > 4){
+      alert("You can only select 4 sources!")
+      return false;
+    }
+    return true;
+  }
 
   getConfirmText = selectedList => (selectedList.length ? "Confirm" : "Cancel");
 
@@ -109,6 +216,10 @@ export default class SelectFoodSources extends Component {
     };
   };
 
+  getMultiSelectColors = () => {
+    return { chipColor: "black", primary: "#00DB8D" }
+  }
+
   render() {
     const {
       isNonVegetarian,
@@ -117,7 +228,8 @@ export default class SelectFoodSources extends Component {
       fatSources,
       carbSources,
       selectedFatSources,
-      selectedCarbSources
+      selectedCarbSources,
+      
     } = this.state;
     const isVegLabel = isNonVegetarian ? "Non-Vegetarian" : "Vegetarian";
     const proteinSourceLabel = this.getSourceLabel(
@@ -126,7 +238,6 @@ export default class SelectFoodSources extends Component {
     );
     const carbSourceLabel = this.getSourceLabel(selectedCarbSources, "Carb");
     const fatSourceLabel = this.getSourceLabel(selectedFatSources, "Fat");
-    const multiSelectStyle = {};
     const proteinSourceConfirmText = this.getConfirmText(
       selectedProteinSources
     );
@@ -140,6 +251,10 @@ export default class SelectFoodSources extends Component {
         <ScrollView
           style={styles.scrollviewContainer}
           contentContainerStyle={styles.scrollviewContentContainer}
+          ref={ref => this.scrollView = ref}
+          /*onContentSizeChange={(contentWidth, contentHeight)=>{
+            this.scrollView.scrollTo({y: contentHeight});
+          }} */
         >
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>{isVegLabel}</Text>
@@ -153,16 +268,17 @@ export default class SelectFoodSources extends Component {
           <View style={styles.multiSelectDropdown}>
             <SectionedMultiSelect
               items={proteinSources}
-              uniqueKey="id"
+              uniqueKey="key"
               subKey="sources"
               selectText={proteinSourceLabel}
               showDropDowns={true}
+              expandDropDowns={true}
               readOnlyHeadings={true}
               onSelectedItemsChange={this.onProteinSelectedChange}
               selectedItems={selectedProteinSources}
               modalAnimationType="slide"
               styles={this.getMultiSelectStyle("protein")}
-              colors={{ chipColor: "black" }}
+              colors={this.getMultiSelectColors()}
               searchPlaceholderText="Search sources..."
               confirmText={proteinSourceConfirmText}
             />
@@ -170,33 +286,37 @@ export default class SelectFoodSources extends Component {
           <View style={styles.multiSelectDropdown}>
             <SectionedMultiSelect
               items={carbSources}
-              uniqueKey="id"
+              uniqueKey="key"
               subKey="sources"
               selectText={carbSourceLabel}
               showDropDowns={true}
+              expandDropDowns={true}
               readOnlyHeadings={true}
               onSelectedItemsChange={this.onCarbSelectedChange}
               selectedItems={selectedCarbSources}
               modalAnimationType="slide"
               styles={this.getMultiSelectStyle("carb")}
-              colors={{ chipColor: "black" }}
+              colors={this.getMultiSelectColors()}
               searchPlaceholderText="Search sources..."
               confirmText={carbSourceConfirmText}
             />
           </View>
-          <View style={styles.multiSelectDropdown}>
+          <View style={styles.multiSelectDropdown} onLayout={(e)=> {
+                this.fatSelectPosition = e.nativeEvent.layout.y
+              }}>
             <SectionedMultiSelect
               items={fatSources}
-              uniqueKey="id"
+              uniqueKey="key"
               subKey="sources"
               selectText={fatSourceLabel}
               showDropDowns={true}
               readOnlyHeadings={true}
+              expandDropDowns={true}
               onSelectedItemsChange={this.onFatSelectedChange}
               selectedItems={selectedFatSources}
               modalAnimationType="slide"
               styles={this.getMultiSelectStyle("fat")}
-              colors={{ chipColor: "black" }}
+              colors={this.getMultiSelectColors()}
               searchPlaceholderText="Search sources..."
               confirmText={fatSourceConfirmText}
             />

@@ -6,7 +6,7 @@ import {
   StatusBar,
   LayoutAnimation
 } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Input, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
 import { f, auth, database } from "./../common/FirebaseConfig";
@@ -21,12 +21,15 @@ export default class LoginScreen1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "dhivya@gmail.com",
+      //email: "dhivya@gmail.com",
+      email: "vamsi@gmail.com",
+      password: "vamsi123",
       emailValid: true,
-      password: "Dhivya09",
+      //password: "Dhivya09",
       passwordValid: true,
       login_failed: false,
-      showLoading: false
+      showLoading: false,
+      selectedIndex: 0,
     };
   }
   onEmailChange = email => {
@@ -82,7 +85,7 @@ export default class LoginScreen1 extends Component {
       password,
       passwordValid,
       emailValid,
-      showLoading
+      showLoading,
     } = this.state;
     return (
       <View style={styles.container}>

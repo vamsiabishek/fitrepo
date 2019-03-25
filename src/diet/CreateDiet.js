@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, StatusBar } from "react-native";
 import { f, database } from "../common/FirebaseConfig";
 import DietGoalPlan from "./DietGoalPlan";
 import SelectFoodSources from "./SelectFoodSources";
@@ -15,11 +15,12 @@ export default class CreateDiet extends Component {
       selectedProteinSources: [],
       selectedFatSources: [],
       selectedCarbSources: [],
-      selectedGoal: "",
-      selectedProgram: "",
-      selectedMeals: "",
-      currentWeight: 75,
-      targetWeight: 75,
+      selectedGoal: 0,
+      selectedProgram: 4,
+      selectedMeals: 4,
+      currentWeight: 0,
+      targetWeight: 0,
+      targetWeightIndex: 0,
       isVeg: false,
       isLoading: false
     };
@@ -38,6 +39,7 @@ export default class CreateDiet extends Component {
     selectedProgram,
     currentWeight,
     targetWeight,
+    targetWeightIndex,
     selectedMeals,
     progress
   }) => {
@@ -45,6 +47,7 @@ export default class CreateDiet extends Component {
       selectedGoal,
       selectedProgram,
       currentWeight,
+      targetWeightIndex,
       targetWeight,
       selectedMeals
     });
@@ -56,6 +59,7 @@ export default class CreateDiet extends Component {
     selectedProgram,
     currentWeight,
     targetWeight,
+    targetWeightIndex,
     selectedMeals,
     progress
   }) => {
@@ -63,6 +67,7 @@ export default class CreateDiet extends Component {
       selectedGoal,
       selectedProgram,
       currentWeight,
+      targetWeightIndex,
       targetWeight,
       selectedMeals
     });
@@ -191,42 +196,42 @@ export default class CreateDiet extends Component {
       selectedProgram,
       currentWeight,
       targetWeight,
+      targetWeightIndex,
       selectedMeals,
       isLoading
     } = this.state;
     const name = this.props.navigation.getParam("screenName");
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
         {isLoading && <ActivityIndicator />}
         <View>
-        {!isLoading && selectionLevel === 1 && (
-         
+          {!isLoading && selectionLevel === 1 && (
             <DietGoalPlan
-            onLevelChange={this.changeSelectionLevel}
-            goal={selectedGoal}
-            program={selectedProgram}
-            currentWeight={currentWeight}
-            targetWeight={targetWeight}
-            meals={selectedMeals}
-            setDietGoals={this.setDietGoals}
-            saveDietGoalsPlusBack={this.saveDietGoalsPlusBack}
-            screenName={name}
-          />
-        )}
+              onLevelChange={this.changeSelectionLevel}
+              goal={selectedGoal}
+              program={selectedProgram}
+              currentWeight={currentWeight}
+              targetWeight={targetWeight}
+              targetWeightIndex={targetWeightIndex}
+              meals={selectedMeals}
+              setDietGoals={this.setDietGoals}
+              saveDietGoalsPlusBack={this.saveDietGoalsPlusBack}
+              screenName={name}
+            />
+          )}
         </View>
         <View>
-        {!isLoading && selectionLevel === 2 && (
-         
+          {!isLoading && selectionLevel === 2 && (
             <SelectFoodSources
-            selectedProteins={selectedProteinSources}
-            selectedFats={selectedFatSources}
-            selectedCarbs={selectedCarbSources}
-            setSelectedSources={this.setSelectedSources}
-            createDiet={this.createDiet}
-            screenName={name}
-          />
-          
-        )}
+              selectedProteins={selectedProteinSources}
+              selectedFats={selectedFatSources}
+              selectedCarbs={selectedCarbSources}
+              setSelectedSources={this.setSelectedSources}
+              createDiet={this.createDiet}
+              screenName={name}
+            />
+          )}
         </View>
       </View>
     );

@@ -29,16 +29,61 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: SCREEN_WIDTH - 60,
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "white",
+    backgroundColor: "#494b50",
+    //borderWidth: 1,
+    //borderColor: "white",
     borderRadius: 30,
     paddingTop: 10,
     paddingBottom: 10
   },
+  vegButtonGroup: {
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 0,
+    backgroundColor: "#28292B"
+  },
+  goalButtonGroup: {
+    height: 70,
+    borderRadius: 10,
+    borderWidth: 0,
+    backgroundColor: "#28292B"
+  },
+  buttonGroupStyle: {
+    height: 40,
+    borderRadius: 10,
+    borderWidth: 0,
+    backgroundColor: "#28292B"
+  },
   dropdownContainer: {
     width: 300,
-    padding: 10
+    //padding: 10,
+    marginTop: 15,
+    //justifyContent: "center",
+    //alignItems: "center",
+  },
+  weightContainer: {
+    flexDirection: "row",
+    width: 300,
+   // alignItems: "center",
+    marginTop: 20,
+  },
+
+  labelContainer: {
+    flexDirection:"row",
+    paddingBottom:15,
+  },
+  labelText: {
+    fontSize: 15,
+    color: 'lightgrey',
+    //color:"black"
+  },
+  selectedOptionLabel: {
+    fontSize: 15,
+    color: '#00DB8D',
+  },
+  selectedButtonStyle: {
+    backgroundColor: '#00DB8D',
+    alignItems:"center",
   },
   dropdownBaseColor: {
     color: "black"
@@ -62,10 +107,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     fontSize: 16
   },
+  numericInputContainer:{
+    marginLeft:10
+  },
   numberPickerContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 30
+    marginRight: 30,
   },
   inputStyle: {
     justifyContent: "center",
@@ -97,7 +145,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "white"
-  }
+  },
+  veg: {
+    backgroundColor: '#00DB8D',
+    borderRadius:25,
+    width:"110%",
+    alignItems:"center",
+    paddingHorizontal:10
+  },
+  nonVeg: {
+    backgroundColor: '#FF3333',
+    borderRadius:25,
+    width:"110%",
+    alignItems:"center",
+    paddingHorizontal:10
+  },
 });
 
 export { styles };

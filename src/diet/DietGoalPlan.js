@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Input, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import RadioForm from "react-native-simple-radio-button";
 import { Dropdown } from "react-native-material-dropdown";
@@ -9,6 +9,7 @@ import { styles } from "../../assets/style/stylesDietGoalPlan";
 import { getPossibleTargetWeights } from "./Algorithm/DietAlgorithm";
 import { f, database } from "./../common/FirebaseConfig";
 import { convertProgramToWeeks } from "../common/Common";
+import HorizontalSelectView from "../components/HorizontalSelectView";
 
 export default class DietGoalPlan extends Component {
   constructor(props) {
@@ -19,10 +20,13 @@ export default class DietGoalPlan extends Component {
       meals,
       currentWeight,
       targetWeight,
+      targetWeightIndex,
       screenName
     } = props;
     this.state = {
       user: {},
+      selectedVegIndex: 1,
+      targetWeightIndex,
       selectedGoal: goal,
       selectedProgram: program,
       selectedMeals: meals,
@@ -38,30 +42,23 @@ export default class DietGoalPlan extends Component {
           id: "weight-gain"
         }
       ],
-      programs: [
-        { value: "4 Week Program", id: "4-week" },
-        { value: "8 Week Program", id: "8week" },
-        { value: "12 Week Program", id: "12weel" }
-      ],
-      mealOptions: [
-        { value: "3 meals / day", id: "3meals" },
-        { value: "4 meals / day", id: "4meals" },
-        { value: "5 meals / day", id: "5meals" },
-        { value: "6 meals / day", id: "6meals" }
-      ],
+      programs: [4, 8, 12],
+      mealOptions: [3, 4, 5, 6],
       targetWeightChanged: false
     };
+    this.targetWeightLabels = [];
+    this.targetWeightOptions = [];
   }
 
   componentDidMount = async () => {
     const currentUser = await f.auth().currentUser;
     console.log("The user details here: " + currentUser);
-    database
+    await database
       .ref("users")
       .child(currentUser.uid)
       .once("value")
       .then(snapshot => {
-        const user = snapshot.val();
+        const user = snapshot.val(); 
         this.setState({ user, currentWeight: user.weight });
       })
       .catch(error => {
@@ -72,6 +69,17 @@ export default class DietGoalPlan extends Component {
       });
   };
 
+  componentDidUpdate = () => {
+    let { targetWeight, targetWeightIndex } = this.state;
+    if(this.targetWeightOptions.length > 0){
+      const newTargetWeight = this.targetWeightOptions[targetWeightIndex]
+      if(newTargetWeight !== targetWeight)
+        this.setState({
+          targetWeight: newTargetWeight,
+        })
+    }
+  }
+
   onGoalChange = value => {
     this.setState({
       selectedGoal: value
@@ -81,7 +89,7 @@ export default class DietGoalPlan extends Component {
   onProgramChange = value => {
     this.setState({
       selectedProgram: value,
-      targetWeight: this.calculateTargetWeight({ program: value })
+      //targetWeight: this.calculateTargetWeight({ program: value })
     });
   };
 
@@ -98,17 +106,19 @@ export default class DietGoalPlan extends Component {
     if (!program) program = selectedProgram;
     console.log(goal, program);
     if (!targetWeightChanged) {
-      if (goal === "Fat-loss") {
+      if (goal === 0) {
+        //fat-loss
         targetWeight = targetWeight - 3;
-        if (program === "4 Week Program") targetWeight = targetWeight + 1;
-        else if (program === "8 Week Program") targetWeight = targetWeight;
-        else if (program === "12 Week Program") targetWeight = targetWeight - 2;
-      } else if (goal === "Weight-gain") {
+        if (program === 4) targetWeight = targetWeight + 1;
+        else if (program === 8) targetWeight = targetWeight;
+        else if (program === 12) targetWeight = targetWeight - 2;
+      } else if (goal === 1) {
+        //weight gain
         console.log("inside weight gain", targetWeight);
         targetWeight = targetWeight + 3;
-        if (program === "4 Week Program") targetWeight = targetWeight - 1;
-        else if (program === "8 Week Program") targetWeight = targetWeight;
-        else if (program === "12 Week Program") targetWeight = targetWeight + 1;
+        if (program === 4) targetWeight = targetWeight - 1;
+        else if (program === 8) targetWeight = targetWeight;
+        else if (program === 12) targetWeight = targetWeight + 1;
       }
     }
     console.log("targetWeight:", targetWeight);
@@ -121,14 +131,17 @@ export default class DietGoalPlan extends Component {
       selectedProgram,
       selectedMeals,
       currentWeight,
-      targetWeight
+      targetWeight,
+      targetWeightIndex,
     } = this.state;
+    console.log('state:', this.state)
     this.props.setDietGoals({
       selectedGoal,
       selectedProgram,
       selectedMeals,
       currentWeight,
       targetWeight,
+      targetWeightIndex,
       progress: true
     });
   };
@@ -139,7 +152,8 @@ export default class DietGoalPlan extends Component {
       selectedProgram,
       selectedMeals,
       currentWeight,
-      targetWeight
+      targetWeight,
+      targetWeightIndex,
     } = this.state;
     const { saveDietGoalsPlusBack } = this.props;
     saveDietGoalsPlusBack({
@@ -148,34 +162,46 @@ export default class DietGoalPlan extends Component {
       selectedMeals,
       currentWeight,
       targetWeight,
+      targetWeightIndex,
       progress: false
     });
   };
 
   getTargetWeightOptions = () => {
-    const targetWeightOptions = [];
+    this.targetWeightOptions = [];
+    this.targetWeightLabels = [];
     const { selectedGoal, selectedProgram, currentWeight } = this.state;
-    if (selectedGoal && selectedProgram) {
-      getPossibleTargetWeights(
-        selectedGoal,
-        convertProgramToWeeks(selectedProgram),
-        currentWeight,
-        2
-      ).map(targetWeight => {
-        targetWeightOptions.push({
-          label: `${targetWeight} kg`,
-          value: targetWeight
-        });
-      });
-    }
-    return targetWeightOptions;
+    getPossibleTargetWeights(
+      selectedGoal,
+      selectedProgram,
+      currentWeight,
+      2
+    ).map(targetWeight => {
+      this.targetWeightLabels.push(`${targetWeight} kg`);
+      this.targetWeightOptions.push(targetWeight);
+    });
+  };
+
+  updateVegIndex = selectedVegIndex => {
+    this.setState({ selectedVegIndex });
+  };
+
+  updateGoal = selectedGoal => {
+    this.setState({ selectedGoal });
+  };
+
+  updateTargetWeight = targetWeightIndex => {
+    this.setState({
+      targetWeightIndex,
+      targetWeight: this.targetWeightOptions[targetWeightIndex]
+    });
   };
 
   render() {
-    const goalDefaultValue = "Choose Goal !";
-    const programDefaultValue = "Choose Program !";
-    const mealsDefaultValue = "Choose Meals per day !";
-    const targetWeightOptions = this.getTargetWeightOptions();
+    const goalLabelValue = "Your Goal";
+    const programLabelValue = "Program: ";
+    const mealsLabelValue = "Meals: ";
+    this.getTargetWeightOptions();
     const {
       selectedGoal,
       selectedProgram,
@@ -183,79 +209,105 @@ export default class DietGoalPlan extends Component {
       currentWeight,
       goals,
       programs,
-      mealOptions
+      mealOptions,
+      selectedVegIndex,
+      targetWeightIndex
     } = this.state;
     const { screenName } = this.props;
+
+    const buttons = ["Vegetarian", "Non Vegetarian"];
+
     return (
       <View style={styles.container}>
         <View style={styles.viewContainer}>
           <Text style={styles.titleContainer}>Getting started...</Text>
-          <Text style={styles.textContainer}>
-            Hi, {screenName} Please choose your preferences
-          </Text>
         </View>
         <View style={styles.viewDDContainer}>
-          <Dropdown
-            label={goalDefaultValue}
-            data={goals}
-            baseColor={styles.dropdownBaseColor.color}
-            containerStyle={styles.dropdownContainer}
-            pickerStyle={styles.dropdownPickerStyle}
-            dropdownOffset={styles.dropdownOffset}
-            onChangeText={this.onGoalChange}
-            value={selectedGoal}
+          <ButtonGroup
+            onPress={this.updateVegIndex}
+            selectedIndex={selectedVegIndex}
+            buttons={buttons}
+            containerStyle={styles.vegButtonGroup}
+            innerBorderStyle={{ width: 0 }}
+            selectedButtonStyle={
+              selectedVegIndex === 0 ? styles.veg : styles.nonVeg
+            }
+            textStyle={{ fontSize: 12, color: "lightgrey" }}
           />
-          <Dropdown
-            label={programDefaultValue}
-            data={programs}
-            baseColor={styles.dropdownBaseColor.color}
-            containerStyle={styles.dropdownContainer}
-            pickerStyle={styles.dropdownPickerStyle}
-            dropdownOffset={styles.dropdownOffset}
-            onChangeText={this.onProgramChange}
-            value={selectedProgram}
-          />
-          <Dropdown
-            label={mealsDefaultValue}
-            data={mealOptions}
-            baseColor={styles.dropdownBaseColor.color}
-            containerStyle={styles.dropdownContainer}
-            pickerStyle={styles.dropdownPickerStyle}
-            dropdownOffset={styles.dropdownOffset}
-            onChangeText={this.onMealsChange}
-            value={selectedMeals}
-          />
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Current weight:</Text>
-            <NumericInput
-              value={currentWeight}
-              onChange={value => this.setState({ currentWeight: value })}
-              initValue={currentWeight}
-              totalWidth={80}
-              totalHeight={40}
-              iconSize={25}
-              iconStyle={{ color: "white" }}
-              step={1.5}
-              valueType="integer"
-              rounded
-              textColor="black"
-              rightButtonBackgroundColor="#00DB8D"
-              leftButtonBackgroundColor="#00DB8D"
-              containerStyle={styles.numberPickerContainer}
+          <View style={styles.dropdownContainer}>
+            <Text style={styles.labelText}> {goalLabelValue} </Text>
+            <ButtonGroup
+              onPress={this.updateGoal}
+              selectedIndex={selectedGoal}
+              buttons={["Fat-Loss", "Weight-Gain"]}
+              containerStyle={styles.goalButtonGroup}
+              innerBorderStyle={{ width: 0 }}
+              selectedButtonStyle={styles.selectedButtonStyle}
+              textStyle={{ color: "lightgrey" }}
             />
           </View>
-          {targetWeightOptions.length > 0 && (
-            <View>
-              <Text
-                style={{
-                  justifyContent: "center",
-                  marginVertical: 15,
-                  fontSize: 16
-                }}
-              >
-                Target weight:
+          <View style={styles.dropdownContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.labelText}> {programLabelValue} </Text>
+              <Text style={styles.selectedOptionLabel}>
+                {" "}
+                {selectedProgram} Week Program{" "}
               </Text>
-              <RadioForm
+            </View>
+            <HorizontalSelectView
+              items={programs}
+              selectedItem={selectedProgram}
+              onSelectionChange={this.onProgramChange}
+            />
+          </View>
+          <View style={styles.dropdownContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.labelText}> {mealsLabelValue} </Text>
+              <Text style={styles.selectedOptionLabel}>
+                {" "}
+                {selectedMeals} Meals per day{" "}
+              </Text>
+            </View>
+            <HorizontalSelectView
+              items={mealOptions}
+              selectedItem={selectedMeals}
+              onSelectionChange={this.onMealsChange}
+            />
+          </View>
+          <View style={styles.weightContainer}>
+            <Text style={styles.labelText}>Current weight:</Text>
+            <View style={styles.numericInputContainer}>
+              <NumericInput
+                value={currentWeight}
+                onChange={value => this.setState({ currentWeight: value })}
+                initValue={currentWeight}
+                totalWidth={80}
+                totalHeight={40}
+                iconSize={25}
+                iconStyle={{ color: "white" }}
+                step={1.5}
+                valueType="integer"
+                rounded
+                textColor="lightgrey"
+                rightButtonBackgroundColor="#00DB8D"
+                leftButtonBackgroundColor="#00DB8D"
+                containerStyle={styles.numberPickerContainer}
+              />
+            </View>
+          </View>
+          {this.targetWeightOptions.length > 0 && (
+            <View style={styles.dropdownContainer}>
+              <Text style={styles.labelText}>Target weight:</Text>
+              <ButtonGroup
+                onPress={this.updateTargetWeight}
+                selectedIndex={targetWeightIndex}
+                buttons={this.targetWeightLabels}
+                containerStyle={styles.buttonGroupStyle}
+                innerBorderStyle={{ width: 0 }}
+                selectedButtonStyle={styles.selectedButtonStyle}
+                textStyle={{ color: "lightgrey" }}
+              />
+              {/* <RadioForm
                 radio_props={targetWeightOptions}
                 ref="radioForm"
                 formHorizontal={true}
@@ -266,7 +318,7 @@ export default class DietGoalPlan extends Component {
                 onPress={value => {
                   this.setState({ targetWeight: value });
                 }}
-              />
+              /> */}
             </View>
           )}
         </View>

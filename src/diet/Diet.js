@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesDietScreen";
 import { f, database } from "../common/FirebaseConfig";
 import { ICON_SIZE_MED } from "../common/Common";
+import { createKeyAndValuesFromResult } from "../common/Util";
 import CustomListView from "../components/CustomListView";
 
 export default class Diet extends Component {
@@ -119,9 +120,7 @@ export default class Diet extends Component {
       .then(snap => {
         if (snap.val()){
           const results = snap.val();
-          popularDiets = Object.keys(results).map(key => {
-            return { key, value:results[key] }
-          })
+          popularDiets = createKeyAndValuesFromResult(results)
         } 
       })
       .catch(error => {
@@ -140,9 +139,7 @@ export default class Diet extends Component {
       .then(snap => {
         if (snap.val()){
           const results = snap.val();
-          myDiets = Object.keys(results).map(key => {
-            return { key, value:results[key] }
-          })
+          myDiets = createKeyAndValuesFromResult(results)
         } 
       })
       .catch(error => {
