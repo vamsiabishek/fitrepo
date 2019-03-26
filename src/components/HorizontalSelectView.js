@@ -11,19 +11,35 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 const styles = StyleSheet.create({
   container: {
     marginTop: 5,
-    marginLeft: 10,
+    marginLeft: 10
   },
   subContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
-    //elevation: 2
   },
   lineContainer: {
     height: 3,
     borderTopWidth: 3,
     borderColor: "grey",
     width: 50
+  },
+  iconStyle: {
+    height: 15,
+    width: 15,
+    backgroundColor: "grey",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  iconDataStyle: {
+    height: 10,
+    width: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  iconTextStyle: {
+    fontSize: 9
   }
 });
 
@@ -38,23 +54,43 @@ class HorizontalComponent extends React.Component {
           data={items}
           horizontal={true}
           renderItem={({ item, index }) => {
-            let iconSize = 16;
-            let iconStyle = { color: "grey" };
+            let { iconStyle, iconDataStyle, iconTextStyle } = styles;
+            console.log('iconStyle:', iconStyle);
             if (item === selectedItem) {
-              iconSize = 20;
-              iconStyle = { 
-                color: "#00DB8D",
-                //color: "#00db20"
-              }
+              iconStyle = {
+                ...iconStyle,
+                height: 20,
+                width: 20,
+                backgroundColor: "#00DB8D",
+                borderRadius: 10,
+              };
+              iconDataStyle = {
+                ...iconDataStyle,
+                height: 12,
+                width: 12,
+              };
+              iconTextStyle = {
+                ...iconTextStyle,
+                fontSize: 11,
+              };
             }
+
             return (
               <View style={styles.subContainer}>
                 {index !== 0 && <View style={styles.lineContainer} />}
                 <TouchableOpacity
-                  style={{ marginTop: 0 }}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
                   onPress={() => onSelectionChange(item)}
                 >
-                  <Icon name="circle" size={iconSize} style={iconStyle} />
+                  <View style={iconStyle}>
+                    <View style={iconDataStyle}>
+                      <Text style={iconTextStyle}>{item}</Text>
+                    </View>
+                  </View>
                 </TouchableOpacity>
               </View>
             );
