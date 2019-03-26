@@ -75,9 +75,9 @@ export const getPossibleTargetWeights = (
       fitnessLevel === data.level
     ) {
       if (goal === WEIGHT_GAIN) {
-        targetWeights.push(currentWeight + (data.weight * program));
+        targetWeights.push(currentWeight + data.weight * program);
       } else if (goal === WEIGHT_LOSS) {
-        targetWeights.push(currentWeight - (data.weight * program));
+        targetWeights.push(currentWeight - data.weight * program);
       }
     }
   });
@@ -121,11 +121,9 @@ const getTotalCalIntake = ({
   );
   let weightChangePerWeek = 0;
   if (goal === WEIGHT_LOSS) {
-    weightChangePerWeek =
-      (currentWeight - targetWeight) / selectedProgram;
+    weightChangePerWeek = (currentWeight - targetWeight) / selectedProgram;
   } else if (goal === WEIGHT_GAIN) {
-    weightChangePerWeek =
-      (targetWeight - currentWeight) / selectedProgram;
+    weightChangePerWeek = (targetWeight - currentWeight) / selectedProgram;
   }
   const calPercent = getCalPercent({ goal, fitnessLevel, weightChangePerWeek });
 
@@ -180,7 +178,7 @@ export const designDiet = async ({
     fitnessLevel: 2
   });
   console.log("Total daily calorie Intake is:", totalCalIntake);
-  if(totalCalIntake <= 0){
+  if (totalCalIntake <= 0) {
     return;
   }
   const { trainingDayCal, restDayCal } = getCalFromSources(
@@ -281,18 +279,20 @@ export const designDiet = async ({
     foodSourceCalories.calFromFatsForRD
   );
 
+  console.log("foodsources:", foodSources);
+
   const { trainingDayMeals, restDayMeals } = createMeals({
     foodSources,
     numberOfMeals
   });
 
   return {
-    calFromProtein,
-    calFromProteinForRD,
-    calFromCarbs,
-    calFromCarbsForRD,
-    calFromFats,
-    calFromFatsForRD,
+    calFromProtein: foodSourceCalories.calFromProtein,
+    calFromProteinForRD: foodSourceCalories.calFromProteinForRD,
+    calFromCarbs: foodSourceCalories.calFromCarbs,
+    calFromCarbsForRD: foodSourceCalories.calFromCarbsForRD,
+    calFromFats: foodSourceCalories.calFromFats,
+    calFromFatsForRD: foodSourceCalories.calFromFatsForRD,
     trainingDayMeals,
     restDayMeals
   };

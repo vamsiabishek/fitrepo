@@ -152,12 +152,13 @@ export default class CreateDiet extends Component {
     //save diet and meals
     const dietId = await this.saveDietAndMeals({ dietDetails, mealDetails });
 
+    this.setState({ selectionLevel: 1 });
+
     this.props.navigation.navigate("MyDiet", { dietId });
   };
 
   saveDietAndMeals = async ({ dietDetails, mealDetails }) => {
     let dietId = "";
-    let dietAndMeals = {};
     await database
       .ref("diets")
       .push({
