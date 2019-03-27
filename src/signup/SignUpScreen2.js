@@ -12,17 +12,10 @@ import {
 } from "react-native";
 import { Input, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import RadioForm from "react-native-simple-radio-button";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { styles } from "../../assets/style/stylesSignUpScreen2";
 import { auth, database } from "../common/FirebaseConfig";
-import {
-  ICON_SIZE,
-  MIN_DATE,
-  MAX_DATE,
-  BUTTON_SIZE,
-  BUTTON_OUTER_SIZE
-} from "../common/Common";
+import { ICON_SIZE, MIN_DATE, MAX_DATE } from "../common/Common";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -38,11 +31,6 @@ export default class SignUpScreen2 extends Component {
       lastName: "",
       name: "",
       selectedGenderIndex: 1,
-      /*genders: [
-        { label: "Female", value: "Female" },
-        { label: "Male", value: "Male" },
-        { label: "Transgender", value: "Transgender" }
-      ],*/
       gender: "",
       genderValid: true,
       dob: "",
@@ -51,6 +39,7 @@ export default class SignUpScreen2 extends Component {
       age: null,
       errorMsgWtAge: ""
     };
+    this.genders = ["Female", "Male", "Other"];
   }
   showDTPicker = () => {
     this.setState({ isDTPickerVisible: true });
@@ -63,7 +52,7 @@ export default class SignUpScreen2 extends Component {
     let dateFormat = new Date(date);
     let newDate = dateFormat.toDateString().substring(4);
     let ageFromDate = currentDate.getFullYear() - dateFormat.getFullYear();
-    //LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     this.setState({
       dob: newDate,
       age: ageFromDate
@@ -73,14 +62,14 @@ export default class SignUpScreen2 extends Component {
   validateFirstName = () => {
     const { firstName } = this.state;
     const firstNameValid = firstName.length > 0;
-    //LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     this.setState({ firstNameValid });
     firstNameValid || this.firstNameInput.shake();
     return firstNameValid;
   };
   createName = () => {
     const { firstName, lastName } = this.state;
-    //LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     if (lastName.length == 0) {
       this.setState({
         name: firstName
@@ -96,28 +85,30 @@ export default class SignUpScreen2 extends Component {
     if (age !== null) {
       const dobAgeValid = dob.length > 0 && age > 18;
       const errorMsgWtAge = "You should be 18 years & above!";
-      //LayoutAnimation.easeInEaseOut();
+      LayoutAnimation.easeInEaseOut();
       this.setState({ dobAgeValid, errorMsgWtAge });
       dobAgeValid || this.dobInput.shake();
       return dobAgeValid;
     } else {
       const dobAgeValid = dob.length > 0;
       const errorMsgWtAge = "Please select a Date!";
-      //LayoutAnimation.easeInEaseOut();
+      LayoutAnimation.easeInEaseOut();
       this.setState({ dobAgeValid, errorMsgWtAge });
       dobAgeValid || this.dobInput.shake();
       return dobAgeValid;
     }
   };
-  selectedGenderIndex = () => {
+  changeSelectedGenderIndex = selectedGenderIndex => {
+    let { gender } = this.state;
     this.setState({
-      selectedIndex
+      selectedGenderIndex,
+      gender: this.genders[selectedGenderIndex]
     });
   };
   validateGender = () => {
     const { gender } = this.state;
     const genderValid = gender.length > 0;
-    //LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     this.setState({ genderValid });
     return genderValid;
   };
@@ -176,14 +167,12 @@ export default class SignUpScreen2 extends Component {
       firstNameValid,
       lastName,
       selectedGenderIndex,
-      gender,
       genderValid,
       isDTPickerVisible,
       dob,
       dobAgeValid,
       errorMsgWtAge
     } = this.state;
-    const genders = ["Female", "Male", "Other"];
     return (
       <ImageBackground
         source={require("../../assets/images/SignUp_Photo_Slide_1.jpg")}
@@ -301,9 +290,9 @@ export default class SignUpScreen2 extends Component {
                     </View>
                   </View>
                   <ButtonGroup
-                    onPress={this.updateIndex}
+                    onPress={this.changeSelectedGenderIndex}
                     selectedIndex={selectedGenderIndex}
-                    buttons={genders}
+                    buttons={this.genders}
                     containerStyle={styles.vegButtonGroup}
                     innerBorderStyle={{ width: 1, color: "black" }}
                     selectedButtonStyle={{
@@ -314,45 +303,11 @@ export default class SignUpScreen2 extends Component {
                   />
                 </View>
               </View>
-              {/*
-              <View>
-                <View style={styles.radioButtonView}>
-                  <View styles={styles.radioButtonTextIconStyle}>
-                    <View style={styles.radioButtonTextStyle}>
-                      <Icon
-                        name="gender-transgender"
-                        size={ICON_SIZE}
-                        style={styles.radioButtonOuterIconStyle}
-                      />
-                      <Text style={styles.radioButtonText}>Gender</Text>
-                    </View>
-                  </View>
-                  <RadioForm
-                    formHorizontal={true}
-                    labelHorizontal={true}
-                    radio_props={genders}
-                    value={gender}
-                    ref={input => (this.genderInput = input)}
-                    initial={-1}
-                    borderWidth={styles.radioButtonDes.borderWidth}
-                    buttonColor={styles.radioButtonDes.color}
-                    selectedButtonColor={styles.radioButtonDes.color}
-                    buttonSize={BUTTON_SIZE}
-                    buttonOuterSize={BUTTON_OUTER_SIZE}
-                    labelStyle={styles.radioButtonLabelStyle}
-                    buttonWrapStyle={styles.radioButtonWrapStyle}
-                    onPress={value => {
-                      this.setState({ gender: value });
-                    }}
-                  />
-                </View>
-                {genderValid ? null : (
-                  <Text style={styles.errorInputStyle}>
-                    Please choose an Option
-                  </Text>
-                )}
-              </View>
-                */}
+              {genderValid ? null : (
+                <Text style={styles.errorInputStyle}>
+                  Please choose an Option
+                </Text>
+              )}
             </View>
           </KeyboardAvoidingView>
           <Button
