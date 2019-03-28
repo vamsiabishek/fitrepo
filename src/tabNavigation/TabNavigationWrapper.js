@@ -19,17 +19,19 @@ import Diet from "./../diet/Diet";
 import SignUpScreen1 from "../signup/SignUpScreen1";
 import SignUpScreen2 from "../signup/SignUpScreen2";
 import SignUpScreen3 from "../signup/SignUpScreen3";
+import Goal from "../Goal";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 
 const SignUpStackNavigator = createStackNavigator(
   {
+    Goal,
     SignUpScreen1,
     SignUpScreen2,
     SignUpScreen3
   },
   {
-    initialRouteName: "SignUpScreen1",
+    initialRouteName: "Goal",
     defaultNavigationOptions: {
       header: null,
       headerStyle: styles.headerStyle

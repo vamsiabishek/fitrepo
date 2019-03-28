@@ -4,7 +4,7 @@ import {
   calculateCalFromProteinOrCarbs,
   calculateCalFromFats
 } from "../../common/Common";
-import { sourceQuantities } from "./SourceDistribution";
+import { sourceQuantities, manageSources } from "./SourceDistribution";
 import { createMeals } from "./MealsAlgorithm";
 
 const MALE = "male";
@@ -36,7 +36,7 @@ const CALORIE_PERCENTS = [
   { goal: "gain", weight: 1, level: 3, percent: 135 }
 ];
 
-const LOSS_MACRO_PERCENTS = { carbs: 30, protein: 35, fat: 35 };
+const LOSS_MACRO_PERCENTS = { carbs: 35, protein: 30, fat: 35 };
 const GAIN_MACRO_PERCENTS = { carbs: 40, protein: 30, fat: 30 };
 const BEGINNER_LOSS_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
 const BEGINNER_GAIN_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
@@ -125,6 +125,8 @@ const getTotalCalIntake = ({
   } else if (goal === WEIGHT_GAIN) {
     weightChangePerWeek = (targetWeight - currentWeight) / selectedProgram;
   }
+
+  console.log("weightChangePerWeek:", weightChangePerWeek);
   const calPercent = getCalPercent({ goal, fitnessLevel, weightChangePerWeek });
 
   const totalCalIntake = (maintainanceCal * calPercent) / 100;
@@ -140,6 +142,7 @@ export const designDiet = async ({
   selectedMeals,
   currentWeight,
   targetWeight,
+  isVeg,
   uid
 }) => {
   console.log(
@@ -149,6 +152,7 @@ export const designDiet = async ({
     selectedMeals,
     currentWeight,
     targetWeight,
+    isVeg,
     uid
   );
 
@@ -195,11 +199,11 @@ export const designDiet = async ({
   );
 
   const defaultSourcesQuantities = await beginnerDefaultSourcesAndCal();
-  const {
-    proteinSources,
-    carbSources,
-    fatSources
-  } = await getStandardSourcesForBeginner();
+  const { proteinSources, carbSources, fatSources } = await manageSources({
+    selectedProteinSources,
+    selectedFatSources,
+    selectedCarbSources
+  });
 
   calFromProtein =
     calFromProtein - defaultSourcesQuantities.calFromSources.calFromProtein;
@@ -263,21 +267,6 @@ export const designDiet = async ({
     carbSourcesAndQuantities
   ];
   const foodSourceCalories = totalCaloriesFromSourceQuantities(foodSources);
-  console.log(
-    "calFromProtein:",
-    foodSourceCalories.calFromProtein,
-    foodSourceCalories.calFromProteinForRD
-  );
-  console.log(
-    "calFromCarbs:",
-    foodSourceCalories.calFromCarbs,
-    foodSourceCalories.calFromCarbsForRD
-  );
-  console.log(
-    "calFromFats:",
-    foodSourceCalories.calFromFats,
-    foodSourceCalories.calFromFatsForRD
-  );
 
   console.log("foodsources:", foodSources);
 
@@ -350,22 +339,6 @@ getCalFromSources = (goal, totalCalIntake) => {
   return {
     trainingDayCal,
     restDayCal
-  };
-};
-
-const getStandardSourcesForBeginner = async () => {
-  /*const proteinSources = await getStandardProteinSourcesForBeginners();
-  const carbSources = await getStandardCarbSourcesForBeginners();
-  const fatSources = await getStandardFatSourcesForBeginners();*/
-  const [proteinSources, carbSources, fatSources] = await Promise.all([
-    getStandardProteinSourcesForBeginners(),
-    getStandardCarbSourcesForBeginners(),
-    getStandardFatSourcesForBeginners()
-  ]);
-  return {
-    proteinSources,
-    carbSources,
-    fatSources
   };
 };
 
@@ -488,81 +461,6 @@ calculateMacroPerQuantity = ({ TotalMacroQuantity, macroValue, quantity }) => {
 
 // ---------FETCH DATA------------
 
-getStandardProteinSourcesForBeginners = async () => {
-  let standardProteinSources = [];
-  await database
-    .ref("protein-sources")
-    .orderByChild("isStandardForBeginner")
-    .equalTo(true)
-    .once("value")
-    .then(snapshot => {
-      if (snapshot.val()) {
-        const result = snapshot.val();
-        standardProteinSources = Object.keys(result).map(key => ({
-          key,
-          value: result[key]
-        }));
-      }
-    })
-    .catch(error => {
-      console.log(
-        "error while fetching standard protein sources in DietAlgorithm:",
-        error
-      );
-    });
-  return standardProteinSources;
-};
-
-getStandardCarbSourcesForBeginners = async () => {
-  let standardCarbSources = [];
-  await database
-    .ref("carb-sources")
-    .orderByChild("isStandardForBeginner")
-    .equalTo(true)
-    .once("value")
-    .then(snapshot => {
-      if (snapshot.val()) {
-        const result = snapshot.val();
-        standardCarbSources = Object.keys(result).map(key => ({
-          key,
-          value: result[key]
-        }));
-      }
-    })
-    .catch(error => {
-      console.log(
-        "error while fetching standard carb sources in DietAlgorithm:",
-        error
-      );
-    });
-  return standardCarbSources;
-};
-
-getStandardFatSourcesForBeginners = async () => {
-  let standardFatSources = [];
-  await database
-    .ref("fat-sources")
-    .orderByChild("isStandardForBeginner")
-    .equalTo(true)
-    .once("value")
-    .then(snapshot => {
-      if (snapshot.val()) {
-        const result = snapshot.val();
-        standardFatSources = Object.keys(result).map(key => ({
-          key,
-          value: result[key]
-        }));
-      }
-    })
-    .catch(error => {
-      console.log(
-        "error while fetching standard fat sources in DietAlgorithm:",
-        error
-      );
-    });
-  return standardFatSources;
-};
-
 getBeginnerDefaultSources = async () => {
   let defaultSources = [];
   await database
@@ -587,15 +485,4 @@ getBeginnerDefaultSources = async () => {
       )
     );
   return defaultSources;
-};
-
-const calculateMarcoValue = ({ marcoQuantity, source }) => {
-  let marcoValue = 0;
-  let referenceMacroValue = 0;
-
-  if (source.value.isPerSingleUnit)
-    marcoValue = Math.round(marcoQuantity / referenceMacroValue);
-  else marcoValue = Math.round((marcoQuantity * 100) / referenceMacroValue);
-
-  return marcoValue;
-};
+}

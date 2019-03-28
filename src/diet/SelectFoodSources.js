@@ -185,9 +185,11 @@ export default class SelectFoodSources extends Component {
     chipBackgroundColor = source === "fat" ? "#F7DC6F" : chipBackgroundColor;
     return {
       container: {
-        marginVertical: 100
+        marginVertical: 100,
+        backgroundColor:"white"
       },
       chipText: {
+        //color: "white",
         //width of selected items
         //maxWidth: Dimensions.get('screen').width - 90,
       },
@@ -217,7 +219,7 @@ export default class SelectFoodSources extends Component {
   };
 
   getMultiSelectColors = () => {
-    return { chipColor: "black", primary: "#00DB8D" }
+    return { chipColor: "white", primary: "#00DB8D", text: "#4caf50" }
   }
 
   render() {

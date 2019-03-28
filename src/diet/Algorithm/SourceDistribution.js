@@ -1,8 +1,4 @@
-import {
-  twoSourcePercent,
-  threeSourcePercent,
-  fourSourcePercent
-} from "./SourceQuantityData";
+import { twoSourcePercent, threeSourcePercent } from "./SourceQuantityData";
 import {
   calculateCalFromProteinOrCarbs,
   calculateCalFromFats
@@ -245,4 +241,212 @@ const calculateCaloriesPerMarco = ({
       calFromFatsForRD
     }
   };
+};
+
+export const manageSources = async ({
+  selectedProteinSources,
+  selectedFatSources,
+  selectedCarbSources
+}) => {
+  let {
+    proteinSources: standardSourcesForProtein,
+    carbSources: standardSourcesForCarbs,
+    fatSources: standardSourcesForFats
+  } = await standardSourceSelection(
+    selectedProteinSources,
+    selectedFatSources,
+    selectedCarbSources
+  );
+
+  let extraProteinSourcesRequired = false;
+  let extraCarbSourcesRequired = false;
+  let extraFatSourcesRequired = false;
+  if (selectedProteinSources.length > 0 && selectedProteinSources.length <= 2)
+    extraProteinSourcesRequired = true;
+  if (selectedCarbSources.length > 0 && selectedCarbSources.length <= 2)
+    extraCarbSourcesRequired = true;
+  if (selectedFatSources.length > 0 && selectedFatSources.length < 2)
+    extraFatSourcesRequired = true;
+
+  const {
+    extraProteinSources,
+    extraCarbSources,
+    extraFatSources
+  } = await getExtraSources({
+    selectedProteinSources,
+    selectedFatSources,
+    selectedCarbSources,
+    extraProteinSourcesRequired,
+    extraCarbSourcesRequired,
+    extraFatSourcesRequired
+  });
+  proteinSources = [...proteinSources, ...extraProteinSources];
+  carbSources = [...carbSources, ...extraCarbSources];
+  fatSources = [...fatSources, ...extraFatSources];
+  return {
+    proteinSources,
+    carbSources,
+    fatSources
+  };
+};
+
+const standardSourceSelection = async ({
+  selectedProteinSources,
+  selectedFatSources,
+  selectedCarbSources
+}) => {
+  let standardSourcesForProtein = [];
+  let standardSourcesForCarbs = [];
+  let standardSourcesForFats = [];
+  let noProteinSourcesSelected = false;
+  let noCarbSourcesSelected = false;
+  let noFatSourcesSelected = false;
+  if (selectedProteinSources.length === 0) noProteinSourcesSelected = true;
+  if (selectedFatSources.length === 0) noFatSourcesSelected = true;
+  if (selectedCarbSources.length === 0) noCarbSourcesSelected = true;
+  if (
+    noProteinSourcesSelected ||
+    noCarbSourcesSelected ||
+    noFatSourcesSelected
+  ) {
+    const {
+      standardProteinSources,
+      standardCarbSources,
+      standardFatSources
+    } = await getStandardSourcesForBeginner(
+      noProteinSourcesSelected,
+      noCarbSourcesSelected,
+      noFatSourcesSelected
+    );
+    standardSourcesForProtein = standardProteinSources;
+    standardSourcesForCarbs = standardCarbSources;
+    standardSourcesForFats = standardFatSources;
+  }
+  return {
+    standardSourcesForProtein,
+    standardSourcesForCarbs,
+    standardSourcesForFats
+  };
+};
+
+getExtraSources = async ({
+  selectedProteinSources,
+  selectedFatSources,
+  selectedCarbSources,
+  extraProteinSourcesRequired,
+  extraCarbSourcesRequired,
+  extraFatSourcesRequired
+}) => {
+  let extraProteinSources = [];
+  let extraCarbSources = [];
+  let extraFatSources = [];
+  return {
+    extraProteinSources,
+    extraCarbSources,
+    extraFatSources
+  }
+}
+
+const getStandardSourcesForBeginner = async (
+  isProteinRequired,
+  isCarbsRequired,
+  isFatsRequired
+) => {
+  /*const proteinSources = await getStandardProteinSourcesForBeginners();
+  const carbSources = await getStandardCarbSourcesForBeginners();
+  const fatSources = await getStandardFatSourcesForBeginners();*/
+  const [
+    standardProteinSources,
+    standardCarbSources,
+    standardFatSources
+  ] = await Promise.all([
+    getStandardProteinSourcesForBeginners(isProteinRequired),
+    getStandardCarbSourcesForBeginners(isCarbsRequired),
+    getStandardFatSourcesForBeginners(isFatsRequired)
+  ]);
+  return {
+    standardProteinSources,
+    standardCarbSources,
+    standardFatSources
+  };
+};
+
+// ---------FETCH DATA------------
+
+getStandardProteinSourcesForBeginners = async isProteinRequired => {
+  let standardProteinSources = [];
+  if (isProteinRequired)
+    await database
+      .ref("protein-sources")
+      .orderByChild("isStandardForBeginner")
+      .equalTo(true)
+      .once("value")
+      .then(snapshot => {
+        if (snapshot.val()) {
+          const result = snapshot.val();
+          standardProteinSources = Object.keys(result).map(key => ({
+            key,
+            value: result[key]
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching standard protein sources in DietAlgorithm:",
+          error
+        );
+      });
+  return standardProteinSources;
+};
+
+getStandardCarbSourcesForBeginners = async isCarbsRequired => {
+  let standardCarbSources = [];
+  if (isCarbsRequired)
+    await database
+      .ref("carb-sources")
+      .orderByChild("isStandardForBeginner")
+      .equalTo(true)
+      .once("value")
+      .then(snapshot => {
+        if (snapshot.val()) {
+          const result = snapshot.val();
+          standardCarbSources = Object.keys(result).map(key => ({
+            key,
+            value: result[key]
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching standard carb sources in DietAlgorithm:",
+          error
+        );
+      });
+  return standardCarbSources;
+};
+
+getStandardFatSourcesForBeginners = async isFatsRequired => {
+  let standardFatSources = [];
+  if (isFatsRequired)
+    await database
+      .ref("fat-sources")
+      .orderByChild("isStandardForBeginner")
+      .equalTo(true)
+      .once("value")
+      .then(snapshot => {
+        if (snapshot.val()) {
+          const result = snapshot.val();
+          standardFatSources = Object.keys(result).map(key => ({
+            key,
+            value: result[key]
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching standard fat sources in DietAlgorithm:",
+          error
+        );
+      });
+  return standardFatSources;
 };

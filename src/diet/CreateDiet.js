@@ -41,7 +41,8 @@ export default class CreateDiet extends Component {
     targetWeight,
     targetWeightIndex,
     selectedMeals,
-    progress
+    progress,
+    isVeg,
   }) => {
     this.setState({
       selectedGoal,
@@ -49,7 +50,8 @@ export default class CreateDiet extends Component {
       currentWeight,
       targetWeightIndex,
       targetWeight,
-      selectedMeals
+      selectedMeals,
+      isVeg,
     });
     this.changeSelectionLevel(progress);
   };
@@ -61,7 +63,8 @@ export default class CreateDiet extends Component {
     targetWeight,
     targetWeightIndex,
     selectedMeals,
-    progress
+    progress,
+    isVeg,
   }) => {
     this.setState({
       selectedGoal,
@@ -69,7 +72,8 @@ export default class CreateDiet extends Component {
       currentWeight,
       targetWeightIndex,
       targetWeight,
-      selectedMeals
+      selectedMeals,
+      isVeg,
     });
     this.changeSelectionLevel(progress);
     this.props.navigation.navigate("Diet");

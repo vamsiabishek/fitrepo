@@ -52,6 +52,7 @@ export const LEVEL_COLORS = {
   BEG: "#CD7F32"
 };
 export const BG_IMAGE = require("../../assets/images/barbell.jpg");
+export const GRADIENT_BG_IMAGE = require("../../assets/images/Gradient_Image.png");
 export const NON_VEG_ICON = require("../../assets/images/non-veg.png");
 export const VEG_ICON = require("../../assets/images/veg.png");
 export const EMAIL_VERIFICATION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
