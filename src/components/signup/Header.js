@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     width: 200,
     marginTop: 150,
     marginBottom: 40,
-    marginHorizontal: 50
+    marginHorizontal: 40
   },
   headerTitle: {
     fontSize: 30,
