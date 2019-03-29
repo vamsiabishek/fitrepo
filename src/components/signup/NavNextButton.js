@@ -17,12 +17,17 @@ const styles = StyleSheet.create({
     borderRadius: 30
   },
   navButtonDisabled: {
-    width: 280,
-    height: 70,
-    borderRadius: 35
+    width: 300,
+    height: 60,
+    borderRadius: 30,
+    opacity: 0.6
   },
-  navButtonTitle: {
-    color: "lightgrey",
+  activeButtonTitle: {
+    fontWeight: "700",
+    fontSize: 20
+  },
+  buttonTitle: {
+    color: "white",
     fontWeight: "600",
     fontSize: 20
   },
@@ -34,24 +39,28 @@ const styles = StyleSheet.create({
 
 class NavNextButton extends React.Component {
   render() {
+    const gradientColorLeft = "#66ffff"
+    let gradientColorRight = "lightgrey"
+    const {isActive} = this.props
+    if(isActive) gradientColorRight = "#FA8072"
     return (
       <View style={styles.bottomNav}>
         <Button
           ViewComponent={LinearGradient} // Don't forget this!
           linearGradientProps={{
-            colors: ["#66ffff", "#3333cc"],
+            colors: [gradientColorLeft, gradientColorRight],
             start: { x: 0, y: 0.5 },
             end: { x: 1, y: 0.5 }
           }}
-          buttonStyle={styles.navButtonActive}
-          titleStyle={styles.navButtonTitle}
+          buttonStyle={isActive ? styles.navButtonActive : styles.navButtonDisabled}
+          titleStyle={isActive ? styles.activeButtonTitle : styles.buttonTitle}
           title="NEXT"
           icon={
             <Icon
               // arrow-right-drop-circle-outline
               name="chevron-right"
               size={30}
-              color="grey"
+              color="white"
               style={styles.navButtonIcon}
             />
           }
