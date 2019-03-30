@@ -9,6 +9,16 @@ export const FOOD_PREFERENCES_OPTIONS = [
   { label: "Non-Vegetarian", value: "Non-Vegetarian" }
 ];
 
+export const source1 = require("../../assets/images/SlideShowImages/FoodPage_1_Color.jpg");
+export const source2 = require("../../assets/images/SlideShowImages/FoodPage_2_Color.jpg");
+export const source3 = require("../../assets/images/SlideShowImages/FoodPage_3_Color.jpg");
+export const source4 = require("../../assets/images/SlideShowImages/FoodPage_4_Color.jpg");
+export const source5 = require("../../assets/images/SlideShowImages/FoodPage_5_Color.jpg");
+export const source6 = require("../../assets/images/SlideShowImages/FoodPage_6_Color.jpg");
+export const source7 = require("../../assets/images/SlideShowImages/FoodPage_7_Color.jpg");
+export const source8 = require("../../assets/images/SlideShowImages/FoodPage_8_Color.jpg");
+export const source9 = require("../../assets/images/SlideShowImages/FoodPage_8_Color.jpg");
+
 export const calculateCalFromProteinOrCarbs = amount => amount * 4;
 
 export const calculateCalFromFats = amount => amount * 9;
@@ -27,6 +37,32 @@ export const calculateTotalCalories = ({ protein, carbs, fat }) => {
   return totalCalories;
 };
 
+export const convertLevelToStarRating = level => {
+  switch (level) {
+    case "Advanced":
+      return 5;
+    case "Intermediate":
+      return 3.5;
+    case "Beginner":
+      return 1.5;
+    default:
+      return 0;
+  }
+};
+
+export const convertLevelToLevelColor = level => {
+  switch (level) {
+    case "Advanced":
+      return "#FFD80A";
+    case "Intermediate":
+      return "#C4CACE";
+    case "Beginner":
+      return "#CD7F32";
+    default:
+      return "#00DB8D";
+  }
+};
+
 export const convertProgramToWeeks = program => {
   switch (program) {
     case "4 Week Program":
@@ -42,10 +78,14 @@ export const convertProgramToWeeks = program => {
 
 export const GRADIENT_COLORS_ARRAY = [
   "#00DB8D",
-  //"#29604D",
   "#3B876C",
   "#28292B"
 ];
+export const GRADIENT_COLORS_ARRAY_INPUT = [
+  "#99ffcc",
+  "#bcc6c3"
+];
+export const GRADIENT_COLORS_ARRAY_BUTTON = ["#66ff99", "#00DB8D"];
 export const LEVEL_COLORS = {
   ADV: "#FFD80A",
   INT: "#C4CACE",

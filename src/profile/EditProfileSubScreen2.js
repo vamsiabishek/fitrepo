@@ -20,7 +20,6 @@ import {
   MAX_HEIGHT,
   BUTTON_SIZE,
   BUTTON_OUTER_SIZE,
-  LEVEL_COLORS,
   LEVELS_OPTIONS,
   FOOD_PREFERENCES_OPTIONS,
   NUMERIC_INPUT_WIDTH,
@@ -47,26 +46,7 @@ export default class EditProfileSubScreen2 extends Component {
       foodPreferenceValid: true
     };
   }
-  handleLevelcolorAndStarRating = level => {
-    // Getting the Level Color to be used based on the user's Level.
-    let { user } = this.state;
-    let starRating, levelColor;
-    if (level === "Advanced") {
-      (starRating = 5), (levelColor = LEVEL_COLORS.ADV);
-    } else if (level === "Intermediate") {
-      (starRating = 3.5), (levelColor = LEVEL_COLORS.INT);
-    } else {
-      (starRating = 1.5), (levelColor = LEVEL_COLORS.BEG);
-    }
-    this.setState({
-      user: {
-        ...user,
-        level,
-        starRating,
-        levelColor
-      }
-    });
-  };
+
   validateWeight = () => {
     const { weight } = this.state.user;
     if (weight !== 0) {
@@ -116,14 +96,7 @@ export default class EditProfileSubScreen2 extends Component {
   goToProfile = () => {
     LayoutAnimation.easeInEaseOut();
     let { user } = this.state;
-    const {
-      weight,
-      height,
-      level,
-      levelColor,
-      starRating,
-      foodPreference
-    } = this.state.user;
+    const { weight, height, level, foodPreference } = this.state.user;
     const weightValid = this.validateWeight();
     const heightValid = this.validateHeight();
     const levelValid = this.validateLevel();
@@ -133,8 +106,6 @@ export default class EditProfileSubScreen2 extends Component {
         weight,
         height,
         level,
-        levelColor,
-        starRating,
         foodPreference
       };
       this.props.setSubScreenUserVals(setUserPartial);
@@ -266,7 +237,7 @@ export default class EditProfileSubScreen2 extends Component {
                       labelStyle={styles.levelRadioButtonLabelStyle}
                       buttonWrapStyle={styles.radioButtonWrapStyle}
                       onPress={level =>
-                        this.handleLevelcolorAndStarRating(level)
+                        this.setState({ user: { ...user, level } })
                       }
                     />
                   </View>

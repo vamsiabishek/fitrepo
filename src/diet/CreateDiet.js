@@ -5,6 +5,7 @@ import DietGoalPlan from "./DietGoalPlan";
 import SelectFoodSources from "./SelectFoodSources";
 import { styles } from "../../assets/style/stylesCreateDiet";
 import { designDiet } from "../diet/Algorithm/DietAlgorithm";
+import { hidden } from "ansi-colors";
 
 export default class CreateDiet extends Component {
   constructor(props) {
@@ -208,7 +209,7 @@ export default class CreateDiet extends Component {
     const name = this.props.navigation.getParam("screenName");
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="default" />
         {isLoading && <ActivityIndicator />}
         <View>
           {!isLoading && selectionLevel === 1 && (

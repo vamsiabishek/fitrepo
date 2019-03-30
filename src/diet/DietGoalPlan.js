@@ -2,17 +2,19 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  ActivityIndicator,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  ImageBackground
 } from "react-native";
-import { Button, ButtonGroup } from "react-native-elements";
+import { Input, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import NumericInput from "react-native-numeric-input";
 import { styles } from "../../assets/style/stylesDietGoalPlan";
 import { getPossibleTargetWeights } from "./Algorithm/DietAlgorithm";
 import { f, database } from "./../common/FirebaseConfig";
+import { convertProgramToWeeks, GRADIENT_BG_IMAGE } from "../common/Common";
 import HorizontalSelectView from "../components/HorizontalSelectView";
+import { styleCommon } from "../../assets/style/stylesCommonValues";
 
 export default class DietGoalPlan extends Component {
   constructor(props) {
@@ -217,143 +219,155 @@ export default class DietGoalPlan extends Component {
       mealOptions,
       selectedVegIndex,
       targetWeightIndex,
-      isLoading,
+      isLoading
     } = this.state;
     const { screenName } = this.props;
 
     const buttons = ["Vegetarian", "Non Vegetarian"];
 
     return (
-      <View style={styles.container}>
-        {isLoading && <ActivityIndicator />}
-        {!isLoading && (
-          <View>
-            <View style={styles.viewContainer}>
-              <Text style={styles.titleContainer}>Getting started...</Text>
+      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.bgImage}>
+        <View style={styles.viewContainer}>
+          <Text style={styles.titleContainer}>Getting started...</Text>
+        </View>
+        <View style={styles.viewDDContainer}>
+          <ButtonGroup
+            onPress={this.updateVegIndex}
+            selectedIndex={selectedVegIndex}
+            buttons={buttons}
+            containerStyle={styles.vegButtonGroup}
+            innerBorderStyle={{ width: 0 }}
+            selectedButtonStyle={
+              selectedVegIndex === 0 ? styles.veg : styles.nonVeg
+            }
+            textStyle={{ fontSize: 14 }}
+            selectedTextStyle={{
+              fontSize: 15,
+              fontWeight: "bold",
+              color: styleCommon.primaryButtonTextColor //"#414c47"
+            }}
+          />
+          <View style={styles.dropdownContainer}>
+            <Text style={styles.labelText}> {goalLabelValue} </Text>
+            <ButtonGroup
+              onPress={this.updateGoal}
+              selectedIndex={selectedGoal}
+              buttons={["Fat-Loss", "Weight-Gain"]}
+              containerStyle={styles.goalButtonGroup}
+              innerBorderStyle={{ width: 0 }}
+              selectedButtonStyle={styles.selectedButtonStyle}
+              selectedTextStyle={{
+                fontWeight: "bold",
+                color: styleCommon.primaryButtonTextColor //"#414c47"
+              }}
+            />
+          </View>
+          <View style={styles.dropdownContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.labelText}> {programLabelValue} </Text>
+              <Text style={styles.selectedOptionLabel}>
+                {" "}
+                {selectedProgram} Week Program{" "}
+              </Text>
             </View>
-            <View style={styles.viewDDContainer}>
-              <ButtonGroup
-                onPress={this.updateVegIndex}
-                selectedIndex={selectedVegIndex}
-                buttons={buttons}
-                containerStyle={styles.vegButtonGroup}
-                innerBorderStyle={{ width: 0 }}
-                selectedButtonStyle={
-                  selectedVegIndex === 0 ? styles.veg : styles.nonVeg
-                }
-                textStyle={{ fontSize: 12, color: "lightgrey" }}
-              />
-              <View style={styles.dropdownContainer}>
-                <Text style={styles.labelText}> {goalLabelValue} </Text>
-                <ButtonGroup
-                  onPress={this.updateGoal}
-                  selectedIndex={selectedGoal}
-                  buttons={["Fat-Loss", "Weight-Gain"]}
-                  containerStyle={styles.goalButtonGroup}
-                  innerBorderStyle={{ width: 0 }}
-                  selectedButtonStyle={styles.selectedButtonStyle}
-                  textStyle={{ color: "lightgrey" }}
-                />
-              </View>
-              <View style={styles.dropdownContainer}>
-                <View style={styles.labelContainer}>
-                  <Text style={styles.labelText}> {programLabelValue} </Text>
-                  <Text style={styles.selectedOptionLabel}>
-                    {" "}
-                    {selectedProgram} Week Program{" "}
-                  </Text>
-                </View>
-                <HorizontalSelectView
-                  items={programs}
-                  selectedItem={selectedProgram}
-                  onSelectionChange={this.onProgramChange}
-                />
-              </View>
-              <View style={styles.dropdownContainer}>
-                <View style={styles.labelContainer}>
-                  <Text style={styles.labelText}> {mealsLabelValue} </Text>
-                  <Text style={styles.selectedOptionLabel}>
-                    {" "}
-                    {selectedMeals} Meals per day{" "}
-                  </Text>
-                </View>
-                <HorizontalSelectView
-                  items={mealOptions}
-                  selectedItem={selectedMeals}
-                  onSelectionChange={this.onMealsChange}
-                />
-              </View>
-              <View style={styles.weightContainer}>
-                <Text style={styles.labelText}>Current weight:</Text>
-                <View style={styles.numericInputContainer}>
-                  <NumericInput
-                    value={currentWeight}
-                    onChange={value => this.setState({ currentWeight: value })}
-                    initValue={currentWeight}
-                    totalWidth={80}
-                    totalHeight={40}
-                    iconSize={25}
-                    iconStyle={{ color: "white" }}
-                    step={1.5}
-                    valueType="integer"
-                    rounded
-                    textColor="lightgrey"
-                    rightButtonBackgroundColor="#00DB8D"
-                    leftButtonBackgroundColor="#00DB8D"
-                    containerStyle={styles.numberPickerContainer}
-                  />
-                </View>
-              </View>
-              {this.targetWeightOptions.length > 0 && (
-                <View style={styles.dropdownContainer}>
-                  <Text style={styles.labelText}>Target weight:</Text>
-                  <ButtonGroup
-                    onPress={this.updateTargetWeight}
-                    selectedIndex={targetWeightIndex}
-                    buttons={this.targetWeightLabels}
-                    containerStyle={styles.buttonGroupStyle}
-                    innerBorderStyle={{ width: 0 }}
-                    selectedButtonStyle={styles.selectedButtonStyle}
-                    textStyle={{ color: "lightgrey" }}
-                  />
-                </View>
-              )}
+            <HorizontalSelectView
+              items={programs}
+              selectedItem={selectedProgram}
+              onSelectionChange={this.onProgramChange}
+            />
+          </View>
+          <View style={styles.dropdownContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.labelText}> {mealsLabelValue} </Text>
+              <Text style={styles.selectedOptionLabel}>
+                {" "}
+                {selectedMeals} Meals per day{" "}
+              </Text>
             </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                title="BACK"
-                containerStyle={styles.nextButtonContainerStyle}
-                buttonStyle={styles.nextButtonStyle}
-                titleStyle={styles.nextButtonTitleStyle}
-                icon={
-                  <Icon
-                    name="arrow-left-thick"
-                    size={20}
-                    style={{ color: "white" }}
-                  />
-                }
-                iconLeft={true}
-                onPress={() => this.onBackClick()}
-              />
-              <Button
-                title="NEXT"
-                containerStyle={styles.nextButtonContainerStyle}
-                buttonStyle={styles.nextButtonStyle}
-                titleStyle={styles.nextButtonTitleStyle}
-                icon={
-                  <Icon
-                    name="arrow-right-thick"
-                    size={20}
-                    style={{ color: "white" }}
-                  />
-                }
-                iconRight={true}
-                onPress={() => this.onNextClick()}
+            <HorizontalSelectView
+              items={mealOptions}
+              selectedItem={selectedMeals}
+              onSelectionChange={this.onMealsChange}
+            />
+          </View>
+          <View style={styles.weightContainer}>
+            <Text style={styles.labelText}>Current weight:</Text>
+            <View style={styles.numericInputContainer}>
+              <NumericInput
+                value={currentWeight}
+                onChange={value => this.setState({ currentWeight: value })}
+                initValue={currentWeight}
+                totalWidth={80}
+                totalHeight={40}
+                iconSize={25}
+                iconStyle={{
+                  color: "white"
+                }}
+                step={1.5}
+                valueType="integer"
+                rounded
+                textColor={styleCommon.textColor1} //"white" //"lightgrey"
+                rightButtonBackgroundColor={styleCommon.selectedButtonColor} //"#00EF9A" // "#00DB8D"
+                leftButtonBackgroundColor={styleCommon.selectedButtonColor} //"#00EF9A"
+                containerStyle={styles.numberPickerContainer}
               />
             </View>
           </View>
-        )}
-      </View>
+          {this.targetWeightOptions.length > 0 && (
+            <View style={styles.dropdownContainer}>
+              <Text style={styles.labelText}>Target weight:</Text>
+              <ButtonGroup
+                onPress={this.updateTargetWeight}
+                selectedIndex={targetWeightIndex}
+                buttons={this.targetWeightLabels}
+                containerStyle={styles.buttonGroupStyle}
+                innerBorderStyle={{ width: 0 }}
+                selectedButtonStyle={styles.selectedButtonStyle}
+              />
+            </View>
+          )}
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="BACK"
+            containerStyle={styles.nextButtonContainerStyle}
+            buttonStyle={styles.nextButtonStyle}
+            titleStyle={styles.nextButtonTitleStyle}
+            icon={
+              <Icon
+                name="arrow-left-thick"
+                size={20}
+                style={{
+                  //color: "#0A1915"
+                  //color: "white"
+                  color: styleCommon.textColor1 //"#414c47"
+                }}
+              />
+            }
+            iconLeft={true}
+            onPress={() => this.onBackClick()}
+          />
+          <Button
+            title="NEXT"
+            containerStyle={styles.nextButtonContainerStyle}
+            buttonStyle={styles.nextButtonStyle}
+            titleStyle={styles.nextButtonTitleStyle}
+            icon={
+              <Icon
+                name="arrow-right-thick"
+                size={20}
+                style={{
+                  //color: "#0A1915",
+                  //color: "white"
+                  color: styleCommon.textColor1 //"#414c47"
+                }}
+              />
+            }
+            iconRight={true}
+            onPress={() => this.onNextClick()}
+          />
+        </View>
+      </ImageBackground>
     );
   }
 }

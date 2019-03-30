@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  ImageBackground,
   LayoutAnimation,
   KeyboardAvoidingView,
   ScrollView,
@@ -9,19 +10,12 @@ import {
   UIManager,
   View
 } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Input, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import RadioForm from "react-native-simple-radio-button";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { styles } from "../../assets/style/stylesSignUpScreen2";
 import { auth, database } from "../common/FirebaseConfig";
-import {
-  ICON_SIZE,
-  MIN_DATE,
-  MAX_DATE,
-  BUTTON_SIZE,
-  BUTTON_OUTER_SIZE
-} from "../common/Common";
+import { ICON_SIZE, MIN_DATE, MAX_DATE } from "../common/Common";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -36,11 +30,7 @@ export default class SignUpScreen2 extends Component {
       firstNameValid: true,
       lastName: "",
       name: "",
-      genders: [
-        { label: "Female", value: "Female" },
-        { label: "Male", value: "Male" },
-        { label: "Transgender", value: "Transgender" }
-      ],
+      selectedGenderIndex: 1,
       gender: "",
       genderValid: true,
       dob: "",
@@ -49,6 +39,7 @@ export default class SignUpScreen2 extends Component {
       age: null,
       errorMsgWtAge: ""
     };
+    this.genders = ["Female", "Male", "Other"];
   }
   showDTPicker = () => {
     this.setState({ isDTPickerVisible: true });
@@ -61,7 +52,7 @@ export default class SignUpScreen2 extends Component {
     let dateFormat = new Date(date);
     let newDate = dateFormat.toDateString().substring(4);
     let ageFromDate = currentDate.getFullYear() - dateFormat.getFullYear();
-    //LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     this.setState({
       dob: newDate,
       age: ageFromDate
@@ -71,14 +62,14 @@ export default class SignUpScreen2 extends Component {
   validateFirstName = () => {
     const { firstName } = this.state;
     const firstNameValid = firstName.length > 0;
-    //LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     this.setState({ firstNameValid });
     firstNameValid || this.firstNameInput.shake();
     return firstNameValid;
   };
   createName = () => {
     const { firstName, lastName } = this.state;
-    //LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     if (lastName.length == 0) {
       this.setState({
         name: firstName
@@ -94,23 +85,30 @@ export default class SignUpScreen2 extends Component {
     if (age !== null) {
       const dobAgeValid = dob.length > 0 && age > 18;
       const errorMsgWtAge = "You should be 18 years & above!";
-      //LayoutAnimation.easeInEaseOut();
+      LayoutAnimation.easeInEaseOut();
       this.setState({ dobAgeValid, errorMsgWtAge });
       dobAgeValid || this.dobInput.shake();
       return dobAgeValid;
     } else {
       const dobAgeValid = dob.length > 0;
       const errorMsgWtAge = "Please select a Date!";
-      //LayoutAnimation.easeInEaseOut();
+      LayoutAnimation.easeInEaseOut();
       this.setState({ dobAgeValid, errorMsgWtAge });
       dobAgeValid || this.dobInput.shake();
       return dobAgeValid;
     }
   };
+  changeSelectedGenderIndex = selectedGenderIndex => {
+    let { gender } = this.state;
+    this.setState({
+      selectedGenderIndex,
+      gender: this.genders[selectedGenderIndex]
+    });
+  };
   validateGender = () => {
     const { gender } = this.state;
     const genderValid = gender.length > 0;
-    //LayoutAnimation.easeInEaseOut();
+    LayoutAnimation.easeInEaseOut();
     this.setState({ genderValid });
     return genderValid;
   };
@@ -168,8 +166,7 @@ export default class SignUpScreen2 extends Component {
       firstName,
       firstNameValid,
       lastName,
-      genders,
-      gender,
+      selectedGenderIndex,
       genderValid,
       isDTPickerVisible,
       dob,
@@ -177,132 +174,134 @@ export default class SignUpScreen2 extends Component {
       errorMsgWtAge
     } = this.state;
     return (
-      <ScrollView
-        scrollEnabled={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.container}
+      <ImageBackground
+        source={require("../../assets/images/SignUp_Photo_Slide_1.jpg")}
+        style={styles.bgImage}
+        /*imageStyle={{
+          opacity: 0.8
+        }}*/
       >
-        <StatusBar barStyle="light-content" />
-        <KeyboardAvoidingView
-          behaviour="position"
-          contentContainerStyle={styles.formContainer}
+        <ScrollView
+          scrollEnabled={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.container}
         >
-          <View style={styles.viewContainer}>
-            <Text style={styles.signUpText}>Personal Details...</Text>
-          </View>
-          <View style={styles.inputOuterViewContainer}>
-            <Input
-              placeholder="First Name"
-              placeholderTextColor={styles.inputStyle.color}
-              leftIcon={
-                <Icon name="alpha-f-circle" color="black" size={ICON_SIZE} />
-              }
-              containerStyle={styles.inputViewContainer}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              errorStyle={styles.errorInputStyle}
-              onChangeText={firstName => this.setState({ firstName })}
-              value={firstName}
-              keyboardAppearance="light"
-              keyboardType="default"
-              autoCapitalize="words"
-              autoCorrect={false}
-              blurOnSubmit={false}
-              returnKeyType="next"
-              ref={input => (this.firstNameInput = input)}
-              onSubmitEditing={() => {
-                this.setState({ firstNameValid: this.validateFirstName });
-                this.lastNameInput.focus();
-              }}
-              errorMessage={firstNameValid ? null : "Please enter a Name!"}
-            />
-            <Input
-              placeholder="Last Name (Optional)"
-              placeholderTextColor={styles.inputStyle.color}
-              leftIcon={
-                <Icon name="alpha-l-circle" color="black" size={ICON_SIZE} />
-              }
-              containerStyle={styles.inputViewContainer}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              errorStyle={styles.errorInputStyle}
-              onChangeText={lastName => this.setState({ lastName })}
-              value={lastName}
-              keyboardAppearance="light"
-              keyboardType="default"
-              autoCapitalize="words"
-              autoCorrect={false}
-              blurOnSubmit={false}
-              returnKeyType="next"
-              ref={input => (this.lastNameInput = input)}
-              onSubmitEditing={() => {
-                this.dobInput.focus();
-              }}
-            />
-            <TouchableOpacity onPress={this.showDTPicker}>
+          <StatusBar barStyle="light-content" />
+          <KeyboardAvoidingView
+            behaviour="position"
+            contentContainerStyle={styles.formContainer}
+          >
+            <View style={styles.viewContainer}>
+              <Text style={styles.signUpText}>Personal Details...</Text>
+            </View>
+            <View style={styles.inputOuterViewContainer}>
               <Input
-                placeholder="Date of Birth"
+                placeholder="First Name"
                 placeholderTextColor={styles.inputStyle.color}
                 leftIcon={
-                  <Icon name="calendar" color="black" size={ICON_SIZE} />
+                  <Icon name="alpha-f-circle" color="black" size={ICON_SIZE} />
                 }
                 containerStyle={styles.inputViewContainer}
                 inputContainerStyle={styles.inputContainer}
                 inputStyle={styles.inputStyle}
                 errorStyle={styles.errorInputStyle}
-                onChangeText={dob => this.setState({ dob })}
-                value={dob}
+                onChangeText={firstName => this.setState({ firstName })}
+                value={firstName}
                 keyboardAppearance="light"
                 keyboardType="default"
+                autoCapitalize="words"
                 autoCorrect={false}
                 blurOnSubmit={false}
-                editable={true}
                 returnKeyType="next"
-                ref={input => (this.dobInput = input)}
+                ref={input => (this.firstNameInput = input)}
                 onSubmitEditing={() => {
-                  this.setState({ dobAgeValid: this.validateDobAndAge });
+                  this.setState({ firstNameValid: this.validateFirstName });
+                  this.lastNameInput.focus();
                 }}
-                errorMessage={dobAgeValid ? null : errorMsgWtAge}
+                errorMessage={firstNameValid ? null : "Please enter a Name!"}
               />
-            </TouchableOpacity>
-            <DateTimePicker
-              mode="date"
-              minimumDate={MIN_DATE}
-              maximumDate={MAX_DATE}
-              isVisible={isDTPickerVisible}
-              onConfirm={this.handleDTPicker}
-              onCancel={this.hideDTPicker}
-            />
-            <View>
-              <View style={styles.radioButtonView}>
-                <View styles={styles.radioButtonTextIconStyle}>
-                  <View style={styles.radioButtonTextStyle}>
-                    <Icon
-                      name="gender-transgender"
-                      size={ICON_SIZE}
-                      style={styles.radioButtonOuterIconStyle}
-                    />
-                    <Text style={styles.radioButtonText}>Gender</Text>
-                  </View>
-                </View>
-                <RadioForm
-                  formHorizontal={true}
-                  labelHorizontal={true}
-                  radio_props={genders}
-                  value={gender}
-                  ref={input => (this.genderInput = input)}
-                  initial={-1}
-                  borderWidth={styles.radioButtonDes.borderWidth}
-                  buttonColor={styles.radioButtonDes.color}
-                  selectedButtonColor={styles.radioButtonDes.color}
-                  buttonSize={BUTTON_SIZE}
-                  buttonOuterSize={BUTTON_OUTER_SIZE}
-                  labelStyle={styles.radioButtonLabelStyle}
-                  buttonWrapStyle={styles.radioButtonWrapStyle}
-                  onPress={value => {
-                    this.setState({ gender: value });
+              <Input
+                placeholder="Last Name (Optional)"
+                placeholderTextColor={styles.inputStyle.color}
+                leftIcon={
+                  <Icon name="alpha-l-circle" color="black" size={ICON_SIZE} />
+                }
+                containerStyle={styles.inputViewContainer}
+                inputContainerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                errorStyle={styles.errorInputStyle}
+                onChangeText={lastName => this.setState({ lastName })}
+                value={lastName}
+                keyboardAppearance="light"
+                keyboardType="default"
+                autoCapitalize="words"
+                autoCorrect={false}
+                blurOnSubmit={false}
+                returnKeyType="next"
+                ref={input => (this.lastNameInput = input)}
+                onSubmitEditing={() => {
+                  this.dobInput.focus();
+                }}
+              />
+              <TouchableOpacity onPress={this.showDTPicker}>
+                <Input
+                  placeholder="Date of Birth"
+                  placeholderTextColor={styles.inputStyle.color}
+                  leftIcon={
+                    <Icon name="calendar" color="black" size={ICON_SIZE} />
+                  }
+                  containerStyle={styles.inputViewContainer}
+                  inputContainerStyle={styles.inputContainer}
+                  inputStyle={styles.inputStyle}
+                  errorStyle={styles.errorInputStyle}
+                  onChangeText={dob => this.setState({ dob })}
+                  value={dob}
+                  keyboardAppearance="light"
+                  keyboardType="default"
+                  autoCorrect={false}
+                  blurOnSubmit={false}
+                  editable={true}
+                  returnKeyType="next"
+                  ref={input => (this.dobInput = input)}
+                  onSubmitEditing={() => {
+                    this.setState({ dobAgeValid: this.validateDobAndAge });
                   }}
+                  errorMessage={dobAgeValid ? null : errorMsgWtAge}
                 />
+              </TouchableOpacity>
+              <DateTimePicker
+                mode="date"
+                minimumDate={MIN_DATE}
+                maximumDate={MAX_DATE}
+                isVisible={isDTPickerVisible}
+                onConfirm={this.handleDTPicker}
+                onCancel={this.hideDTPicker}
+              />
+              <View>
+                <View style={styles.radioButtonView}>
+                  <View styles={styles.radioButtonTextIconStyle}>
+                    <View style={styles.radioButtonTextStyle}>
+                      <Icon
+                        name="gender-transgender"
+                        size={ICON_SIZE}
+                        style={styles.radioButtonOuterIconStyle}
+                      />
+                      <Text style={styles.radioButtonText}>Gender</Text>
+                    </View>
+                  </View>
+                  <ButtonGroup
+                    onPress={this.changeSelectedGenderIndex}
+                    selectedIndex={selectedGenderIndex}
+                    buttons={this.genders}
+                    containerStyle={styles.vegButtonGroup}
+                    innerBorderStyle={{ width: 1, color: "black" }}
+                    selectedButtonStyle={{
+                      backgroundColor: "#00DB8D"
+                    }}
+                    textStyle={{ fontSize: 14, color: "black" }}
+                    selectedTextStyle={{ color: "black" }}
+                  />
+                </View>
               </View>
               {genderValid ? null : (
                 <Text style={styles.errorInputStyle}>
@@ -310,26 +309,26 @@ export default class SignUpScreen2 extends Component {
                 </Text>
               )}
             </View>
-          </View>
-        </KeyboardAvoidingView>
-        <Button
-          icon={
-            <Icon
-              name="medical-bag"
-              size={ICON_SIZE}
-              style={styles.goToMedicalIDButtonIcon}
-            />
-          }
-          iconRight={true}
-          title="GO TO MEDICAL ID"
-          loading={isLoading}
-          containerStyle={styles.goToMedicalIDButtonContainer}
-          buttonStyle={styles.goToMedicalIDButton}
-          titleStyle={styles.goToMedicalIDButtonText}
-          disabled={isLoading}
-          onPress={this.goToSignUpScreen3}
-        />
-      </ScrollView>
+          </KeyboardAvoidingView>
+          <Button
+            icon={
+              <Icon
+                name="medical-bag"
+                size={ICON_SIZE}
+                style={styles.goToMedicalIDButtonIcon}
+              />
+            }
+            iconRight={true}
+            title="GO TO MEDICAL ID"
+            loading={isLoading}
+            containerStyle={styles.goToMedicalIDButtonContainer}
+            buttonStyle={styles.goToMedicalIDButton}
+            titleStyle={styles.goToMedicalIDButtonText}
+            disabled={isLoading}
+            onPress={this.goToSignUpScreen3}
+          />
+        </ScrollView>
+      </ImageBackground>
     );
   }
 }

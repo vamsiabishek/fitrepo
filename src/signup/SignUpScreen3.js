@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  ImageBackground,
   LayoutAnimation,
   KeyboardAvoidingView,
   ScrollView,
@@ -15,7 +16,6 @@ import RadioForm from "react-native-simple-radio-button";
 import { styles } from "../../assets/style/stylesSignUpScreen3";
 import { auth, database } from "../common/FirebaseConfig";
 import {
-  LEVEL_COLORS,
   LEVELS_OPTIONS,
   FOOD_PREFERENCES_OPTIONS,
   ICON_SIZE,
@@ -48,8 +48,6 @@ export default class SignUpScreen3 extends Component {
       levels: LEVELS_OPTIONS,
       level: "",
       levelValid: true,
-      levelColor: "",
-      starRating: 0,
       foodPreferences: FOOD_PREFERENCES_OPTIONS,
       foodPreference: "",
       foodPreferenceValid: true,
@@ -119,30 +117,12 @@ export default class SignUpScreen3 extends Component {
   };
   goToHomeScreen = async () => {
     LayoutAnimation.easeInEaseOut();
-    const { level } = this.state;
     const weightValid = this.validateWeight();
     const heightValid = this.validateHeight();
     const levelValid = this.validateLevel();
     const foodPreferenceValid = this.validateFoodPreference();
 
     if (weightValid && heightValid && levelValid && foodPreferenceValid) {
-      // Getting the Level Color to be used based on the user's Level.
-      if (level === "Advanced") {
-        this.setState({
-          starRating: 5,
-          levelColor: LEVEL_COLORS.ADV
-        });
-      } else if (level === "Intermediate") {
-        this.setState({
-          starRating: 3.5,
-          levelColor: LEVEL_COLORS.INT
-        });
-      } else {
-        this.setState({
-          starRating: 1.5,
-          levelColor: LEVEL_COLORS.BEG
-        });
-      }
       this.setState({ isLoading: true });
       try {
         const user = await auth.currentUser;
@@ -156,8 +136,6 @@ export default class SignUpScreen3 extends Component {
   updateUserWithOtherDetails = async user => {
     const {
       level,
-      levelColor,
-      starRating,
       weight,
       height,
       foodPreference,
@@ -167,8 +145,6 @@ export default class SignUpScreen3 extends Component {
     const { navigate } = this.props.navigation;
     const extraUserDetails = {
       level,
-      levelColor,
-      starRating,
       weight,
       height,
       foodPreference,
@@ -211,202 +187,210 @@ export default class SignUpScreen3 extends Component {
       foodPreferenceValid
     } = this.state;
     return (
-      <ScrollView
-        scrollEnabled={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.container}
+      <ImageBackground
+        source={require("../../assets/images/SignUp_Photo_Slide_1.jpg")}
+        style={styles.bgImage}
+        /*imageStyle={{
+          opacity: 0.8
+        }}*/
       >
-        <StatusBar barStyle="light-content" />
-        <KeyboardAvoidingView
-          behaviour="position"
-          contentContainerStyle={styles.formContainer}
+        <ScrollView
+          scrollEnabled={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.container}
         >
-          <View style={styles.viewContainer}>
-            <Text style={styles.signUpText}>Medical Id...</Text>
-          </View>
-          <View style={styles.inputOuterViewContainer}>
-            <View style={styles.numericInputButtonView}>
-              <View styles={styles.numericInputButtonTextIconStyle}>
-                <View style={styles.numericInputButtonTextStyle}>
-                  <Icon
-                    name="weight-kilogram"
-                    size={ICON_SIZE}
-                    style={styles.numericInputButtonIconStyle}
-                  />
-                  <Text style={styles.numericInputButtonText}>Weight</Text>
-                </View>
-              </View>
-              <NumericInput
-                value={weight}
-                initValue={weight}
-                minValue={MIN_WEIGHT}
-                maxValue={MAX_WEIGHT}
-                onChange={value => this.setState({ weight: value })}
-                totalWidth={NUMERIC_INPUT_WIDTH}
-                totalHeight={NUMERIC_INPUT_HEIGHT}
-                iconSize={ICON_SIZE}
-                iconStyle={styles.numberPickerIconStyle}
-                step={1.5}
-                valueType="integer"
-                rounded
-                containerStyle={styles.numberPickerContainer}
-                textColor={styles.numberPickerButtonDes.color}
-                rightButtonBackgroundColor={
-                  styles.numberPickerButtonDes.backgroundColor
-                }
-                leftButtonBackgroundColor={
-                  styles.numberPickerButtonDes.backgroundColor
-                }
-              />
+          <StatusBar barStyle="light-content" />
+          <KeyboardAvoidingView
+            behaviour="position"
+            contentContainerStyle={styles.formContainer}
+          >
+            <View style={styles.viewContainer}>
+              <Text style={styles.signUpText}>Medical Id...</Text>
             </View>
-            {weightValid ? null : (
-              <Text style={styles.errorInputStyle}>{errorMsgWeight}</Text>
-            )}
+            <View style={styles.inputOuterViewContainer}>
+              <View style={styles.numericInputButtonView}>
+                <View styles={styles.numericInputButtonTextIconStyle}>
+                  <View style={styles.numericInputButtonTextStyle}>
+                    <Icon
+                      name="weight-kilogram"
+                      size={ICON_SIZE}
+                      style={styles.numericInputButtonIconStyle}
+                    />
+                    <Text style={styles.numericInputButtonText}>Weight</Text>
+                  </View>
+                </View>
+                <NumericInput
+                  value={weight}
+                  initValue={weight}
+                  minValue={MIN_WEIGHT}
+                  maxValue={MAX_WEIGHT}
+                  onChange={value => this.setState({ weight: value })}
+                  totalWidth={NUMERIC_INPUT_WIDTH}
+                  totalHeight={NUMERIC_INPUT_HEIGHT}
+                  iconSize={ICON_SIZE}
+                  iconStyle={styles.numberPickerIconStyle}
+                  step={1.5}
+                  valueType="integer"
+                  rounded
+                  containerStyle={styles.numberPickerContainer}
+                  textColor={styles.numberPickerButtonDes.color}
+                  rightButtonBackgroundColor={
+                    styles.numberPickerButtonDes.backgroundColor
+                  }
+                  leftButtonBackgroundColor={
+                    styles.numberPickerButtonDes.backgroundColor
+                  }
+                />
+              </View>
+              {weightValid ? null : (
+                <Text style={styles.errorInputStyle}>{errorMsgWeight}</Text>
+              )}
 
-            <View style={styles.numericInputButtonView}>
-              <View styles={styles.numericInputButtonTextIconStyle}>
-                <View style={styles.numericInputButtonTextStyle}>
-                  <Icon
-                    name="ruler"
-                    size={ICON_SIZE}
-                    style={styles.numericInputButtonIconStyle}
-                  />
-                  <Text style={styles.numericInputButtonText}>Height</Text>
+              <View style={styles.numericInputButtonView}>
+                <View styles={styles.numericInputButtonTextIconStyle}>
+                  <View style={styles.numericInputButtonTextStyle}>
+                    <Icon
+                      name="ruler"
+                      size={ICON_SIZE}
+                      style={styles.numericInputButtonIconStyle}
+                    />
+                    <Text style={styles.numericInputButtonText}>Height</Text>
+                  </View>
                 </View>
+                <NumericInput
+                  value={height}
+                  initValue={height}
+                  minValue={MIN_HEIGHT}
+                  maxValue={MAX_HEIGHT}
+                  onChange={value => this.setState({ height: value })}
+                  totalWidth={NUMERIC_INPUT_WIDTH}
+                  totalHeight={NUMERIC_INPUT_HEIGHT}
+                  type="up-down"
+                  iconSize={ICON_SIZE}
+                  iconStyle={styles.numberPickerIconStyle}
+                  step={1.5}
+                  valueType="integer"
+                  rounded
+                  containerStyle={styles.numberPickerContainer}
+                  textColor={styles.numberPickerButtonDes.color}
+                  upDownButtonsBackgroundColor={
+                    styles.numberPickerButtonDes.backgroundColor
+                  }
+                />
               </View>
-              <NumericInput
-                value={height}
-                initValue={height}
-                minValue={MIN_HEIGHT}
-                maxValue={MAX_HEIGHT}
-                onChange={value => this.setState({ height: value })}
-                totalWidth={NUMERIC_INPUT_WIDTH}
-                totalHeight={NUMERIC_INPUT_HEIGHT}
-                type="up-down"
-                iconSize={ICON_SIZE}
-                iconStyle={styles.numberPickerIconStyle}
-                step={1.5}
-                valueType="integer"
-                rounded
-                containerStyle={styles.numberPickerContainer}
-                textColor={styles.numberPickerButtonDes.color}
-                upDownButtonsBackgroundColor={
-                  styles.numberPickerButtonDes.backgroundColor
-                }
-              />
-            </View>
-            {heightValid ? null : (
-              <Text style={styles.errorInputStyle}>{errorMsgHeight}</Text>
-            )}
+              {heightValid ? null : (
+                <Text style={styles.errorInputStyle}>{errorMsgHeight}</Text>
+              )}
 
-            <View style={styles.radioButtonView}>
-              <View styles={styles.radioButtonTextIconStyle}>
-                <View style={styles.radioButtonTextStyle}>
-                  <Icon
-                    name="medal"
-                    size={ICON_SIZE}
-                    style={styles.radioButtonOuterIconStyle}
-                  />
-                  <Text style={styles.radioButtonText}>Level</Text>
+              <View style={styles.radioButtonView}>
+                <View styles={styles.radioButtonTextIconStyle}>
+                  <View style={styles.radioButtonTextStyle}>
+                    <Icon
+                      name="medal"
+                      size={ICON_SIZE}
+                      style={styles.radioButtonOuterIconStyle}
+                    />
+                    <Text style={styles.radioButtonText}>Level</Text>
+                  </View>
                 </View>
+                <RadioForm
+                  formHorizontal={true}
+                  labelHorizontal={true}
+                  radio_props={levels}
+                  value={level}
+                  ref={input => (this.levelInput = input)}
+                  initial={-1}
+                  borderWidth={styles.radioButtonDes.borderWidth}
+                  buttonColor={styles.radioButtonDes.color}
+                  selectedButtonColor={styles.radioButtonDes.color}
+                  buttonSize={BUTTON_SIZE}
+                  buttonOuterSize={BUTTON_OUTER_SIZE}
+                  labelStyle={styles.radioButtonLabelStyle}
+                  buttonWrapStyle={styles.radioButtonWrapStyle}
+                  onPress={value => {
+                    this.setState({ level: value });
+                  }}
+                />
               </View>
-              <RadioForm
-                formHorizontal={true}
-                labelHorizontal={true}
-                radio_props={levels}
-                value={level}
-                ref={input => (this.levelInput = input)}
-                initial={-1}
-                borderWidth={styles.radioButtonDes.borderWidth}
-                buttonColor={styles.radioButtonDes.color}
-                selectedButtonColor={styles.radioButtonDes.color}
-                buttonSize={BUTTON_SIZE}
-                buttonOuterSize={BUTTON_OUTER_SIZE}
-                labelStyle={styles.radioButtonLabelStyle}
-                buttonWrapStyle={styles.radioButtonWrapStyle}
-                onPress={value => {
-                  this.setState({ level: value });
-                }}
-              />
-            </View>
-            {levelValid ? null : (
-              <Text style={styles.errorInputStyle}>
-                Please choose an Option
-              </Text>
-            )}
-            <View style={styles.radioButtonViewWOBorder}>
-              <View styles={styles.radioButtonTextIconStyle}>
-                <View style={styles.radioButtonTextStyle}>
-                  <Icon
-                    name="food-variant"
-                    size={ICON_SIZE}
-                    style={styles.radioButtonOuterIconStyle}
-                  />
-                  <Text style={styles.radioButtonText}>Food Preference</Text>
+              {levelValid ? null : (
+                <Text style={styles.errorInputStyle}>
+                  Please choose an Option
+                </Text>
+              )}
+              <View style={styles.radioButtonViewWOBorder}>
+                <View styles={styles.radioButtonTextIconStyle}>
+                  <View style={styles.radioButtonTextStyle}>
+                    <Icon
+                      name="food-variant"
+                      size={ICON_SIZE}
+                      style={styles.radioButtonOuterIconStyle}
+                    />
+                    <Text style={styles.radioButtonText}>Food Preference</Text>
+                  </View>
                 </View>
+                <RadioForm
+                  formHorizontal={true}
+                  labelHorizontal={true}
+                  radio_props={foodPreferences}
+                  value={foodPreference}
+                  ref={input => (this.foodPreferenceInput = input)}
+                  initial={-1}
+                  borderWidth={styles.radioButtonDes.borderWidth}
+                  buttonColor={styles.radioButtonDes.color}
+                  selectedButtonColor={styles.radioButtonDes.color}
+                  buttonSize={BUTTON_SIZE}
+                  buttonOuterSize={BUTTON_OUTER_SIZE}
+                  labelStyle={styles.radioButtonLabelStyle}
+                  buttonWrapStyle={styles.radioButtonWrapStyle}
+                  onPress={value => {
+                    this.setState({ foodPreference: value });
+                  }}
+                />
               </View>
-              <RadioForm
-                formHorizontal={true}
-                labelHorizontal={true}
-                radio_props={foodPreferences}
-                value={foodPreference}
-                ref={input => (this.foodPreferenceInput = input)}
-                initial={-1}
-                borderWidth={styles.radioButtonDes.borderWidth}
-                buttonColor={styles.radioButtonDes.color}
-                selectedButtonColor={styles.radioButtonDes.color}
-                buttonSize={BUTTON_SIZE}
-                buttonOuterSize={BUTTON_OUTER_SIZE}
-                labelStyle={styles.radioButtonLabelStyle}
-                buttonWrapStyle={styles.radioButtonWrapStyle}
-                onPress={value => {
-                  this.setState({ foodPreference: value });
-                }}
-              />
+              {foodPreferenceValid ? null : (
+                <Text style={styles.errorInputStyle}>
+                  Please choose an Option
+                </Text>
+              )}
             </View>
-            {foodPreferenceValid ? null : (
-              <Text style={styles.errorInputStyle}>
-                Please choose an Option
-              </Text>
-            )}
-          </View>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
 
-        <Button
-          title="GO TO HOME SCREEN"
-          icon={
-            <Icon
-              name="home-circle"
-              size={ICON_SIZE}
-              style={styles.goToHomeButtonIcon}
-            />
-          }
-          iconRight={true}
-          loading={isLoading}
-          containerStyle={styles.goToHomeButtonContainer}
-          buttonStyle={styles.goToHomeButton}
-          titleStyle={styles.goToHomeButtonText}
-          disabled={isLoading}
-          onPress={() => this.goToHomeScreen()}
-        />
-        <Button
-          title="SKIP THIS STEP"
-          icon={
-            <Icon
-              name="chevron-right-circle"
-              size={ICON_SIZE_SMALL}
-              style={styles.skipStepButtonIcon}
-            />
-          }
-          iconRight={true}
-          loading={isLoading}
-          containerStyle={styles.skipStepButtonContainer}
-          buttonStyle={styles.skipStepButton}
-          titleStyle={styles.skipStepButtonText}
-          disabled={isLoading}
-          onPress={() => this.skipButtonClicked()}
-        />
-      </ScrollView>
+          <Button
+            title="GO TO HOME SCREEN"
+            icon={
+              <Icon
+                name="home-circle"
+                size={ICON_SIZE}
+                style={styles.goToHomeButtonIcon}
+              />
+            }
+            iconRight={true}
+            loading={isLoading}
+            containerStyle={styles.goToHomeButtonContainer}
+            buttonStyle={styles.goToHomeButton}
+            titleStyle={styles.goToHomeButtonText}
+            disabled={isLoading}
+            onPress={() => this.goToHomeScreen()}
+          />
+          <Button
+            title="SKIP THIS STEP"
+            icon={
+              <Icon
+                name="chevron-right-circle"
+                size={ICON_SIZE_SMALL}
+                style={styles.skipStepButtonIcon}
+              />
+            }
+            iconRight={true}
+            loading={isLoading}
+            containerStyle={styles.skipStepButtonContainer}
+            buttonStyle={styles.skipStepButton}
+            titleStyle={styles.skipStepButtonText}
+            disabled={isLoading}
+            onPress={() => this.skipButtonClicked()}
+          />
+        </ScrollView>
+      </ImageBackground>
     );
   }
 }

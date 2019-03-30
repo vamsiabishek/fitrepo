@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   scrollviewContainer: {
     maxWidth: SCREEN_WIDTH - 60,
     maxHeight: 510,
-    backgroundColor: "white",
+    backgroundColor: "transparent", // "white",
     borderWidth: 1,
     borderColor: "white",
     borderRadius: 30,
