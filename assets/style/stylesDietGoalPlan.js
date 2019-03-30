@@ -1,35 +1,50 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { styleCommon } from "./stylesCommonValues";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center"
+    //backgroundColor: "#28292B"
+    //backgroundColor: "#0a1915"
+  },
+  bgImage: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#28292B"
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT
   },
   viewContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    //marginTop: 40,
     marginBottom: 20,
     paddingVertical: 10,
     paddingHorizontal: 10
   },
   titleContainer: {
-    color: "white", //"#717173",
+    color: styleCommon.textColor1, // "white", //"#717173",
     fontFamily: "Billabong",
     fontSize: 60
   },
   textContainer: {
-    color: "white"
+    color: styleCommon.textColor1
+    //color: "white"
+    //color: "#15211d"
   },
   viewDDContainer: {
     justifyContent: "center",
     alignItems: "center",
     width: SCREEN_WIDTH - 60,
-    backgroundColor: "#494b50",
+    //backgroundColor: "#494b50",
+    //backgroundColor: "#0d241f",
+    //backgroundColor: "#24443d",
+    backgroundColor: styleCommon.secondaryColor,
     //borderWidth: 1,
     //borderColor: "white",
     borderRadius: 30,
@@ -40,50 +55,52 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     borderWidth: 0,
-    backgroundColor: "#28292B"
+    backgroundColor: styleCommon.disableColor // "#494b50"
   },
   goalButtonGroup: {
     height: 70,
     borderRadius: 10,
     borderWidth: 0,
-    backgroundColor: "#28292B"
+    backgroundColor: styleCommon.disableColor //"#494b50"
   },
   buttonGroupStyle: {
     height: 40,
     borderRadius: 10,
     borderWidth: 0,
-    backgroundColor: "#28292B"
+    backgroundColor: styleCommon.disableColor //"#494b50"
   },
   dropdownContainer: {
     width: 300,
     //padding: 10,
-    marginTop: 15,
+    marginTop: 15
     //justifyContent: "center",
     //alignItems: "center",
   },
   weightContainer: {
     flexDirection: "row",
     width: 300,
-   // alignItems: "center",
-    marginTop: 20,
+    // alignItems: "center",
+    marginTop: 20
   },
 
   labelContainer: {
-    flexDirection:"row",
-    paddingBottom:15,
+    flexDirection: "row",
+    paddingBottom: 15
   },
   labelText: {
     fontSize: 15,
-    color: 'lightgrey',
+    color: styleCommon.textColor1 // "white"
+    //color: "lightgrey"
     //color:"black"
   },
   selectedOptionLabel: {
     fontSize: 15,
-    color: '#00DB8D',
+    color: styleCommon.textColor1
+    //color: "#00EF9A"
   },
   selectedButtonStyle: {
-    backgroundColor: '#00DB8D',
-    alignItems:"center",
+    backgroundColor: styleCommon.primaryColor, //"#00EF9A",
+    alignItems: "center"
   },
   dropdownBaseColor: {
     color: "black"
@@ -107,13 +124,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     fontSize: 16
   },
-  numericInputContainer:{
-    marginLeft:10
+  numericInputContainer: {
+    marginLeft: 10
   },
   numberPickerContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 30,
+    marginRight: 30
   },
   inputStyle: {
     justifyContent: "center",
@@ -139,27 +156,29 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     borderRadius: 20,
     paddingHorizontal: 10,
-    backgroundColor: "#00DB8D"
+    backgroundColor: styleCommon.secondaryButtonColor //"#00EF9A"
   },
   nextButtonTitleStyle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "white"
+    //color: "white"
+    color: styleCommon.secondaryButtonTextColor //"#414c47"
+    // color: "#0A1915"
   },
   veg: {
-    backgroundColor: '#00DB8D',
-    borderRadius:25,
-    width:"110%",
-    alignItems:"center",
-    paddingHorizontal:10
+    backgroundColor: styleCommon.primaryColor, //"#00EF9A",
+    borderRadius: 25,
+    width: "110%",
+    alignItems: "center",
+    paddingHorizontal: 10
   },
   nonVeg: {
-    backgroundColor: '#FF3333',
-    borderRadius:25,
-    width:"110%",
-    alignItems:"center",
-    paddingHorizontal:10
-  },
+    backgroundColor: styleCommon.primaryColor, //"#00EF9A",
+    borderRadius: 25,
+    width: "110%",
+    alignItems: "center",
+    paddingHorizontal: 10
+  }
 });
 
 export { styles };

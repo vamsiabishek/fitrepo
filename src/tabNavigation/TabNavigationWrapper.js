@@ -6,6 +6,8 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
+
+import StartUpScreen from "./../startupscreen/StartUpScreen";
 import LoginScreen from "./../login/LoginScreen1";
 import Home from "./../home/Home";
 import CreateDiet from "../diet/CreateDiet";
@@ -178,11 +180,19 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     defaultNavigationOptions: {
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,
+        //activeBackgroundColor: styles.bottomNavBar.backgroundColor, // "transparent",
         inactiveTintColor: styles.bottomNavBar.color,
+        //inactiveBackgroundColor: styles.bottomNavBar.backgroundColor, // "transparent",
         labelStyle: styles.labelStyle,
-        navBarTransparent: true,
         style: {
-          backgroundColor: styles.bottomNavBar.backgroundColor
+          backgroundColor: styles.bottomNavBar.backgroundColor, //"transparent",
+          opacity: 0.8,
+          borderTopWidth: 1,
+          borderTopColor: "transparent",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0
         }
       }
     }
@@ -203,12 +213,13 @@ const HomeStackNavigator = createStackNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
+    StartUp: StartUpScreen,
     Login: LoginScreen,
     SignUp: SignUpStackNavigator,
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "SignUp"
+    initialRouteName: "StartUp"
   }
 );
 

@@ -222,6 +222,10 @@ export default class SelectFoodSources extends Component {
     return { chipColor: "white", primary: "#00DB8D", text: "#4caf50" }
   }
 
+  renderProteinSelectText = () => {
+    return <Text style={{ color: "white" }}>Choose Protein ...</Text>;
+  };
+
   render() {
     const {
       isNonVegetarian,
@@ -271,7 +275,8 @@ export default class SelectFoodSources extends Component {
               items={proteinSources}
               uniqueKey="key"
               subKey="sources"
-              selectText={proteinSourceLabel}
+              //selectText={proteinSourceLabel}
+              renderSelectText={this.renderProteinSelectText}
               showDropDowns={true}
               expandDropDowns={true}
               readOnlyHeadings={true}
