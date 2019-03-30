@@ -41,7 +41,7 @@ class NavNextButton extends React.Component {
   render() {
     const gradientColorLeft = "#66ffff"
     let gradientColorRight = "lightgrey"
-    const {isActive} = this.props
+    const {isActive, screen, onNext} = this.props
     if(isActive) gradientColorRight = "#FA8072"
     return (
       <View style={styles.bottomNav}>
@@ -65,6 +65,7 @@ class NavNextButton extends React.Component {
             />
           }
           iconRight
+          onPress={() => onNext(screen)}
         />
       </View>
     );

@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
+export const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const commonStyles = StyleSheet.create({
@@ -16,6 +16,10 @@ const commonStyles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT
   },
+  subContainer: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT
+  }
 })
 
 export { commonStyles };
