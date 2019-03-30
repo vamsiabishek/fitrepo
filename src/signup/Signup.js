@@ -8,6 +8,7 @@ import Header from "../components/signup/Header";
 import NavNextButton from "../components/signup/NavNextButton";
 import Goal from "./Goal";
 import Gender from "./Gender";
+import PersonalDetails from "./PersonalDetails";
 import FitnessLevel from "./FitnessLevel";
 
 export default class Signup extends Component {
@@ -29,7 +30,7 @@ export default class Signup extends Component {
   };
   setFitnessLevel = fitnessLevel => {
     this.setState({ fitnessLevel, navButtonActive: true });
-  }
+  };
   onNext = currentScreen => {
     let isScrollable = false;
     if (currentScreen === 1 && this.state.goal > 0) isScrollable = true;
@@ -68,6 +69,15 @@ export default class Signup extends Component {
             <View style={commonStyles.subContainer}>
               <Header title="GENDER !" />
               <Gender gender={gender} setGender={this.setGender} />
+              <NavNextButton
+                isActive={navButtonActive}
+                screen={screen}
+                onNext={this.onNext}
+              />
+            </View>
+            <View style={commonStyles.subContainer}>
+              <Header title="Lets's get to know you Better !" />
+              <PersonalDetails />
               <NavNextButton
                 isActive={navButtonActive}
                 screen={screen}

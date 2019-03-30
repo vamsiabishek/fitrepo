@@ -240,7 +240,7 @@ export default class DietGoalPlan extends Component {
             selectedButtonStyle={
               selectedVegIndex === 0 ? styles.veg : styles.nonVeg
             }
-            textStyle={{ fontSize: 14, color: "white" }}
+            textStyle={{ fontSize: 14 }}
             selectedTextStyle={{
               fontSize: 15,
               fontWeight: "bold",
@@ -256,7 +256,6 @@ export default class DietGoalPlan extends Component {
               containerStyle={styles.goalButtonGroup}
               innerBorderStyle={{ width: 0 }}
               selectedButtonStyle={styles.selectedButtonStyle}
-              textStyle={{ color: "white" }}
               selectedTextStyle={{
                 fontWeight: "bold",
                 color: styleCommon.primaryButtonTextColor //"#414c47"
@@ -302,16 +301,14 @@ export default class DietGoalPlan extends Component {
                 totalHeight={40}
                 iconSize={25}
                 iconStyle={{
-                  //color: "#0A1915"
-                  //color: "white
-                  color: styleCommon.textColor1 //"#414c47"
+                  color: "white"
                 }}
                 step={1.5}
                 valueType="integer"
                 rounded
                 textColor={styleCommon.textColor1} //"white" //"lightgrey"
-                rightButtonBackgroundColor={styleCommon.primaryColor} //"#00EF9A" // "#00DB8D"
-                leftButtonBackgroundColor={styleCommon.primaryColor} //"#00EF9A"
+                rightButtonBackgroundColor={styleCommon.selectedButtonColor} //"#00EF9A" // "#00DB8D"
+                leftButtonBackgroundColor={styleCommon.selectedButtonColor} //"#00EF9A"
                 containerStyle={styles.numberPickerContainer}
               />
             </View>
@@ -326,7 +323,6 @@ export default class DietGoalPlan extends Component {
                 containerStyle={styles.buttonGroupStyle}
                 innerBorderStyle={{ width: 0 }}
                 selectedButtonStyle={styles.selectedButtonStyle}
-                textStyle={{ color: "lightgrey" }}
               />
             </View>
           )}

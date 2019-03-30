@@ -181,7 +181,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,
         //activeBackgroundColor: styles.bottomNavBar.backgroundColor, // "transparent",
-        inactiveTintColor: styles.bottomNavBar.color,
+        inactiveTintColor: styles.bottomNavBar.tintColor,
         //inactiveBackgroundColor: styles.bottomNavBar.backgroundColor, // "transparent",
         labelStyle: styles.labelStyle,
         style: {

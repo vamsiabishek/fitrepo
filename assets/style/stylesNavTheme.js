@@ -7,13 +7,15 @@ const styles = StyleSheet.create({
     //backgroundColor: "#28292B",
     backgroundColor: styleCommon.primaryColor, // "#0a1915",
     //color: "#44484E"
-    color: styleCommon.textColor1 //"#24443D"
+    color: styleCommon.textColor1,
+    tintColor: "#004a94" //styleCommon.textColor1
   },
   iconSize: 28,
   activeTintColor: {
-    // color: "white"
-    // color: "#24443d"
-    color: styleCommon.secondaryColor //"#00EF9A"
+    color: styleCommon.secondaryColor
+  },
+  tintColor: {
+    color: styleCommon.primaryColor
   },
   labelStyle: {
     paddingVertical: 4

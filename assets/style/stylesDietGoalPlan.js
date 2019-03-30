@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     //color: "#00EF9A"
   },
   selectedButtonStyle: {
-    backgroundColor: styleCommon.primaryColor, //"#00EF9A",
+    backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A",
     alignItems: "center"
   },
   dropdownBaseColor: {
@@ -166,14 +166,14 @@ const styles = StyleSheet.create({
     // color: "#0A1915"
   },
   veg: {
-    backgroundColor: styleCommon.primaryColor, //"#00EF9A",
+    backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A",
     borderRadius: 25,
     width: "110%",
     alignItems: "center",
     paddingHorizontal: 10
   },
   nonVeg: {
-    backgroundColor: styleCommon.primaryColor, //"#00EF9A",
+    backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A",
     borderRadius: 25,
     width: "110%",
     alignItems: "center",

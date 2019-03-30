@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   iconTextStyle: {
     fontSize: 9,
-    color: "white"
+    color: "#494b50"
   }
 });
 
@@ -63,7 +63,7 @@ class HorizontalComponent extends React.Component {
                 ...iconStyle,
                 height: 20,
                 width: 20,
-                backgroundColor: styleCommon.primaryButtonColor, //"#00EF9A", // "#00DB8D",
+                backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A", // "#00DB8D",
                 borderRadius: 10
               };
               iconDataStyle = {
