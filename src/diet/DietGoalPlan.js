@@ -219,7 +219,7 @@ export default class DietGoalPlan extends Component {
       mealOptions,
       selectedVegIndex,
       targetWeightIndex,
-      isLoading,
+      isLoading
     } = this.state;
     const { screenName } = this.props;
 
@@ -320,98 +320,14 @@ export default class DietGoalPlan extends Component {
             <View style={styles.dropdownContainer}>
               <Text style={styles.labelText}>Target weight:</Text>
               <ButtonGroup
-                onPress={this.updateVegIndex}
-                selectedIndex={selectedVegIndex}
-                buttons={buttons}
-                containerStyle={styles.vegButtonGroup}
+                onPress={this.updateTargetWeight}
+                selectedIndex={targetWeightIndex}
+                buttons={this.targetWeightLabels}
+                containerStyle={styles.buttonGroupStyle}
                 innerBorderStyle={{ width: 0 }}
                 selectedButtonStyle={styles.selectedButtonStyle}
-                textStyle={{
-                  color: "white"
-                  /*color: "lightgrey"*/
-                }}
-                selectedTextStyle={{
-                  //color: "white"
-                  //color: "#0A1915"
-                  fontWeight: "bold",
-                  color: styleCommon.primaryButtonTextColor //"#414c47"
-                }}
+                textStyle={{ color: "lightgrey" }}
               />
-              <View style={styles.dropdownContainer}>
-                <Text style={styles.labelText}> {goalLabelValue} </Text>
-                <ButtonGroup
-                  onPress={this.updateGoal}
-                  selectedIndex={selectedGoal}
-                  buttons={["Fat-Loss", "Weight-Gain"]}
-                  containerStyle={styles.goalButtonGroup}
-                  innerBorderStyle={{ width: 0 }}
-                  selectedButtonStyle={styles.selectedButtonStyle}
-                  textStyle={{ color: "lightgrey" }}
-                />
-              </View>
-              <View style={styles.dropdownContainer}>
-                <View style={styles.labelContainer}>
-                  <Text style={styles.labelText}> {programLabelValue} </Text>
-                  <Text style={styles.selectedOptionLabel}>
-                    {" "}
-                    {selectedProgram} Week Program{" "}
-                  </Text>
-                </View>
-                <HorizontalSelectView
-                  items={programs}
-                  selectedItem={selectedProgram}
-                  onSelectionChange={this.onProgramChange}
-                />
-              </View>
-              <View style={styles.dropdownContainer}>
-                <View style={styles.labelContainer}>
-                  <Text style={styles.labelText}> {mealsLabelValue} </Text>
-                  <Text style={styles.selectedOptionLabel}>
-                    {" "}
-                    {selectedMeals} Meals per day{" "}
-                  </Text>
-                </View>
-                <HorizontalSelectView
-                  items={mealOptions}
-                  selectedItem={selectedMeals}
-                  onSelectionChange={this.onMealsChange}
-                />
-              </View>
-              <View style={styles.weightContainer}>
-                <Text style={styles.labelText}>Current weight:</Text>
-                <View style={styles.numericInputContainer}>
-                  <NumericInput
-                    value={currentWeight}
-                    onChange={value => this.setState({ currentWeight: value })}
-                    initValue={currentWeight}
-                    totalWidth={80}
-                    totalHeight={40}
-                    iconSize={25}
-                    iconStyle={{ color: "white" }}
-                    step={1.5}
-                    valueType="integer"
-                    rounded
-                    textColor="lightgrey"
-                    rightButtonBackgroundColor="#00DB8D"
-                    leftButtonBackgroundColor="#00DB8D"
-                    containerStyle={styles.numberPickerContainer}
-                  />
-                </View>
-              </View>
-              {this.targetWeightOptions.length > 0 && (
-                <View style={styles.dropdownContainer}>
-                  <Text style={styles.labelText}>Target weight:</Text>
-                  <ButtonGroup
-                    onPress={this.updateTargetWeight}
-                    selectedIndex={targetWeightIndex}
-                    buttons={this.targetWeightLabels}
-                    containerStyle={styles.buttonGroupStyle}
-                    innerBorderStyle={{ width: 0 }}
-                    selectedButtonStyle={styles.selectedButtonStyle}
-                    textStyle={{ color: "lightgrey" }}
-                  />
-                </View>
-              )}
             </View>
           )}
         </View>
