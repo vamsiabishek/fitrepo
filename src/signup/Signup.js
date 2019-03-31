@@ -9,6 +9,7 @@ import NavNextButton from "../components/signup/NavNextButton";
 import Goal from "./Goal";
 import Gender from "./Gender";
 import FitnessLevel from "./FitnessLevel";
+import FoodSources from "./FoodSources";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class Signup extends Component {
   onNext = currentScreen => {
     let isScrollable = false;
     if (currentScreen === 1 && this.state.goal > 0) isScrollable = true;
-    if (currentScreen === 2 && this.state.gender > 0) isScrollable = true;
+    if (currentScreen === 2 && this.state.gender >= 0) isScrollable = true;
     if (currentScreen === 3 && this.state.fitnessLevel > 0) isScrollable = true;
     if (isScrollable && this.scrollRef) {
       const scrollValue = SCREEN_WIDTH * currentScreen;
@@ -42,7 +43,7 @@ export default class Signup extends Component {
     }
   };
   render() {
-    const { goal, gender, navButtonActive, screen } = this.state;
+    const { goal, gender, fitnessLevel, navButtonActive, screen } = this.state;
     return (
       <View style={commonStyles.container}>
         <ImageBackground
@@ -56,6 +57,15 @@ export default class Signup extends Component {
               this.scrollRef = scrollView;
             }}
           >
+            <View style={commonStyles.subContainer}>
+              <Header title="Would you like to choose ?" marginTop={110}/>
+              <FoodSources />
+              <NavNextButton
+                isActive={navButtonActive}
+                screen={screen}
+                onNext={this.onNext}
+              />
+            </View>
             <View style={commonStyles.subContainer}>
               <Header title="What is your goal ?" />
               <Goal goal={goal} setGoal={this.setGoal} />
@@ -75,8 +85,8 @@ export default class Signup extends Component {
               />
             </View>
             <View style={commonStyles.subContainer}>
-              <Header title="Fitness Level" />
-              <FitnessLevel />
+              <Header title="What is your activity level ?" marginTop={120} />
+              <FitnessLevel gender={gender} selectedLevel={fitnessLevel} setFitnessLevel={this.setFitnessLevel} levels={[1,2,3]}/>
               <NavNextButton
                 isActive={navButtonActive}
                 screen={screen}

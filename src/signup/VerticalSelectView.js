@@ -8,6 +8,20 @@ import {
   Image
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  MALE_BEGINNER_ICON,
+  MALE_INTERMEDIATE_ICON,
+  MALE_ADVANCED_ICON,
+  FEMALE_BEGINNER_ICON,
+  FEMALE_INTERMEDIATE_ICON,
+  FEMALE_ADVANCED_ICON,
+  BEGINNER_LABEL,
+  INTERMEDIATE_LABEL,
+  ADVANCED_LABEL,
+  BEGINNER_DESC,
+  INTERMEDIATE_DESC,
+  ADVANCED_DESC,
+} from "../common/Common";
 
 const styles = StyleSheet.create({
   container: {
@@ -34,6 +48,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  iconImageStyle: {
+    width: 60,
+    height: 80,
+    tintColor: "#004A94"
+  },
   iconDataStyle: {
     height: 100,
     width: 100,
@@ -42,6 +61,21 @@ const styles = StyleSheet.create({
   },
   iconTextStyle: {
     fontSize: 70
+  },
+  levelDecriptionContainer: {
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginLeft: 10
+  },
+  levelTitleStyle: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#004A94"
+  },
+  levelDescriptionStyle: {
+    width: 180,
+    fontSize: 13,
+    color: "#004A94"
   }
 });
 
@@ -49,45 +83,57 @@ class VerticalSelectView extends React.Component {
   _keyExtractor = item => `key${item}`;
 
   render() {
-    const { items, selectedItem, onSelectionChange } = this.props;
+    const { levels, gender, selectedLevel, setFitnessLevel } = this.props;
+    console.log(this.props)
     return (
       <View style={styles.container}>
         <FlatList
-          data={items}
+          data={levels}
           renderItem={({ item, index }) => {
-            let { iconStyle, iconDataStyle, iconTextStyle } = styles;
-            console.log("iconStyle:", iconStyle);
-            if (item === selectedItem) {
+            let { iconStyle, iconImageStyle, levelDecriptionContainer, lineContainer, levelDescriptionStyle, levelTitleStyle } = styles;
+            console.log("level:", item, selectedLevel);
+            if (item === selectedLevel) {
               iconStyle = {
                 ...iconStyle,
-                height: 20,
-                width: 20,
-                backgroundColor: "#00DB8D",
-                borderRadius: 10
+                backgroundColor: "#FA8072"
               };
-              iconDataStyle = {
-                ...iconDataStyle,
-                height: 12,
-                width: 12
+              iconImageStyle = {
+                ...iconImageStyle,
+                tintColor: "white"
               };
-              iconTextStyle = {
-                ...iconTextStyle,
-                fontSize: 11
+              levelTitleStyle = {
+                ...levelTitleStyle,
+                fontSize: 18,
+              };
+              levelDescriptionStyle = {
+                ...levelDescriptionStyle,
+                fontSize: 14,
+                fontWeight: "600",
               };
             }
-            let levelImage = require("../../assets/images/men_beginner_1.png");
-            let levelTitle = "Beginner"
-            if (index === 1){
-              levelImage = require("../../assets/images/men_intermediate.png");
-              levelTitle = "Intermediate"
-            }
-            else if (index === 2){
-              levelImage = require("../../assets/images/fitness_advanced.png");
-              levelTitle = "Advanced"
+            let levelImage =
+              gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
+            let levelTitle = BEGINNER_LABEL;
+            let levelDec =  BEGINNER_DESC;
+            let levelDescriptionStyles = [levelDecriptionContainer];
+            if (index === 1) {
+              levelImage =
+                gender === 1
+                  ? MALE_INTERMEDIATE_ICON
+                  : FEMALE_INTERMEDIATE_ICON;
+              levelTitle = INTERMEDIATE_LABEL;
+              levelDec =  INTERMEDIATE_DESC;
+              levelDescriptionStyles.push({marginTop: lineContainer.height})
+            } else if (index === 2) {
+              levelImage =
+                gender === 1 ? MALE_ADVANCED_ICON : FEMALE_ADVANCED_ICON;
+              levelTitle = ADVANCED_LABEL;
+              levelDec =  ADVANCED_DESC;
+              levelDescriptionStyles.push({marginTop: lineContainer.height})
             }
 
             return (
-              <View style={{ flex:1, flexDirection: "row" }}>
+              <View style={{ flex: 1, flexDirection: "row" }}>
                 <View style={styles.subContainer}>
                   {index !== 0 && <View style={styles.lineContainer} />}
                   <TouchableOpacity
@@ -96,26 +142,29 @@ class VerticalSelectView extends React.Component {
                       alignItems: "center",
                       justifyContent: "center"
                     }}
-                    onPress={() => onSelectionChange(item)}
+                    onPress={() => setFitnessLevel(item)}
                   >
                     <View style={iconStyle}>
-                      <View style={iconDataStyle}>
+                      <View style={styles.iconDataStyle}>
                         <Image
                           source={levelImage}
-                          style={{ width: 60, height: 80, tintColor: "black" }}
+                          style={iconImageStyle}
                         />
                       </View>
                     </View>
                   </TouchableOpacity>
                 </View>
-                <View style={{justifyContent:"center", alignItems:"center", marginLeft:10}}>
-                  <Text>{levelTitle}</Text>
+                <View style={levelDescriptionStyles}>
+                  <Text style={levelTitleStyle}>{levelTitle}</Text>
+                  <Text style={levelDescriptionStyle}>
+                    {levelDec}
+                  </Text>
                 </View>
               </View>
             );
           }}
           keyExtractor={this._keyExtractor}
-          extraData={selectedItem}
+          extraData={selectedLevel}
         />
       </View>
     );

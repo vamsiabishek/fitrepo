@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: "flex-start",
     alignItems: "center",
-    width: 200,
+    width: 220,
     marginTop: 150,
     marginBottom: 40,
     marginHorizontal: 40
@@ -19,9 +19,16 @@ const styles = StyleSheet.create({
 
 class Header extends React.Component {
   render() {
-    const { title } = this.props;
+    const { title, marginTop } = this.props;
+    let { header } = styles
+    if(marginTop) {
+      header = {
+        ...header,
+        marginTop,
+      }
+    }
     return (
-      <View style={styles.header}>
+      <View style={header}>
         <Text style={styles.headerTitle}>{title}</Text>
       </View>
     );

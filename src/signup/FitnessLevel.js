@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
 
 export default class FitnessLevel extends Component {
   render() {
-    const { gender, setGender } = this.props;
+    const { gender, levels, selectedLevel, setFitnessLevel } = this.props;
     return (
       <View style={styles.mainContent}>
-        <VerticalSelectView items={[1,2,3]}/>
+        <VerticalSelectView gender={gender} levels={levels} selectedLevel={selectedLevel} setFitnessLevel={setFitnessLevel}/>
       </View>
     );
   }
