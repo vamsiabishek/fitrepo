@@ -21,15 +21,15 @@ export default class LoginScreen1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //email: "dhivya@gmail.com",
-      email: "vamsi@gmail.com",
-      password: "vamsi123",
+      email: "dhivya@gmail.com",
+      //email: "vamsi@gmail.com",
+      //password: "vamsi123",
       emailValid: true,
-      //password: "Dhivya09",
+      password: "Dhivya09",
       passwordValid: true,
       login_failed: false,
       showLoading: false,
-      selectedIndex: 0,
+      selectedIndex: 0
     };
   }
   onEmailChange = email => {
@@ -85,7 +85,7 @@ export default class LoginScreen1 extends Component {
       password,
       passwordValid,
       emailValid,
-      showLoading,
+      showLoading
     } = this.state;
     return (
       <View style={styles.container}>

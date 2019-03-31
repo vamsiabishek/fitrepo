@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   motherContainer: {
@@ -10,8 +11,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: 10,
-    backgroundColor: "#28292B"
+    paddingBottom: 10
+    //backgroundColor: "#28292B"
+  },
+  bgImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT
   },
   viewContainer: {
     justifyContent: "center",
@@ -35,25 +43,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: SCREEN_WIDTH - 40,
     borderWidth: 5,
-    borderColor: "white",
-    borderRadius: 40,
-    marginBottom: 10,
-    paddingTop: 10,
-    paddingBottom: 20,
-    backgroundColor: "white"
+    borderColor: "transparent",
+    borderRadius: 50,
+    marginVertical: 5,
+    padding: 10,
+    backgroundColor: "white",
+    opacity: 0.6
+  },
+  inputGradientContainer: {
+    borderColor: "transparent",
+    borderRadius: 60,
+    marginBottom: 5
   },
   inputViewContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: SCREEN_WIDTH,
+    width: "85%",
+    borderColor: "transparent",
+    borderRadius: 50,
     paddingHorizontal: 10,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    marginBottom: 8,
+    backgroundColor: "white"
   },
   inputContainer: {
     justifyContent: "center",
     alignItems: "center",
     width: SCREEN_WIDTH - 100,
-    height: 45,
+    //height: 45,
     borderBottomWidth: 1,
     borderBottomColor: "black",
     marginVertical: 10,
@@ -64,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    color: "#44484E",
+    color: "black", // "#44484E",
     fontSize: 16
   },
   errorInputStyle: {
@@ -96,16 +113,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    width: SCREEN_WIDTH - 100,
-    marginVertical: 10,
-    paddingHorizontal: 20
-  },
-  radioButtonWrapStyle: {
-    marginLeft: 20
-  },
-  radioButtonOuterIconStyle: {
-    color: "black",
-    marginBottom: 10
+    width: SCREEN_WIDTH - 60,
+    marginBottom: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 10
+    //backgroundColor: "pink"
   },
   radioButtonTextIconStyle: {
     flexDirection: "row",
@@ -115,12 +127,21 @@ const styles = StyleSheet.create({
   },
   radioButtonTextStyle: {
     flexDirection: "row",
-    marginLeft: 8
+    marginLeft: 35,
+    paddingTop: 5,
+    paddingHorizontal: 5
+    //backgroundColor: "blue"
+  },
+  radioButtonOuterIconStyle: {
+    color: "black"
   },
   radioButtonText: {
     paddingLeft: 9,
-    color: "#44484E",
+    color: "black",
     fontSize: 16
+  },
+  radioButtonWrapStyle: {
+    marginLeft: 20
   },
   radioButtonTextSmall: {
     paddingLeft: 9,
@@ -146,6 +167,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#F44336",
     fontSize: 12
+  },
+  vegButtonGroup: {
+    //width: SCREEN_WIDTH - 100,
+    height: 35,
+    borderColor: "black",
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: "white"
   }
 });
 

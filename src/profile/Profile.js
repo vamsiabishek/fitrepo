@@ -16,6 +16,8 @@ import ProgressBarAnimated from "react-native-progress-bar-animated";
 import { styles } from "../../assets/style/stylesProfileScreen";
 import { f, database } from "../common/FirebaseConfig";
 import {
+  convertLevelToStarRating,
+  convertLevelToLevelColor,
   GRADIENT_COLORS_ARRAY,
   AVATAR_SIZE,
   ICON_SIZE,
@@ -100,6 +102,8 @@ export default class Profile extends Component {
       goalChosen,
       goalCompletedPercent
     } = this.state;
+    let levelColor = convertLevelToLevelColor(user.level);
+    let starRating = convertLevelToStarRating(user.level);
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -142,7 +146,7 @@ export default class Profile extends Component {
                 <Icon
                   name="trophy-variant" // "medal"
                   size={ICON_SIZE}
-                  color={user.levelColor}
+                  color={levelColor}
                 />
                 <Text style={styles.profileBannerTextStyle}>Level</Text>
               </View>
@@ -150,7 +154,7 @@ export default class Profile extends Component {
                 <StarRating
                   disabled={false}
                   maxStars={STAR_RATING_MAX}
-                  rating={user.starRating}
+                  rating={starRating}
                   starSize={ICON_SIZE}
                   emptyStar="star-outline"
                   fullStar="star"

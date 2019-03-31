@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   motherContainer: {
@@ -10,12 +11,19 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: 10,
-    backgroundColor: "#28292B"
+    paddingBottom: 10
+    //backgroundColor: "#28292B"
   },
   viewContainer: {
     justifyContent: "center",
     alignItems: "center"
+  },
+  bgImage: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT
   },
   formContainer: {
     flex: 1,
@@ -35,25 +43,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: SCREEN_WIDTH - 40,
     borderWidth: 5,
-    borderColor: "white",
-    borderRadius: 40,
-    marginBottom: 10,
-    paddingTop: 10,
-    paddingBottom: 20,
-    backgroundColor: "white"
+    borderColor: "transparent",
+    borderRadius: 50,
+    marginVertical: 5,
+    padding: 10,
+    backgroundColor: "white",
+    opacity: 0.6
+  },
+  inputGradientContainer: {
+    borderColor: "transparent",
+    borderRadius: 60,
+    marginBottom: 5
   },
   inputViewContainer: {
     justifyContent: "center",
     alignItems: "center",
-    width: SCREEN_WIDTH,
+    width: "85%",
+    borderColor: "transparent",
+    borderRadius: 50,
     paddingHorizontal: 10,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    marginBottom: 8,
+    backgroundColor: "white"
   },
   inputContainer: {
     justifyContent: "center",
     alignItems: "center",
     width: SCREEN_WIDTH - 100,
-    height: 45,
+    //height: 45,
     borderBottomWidth: 1,
     borderBottomColor: "black",
     marginVertical: 10,
@@ -64,11 +81,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    color: "#44484E",
+    color: "black", // "#44484E",
     fontSize: 16
   },
   errorInputStyle: {
-    marginTop: 5,
+    marginTop: 0,
     textAlign: "center",
     color: "#F44336"
   },

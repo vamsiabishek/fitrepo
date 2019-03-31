@@ -21,6 +21,7 @@
     "react-native-linear-gradient": "^2.5.3",
     "react-native-location-manager-ios": "^1.0.2",
     "react-native-material-dropdown": "^0.11.1",
+    "react-native-modal": "^9.0.0",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-numeric-input": "^1.6.5",
     "react-native-progress-bar-animated": "^1.0.6",

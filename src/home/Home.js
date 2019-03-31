@@ -1,8 +1,15 @@
 import React, { Component } from "react";
-import { LayoutAnimation, Text, View, StatusBar } from "react-native";
+import {
+  LayoutAnimation,
+  Text,
+  View,
+  StatusBar,
+  ImageBackground
+} from "react-native";
 import { Input, Button } from "react-native-elements";
 import { styles } from "../../assets/style/stylesHomeScreen";
 import { f, database } from "../common/FirebaseConfig";
+import { GRADIENT_BG_IMAGE } from "../common/Common";
 
 export default class Home extends Component {
   constructor(props) {
@@ -35,13 +42,13 @@ export default class Home extends Component {
   render() {
     const { username, name } = this.state;
     return (
-      <View style={styles.container}>
+      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
         <StatusBar barStyle="light-content" />
         <View style={styles.viewContainer}>
           <Text style={styles.headerText}>Welcome {name}!</Text>
           <Text style={styles.normalText}>This is the Home page.</Text>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }

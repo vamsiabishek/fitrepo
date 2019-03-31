@@ -17,7 +17,7 @@ export default class SelectFoodSources extends Component {
       isNonVegetarian: true,
       selectedProteinSources: props.selectedProteins,
       selectedFatSources: props.selectedFats,
-      selectedCarbSources: props.selectedCarbs,
+      selectedCarbSources: props.selectedCarbs
     };
     this.fatSelectPosition = 0;
   }
@@ -150,27 +150,27 @@ export default class SelectFoodSources extends Component {
   };
 
   onProteinSelectedChange = selectedProteinSources => {
-    if(this.validateSelectedSources(selectedProteinSources))
+    if (this.validateSelectedSources(selectedProteinSources))
       this.setState({ selectedProteinSources });
   };
   onCarbSelectedChange = selectedCarbSources => {
-    if(this.validateSelectedSources(selectedCarbSources))
+    if (this.validateSelectedSources(selectedCarbSources))
       this.setState({ selectedCarbSources });
   };
   onFatSelectedChange = selectedFatSources => {
-    if(this.validateSelectedSources(selectedFatSources))
+    if (this.validateSelectedSources(selectedFatSources))
       this.setState({ selectedFatSources });
-    if(this.scrollView)
-      this.scrollView.scrollTo({y: this.fatSelectPosition - 250});
+    if (this.scrollView)
+      this.scrollView.scrollTo({ y: this.fatSelectPosition - 250 });
   };
 
   validateSelectedSources = selectedSources => {
-    if(selectedSources.length > 4){
-      alert("You can only select 4 sources!")
+    if (selectedSources.length > 4) {
+      alert("You can only select 4 sources!");
       return false;
     }
     return true;
-  }
+  };
 
   getConfirmText = selectedList => (selectedList.length ? "Confirm" : "Cancel");
 
@@ -222,6 +222,10 @@ export default class SelectFoodSources extends Component {
     return { chipColor: "white", primary: "#00DB8D", text: "#4caf50" }
   }
 
+  renderProteinSelectText = () => {
+    return <Text style={{ color: "white" }}>Choose Protein ...</Text>;
+  };
+
   render() {
     const {
       isNonVegetarian,
@@ -230,8 +234,7 @@ export default class SelectFoodSources extends Component {
       fatSources,
       carbSources,
       selectedFatSources,
-      selectedCarbSources,
-      
+      selectedCarbSources
     } = this.state;
     const isVegLabel = isNonVegetarian ? "Non-Vegetarian" : "Vegetarian";
     const proteinSourceLabel = this.getSourceLabel(
@@ -253,7 +256,7 @@ export default class SelectFoodSources extends Component {
         <ScrollView
           style={styles.scrollviewContainer}
           contentContainerStyle={styles.scrollviewContentContainer}
-          ref={ref => this.scrollView = ref}
+          ref={ref => (this.scrollView = ref)}
           /*onContentSizeChange={(contentWidth, contentHeight)=>{
             this.scrollView.scrollTo({y: contentHeight});
           }} */
@@ -272,7 +275,8 @@ export default class SelectFoodSources extends Component {
               items={proteinSources}
               uniqueKey="key"
               subKey="sources"
-              selectText={proteinSourceLabel}
+              //selectText={proteinSourceLabel}
+              renderSelectText={this.renderProteinSelectText}
               showDropDowns={true}
               expandDropDowns={true}
               readOnlyHeadings={true}
@@ -303,9 +307,12 @@ export default class SelectFoodSources extends Component {
               confirmText={carbSourceConfirmText}
             />
           </View>
-          <View style={styles.multiSelectDropdown} onLayout={(e)=> {
-                this.fatSelectPosition = e.nativeEvent.layout.y
-              }}>
+          <View
+            style={styles.multiSelectDropdown}
+            onLayout={e => {
+              this.fatSelectPosition = e.nativeEvent.layout.y;
+            }}
+          >
             <SectionedMultiSelect
               items={fatSources}
               uniqueKey="key"
