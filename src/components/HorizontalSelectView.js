@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
   lineContainer: {
     height: 3,
     borderTopWidth: 3,
-    borderColor: styleCommon.disableColor, // "#494b50", // "#28292B", //"grey",
+    borderColor: styleCommon.disableColor,
     width: 50
   },
   iconStyle: {
     height: 15,
     width: 15,
-    backgroundColor: styleCommon.disableColor, // "#494b50", //"#28292B", //"grey",
+    backgroundColor: styleCommon.disableColor,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center"

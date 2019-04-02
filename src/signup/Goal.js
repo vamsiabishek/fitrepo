@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "600"
   },
-
   buttonIcon: {
     position: "absolute",
     left: 45
@@ -68,16 +67,36 @@ export default class Goal extends Component {
       <View style={styles.mainContent}>
         <Button
           buttonStyle={
-            goal === 1 ? styles.activeButtonStyle : styles.buttonStyle
+            goal === 0 ? styles.activeButtonStyle : styles.buttonStyle
           }
           titleStyle={
-            goal === 1 ? styles.activeButtonTitle : styles.buttonTitle
+            goal === 0 ? styles.activeButtonTitle : styles.buttonTitle
           }
           title="Fat Loss"
           icon={
             <Icon
               // arrow-right-drop-circle-outline
               name="scale-bathroom"
+              size={35}
+              color={goal === 0 ? buttonIconActiveColor : buttonIconColor}
+              style={styles.buttonIcon}
+            />
+          }
+          iconLeft
+          onPress={() => setGoal(0)}
+        />
+        <Button
+          buttonStyle={
+            goal === 1 ? styles.activeButtonStyle : styles.buttonStyle
+          }
+          titleStyle={
+            goal === 1 ? styles.activeButtonTitle : styles.buttonTitle
+          }
+          title="Be Healthy"
+          icon={
+            <Icon
+              // arrow-right-drop-circle-outline
+              name="heart-pulse"
               size={35}
               color={goal === 1 ? buttonIconActiveColor : buttonIconColor}
               style={styles.buttonIcon}
@@ -93,11 +112,11 @@ export default class Goal extends Component {
           titleStyle={
             goal === 2 ? styles.activeButtonTitle : styles.buttonTitle
           }
-          title="Be Healthy"
+          title="Gain Weight"
           icon={
             <Icon
               // arrow-right-drop-circle-outline
-              name="heart-pulse"
+              name="scale-bathroom"
               size={35}
               color={goal === 2 ? buttonIconActiveColor : buttonIconColor}
               style={styles.buttonIcon}
@@ -105,26 +124,6 @@ export default class Goal extends Component {
           }
           iconLeft
           onPress={() => setGoal(2)}
-        />
-        <Button
-          buttonStyle={
-            goal === 3 ? styles.activeButtonStyle : styles.buttonStyle
-          }
-          titleStyle={
-            goal === 3 ? styles.activeButtonTitle : styles.buttonTitle
-          }
-          title="Gain Weight"
-          icon={
-            <Icon
-              // arrow-right-drop-circle-outline
-              name="scale-bathroom"
-              size={35}
-              color={goal === 3 ? buttonIconActiveColor : buttonIconColor}
-              style={styles.buttonIcon}
-            />
-          }
-          iconLeft
-          onPress={() => setGoal(3)}
         />
       </View>
     );

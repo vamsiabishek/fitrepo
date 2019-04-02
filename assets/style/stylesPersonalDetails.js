@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { styleCommon } from "./stylesCommonValues";
+import { commonStyles } from "./stylesCommon";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -7,52 +8,101 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   mainContent: {
     justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    marginTop: 50
+    alignItems: "center"
   },
-  inputOuterViewContainer: {
+  buttonStyle: {
+    width: SCREEN_WIDTH - 100,
+    height: 65,
+    backgroundColor: styleCommon.secondaryButtonColor,
+    borderRadius: 10,
+    borderBottomWidth: 0,
+    shadowColor: "grey",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    elevation: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 20
+  },
+  activeButtonStyle: {
+    width: SCREEN_WIDTH - 100,
+    height: 65,
+    backgroundColor: styleCommon.secondaryButtonColor, //styleCommon.selectedButtonColor,
+    borderRadius: 10,
+    borderBottomWidth: 0,
+    shadowColor: "grey",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    elevation: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 20
+  },
+  buttonTitle: {
+    flex: 1,
+    textAlign: "left",
+    color: "#004a94",
+    fontSize: 15,
+    fontWeight: "300"
+  },
+  activeButtonTitle: {
+    flex: 1,
+    textAlign: "left",
+    color: "#004a94",
+    fontWeight: "500"
+  },
+  buttonIcon: {
+    position: "absolute",
+    right: 10,
+    color: "#004a94"
+  },
+  activeButtonIcon: {
+    position: "absolute",
+    right: 10,
+    color: styleCommon.selectedButtonColor
+  },
+  modalInsideStyle: {
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 5,
-    borderColor: "transparent",
-    borderRadius: 50,
+    backgroundColor: styleCommon.secondaryButtonColor,
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)",
+    padding: 22
+  },
+  targetContainer: {
+    width: 300,
     margin: 10,
     padding: 10
-    //backgroundColor: "pink"
   },
-  inputViewContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "85%",
-    borderColor: "transparent",
-    borderRadius: 50,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
-    marginBottom: 8
+  headerText: {
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center",
+    color: styleCommon.secondaryButtonTextColor
   },
-  inputContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: SCREEN_WIDTH - 100,
-    borderBottomWidth: 1,
-    borderBottomColor: styleCommon.textColor1,
-    marginVertical: 10
+  labelContainer: {
+    flexDirection: "row",
+    paddingBottom: 15
   },
-  inputStyle: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    color: styleCommon.textColor1,
-    fontSize: 16
-  },
-  inputIconStyle: {
+  labelText: {
+    fontSize: 15,
     color: styleCommon.textColor1
   },
-  errorInputStyle: {
-    marginTop: 0,
-    textAlign: "center",
-    color: "#F44336"
+  selectedOptionLabel: {
+    fontSize: 15,
+    color: styleCommon.textColor1
+  },
+  buttonGroupStyle: {
+    height: 40,
+    borderRadius: 10,
+    borderWidth: 0,
+    backgroundColor: styleCommon.disableColor
+  },
+  selectedButtonStyle: {
+    backgroundColor: styleCommon.selectedButtonColor,
+    alignItems: "center"
   }
 });
 

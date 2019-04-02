@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ImageBackground, ScrollView , ActivityIndicator, LayoutAnimation} from "react-native";
+import { View, StyleSheet, ImageBackground, ScrollView , ActivityIndicator, LayoutAnimation, 
+  StatusBar} from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { commonStyles, SCREEN_WIDTH } from "../../assets/style/stylesCommon";
@@ -20,6 +21,13 @@ export default class Signup extends Component {
       goal: "",
       gender: "",
       fitnessLevel: "",
+      dob: "",
+      age: null,
+      weight: undefined,
+      height: undefined,
+      program: undefined,
+      targetWeight: undefined,
+      showTargetWeightButton: false,
       navButtonActive: false,
       screen: 1,
       proteinSources: [
@@ -79,21 +87,64 @@ export default class Signup extends Component {
   setFitnessLevel = fitnessLevel => {
     this.setState({ fitnessLevel, navButtonActive: true });
   };
-
   setUser = user => {
     this.setState({ user });
   };
-
-  onNext = async currentScreen => {
+  setDob = (dob, age) => {
+    const { weight, height } = this.state;
+    let showTargetWeightButton = this.changeShowTargetWeightButton(
+      dob,
+      weight,
+      height
+    );
+    this.setState({ dob, age, showTargetWeightButton });
+  };
+  setWeight = weight => {
+    const { dob, height } = this.state;
+    let showTargetWeightButton = this.changeShowTargetWeightButton(
+      dob,
+      weight,
+      height
+    );
+    this.setState({ weight, showTargetWeightButton });
+  };
+  setHeight = height => {
+    const { dob, weight } = this.state;
+    let showTargetWeightButton = this.changeShowTargetWeightButton(
+      dob,
+      weight,
+      height
+    );
+    this.setState({ height, showTargetWeightButton });
+  };
+  changeShowTargetWeightButton = (dob, weight, height) => {
+    if (dob.length > 0 && weight !== undefined && height !== undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  setTargetWeightAndProgram = (targetWeight, program) => {
+    this.setState({ targetWeight, program });
+  };
+  onNext = currentScreen => {
     let isScrollable = false;
-    if (currentScreen === 1 && this.state.goal > 0) isScrollable = true;
+    if (currentScreen === 1 && this.state.goal >= 0) isScrollable = true;
     if (currentScreen === 2 && this.state.gender >= 0) isScrollable = true;
     if (currentScreen === 3 && this.state.fitnessLevel > 0) isScrollable = true;
+
     if (currentScreen === 4) {
       await this.createNewUser()
       isScrollable = true;
     }
-    if (currentScreen === 5) isScrollable = true;
+    if (
+      currentScreen === 5 &&
+      this.state.dob > 0 &&
+      this.state.age > 0 &&
+      this.state.weight > 0 &&
+      this.state.height > 0
+    )
+      isScrollable = true;
     if (currentScreen === 6) isScrollable = true;
     if (isScrollable && this.scrollRef) {
       const scrollValue = SCREEN_WIDTH * currentScreen;
@@ -367,8 +418,6 @@ export default class Signup extends Component {
       goal,
       gender,
       fitnessLevel,
-      navButtonActive,
-      screen,
       sourcesButtonLabel,
       selectedProteinSources,
       selectedCarbSources,
@@ -384,7 +433,15 @@ export default class Signup extends Component {
       emailValid,
       passwordValid,
       confirmationPasswordValid,
-      isLoading
+      isLoading,
+      dob,
+      weight,
+      height,
+      program,
+      targetWeight,
+      navButtonActive,
+      showTargetWeightButton,
+      screen
     } = this.state;
     const signupObject = {
       email,
@@ -403,6 +460,7 @@ export default class Signup extends Component {
     };
     return (
       <View style={commonStyles.container}>
+        <StatusBar hidden={true} />
         <ImageBackground
           source={GRADIENT_BG_IMAGE}
           style={commonStyles.bgImage}
@@ -462,11 +520,27 @@ export default class Signup extends Component {
             </View>
             <View style={commonStyles.subContainer}>
               <Header title="Lets's get to know you Better !" />
-              <PersonalDetails />
+              <PersonalDetails
+                goal={goal}
+                gender={gender}
+                fitnessLevel={fitnessLevel}
+                dob={dob}
+                setDob={this.setDob}
+                weight={weight}
+                setWeight={this.setWeight}
+                height={height}
+                setHeight={this.setHeight}
+                showTargetWeightButton={showTargetWeightButton}
+                programs={[4, 8, 12, 16]}
+                program={program}
+                targetWeight={targetWeight}
+                setTargetWeightAndProgram={this.setTargetWeightAndProgram}
+              />
               <NavNextButton
-                isActive={navButtonActive}
+                isActive={true}
                 screen={screen}
                 onNext={this.onNext}
+                buttonText={sourcesButtonLabel}
               />
             </View>
             <View style={commonStyles.subContainer}>

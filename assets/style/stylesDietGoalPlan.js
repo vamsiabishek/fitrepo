@@ -67,19 +67,15 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 10,
     borderWidth: 0,
-    backgroundColor: styleCommon.disableColor //"#494b50"
+    backgroundColor: styleCommon.disableColor
   },
   dropdownContainer: {
     width: 300,
-    //padding: 10,
     marginTop: 15
-    //justifyContent: "center",
-    //alignItems: "center",
   },
   weightContainer: {
     flexDirection: "row",
     width: 300,
-    // alignItems: "center",
     marginTop: 20
   },
 
@@ -89,17 +85,14 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 15,
-    color: styleCommon.textColor1 // "white"
-    //color: "lightgrey"
-    //color:"black"
+    color: styleCommon.textColor1
   },
   selectedOptionLabel: {
     fontSize: 15,
     color: styleCommon.textColor1
-    //color: "#00EF9A"
   },
   selectedButtonStyle: {
-    backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A",
+    backgroundColor: styleCommon.selectedButtonColor,
     alignItems: "center"
   },
   dropdownBaseColor: {

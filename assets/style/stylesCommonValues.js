@@ -1,4 +1,5 @@
 export const styleCommon = {
+  width: SCREEN_WIDTH,
   primaryColor: "#3399ff",
   secondaryColor: "#d1feff",
   textColor1: "#004a94",
