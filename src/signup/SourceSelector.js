@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "grey",
     marginHorizontal: 50,
-    marginTop:10,
-
+    marginTop:20,
+    width: 300
   },
   sourceSelectorContainer: {
     flexDirection: "row",
@@ -56,12 +56,12 @@ const styles = StyleSheet.create({
 export default class SourceSelector extends Component {
   render() {
     const iconColor = "#004a94";
-    const {selectedSources, removeSource, selectText } = this.props
+    const {selectedSources, removeSource, selectText , addSource, sourceType} = this.props
     return (
         <View style={styles.sourceContainer}>
           <View style={styles.sourceSelectorContainer}>
             <Text style={styles.sourceSelectorLabel}>{selectText}</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => addSource(sourceType)}>
               <Icon
                 name="plus-circle-outline"
                 color={iconColor}
@@ -73,7 +73,7 @@ export default class SourceSelector extends Component {
             {selectedSources.map((source, index) => (
               <View style={styles.selectedSourceContainer} key={source.name}>
                 <Text style={styles.selectedSourceLabel}>{source.name}</Text>
-                <TouchableOpacity style={styles.selectedSourceCancel} onPress={()=> removeSource(index)}>
+                <TouchableOpacity style={styles.selectedSourceCancel} onPress={()=> removeSource(index, sourceType)}>
                   <Icon name="close" color="white" size={ICON_SIZE_SMALL} />
                 </TouchableOpacity>
               </View>

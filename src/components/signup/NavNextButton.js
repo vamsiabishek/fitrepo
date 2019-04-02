@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { btnGradientColorLeft, btnGradientColorRight, btnGradientColorRightDisabled } from "../../../assets/style/stylesCommonValues"
 
 const styles = StyleSheet.create({
   bottomNav: {
@@ -39,22 +40,21 @@ const styles = StyleSheet.create({
 
 class NavNextButton extends React.Component {
   render() {
-    const gradientColorLeft = "#66ffff"
-    let gradientColorRight = "lightgrey"
-    const {isActive, screen, onNext} = this.props
-    if(isActive) gradientColorRight = "#FA8072"
+    let gradientColorRight = btnGradientColorRightDisabled
+    const {isActive, screen, onNext, buttonText} = this.props
+    if(isActive) gradientColorRight = btnGradientColorRight
     return (
       <View style={styles.bottomNav}>
         <Button
           ViewComponent={LinearGradient} // Don't forget this!
           linearGradientProps={{
-            colors: [gradientColorLeft, gradientColorRight],
+            colors: [btnGradientColorLeft, gradientColorRight],
             start: { x: 0, y: 0.5 },
             end: { x: 1, y: 0.5 }
           }}
           buttonStyle={isActive ? styles.navButtonActive : styles.navButtonDisabled}
           titleStyle={isActive ? styles.activeButtonTitle : styles.buttonTitle}
-          title="NEXT"
+          title={buttonText ? buttonText : "NEXT"}
           icon={
             <Icon
               // arrow-right-drop-circle-outline

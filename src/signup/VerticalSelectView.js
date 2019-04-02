@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,

@@ -20,7 +20,45 @@ export default class Signup extends Component {
       gender: "",
       fitnessLevel: "",
       navButtonActive: false,
-      screen: 1
+      screen: 1,
+      proteinSources: [
+        {
+          name: "Chicken breast",
+          uri: require("../../assets/images/sources/chicken-breast.png")
+        },
+        {
+          name: "Salmon",
+          uri: require("../../assets/images/sources/salmon.png")
+        },
+        { name: "Eggs", uri: require("../../assets/images/sources/eggs.png") },
+        {
+          name: "Panner",
+          uri: require("../../assets/images/sources/panner.png")
+        },
+        { name: "Tofu", uri: require("../../assets/images/sources/tofu.png") },
+        { name: "Rajma", uri: require("../../assets/images/sources/rajma.png") }
+      ],
+      carbSources: [
+        { name: "White rice" },
+        { name: "Chapati" },
+        { name: "Bread" }
+      ],
+      fatSources: [
+        { name: "Chia seeds" },
+        { name: "Flax seeds" },
+        { name: "Almonds" }
+      ],
+      selectedProteinSources: [],
+      selectedCarbSources: [],
+      selectedFatSources: [],
+      showModal: false,
+      modalContains: "",
+      searchTerm: "",
+      selectedSources: [],
+      sources: [],
+      filteredSources: [],
+      searchTerm: "",
+      sourcesButtonLabel: "SKIP"
     };
   }
   setGoal = goal => {
@@ -32,19 +70,209 @@ export default class Signup extends Component {
   setFitnessLevel = fitnessLevel => {
     this.setState({ fitnessLevel, navButtonActive: true });
   };
+
   onNext = currentScreen => {
     let isScrollable = false;
     if (currentScreen === 1 && this.state.goal > 0) isScrollable = true;
     if (currentScreen === 2 && this.state.gender >= 0) isScrollable = true;
     if (currentScreen === 3 && this.state.fitnessLevel > 0) isScrollable = true;
+    if (currentScreen === 4) isScrollable = true;
     if (isScrollable && this.scrollRef) {
       const scrollValue = SCREEN_WIDTH * currentScreen;
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen + 1, navButtonActive: false });
     }
   };
+
+  // source selection methods
+  removeProteinSource = index => {
+    if (index > -1) {
+      let { selectedProteinSources } = this.state;
+      const sources = this.unSelectSource(selectedProteinSources[index]);
+      selectedProteinSources.splice(index, 1);
+      let sourcesButtonLabel = this.changeSourceButtonLabel();
+      this.setState({ selectedProteinSources, sources, sourcesButtonLabel });
+    }
+  };
+  removeCarbSource = index => {
+    if (index > -1) {
+      let { selectedCarbSources } = this.state;
+      const sources = this.unSelectSource(selectedCarbSources[index]);
+      selectedCarbSources.splice(index, 1);
+      let sourcesButtonLabel = this.changeSourceButtonLabel();
+      this.setState({ selectedCarbSources, sources, sourcesButtonLabel });
+    }
+  };
+  removeFatSource = index => {
+    if (index > -1) {
+      let { selectedFatSources } = this.state;
+      const sources = this.unSelectSource(selectedFatSources[index]);
+      selectedFatSources.splice(index, 1);
+      let sourcesButtonLabel = this.changeSourceButtonLabel();
+      this.setState({ selectedFatSources, sources, sourcesButtonLabel });
+    }
+  };
+  removeSource = (index, sourceType) => {
+    if (sourceType === "protein") this.removeProteinSource(index);
+    else if (sourceType === "carbs") this.removeCarbSource(index);
+    else if (sourceType === "fat") this.removeFatSource(index);
+  };
+  unSelectSource = selectedSource => {
+    let { sources } = this.state;
+    const selectedIndexFromSources = sources.findIndex(
+      source => source.name === selectedSource.name
+    );
+    sources[selectedIndexFromSources].selected = false;
+    return sources;
+  };
+  addProtein = () => {
+    this.setState({
+      showModal: true,
+      modalContains: "protein",
+      selectedSources: this.state.selectedProteinSources,
+      sources: this.state.proteinSources,
+      filteredSources: this.state.proteinSources,
+      searchTerm: ""
+    });
+  };
+  addCarbs = () => {
+    this.setState({
+      showModal: true,
+      modalContains: "carbs",
+      selectedSources: this.state.selectedCarbSources,
+      sources: this.state.carbSources,
+      filteredSources: this.state.carbSources,
+      searchTerm: ""
+    });
+  };
+  addFat = () => {
+    this.setState({
+      showModal: true,
+      modalContains: "fat",
+      selectedSources: this.state.selectedFatSources,
+      sources: this.state.fatSources,
+      filteredSources: this.state.fatSources,
+      searchTerm: ""
+    });
+  };
+  addSource = sourceType => {
+    if (sourceType === "protein") this.addProtein();
+    else if (sourceType === "carbs") this.addCarbs();
+    else if (sourceType === "fat") this.addFat();
+  };
+  onSourceToggle = (index, selected) => {
+    const {
+      sources,
+      selectedSources,
+      modalContains,
+    } = this.state;
+
+    if (selectedSources.length < 4) {
+      const selectedSource = sources[index];
+      sources[index].selected = !selected;
+      if (!selected) selectedSources.push(this.state.sources[index]);
+      else {
+        const selectedIndex = selectedSources.findIndex(
+          source => source.name === selectedSource.name
+        );
+        if (selectedIndex > -1) selectedSources.splice(selectedIndex, 1);
+      }
+      
+      let sourcesButtonLabel = this.changeSourceButtonLabel();
+
+      if (modalContains === "protein")
+        this.setState({
+          sources,
+          selectedSources,
+          selectedProteinSources: selectedSources,
+          sourcesButtonLabel
+        });
+      else if (modalContains === "carbs")
+        this.setState({
+          sources,
+          selectedSources,
+          selectedCarbSources: selectedSources,
+          sourcesButtonLabel
+        });
+      else if (modalContains === "fat")
+        this.setState({
+          sources,
+          selectedSources,
+          selectedFatSources: selectedSources,
+          sourcesButtonLabel
+        });
+    } else {
+      alert("You can only select 4 " + modalContains + " sources");
+    }
+  };
+
+  changeSourceButtonLabel = () => {
+    const {
+      selectedProteinSources,
+      selectedCarbSources,
+      selectedFatSources
+    } = this.state;
+    let { sourcesButtonLabel } = this.state;
+    if (
+      selectedProteinSources.length > 0 ||
+      selectedCarbSources.length > 0 ||
+      selectedFatSources.length > 0
+    )
+      sourcesButtonLabel = "NEXT";
+    else
+      sourcesButtonLabel = "SKIP";
+    return sourcesButtonLabel;
+  };
+
+  onCancel = () => {
+    this.setState({ showModal: false });
+  };
+
+  onConfirm = () => {
+    console.log("selectedSources:", this.state.selectedSources);
+    this.setState({ showModal: false });
+  };
+
+  filterSources = searchTerm => {
+    const { sources } = this.state;
+    this.setState({ searchTerm });
+
+    let filteredSources = [];
+
+    sources &&
+      sources.forEach(source => {
+        const parts = searchTerm
+          .replace(/[\^$\\.*+?()[\]{}|]/g, "\\$&")
+          .trim()
+          .split(" ");
+        const regex = new RegExp(`(${parts.join("|")})`, "i");
+
+        if (regex.test(source.name)) {
+          filteredSources.push(source);
+        }
+      });
+
+    console.log("filteredSources: ", filteredSources);
+
+    this.setState({ searchTerm, filteredSources });
+  };
+
   render() {
-    const { goal, gender, fitnessLevel, navButtonActive, screen } = this.state;
+    const {
+      goal,
+      gender,
+      fitnessLevel,
+      navButtonActive,
+      screen,
+      sourcesButtonLabel,
+      selectedProteinSources,
+      selectedCarbSources,
+      selectedFatSources,
+      showModal,
+      modalContains,
+      selectedSources,
+      filteredSources
+    } = this.state;
     return (
       <View style={commonStyles.container}>
         <ImageBackground
@@ -58,15 +286,6 @@ export default class Signup extends Component {
               this.scrollRef = scrollView;
             }}
           >
-            <View style={commonStyles.subContainer}>
-              <Header title="Would you like to choose ?" marginTop={110}/>
-              <FoodSources />
-              <NavNextButton
-                isActive={navButtonActive}
-                screen={screen}
-                onNext={this.onNext}
-              />
-            </View>
             <View style={commonStyles.subContainer}>
               <Header title="What is your goal ?" />
               <Goal goal={goal} setGoal={this.setGoal} />
@@ -87,11 +306,40 @@ export default class Signup extends Component {
             </View>
             <View style={commonStyles.subContainer}>
               <Header title="What is your activity level ?" marginTop={120} />
-              <FitnessLevel gender={gender} selectedLevel={fitnessLevel} setFitnessLevel={this.setFitnessLevel} levels={[1,2,3]}/>
+              <FitnessLevel
+                gender={gender}
+                selectedLevel={fitnessLevel}
+                setFitnessLevel={this.setFitnessLevel}
+                levels={[1, 2, 3]}
+              />
               <NavNextButton
                 isActive={navButtonActive}
                 screen={screen}
                 onNext={this.onNext}
+              />
+            </View>
+            <View style={commonStyles.subContainer}>
+              <Header title="Would you like to choose ?" marginTop={110} />
+              <FoodSources
+                selectedProteinSources={selectedProteinSources}
+                selectedCarbSources={selectedCarbSources}
+                selectedFatSources={selectedFatSources}
+                showModal={showModal}
+                modalContains={modalContains}
+                selectedSources={selectedSources}
+                filteredSources={filteredSources}
+                removeSource={this.removeSource}
+                addSource={this.addSource}
+                onSourceToggle={this.onSourceToggle}
+                onCancel={this.onCancel}
+                onConfirm={this.onConfirm}
+                filterSources={this.filterSources}
+              />
+              <NavNextButton
+                isActive={true}
+                screen={screen}
+                onNext={this.onNext}
+                buttonText={sourcesButtonLabel}
               />
             </View>
             <View style={commonStyles.subContainer}>

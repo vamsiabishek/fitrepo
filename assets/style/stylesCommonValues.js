@@ -1,7 +1,3 @@
-import { StyleSheet, Dimensions } from "react-native";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
-
 export const styleCommon = {
   primaryColor: "#3399ff",
   secondaryColor: "#d1feff",
@@ -17,3 +13,8 @@ export const styleCommon = {
   transparentButtonColorRGBA: "rgba(211, 211, 211, 0.3)",
   secondaryButtonTextColor: "#004a94"
 };
+
+export const btnGradientColorLeft = "#66ffff"; //top blue of background
+export const btnGradientColorRight = "#FA8072"; // salmon
+export const btnGradientColorRightDisabled = "lightgrey"; // salmon
+export const modalBtnGradientColorRight = "#004a94"; // bottom blue of background
