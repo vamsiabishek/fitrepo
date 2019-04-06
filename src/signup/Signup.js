@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ImageBackground, ScrollView , ActivityIndicator, LayoutAnimation, 
-  StatusBar} from "react-native";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  View, StyleSheet, ImageBackground, ScrollView , ActivityIndicator, LayoutAnimation, 
+  StatusBar, 
+  UIManager,} from "react-native";
 import { commonStyles, SCREEN_WIDTH } from "../../assets/style/stylesCommon";
 import { GRADIENT_BG_IMAGE, EMAIL_VERIFICATION, PASSWORD_LENGTH_MINIMUM } from "../common/Common";
 import Header from "../components/signup/Header";
@@ -14,6 +14,18 @@ import FitnessLevel from "./FitnessLevel";
 import FoodSources from "./FoodSources";
 import SocialMediaSignup from "./SocialMediaSignup";
 
+// Enable LayoutAnimation for Android Devices
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+
+const styles = StyleSheet.create({
+  contentWrapper: {
+    flex: 1,
+    justifyContent: "space-evenly",
+    alignContent: "center"
+  }
+});
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +34,7 @@ export default class Signup extends Component {
       gender: "",
       fitnessLevel: "",
       dob: "",
-      age: null,
+      age: undefined,
       weight: undefined,
       height: undefined,
       program: undefined,
@@ -125,13 +137,17 @@ export default class Signup extends Component {
     }
   };
   setTargetWeightAndProgram = (targetWeight, program) => {
-    this.setState({ targetWeight, program });
+    this.setState({ targetWeight, program, navButtonActive: true });
   };
   onNext = currentScreen => {
+    const { goal, gender, fitnessLevel, dob, age, weight, height } = this.state;
     let isScrollable = false;
-    if (currentScreen === 1 && this.state.goal >= 0) isScrollable = true;
-    if (currentScreen === 2 && this.state.gender >= 0) isScrollable = true;
-    if (currentScreen === 3 && this.state.fitnessLevel > 0) isScrollable = true;
+if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
+  isScrollable = true;
+if (currentScreen === 2 && (gender >= 0 && gender.length !== 0))
+  isScrollable = true;
+if (currentScreen === 3 && (fitnessLevel > 0 && fitnessLevel.length !== 0))
+  isScrollable = true;
 
     if (currentScreen === 4) {
       await this.createNewUser()
@@ -139,10 +155,10 @@ export default class Signup extends Component {
     }
     if (
       currentScreen === 5 &&
-      this.state.dob > 0 &&
-      this.state.age > 0 &&
-      this.state.weight > 0 &&
-      this.state.height > 0
+      (dob.length > 0 &&
+        age !== undefined &&
+        weight !== undefined &&
+        height !== undefined)
     )
       isScrollable = true;
     if (currentScreen === 6) isScrollable = true;
@@ -150,6 +166,17 @@ export default class Signup extends Component {
       const scrollValue = SCREEN_WIDTH * currentScreen;
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen + 1, navButtonActive: false });
+    }
+  };
+  onBack = currentScreen => {
+    const { navigate } = this.props.navigation;
+    console.log(currentScreen);
+    if (currentScreen !== 1) {
+      const scrollValue = SCREEN_WIDTH * (currentScreen - 1) - SCREEN_WIDTH;
+      this.scrollRef.scrollTo({ x: scrollValue });
+      this.setState({ screen: this.state.screen - 1, navButtonActive: true });
+    } else {
+      navigate("StartUp");
     }
   };
 
@@ -270,7 +297,6 @@ export default class Signup extends Component {
       alert("You can only select 4 " + modalContains + " sources");
     }
   };
-
   changeSourceButtonLabel = () => {
     const {
       selectedProteinSources,
@@ -287,16 +313,13 @@ export default class Signup extends Component {
     else sourcesButtonLabel = "SKIP";
     return sourcesButtonLabel;
   };
-
   onCancel = () => {
     this.setState({ showModal: false });
   };
-
   onConfirm = () => {
     console.log("selectedSources:", this.state.selectedSources);
     this.setState({ showModal: false });
   };
-
   filterSources = searchTerm => {
     const { sources } = this.state;
     this.setState({ searchTerm });
@@ -469,42 +492,65 @@ export default class Signup extends Component {
           {!isLoading && 
           <ScrollView
             horizontal="true"
-            scrollEnabled="false"
+            scrollEnabled={false}
             ref={scrollView => {
               this.scrollRef = scrollView;
             }}
+            style={commonStyles.container}
+            contentContainerStyle={commonStyles.scrollContentContainer}
           >
             <View style={commonStyles.subContainer}>
-              <Header title="What is your goal ?" />
-              <Goal goal={goal} setGoal={this.setGoal} />
-              <NavNextButton
-                isActive={navButtonActive}
-                screen={screen}
-                onNext={this.onNext}
-              />
+              <View style={styles.contentWrapper}>
+                <Header
+                  title="What is your Goal ?"
+                  screen={screen}
+                  onBack={this.onBack}
+                />
+                <Goal goal={goal} setGoal={this.setGoal} />
+                <NavNextButton
+                  isActive={navButtonActive}
+                  screen={screen}
+                  onNext={this.onNext}
+                />
+              </View>
             </View>
             <View style={commonStyles.subContainer}>
-              <Header title="GENDER !" />
-              <Gender gender={gender} setGender={this.setGender} />
-              <NavNextButton
-                isActive={navButtonActive}
-                screen={screen}
-                onNext={this.onNext}
-              />
+              <View style={styles.contentWrapper}>
+                <Header title="GENDER !" screen={screen} onBack={this.onBack} />
+                <Gender gender={gender} setGender={this.setGender} />
+                <NavNextButton
+                  isActive={navButtonActive}
+                  screen={screen}
+                  onNext={this.onNext}
+                />
+              </View>
             </View>
             <View style={commonStyles.subContainer}>
-              <Header title="What is your activity level ?" marginTop={120} />
-              <FitnessLevel
-                gender={gender}
-                selectedLevel={fitnessLevel}
-                setFitnessLevel={this.setFitnessLevel}
-                levels={[1, 2, 3]}
-              />
-              <NavNextButton
-                isActive={navButtonActive}
-                screen={screen}
-                onNext={this.onNext}
-              />
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignContent: "center"
+                }}
+              >
+                <Header
+                  title="What is your activity level ?"
+                  screen={screen}
+                  onBack={this.onBack}
+                />
+                <FitnessLevel
+                  gender={gender}
+                  selectedLevel={fitnessLevel}
+                  setFitnessLevel={this.setFitnessLevel}
+                  levels={[1, 2, 3]}
+                />
+                <NavNextButton
+                  isActive={navButtonActive}
+                  screen={screen}
+                  onNext={this.onNext}
+                  applyFlex={false}
+                />
+              </View>
             </View>
             <View style={commonStyles.subContainer}>
               <Header title="SIGN UP !" />
@@ -519,32 +565,42 @@ export default class Signup extends Component {
               />
             </View>
             <View style={commonStyles.subContainer}>
-              <Header title="Lets's get to know you Better !" />
-              <PersonalDetails
-                goal={goal}
-                gender={gender}
-                fitnessLevel={fitnessLevel}
-                dob={dob}
-                setDob={this.setDob}
-                weight={weight}
-                setWeight={this.setWeight}
-                height={height}
-                setHeight={this.setHeight}
-                showTargetWeightButton={showTargetWeightButton}
-                programs={[4, 8, 12, 16]}
-                program={program}
-                targetWeight={targetWeight}
-                setTargetWeightAndProgram={this.setTargetWeightAndProgram}
-              />
-              <NavNextButton
-                isActive={true}
-                screen={screen}
-                onNext={this.onNext}
-                buttonText={sourcesButtonLabel}
-              />
+              <View style={styles.contentWrapper}>
+                <Header
+                  title="Lets's get to know you Better !"
+                  screen={screen}
+                  onBack={this.onBack}
+                />
+                <PersonalDetails
+                  goal={goal}
+                  gender={gender}
+                  fitnessLevel={fitnessLevel}
+                  dob={dob}
+                  setDob={this.setDob}
+                  weight={weight}
+                  setWeight={this.setWeight}
+                  height={height}
+                  setHeight={this.setHeight}
+                  showTargetWeightButton={showTargetWeightButton}
+                  programs={[4, 8, 12, 16]}
+                  program={program}
+                  targetWeight={targetWeight}
+                  setTargetWeightAndProgram={this.setTargetWeightAndProgram}
+                />
+                <NavNextButton
+                  isActive={navButtonActive}
+                  screen={screen}
+                  onNext={this.onNext}
+                />
+              </View>
             </View>
             <View style={commonStyles.subContainer}>
-              <Header title="Would you like to choose ?" marginTop={110} />
+              <Header
+                title="Would you like to choose ?"
+                marginTop={110}
+                screen={screen}
+                onBack={this.onBack}
+              />
               <FoodSources
                 selectedProteinSources={selectedProteinSources}
                 selectedCarbSources={selectedCarbSources}

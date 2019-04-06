@@ -1,21 +1,16 @@
 import React, { Component } from "react";
 import {
-  LayoutAnimation,
   KeyboardAvoidingView,
-  StatusBar,
   TouchableOpacity,
   UIManager,
-  View,
-  Text
+  View
 } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { styles } from "../../assets/style/stylesPersonalDetails";
-import { commonStyles } from "../../assets/style/stylesCommon";
 import NumberPicker from "../components/Picker/NumberPicker";
 import TargetWeightTimeline from "./TargetWeightTimeline";
-import Modal from "react-native-modal";
 import {
   ICON_SIZE,
   ICON_SIZE_LARGE,
@@ -238,6 +233,7 @@ export default class PersonalDetails extends Component {
                   program={program}
                   targetWeight={targetWeight}
                   onConfirm={this.handleTargetWeightAndProgram}
+                  onClose={this.hideTargetWeightTimeline}
                 />
                 <Button
                   title={

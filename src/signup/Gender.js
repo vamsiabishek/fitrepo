@@ -2,46 +2,45 @@ import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  SCREEN_WIDTH,
+  styleCommon
+} from "../../assets/style/stylesCommonValues";
 
 const styles = StyleSheet.create({
   mainContent: {
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
     flexDirection: "row",
-    marginTop: 50
+    justifyContent: "center",
+    alignItems: "center"
   },
   buttonStyle: {
     width: 140,
     height: 140,
-    backgroundColor: "#d1feff",
+    backgroundColor: styleCommon.secondaryColor,
     borderRadius: 20,
     borderBottomWidth: 0,
-    //shadowColor: '#9AC0B6',
     shadowColor: "grey",
     shadowOffset: { width: 2, height: 4 },
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 20
+    marginHorizontal: 5,
+    marginVertical: 5
   },
   activeButtonStyle: {
     width: 140,
     height: 140,
-    //backgroundColor: "#9400D3",
-    backgroundColor: "#FA8072",
+    backgroundColor: styleCommon.selectedButtonColor,
     borderRadius: 20,
     borderBottomWidth: 0,
-    //shadowColor: '#9AC0B6',
     shadowColor: "grey",
     shadowOffset: { width: 2, height: 4 },
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 20
+    marginHorizontal: 5,
+    marginVertical: 5
   },
   buttonTitle: {
     color: "#004a94",
@@ -73,7 +72,6 @@ export default class Gender extends Component {
           }
           icon={
             <Icon
-              // arrow-right-drop-circle-outline
               name="human-male"
               size={80}
               color={gender === 1 ? buttonIconActiveColor : buttonIconColor}
@@ -92,7 +90,6 @@ export default class Gender extends Component {
           }
           icon={
             <Icon
-              // arrow-right-drop-circle-outline
               name="human-female"
               size={80}
               color={gender === 0 ? buttonIconActiveColor : buttonIconColor}

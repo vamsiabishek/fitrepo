@@ -111,6 +111,7 @@ export const ICON_SIZE = 25;
 export const ICON_SIZE_MED = 20;
 export const ICON_SIZE_SMALL = 16;
 export const ICON_SIZE_LARGE = 30;
+export const ICON_SIZE_NAV = 28;
 export const MIN_DATE = new Date("01/01/1960");
 export const MAX_DATE = new Date();
 export const BUTTON_SIZE = 9;
@@ -128,7 +129,7 @@ for (let x = 0; x < MAX_WEIGHT; x++) {
 export const WEIGHT_RANGE_FINAL = [...WEIGHT_RANGE];
 let HEIGHT_RANGE = [];
 for (let x = 0; x < MAX_HEIGHT; x++) {
-  HEIGHT_RANGE.push(MIN_HEIGHT + x * 0.5);
+  HEIGHT_RANGE.push(MIN_HEIGHT + x);
 }
 export const HEIGHT_RANGE_FINAL = [...HEIGHT_RANGE];
 export const STAR_RATING_MAX = 5;

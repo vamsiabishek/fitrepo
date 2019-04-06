@@ -1,15 +1,18 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { Platform, View, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
 
 const styles = StyleSheet.create({
   mainContent: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center"
+    //padding: 10,
   },
   buttonStyle: {
-    width: 280,
+    width: SCREEN_WIDTH - 95,
     height: 80,
     backgroundColor: "#d1feff",
     borderRadius: 10,
@@ -20,12 +23,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 20
+    marginHorizontal: 5,
+    marginVertical: 5
   },
   activeButtonStyle: {
-    width: 280,
+    width: SCREEN_WIDTH - 95,
     height: 80,
     //backgroundColor: "#9400D3",
     backgroundColor: "#FA8072",
@@ -37,9 +39,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 20
+    marginHorizontal: 5,
+    marginVertical: 5
   },
   buttonTitle: {
     color: "#004a94",
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "600"
   },
+
   buttonIcon: {
     position: "absolute",
     left: 45

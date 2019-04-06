@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { UIManager, View, Text } from "react-native";
-import { Button, ButtonGroup } from "react-native-elements";
+import { Button, ButtonGroup, Icon } from "react-native-elements";
 import Modal from "react-native-modal";
-import HorizontalSelectView from "../components/HorizontalSelectView";
+import HorizontalSelectView from "./HorizontalSelectView";
 import { styles } from "../../assets/style/stylesPersonalDetails";
 import { getPossibleTargetWeights } from "../diet/Algorithm/DietAlgorithm";
+import MyButton from "../components/MyButton";
+import { styleCommon } from "../../assets/style/stylesCommonValues";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -15,8 +17,8 @@ export default class TargetWeightTimeline extends Component {
     super(props);
     this.state = {
       selectedProgram: this.props.programs[0],
-      selectedTargetWeight: undefined,
-      targetWeightIndex: 1
+      targetWeightIndex: 1,
+      selectedTargetWeight: undefined
     };
     this.targetWeightLabels = [];
     this.targetWeightOptions = [];
@@ -37,6 +39,11 @@ export default class TargetWeightTimeline extends Component {
     this._resetProgramAndTargetWeight();
   };
 
+  _handleClose = () => {
+    const { onClose } = this.props;
+    onClose();
+    this._resetProgramAndTargetWeight();
+  };
   _onProgramChange = selectedProgram => {
     this.setState({
       selectedProgram
@@ -81,17 +88,29 @@ export default class TargetWeightTimeline extends Component {
           backdropOpacity={0.5}
         >
           <View style={styles.modalInsideStyle}>
+            <Button
+              icon={
+                <Icon
+                  name="close"
+                  size={20}
+                  color={styleCommon.secondaryButtonTextColor}
+                />
+              }
+              type="clear"
+              onPress={this._handleClose}
+              containerStyle={{
+                position: "relative",
+                top: -22,
+                left: 152
+              }}
+            />
             <View style={styles.targetContainer}>
-              <Text style={styles.headerText}>These are Best for you !</Text>
+              <Text style={styles.headerText}>What can you target ?</Text>
             </View>
             <View style={styles.targetContainer}>
-              <View style={styles.labelContainer}>
-                <Text style={styles.labelText}> Choosen Program: </Text>
-                <Text style={styles.selectedOptionLabel}>
-                  {" "}
-                  {selectedProgram} Weeks Program{" "}
-                </Text>
-              </View>
+              <Text style={styles.labelText}>
+                Choosen Program: {selectedProgram} Weeks
+              </Text>
               <HorizontalSelectView
                 items={programs}
                 selectedItem={selectedProgram}
@@ -100,7 +119,7 @@ export default class TargetWeightTimeline extends Component {
             </View>
             <View style={styles.targetContainer}>
               <Text style={styles.labelText}>
-                Possible Target weights for {selectedProgram} Week Program
+                Possible Target weights in {selectedProgram} Weeks:
               </Text>
               <ButtonGroup
                 onPress={this._updateTargetWeight}
@@ -111,12 +130,12 @@ export default class TargetWeightTimeline extends Component {
                 selectedButtonStyle={styles.selectedButtonStyle}
               />
             </View>
-            <Button title="Confirm" onPress={this._handleConfirm} />
+            <View style={styles.targetContainer}>
+              <MyButton label="CONFIRM" onButtonClick={this._handleConfirm} />
+            </View>
           </View>
         </Modal>
       </View>
     );
   }
 }
-
-//{programLabelValue} {programs} {program} 2 {targetWeightIndex} {this.targetWeightLabels}

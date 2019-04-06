@@ -87,7 +87,3 @@ export default class NumberPicker extends Component {
     );
   }
 }
-
-{
-  /*style={styles.container}*/
-}

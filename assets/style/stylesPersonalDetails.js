@@ -1,17 +1,15 @@
-import { Dimensions, StyleSheet } from "react-native";
-import { styleCommon } from "./stylesCommonValues";
-import { commonStyles } from "./stylesCommon";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+import { StyleSheet } from "react-native";
+import { styleCommon, SCREEN_HEIGHT, SCREEN_WIDTH } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   mainContent: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center"
+    //backgroundColor: "red"
   },
   buttonStyle: {
-    width: SCREEN_WIDTH - 100,
+    width: SCREEN_WIDTH - 95,
     height: 65,
     backgroundColor: styleCommon.secondaryButtonColor,
     borderRadius: 10,
@@ -26,7 +24,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   activeButtonStyle: {
-    width: SCREEN_WIDTH - 100,
+    width: SCREEN_WIDTH - 95,
     height: 65,
     backgroundColor: styleCommon.secondaryButtonColor, //styleCommon.selectedButtonColor,
     borderRadius: 10,
@@ -74,7 +72,8 @@ const styles = StyleSheet.create({
   targetContainer: {
     width: 300,
     margin: 10,
-    padding: 10
+    padding: 10,
+    backgroundColor: "yellow"
   },
   headerText: {
     fontWeight: "bold",
@@ -82,11 +81,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: styleCommon.secondaryButtonTextColor
   },
-  labelContainer: {
-    flexDirection: "row",
-    paddingBottom: 15
-  },
   labelText: {
+    paddingBottom: 15,
+    textAlign: "center",
     fontSize: 15,
     color: styleCommon.textColor1
   },

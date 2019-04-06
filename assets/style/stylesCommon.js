@@ -5,8 +5,8 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const commonStyles = StyleSheet.create({
   container: {
-    flex: 1,
-   // alignItems: "center",
+    flex: 1
+    // alignItems: "center",
     //justifyContent: "center",
   },
   bgImage: {
@@ -19,7 +19,11 @@ const commonStyles = StyleSheet.create({
   subContainer: {
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT
+  },
+  scrollContentContainer: {
+    justifyContent: "center",
+    alignContent: "center"
   }
-})
+});
 
 export { commonStyles };

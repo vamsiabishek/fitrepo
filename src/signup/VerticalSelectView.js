@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Platform,
   View,
   StyleSheet,
   Text,
@@ -19,13 +20,19 @@ import {
   ADVANCED_LABEL,
   BEGINNER_DESC,
   INTERMEDIATE_DESC,
-  ADVANCED_DESC,
+  ADVANCED_DESC
 } from "../common/Common";
+import {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  styleCommon
+} from "../../assets/style/stylesCommonValues";
 
 const styles = StyleSheet.create({
   container: {
-    //marginTop: 5,
-    //marginLeft: 10
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center"
   },
   subContainer: {
     flexDirection: "column",
@@ -34,27 +41,27 @@ const styles = StyleSheet.create({
   },
   lineContainer: {
     height: 50,
-    borderLeftWidth: 3,
-    borderColor: "#d1feff",
     width: 50,
-    marginLeft: 45
+    marginLeft: 45,
+    borderLeftWidth: 3,
+    borderColor: styleCommon.secondaryButtonColor
   },
   iconStyle: {
-    height: 120,
-    width: 120,
-    backgroundColor: "#d1feff",
-    borderRadius: 60,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    height: SCREEN_HEIGHT * 0.15,
+    width: SCREEN_HEIGHT * 0.15, //SCREEN_WIDTH * 0.32,
+    backgroundColor: styleCommon.secondaryButtonColor,
+    borderRadius: (SCREEN_HEIGHT * 0.15) / 2
   },
   iconImageStyle: {
-    width: 60,
-    height: 80,
+    width: SCREEN_HEIGHT * 0.1 - 18,
+    height: SCREEN_HEIGHT * 0.1,
     tintColor: "#004A94"
   },
   iconDataStyle: {
-    height: 100,
-    width: 100,
+    height: SCREEN_HEIGHT * 0.12,
+    width: SCREEN_HEIGHT * 0.12, //SCREEN_WIDTH * 0.27,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -83,13 +90,26 @@ class VerticalSelectView extends React.Component {
 
   render() {
     const { levels, gender, selectedLevel, setFitnessLevel } = this.props;
-    console.log(this.props)
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <FlatList
+          scrollEnabled={false}
+          style={{ flex: 1 }}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignContent: "center"
+          }}
           data={levels}
           renderItem={({ item, index }) => {
-            let { iconStyle, iconImageStyle, levelDecriptionContainer, lineContainer, levelDescriptionStyle, levelTitleStyle } = styles;
+            let {
+              iconStyle,
+              iconImageStyle,
+              levelDecriptionContainer,
+              lineContainer,
+              levelDescriptionStyle,
+              levelTitleStyle
+            } = styles;
             console.log("level:", item, selectedLevel);
             if (item === selectedLevel) {
               iconStyle = {
@@ -102,18 +122,18 @@ class VerticalSelectView extends React.Component {
               };
               levelTitleStyle = {
                 ...levelTitleStyle,
-                fontSize: 18,
+                fontSize: 18
               };
               levelDescriptionStyle = {
                 ...levelDescriptionStyle,
                 fontSize: 14,
-                fontWeight: "600",
+                fontWeight: "600"
               };
             }
             let levelImage =
               gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
             let levelTitle = BEGINNER_LABEL;
-            let levelDec =  BEGINNER_DESC;
+            let levelDec = BEGINNER_DESC;
             let levelDescriptionStyles = [levelDecriptionContainer];
             if (index === 1) {
               levelImage =
@@ -121,14 +141,14 @@ class VerticalSelectView extends React.Component {
                   ? MALE_INTERMEDIATE_ICON
                   : FEMALE_INTERMEDIATE_ICON;
               levelTitle = INTERMEDIATE_LABEL;
-              levelDec =  INTERMEDIATE_DESC;
-              levelDescriptionStyles.push({marginTop: lineContainer.height})
+              levelDec = INTERMEDIATE_DESC;
+              levelDescriptionStyles.push({ marginTop: lineContainer.height });
             } else if (index === 2) {
               levelImage =
                 gender === 1 ? MALE_ADVANCED_ICON : FEMALE_ADVANCED_ICON;
               levelTitle = ADVANCED_LABEL;
-              levelDec =  ADVANCED_DESC;
-              levelDescriptionStyles.push({marginTop: lineContainer.height})
+              levelDec = ADVANCED_DESC;
+              levelDescriptionStyles.push({ marginTop: lineContainer.height });
             }
 
             return (
@@ -145,19 +165,14 @@ class VerticalSelectView extends React.Component {
                   >
                     <View style={iconStyle}>
                       <View style={styles.iconDataStyle}>
-                        <Image
-                          source={levelImage}
-                          style={iconImageStyle}
-                        />
+                        <Image source={levelImage} style={iconImageStyle} />
                       </View>
                     </View>
                   </TouchableOpacity>
                 </View>
                 <View style={levelDescriptionStyles}>
                   <Text style={levelTitleStyle}>{levelTitle}</Text>
-                  <Text style={levelDescriptionStyle}>
-                    {levelDec}
-                  </Text>
+                  <Text style={levelDescriptionStyle}>{levelDec}</Text>
                 </View>
               </View>
             );
