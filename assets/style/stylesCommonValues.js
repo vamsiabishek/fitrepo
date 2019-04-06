@@ -17,4 +17,5 @@ export const styleCommon = {
 export const btnGradientColorLeft = "#66ffff"; //top blue of background
 export const btnGradientColorRight = "#FA8072"; // salmon
 export const btnGradientColorRightDisabled = "lightgrey"; // salmon
-export const modalBtnGradientColorRight = "#004a94"; // bottom blue of background
+export const modalBtnGradientColorRight = "#004a94"; // strong blue for text headings
+

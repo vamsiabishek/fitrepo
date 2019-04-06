@@ -11,6 +11,7 @@ import Gender from "./Gender";
 import PersonalDetails from "./PersonalDetails";
 import FitnessLevel from "./FitnessLevel";
 import FoodSources from "./FoodSources";
+import SocialMediaSignup from "./SocialMediaSignup";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -58,7 +59,14 @@ export default class Signup extends Component {
       sources: [],
       filteredSources: [],
       searchTerm: "",
-      sourcesButtonLabel: "SKIP"
+      sourcesButtonLabel: "SKIP",
+      email: "",
+      password: "",
+      confirmationPassword: "",
+      usernameValid: true,
+      emailValid: true,
+      passwordValid: true,
+      confirmationPasswordValid: true
     };
   }
   setGoal = goal => {
@@ -257,6 +265,47 @@ export default class Signup extends Component {
     this.setState({ searchTerm, filteredSources });
   };
 
+  // signup methods
+  validateEmail = (email, emailRef) => {
+    //const { email } = this.state;
+    const emailValid = EMAIL_VERIFICATION.test(email);
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ emailValid });
+    if(!emailValid) {
+      emailRef.focus();
+      emailRef.shake();
+    }
+    return emailValid;
+  };
+  validatePassword = (password, passwordRef) => {
+   // const { password } = this.state;
+    const passwordValid = password.length >= PASSWORD_LENGTH_MINIMUM;
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ passwordValid });
+    if(!passwordValid){
+      passwordRef.focus();
+      passwordRef.shake();
+    }
+    return passwordValid;
+  };
+  validateConfirmationPassword = (confirmationPassword, confirmPasswordRef) => {
+    const { password } = this.state;
+    const confirmationPasswordValid = password === confirmationPassword;
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ confirmationPasswordValid });
+    confirmationPasswordValid || confirmPasswordRef.shake();
+    return confirmationPasswordValid;
+  };
+  onEmailChange = email => {
+    this.setState({ email })
+  }
+  onPasswordChange = password => {
+    this.setState({ password })
+  }
+  onConfirmPasswordChange = confirmationPassword => {
+    this.setState({ confirmationPassword })
+  }
+
   render() {
     const {
       goal,
@@ -271,8 +320,30 @@ export default class Signup extends Component {
       showModal,
       modalContains,
       selectedSources,
-      filteredSources
+      filteredSources,
+      email,
+      password,
+      confirmationPassword,
+      usernameValid,
+      emailValid,
+      passwordValid,
+      confirmationPasswordValid,
     } = this.state;
+    const signupObject = {
+      email,
+      password,
+      confirmationPassword,
+      usernameValid,
+      emailValid,
+      passwordValid,
+      confirmationPasswordValid,
+      onEmailChange: this.onEmailChange,
+      onPasswordChange: this.onPasswordChange,
+      onConfirmPasswordChange: this.onConfirmPasswordChange,
+      validateEmail: this.validateEmail,
+      validatePassword: this.validatePassword,
+      validateConfirmationPassword: this.validateConfirmationPassword,
+    }
     return (
       <View style={commonStyles.container}>
         <ImageBackground
@@ -286,6 +357,15 @@ export default class Signup extends Component {
               this.scrollRef = scrollView;
             }}
           >
+            <View style={commonStyles.subContainer}>
+              <Header title="SIGN UP !" />
+              <SocialMediaSignup signupObject={signupObject} />
+              <NavNextButton
+                isActive={navButtonActive}
+                screen={screen}
+                onNext={this.onNext}
+              />
+            </View>
             <View style={commonStyles.subContainer}>
               <Header title="What is your goal ?" />
               <Goal goal={goal} setGoal={this.setGoal} />
@@ -351,6 +431,7 @@ export default class Signup extends Component {
                 onNext={this.onNext}
               />
             </View>
+            
           </ScrollView>
         </ImageBackground>
       </View>
