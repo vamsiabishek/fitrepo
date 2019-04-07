@@ -1,52 +1,14 @@
 import React from "react";
-import { Platform, View, Text, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  styleCommon
+  styleCommon,
+  ICON_BACK_SIZE
 } from "../../../assets/style/stylesCommonValues";
-console.log(SCREEN_HEIGHT, SCREEN_WIDTH);
-const styles = StyleSheet.create({
-  header: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: SCREEN_HEIGHT * 0.12,
-    padding: 10
-  },
-  headerTitle: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#004A94",
-    textAlign: "center"
-  },
-  backHeaderContainer: {
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    paddingTop: Platform.OS === "ios" ? 40 : 10,
-    paddingRight: 20
-  },
-  buttonContainer: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.07,
-    paddingRight: 20
-  },
-  backButtonContainerStyle: {
-    justifyContent: "space-evenly",
-    alignItems: "flex-start",
-    marginTop: 2,
-    marginLeft: 10,
-    height: 50
-  },
-  backButtonStyle: {
-    borderWidth: 0,
-    borderColor: "transparent",
-    backgroundColor: "transparent"
-  }
-});
+import { styles } from "../../../assets/style/stylesHeader";
 
-class Header extends React.Component {
+export default class Header extends React.Component {
   render() {
     const { title, marginTop, height, flex, screen, onBack } = this.props;
     let { header } = styles;
@@ -66,7 +28,7 @@ class Header extends React.Component {
               icon={
                 <Icon
                   name="arrow-left-circle-outline"
-                  size={32}
+                  size={ICON_BACK_SIZE}
                   color={styleCommon.secondaryButtonTextColor}
                 />
               }
@@ -83,5 +45,3 @@ class Header extends React.Component {
     );
   }
 }
-
-export default Header;

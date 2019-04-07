@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import {
-  View, StyleSheet, ImageBackground, ScrollView , ActivityIndicator, LayoutAnimation, 
+  View, ImageBackground, ScrollView , ActivityIndicator, LayoutAnimation, 
   StatusBar, 
   UIManager,} from "react-native";
-import { commonStyles, SCREEN_WIDTH } from "../../assets/style/stylesCommon";
 import { GRADIENT_BG_IMAGE, EMAIL_VERIFICATION, PASSWORD_LENGTH_MINIMUM } from "../common/Common";
+import { commonStyles } from "../../assets/style/stylesCommon";
+import { GRADIENT_BG_IMAGE } from "../common/Common";
 import Header from "../components/signup/Header";
 import NavNextButton from "../components/signup/NavNextButton";
 import Goal from "./Goal";
@@ -13,18 +14,12 @@ import PersonalDetails from "./PersonalDetails";
 import FitnessLevel from "./FitnessLevel";
 import FoodSources from "./FoodSources";
 import SocialMediaSignup from "./SocialMediaSignup";
+import { styles } from "../../assets/style/stylesSignup";
+import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
-
-const styles = StyleSheet.create({
-  contentWrapper: {
-    flex: 1,
-    justifyContent: "space-evenly",
-    alignContent: "center"
-  }
-});
 
 export default class Signup extends Component {
   constructor(props) {
@@ -526,13 +521,7 @@ if (currentScreen === 3 && (fitnessLevel > 0 && fitnessLevel.length !== 0))
               </View>
             </View>
             <View style={commonStyles.subContainer}>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignContent: "center"
-                }}
-              >
+              <View style={styles.contentWrapper}>
                 <Header
                   title="What is your activity level ?"
                   screen={screen}
@@ -548,7 +537,6 @@ if (currentScreen === 3 && (fitnessLevel > 0 && fitnessLevel.length !== 0))
                   isActive={navButtonActive}
                   screen={screen}
                   onNext={this.onNext}
-                  applyFlex={false}
                 />
               </View>
             </View>

@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Platform,
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Image
-} from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import {
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,
@@ -22,84 +14,20 @@ import {
   INTERMEDIATE_DESC,
   ADVANCED_DESC
 } from "../common/Common";
-import {
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  styleCommon
-} from "../../assets/style/stylesCommonValues";
+import { styles } from "../../assets/style/stylesVerticalSelectView";
+import { styleCommon } from "../../assets/style/stylesCommonValues";
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignContent: "center"
-  },
-  subContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  lineContainer: {
-    height: 50,
-    width: 50,
-    marginLeft: 45,
-    borderLeftWidth: 3,
-    borderColor: styleCommon.secondaryButtonColor
-  },
-  iconStyle: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: SCREEN_HEIGHT * 0.15,
-    width: SCREEN_HEIGHT * 0.15, //SCREEN_WIDTH * 0.32,
-    backgroundColor: styleCommon.secondaryButtonColor,
-    borderRadius: (SCREEN_HEIGHT * 0.15) / 2
-  },
-  iconImageStyle: {
-    width: SCREEN_HEIGHT * 0.1 - 18,
-    height: SCREEN_HEIGHT * 0.1,
-    tintColor: "#004A94"
-  },
-  iconDataStyle: {
-    height: SCREEN_HEIGHT * 0.12,
-    width: SCREEN_HEIGHT * 0.12, //SCREEN_WIDTH * 0.27,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  iconTextStyle: {
-    fontSize: 70
-  },
-  levelDecriptionContainer: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    marginLeft: 10
-  },
-  levelTitleStyle: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: "#004A94"
-  },
-  levelDescriptionStyle: {
-    width: 180,
-    fontSize: 13,
-    color: "#004A94"
-  }
-});
-
-class VerticalSelectView extends React.Component {
+export default class VerticalSelectView extends React.Component {
   _keyExtractor = item => `key${item}`;
 
   render() {
     const { levels, gender, selectedLevel, setFitnessLevel } = this.props;
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <FlatList
           scrollEnabled={false}
-          style={{ flex: 1 }}
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignContent: "center"
-          }}
+          style={styles.flatListContainer}
+          contentContainerStyle={styles.contentContainer}
           data={levels}
           renderItem={({ item, index }) => {
             let {
@@ -114,11 +42,11 @@ class VerticalSelectView extends React.Component {
             if (item === selectedLevel) {
               iconStyle = {
                 ...iconStyle,
-                backgroundColor: "#FA8072"
+                backgroundColor: styleCommon.selectedButtonColor
               };
               iconImageStyle = {
                 ...iconImageStyle,
-                tintColor: "white"
+                tintColor: styleCommon.textColor2
               };
               levelTitleStyle = {
                 ...levelTitleStyle,
@@ -152,15 +80,11 @@ class VerticalSelectView extends React.Component {
             }
 
             return (
-              <View style={{ flex: 1, flexDirection: "row" }}>
+              <View style={styles.returnViewContainer}>
                 <View style={styles.subContainer}>
                   {index !== 0 && <View style={styles.lineContainer} />}
                   <TouchableOpacity
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
+                    style={styles.touchableContainerView}
                     onPress={() => setFitnessLevel(item)}
                   >
                     <View style={iconStyle}>
@@ -184,4 +108,3 @@ class VerticalSelectView extends React.Component {
     );
   }
 }
-export default VerticalSelectView;

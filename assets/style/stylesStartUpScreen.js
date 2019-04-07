@@ -1,8 +1,10 @@
-import { Dimensions, StyleSheet } from "react-native";
-import { styleCommon } from "./stylesCommonValues";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+import { StyleSheet } from "react-native";
+import {
+  styleCommon,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  DEVICE_ID
+} from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   bgImage: {
@@ -13,23 +15,6 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT,
     backgroundColor: "transparent"
   },
-  headerViewContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10
-  },
-  logoText: {
-    paddingHorizontal: 5,
-    color: styleCommon.textColor3,
-    letterSpacing: 1.5,
-    fontSize: 50,
-    fontWeight: "700"
-  },
-  textStyle: {
-    paddingHorizontal: 5,
-    color: "white",
-    fontSize: 14
-  },
   overlayContainerstyle: {
     flex: 1,
     justifyContent: "center",
@@ -39,24 +24,39 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     alignContent: "center",
-    marginTop: 40,
+    marginTop: DEVICE_ID.includes("iPhone10,6") === true ? 20 : 0,
     padding: 10
+  },
+  headerViewContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 5
+  },
+  textStyle: {
+    paddingHorizontal: 5,
+    color: "white",
+    fontSize: 14
+  },
+  logoText: {
+    paddingHorizontal: 5,
+    color: styleCommon.textColor3,
+    letterSpacing: 1.5,
+    fontSize: 50,
+    fontWeight: "700"
   },
   buttonContainer: {
     justifyContent: "flex-end",
     alignContent: "flex-end",
-    height: 250,
-    margin: 10,
-    padding: 10
+    height: SCREEN_HEIGHT * 0.31,
+    margin: 10
   },
   buttonContainerStyle: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
-    padding: 10
+    marginBottom: 10
   },
   signUpButtonStyle: {
-    width: SCREEN_WIDTH - 40,
+    width: SCREEN_WIDTH * 0.81,
     height: 50,
     borderColor: "transparent",
     borderRadius: 30,
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     letterSpacing: 1.5,
-    color: styleCommon.secondaryButtonTextColor
+    color: styleCommon.textColor2
   },
   loginButtonStyle: {
-    width: SCREEN_WIDTH - 40,
+    width: SCREEN_WIDTH * 0.81,
     height: 50,
     borderColor: "transparent",
     borderRadius: 30,
-    backgroundColor: styleCommon.transparentButtonColorRGBA
+    backgroundColor: styleCommon.transparentButtonColorRGBA // User RGBA when you want a transparent button.
   },
   loginButtonTitleStyle: {
     fontSize: 16,

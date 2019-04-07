@@ -1,15 +1,14 @@
 import { StyleSheet } from "react-native";
 import { styleCommon, SCREEN_HEIGHT, SCREEN_WIDTH } from "./stylesCommonValues";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
-    //backgroundColor: "red"
   },
   buttonStyle: {
-    width: SCREEN_WIDTH - 95,
+    width: SCREEN_WIDTH * 0.75,
     height: 65,
     backgroundColor: styleCommon.secondaryButtonColor,
     borderRadius: 10,
@@ -19,12 +18,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 20
+    marginHorizontal: 5,
+    marginVertical: 5
   },
   activeButtonStyle: {
-    width: SCREEN_WIDTH - 95,
+    width: SCREEN_WIDTH * 0.75,
     height: 65,
     backgroundColor: styleCommon.secondaryButtonColor, //styleCommon.selectedButtonColor,
     borderRadius: 10,
@@ -34,27 +32,26 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 20
+    marginHorizontal: 5,
+    marginVertical: 5
   },
   buttonTitle: {
     flex: 1,
     textAlign: "left",
-    color: "#004a94",
+    color: styleCommon.secondaryButtonTextColor,
     fontSize: 15,
     fontWeight: "300"
   },
   activeButtonTitle: {
     flex: 1,
     textAlign: "left",
-    color: "#004a94",
+    color: styleCommon.secondaryButtonTextColor,
     fontWeight: "500"
   },
   buttonIcon: {
     position: "absolute",
     right: 10,
-    color: "#004a94"
+    color: styleCommon.secondaryButtonTextColor
   },
   activeButtonIcon: {
     position: "absolute",
@@ -72,8 +69,7 @@ const styles = StyleSheet.create({
   targetContainer: {
     width: 300,
     margin: 10,
-    padding: 10,
-    backgroundColor: "yellow"
+    padding: 10
   },
   headerText: {
     fontWeight: "bold",
@@ -102,5 +98,3 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
-
-export { styles };

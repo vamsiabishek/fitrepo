@@ -1,15 +1,7 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { View } from "react-native";
 import VerticalSelectView from "./VerticalSelectView";
-
-const styles = StyleSheet.create({
-  mainContent: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
+import { styles } from "../../assets/style/stylesFitnessLevel";
 
 export default class FitnessLevel extends Component {
   render() {

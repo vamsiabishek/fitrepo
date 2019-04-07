@@ -5083,6 +5083,11 @@ react-native-collapsible@^1.4.0:
   dependencies:
     prop-types "^15.6.2"
 
+react-native-device-info@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-1.4.2.tgz#d24b09b7a5ea3c0aaf4446089d6d0e20950d0a6d"
+  integrity sha512-esAdN9gl3vQRgnqbBBwHa7r1f6VvgN/SsWQkv+snV2KQXWpR4zdk5FLIw+XT9DdoXCG/O8RKLyaTbVxI/pf2kg==
+
 react-native-elements@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.1.0.tgz#f99bcda4459a886f3ab4591c684c099d37aedf2b"

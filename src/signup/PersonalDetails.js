@@ -8,12 +8,9 @@ import {
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { styles } from "../../assets/style/stylesPersonalDetails";
 import NumberPicker from "../components/Picker/NumberPicker";
 import TargetWeightTimeline from "./TargetWeightTimeline";
 import {
-  ICON_SIZE,
-  ICON_SIZE_LARGE,
   MIN_DATE,
   MAX_DATE,
   MIN_HEIGHT,
@@ -23,6 +20,11 @@ import {
   WEIGHT_RANGE_FINAL,
   HEIGHT_RANGE_FINAL
 } from "../common/Common";
+import {
+  ICON_SIZE,
+  ICON_SIZE_LARGE
+} from "../../assets/style/stylesCommonValues";
+import { styles } from "../../assets/style/stylesPersonalDetails";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
