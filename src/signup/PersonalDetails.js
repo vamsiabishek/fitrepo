@@ -1,29 +1,30 @@
 import React, { Component } from "react";
 import {
-  LayoutAnimation,
   KeyboardAvoidingView,
-  Modal,
-  StatusBar,
   TouchableOpacity,
   UIManager,
   View
 } from "react-native";
-import { Input } from "react-native-elements";
+import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { styles } from "../../assets/style/stylesPersonalDetails";
-import { commonStyles } from "../../assets/style/stylesCommon";
-import NumberPicker from "../components/Picker/WeightPicker";
-import { auth, database } from "../common/FirebaseConfig";
+import NumberPicker from "../components/Picker/NumberPicker";
+import TargetWeightTimeline from "./TargetWeightTimeline";
 import {
-  ICON_SIZE,
   MIN_DATE,
   MAX_DATE,
   MIN_HEIGHT,
   MAX_HEIGHT,
   MIN_WEIGHT,
-  MAX_WEIGHT
+  MAX_WEIGHT,
+  WEIGHT_RANGE_FINAL,
+  HEIGHT_RANGE_FINAL
 } from "../common/Common";
+import {
+  ICON_SIZE,
+  ICON_SIZE_LARGE
+} from "../../assets/style/stylesCommonValues";
+import { styles } from "../../assets/style/stylesPersonalDetails";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -33,129 +34,90 @@ export default class PersonalDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
-      firstName: "",
-      firstNameValid: true,
-      lastName: "",
-      name: "",
-      selectedGenderIndex: 1,
-      gender: "",
-      genderValid: true,
-      dob: "",
       isDTPickerVisible: false,
-      dobAgeValid: true,
-      age: null,
-      errorMsgWtAge: ""
+      isWeightNumPickerVisible: false,
+      isHeightNumPickerVisible: false,
+      isTargetWeightTimelineVisible: false
     };
-    this.genders = ["Female", "Male", "Other"];
   }
   showDTPicker = () => {
     this.setState({ isDTPickerVisible: true });
   };
+  showWeightNumPicker = () => {
+    this.setState({ isWeightNumPickerVisible: true });
+  };
+  showHeightNumPicker = () => {
+    this.setState({ isHeightNumPickerVisible: true });
+  };
+  showTargetWeightTimeline = () => {
+    this.setState({ isTargetWeightTimelineVisible: true });
+  };
   hideDTPicker = () => {
     this.setState({ isDTPickerVisible: false });
+  };
+  hideWeightNumPicker = () => {
+    this.setState({ isWeightNumPickerVisible: false });
+  };
+  hideHeightNumPicker = () => {
+    this.setState({ isHeightNumPickerVisible: false });
+  };
+  hideTargetWeightTimeline = () => {
+    this.setState({ isTargetWeightTimelineVisible: false });
   };
   handleDTPicker = date => {
     let currentDate = new Date();
     let dateFormat = new Date(date);
     let newDate = dateFormat.toDateString().substring(4);
     let ageFromDate = currentDate.getFullYear() - dateFormat.getFullYear();
-    LayoutAnimation.easeInEaseOut();
-    this.setState({
-      dob: newDate,
-      age: ageFromDate
-    });
+    this.props.setDob(newDate, ageFromDate);
     this.hideDTPicker();
   };
-  validateDobAndAge = () => {
-    const { dob, age } = this.state;
-    if (age !== null) {
-      const dobAgeValid = dob.length > 0 && age > 18;
-      const errorMsgWtAge = "You should be 18 years & above!";
-      LayoutAnimation.easeInEaseOut();
-      this.setState({ dobAgeValid, errorMsgWtAge });
-      dobAgeValid || this.dobInput.shake();
-      return dobAgeValid;
-    } else {
-      const dobAgeValid = dob.length > 0;
-      const errorMsgWtAge = "Please select a Date!";
-      LayoutAnimation.easeInEaseOut();
-      this.setState({ dobAgeValid, errorMsgWtAge });
-      dobAgeValid || this.dobInput.shake();
-      return dobAgeValid;
-    }
+  handleNumPickerForWeight = number => {
+    this.props.setWeight(number);
+    this.hideWeightNumPicker();
   };
-  goToSignUpScreen3 = async () => {
-    LayoutAnimation.easeInEaseOut();
-    this.createName();
-    const firstNameValid = this.validateFirstName();
-    const dobValid = this.validateDobAndAge();
-    const genderValid = this.validateGender();
-    if (firstNameValid && dobValid && genderValid) {
-      this.setState({ isLoading: true });
-      try {
-        const user = await auth.currentUser;
-        this.updateUserWithDetails(user);
-      } catch (error) {
-        this.setState({ isLoading: false });
-        console.log("Error before updating from :", error);
-      }
-    }
+  handleNumPickerForHeight = number => {
+    this.props.setHeight(number);
+    this.hideHeightNumPicker();
   };
-  updateUserWithDetails = async user => {
-    const { name, dob, age, gender } = this.state;
-    const { navigate } = this.props.navigation;
-    const extraUserDetails = {
-      name,
-      dob,
-      age,
-      gender
-    };
-    database
-      .ref("users")
-      .child(user.uid)
-      .update(extraUserDetails)
-      .then(() => {
-        console.log(
-          "Successfully updated existing user with details in page SignUpScreen2."
-        );
-        this.setState({ isLoading: false });
-        navigate("SignUpScreen3", {
-          screenName: name
-        });
-      })
-      .catch(error => {
-        this.setState({ isLoading: false });
-        console.log(
-          "error while updating new user with details in page SignUpScreen2.",
-          error
-        );
-      });
+  handleTargetWeightAndProgram = (targetWeight, program) => {
+    this.props.setTargetWeightAndProgram(targetWeight, program);
+    this.hideTargetWeightTimeline();
   };
 
   render() {
     const {
-      isLoading,
-      firstName,
-      firstNameValid,
-      lastName,
-      selectedGenderIndex,
-      genderValid,
-      isDTPickerVisible,
+      goal,
+      gender,
+      fitnessLevel,
       dob,
-      dobAgeValid,
-      errorMsgWtAge
+      weight,
+      height,
+      program,
+      programs,
+      targetWeight,
+      showTargetWeightButton
+    } = this.props;
+    const {
+      isDTPickerVisible,
+      isWeightNumPickerVisible,
+      isHeightNumPickerVisible,
+      isTargetWeightTimelineVisible
     } = this.state;
+    console.log(
+      goal,
+      gender,
+      fitnessLevel,
+      height,
+      weight,
+      dob,
+      showTargetWeightButton
+    );
     return (
-      <View
-        scrollEnabled={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={commonStyles.mainContent}
-      >
-        <StatusBar hidden={true} />
+      <View style={styles.mainContent}>
         <KeyboardAvoidingView behaviour="position">
           <View style={styles.inputOuterViewContainer}>
-            <TouchableOpacity onPress={this.showDTPicker}>
+            <TouchableOpacity>
               <DateTimePicker
                 mode="date"
                 minimumDate={MIN_DATE}
@@ -164,70 +126,149 @@ export default class PersonalDetails extends Component {
                 onConfirm={this.handleDTPicker}
                 onCancel={this.hideDTPicker}
               />
-              <Input
-                placeholder="Your Birthday"
-                placeholderTextColor={styles.inputStyle.color}
-                rightIcon={
+              <Button
+                title={dob.length === 0 ? "Your Birthday" : dob}
+                buttonStyle={
+                  dob.length === 0
+                    ? styles.buttonStyle
+                    : styles.activeButtonStyle
+                }
+                titleStyle={
+                  dob.length === 0
+                    ? styles.buttonTitle
+                    : styles.activeButtonTitle
+                }
+                icon={
                   <Icon
                     name="cake-variant"
-                    style={styles.inputIconStyle}
-                    size={ICON_SIZE}
+                    style={
+                      dob.length === 0
+                        ? styles.buttonIcon
+                        : styles.activeButtonIcon
+                    }
+                    size={dob.length === 0 ? ICON_SIZE : ICON_SIZE_LARGE}
                   />
                 }
-                //containerStyle={styles.inputViewContainer}
-                inputContainerStyle={styles.inputContainer}
-                inputStyle={styles.inputStyle}
-                errorStyle={styles.errorInputStyle}
-                onChangeText={dob => this.setState({ dob })}
-                value={dob}
-                keyboardAppearance="light"
-                keyboardType="default"
-                autoCorrect={false}
-                blurOnSubmit={false}
-                editable={false}
-                returnKeyType="next"
-                ref={input => (this.dobInput = input)}
-                onSubmitEditing={() => {
-                  this.setState({ dobAgeValid: this.validateDobAndAge });
-                }}
-                errorMessage={dobAgeValid ? null : errorMsgWtAge}
+                onPress={this.showDTPicker}
               />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Input
-                placeholder="Your Weight"
-                placeholderTextColor={styles.inputStyle.color}
-                rightIcon={
+              <NumberPicker
+                minNumber={MIN_WEIGHT}
+                maxNumber={MAX_WEIGHT}
+                unit="kilograms"
+                numberArray={WEIGHT_RANGE_FINAL}
+                isVisible={isWeightNumPickerVisible}
+                onConfirm={this.handleNumPickerForWeight}
+                onCancel={this.hideWeightNumPicker}
+              />
+              <Button
+                title={weight === undefined ? "Your Weight" : weight + " kgs"}
+                buttonStyle={
+                  weight === undefined
+                    ? styles.buttonStyle
+                    : styles.activeButtonStyle
+                }
+                titleStyle={
+                  weight === undefined
+                    ? styles.buttonTitle
+                    : styles.activeButtonTitle
+                }
+                icon={
                   <Icon
                     name="scale-bathroom"
-                    style={styles.inputIconStyle}
+                    style={
+                      weight === undefined
+                        ? styles.buttonIcon
+                        : styles.activeButtonIcon
+                    }
                     size={ICON_SIZE}
                   />
                 }
-                //containerStyle={styles.inputViewContainer}
-                inputContainerStyle={styles.inputContainer}
-                inputStyle={styles.inputStyle}
-                errorStyle={styles.errorInputStyle}
-                onChangeText={dob => this.setState({ dob })}
-                value={dob}
-                keyboardAppearance="light"
-                keyboardType="default"
-                autoCorrect={false}
-                blurOnSubmit={false}
-                editable={false}
-                returnKeyType="next"
-                ref={input => (this.dobInput = input)}
-                onSubmitEditing={() => {
-                  this.setState({ dobAgeValid: this.validateDobAndAge });
-                }}
-                errorMessage={dobAgeValid ? null : errorMsgWtAge}
+                onPress={this.showWeightNumPicker}
               />
-              {/*<NumberPicker
-                minNumber={MIN_WEIGHT}
-                maxNumber={MAX_WEIGHT}
-                visible={true}
-              />*/}
             </TouchableOpacity>
+            <TouchableOpacity>
+              <NumberPicker
+                minNumber={MIN_HEIGHT}
+                maxNumber={MAX_HEIGHT}
+                unit="centimeters"
+                numberArray={HEIGHT_RANGE_FINAL}
+                isVisible={isHeightNumPickerVisible}
+                onConfirm={this.handleNumPickerForHeight}
+                onCancel={this.hideHeightNumPicker}
+              />
+              <Button
+                title={height === undefined ? "Your Height" : height + " cms"}
+                buttonStyle={
+                  height === undefined
+                    ? styles.buttonStyle
+                    : styles.activeButtonStyle
+                }
+                titleStyle={
+                  height === undefined
+                    ? styles.buttonTitle
+                    : styles.activeButtonTitle
+                }
+                icon={
+                  <Icon
+                    name="ruler"
+                    style={
+                      height === undefined
+                        ? styles.buttonIcon
+                        : styles.activeButtonIcon
+                    }
+                    size={ICON_SIZE}
+                  />
+                }
+                onPress={this.showHeightNumPicker}
+              />
+            </TouchableOpacity>
+            {showTargetWeightButton && (
+              <TouchableOpacity>
+                <TargetWeightTimeline
+                  isVisible={isTargetWeightTimelineVisible}
+                  goal={goal}
+                  fitnessLevel={fitnessLevel}
+                  weight={weight}
+                  programs={programs}
+                  program={program}
+                  targetWeight={targetWeight}
+                  onConfirm={this.handleTargetWeightAndProgram}
+                  onClose={this.hideTargetWeightTimeline}
+                />
+                <Button
+                  title={
+                    targetWeight === undefined
+                      ? "Your Target Weight"
+                      : targetWeight + " kgs"
+                  }
+                  buttonStyle={
+                    targetWeight === undefined
+                      ? styles.buttonStyle
+                      : styles.activeButtonStyle
+                  }
+                  titleStyle={
+                    targetWeight === undefined
+                      ? styles.buttonTitle
+                      : styles.activeButtonTitle
+                  }
+                  icon
+                  icon={
+                    <Icon
+                      name="bullseye-arrow"
+                      style={
+                        targetWeight === undefined
+                          ? styles.buttonIcon
+                          : styles.activeButtonIcon
+                      }
+                      size={ICON_SIZE}
+                    />
+                  }
+                  onPress={this.showTargetWeightTimeline}
+                />
+              </TouchableOpacity>
+            )}
           </View>
         </KeyboardAvoidingView>
       </View>

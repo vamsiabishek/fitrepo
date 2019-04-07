@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  LayoutAnimation,
   Text,
   View,
   StatusBar,
@@ -82,9 +81,10 @@ export default class Diet extends Component {
     const { uid } = await f.auth().currentUser;
 
     const [popularDiets, myDiets] = await Promise.all([
-       this.fetchPopularDiets(), this.fetchMyDiets(uid)
+      this.fetchPopularDiets(),
+      this.fetchMyDiets(uid)
     ]);
-    console.log('popularDiets & myDiets:', popularDiets, myDiets);
+    console.log("popularDiets & myDiets:", popularDiets, myDiets);
     this.setState({
       popularDiets,
       myDiets,
@@ -118,10 +118,10 @@ export default class Diet extends Component {
       .orderByChild("createdDate")
       .once("value")
       .then(snap => {
-        if (snap.val()){
+        if (snap.val()) {
           const results = snap.val();
-          popularDiets = createKeyAndValuesFromResult(results)
-        } 
+          popularDiets = createKeyAndValuesFromResult(results);
+        }
       })
       .catch(error => {
         console.log("error while fetching popular diets in Diet page", error);
@@ -137,10 +137,10 @@ export default class Diet extends Component {
       .equalTo(userId)
       .once("value")
       .then(snap => {
-        if (snap.val()){
+        if (snap.val()) {
           const results = snap.val();
-          myDiets = createKeyAndValuesFromResult(results)
-        } 
+          myDiets = createKeyAndValuesFromResult(results);
+        }
       })
       .catch(error => {
         console.log("error while fetching my diets in Diet page", error);
@@ -163,7 +163,8 @@ export default class Diet extends Component {
       isLoading
     } = this.state;
     const { navigation } = this.props;
-    const currentDiet = currentDietOption === "popular" ? popularDiets : myDiets
+    const currentDiet =
+      currentDietOption === "popular" ? popularDiets : myDiets;
     return (
       <View style={styles.container}>
         {isLoading && <ActivityIndicator />}
@@ -230,10 +231,7 @@ export default class Diet extends Component {
               </View>
             </View>
             <View style={styles.listViewContainer}>
-              <CustomListView
-                diets={currentDiet}
-                navigation={navigation}
-              />
+              <CustomListView diets={currentDiet} navigation={navigation} />
             </View>
           </View>
         )}

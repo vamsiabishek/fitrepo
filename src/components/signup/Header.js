@@ -1,38 +1,47 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Text, View } from "react-native";
+import { Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  styleCommon,
+  ICON_BACK_SIZE
+} from "../../../assets/style/stylesCommonValues";
+import { styles } from "../../../assets/style/stylesHeader";
 
-const styles = StyleSheet.create({
-  header: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    width: 220,
-    marginTop: 150,
-    marginBottom: 40,
-    marginHorizontal: 40
-  },
-  headerTitle: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#004a94"
-  },
-})
-
-class Header extends React.Component {
+export default class Header extends React.Component {
   render() {
-    const { title, marginTop } = this.props;
-    let { header } = styles
-    if(marginTop) {
+    const { title, marginTop, height, flex, screen, onBack } = this.props;
+    let { header } = styles;
+    if (marginTop || height || flex) {
       header = {
         ...header,
         marginTop,
-      }
+        flex,
+        height
+      };
     }
     return (
-      <View style={header}>
-        <Text style={styles.headerTitle}>{title}</Text>
-      </View>
+      <React.Fragment>
+        <View style={styles.backHeaderContainer}>
+          <View style={styles.buttonContainer}>
+            <Button
+              icon={
+                <Icon
+                  name="arrow-left-circle-outline"
+                  size={ICON_BACK_SIZE}
+                  color={styleCommon.secondaryButtonTextColor}
+                />
+              }
+              containerStyle={styles.backButtonContainerStyle}
+              buttonStyle={styles.backButtonStyle}
+              onPress={() => onBack(screen)}
+            />
+          </View>
+        </View>
+        <View style={header}>
+          <Text style={styles.headerTitle}>{title}</Text>
+        </View>
+      </React.Fragment>
     );
   }
 }
-
-export default Header;

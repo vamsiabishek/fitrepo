@@ -84,11 +84,11 @@ export default class SocialMediaSignup extends Component {
     const credentials = f.auth.FacebookAuthProvider.credential(
       data.accessToken
     );
-    console.log('credentials:', credentials)
+    console.log("credentials:", credentials);
     return f.auth().signInAndRetrieveDataWithCredential(credentials);
   };
 
-  createUserWithDetails = async ({user, additionalUserInfo}) => {
+  createUserWithDetails = async ({ user, additionalUserInfo }) => {
     const { setUser } = this.props;
     const { birthday } = additionalUserInfo;
     const dob = new Date(birthday).toDateString().substring(4);
@@ -103,7 +103,7 @@ export default class SocialMediaSignup extends Component {
     };
     setUser(newUser);
   };
-  
+
   render() {
     const { signupObject } = this.props;
     return (

@@ -6,7 +6,6 @@ import {
   FlatList,
   TouchableOpacity
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
 
 const styles = StyleSheet.create({
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
     height: 3,
     borderTopWidth: 3,
     borderColor: styleCommon.disableColor,
-    width: 50
+    width: 65
   },
   iconStyle: {
     height: 15,
@@ -57,28 +56,27 @@ class HorizontalComponent extends React.Component {
           horizontal={true}
           renderItem={({ item, index }) => {
             let { iconStyle, iconDataStyle, iconTextStyle } = styles;
-            console.log("iconStyle:", iconStyle);
             if (item === selectedItem) {
               iconStyle = {
                 ...iconStyle,
                 height: 20,
                 width: 20,
-                backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A", // "#00DB8D",
-                borderRadius: 10
+                backgroundColor: styleCommon.selectedButtonColor,
+                borderRadius: 40
               };
               iconDataStyle = {
                 ...iconDataStyle,
-                height: 12,
-                width: 12
+                height: 20,
+                width: 20
               };
               iconTextStyle = {
                 ...iconTextStyle,
                 fontSize: 11,
                 fontWeight: "bold",
-                //color: "white"
-                color: styleCommon.primaryButtonTextColor //"#414c47"
-                //color: "#0A1915"
+                color: styleCommon.primaryButtonTextColor
               };
+
+              console.log("iconStyle:", iconStyle);
             }
 
             return (

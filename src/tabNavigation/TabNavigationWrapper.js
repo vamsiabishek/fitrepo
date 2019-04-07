@@ -24,6 +24,7 @@ import SignUpScreen3 from "../signup/SignUpScreen3";
 import Signup from "../signup/Signup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
+import { ICON_SIZE_NAV } from "../common/Common";
 
 const SignUpStackNavigator = createStackNavigator(
   {
@@ -36,6 +37,7 @@ const SignUpStackNavigator = createStackNavigator(
     initialRouteName: "Signup",
     defaultNavigationOptions: {
       header: null,
+      headerTransparent: true,
       headerStyle: styles.headerStyle
     }
   }
@@ -113,7 +115,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
           return (
             <Icon
               name="home-variant"
-              size={styles.iconSize}
+              size={ICON_SIZE_NAV}
               style={{
                 color: tintColor,
                 paddingVertical: styles.bottomNavBar.paddingVertical
@@ -130,7 +132,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
           return (
             <Icon
               name="nutrition"
-              size={styles.iconSize}
+              size={ICON_SIZE_NAV}
               style={{
                 color: tintColor,
                 paddingVertical: styles.bottomNavBar.paddingVertical
@@ -147,7 +149,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
           return (
             <Icon
               name="dumbbell"
-              size={styles.iconSize}
+              size={ICON_SIZE_NAV}
               style={{
                 color: tintColor,
                 paddingVertical: styles.bottomNavBar.paddingVertical
@@ -164,7 +166,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
           return (
             <Icon
               name="account"
-              size={styles.iconSize}
+              size={ICON_SIZE_NAV}
               style={{
                 color: tintColor,
                 paddingVertical: styles.bottomNavBar.paddingVertical
@@ -219,7 +221,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "StartUp"
+    initialRouteName: "SignUp"
   }
 );
 

@@ -1,8 +1,19 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableNativeFeedback
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { btnGradientColorLeft, modalBtnGradientColorRight, btnGradientColorRightDisabled } from "../../assets/style/stylesCommonValues"
-
+import {
+  SCREEN_WIDTH,
+  btnGradientColorLeft,
+  modalBtnGradientColorRight,
+  btnGradientColorRightDisabled
+} from "../../assets/style/stylesCommonValues";
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -16,8 +27,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   buttonGradiant: {
-    width: 300,
-    height: 60,
+    width: SCREEN_WIDTH - 100,
+    height: 30,
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center"
@@ -26,14 +37,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     fontWeight: "700",
-    fontSize: 20
+    fontSize: 16
   },
   buttonTitle: {
     justifyContent: "center",
     alignItems: "center",
     color: "white",
-    fontWeight: "600",
-    fontSize: 20
+    fontWeight: "700",
+    fontSize: 16
   },
   navButtonIcon: {
     position: "absolute",
@@ -53,19 +64,35 @@ class MyButton extends React.Component {
     if (disabled) gradientColorRight = btnGradientColorRightDisabled;
     return (
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.buttonActive}
-          onPress={() => this.closeSourceModal()}
-        >
-          <LinearGradient
-            colors={[btnGradientColorLeft, gradientColorRight]}
-            style={styles.buttonGradiant}
-            start={{ x: 0, y: 0.5 }}
-            end={{ x: 1, y: 0.5 }}
+        {Platform.OS === "ios" ? (
+          <TouchableOpacity
+            style={styles.buttonActive}
+            onPress={() => this.closeSourceModal()}
           >
-            <Text style={styles.buttonTitle}>{label}</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+            <LinearGradient
+              colors={[btnGradientColorLeft, gradientColorRight]}
+              style={styles.buttonGradiant}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+            >
+              <Text style={styles.buttonTitle}>{label}</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        ) : (
+          <TouchableNativeFeedback
+            style={styles.buttonActive}
+            onPress={() => this.closeSourceModal()}
+          >
+            <LinearGradient
+              colors={[btnGradientColorLeft, gradientColorRight]}
+              style={styles.buttonGradiant}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+            >
+              <Text style={styles.buttonTitle}>{label}</Text>
+            </LinearGradient>
+          </TouchableNativeFeedback>
+        )}
       </View>
     );
   }

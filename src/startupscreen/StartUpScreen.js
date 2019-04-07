@@ -4,15 +4,13 @@ import {
   View,
   ImageBackground,
   StatusBar,
-  LayoutAnimation,
   Dimensions,
   ScrollView,
-  Image
+  UIManager
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Button, Overlay } from "react-native-elements";
 import { styles } from "../../assets/style/stylesStartUpScreen";
-import { styleCommon } from "../../assets/style/stylesCommonValues";
 import {
   source1,
   source2,
@@ -27,6 +25,10 @@ import {
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
+
+// Enable LayoutAnimation for Android Devices
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class StartUpScreen extends Component {
   intervalId = 0;

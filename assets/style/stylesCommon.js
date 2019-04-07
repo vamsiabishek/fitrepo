@@ -1,12 +1,10 @@
-import { Dimensions, StyleSheet } from "react-native";
-
-export const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+import { StyleSheet } from "react-native";
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from "./stylesCommonValues";
 
 const commonStyles = StyleSheet.create({
   container: {
-    flex: 1,
-   // alignItems: "center",
+    flex: 1
+    // alignItems: "center",
     //justifyContent: "center",
   },
   bgImage: {
@@ -19,7 +17,11 @@ const commonStyles = StyleSheet.create({
   subContainer: {
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT
+  },
+  scrollContentContainer: {
+    justifyContent: "center",
+    alignContent: "center"
   }
-})
+});
 
 export { commonStyles };
