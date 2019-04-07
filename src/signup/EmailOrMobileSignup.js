@@ -89,11 +89,11 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          onChangeText={email => this.onEmailChange()}
+          onChangeText={email => onEmailChange(email)}
           value={email}
           ref={input => (this.emailInput = input)}
           onSubmitEditing={() => {
-            this.setState({ emailValid: this.validateEmail });
+            this.setState({ emailValid: validateEmail });
             this.passwordInput.focus();
           }}
           errorMessage={
@@ -115,12 +115,12 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          onChangeText={password => this.onPasswordChange()}
-          onFocus={() => this.validateEmail()}
+          onChangeText={password => onPasswordChange(password)}
+          onFocus={() => validateEmail(email, this.emailInput)}
           value={password}
           ref={input => (this.passwordInput = input)}
           onSubmitEditing={() => {
-            this.setState({ passwordValid: this.validatePassword });
+            this.setState({ passwordValid: validatePassword });
             this.confirmationPasswordInput.focus();
           }}
           errorMessage={
@@ -137,9 +137,9 @@ export default class EmailOrMobileSignup extends Component {
           inputStyle={styles.inputStyle}
           placeholderTextColor={placeholderTextColor}
           errorStyle={styles.errorInputStyle}
-          onChangeText={confirmationPassword => this.onConfirmPasswordChange()
+          onChangeText={confirmationPassword => onConfirmPasswordChange(confirmationPassword)
           }
-          onFocus={()=>this.validatePassword()}
+          onFocus={()=>validatePassword(password, this.passwordInput)}
           value={confirmationPassword}
           secureTextEntry={true}
           keyboardAppearance="light"
@@ -148,10 +148,10 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          ref={input => (this.confirmationPasswordInput = input)}
+          ref={input => (confirmationPasswordInput = input)}
           onSubmitEditing={() => {
             this.setState({
-              confirmationPasswordValid: this.validateConfirmationPassword
+              confirmationPasswordValid: validateConfirmationPassword
             });
           }}
           errorMessage={

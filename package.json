@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "react-native-schemes-manager all"
   },
   "dependencies": {
     "@babel/core": "^7.0.0-0",
@@ -16,6 +17,7 @@
     "react-native": "0.58.5",
     "react-native-collapsible": "^1.4.0",
     "react-native-elements": "^1.1.0",
+    "react-native-fbsdk": "^0.8.0",
     "react-native-gesture-handler": "^1.0.16",
     "react-native-image-picker": "^0.28.0",
     "react-native-linear-gradient": "^2.5.3",
@@ -39,6 +41,7 @@
     "babel-jest": "24.1.0",
     "jest": "24.1.0",
     "metro-react-native-babel-preset": "0.52.0",
+    "react-native-schemes-manager": "^2.0.0",
     "react-test-renderer": "16.6.3"
   },
   "jest": {
@@ -47,6 +50,14 @@
   "rnpm": {
     "assets": [
       "./assets/fonts/"
+    ]
+  },
+  "xcodeSchemes": {
+    "Debug": [
+      "Alpha"
+    ],
+    "Release": [
+      "Beta"
     ]
   }
 }

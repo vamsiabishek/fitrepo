@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ImageBackground, ScrollView } from "react-native";
+import { View, StyleSheet, ImageBackground, ScrollView , ActivityIndicator, LayoutAnimation} from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { commonStyles, SCREEN_WIDTH } from "../../assets/style/stylesCommon";
-import { GRADIENT_BG_IMAGE } from "../common/Common";
+import { GRADIENT_BG_IMAGE, EMAIL_VERIFICATION, PASSWORD_LENGTH_MINIMUM } from "../common/Common";
 import Header from "../components/signup/Header";
 import NavNextButton from "../components/signup/NavNextButton";
 import Goal from "./Goal";
@@ -63,10 +63,11 @@ export default class Signup extends Component {
       email: "",
       password: "",
       confirmationPassword: "",
-      usernameValid: true,
       emailValid: true,
       passwordValid: true,
-      confirmationPasswordValid: true
+      confirmationPasswordValid: true,
+      user: {},
+      isLoading: false,
     };
   }
   setGoal = goal => {
@@ -79,12 +80,21 @@ export default class Signup extends Component {
     this.setState({ fitnessLevel, navButtonActive: true });
   };
 
-  onNext = currentScreen => {
+  setUser = user => {
+    this.setState({ user });
+  };
+
+  onNext = async currentScreen => {
     let isScrollable = false;
     if (currentScreen === 1 && this.state.goal > 0) isScrollable = true;
     if (currentScreen === 2 && this.state.gender >= 0) isScrollable = true;
     if (currentScreen === 3 && this.state.fitnessLevel > 0) isScrollable = true;
-    if (currentScreen === 4) isScrollable = true;
+    if (currentScreen === 4) {
+      await this.createNewUser()
+      isScrollable = true;
+    }
+    if (currentScreen === 5) isScrollable = true;
+    if (currentScreen === 6) isScrollable = true;
     if (isScrollable && this.scrollRef) {
       const scrollValue = SCREEN_WIDTH * currentScreen;
       this.scrollRef.scrollTo({ x: scrollValue });
@@ -169,11 +179,7 @@ export default class Signup extends Component {
     else if (sourceType === "fat") this.addFat();
   };
   onSourceToggle = (index, selected) => {
-    const {
-      sources,
-      selectedSources,
-      modalContains,
-    } = this.state;
+    const { sources, selectedSources, modalContains } = this.state;
 
     if (selectedSources.length < 4) {
       const selectedSource = sources[index];
@@ -185,7 +191,7 @@ export default class Signup extends Component {
         );
         if (selectedIndex > -1) selectedSources.splice(selectedIndex, 1);
       }
-      
+
       let sourcesButtonLabel = this.changeSourceButtonLabel();
 
       if (modalContains === "protein")
@@ -227,8 +233,7 @@ export default class Signup extends Component {
       selectedFatSources.length > 0
     )
       sourcesButtonLabel = "NEXT";
-    else
-      sourcesButtonLabel = "SKIP";
+    else sourcesButtonLabel = "SKIP";
     return sourcesButtonLabel;
   };
 
@@ -271,18 +276,18 @@ export default class Signup extends Component {
     const emailValid = EMAIL_VERIFICATION.test(email);
     LayoutAnimation.easeInEaseOut();
     this.setState({ emailValid });
-    if(!emailValid) {
+    if (!emailValid) {
       emailRef.focus();
       emailRef.shake();
     }
     return emailValid;
   };
   validatePassword = (password, passwordRef) => {
-   // const { password } = this.state;
+    // const { password } = this.state;
     const passwordValid = password.length >= PASSWORD_LENGTH_MINIMUM;
     LayoutAnimation.easeInEaseOut();
     this.setState({ passwordValid });
-    if(!passwordValid){
+    if (!passwordValid) {
       passwordRef.focus();
       passwordRef.shake();
     }
@@ -293,18 +298,69 @@ export default class Signup extends Component {
     const confirmationPasswordValid = password === confirmationPassword;
     LayoutAnimation.easeInEaseOut();
     this.setState({ confirmationPasswordValid });
-    confirmationPasswordValid || confirmPasswordRef.shake();
+    if(confirmPasswordRef)
+      confirmationPasswordValid || confirmPasswordRef.shake();
     return confirmationPasswordValid;
   };
   onEmailChange = email => {
-    this.setState({ email })
-  }
+    const {password, confirmationPassword} = this.state
+    const navButtonActive = this.validateCredentials({email, password, confirmationPassword})
+    this.setState({ email, navButtonActive });
+  };
   onPasswordChange = password => {
-    this.setState({ password })
-  }
+    const {email, confirmationPassword} = this.state
+    const navButtonActive = this.validateCredentials({email, password, confirmationPassword})
+    this.setState({ password, navButtonActive });
+  };
   onConfirmPasswordChange = confirmationPassword => {
-    this.setState({ confirmationPassword })
-  }
+    const {password, email} = this.state
+    const navButtonActive = this.validateCredentials({email, password, confirmationPassword})
+    this.validateConfirmationPassword(confirmationPassword);
+    this.setState({ confirmationPassword, navButtonActive });
+  };
+
+  validateCredentials = ({email, password, confirmationPassword}) => {
+    const { emailValid, passwordValid } = this.state;
+    if (
+      email !== "" &&
+      password !== "" &&
+      confirmationPassword !== "" &&
+      password === confirmationPassword &&
+      emailValid &&
+      passwordValid
+    )
+      return true;
+    return false;
+  };
+
+  createNewUser = async () => {
+    const { email, password } = this.state;
+    this.setState({ isLoading: true });
+    try {
+      await auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(userObj => {
+          const user = {
+            uid: userObj.user.uid
+          };
+          this.setState({ user });
+        })
+        .catch(error => {
+          this.setState({ isLoading: false });
+          //console.log(
+          //  "error while creating user with email and password",
+          //  error
+          //);
+          alert(error.message);
+        });
+    } catch (error) {
+      this.setState({ isLoading: false });
+      //console.log(
+      //  "error before creating user with email and password",
+      //  error
+      //);
+    }
+  };
 
   render() {
     const {
@@ -328,6 +384,7 @@ export default class Signup extends Component {
       emailValid,
       passwordValid,
       confirmationPasswordValid,
+      isLoading
     } = this.state;
     const signupObject = {
       email,
@@ -342,14 +399,16 @@ export default class Signup extends Component {
       onConfirmPasswordChange: this.onConfirmPasswordChange,
       validateEmail: this.validateEmail,
       validatePassword: this.validatePassword,
-      validateConfirmationPassword: this.validateConfirmationPassword,
-    }
+      validateConfirmationPassword: this.validateConfirmationPassword
+    };
     return (
       <View style={commonStyles.container}>
         <ImageBackground
           source={GRADIENT_BG_IMAGE}
           style={commonStyles.bgImage}
-        >
+        > 
+          {isLoading && <ActivityIndicator/>}
+          {!isLoading && 
           <ScrollView
             horizontal="true"
             scrollEnabled="false"
@@ -357,15 +416,6 @@ export default class Signup extends Component {
               this.scrollRef = scrollView;
             }}
           >
-            <View style={commonStyles.subContainer}>
-              <Header title="SIGN UP !" />
-              <SocialMediaSignup signupObject={signupObject} />
-              <NavNextButton
-                isActive={navButtonActive}
-                screen={screen}
-                onNext={this.onNext}
-              />
-            </View>
             <View style={commonStyles.subContainer}>
               <Header title="What is your goal ?" />
               <Goal goal={goal} setGoal={this.setGoal} />
@@ -399,6 +449,27 @@ export default class Signup extends Component {
               />
             </View>
             <View style={commonStyles.subContainer}>
+              <Header title="SIGN UP !" />
+              <SocialMediaSignup
+                signupObject={signupObject}
+                setUser={this.setUser}
+              />
+              <NavNextButton
+                isActive={navButtonActive}
+                screen={screen}
+                onNext={this.onNext}
+              />
+            </View>
+            <View style={commonStyles.subContainer}>
+              <Header title="Lets's get to know you Better !" />
+              <PersonalDetails />
+              <NavNextButton
+                isActive={navButtonActive}
+                screen={screen}
+                onNext={this.onNext}
+              />
+            </View>
+            <View style={commonStyles.subContainer}>
               <Header title="Would you like to choose ?" marginTop={110} />
               <FoodSources
                 selectedProteinSources={selectedProteinSources}
@@ -422,17 +493,8 @@ export default class Signup extends Component {
                 buttonText={sourcesButtonLabel}
               />
             </View>
-            <View style={commonStyles.subContainer}>
-              <Header title="Lets's get to know you Better !" />
-              <PersonalDetails />
-              <NavNextButton
-                isActive={navButtonActive}
-                screen={screen}
-                onNext={this.onNext}
-              />
-            </View>
-            
           </ScrollView>
+          }
         </ImageBackground>
       </View>
     );

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { SocialIcon, Divider } from "react-native-elements";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
+import { f, database } from "../common/FirebaseConfig";
 import EmailOrMobileSignup from "./EmailOrMobileSignup";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
 
@@ -45,31 +46,66 @@ const styles = StyleSheet.create({
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
-    super(props)
-    this.state = {
-
-    }
+    super(props);
+    this.state = {};
   }
 
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
 
   onPressLogin = () => {
-      LoginManager.logInWithReadPermissions(['public_profile', 'user_birthday', 'email', 'user_photos'])
-      .then((result) => this.handleCallBackFromFB(result),
-        function(error) {
-          alert('Login fail with error: ' + error);
-        }
-      )
-  }
+    LoginManager.logInWithReadPermissions([
+      "public_profile",
+      "user_birthday",
+      "email"
+    ])
+      .then(result => this.getFBTokenFromResponse(result))
+      .then(data => this.getFBCredentialsUsingToken(data))
+      .then(currentUser => {
+        console.log("current FB User:", currentUser);
+        this.createUserWithDetails(currentUser);
+      })
+      .catch(error => {
+        alert("Login fail with error: " + error);
+      });
+  };
 
-  handleCallBackFromFB = result => {
-    console.log('result from FB:', result)
-  }
+  getFBTokenFromResponse = result => {
+    if (result.isCancelled)
+      return Promise.reject(new Error("The user cancelled the request"));
+    console.log(
+      "FB login success with permission: ",
+      result.grantedPermissions.toString()
+    );
+    //get access token
+    return AccessToken.getCurrentAccessToken();
+  };
 
+  getFBCredentialsUsingToken = data => {
+    const credentials = f.auth.FacebookAuthProvider.credential(
+      data.accessToken
+    );
+    console.log('credentials:', credentials)
+    return f.auth().signInAndRetrieveDataWithCredential(credentials);
+  };
+
+  createUserWithDetails = async ({user, additionalUserInfo}) => {
+    const { setUser } = this.props;
+    const { birthday } = additionalUserInfo;
+    const dob = new Date(birthday).toDateString().substring(4);
+    const age = new Date().getFullYear() - new Date(birthday).getFullYear();
+    // user object also contains phone number
+    const newUser = {
+      uid: user.uid,
+      email: user.email,
+      dob,
+      age,
+      name: user.displayName
+    };
+    setUser(newUser);
+  };
+  
   render() {
-    const {signupObject} = this.props;
+    const { signupObject } = this.props;
     return (
       <View style={styles.mainContent}>
         <View style={{ flexDirection: "row", marginTop: 20, marginLeft: 15 }}>
@@ -100,7 +136,7 @@ export default class SocialMediaSignup extends Component {
         </View>
 
         <View>
-          <EmailOrMobileSignup signupObject={signupObject}/>
+          <EmailOrMobileSignup signupObject={signupObject} />
         </View>
       </View>
     );
