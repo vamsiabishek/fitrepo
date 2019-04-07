@@ -24,6 +24,8 @@ import FoodSources from "./FoodSources";
 import SocialMediaSignup from "./SocialMediaSignup";
 import { styles } from "../../assets/style/stylesSignup";
 import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
+import { auth, database } from "../common/FirebaseConfig";
+import { createDiet } from "./UpdateDiet";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -102,8 +104,9 @@ export default class Signup extends Component {
   setFitnessLevel = fitnessLevel => {
     this.setState({ fitnessLevel, navButtonActive: true });
   };
-  setUser = user => {
+  setFBUser = user => {
     this.setState({ user });
+    this.scrollToNextScreen(4);
   };
   setDob = (dob, age) => {
     const { weight, height } = this.state;
@@ -142,34 +145,12 @@ export default class Signup extends Component {
   setTargetWeightAndProgram = (targetWeight, program) => {
     this.setState({ targetWeight, program, navButtonActive: true });
   };
-  onNext = async currentScreen => {
-    const { goal, gender, fitnessLevel, dob, age, weight, height } = this.state;
-    let isScrollable = false;
-    if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
-      isScrollable = true;
-    if (currentScreen === 2 && (gender >= 0 && gender.length !== 0))
-      isScrollable = true;
-    if (currentScreen === 3 && (fitnessLevel > 0 && fitnessLevel.length !== 0))
-      isScrollable = true;
-    if (currentScreen === 4) {
-      await this.createNewUser();
-      isScrollable = true;
-    }
-    if (
-      currentScreen === 5 &&
-      (dob.length > 0 &&
-        age !== undefined &&
-        weight !== undefined &&
-        height !== undefined)
-    )
-      isScrollable = true;
-    if (currentScreen === 6) isScrollable = true;
-    if (isScrollable && this.scrollRef) {
-      const scrollValue = SCREEN_WIDTH * currentScreen;
+  
+  scrollToNextScreen = currentScreen => {
+    const scrollValue = SCREEN_WIDTH * currentScreen;
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen + 1, navButtonActive: false });
-    }
-  };
+  }
   onBack = currentScreen => {
     const { navigate } = this.props.navigation;
     console.log(currentScreen);
@@ -431,24 +412,108 @@ export default class Signup extends Component {
           const user = {
             uid: userObj.user.uid
           };
-          this.setState({ user });
+          this.setState({ user, isLoading: false });
         })
         .catch(error => {
           this.setState({ isLoading: false });
-          //console.log(
-          //  "error while creating user with email and password",
-          //  error
-          //);
           alert(error.message);
         });
     } catch (error) {
       this.setState({ isLoading: false });
-      //console.log(
-      //  "error before creating user with email and password",
-      //  error
-      //);
     }
   };
+
+  onNext = async currentScreen => {
+    const { goal, gender, fitnessLevel, dob, age, weight, height } = this.state;
+    let isScrollable = false;
+    if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
+      isScrollable = true;
+    if (currentScreen === 2 && (gender >= 0 && gender.length !== 0))
+      isScrollable = true;
+    if (currentScreen === 3 && (fitnessLevel > 0 && fitnessLevel.length !== 0))
+      isScrollable = true;
+    if (currentScreen === 4) {
+      await this.createNewUser();
+      isScrollable = true;
+    }
+    if (
+      currentScreen === 5 &&
+      (dob.length > 0 &&
+        age !== undefined &&
+        weight !== undefined &&
+        height !== undefined)
+    )
+      isScrollable = true;
+    if (currentScreen === 6) {
+      await this.saveUserDetails();
+      await this.createDietAndMeals();
+    }
+    if (isScrollable && this.scrollRef) {
+      this.scrollToNextScreen(currentScreen);
+    }
+  };
+
+  saveUserDetails = async () => {
+    this.setState({ isLoading: true });
+    const {  
+      fitnessLevel,
+      email,
+      password,
+      dob,
+      age,
+      weight,
+      height,
+     } = this.state;
+    let {user, gender} = this.state;
+    gender = gender === 0 ? "Female" : "Male";
+    if(password !== "") {
+      user.email = email
+    }
+    user = {
+      ...user,
+      gender,
+      fitnessLevel,
+      dob,
+      age,
+      weight,
+      height,
+    }
+    await database
+      .ref("users")
+      .child(user.uid)
+      .set(user)
+      .then(() => {
+        this.setState({ isLoading: false });
+      })
+      .catch(error => {
+        this.setState({ isLoading: false });
+      });
+  }
+
+  createDietAndMeals = async () => {
+    this.setState({ isLoading: true });
+    const {selectedProteinSources,
+      selectedFatSources,
+      selectedCarbSources,
+      weight,
+      targetWeight,
+      goal, program, user: {uid} } = this.state
+    const dietInfo =  {
+      selectedProteinSources,
+      selectedFatSources,
+      selectedCarbSources,
+      selectedGoal: goal,
+      selectedProgram: program,
+      selectedMeals: 5,
+      currentWeight: weight,
+      targetWeight,
+      isVeg: false,
+      uid,
+    }
+    const dietId = await createDiet(dietInfo);
+    this.setState({ isLoading: false });
+    this.props.navigation.navigate("MyDiet", { dietId });
+  }
 
   render() {
     const {
@@ -502,7 +567,7 @@ export default class Signup extends Component {
           source={GRADIENT_BG_IMAGE}
           style={commonStyles.bgImage}
         >
-          {isLoading && <ActivityIndicator />}
+          {isLoading && <ActivityIndicator animating={true}/>}
           {!isLoading && (
             <ScrollView
               horizontal="true"
@@ -567,7 +632,7 @@ export default class Signup extends Component {
                 <Header title="SIGN UP !" />
                 <SocialMediaSignup
                   signupObject={signupObject}
-                  setUser={this.setUser}
+                  setFBUser={this.setFBUser}
                 />
                 <NavNextButton
                   isActive={navButtonActive}

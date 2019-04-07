@@ -89,7 +89,7 @@ export default class SocialMediaSignup extends Component {
   };
 
   createUserWithDetails = async ({ user, additionalUserInfo }) => {
-    const { setUser } = this.props;
+    const { setFBUser } = this.props;
     const { birthday } = additionalUserInfo;
     const dob = new Date(birthday).toDateString().substring(4);
     const age = new Date().getFullYear() - new Date(birthday).getFullYear();
@@ -99,9 +99,10 @@ export default class SocialMediaSignup extends Component {
       email: user.email,
       dob,
       age,
-      name: user.displayName
+      name: user.displayName,
+      avatar: user.photoURL,
     };
-    setUser(newUser);
+    setFBUser(newUser);
   };
 
   render() {
