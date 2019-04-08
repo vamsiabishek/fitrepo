@@ -244,7 +244,7 @@ export default class DietGoalPlan extends Component {
             selectedTextStyle={{
               fontSize: 15,
               fontWeight: "bold",
-              color: styleCommon.primaryButtonTextColor //"#414c47"
+              color: styleCommon.primaryButtonTextColor
             }}
           />
           <View style={styles.dropdownContainer}>
