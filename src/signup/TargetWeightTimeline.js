@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import { UIManager, View, Text } from "react-native";
-import { Button, ButtonGroup, Icon } from "react-native-elements";
+import { Text, UIManager, View } from "react-native";
+import { Button, ButtonGroup } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Modal from "react-native-modal";
-import HorizontalSelectView from "./HorizontalSelectView";
-import { styles } from "../../assets/style/stylesPersonalDetails";
+import HorizontalSelectView from "../components/HorizontalSelectView";
+import { styles } from "../../assets/style/stylesTargetWeightTimeline";
 import { getPossibleTargetWeights } from "../diet/Algorithm/DietAlgorithm";
 import MyButton from "../components/MyButton";
-import { styleCommon } from "../../assets/style/stylesCommonValues";
+import {
+  styleCommon,
+  ICON_SIZE_MED
+} from "../../assets/style/stylesCommonValues";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -23,39 +27,6 @@ export default class TargetWeightTimeline extends Component {
     this.targetWeightLabels = [];
     this.targetWeightOptions = [];
   }
-
-  _resetProgramAndTargetWeight = () => {
-    this.setState({
-      selectedProgram: this.props.programs[0],
-      selectedTargetWeight: undefined,
-      targetWeightIndex: 1
-    });
-  };
-
-  _handleConfirm = () => {
-    const { selectedProgram, selectedTargetWeight } = this.state;
-    const { onConfirm } = this.props;
-    onConfirm(selectedTargetWeight, selectedProgram);
-    this._resetProgramAndTargetWeight();
-  };
-
-  _handleClose = () => {
-    const { onClose } = this.props;
-    onClose();
-    this._resetProgramAndTargetWeight();
-  };
-  _onProgramChange = selectedProgram => {
-    this.setState({
-      selectedProgram
-    });
-  };
-
-  _updateTargetWeight = targetWeightIndex => {
-    this.setState({
-      targetWeightIndex,
-      selectedTargetWeight: this.targetWeightOptions[targetWeightIndex]
-    });
-  };
 
   _getTargetWeightOptions = () => {
     this.targetWeightOptions = [];
@@ -76,6 +47,48 @@ export default class TargetWeightTimeline extends Component {
     console.log(this.targetWeightOptions);
   };
 
+  _resetProgramAndTargetWeight = () => {
+    this.setState({
+      selectedProgram: this.props.programs[0],
+      selectedTargetWeight: undefined,
+      targetWeightIndex: 1
+    });
+  };
+
+  _onProgramChange = selectedProgram => {
+    this.setState({
+      selectedProgram
+    });
+  };
+
+  _updateTargetWeight = targetWeightIndex => {
+    this.setState({
+      targetWeightIndex,
+      selectedTargetWeight: this.targetWeightOptions[targetWeightIndex]
+    });
+  };
+
+  _handleConfirm = () => {
+    const {
+      selectedProgram,
+      selectedTargetWeight,
+      targetWeightIndex
+    } = this.state;
+    let weightToBeUsed = selectedTargetWeight;
+    if (selectedTargetWeight === undefined) {
+      weightToBeUsed = this.targetWeightOptions[targetWeightIndex];
+    }
+    const { onConfirm } = this.props;
+    onConfirm(weightToBeUsed, selectedProgram);
+    this._resetProgramAndTargetWeight();
+  };
+
+  _handleClose = () => {
+    const { onClose } = this.props;
+    onClose();
+    this._resetProgramAndTargetWeight();
+  };
+
   render() {
     const { selectedProgram, targetWeightIndex } = this.state;
     const { isVisible, programs } = this.props;
@@ -92,46 +105,46 @@ export default class TargetWeightTimeline extends Component {
               icon={
                 <Icon
                   name="close"
-                  size={20}
+                  size={ICON_SIZE_MED}
                   color={styleCommon.secondaryButtonTextColor}
                 />
               }
               type="clear"
               onPress={this._handleClose}
-              containerStyle={{
-                position: "relative",
-                top: -22,
-                left: 152
-              }}
+              containerStyle={styles.closeButtonContainerStyle}
             />
-            <View style={styles.targetContainer}>
-              <Text style={styles.headerText}>What can you target ?</Text>
-            </View>
-            <View style={styles.targetContainer}>
-              <Text style={styles.labelText}>
-                Choosen Program: {selectedProgram} Weeks
-              </Text>
-              <HorizontalSelectView
-                items={programs}
-                selectedItem={selectedProgram}
-                onSelectionChange={this._onProgramChange}
+            <View style={styles.viewTargetsContainer}>
+              <View style={styles.targetContainer}>
+                <Text style={styles.headerText}>What can you Target ?</Text>
+              </View>
+              <View style={styles.targetContainer}>
+                <Text style={styles.labelText}>
+                  Choosen Program: {selectedProgram} Weeks
+                </Text>
+                <HorizontalSelectView
+                  items={programs}
+                  selectedItem={selectedProgram}
+                  onSelectionChange={this._onProgramChange}
+                />
+              </View>
+              <View style={styles.targetContainer}>
+                <Text style={styles.labelText}>
+                  Possible Target weights in {selectedProgram} Weeks:
+                </Text>
+                <ButtonGroup
+                  onPress={this._updateTargetWeight}
+                  selectedIndex={targetWeightIndex}
+                  buttons={this.targetWeightLabels}
+                  containerStyle={styles.buttonGroupStyle}
+                  innerBorderStyle={{ width: 0 }}
+                  selectedButtonStyle={styles.selectedButtonStyle}
+                />
+              </View>
+              <MyButton
+                label="CONFIRM"
+                onButtonClick={this._handleConfirm}
+                containerStyle={styles.targetButtonContainer}
               />
-            </View>
-            <View style={styles.targetContainer}>
-              <Text style={styles.labelText}>
-                Possible Target weights in {selectedProgram} Weeks:
-              </Text>
-              <ButtonGroup
-                onPress={this._updateTargetWeight}
-                selectedIndex={targetWeightIndex}
-                buttons={this.targetWeightLabels}
-                containerStyle={styles.buttonGroupStyle}
-                innerBorderStyle={{ width: 0 }}
-                selectedButtonStyle={styles.selectedButtonStyle}
-              />
-            </View>
-            <View style={styles.targetContainer}>
-              <MyButton label="CONFIRM" onButtonClick={this._handleConfirm} />
             </View>
           </View>
         </Modal>

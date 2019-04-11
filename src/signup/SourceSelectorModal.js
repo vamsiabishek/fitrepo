@@ -27,7 +27,6 @@ export default class SourceSelectorModal extends Component {
       searchTerm,
       onSearch
     } = this.props;
-    console.log("showModal:", showModal);
     const searchPlaceholderTextColor = "#999";
     const searchPlaceholderText = "Search sources...";
     const searchSelectionColor = "rgba(0,0,0,0.2)";

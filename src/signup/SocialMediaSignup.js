@@ -1,57 +1,17 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { SocialIcon, Divider } from "react-native-elements";
+import { View, Text } from "react-native";
+import { SocialIcon } from "react-native-elements";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { f, database } from "../common/FirebaseConfig";
 import EmailOrMobileSignup from "./EmailOrMobileSignup";
-import { styleCommon } from "../../assets/style/stylesCommonValues";
-
-const styles = StyleSheet.create({
-  mainContent: {
-    justifyContent: "center",
-    alignItems: "center"
-    // flexDirection: "row",
-  },
-  iconContainer: {
-    width: 90,
-    height: 90,
-    borderRadius: 50,
-    // borderWidth: 5, // overlap left and mainContent margin depends on this value
-    borderColor: "grey",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  iconStyle: {
-    width: 90,
-    height: 90,
-    borderRadius: 50,
-    borderWidth: 10,
-    borderRightWidth: 0,
-    borderColor: "#66ffff"
-  },
-  overlapOne: {
-    //borderWidth: 5,
-    borderRightWidth: 0
-  },
-  overlapTwo: {
-    borderRightWidth: 0,
-    position: "relative",
-    left: -10
-  },
-  overlapThree: {
-    position: "relative",
-    left: -20
-  }
-});
+import { styles } from "../../assets/style/stylesSocialMediaSignup";
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
   componentDidMount() {}
-
   onPressLogin = () => {
     LoginManager.logInWithReadPermissions([
       "public_profile",
@@ -68,7 +28,6 @@ export default class SocialMediaSignup extends Component {
         alert("Login fail with error: " + error);
       });
   };
-
   getFBTokenFromResponse = result => {
     if (result.isCancelled)
       return Promise.reject(new Error("The user cancelled the request"));
@@ -79,7 +38,6 @@ export default class SocialMediaSignup extends Component {
     //get access token
     return AccessToken.getCurrentAccessToken();
   };
-
   getFBCredentialsUsingToken = data => {
     const credentials = f.auth.FacebookAuthProvider.credential(
       data.accessToken
@@ -87,7 +45,6 @@ export default class SocialMediaSignup extends Component {
     console.log("credentials:", credentials);
     return f.auth().signInAndRetrieveDataWithCredential(credentials);
   };
-
   createUserWithDetails = async ({ user, additionalUserInfo }) => {
     const { setFBUser } = this.props;
     const { birthday } = additionalUserInfo;
@@ -100,16 +57,15 @@ export default class SocialMediaSignup extends Component {
       dob,
       age,
       name: user.displayName,
-      avatar: user.photoURL,
+      avatar: user.photoURL
     };
     setFBUser(newUser);
   };
-
   render() {
     const { signupObject } = this.props;
     return (
       <View style={styles.mainContent}>
-        <View style={{ flexDirection: "row", marginTop: 20, marginLeft: 15 }}>
+        <View style={styles.iconsWrapper}>
           <View style={[styles.iconContainer, styles.overlapOne]}>
             <SocialIcon
               iconSize={50}
@@ -129,13 +85,9 @@ export default class SocialMediaSignup extends Component {
             <SocialIcon iconSize={50} style={styles.iconStyle} type="twitter" />
           </View>
         </View>
-
-        <View style={{ marginTop: 30 }}>
-          <Text style={{ color: styleCommon.textColor1 }}>
-            ──────── OR ────────
-          </Text>
+        <View>
+          <Text style={styles.textColor}>──────── OR ────────</Text>
         </View>
-
         <View>
           <EmailOrMobileSignup signupObject={signupObject} />
         </View>

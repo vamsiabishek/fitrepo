@@ -19,6 +19,7 @@ import NavNextButton from "../components/signup/NavNextButton";
 import Goal from "./Goal";
 import Gender from "./Gender";
 import PersonalDetails from "./PersonalDetails";
+import PreferenceDetails from "./PreferenceDetails";
 import FitnessLevel from "./FitnessLevel";
 import FoodSources from "./FoodSources";
 import SocialMediaSignup from "./SocialMediaSignup";
@@ -44,6 +45,9 @@ export default class Signup extends Component {
       height: undefined,
       program: undefined,
       targetWeight: undefined,
+      healthCond: undefined,
+      foodPreference: 0,
+      numberOfMeals: 4,
       showTargetWeightButton: false,
       navButtonActive: false,
       screen: 1,
@@ -135,8 +139,42 @@ export default class Signup extends Component {
     );
     this.setState({ height, showTargetWeightButton });
   };
+  setHealthCond = healthCond => {
+    this.setState({ healthCond });
+  };
+  setFoodPref = foodPreference => {
+    const { numberOfMeals } = this.state;
+    this.setState({
+      foodPreference,
+      navButtonActive: this.changeNavButtonToActive(
+        foodPreference,
+        numberOfMeals
+      )
+    });
+  };
+  setNoOfMeals = numberOfMeals => {
+    const { foodPreference } = this.state;
+    this.setState({
+      numberOfMeals,
+      navButtonActive: this.changeNavButtonToActive(
+        foodPreference,
+        numberOfMeals
+      )
+    });
+  };
   changeShowTargetWeightButton = (dob, weight, height) => {
     if (dob.length > 0 && weight !== undefined && height !== undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  changeNavButtonToActive = (foodPreference, numberOfMeals) => {
+    if (
+      foodPreference >= 0 &&
+      foodPreference.length !== 0 &&
+      numberOfMeals > 0
+    ) {
       return true;
     } else {
       return false;
@@ -424,7 +462,17 @@ export default class Signup extends Component {
   };
 
   onNext = async currentScreen => {
-    const { goal, gender, fitnessLevel, dob, age, weight, height } = this.state;
+    const {
+      goal,
+      gender,
+      fitnessLevel,
+      dob,
+      age,
+      weight,
+      height,
+      foodPreference,
+      numberOfMeals
+    } = this.state;
     let isScrollable = false;
     if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
       isScrollable = true;
@@ -444,7 +492,14 @@ export default class Signup extends Component {
         height !== undefined)
     )
       isScrollable = true;
-    if (currentScreen === 6) {
+    if (
+      currentScreen === 6 &&
+      foodPreference.length !== 0 &&
+      foodPreference >= 0 &&
+      numberOfMeals > 0
+    )
+      isScrollable = true;
+    if (currentScreen === 7) {
       await this.saveUserDetails();
       await this.createDietAndMeals();
     }
@@ -547,7 +602,10 @@ export default class Signup extends Component {
       targetWeight,
       navButtonActive,
       showTargetWeightButton,
-      screen
+      screen,
+      healthCond,
+      foodPreference,
+      numberOfMeals
     } = this.state;
     const signupObject = {
       email,
@@ -634,7 +692,11 @@ export default class Signup extends Component {
               </View>
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
-                  <Header title="SIGN UP !" />
+                  <Header
+                    title="SIGN UP !"
+                    screen={screen}
+                    onBack={this.onBack}
+                  />
                   <SocialMediaSignup
                     signupObject={signupObject}
                     setFBUser={this.setFBUser}
@@ -655,7 +717,6 @@ export default class Signup extends Component {
                   />
                   <PersonalDetails
                     goal={goal}
-                    gender={gender}
                     fitnessLevel={fitnessLevel}
                     dob={dob}
                     setDob={this.setDob}
@@ -668,6 +729,29 @@ export default class Signup extends Component {
                     program={program}
                     targetWeight={targetWeight}
                     setTargetWeightAndProgram={this.setTargetWeightAndProgram}
+                  />
+                  <NavNextButton
+                    isActive={navButtonActive}
+                    screen={screen}
+                    onNext={this.onNext}
+                  />
+                </View>
+              </View>
+              <View style={commonStyles.subContainer}>
+                <View style={styles.contentWrapper}>
+                  <Header
+                    title="Choose your Preference !"
+                    screen={screen}
+                    onBack={this.onBack}
+                  />
+                  <PreferenceDetails
+                    healthCond={healthCond}
+                    setHealthCond={this.setHealthCond}
+                    foodPreference={foodPreference}
+                    setFoodPref={this.setFoodPref}
+                    numberOfMeals={numberOfMeals}
+                    numberOfMealsOptions={[3, 4, 5, 6]}
+                    setNoOfMeals={this.setNoOfMeals}
                   />
                   <NavNextButton
                     isActive={navButtonActive}
