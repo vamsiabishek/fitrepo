@@ -88,7 +88,6 @@ export default class PersonalDetails extends Component {
   render() {
     const {
       goal,
-      gender,
       fitnessLevel,
       dob,
       weight,
@@ -104,15 +103,6 @@ export default class PersonalDetails extends Component {
       isHeightNumPickerVisible,
       isTargetWeightTimelineVisible
     } = this.state;
-    console.log(
-      goal,
-      gender,
-      fitnessLevel,
-      height,
-      weight,
-      dob,
-      showTargetWeightButton
-    );
     return (
       <View style={styles.mainContent}>
         <KeyboardAvoidingView behaviour="position">
@@ -157,6 +147,7 @@ export default class PersonalDetails extends Component {
                 minNumber={MIN_WEIGHT}
                 maxNumber={MAX_WEIGHT}
                 unit="kilograms"
+                selectedNum={weight}
                 numberArray={WEIGHT_RANGE_FINAL}
                 isVisible={isWeightNumPickerVisible}
                 onConfirm={this.handleNumPickerForWeight}
@@ -193,6 +184,7 @@ export default class PersonalDetails extends Component {
                 minNumber={MIN_HEIGHT}
                 maxNumber={MAX_HEIGHT}
                 unit="centimeters"
+                selectedNum={height}
                 numberArray={HEIGHT_RANGE_FINAL}
                 isVisible={isHeightNumPickerVisible}
                 onConfirm={this.handleNumPickerForHeight}
@@ -239,9 +231,9 @@ export default class PersonalDetails extends Component {
                 />
                 <Button
                   title={
-                    targetWeight === undefined
+                    targetWeight === undefined && program === undefined
                       ? "Your Target Weight"
-                      : targetWeight + " kgs"
+                      : targetWeight + " kgs in " + program + " Weeks"
                   }
                   buttonStyle={
                     targetWeight === undefined

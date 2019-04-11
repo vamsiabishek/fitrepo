@@ -21,7 +21,7 @@ export default class Header extends React.Component {
       };
     }
     return (
-      <React.Fragment>
+      <View>
         <View style={styles.backHeaderContainer}>
           <View style={styles.buttonContainer}>
             <Button
@@ -41,7 +41,7 @@ export default class Header extends React.Component {
         <View style={header}>
           <Text style={styles.headerTitle}>{title}</Text>
         </View>
-      </React.Fragment>
+      </View>
     );
   }
 }

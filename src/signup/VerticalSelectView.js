@@ -38,7 +38,6 @@ export default class VerticalSelectView extends React.Component {
               levelDescriptionStyle,
               levelTitleStyle
             } = styles;
-            console.log("level:", item, selectedLevel);
             if (item === selectedLevel) {
               iconStyle = {
                 ...iconStyle,

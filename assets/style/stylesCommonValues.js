@@ -33,3 +33,4 @@ export const btnGradientColorLeft = "#66ffff"; // bright blue color
 export const btnGradientColorRight = "#FA8072"; // salmon
 export const btnGradientColorRightDisabled = "#d3d3d3";
 export const modalBtnGradientColorRight = "#004a94"; // bottom blue of background
+export const errorTextcolor = "#F44336";

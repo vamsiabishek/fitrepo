@@ -1,86 +1,76 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  FlatList,
-  TouchableOpacity
-} from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
+import { styles } from "../../assets/style/stylesHorizontalSelectView";
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 5,
-    marginLeft: 10
-  },
-  subContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  lineContainer: {
-    height: 3,
-    borderTopWidth: 3,
-    borderColor: styleCommon.disableColor,
-    width: 50
-  },
-  iconStyle: {
-    height: 15,
-    width: 15,
-    backgroundColor: styleCommon.disableColor,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  iconDataStyle: {
-    height: 10,
-    width: 10,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  iconTextStyle: {
-    fontSize: 9,
-    color: "#494b50"
+export default class HorizontalComponent extends React.Component {
+  constructor(props) {
+    super(props);
   }
-});
-
-class HorizontalComponent extends React.Component {
   _keyExtractor = item => `key${item}`;
-
   render() {
-    const { items, selectedItem, onSelectionChange } = this.props;
+    const {
+      items,
+      selectedItem,
+      onSelectionChange,
+      selectedHW,
+      lineWidth,
+      iconStyleHW,
+      iconDataStyleHW
+    } = this.props;
     return (
       <View style={styles.container}>
         <FlatList
           data={items}
           horizontal={true}
           renderItem={({ item, index }) => {
-            let { iconStyle, iconDataStyle, iconTextStyle } = styles;
-            console.log("iconStyle:", iconStyle);
+            let {
+              lineContainer,
+              iconStyle,
+              iconDataStyle,
+              iconTextStyle
+            } = styles;
+            if (lineWidth !== undefined) {
+              lineContainer = {
+                ...lineContainer,
+                width: lineWidth
+              };
+            }
+            if (iconStyleHW !== undefined) {
+              iconStyle = {
+                ...iconStyle,
+                width: iconStyleHW,
+                height: iconStyleHW
+              };
+            }
+            if (iconDataStyleHW !== undefined) {
+              iconDataStyle = {
+                ...iconDataStyle,
+                width: iconDataStyleHW,
+                height: iconDataStyleHW
+              };
+            }
+            console.log(iconStyle);
             if (item === selectedItem) {
               iconStyle = {
                 ...iconStyle,
-                height: 20,
-                width: 20,
-                backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A", // "#00DB8D",
-                borderRadius: 10
+                height: selectedHW !== undefined ? selectedHW : 25, //20, Make dynamic
+                width: selectedHW !== undefined ? selectedHW : 25, //20,  Make dynamic
+                backgroundColor: styleCommon.selectedButtonColor,
+                borderRadius: 40
               };
               iconDataStyle = {
                 ...iconDataStyle,
-                height: 12,
-                width: 12
+                height: selectedHW !== undefined ? selectedHW : 25, //20, Make dynamic
+                width: selectedHW !== undefined ? selectedHW : 25 //20  Make dynamic
               };
               iconTextStyle = {
                 ...iconTextStyle,
                 fontSize: 11,
                 fontWeight: "bold",
-                //color: "white"
-                color: styleCommon.primaryButtonTextColor //"#414c47"
-                //color: "#0A1915"
+                color: styleCommon.primaryButtonTextColor
               };
             }
-
             return (
               <View style={styles.subContainer}>
                 {index !== 0 && <View style={styles.lineContainer} />}
@@ -108,4 +98,3 @@ class HorizontalComponent extends React.Component {
     );
   }
 }
-export default HorizontalComponent;

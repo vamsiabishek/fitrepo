@@ -57,44 +57,5 @@ export const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     color: styleCommon.selectedButtonColor
-  },
-  modalInsideStyle: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: styleCommon.secondaryButtonColor,
-    borderRadius: 4,
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    padding: 22
-  },
-  targetContainer: {
-    width: 300,
-    margin: 10,
-    padding: 10
-  },
-  headerText: {
-    fontWeight: "bold",
-    fontSize: 20,
-    textAlign: "center",
-    color: styleCommon.secondaryButtonTextColor
-  },
-  labelText: {
-    paddingBottom: 15,
-    textAlign: "center",
-    fontSize: 15,
-    color: styleCommon.textColor1
-  },
-  selectedOptionLabel: {
-    fontSize: 15,
-    color: styleCommon.textColor1
-  },
-  buttonGroupStyle: {
-    height: 40,
-    borderRadius: 10,
-    borderWidth: 0,
-    backgroundColor: styleCommon.disableColor
-  },
-  selectedButtonStyle: {
-    backgroundColor: styleCommon.selectedButtonColor,
-    alignItems: "center"
   }
 });

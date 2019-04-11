@@ -1,8 +1,7 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
+import { SCREEN_WIDTH } from "./stylesCommonValues";
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
-
-export const styles = {
+export const styles = StyleSheet.create({
   container: {
     flex: 1
   },
@@ -53,5 +52,7 @@ export const styles = {
   modalButtonTextStyle: {
     fontSize: 18
   },
-  modalCancelButtonTextStyle: { fontWeight: "bold" }
-};
+  modalCancelButtonTextStyle: {
+    fontWeight: "bold"
+  }
+});

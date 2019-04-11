@@ -4,37 +4,34 @@ import { Button } from "react-native-elements";
 import Modal from "react-native-modal";
 import { styles } from "../../../assets/style/stylesNumberPicker";
 
-export default class NumberPicker extends Component {
+export default class StringPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedNumber:
-        this.props.selectedNum !== undefined
-          ? this.props.selectedNum
-          : this.props.numberArray[0]
+      selectedString: this.props.stringArray[0]
     };
   }
-  _resetNumberAndArray = () => {
+
+  _resetStringAndArray = () => {
     this.setState({
-      selectedNumber:
-        this.props.selectedNum !== undefined
-          ? this.props.selectedNum
-          : this.props.numberArray[0]
+      selectedString: this.props.stringArray[0]
     });
   };
+
   _handleConfirm = () => {
     this.confirmed = true;
-    this.props.onConfirm(this.state.selectedNumber);
-    this._resetNumberAndArray();
+    this.props.onConfirm(this.state.selectedString);
+    this._resetStringAndArray();
   };
+
   _handleCancel = () => {
     this.confirmed = false;
     this.props.onCancel();
-    this._resetNumberAndArray();
+    this._resetStringAndArray();
   };
   render() {
-    const { numberArray, isVisible, unit } = this.props;
-    const { selectedNumber } = this.state;
+    const { stringArray, isVisible, unit } = this.props;
+    const { selectedString } = this.state;
     return (
       <View>
         <Modal
@@ -51,17 +48,13 @@ export default class NumberPicker extends Component {
                 </Text>
               </View>
               <Picker
-                selectedValue={selectedNumber}
+                selectedValue={selectedString}
                 onValueChange={itemValue => {
-                  this.setState({ selectedNumber: itemValue });
+                  this.setState({ selectedString: itemValue });
                 }}
               >
-                {numberArray.map(number => (
-                  <Picker.Item
-                    key={number}
-                    label={number.toString()}
-                    value={number}
-                  />
+                {stringArray.map(str => (
+                  <Picker.Item key={str } label={str.toString()} value={str} />
                 ))}
               </Picker>
               <View>
