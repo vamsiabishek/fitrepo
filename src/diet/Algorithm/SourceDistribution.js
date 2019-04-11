@@ -1,4 +1,9 @@
-import { twoSourcePercent, threeSourcePercent } from "./SourceQuantityData";
+import {
+  twoSourcePercent,
+  threeSourcePercent,
+  fourSourcePercent
+} from "./SourceQuantityData";
+import { database } from "../../common/FirebaseConfig";
 import {
   calculateCalFromProteinOrCarbs,
   calculateCalFromFats
@@ -249,14 +254,16 @@ export const manageSources = async ({
   selectedCarbSources
 }) => {
   let {
-    proteinSources: standardSourcesForProtein,
-    carbSources: standardSourcesForCarbs,
-    fatSources: standardSourcesForFats
+    standardSourcesForProtein: proteinSources,
+    standardSourcesForCarbs: carbSources,
+    standardSourcesForFats: fatSources
   } = await standardSourceSelection(
     selectedProteinSources,
     selectedFatSources,
     selectedCarbSources
   );
+
+  console.log(proteinSources, carbSources, fatSources);
 
   let extraProteinSourcesRequired = false;
   let extraCarbSourcesRequired = false;
@@ -301,9 +308,12 @@ const standardSourceSelection = async ({
   let noProteinSourcesSelected = false;
   let noCarbSourcesSelected = false;
   let noFatSourcesSelected = false;
-  if (selectedProteinSources.length === 0) noProteinSourcesSelected = true;
-  if (selectedFatSources.length === 0) noFatSourcesSelected = true;
-  if (selectedCarbSources.length === 0) noCarbSourcesSelected = true;
+  if (!selectedProteinSources || selectedProteinSources.length === 0)
+    noProteinSourcesSelected = true;
+  if (!selectedFatSources || selectedFatSources.length === 0)
+    noFatSourcesSelected = true;
+  if (!selectedCarbSources || selectedCarbSources.length === 0)
+    noCarbSourcesSelected = true;
   if (
     noProteinSourcesSelected ||
     noCarbSourcesSelected ||
@@ -344,8 +354,8 @@ getExtraSources = async ({
     extraProteinSources,
     extraCarbSources,
     extraFatSources
-  }
-}
+  };
+};
 
 const getStandardSourcesForBeginner = async (
   isProteinRequired,
