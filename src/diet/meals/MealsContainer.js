@@ -102,7 +102,7 @@ export default class MealsContainer extends Component {
     if(meals.length > 0)
       meals.map(meal => meal.icon = require("../../../assets/images/meal_1.png"));
     return (
-      <ScrollView style={{ backgroundColor: "#28292B", }}>
+      <ScrollView>
         {this.renderSelected()}
         <Timeline
           style={styles.list}

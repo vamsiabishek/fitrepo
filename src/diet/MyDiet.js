@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, StatusBar } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StatusBar,
+  ImageBackground
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import TotalDietMacros from "./TotalDietMarcos";
 import MealsContainer from "./meals/MealsContainer";
 import { styles } from "../../assets/style/stylesMyDiet";
 import { database } from "../common/FirebaseConfig";
+import { GRADIENT_BG_IMAGE } from "../common/Common";
 
 export default class MyDiet extends Component {
   constructor(props) {
@@ -18,8 +25,8 @@ export default class MyDiet extends Component {
 
   componentDidMount = async () => {
     const { navigation } = this.props;
-    const dietId = navigation.getParam("dietId");
-    //const dietId = "-Lacz7LNx-jwiG0f2REy"
+    //const dietId = navigation.getParam("dietId");
+    const dietId = "-LcBhVoVz_Ff9ExBDdd4";
     console.log("fetching details for the diet with Id:", dietId);
     const { diet, meals } = await this.fetchDietAndMeals(dietId);
     console.log("diet and meals:", diet, meals);
@@ -127,41 +134,8 @@ export default class MyDiet extends Component {
     //const subHeaderCenterText = "Week 2";
     //const subHeaderRightText = "Week 3";
     return (
-      <View style={styles.container}>
+      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
         <StatusBar barStyle="light-content" />
-       {/* <View style={styles.weeklyBarStyle}>
-          <View style={{ alignItems: "flex-start" }}>
-            <TouchableOpacity
-              style={styles.weeklyTouchableStyle}
-              onPress={() => navigation.navigate("Diet")}
-            >
-              <Icon
-                name="arrow-left-drop-circle"
-                size={25}
-                style={styles.weeklyIconStyle}
-              />
-              <Text style={styles.weeklyTextStyle}>{subHeaderLeftText}</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text style={styles.weeklyTextStyleCenter}>
-              {subHeaderCenterText}
-            </Text>
-          </View>
-          <View style={{ alignItems: "flex-end" }}>
-            <TouchableOpacity
-              style={styles.weeklyTouchableStyle}
-              onPress={() => navigation.navigate("Diet")}
-            >
-              <Text style={styles.weeklyTextStyle}>{subHeaderRightText}</Text>
-              <Icon
-                name="arrow-right-drop-circle"
-                size={25}
-                style={styles.weeklyIconStyle}
-              />
-            </TouchableOpacity>
-          </View>
-    </View> */}
         <View style={styles.dayBarStyle}>
           <TouchableOpacity
             style={activeDay ? styles.activeDayButton : styles.dayButton}
@@ -197,7 +171,7 @@ export default class MyDiet extends Component {
           fat={fatsInGm}
         />
         <MealsContainer meals={mealList} />
-      </View>
+      </ImageBackground>
     );
   }
 }

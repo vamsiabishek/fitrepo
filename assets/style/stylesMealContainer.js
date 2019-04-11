@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { styleCommon } from "./stylesCommonValues";
 
 export const styles = StyleSheet.create({
   mealItemHeaderView: {
@@ -11,10 +12,11 @@ export const styles = StyleSheet.create({
     fontSize:16,
     fontWeight: 'bold',
     marginBottom: 20,
-    textShadowColor: 'black',
+    textShadowColor: styleCommon.primaryColor,
     textShadowOffset: {width: -3, height: 5},
     textShadowRadius: 20,
-    color: "#00DB8D"
+    //color: "#00DB8D"
+    color: styleCommon.textColor1
   },
   list: {
     //flex: 1,
@@ -39,7 +41,8 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     fontWeight: "300",
-    color: "#36373A",
+    //color: "#36373A",
+    color: styleCommon.textColor1
   },
   headerIcon: {
     alignItems: "flex-end",
@@ -64,7 +67,8 @@ export const styles = StyleSheet.create({
     //borderBottomWidth: 1,
     //borderColor: '#696969',
     marginLeft: 10,
-    backgroundColor: "#494b50",
+    //backgroundColor: "#494b50",
+    backgroundColor: styleCommon.secondaryColor,
     padding: 10,
     borderRadius: 15,
   },
@@ -77,18 +81,18 @@ export const styles = StyleSheet.create({
   mealItemName: {
     width: "60%",
     fontSize: 14,
-    color: "white"
+    color: styleCommon.textColor1
   },
   mealItemQuantity: {
     width: "40%",
     fontSize: 14,
-    color: "white"
+    color: styleCommon.textColor1
   },
   mealItemQuantityLabel: {
     width: "40%",
     fontSize: 14,
     fontWeight: "bold",
     textDecorationLine: "underline",
-    color: "white"
+    color: styleCommon.textColor1
   }
 });
