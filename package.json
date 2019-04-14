@@ -12,7 +12,7 @@
     "@firebase/app-types": "0.x",
     "@firebase/util": "0.x",
     "firebase": "^5.8.5",
-    "lottie-react-native": "^2.6.1",
+    "lottie-react-native": "2.5.11",
     "prop-types": "^15.0.0",
     "react": "16.6.3",
     "react-native": "0.58.5",

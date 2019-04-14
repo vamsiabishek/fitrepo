@@ -1,14 +1,17 @@
 import { Dimensions, StyleSheet } from "react-native";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+import {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  styleCommon,
+  errorTextcolor
+} from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#28292B"
+    backgroundColor: styleCommon.primaryColor
   },
   viewContainer: {
     flex: 1,
@@ -34,12 +37,12 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   logoText: {
-    color: "white",
+    color: styleCommon.textColor2,
     fontSize: 30,
     fontWeight: "bold"
   },
   textStyle: {
-    color: "white",
+    color: styleCommon.textColor2,
     fontSize: 18,
     fontWeight: "normal"
   },
@@ -53,12 +56,12 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     marginLeft: 10,
-    color: "white"
+    color: styleCommon.textColor2
   },
   errorInputStyle: {
     textAlign: "center",
     fontSize: 12,
-    color: "#F44336"
+    color: errorTextcolor
   },
   loginButtonContainer: {
     marginTop: 10
@@ -76,14 +79,14 @@ const styles = StyleSheet.create({
   loginButtonText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "white"
+    color: styleCommon.textColor2
   },
   loginButtonIcon: {
     paddingLeft: 5,
-    color: "white"
+    color: styleCommon.textColor2
   },
   loginButtonDes: {
-    color: "white"
+    color: styleCommon.textColor2
   },
   signUpHereContainer: {
     flexDirection: "row",
@@ -93,13 +96,13 @@ const styles = StyleSheet.create({
   },
   newUserText: {
     fontSize: 16,
-    color: "white"
+    color: styleCommon.textColor2
   },
   signUpButtonStyle: {
     paddingHorizontal: 2
   },
   signUpButtonTitle: {
-    color: "#00DB8D",
+    color: styleCommon.secondaryColor,
     fontSize: 15,
     fontWeight: "bold"
   }

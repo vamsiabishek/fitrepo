@@ -13,9 +13,9 @@ import { f, auth, database } from "./../common/FirebaseConfig";
 import {
   BG_IMAGE,
   EMAIL_VERIFICATION,
-  PASSWORD_LENGTH_MINIMUM,
-  ICON_SIZE
+  PASSWORD_LENGTH_MINIMUM
 } from "../common/Common";
+import { ICON_SIZE } from "../../assets/style/stylesCommonValues";
 
 export default class LoginScreen1 extends Component {
   constructor(props) {

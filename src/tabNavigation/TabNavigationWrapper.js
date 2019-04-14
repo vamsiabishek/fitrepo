@@ -22,6 +22,7 @@ import SignUpScreen1 from "../signup/SignUpScreen1";
 import SignUpScreen2 from "../signup/SignUpScreen2";
 import SignUpScreen3 from "../signup/SignUpScreen3";
 import Signup from "../signup/Signup";
+import LoadingAnimation from "../signup/LoadingAnimation";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 import { ICON_SIZE_NAV } from "../common/Common";
@@ -188,13 +189,13 @@ const AppBottomTabNavigator = createBottomTabNavigator(
         labelStyle: styles.labelStyle,
         style: {
           backgroundColor: styles.bottomNavBar.backgroundColor, //"transparent",
-          opacity: 0.8,
+          //opacity: 0.8,
           borderTopWidth: 1,
-          borderTopColor: "transparent",
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0
+          borderTopColor: "transparent"
+          //position: "absolute",
+          //left: 0,
+          //right: 0,
+          //bottom: 0
         }
       }
     }
@@ -221,7 +222,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "HomeScreen"
+    initialRouteName: "StartUp"
   }
 );
 

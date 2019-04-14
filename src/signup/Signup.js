@@ -23,6 +23,7 @@ import PreferenceDetails from "./PreferenceDetails";
 import FitnessLevel from "./FitnessLevel";
 import FoodSources from "./FoodSources";
 import SocialMediaSignup from "./SocialMediaSignup";
+import LoadingAnimation from "./LoadingAnimation";
 import { styles } from "../../assets/style/stylesSignup";
 import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
 import { auth, database } from "../common/FirebaseConfig";
@@ -629,7 +630,7 @@ export default class Signup extends Component {
           source={GRADIENT_BG_IMAGE}
           style={commonStyles.bgImage}
         >
-          {isLoading && <ActivityIndicator animating={true} />}
+          {isLoading && <LoadingAnimation />}
           {!isLoading && (
             <ScrollView
               horizontal="true"
