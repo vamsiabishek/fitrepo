@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import SelectButton from "../components/SelectButton";
 import { styles } from "../../assets/style/stylesGender";
 import {
   styleCommon,
@@ -15,41 +14,36 @@ export default class Gender extends Component {
     const { gender, setGender } = this.props;
     return (
       <View style={styles.mainContent}>
-        <Button
+        <SelectButton
           buttonStyle={
             gender === 1 ? styles.activeButtonStyle : styles.buttonStyle
           }
           titleStyle={
             gender === 1 ? styles.activeButtonTitle : styles.buttonTitle
           }
-          icon={
-            <Icon
-              name="human-male"
-              size={ICON_SELECT_GENDER}
-              color={gender === 1 ? buttonIconActiveColor : buttonIconColor}
-              style={styles.buttonIcon}
-            />
-          }
           iconLeft
-          onPress={() => setGender(1)}
+          iconSize={ICON_SELECT_GENDER}
+          iconName="human-male"
+          buttonIcon={styles.buttonIcon}
+          buttonIconColor={gender === 1 ? buttonIconActiveColor : buttonIconColor}
+          iconLeft
+          onPress={setGender}
+          value={1}
         />
-        <Button
+        <SelectButton
           buttonStyle={
             gender === 0 ? styles.activeButtonStyle : styles.buttonStyle
           }
           titleStyle={
             gender === 0 ? styles.activeButtonTitle : styles.buttonTitle
           }
-          icon={
-            <Icon
-              name="human-female"
-              size={ICON_SELECT_GENDER}
-              color={gender === 0 ? buttonIconActiveColor : buttonIconColor}
-              style={styles.buttonIcon}
-            />
-          }
+          iconSize={ICON_SELECT_GENDER}
+          iconName="human-female"
+          buttonIcon={styles.buttonIcon}
+          buttonIconColor={gender === 0 ? buttonIconActiveColor : buttonIconColor}
           iconLeft
-          onPress={() => setGender(0)}
+          onPress={setGender}
+          value={0}
         />
       </View>
     );

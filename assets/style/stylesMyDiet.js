@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { styleCommon, SCREEN_HEIGHT } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   container: {
@@ -51,19 +52,20 @@ const styles = StyleSheet.create({
   dayBarStyle: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    backgroundColor: "#36373A"
+    height: Math.round(SCREEN_HEIGHT * 0.06)
+    //backgroundColor: "#36373A"
   },
   activeDayButton: {
     flexDirection: "row",
     paddingHorizontal: 40,
     paddingVertical: 12,
-    backgroundColor: "#00DB8D"
+    backgroundColor: styleCommon.selectedButtonColor
   },
   dayButton: {
     flexDirection: "row",
     paddingHorizontal: 40,
     paddingVertical: 12,
-    backgroundColor: "#009E65"
+    backgroundColor: styleCommon.disableColor
   },
   activeDayButtonText: {
     fontSize: 16,
@@ -75,9 +77,14 @@ const styles = StyleSheet.create({
   dayButtonText: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "white",
+    color: "grey",
     paddingHorizontal: 5,
     paddingVertical: 2
+  },
+  weekText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: styleCommon.textColor1
   }
 });
 

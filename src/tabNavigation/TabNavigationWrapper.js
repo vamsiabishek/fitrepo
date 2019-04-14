@@ -103,7 +103,7 @@ const DietStackNavigator = createStackNavigator(
       }
     }
   },
-  { initialRouteName: "CreateDiet" }
+  { initialRouteName: "MyDiet" }
 );
 
 const AppBottomTabNavigator = createBottomTabNavigator(
@@ -221,7 +221,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "SignUp"
+    initialRouteName: "HomeScreen"
   }
 );
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View, Animated } from "react-native";
 import {
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,
@@ -18,10 +18,31 @@ import { styles } from "../../assets/style/stylesVerticalSelectView";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
 
 export default class VerticalSelectView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.animatedValue = new Animated.Value(1);
+  }
+
   _keyExtractor = item => `key${item}`;
+
+  handlePressIn = () => {
+    Animated.spring(this.animatedValue, {
+      toValue: 0.5
+    }).start();
+  };
+  handlePressOut = () => {
+    Animated.spring(this.animatedValue, {
+      toValue: 1,
+      friction: 3, //default 7
+      tension: 40
+    }).start();
+  };
 
   render() {
     const { levels, gender, selectedLevel, setFitnessLevel } = this.props;
+    const animatedStyle = {
+      transform: [{ scale: this.animatedValue }]
+    };
     return (
       <View style={styles.container}>
         <FlatList
@@ -41,7 +62,7 @@ export default class VerticalSelectView extends React.Component {
             if (item === selectedLevel) {
               iconStyle = {
                 ...iconStyle,
-                backgroundColor: styleCommon.selectedButtonColor
+                backgroundColor: styleCommon.selectedButtonColor,
               };
               iconImageStyle = {
                 ...iconImageStyle,
@@ -85,12 +106,14 @@ export default class VerticalSelectView extends React.Component {
                   <TouchableOpacity
                     style={styles.touchableContainerView}
                     onPress={() => setFitnessLevel(item)}
+                    onPressIn={() => this.handlePressIn()}
+                    onPressOut={() => this.handlePressOut()}
                   >
-                    <View style={iconStyle}>
+                    <Animated.View style={[iconStyle, animatedStyle]}>
                       <View style={styles.iconDataStyle}>
                         <Image source={levelImage} style={iconImageStyle} />
                       </View>
-                    </View>
+                    </Animated.View>
                   </TouchableOpacity>
                 </View>
                 <View style={levelDescriptionStyles}>

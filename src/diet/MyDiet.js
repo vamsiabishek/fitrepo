@@ -4,12 +4,17 @@ import {
   View,
   TouchableOpacity,
   StatusBar,
-  ImageBackground
+  ImageBackground,
+  Animated
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import TotalDietMacros from "./TotalDietMarcos";
 import MealsContainer from "./meals/MealsContainer";
 import { styles } from "../../assets/style/stylesMyDiet";
+import {
+  styleCommon,
+  ICON_SIZE_LARGE
+} from "../../assets/style/stylesCommonValues";
 import { database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 
@@ -19,8 +24,13 @@ export default class MyDiet extends Component {
     this.state = {
       activeDay: true, // others days can be rest or refeed
       diet: {},
-      meals: {}
+      meals: {},
+      currentWeek: "Week 1",
+      currentWeekLabel: 'Week 1'
     };
+    this.dayBarScrollY = new Animated.Value(1);
+    this.dayBarExpandedHeight = styles.dayBarStyle.height; // calculated by onLayout
+    this.dayBarCollapsedHeight = 0;
   }
 
   componentDidMount = async () => {
@@ -119,6 +129,19 @@ export default class MyDiet extends Component {
     };
   };
 
+  onDayBarCollapse = event => {
+    const day = this.state.activeDay ? "Training day" : "Rest day";
+    const {currentWeekLabel, currentWeek} = this.state;
+    const weekLabelContainsDay = currentWeekLabel.includes(day)
+    console.log('contentOffset:', event.nativeEvent.contentOffset.y)
+    if (event.nativeEvent.contentOffset.y > 20 && !weekLabelContainsDay) {
+      const weekLabelWithDay = `${currentWeekLabel}(${day})`
+      this.setState({currentWeekLabel: weekLabelWithDay})
+    }
+    else if(event.nativeEvent.contentOffset.y < 20 && currentWeekLabel !== currentWeek)
+      this.setState({currentWeekLabel: currentWeek})
+  };
+
   render() {
     const { activeDay, diet, meals } = this.state;
     const {
@@ -128,41 +151,50 @@ export default class MyDiet extends Component {
       fatsInGm,
       mealList
     } = this.caloriesMacrosAndMeals(meals);
+    const dayBarHeight = this.dayBarScrollY.interpolate({
+      inputRange: [0, this.dayBarExpandedHeight - 20],
+      outputRange: [this.dayBarExpandedHeight, this.dayBarCollapsedHeight],
+      extrapolate: "clamp"
+    });
 
     const { navigation } = this.props;
     //const subHeaderLeftText = "Week 1";
     //const subHeaderCenterText = "Week 2";
     //const subHeaderRightText = "Week 3";
+    const trainingIconColor = activeDay ? "white" : styleCommon.unSelected;
+    const restIconColor = !activeDay ? "white" : styleCommon.unSelected;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <View style={styles.dayBarStyle}>
-          <TouchableOpacity
-            style={activeDay ? styles.activeDayButton : styles.dayButton}
-            onPress={() => this.onDayChange("training")}
-          >
-            <Icon name="run-fast" size={25} color="white" />
-            <Text
-              style={
-                activeDay ? styles.activeDayButtonText : styles.dayButtonText
-              }
+        <StatusBar />
+        <View>
+          <Animated.View style={[styles.dayBarStyle, { height: dayBarHeight }]}>
+            <TouchableOpacity
+              style={activeDay ? styles.activeDayButton : styles.dayButton}
+              onPress={() => this.onDayChange("training")}
             >
-              Traning Day
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={!activeDay ? styles.activeDayButton : styles.dayButton}
-            onPress={() => this.onDayChange("rest")}
-          >
-            <Text
-              style={
-                !activeDay ? styles.activeDayButtonText : styles.dayButtonText
-              }
+              <Icon name="run-fast" size={25} color={trainingIconColor} />
+              <Text
+                style={
+                  activeDay ? styles.activeDayButtonText : styles.dayButtonText
+                }
+              >
+                Traning Day
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={!activeDay ? styles.activeDayButton : styles.dayButton}
+              onPress={() => this.onDayChange("rest")}
             >
-              Rest Day
-            </Text>
-            <Icon name="sleep" size={25} color="white" />
-          </TouchableOpacity>
+              <Text
+                style={
+                  !activeDay ? styles.activeDayButtonText : styles.dayButtonText
+                }
+              >
+                Rest Day
+              </Text>
+              <Icon name="sleep" size={25} color={restIconColor} />
+            </TouchableOpacity>
+          </Animated.View>
         </View>
         <TotalDietMacros
           totalCal={totalCalories}
@@ -170,7 +202,42 @@ export default class MyDiet extends Component {
           carbs={carbsInGm}
           fat={fatsInGm}
         />
-        <MealsContainer meals={mealList} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingTop: 15
+          }}
+        >
+          <View style={{ justifyContent: "flex-start" }}>
+            <TouchableOpacity style={{ paddingHorizontal: 10 }}>
+              <Icon
+                name="chevron-left"
+                size={ICON_SIZE_LARGE}
+                style={styles.navButtonIcon}
+                color={styleCommon.textColor1}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{ justifyContent: "center" }}>
+            <Text style={styles.weekText}>{this.state.currentWeekLabel}</Text>
+          </View>
+          <View style={{ justifyContent: "flex-end" }}>
+            <TouchableOpacity style={{ paddingHorizontal: 10 }}>
+              <Icon
+                name="chevron-right"
+                size={ICON_SIZE_LARGE}
+                style={styles.navButtonIcon}
+                color={styleCommon.textColor1}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <MealsContainer
+          meals={mealList}
+          dayBarScrollY={this.dayBarScrollY}
+          onDayBarCollapse={this.onDayBarCollapse}
+        />
       </ImageBackground>
     );
   }

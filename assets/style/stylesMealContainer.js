@@ -9,51 +9,24 @@ export const styles = StyleSheet.create({
   },
   title: {
     textAlign: "left",
-    fontSize:16,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
     textShadowColor: styleCommon.primaryColor,
-    textShadowOffset: {width: -3, height: 5},
+    textShadowOffset: { width: -3, height: 5 },
     textShadowRadius: 20,
     //color: "#00DB8D"
     color: styleCommon.textColor1
   },
   list: {
     //flex: 1,
-    marginTop:20,
-    marginLeft:-15,
-    marginRight: 40,
+    marginTop: 0,
+    marginLeft: -15,
+    marginRight: 40
   },
-  descriptionContainer:{
+  descriptionContainer: {
     flexDirection: "column",
-    paddingRight: 50,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#719A70", //"#E08702",
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
-    borderColor: "#003300"
-  },
-  headerText: {
-    alignItems: "flex-start",
-    textAlign: "center",
-    fontSize: 18,
-    fontWeight: "300",
-    //color: "#36373A",
-    color: styleCommon.textColor1
-  },
-  headerIcon: {
-    alignItems: "flex-end",
-    color: "white",
-    opacity: 0.6,
-    paddingHorizontal: 2
-  },
-  content: {
-    padding: 20,
-    backgroundColor: "#36373A"
-    //backgroundColor: "#28292B"
+    //paddingRight: 50
   },
   active: {
     backgroundColor: "rgba(255,252,255,1)"
@@ -64,6 +37,7 @@ export const styles = StyleSheet.create({
   mealContainer: {
     flex: 1,
     paddingBottom: 10,
+    width:'95%',
     //borderBottomWidth: 1,
     //borderColor: '#696969',
     marginLeft: 10,
@@ -71,12 +45,17 @@ export const styles = StyleSheet.create({
     backgroundColor: styleCommon.secondaryColor,
     padding: 10,
     borderRadius: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 2, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 5
   },
   mealItem: {
     flexDirection: "row",
     alignSelf: "stretch",
     justifyContent: "space-evenly",
-    paddingVertical: 3,
+    paddingVertical: 3
   },
   mealItemName: {
     width: "60%",

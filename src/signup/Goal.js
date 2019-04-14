@@ -1,7 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import SelectButton from "../components/SelectButton";
 import { styles } from "../../assets/style/stylesGoal";
 import {
   styleCommon,
@@ -18,7 +17,7 @@ export default class Goal extends React.Component {
     const { goal, setGoal } = this.props;
     return (
       <View style={styles.mainContent}>
-        <Button
+        <SelectButton
           buttonStyle={
             goal === 0 ? styles.activeButtonStyle : styles.buttonStyle
           }
@@ -26,18 +25,15 @@ export default class Goal extends React.Component {
             goal === 0 ? styles.activeButtonTitle : styles.buttonTitle
           }
           title="Fat Loss"
-          icon={
-            <Icon
-              name="scale-bathroom"
-              size={ICON_SIZE_EXTRA_LARGE}
-              color={goal === 0 ? buttonIconActiveColor : buttonIconColor}
-              style={styles.buttonIcon}
-            />
-          }
+          iconSize={ICON_SIZE_EXTRA_LARGE}
+          iconName="scale-bathroom"
+          buttonIcon={styles.buttonIcon}
+          buttonIconColor={goal === 0 ? buttonIconActiveColor : buttonIconColor}
           iconLeft
-          onPress={() => setGoal(0)}
+          onPress={setGoal}
+          value={0}
         />
-        <Button
+        <SelectButton
           buttonStyle={
             goal === 1 ? styles.activeButtonStyle : styles.buttonStyle
           }
@@ -45,18 +41,15 @@ export default class Goal extends React.Component {
             goal === 1 ? styles.activeButtonTitle : styles.buttonTitle
           }
           title="Be Healthy"
-          icon={
-            <Icon
-              name="heart-pulse"
-              size={ICON_SIZE_EXTRA_LARGE}
-              color={goal === 1 ? buttonIconActiveColor : buttonIconColor}
-              style={styles.buttonIcon}
-            />
-          }
+          iconSize={ICON_SIZE_EXTRA_LARGE}
+          iconName="heart-pulse"
+          buttonIcon={styles.buttonIcon}
+          buttonIconColor={goal === 1 ? buttonIconActiveColor : buttonIconColor}
           iconLeft
-          onPress={() => setGoal(1)}
+          onPress={setGoal}
+          value={1}
         />
-        <Button
+        <SelectButton
           buttonStyle={
             goal === 2 ? styles.activeButtonStyle : styles.buttonStyle
           }
@@ -64,16 +57,13 @@ export default class Goal extends React.Component {
             goal === 2 ? styles.activeButtonTitle : styles.buttonTitle
           }
           title="Gain Weight"
-          icon={
-            <Icon
-              name="scale-bathroom"
-              size={ICON_SIZE_EXTRA_LARGE}
-              color={goal === 2 ? buttonIconActiveColor : buttonIconColor}
-              style={styles.buttonIcon}
-            />
-          }
+          iconSize={ICON_SIZE_EXTRA_LARGE}
+          iconName="scale-bathroom"
+          buttonIcon={styles.buttonIcon}
+          buttonIconColor={goal === 2 ? buttonIconActiveColor : buttonIconColor}
           iconLeft
-          onPress={() => setGoal(2)}
+          onPress={setGoal}
+          value={2}
         />
       </View>
     );

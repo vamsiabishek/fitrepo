@@ -5,8 +5,7 @@ import {
   UIManager,
   View
 } from "react-native";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import SelectButton from "../components/SelectButton";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import NumberPicker from "../components/Picker/NumberPicker";
 import TargetWeightTimeline from "./TargetWeightTimeline";
@@ -116,7 +115,7 @@ export default class PersonalDetails extends Component {
                 onConfirm={this.handleDTPicker}
                 onCancel={this.hideDTPicker}
               />
-              <Button
+              <SelectButton
                 title={dob.length === 0 ? "Your Birthday" : dob}
                 buttonStyle={
                   dob.length === 0
@@ -128,17 +127,11 @@ export default class PersonalDetails extends Component {
                     ? styles.buttonTitle
                     : styles.activeButtonTitle
                 }
-                icon={
-                  <Icon
-                    name="cake-variant"
-                    style={
-                      dob.length === 0
-                        ? styles.buttonIcon
-                        : styles.activeButtonIcon
-                    }
-                    size={dob.length === 0 ? ICON_SIZE : ICON_SIZE_LARGE}
-                  />
-                }
+                iconSize={dob.length === 0 ? ICON_SIZE : ICON_SIZE_LARGE}
+                iconName="cake-variant"
+                buttonIcon={dob.length === 0
+                  ? styles.buttonIcon
+                  : styles.activeButtonIcon}
                 onPress={this.showDTPicker}
               />
             </TouchableOpacity>
@@ -153,7 +146,7 @@ export default class PersonalDetails extends Component {
                 onConfirm={this.handleNumPickerForWeight}
                 onCancel={this.hideWeightNumPicker}
               />
-              <Button
+              <SelectButton
                 title={weight === undefined ? "Your Weight" : weight + " kgs"}
                 buttonStyle={
                   weight === undefined
@@ -165,17 +158,11 @@ export default class PersonalDetails extends Component {
                     ? styles.buttonTitle
                     : styles.activeButtonTitle
                 }
-                icon={
-                  <Icon
-                    name="scale-bathroom"
-                    style={
-                      weight === undefined
-                        ? styles.buttonIcon
-                        : styles.activeButtonIcon
-                    }
-                    size={ICON_SIZE}
-                  />
-                }
+                iconSize={ICON_SIZE}
+                iconName="scale-bathroom"
+                buttonIcon={weight === undefined
+                  ? styles.buttonIcon
+                  : styles.activeButtonIcon}
                 onPress={this.showWeightNumPicker}
               />
             </TouchableOpacity>
@@ -190,7 +177,7 @@ export default class PersonalDetails extends Component {
                 onConfirm={this.handleNumPickerForHeight}
                 onCancel={this.hideHeightNumPicker}
               />
-              <Button
+              <SelectButton
                 title={height === undefined ? "Your Height" : height + " cms"}
                 buttonStyle={
                   height === undefined
@@ -202,17 +189,11 @@ export default class PersonalDetails extends Component {
                     ? styles.buttonTitle
                     : styles.activeButtonTitle
                 }
-                icon={
-                  <Icon
-                    name="ruler"
-                    style={
-                      height === undefined
-                        ? styles.buttonIcon
-                        : styles.activeButtonIcon
-                    }
-                    size={ICON_SIZE}
-                  />
-                }
+                iconSize={ICON_SIZE}
+                iconName="ruler"
+                buttonIcon={height === undefined
+                  ? styles.buttonIcon
+                  : styles.activeButtonIcon}
                 onPress={this.showHeightNumPicker}
               />
             </TouchableOpacity>
@@ -229,7 +210,7 @@ export default class PersonalDetails extends Component {
                   onConfirm={this.handleTargetWeightAndProgram}
                   onClose={this.hideTargetWeightTimeline}
                 />
-                <Button
+                <SelectButton
                   title={
                     targetWeight === undefined && program === undefined
                       ? "Your Target Weight"
@@ -245,18 +226,11 @@ export default class PersonalDetails extends Component {
                       ? styles.buttonTitle
                       : styles.activeButtonTitle
                   }
-                  icon
-                  icon={
-                    <Icon
-                      name="bullseye-arrow"
-                      style={
-                        targetWeight === undefined
-                          ? styles.buttonIcon
-                          : styles.activeButtonIcon
-                      }
-                      size={ICON_SIZE}
-                    />
-                  }
+                  iconSize={ICON_SIZE}
+                  iconName="bullseye-arrow"
+                  buttonIcon={targetWeight === undefined
+                    ? styles.buttonIcon
+                    : styles.activeButtonIcon}
                   onPress={this.showTargetWeightTimeline}
                 />
               </TouchableOpacity>

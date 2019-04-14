@@ -1,53 +1,56 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView, Image } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Animated,
+  Easing
+} from "react-native";
 //import { meals } from "./meals";
 import { styles } from "../../../assets/style/stylesMealContainer";
-import Icon from "react-native-vector-icons/Octicons";
 import Timeline from "react-native-timeline-listview";
-
 
 export default class MealsContainer extends Component {
   constructor(props) {
     super(props);
 
-   // if(meals.length > 0)
-   //   meals.map(meal => meal.icon = require("../../../assets/images/dish.png"));
+    // if(meals.length > 0)
+    //   meals.map(meal => meal.icon = require("../../../assets/images/dish.png"));
 
     this.state = {
       setIconUp: false,
       selected: null
     };
+    this.onLoadAnimatedValue = new Animated.Value(0);
   }
 
- /* renderHeader = meal => {
-    const triangleArrow = this.state.setIconUp
-      ? "triangle-down"
-      : "triangle-up";
-    return (
-      <View style={styles.header}>
-        <Text style={styles.headerText}>{meal.name}</Text>
-      </View>
-    );
+  componentDidUpdate = () => {
+    Animated.timing(this.onLoadAnimatedValue, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.ease
+    }).start(() => (this.onLoadAnimatedValue = new Animated.Value(0)));
   };
 
-  renderContent = meal => {
-    return (
-      <View style={styles.content}>
-        <View style={styles.mealItem}>
-          <Text style={styles.mealItemName} />
-          <Text style={styles.mealItemQuantityLabel}>Quantity</Text>
-        </View>
-        {meal.data.map((item, index) => {
-          return (
-            <View style={styles.mealItem} key={index}>
-              <Text style={styles.mealItemName}>{item.name}</Text>
-              <Text style={styles.mealItemQuantity}>{item.quantity} gm</Text>
-            </View>
-          );
-        })}
-      </View>
-    );
-  }; */
+  shouldComponentUpdate = nextProps => {
+    return this.props.meals !== nextProps.meals;
+  };
+
+  handlePressIn = () => {
+    Animated.timing(this.animatedValue, {
+      toValue: 1,
+      duration: 500,
+      easing: Easing.ease
+    }).start();
+  };
+  handlePressOut = () => {
+    Animated.timing(this.animatedValue, {
+      toValue: 0,
+      duration: 500,
+      easing: Easing.ease
+    }).start();
+  };
 
   renderSelected = () => {
     /* if (this.state.selected)
@@ -66,6 +69,13 @@ export default class MealsContainer extends Component {
   renderDetail = (rowData, sectionID, rowID) => {
     let title = <Text style={[styles.title]}>{rowData.name}</Text>;
     var desc = null;
+    const rotateX = this.onLoadAnimatedValue.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: ["0deg", "180deg", "360deg"]
+    });
+    const onLoadAnimatedStyle = {
+      transform: [{ rotateX }]
+    };
     if (rowData.sources)
       desc = (
         <View style={styles.descriptionContainer}>
@@ -74,9 +84,9 @@ export default class MealsContainer extends Component {
             <Text style={styles.mealItemQuantityLabel}>Quantity</Text>
           </View>
           {rowData.sources.map((source, index) => {
-            let metricUnit = 'gm';
-            if (source.isPerSingleUnit) metricUnit = '';
-            if (source.hasTableSpoon) metricUnit = 'tbsp';
+            let metricUnit = "gm";
+            if (source.isPerSingleUnit) metricUnit = "";
+            if (source.hasTableSpoon) metricUnit = "tbsp";
             return (
               <View style={styles.mealItem} key={index}>
                 <Text style={styles.mealItemName}>{source.name}</Text>
@@ -90,20 +100,40 @@ export default class MealsContainer extends Component {
       );
 
     return (
-      <View style={styles.mealContainer}>
+      <Animated.View style={[styles.mealContainer, onLoadAnimatedStyle]}>
         {title}
         {desc}
-      </View>
+      </Animated.View>
     );
   };
 
   render() {
-    const { meals } = this.props;
-    if(meals.length > 0)
-      meals.map(meal => meal.icon = require("../../../assets/images/meal_1.png"));
+    const { meals, dayBarScrollY, onDayBarCollapse, } = this.props;
+    if (meals.length > 0)
+      meals.map(
+        meal => (meal.icon = require("../../../assets/images/meal_1.png"))
+      );
     return (
-      <ScrollView>
-        {this.renderSelected()}
+      <ScrollView
+        removeClippedSubviews={false}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: dayBarScrollY
+                }
+              }
+            }
+          ],
+        )}
+        scrollEventThrottle={16}
+        onScrollEndDrag={e => {
+          // scroll animation ended
+          onDayBarCollapse(e);
+        }}
+      >
+        {/*this.renderSelected()*/}
         <Timeline
           style={styles.list}
           data={meals}
@@ -124,7 +154,7 @@ export default class MealsContainer extends Component {
           showTime="false"
           innerCircle={"icon"}
           //dotColor="skyblue"
-          onEventPress={this.onEventPress}
+          //onEventPress={this.onEventPress}
           renderDetail={this.renderDetail}
         />
       </ScrollView>

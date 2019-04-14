@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Button, SearchBar } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { ICON_SIZE_EXTRA_LARGE, ICON_SIZE_SMALL } from "../common/Common";
+import { ICON_SIZE_LARGE, ICON_SIZE_SMALL } from "../../assets/style/stylesCommonValues";
 
 const styles = StyleSheet.create({
   sourceContainer: {
@@ -65,7 +65,7 @@ export default class SourceSelector extends Component {
               <Icon
                 name="plus-circle-outline"
                 color={iconColor}
-                size={ICON_SIZE_EXTRA_LARGE}
+                size={ICON_SIZE_LARGE}
               />
             </TouchableOpacity>
           </View>

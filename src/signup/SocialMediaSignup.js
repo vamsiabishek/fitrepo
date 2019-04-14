@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { SocialIcon } from "react-native-elements";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
-import { f, database } from "../common/FirebaseConfig";
+import { f } from "../common/FirebaseConfig";
 import EmailOrMobileSignup from "./EmailOrMobileSignup";
 import { styles } from "../../assets/style/stylesSocialMediaSignup";
 
@@ -10,8 +10,42 @@ export default class SocialMediaSignup extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.animatedFBValue = new Animated.Value(1);
+    this.animatedGValue = new Animated.Value(1);
+    this.animatedTValue = new Animated.Value(1);
   }
   componentDidMount() {}
+  handlePressIn = media => {
+    let animatedValue = this.animatedGValue
+    if(media === 'G')
+      animatedValue = this.animatedGValue
+    else if(media === 'FB')
+      animatedValue = this.animatedFBValue
+    else if(media === 'T')
+      animatedValue = this.animatedTValue
+    Animated.spring(animatedValue, {
+      toValue: 0.5
+    }).start();
+  };
+  handlePressOut = media => {
+    let animatedValue = this.animatedGValue
+    if(media === 'G')
+      animatedValue = this.animatedGValue
+    else if(media === 'FB') 
+      animatedValue = this.animatedFBValue
+    else if(media === 'T')
+      animatedValue = this.animatedTValue
+    
+    Animated.spring(animatedValue, {
+      toValue: 1,
+      friction: 3, //default 7
+      tension: 40
+    }).start();
+
+    if(media === 'FB') {
+      this.onPressLogin()
+    }
+  };
   onPressLogin = () => {
     LoginManager.logInWithReadPermissions([
       "public_profile",
@@ -63,27 +97,60 @@ export default class SocialMediaSignup extends Component {
   };
   render() {
     const { signupObject } = this.props;
+    const animatedFBStyle = {
+      transform: [{ scale: this.animatedFBValue }]
+    };
+    const animatedGStyle = {
+      transform: [{ scale: this.animatedGValue }]
+    };
+    const animatedTStyle = {
+      transform: [{ scale: this.animatedTValue }]
+    };
     return (
       <View style={styles.mainContent}>
         <View style={styles.iconsWrapper}>
-          <View style={[styles.iconContainer, styles.overlapOne]}>
-            <SocialIcon
-              iconSize={50}
-              style={styles.iconStyle}
-              type="facebook"
-              onPress={() => this.onPressLogin()}
-            />
-          </View>
-          <View style={[styles.iconContainer, styles.overlapTwo]}>
-            <SocialIcon
-              iconSize={50}
-              style={styles.iconStyle}
-              type="google-plus-official"
-            />
-          </View>
-          <View style={[styles.iconContainer, styles.overlapThree]}>
-            <SocialIcon iconSize={50} style={styles.iconStyle} type="twitter" />
-          </View>
+          <Animated.View
+            style={[styles.iconContainer, styles.overlapOne, animatedFBStyle]}
+          >
+            <TouchableOpacity
+              onPressIn={() => this.handlePressIn('FB')}
+              onPressOut={() => this.handlePressOut('FB')}
+            >
+              <SocialIcon
+                iconSize={50}
+                style={styles.iconStyle}
+                type="facebook"
+              />
+            </TouchableOpacity>
+          </Animated.View>
+          <Animated.View
+            style={[styles.iconContainer, styles.overlapTwo, animatedGStyle]}
+          >
+            <TouchableOpacity
+              onPressIn={() => this.handlePressIn('G')}
+              onPressOut={() => this.handlePressOut('G')}
+            >
+              <SocialIcon
+                iconSize={50}
+                style={styles.iconStyle}
+                type="google-plus-official"
+              />
+            </TouchableOpacity>
+          </Animated.View>
+          <Animated.View
+            style={[styles.iconContainer, styles.overlapThree, animatedTStyle]}
+          >
+            <TouchableOpacity
+              onPressIn={() => this.handlePressIn('T')}
+              onPressOut={() => this.handlePressOut('T')}
+            >
+              <SocialIcon
+                iconSize={50}
+                style={styles.iconStyle}
+                type="twitter"
+              />
+            </TouchableOpacity>
+          </Animated.View>
         </View>
         <View>
           <Text style={styles.textColor}>──────── OR ────────</Text>
