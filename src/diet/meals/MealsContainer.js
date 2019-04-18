@@ -108,7 +108,7 @@ export default class MealsContainer extends Component {
   };
 
   render() {
-    const { meals, dayBarScrollY, onDayBarCollapse, } = this.props;
+    const { meals, dayBarScrollY, showDayLabelOnScroll, hideDayLabelOnScroll} = this.props;
     if (meals.length > 0)
       meals.map(
         meal => (meal.icon = require("../../../assets/images/meal_1.png"))
@@ -128,10 +128,8 @@ export default class MealsContainer extends Component {
           ],
         )}
         scrollEventThrottle={16}
-        onScrollEndDrag={e => {
-          // scroll animation ended
-          onDayBarCollapse(e);
-        }}
+        onScrollEndDrag={e => showDayLabelOnScroll(e)}
+        onMomentumScrollEnd={e => hideDayLabelOnScroll(e)}
       >
         {/*this.renderSelected()*/}
         <Timeline

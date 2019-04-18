@@ -26,7 +26,7 @@ export default class MyDiet extends Component {
       diet: {},
       meals: {},
       currentWeek: "Week 1",
-      currentWeekLabel: 'Week 1'
+      showDayOnScroll: false
     };
     this.dayBarScrollY = new Animated.Value(1);
     this.dayBarExpandedHeight = styles.dayBarStyle.height; // calculated by onLayout
@@ -129,17 +129,28 @@ export default class MyDiet extends Component {
     };
   };
 
-  onDayBarCollapse = event => {
-    const day = this.state.activeDay ? "Training day" : "Rest day";
-    const {currentWeekLabel, currentWeek} = this.state;
-    const weekLabelContainsDay = currentWeekLabel.includes(day)
-    console.log('contentOffset:', event.nativeEvent.contentOffset.y)
-    if (event.nativeEvent.contentOffset.y > 20 && !weekLabelContainsDay) {
-      const weekLabelWithDay = `${currentWeekLabel}(${day})`
-      this.setState({currentWeekLabel: weekLabelWithDay})
+  showDayLabelOnScroll = event => {
+    const { showDayOnScroll } = this.state;
+    const {
+      nativeEvent: {
+        contentOffset: { y: offset }
+      }
+    } = event;
+    if (offset > 20 && !showDayOnScroll) {
+      this.day = this.state.activeDay ? "Training day" : "Rest day";
+      this.setState({ showDayOnScroll: true });
     }
-    else if(event.nativeEvent.contentOffset.y < 20 && currentWeekLabel !== currentWeek)
-      this.setState({currentWeekLabel: currentWeek})
+  };
+
+  hideDayLabelOnScroll = event => {
+    const { showDayOnScroll } = this.state;
+    const {
+      nativeEvent: {
+        contentOffset: { y: offset }
+      }
+    } = event;
+    if (offset <= 0 && showDayOnScroll)
+      this.setState({ showDayOnScroll: false });
   };
 
   render() {
@@ -219,8 +230,17 @@ export default class MyDiet extends Component {
               />
             </TouchableOpacity>
           </View>
-          <View style={{ justifyContent: "center" }}>
-            <Text style={styles.weekText}>{this.state.currentWeekLabel}</Text>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row"
+            }}
+          >
+            <Text style={styles.weekText}>{this.state.currentWeek}</Text>
+            {this.state.showDayOnScroll && (
+              <Text style={{ color: "grey" }}>({this.day})</Text>
+            )}
           </View>
           <View style={{ justifyContent: "flex-end" }}>
             <TouchableOpacity style={{ paddingHorizontal: 10 }}>
@@ -236,7 +256,8 @@ export default class MyDiet extends Component {
         <MealsContainer
           meals={mealList}
           dayBarScrollY={this.dayBarScrollY}
-          onDayBarCollapse={this.onDayBarCollapse}
+          showDayLabelOnScroll={this.showDayLabelOnScroll}
+          hideDayLabelOnScroll={this.hideDayLabelOnScroll}
         />
       </ImageBackground>
     );

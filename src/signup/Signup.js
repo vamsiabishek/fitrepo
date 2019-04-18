@@ -571,7 +571,7 @@ export default class Signup extends Component {
     };
     const dietId = await createDiet(dietInfo);
     this.setState({ isLoading: false });
-    this.props.navigation.navigate("MyDiet", { dietId });
+   // this.props.navigation.navigate("MyDiet", { dietId });
   };
 
   render() {
