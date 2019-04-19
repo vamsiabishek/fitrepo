@@ -8,8 +8,10 @@
  */
 
 import React, { Component } from "react";
-import { Platform } from "react-native";
+import { Platform, ImageBackground } from "react-native";
 import { AppContainer } from "./src/tabNavigation/TabNavigationWrapper";
+import { GRADIENT_BG_IMAGE } from "./src/common/Common";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./assets/style/stylesCommonValues";
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
@@ -20,6 +22,13 @@ const instructions = Platform.select({
 
 export default class App extends Component {
   render() {
-    return <AppContainer />;
+    return (
+      <ImageBackground
+        source={GRADIENT_BG_IMAGE}
+        style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
+      >
+        <AppContainer />
+      </ImageBackground>
+    );
   }
 }

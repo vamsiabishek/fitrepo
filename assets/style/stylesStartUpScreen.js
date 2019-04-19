@@ -3,7 +3,7 @@ import {
   styleCommon,
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-  DEVICE_ID
+  fontsCommon
 } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
@@ -18,42 +18,46 @@ const styles = StyleSheet.create({
   overlayContainerstyle: {
     flex: 1,
     justifyContent: "center",
-    alignContent: "center"
+    alignContent: "center",
+    margin: 20
   },
   overlaySubContainerstyle: {
     flex: 1,
     justifyContent: "space-between",
-    alignContent: "center",
-    marginTop: DEVICE_ID.includes("iPhone10,6") === true ? 20 : 0,
-    padding: 10
+    alignContent: "center"
+    //backgroundColor: "orange"
   },
   headerViewContainer: {
     justifyContent: "center",
     alignItems: "center",
     margin: 5
+    //backgroundColor: "blue"
   },
   textStyle: {
-    paddingHorizontal: 5,
-    color: "white",
-    fontSize: 14
+    padding: 5,
+    color: styleCommon.textColor2,
+    fontSize: fontsCommon.font14
+    //backgroundColor: "firebrick"
   },
   logoText: {
-    paddingHorizontal: 5,
-    color: styleCommon.textColor3,
-    letterSpacing: 1.5,
-    fontSize: 50,
-    fontWeight: "700"
+    padding: 5,
+    letterSpacing: fontsCommon.letterSpacingOneFive,
+    fontWeight: "700",
+    fontSize: fontsCommon.font50,
+    color: styleCommon.textColor3
+    //backgroundColor: "pink"
   },
   buttonContainer: {
     justifyContent: "flex-end",
-    alignContent: "flex-end",
-    height: SCREEN_HEIGHT * 0.31,
-    margin: 10
+    alignContent: "center",
+    margin: 5
+    //backgroundColor: "lightgreen"
   },
   buttonContainerStyle: {
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
-    marginBottom: 10
+    marginVertical: 10
+    //backgroundColor: "black"
   },
   signUpButtonStyle: {
     width: SCREEN_WIDTH * 0.81,
@@ -63,9 +67,9 @@ const styles = StyleSheet.create({
     backgroundColor: styleCommon.secondaryButtonColor
   },
   signUpButtonTitleStyle: {
-    fontSize: 16,
+    fontSize: fontsCommon.font16,
     fontWeight: "bold",
-    letterSpacing: 1.5,
+    letterSpacing: fontsCommon.letterSpacingOneFive,
     color: styleCommon.textColor2
   },
   loginButtonStyle: {
@@ -73,11 +77,11 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: "transparent",
     borderRadius: 30,
-    backgroundColor: styleCommon.transparentButtonColorRGBA // User RGBA when you want a transparent button.
+    backgroundColor: styleCommon.transparentButtonColorRGBA // Use RGBA when you want a transparent button.
   },
   loginButtonTitleStyle: {
-    fontSize: 16,
-    letterSpacing: 1.5,
+    fontSize: fontsCommon.font16,
+    letterSpacing: fontsCommon.letterSpacingOneFive,
     color: styleCommon.primaryButtonTextColor
   }
 });

@@ -14,9 +14,16 @@ import { styles } from "../../../assets/style/stylesNavNextButton";
 class NavNextButton extends React.Component {
   render() {
     let gradientColorRight = btnGradientColorRightDisabled;
-    const { isActive, screen, onNext, buttonText } = this.props;
+    const { isActive, screen, onNext, buttonText, hasBottomBar } = this.props;
     let { bottomNav } = styles;
+    let { marginBottom } = styles.bottomNav;
     if (isActive) gradientColorRight = btnGradientColorRight;
+    if (hasBottomBar) {
+      bottomNav = {
+        ...bottomNav,
+        marginBottom: marginBottom + 60
+      };
+    }
     return (
       <View style={bottomNav}>
         <Button

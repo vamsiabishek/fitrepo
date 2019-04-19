@@ -1,25 +1,14 @@
 import { StyleSheet } from "react-native";
-import { styleCommon, SCREEN_HEIGHT } from "./stylesCommonValues";
+import {
+  styleCommon,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  fontsCommon
+} from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
-    /*justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#28292B"*/
-  },
-  viewContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 70
-  },
-  titleContainer: {
-    color: "white", //"#717173",
-    fontFamily: "Billabong",
-    fontSize: 60
-  },
-  textContainer: {
-    color: "white"
   },
   weeklyBarStyle: {
     //flex:1,
@@ -58,38 +47,57 @@ const styles = StyleSheet.create({
   },
   dayBarStyle: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
+    alignItems: "center",
     height: Math.round(SCREEN_HEIGHT * 0.06)
     //backgroundColor: "#36373A"
   },
+  buttonContainer: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
   activeDayButton: {
     flexDirection: "row",
-    paddingHorizontal: 40,
-    paddingVertical: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    width: SCREEN_WIDTH / 2,
+    height: "100%",
+    borderRadius: 0,
     backgroundColor: styleCommon.selectedButtonColor
   },
   dayButton: {
     flexDirection: "row",
-    paddingHorizontal: 40,
-    paddingVertical: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    width: SCREEN_WIDTH / 2,
+    height: "100%",
+    borderRadius: 0,
     backgroundColor: styleCommon.disableColor
   },
   activeDayButtonText: {
-    fontSize: 16,
+    fontSize: fontsCommon.font16,
     fontWeight: "bold",
-    color: "white",
-    paddingHorizontal: 5,
-    paddingVertical: 2
+    color: "white"
   },
   dayButtonText: {
-    fontSize: 15,
+    fontSize: fontsCommon.font14,
     fontWeight: "bold",
-    color: "grey",
-    paddingHorizontal: 5,
-    paddingVertical: 2
+    color: styleCommon.unSelected
   },
+  buttonIconStyle: {
+    padding: 5
+  },
+  weekContainerStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 15
+  },
+  weekContainerLeftStyle: { justifyContent: "flex-start" },
+  weekContainerIconStyle: { paddingHorizontal: 10 },
+  weekContainerCenterStyle: { justifyContent: "center" },
+  weekContainerRightStyle: { justifyContent: "flex-end" },
   weekText: {
-    fontSize: 18,
+    fontSize: fontsCommon.font18,
     fontWeight: "bold",
     color: styleCommon.textColor1
   }

@@ -4,10 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    paddingBottom: 20,
-    paddingTop: 20,
-    backgroundColor: "#28292B"
+    justifyContent: "center"
   },
   viewContainer: {
     justifyContent: "center",

@@ -1,25 +1,21 @@
 import React, { Component } from "react";
-import {
-  LayoutAnimation,
-  Text,
-  View,
-  StatusBar,
-  ImageBackground
-} from "react-native";
-import { Input, Button } from "react-native-elements";
+import { ActivityIndicator, Text, View, ImageBackground } from "react-native";
 import { styles } from "../../assets/style/stylesHomeScreen";
 import { f, database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
+import { styleCommon } from "../../assets/style/stylesCommonValues";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       username: "",
       name: ""
     };
   }
   componentDidMount = async () => {
+    this.setState({ isLoading: true });
     const currentUser = await f.auth().currentUser;
     database
       .ref("users")
@@ -29,7 +25,8 @@ export default class Home extends Component {
         const userLoggedIn = snapshot.val();
         this.setState({
           username: userLoggedIn.username,
-          name: userLoggedIn.name
+          name: userLoggedIn.name,
+          isLoading: false
         });
       })
       .catch(error => {
@@ -40,14 +37,17 @@ export default class Home extends Component {
       });
   };
   render() {
-    const { username, name } = this.state;
+    const { isLoading, name } = this.state;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <View style={styles.viewContainer}>
-          <Text style={styles.headerText}>Welcome {name}!</Text>
-          <Text style={styles.normalText}>This is the Home page.</Text>
-        </View>
+        {isLoading ? (
+          <ActivityIndicator color={styleCommon.textColor1} size="large" />
+        ) : (
+          <View style={styles.viewContainer}>
+            <Text style={styles.headerText}>Welcome {name}!</Text>
+            <Text style={styles.normalText}>This is the Home page.</Text>
+          </View>
+        )}
       </ImageBackground>
     );
   }

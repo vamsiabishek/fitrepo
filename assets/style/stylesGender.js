@@ -1,5 +1,9 @@
 import { StyleSheet } from "react-native";
-import { styleCommon } from "../../assets/style/stylesCommonValues";
+import {
+  styleCommon,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH
+} from "../../assets/style/stylesCommonValues";
 
 export const styles = StyleSheet.create({
   mainContent: {
@@ -7,10 +11,11 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
+    //backgroundColor: "thistle"
   },
   buttonStyle: {
-    width: 140,
-    height: 140,
+    width: SCREEN_WIDTH * 0.37, //140,
+    height: SCREEN_HEIGHT * 0.21, //140,
     backgroundColor: styleCommon.secondaryColor,
     borderRadius: 20,
     borderBottomWidth: 0,
@@ -23,8 +28,8 @@ export const styles = StyleSheet.create({
     marginVertical: 5
   },
   activeButtonStyle: {
-    width: 140,
-    height: 140,
+    width: SCREEN_WIDTH * 0.37, //140,
+    height: SCREEN_HEIGHT * 0.21, //140,
     backgroundColor: styleCommon.selectedButtonColor,
     borderRadius: 20,
     borderBottomWidth: 0,

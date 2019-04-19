@@ -129,9 +129,9 @@ export default class PersonalDetails extends Component {
                 }
                 iconSize={dob.length === 0 ? ICON_SIZE : ICON_SIZE_LARGE}
                 iconName="cake-variant"
-                buttonIcon={dob.length === 0
-                  ? styles.buttonIcon
-                  : styles.activeButtonIcon}
+                buttonIcon={
+                  dob.length === 0 ? styles.buttonIcon : styles.activeButtonIcon
+                }
                 onPress={this.showDTPicker}
               />
             </TouchableOpacity>
@@ -160,9 +160,11 @@ export default class PersonalDetails extends Component {
                 }
                 iconSize={ICON_SIZE}
                 iconName="scale-bathroom"
-                buttonIcon={weight === undefined
-                  ? styles.buttonIcon
-                  : styles.activeButtonIcon}
+                buttonIcon={
+                  weight === undefined
+                    ? styles.buttonIcon
+                    : styles.activeButtonIcon
+                }
                 onPress={this.showWeightNumPicker}
               />
             </TouchableOpacity>
@@ -191,9 +193,11 @@ export default class PersonalDetails extends Component {
                 }
                 iconSize={ICON_SIZE}
                 iconName="ruler"
-                buttonIcon={height === undefined
-                  ? styles.buttonIcon
-                  : styles.activeButtonIcon}
+                buttonIcon={
+                  height === undefined
+                    ? styles.buttonIcon
+                    : styles.activeButtonIcon
+                }
                 onPress={this.showHeightNumPicker}
               />
             </TouchableOpacity>
@@ -228,9 +232,11 @@ export default class PersonalDetails extends Component {
                   }
                   iconSize={ICON_SIZE}
                   iconName="bullseye-arrow"
-                  buttonIcon={targetWeight === undefined
-                    ? styles.buttonIcon
-                    : styles.activeButtonIcon}
+                  buttonIcon={
+                    targetWeight === undefined
+                      ? styles.buttonIcon
+                      : styles.activeButtonIcon
+                  }
                   onPress={this.showTargetWeightTimeline}
                 />
               </TouchableOpacity>

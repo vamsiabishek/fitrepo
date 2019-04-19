@@ -5,6 +5,7 @@ import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { f } from "../common/FirebaseConfig";
 import EmailOrMobileSignup from "./EmailOrMobileSignup";
 import { styles } from "../../assets/style/stylesSocialMediaSignup";
+import { ICON_SELECT_SIGNUP_OPTION } from "../../assets/style/stylesCommonValues";
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
@@ -16,34 +17,28 @@ export default class SocialMediaSignup extends Component {
   }
   componentDidMount() {}
   handlePressIn = media => {
-    let animatedValue = this.animatedGValue
-    if(media === 'G')
-      animatedValue = this.animatedGValue
-    else if(media === 'FB')
-      animatedValue = this.animatedFBValue
-    else if(media === 'T')
-      animatedValue = this.animatedTValue
+    let animatedValue = this.animatedGValue;
+    if (media === "G") animatedValue = this.animatedGValue;
+    else if (media === "FB") animatedValue = this.animatedFBValue;
+    else if (media === "T") animatedValue = this.animatedTValue;
     Animated.spring(animatedValue, {
       toValue: 0.5
     }).start();
   };
   handlePressOut = media => {
-    let animatedValue = this.animatedGValue
-    if(media === 'G')
-      animatedValue = this.animatedGValue
-    else if(media === 'FB') 
-      animatedValue = this.animatedFBValue
-    else if(media === 'T')
-      animatedValue = this.animatedTValue
-    
+    let animatedValue = this.animatedGValue;
+    if (media === "G") animatedValue = this.animatedGValue;
+    else if (media === "FB") animatedValue = this.animatedFBValue;
+    else if (media === "T") animatedValue = this.animatedTValue;
+
     Animated.spring(animatedValue, {
       toValue: 1,
       friction: 3, //default 7
       tension: 40
     }).start();
 
-    if(media === 'FB') {
-      this.onPressLogin()
+    if (media === "FB") {
+      this.onPressLogin();
     }
   };
   onPressLogin = () => {
@@ -113,11 +108,11 @@ export default class SocialMediaSignup extends Component {
             style={[styles.iconContainer, styles.overlapOne, animatedFBStyle]}
           >
             <TouchableOpacity
-              onPressIn={() => this.handlePressIn('FB')}
-              onPressOut={() => this.handlePressOut('FB')}
+              onPressIn={() => this.handlePressIn("FB")}
+              onPressOut={() => this.handlePressOut("FB")}
             >
               <SocialIcon
-                iconSize={50}
+                iconSize={ICON_SELECT_SIGNUP_OPTION}
                 style={styles.iconStyle}
                 type="facebook"
               />
@@ -127,11 +122,11 @@ export default class SocialMediaSignup extends Component {
             style={[styles.iconContainer, styles.overlapTwo, animatedGStyle]}
           >
             <TouchableOpacity
-              onPressIn={() => this.handlePressIn('G')}
-              onPressOut={() => this.handlePressOut('G')}
+              onPressIn={() => this.handlePressIn("G")}
+              onPressOut={() => this.handlePressOut("G")}
             >
               <SocialIcon
-                iconSize={50}
+                iconSize={ICON_SELECT_SIGNUP_OPTION}
                 style={styles.iconStyle}
                 type="google-plus-official"
               />
@@ -141,11 +136,11 @@ export default class SocialMediaSignup extends Component {
             style={[styles.iconContainer, styles.overlapThree, animatedTStyle]}
           >
             <TouchableOpacity
-              onPressIn={() => this.handlePressIn('T')}
-              onPressOut={() => this.handlePressOut('T')}
+              onPressIn={() => this.handlePressIn("T")}
+              onPressOut={() => this.handlePressOut("T")}
             >
               <SocialIcon
-                iconSize={50}
+                iconSize={ICON_SELECT_SIGNUP_OPTION}
                 style={styles.iconStyle}
                 type="twitter"
               />

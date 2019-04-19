@@ -1,30 +1,65 @@
 import { Dimensions, Platform, PixelRatio } from "react-native";
 import DeviceInfo from "react-native-device-info";
 
+// based on iphone 6s's scale
+export function normalizeFont(size) {
+  const iosBaseScale = SCREEN_WIDTH / 375;
+  let newSize = size;
+  if (Platform.OS === "ios") {
+    newSize = size * iosBaseScale;
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
+}
+export function normalizeHeight(size) {
+  const iosBaseScaleH = SCREEN_HEIGHT / 667;
+  let newSize = size;
+  if (Platform.OS === "ios") {
+    newSize = size * iosBaseScaleH;
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
+}
+
 export const SCREEN_WIDTH = Dimensions.get("window").width;
 export const SCREEN_HEIGHT = Dimensions.get("window").height;
 export const DEVICE_ID = DeviceInfo.getDeviceId();
+export const DEVICE_NAME = DeviceInfo.getDeviceName();
 
-export const ICON_SIZE_SMALL = 16;
-export const ICON_SIZE_MED = 20;
-export const ICON_SIZE = 25;
-export const ICON_SIZE_NAV = 28;
-export const ICON_SIZE_LARGE = 30;
-export const ICON_BACK_SIZE = 32;
-export const ICON_SIZE_EXTRA_LARGE = 35;
-export const ICON_SELECT_GENDER = 80;
+export const fontsCommon = {
+  font10: normalizeFont(10),
+  font12: normalizeFont(12),
+  font13: normalizeFont(13),
+  font14: normalizeFont(14),
+  font15: normalizeFont(15),
+  font16: normalizeFont(16),
+  font17: normalizeFont(17),
+  font18: normalizeFont(18),
+  font20: normalizeFont(20),
+  font22: normalizeFont(22),
+  font25: normalizeFont(25),
+  font28: normalizeFont(28),
+  font30: normalizeFont(30),
+  font32: normalizeFont(32),
+  font35: normalizeFont(35),
+  font50: normalizeFont(50),
+  font70: normalizeFont(70),
+  font80: normalizeFont(80),
+  letterSpacingOneFive: 1.5
+};
 
-// based on iphone 6s's scale
-const iosBaseScale = SCREEN_WIDTH / 375;
-export function normalizeFont(size) {
-  let newSize = size 
-  if (Platform.OS === 'ios') {
-    newSize = size * iosBaseScale 
-    return Math.round(PixelRatio.roundToNearestPixel(newSize))
-  } else {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
-  }
-}
+export const ICON_SIZE_SMALL = fontsCommon.font16;
+export const ICON_SIZE_MED = fontsCommon.font20;
+export const ICON_SIZE = fontsCommon.font25;
+export const ICON_SIZE_NAV = fontsCommon.font28;
+export const ICON_SIZE_LARGE = fontsCommon.font30;
+export const ICON_BACK_SIZE = fontsCommon.font32;
+export const ICON_SIZE_EXTRA_LARGE = fontsCommon.font35;
+export const ICON_SELECT_SIGNUP_OPTION = fontsCommon.font50;
+export const ICON_SELECT_GENDER = fontsCommon.font80;
+export const BUTTON_HEIGHT_GENERAL = SCREEN_HEIGHT * 0.06;
 
 export const styleCommon = {
   //primaryColor: "#3399ff", // Top Blue Color of Gradient BG
@@ -40,16 +75,9 @@ export const styleCommon = {
   unSelected: "grey",
   disableColor: "#d3d3d3", // Light grey
   selectedButtonColor: "#FA8072", // salmon
-  transparentButtonColorRGBA: "rgba(211, 211, 211, 0.3)"
+  transparentButtonColorRGBA: "rgba(211, 211, 211, 0.3)",
+  panelHeaderBoxColor: "#0099CC" // the header color for macros in mydiet page
 };
-
-export const fontsCommon = {
-  font10: normalizeFont(10),
-  font12: normalizeFont(12),
-  font13: normalizeFont(13),
-  font14: normalizeFont(14),
-  font15: normalizeFont(15),
-}
 
 export const btnGradientColorLeft = "#66ffff"; // bright blue color
 export const btnGradientColorRight = "#FA8072"; // salmon

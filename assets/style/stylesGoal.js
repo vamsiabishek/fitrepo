@@ -1,11 +1,17 @@
 import { StyleSheet } from "react-native";
-import { SCREEN_WIDTH, styleCommon, SCREEN_HEIGHT } from "./stylesCommonValues";
+import {
+  SCREEN_WIDTH,
+  styleCommon,
+  SCREEN_HEIGHT,
+  fontsCommon
+} from "./stylesCommonValues";
 
 export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+    //backgroundColor: "rosybrown"
   },
   buttonStyle: {
     width: SCREEN_WIDTH * 0.75,
@@ -36,16 +42,21 @@ export const styles = StyleSheet.create({
     marginVertical: 5
   },
   buttonTitle: {
-    color: styleCommon.secondaryButtonTextColor,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontSize: fontsCommon.font18,
+    color: styleCommon.secondaryButtonTextColor
+    //backgroundColor: "sandybrown"
   },
   activeButtonTitle: {
-    color: styleCommon.textColor2,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontSize: fontsCommon.font18,
+    color: styleCommon.textColor2
+    //backgroundColor: "sandybrown"
   },
 
   buttonIcon: {
     position: "absolute",
     left: 45
+    //backgroundColor: "tomato"
   }
 });

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import {
+  Animated,
+  ImageBackground,
   ScrollView,
   StatusBar,
   Text,
@@ -20,13 +22,18 @@ import {
   convertLevelToLevelColor,
   GRADIENT_COLORS_ARRAY,
   AVATAR_SIZE,
-  ICON_SIZE,
-  ICON_SIZE_MED,
   STAR_RATING_MAX,
   PROGRESS_BAR_WIDTH,
   PROGRESS_CIRCLE_RADIUS,
-  PROGRESS_CIRCLE_BORDER_WIDTH
+  PROGRESS_CIRCLE_BORDER_WIDTH,
+  GRADIENT_BG_IMAGE
 } from "../common/Common";
+import { commonStyles } from "../../assets/style/stylesCommon";
+import {
+  styleCommon,
+  ICON_SIZE,
+  ICON_SIZE_MED
+} from "../../assets/style/stylesCommonValues";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -46,6 +53,9 @@ export default class Profile extends Component {
       programChosen: "4-week program",
       goalChosen: "Fat-Loss"
     };
+    this.profileHeaderScrollY = new Animated.Value(1);
+    this.profileHeaderExpandedHeight = styles.bannerContainer.height; // calculated by onLayout
+    this.profileHeaderCollapsedHeight = 0;
   }
 
   goToEditProfile = () => {
@@ -57,7 +67,6 @@ export default class Profile extends Component {
       updateProfileCall: this.updateProfileCall
     });
   };
-
   updateProfileCall = (recievedData, haveNavigated = false) => {
     const { user } = this.state;
     if (haveNavigated === true) {
@@ -104,19 +113,29 @@ export default class Profile extends Component {
     } = this.state;
     let levelColor = convertLevelToLevelColor(user.level);
     let starRating = convertLevelToStarRating(user.level);
+    const profileHeaderHeight = this.profileHeaderScrollY.interpolate({
+      inputRange: [0, this.profileHeaderExpandedHeight - 100],
+      outputRange: [
+        this.profileHeaderExpandedHeight,
+        this.profileHeaderCollapsedHeight
+      ],
+      extrapolate: "clamp"
+    });
     return (
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        {isLoading && <ActivityIndicator />}
-        {!isLoading && (
+      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.mainContainer}>
+        {isLoading ? (
+          <ActivityIndicator color={styleCommon.textColor1} size="large" />
+        ) : (
           <View style={styles.innerContainer}>
             <View style={styles.bannerHeaderContainer}>
               <View style={styles.bannerContainer}>
-                <LinearGradient
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 0, y: 1 }}
-                  colors={GRADIENT_COLORS_ARRAY}
-                  style={styles.bannergradientStyle}
+                <ImageBackground
+                  source={GRADIENT_BG_IMAGE}
+                  style={styles.bannerContainer}
+                  /*start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                    colors={GRADIENT_COLORS_ARRAY}
+                    style={styles.bannergradientStyle}*/
                 >
                   <View style={styles.avatarContainer}>
                     <Avatar
@@ -126,64 +145,65 @@ export default class Profile extends Component {
                       icon={{
                         type: "material-community",
                         name: "chess-bishop",
-                        color: "white"
+                        color: styleCommon.textColor2
                       }}
                       //source={{ uri: user.avatarSource }}
                       imageProps={styles.avatarImagePropsStyle}
                     />
                   </View>
-                </LinearGradient>
+                </ImageBackground>
               </View>
-            </View>
-            <View style={styles.profileBannerStyle}>
-              <Text style={styles.profileBannerTitleStyle}>{user.name}</Text>
-              <Text style={styles.profileBannerSubTitleStyle}>
-                {user.username}
-              </Text>
-            </View>
-            <View style={styles.profileSubBannerStyle}>
-              <View style={styles.profileSubBannerBoxStyle}>
-                <Icon
-                  name="trophy-variant" // "medal"
-                  size={ICON_SIZE}
-                  color={levelColor}
-                />
-                <Text style={styles.profileBannerTextStyle}>Level</Text>
+              <View style={styles.profileBannerStyle}>
+                <Text style={styles.profileBannerTitleStyle}>{user.name}</Text>
+                <Text style={styles.profileBannerSubTitleStyle}>
+                  {user.username}
+                </Text>
               </View>
-              <View style={styles.profileSubBannerBoxStyle}>
-                <StarRating
-                  disabled={false}
-                  maxStars={STAR_RATING_MAX}
-                  rating={starRating}
-                  starSize={ICON_SIZE}
-                  emptyStar="star-outline"
-                  fullStar="star"
-                  halfStar="star-half"
-                  iconSet="MaterialCommunityIcons"
-                  fullStarColor={styles.profileStarColor.color}
-                  emptyStarColor={styles.profileStarColor.color}
-                />
-                <Text style={styles.profileBannerTextStyle}>Expertise</Text>
-              </View>
-              <View style={styles.profileSubBannerBoxStyle}>
-                <Button
-                  icon={
-                    <Icon
-                      name="account-edit"
-                      size={ICON_SIZE}
-                      style={styles.profileButtonIconStyle}
-                    />
-                  }
-                  buttonStyle={styles.profileButtonStyle}
-                  onPress={this.goToEditProfile}
-                />
-
-                <Text style={styles.profileBannerTextStyle}>Edit</Text>
+              <View style={styles.profileSubBannerStyle}>
+                <View style={styles.profileSubBannerBoxStyle}>
+                  <Icon
+                    name="trophy-variant" // "medal"
+                    size={ICON_SIZE}
+                    color={levelColor}
+                  />
+                  <Text style={styles.profileBannerTextStyle}>Level</Text>
+                </View>
+                <View style={styles.profileSubBannerBoxStyle}>
+                  <StarRating
+                    disabled={false}
+                    maxStars={STAR_RATING_MAX}
+                    rating={starRating}
+                    starSize={ICON_SIZE}
+                    emptyStar="star-outline"
+                    fullStar="star"
+                    halfStar="star-half"
+                    iconSet="MaterialCommunityIcons"
+                    fullStarColor={styles.profileStarColor.color}
+                    emptyStarColor={styles.profileStarColor.color}
+                  />
+                  <Text style={styles.profileBannerTextStyle}>Expertise</Text>
+                </View>
+                <View style={styles.profileSubBannerBoxStyle}>
+                  <Button
+                    title="Edit"
+                    icon={
+                      <Icon
+                        name="account-edit"
+                        size={ICON_SIZE}
+                        style={styles.profileButtonIconStyle}
+                      />
+                    }
+                    buttonStyle={styles.profileButtonStyle}
+                    titleStyle={styles.profileBannerTextStyle}
+                    onPress={this.goToEditProfile}
+                    type="clear"
+                  />
+                </View>
               </View>
             </View>
             <ScrollView
               style={styles.scrollViewContainerStyle}
-              contentContainerstyle={styles.viewContainer}
+              contentContainerstyle={styles.scrollViewContentContainer}
             >
               <View style={styles.boxesContainer}>
                 <View style={styles.boxesStyle}>
@@ -207,8 +227,11 @@ export default class Profile extends Component {
                       <Avatar
                         rounded
                         size={AVATAR_SIZE}
-                        source={require("../../assets/images/edited-Vitruvian-Man.png")}
-                        imageProps={{ resizeMode: "contain" }}
+                        source={require("../../assets/images/vitruvian_man.png")} //require("../../assets/images/edited-Vitruvian-Man.png")
+                        imageProps={{
+                          resizeMode: "contain",
+                          tintColor: styleCommon.textColor1
+                        }}
                         overlayContainerStyle={styles.avatarHumanOverlayStyle}
                       />
                     </ProgressCircle>
@@ -243,9 +266,12 @@ export default class Profile extends Component {
                       </Text>
                       <ProgressBarAnimated
                         width={PROGRESS_BAR_WIDTH}
+                        borderColor={styleCommon.unSelected}
                         value={programCompletedPercent}
-                        backgroundColorOnComplete="#00DB8D"
-                        backgroundColor="#00DB8D"
+                        backgroundColorOnComplete={
+                          styles.progressBarBgColorComplete.color
+                        }
+                        backgroundColor={styles.progressBarBgColor.color}
                       />
                     </View>
                     <View style={styles.boxContentGoalTextStyle}>
@@ -254,6 +280,7 @@ export default class Profile extends Component {
                       </Text>
                       <ProgressBarAnimated
                         width={PROGRESS_BAR_WIDTH}
+                        borderColor={styleCommon.unSelected}
                         value={goalCompletedPercent}
                         backgroundColorOnComplete={
                           styles.progressBarBgColorComplete.color
@@ -286,7 +313,7 @@ export default class Profile extends Component {
             </ScrollView>
           </View>
         )}
-      </View>
+      </ImageBackground>
     );
   }
 }

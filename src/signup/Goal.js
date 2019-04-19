@@ -29,7 +29,7 @@ export default class Goal extends React.Component {
           iconName="scale-bathroom"
           buttonIcon={styles.buttonIcon}
           buttonIconColor={goal === 0 ? buttonIconActiveColor : buttonIconColor}
-          iconLeft
+          iconLeft={true}
           onPress={setGoal}
           value={0}
         />

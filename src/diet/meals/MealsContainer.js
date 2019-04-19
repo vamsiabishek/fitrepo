@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Animated,
-  Easing
-} from "react-native";
-//import { meals } from "./meals";
+import { Text, View, ScrollView, Animated, Easing } from "react-native";
 import { styles } from "../../../assets/style/stylesMealContainer";
 import Timeline from "react-native-timeline-listview";
 
@@ -116,17 +108,15 @@ export default class MealsContainer extends Component {
     return (
       <ScrollView
         removeClippedSubviews={false}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: dayBarScrollY
-                }
+        onScroll={Animated.event([
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: dayBarScrollY
               }
             }
-          ],
-        )}
+          }
+        ])}
         scrollEventThrottle={16}
         onScrollEndDrag={e => showDayLabelOnScroll(e)}
         onMomentumScrollEnd={e => hideDayLabelOnScroll(e)}

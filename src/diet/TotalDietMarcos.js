@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { Badge } from "react-native-elements";
 import SourceQuantity from "./SourceQuantity";
 import AnimateNumber from "../components/AnimateNumber";
 import { styles } from "../../assets/style/stylesTotalDietMacros";
@@ -19,9 +18,7 @@ export default class TotalDietMacros extends Component {
           <SourceQuantity source={carbs} sourceLabel={carbsLabel} />
           <SourceQuantity source={fat} sourceLabel={fatLabel} />
           <View style={{ alignItems: "center" }}>
-            <View
-              style={styles.totalCaloriesBadge}
-            >
+            <View style={styles.totalCaloriesBadge}>
               <AnimateNumber
                 countBy={25}
                 style={styles.totalCaloriesValue}

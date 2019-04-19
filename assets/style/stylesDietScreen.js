@@ -1,15 +1,25 @@
-import { StyleSheet, Dimensions } from "react-native";
-const SCREEN_WIDTH = Dimensions.get("window").width;
+import { StyleSheet, Dimensions, Platform } from "react-native";
+import {
+  styleCommon,
+  SCREEN_WIDTH,
+  DEVICE_NAME,
+  fontsCommon,
+  SCREEN_HEIGHT
+} from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: styleCommon.primaryColor
+  },
   container: {
     flex: 1,
     justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: "#28292B"
+    alignItems: "center"
   },
   viewContainer: {
-    //flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 20
@@ -23,67 +33,43 @@ const styles = StyleSheet.create({
     color: "white"
   },
   buttonHeaderContainer: {
-    //flex: 1,
     justifyContent: "flex-start",
-    paddingTop: 40,
-    paddingLeft: 20
+    alignItems: "flex-start",
+    paddingTop:
+      Platform.OS === "ios" ? (DEVICE_NAME.includes("iPhone X") ? 40 : 20) : 10
+    //backgroundColor: "crimson"
   },
   buttonContainer: {
-    width: SCREEN_WIDTH,
-    height: 60,
-    paddingLeft: 20
+    width: SCREEN_WIDTH
+    //backgroundColor: "floralwhite"
   },
   nextButtonContainerStyle: {
-    justifyContent: "space-evenly",
-    alignItems: "flex-end",
-    marginTop: 10,
-    marginBottom: 10,
-    marginHorizontal: 20,
-    height: 40
+    justifyContent: "flex-end",
+    alignItems: "flex-end"
   },
   nextButtonStyle: {
     borderWidth: 0,
     borderColor: "transparent",
-    backgroundColor: "transparent",
-    borderRadius: 20,
-    paddingHorizontal: 10
+    backgroundColor: "transparent"
   },
   nextButtonTitleStyle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#00DB8D"
+    fontSize: fontsCommon.font16,
+    fontWeight: "600",
+    color: styleCommon.textColor1
   },
   nextButtonIconStyle: {
-    color: "#00DB8D",
+    color: styleCommon.textColor1,
+    fontWeight: "600",
     paddingTop: 0,
     paddingLeft: 2
   },
-  dropdownContainer: {
-    width: 120,
-    paddingVertical: 10,
-  },
-  dropdownBaseColor: {
-    color: "white"
-  },
-  dropdownTextColor: {
-    color: "white"
-  },
-  dropdownOffset: {
-    top: 0,
-    left: 0,
-    color: "white"
-  },
-  dropdownPickerStyle: {
-    backgroundColor: "white"
-  },
   subHeaderContainer: {
+    flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between",
-    flexDirection: "row",
-    //backgroundColor: "white",
-    backgroundColor: "#36373A",
     alignSelf: "stretch",
-    height: 55
+    height: SCREEN_HEIGHT * 0.068,
+    backgroundColor: styleCommon.panelHeaderBoxColor
   },
   subHeaderComponents: {
     alignItems: "center",
@@ -92,7 +78,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 20,
     borderBottomWidth: 7,
-    borderColor: "lightgrey"
+    borderColor: styleCommon.textColor3
+    //backgroundColor: "orange"
   },
   activeSubHeaderComponents: {
     alignItems: "center",
@@ -101,25 +88,51 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 20,
     borderBottomWidth: 7,
-    borderColor: "#00DB8D"
+    borderColor: styleCommon.selectedButtonColor
+    //backgroundColor: "orange"
   },
   subHeaderMenuItems: {
-    fontSize: 16,
+    fontSize: fontsCommon.font16,
     fontWeight: "bold",
-    color: "white"
+    color: styleCommon.textColor2
+  },
+  sortContainerStyle: {
+    flexDirection: "row",
+    height: SCREEN_HEIGHT * 0.068
+    //backgroundColor: "orange"
   },
   sortLabel: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 15,
-    paddingRight: 5,
-    color: "white"
+    paddingTop: 15,
+    paddingHorizontal: 5,
+    color: styleCommon.textColor2
+    //backgroundColor: "black"
+  },
+  dropdownContainer: {
+    width: SCREEN_WIDTH * 0.3,
+    paddingVertical: 10
+  },
+  dropdownBaseColor: {
+    color: styleCommon.textColor2
+  },
+  dropdownTextColor: {
+    color: styleCommon.textColor2
+  },
+  dropdownOffset: {
+    top: 0,
+    left: 0,
+    color: styleCommon.textColor2
+  },
+  dropdownPickerStyle: {
+    backgroundColor: styleCommon.panelHeaderBoxColor
   },
   listViewContainer: {
     alignItems: "flex-start",
     justifyContent: "space-between",
     flexDirection: "row",
     alignSelf: "stretch"
+    //backgroundColor: "pink"
   }
 });
 

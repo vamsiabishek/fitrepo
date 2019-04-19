@@ -2,15 +2,11 @@ import { StyleSheet } from "react-native";
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-  styleCommon
+  styleCommon,
+  fontsCommon
 } from "../../assets/style/stylesCommonValues";
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignContent: "center"
-  },
   flatListContainer: {
     flex: 1
   },
@@ -18,7 +14,11 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center"
   },
-  returnViewContainer: { flex: 1, flexDirection: "row" },
+  returnViewContainer: {
+    flex: 1,
+    flexDirection: "row",
+    //backgroundColor: "firebrick"
+  },
   subContainer: {
     flexDirection: "column",
     justifyContent: "center",
@@ -30,11 +30,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center"
   },
   lineContainer: {
-    height: 50,
-    width: 50,
+    height: SCREEN_HEIGHT * 0.093, //62
+    width: SCREEN_WIDTH * 0.13, //50,
     marginLeft: 45,
     borderLeftWidth: 3,
-    borderColor: styleCommon.secondaryButtonColor
+    borderColor: styleCommon.secondaryButtonColor,
+    //backgroundColor: "magenta"
   },
   iconStyle: {
     alignItems: "center",
@@ -47,16 +48,16 @@ export const styles = StyleSheet.create({
   iconImageStyle: {
     width: SCREEN_HEIGHT * 0.1 - 18,
     height: SCREEN_HEIGHT * 0.1,
-    tintColor: "#004A94"
+    tintColor: styleCommon.textColor1
   },
   iconDataStyle: {
-    height: SCREEN_HEIGHT * 0.12,
-    width: SCREEN_HEIGHT * 0.12, //SCREEN_WIDTH * 0.27,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    height: SCREEN_HEIGHT * 0.12,
+    width: SCREEN_HEIGHT * 0.12 //SCREEN_WIDTH * 0.27,
   },
   iconTextStyle: {
-    fontSize: 70
+    fontSize: fontsCommon.font70
   },
   levelDecriptionContainer: {
     justifyContent: "center",
@@ -64,13 +65,13 @@ export const styles = StyleSheet.create({
     marginLeft: 10
   },
   levelTitleStyle: {
-    fontSize: 15,
+    fontSize: fontsCommon.font15,
     fontWeight: "bold",
     color: styleCommon.secondaryButtonTextColor
   },
   levelDescriptionStyle: {
     width: SCREEN_WIDTH * 0.48, //180,
-    fontSize: 13,
+    fontSize: fontsCommon.font13,
     color: styleCommon.secondaryButtonTextColor
   }
 });

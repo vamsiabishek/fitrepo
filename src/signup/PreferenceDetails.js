@@ -5,7 +5,8 @@ import HorizontalSelectView from "../components/HorizontalSelectView";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   ICON_SIZE,
-  ICON_SIZE_LARGE
+  ICON_SIZE_LARGE,
+  SCREEN_WIDTH
 } from "../../assets/style/stylesCommonValues";
 import { styles } from "../../assets/style/stylesPreferenceDetails";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
@@ -53,72 +54,21 @@ export default class PreferenceDetails extends Component {
     return (
       <View style={styles.mainContent}>
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
+          style={styles.innerView}
           behaviour="position"
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center"
-          }}
+          contentContainerStyle={styles.innerViewContainer}
         >
-          <View
-            style={{
-              flex: 1,
-              paddingVertical: 100
-              //backgroundColor: "yellow"
-            }}
-          >
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                padding: 10,
-                backgroundColor: styleCommon.secondaryButtonColor,
-                borderRadius: 10,
-                borderBottomWidth: 0,
-                shadowColor: "grey",
-                shadowOffset: { width: 2, height: 4 },
-                shadowOpacity: 0.6,
-                shadowRadius: 2,
-                elevation: 5,
-                marginHorizontal: 5,
-                marginVertical: 5
-              }}
-            >
-              <View
-                style={{
-                  width: 300,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignContent: "space-between",
-                  //backgroundColor: "red",
-                  padding: 5
-                }}
-              >
-                <Text
-                  style={{
-                    padding: 5,
-                    textAlign: "left",
-                    color: styleCommon.secondaryButtonTextColor,
-                    fontSize: 15
-                  }}
-                >
-                  Your Food Preference
-                </Text>
+          <View style={styles.contentContainer}>
+            <View style={styles.contentBoxStyle}>
+              <View style={styles.contentBoxHeaderStyle}>
+                <Text style={styles.headerTextStyle}>Your Food Preference</Text>
                 <Icon
                   name={foodPreference === 0 ? "leaf" : "food-variant"}
-                  style={{
-                    paddingRight: 5,
-                    color: styleCommon.selectedButtonColor
-                  }}
+                  style={styles.headerIconStyle}
                   size={ICON_SIZE}
                 />
               </View>
-              <View
-                style={{
-                  marginTop: 10
-                  //backgroundColor: "pink"
-                }}
-              >
+              <View style={styles.contentBoxMainStyle}>
                 <ButtonGroup
                   onPress={this.updateVegIndex}
                   selectedIndex={foodPreference}
@@ -128,69 +78,23 @@ export default class PreferenceDetails extends Component {
                   selectedButtonStyle={
                     foodPreference === 0 ? styles.veg : styles.nonVeg
                   }
-                  textStyle={{ fontSize: 14 }}
-                  selectedTextStyle={{
-                    fontSize: 15,
-                    fontWeight: "bold",
-                    color: styleCommon.primaryButtonTextColor
-                  }}
+                  textStyle={styles.buttonGroupTextStyle}
+                  selectedTextStyle={styles.buttonGroupSelectedTextStyle}
                 />
               </View>
             </View>
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                padding: 10,
-                backgroundColor: styleCommon.secondaryButtonColor,
-                borderRadius: 10,
-                borderBottomWidth: 0,
-                shadowColor: "grey",
-                shadowOffset: { width: 2, height: 4 },
-                shadowOpacity: 0.6,
-                shadowRadius: 2,
-                elevation: 5,
-                marginHorizontal: 5,
-                marginVertical: 5
-              }}
-            >
-              <View
-                style={{
-                  width: 300,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignContent: "space-between",
-                  //backgroundColor: "red",
-                  padding: 5
-                }}
-              >
-                <Text
-                  style={{
-                    padding: 5,
-                    textAlign: "left",
-                    color: styleCommon.secondaryButtonTextColor,
-                    fontSize: 15
-                  }}
-                >
+            <View style={styles.contentBoxStyle}>
+              <View style={styles.contentBoxHeaderStyle}>
+                <Text style={styles.headerTextStyle}>
                   Number of Meals You Eat in a Day
                 </Text>
                 <Icon
                   name={"numeric-" + numberOfMeals + "-circle"}
-                  style={{
-                    paddingRight: 5,
-                    color: styleCommon.selectedButtonColor
-                  }}
+                  style={styles.headerIconStyle}
                   size={ICON_SIZE_LARGE}
                 />
               </View>
-              <View
-                style={{
-                  width: 300,
-                  marginTop: 10,
-                  padding: 10
-                  //backgroundColor: "blue"
-                }}
-              >
+              <View style={styles.contentBoxMainStyle}>
                 <HorizontalSelectView
                   items={numberOfMealsOptions}
                   selectedItem={numberOfMeals}
