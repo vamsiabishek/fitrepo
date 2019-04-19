@@ -185,17 +185,12 @@ export const designDiet = async ({
   if (totalCalIntake <= 0) {
     return;
   }
-  const { trainingDayCal, restDayCal } = getCalFromSources(
-    goal,
-    totalCalIntake
-  );
-  let { calFromProtein, calFromCarbs, calFromFats } = trainingDayCal;
-  let { calFromProteinForRD, calFromCarbsForRD, calFromFatsForRD } = restDayCal;
-  console.log(
-    "Calories from protein, carbs and fats:",
-    calFromProtein,
-    calFromCarbs,
-    calFromFats
+
+  //calorie intake for each week
+  const calPerWeek = getCalPerWeek(totalCalIntake, selectedProgram);
+
+  const trainingAndRestdayCals = calPerWeek.map(calories =>
+    getCalFromSources(goal, calories)
   );
 
   const defaultSourcesQuantities = await beginnerDefaultSourcesAndCal();
@@ -204,87 +199,111 @@ export const designDiet = async ({
     selectedFatSources,
     selectedCarbSources
   });
+  const weeklyMeals = [];
+  trainingAndRestdayCals.map(({ trainingDayCal, restDayCal }, index) => {
+    if (
+      index === 0 ||
+      (index > 0 &&
+        trainingDayCal !== trainingAndRestdayCals[index - 1].trainingDayCal)
+    ) {
+      let { calFromProtein, calFromCarbs, calFromFats } = trainingDayCal;
+      let {
+        calFromProteinForRD,
+        calFromCarbsForRD,
+        calFromFatsForRD
+      } = restDayCal;
+      calFromProtein =
+        calFromProtein - defaultSourcesQuantities.calFromSources.calFromProtein;
+      calFromCarbs =
+        calFromCarbs - defaultSourcesQuantities.calFromSources.calFromCarbs;
+      calFromFats =
+        calFromFats - defaultSourcesQuantities.calFromSources.calFromFats;
 
-  calFromProtein =
-    calFromProtein - defaultSourcesQuantities.calFromSources.calFromProtein;
-  calFromCarbs =
-    calFromCarbs - defaultSourcesQuantities.calFromSources.calFromCarbs;
-  calFromFats =
-    calFromFats - defaultSourcesQuantities.calFromSources.calFromFats;
+      calFromProteinForRD =
+        calFromProteinForRD -
+        defaultSourcesQuantities.calFromSources.calFromProtein;
+      calFromCarbsForRD =
+        calFromCarbsForRD -
+        defaultSourcesQuantities.calFromSources.calFromCarbs;
+      calFromFatsForRD =
+        calFromFatsForRD - defaultSourcesQuantities.calFromSources.calFromFats;
 
-  calFromProteinForRD =
-    calFromProteinForRD -
-    defaultSourcesQuantities.calFromSources.calFromProtein;
-  calFromCarbsForRD =
-    calFromCarbsForRD - defaultSourcesQuantities.calFromSources.calFromCarbs;
-  calFromFatsForRD =
-    calFromFatsForRD - defaultSourcesQuantities.calFromSources.calFromFats;
+      const proteinSourcesAndQuantities = sourceQuantities({
+        selectedSources: proteinSources,
+        calFromSource: calFromProtein,
+        calFromSourceForRD: calFromProteinForRD,
+        isProtein: true
+      });
+      calFromFats =
+        calFromFats - proteinSourcesAndQuantities.calFromSources.calFromFats;
+      calFromCarbs =
+        calFromCarbs - proteinSourcesAndQuantities.calFromSources.calFromCarbs;
+      calFromCarbsForRD =
+        calFromCarbsForRD -
+        proteinSourcesAndQuantities.calFromSourcesForRD.calFromCarbsForRD;
+      calFromFatsForRD =
+        calFromFatsForRD -
+        proteinSourcesAndQuantities.calFromSourcesForRD.calFromFatsForRD;
+      const fatSourcesAndQuantities = sourceQuantities({
+        selectedSources: fatSources,
+        calFromSource: calFromFats,
+        calFromSourceForRD: calFromFatsForRD,
+        isFat: true
+      });
+      calFromCarbs =
+        calFromCarbs - fatSourcesAndQuantities.calFromSources.calFromCarbs;
+      calFromCarbsForRD =
+        calFromCarbsForRD -
+        fatSourcesAndQuantities.calFromSourcesForRD.calFromCarbsForRD;
 
-  const proteinSourcesAndQuantities = sourceQuantities({
-    selectedSources: proteinSources,
-    calFromSource: calFromProtein,
-    calFromSourceForRD: calFromProteinForRD,
-    isProtein: true
+      const carbSourcesAndQuantities = sourceQuantities({
+        selectedSources: carbSources,
+        calFromSource: calFromCarbs,
+        calFromSourceForRD: calFromCarbsForRD,
+        isCarb: true
+      });
+      const foodSources = [
+        defaultSourcesQuantities,
+        proteinSourcesAndQuantities,
+        fatSourcesAndQuantities,
+        carbSourcesAndQuantities
+      ];
+      const foodSourceCalories = totalCaloriesFromSourceQuantities(foodSources);
+
+      const { trainingDayMeals, restDayMeals } = createMeals({
+        foodSources,
+        numberOfMeals
+      });
+      const traningDayCalories =
+        foodSourceCalories.calFromProtein +
+        foodSourceCalories.calFromCarbs +
+        foodSourceCalories.calFromFats;
+      const restDayCalories =
+        foodSourceCalories.calFromProteinForRD +
+        foodSourceCalories.calFromCarbsForRD +
+        foodSourceCalories.calFromFatsForRD;
+
+      weeklyMeals.push({
+        week: index + 1,
+        calFromProtein: foodSourceCalories.calFromProtein,
+        calFromProteinForRD: foodSourceCalories.calFromProteinForRD,
+        calFromCarbs: foodSourceCalories.calFromCarbs,
+        calFromCarbsForRD: foodSourceCalories.calFromCarbsForRD,
+        calFromFats: foodSourceCalories.calFromFats,
+        calFromFatsForRD: foodSourceCalories.calFromFatsForRD,
+        traningDayCal: traningDayCalories,
+        restDayCal: restDayCalories,
+        trainingDayMeals,
+        restDayMeals
+      });
+    } else {
+      weeklyMeals.push({
+        ...weeklyMeals[index - 1],
+        week: index
+      });
+    }
   });
-  calFromFats =
-    calFromFats - proteinSourcesAndQuantities.calFromSources.calFromFats;
-  calFromCarbs =
-    calFromCarbs - proteinSourcesAndQuantities.calFromSources.calFromCarbs;
-  calFromCarbsForRD =
-    calFromCarbsForRD -
-    proteinSourcesAndQuantities.calFromSourcesForRD.calFromCarbsForRD;
-  calFromFatsForRD =
-    calFromFatsForRD -
-    proteinSourcesAndQuantities.calFromSourcesForRD.calFromFatsForRD;
-
-  const fatSourcesAndQuantities = sourceQuantities({
-    selectedSources: fatSources,
-    calFromSource: calFromFats,
-    calFromSourceForRD: calFromFatsForRD,
-    isFat: true
-  });
-  calFromCarbs =
-    calFromCarbs - fatSourcesAndQuantities.calFromSources.calFromCarbs;
-  calFromCarbsForRD =
-    calFromCarbsForRD -
-    fatSourcesAndQuantities.calFromSourcesForRD.calFromCarbsForRD;
-
-  const carbSourcesAndQuantities = sourceQuantities({
-    selectedSources: carbSources,
-    calFromSource: calFromCarbs,
-    calFromSourceForRD: calFromCarbsForRD,
-    isCarb: true
-  });
-
-  //console.log("proteinSourcesAndQuantities:", proteinSourcesAndQuantities);
-  //console.log("fatSourcesAndQuantities:", fatSourcesAndQuantities);
-  //console.log("carbSourcesAndQuantities:", carbSourcesAndQuantities);
-
-  const foodSources = [
-    defaultSourcesQuantities,
-    proteinSourcesAndQuantities,
-    fatSourcesAndQuantities,
-    carbSourcesAndQuantities
-  ];
-  const foodSourceCalories = totalCaloriesFromSourceQuantities(foodSources);
-
-  console.log("foodsources:", foodSources);
-
-  const { trainingDayMeals, restDayMeals } = createMeals({
-    foodSources,
-    numberOfMeals
-  });
-
-  return {
-    calFromProtein: foodSourceCalories.calFromProtein,
-    calFromProteinForRD: foodSourceCalories.calFromProteinForRD,
-    calFromCarbs: foodSourceCalories.calFromCarbs,
-    calFromCarbsForRD: foodSourceCalories.calFromCarbsForRD,
-    calFromFats: foodSourceCalories.calFromFats,
-    calFromFatsForRD: foodSourceCalories.calFromFatsForRD,
-    trainingDayMeals,
-    restDayMeals
-  };
+  return weeklyMeals;
 };
 
 getCalFromSources = (goal, totalCalIntake) => {
@@ -340,6 +359,56 @@ getCalFromSources = (goal, totalCalIntake) => {
     trainingDayCal,
     restDayCal
   };
+};
+
+const getCalPerWeek = (totalCalIntake, selectedProgram) => {
+  const calPerWeek = [];
+  if (selectedProgram === 4) {
+    calPerWeek.push(totalCalIntake);
+    calPerWeek.push(totalCalIntake - 100);
+    calPerWeek.push(totalCalIntake - 150);
+    calPerWeek.push(totalCalIntake - 200);
+  } else if (selectedProgram === 8) {
+    calPerWeek.push(totalCalIntake + 100);
+    calPerWeek.push(totalCalIntake);
+    calPerWeek.push(totalCalIntake - 100);
+    calPerWeek.push(totalCalIntake - 150);
+    calPerWeek.push(totalCalIntake - 200);
+    calPerWeek.push(totalCalIntake - 250);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 300);
+  } else if (selectedProgram === 12) {
+    calPerWeek.push(totalCalIntake + 150);
+    calPerWeek.push(totalCalIntake);
+    calPerWeek.push(totalCalIntake - 100);
+    calPerWeek.push(totalCalIntake - 150);
+    calPerWeek.push(totalCalIntake - 200);
+    calPerWeek.push(totalCalIntake - 250);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 100);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 200);
+    calPerWeek.push(totalCalIntake - 300);
+  } else if (selectedProgram === 12) {
+    calPerWeek.push(totalCalIntake + 150);
+    calPerWeek.push(totalCalIntake);
+    calPerWeek.push(totalCalIntake);
+    calPerWeek.push(totalCalIntake - 100);
+    calPerWeek.push(totalCalIntake - 150);
+    calPerWeek.push(totalCalIntake - 200);
+    calPerWeek.push(totalCalIntake - 250);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 100);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 200);
+    calPerWeek.push(totalCalIntake - 250);
+    calPerWeek.push(totalCalIntake - 300);
+    calPerWeek.push(totalCalIntake - 300);
+  }
+  return calPerWeek;
 };
 
 const beginnerDefaultSourcesAndCal = async () => {
@@ -485,4 +554,4 @@ getBeginnerDefaultSources = async () => {
       )
     );
   return defaultSources;
-}
+};

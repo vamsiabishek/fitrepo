@@ -27,18 +27,7 @@ export const createDiet = async ({
     isVeg,
     uid,
   });
-  const {
-    calFromProtein,
-    calFromProteinForRD,
-    calFromCarbs,
-    calFromCarbsForRD,
-    calFromFats,
-    calFromFatsForRD
-  } = mealDetails;
-
-  const traningDayCal = calFromProtein + calFromCarbs + calFromFats;
-  const restDayCal =
-    calFromProteinForRD + calFromCarbsForRD + calFromFatsForRD;
+  //console.log(mealDetails);
 
   const dietDetails = {
     selectedGoal,
@@ -46,8 +35,6 @@ export const createDiet = async ({
     selectedMeals,
     currentWeight,
     targetWeight,
-    traningDayCal,
-    restDayCal,
     isVeg,
     userId: uid
   };
