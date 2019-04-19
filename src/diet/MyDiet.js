@@ -41,7 +41,7 @@ export default class MyDiet extends Component {
     console.log("fetching details for the diet with Id:", dietId);
     const { diet, meals } = await this.fetchDietAndMeals(dietId);
     console.log("diet and meals:", diet, meals);
-    this.setState({ diet, meals: meals['0'], allMeals: meals });
+    this.setState({ diet, meals: meals["0"], allMeals: meals });
   };
 
   fetchDietAndMeals = async dietId => {
@@ -154,14 +154,20 @@ export default class MyDiet extends Component {
       this.setState({ showDayOnScroll: false });
   };
 
-  changeWeek = ({prev, next}) => {
+  changeWeek = ({ prev, next }) => {
     const { currentWeek, allMeals } = this.state;
     if (prev && allMeals[currentWeek - 2]) {
-      this.setState({meals: allMeals[currentWeek - 2], currentWeek: currentWeek - 1})
+      this.setState({
+        meals: allMeals[currentWeek - 2],
+        currentWeek: currentWeek - 1
+      });
     } else if (next && allMeals[currentWeek]) {
-      this.setState({meals: allMeals[currentWeek], currentWeek: currentWeek + 1})
+      this.setState({
+        meals: allMeals[currentWeek],
+        currentWeek: currentWeek + 1
+      });
     }
-  }
+  };
 
   render() {
     const { activeDay, diet, meals, allMeals, currentWeek } = this.state;
@@ -184,8 +190,8 @@ export default class MyDiet extends Component {
     //const subHeaderRightText = "Week 3";
     const trainingIconColor = activeDay ? "white" : styleCommon.unSelected;
     const restIconColor = !activeDay ? "white" : styleCommon.unSelected;
-    const nextWeekEnabled = allMeals[currentWeek] ? true : false
-    const prevWeekEnabled = allMeals[currentWeek - 2] ? true : false
+    const nextWeekEnabled = allMeals[currentWeek] ? true : false;
+    const prevWeekEnabled = allMeals[currentWeek - 2] ? true : false;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
         <StatusBar />
@@ -225,15 +231,12 @@ export default class MyDiet extends Component {
           carbs={carbsInGm}
           fat={fatsInGm}
         />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingTop: 15
-          }}
-        >
+        <View style={styles.weeklyBarStyle}>
           <View style={{ justifyContent: "flex-start" }}>
-            <TouchableOpacity style={{ paddingHorizontal: 10 }} onPress={() => this.changeWeek({prev: true})}>
+            <TouchableOpacity
+              style={{ paddingHorizontal: 10 }}
+              onPress={() => this.changeWeek({ prev: true })}
+            >
               <Icon
                 name="chevron-left"
                 size={ICON_SIZE_LARGE}
@@ -255,7 +258,10 @@ export default class MyDiet extends Component {
             )}
           </View>
           <View style={{ justifyContent: "flex-end" }}>
-            <TouchableOpacity style={{ paddingHorizontal: 10 }} onPress={() => this.changeWeek({next: true})}>
+            <TouchableOpacity
+              style={{ paddingHorizontal: 10 }}
+              onPress={() => this.changeWeek({ next: true })}
+            >
               <Icon
                 name="chevron-right"
                 size={ICON_SIZE_LARGE}
@@ -265,6 +271,7 @@ export default class MyDiet extends Component {
             </TouchableOpacity>
           </View>
         </View>
+
         <MealsContainer
           meals={mealList}
           dayBarScrollY={this.dayBarScrollY}

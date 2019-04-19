@@ -22,12 +22,19 @@ const styles = StyleSheet.create({
     color: "white"
   },
   weeklyBarStyle: {
+    //flex:1,
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "100%",
-    paddingVertical: 20,
-    marginTop: 0,
-    backgroundColor: "#36373A"
+    paddingTop: 15,
+    paddingBottom: 10,
+   // backgroundColor: "#66f2ff",
+    //borderWidth: 1,
+    //shadowColor: "white",
+    shadowOffset: { width: 2, height: 10 },
+    shadowOpacity: 0.8,
+    //shadowRadius: 2,
+   // elevation: 5,
+    zIndex: 1,
   },
   weeklyTouchableStyle: {
     flexDirection: "row"
