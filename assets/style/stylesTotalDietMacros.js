@@ -1,39 +1,20 @@
 import { StyleSheet } from "react-native";
-import { styleCommon } from "./stylesCommonValues";
+import { styleCommon, fontsCommon } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center"
-    //backgroundColor: "#28292B"
-  },
-  viewContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 60,
-    marginBottom: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 10
-  },
-  titleContainer: {
-    color: styleCommon.textColor1,
-    fontFamily: "Billabong",
-    fontSize: 60
-  },
-  textContainer: {
-    color: styleCommon.textColor1
   },
   macrosBarStyle: {
     flexDirection: "row",
-    //backgroundColor: "#36373A",
-    backgroundColor: "#0099cc",
+    backgroundColor: styleCommon.panelHeaderBoxColor,
     justifyContent: "space-between",
-    paddingTop: 18,
-    paddingBottom: 10,
+    paddingVertical: 10,
     paddingHorizontal: 15,
     marginTop: 0,
     width: "100%",
-    shadowColor: "#000",
+    shadowColor: "black",
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
@@ -42,7 +23,7 @@ const styles = StyleSheet.create({
   badgeLabel: {
     marginTop: 2,
     marginRight: 2,
-    fontSize: 16,
+    fontSize: fontsCommon.font16,
     color: styleCommon.secondaryColor
   },
   totalCaloriesBadge: {
@@ -55,7 +36,7 @@ const styles = StyleSheet.create({
   },
   totalCaloriesValue: {
     color: "white",
-    fontSize: 15,
+    fontSize: fontsCommon.font15,
     fontWeight: "600"
   }
 });

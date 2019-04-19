@@ -4,25 +4,23 @@ import { styleCommon, fontsCommon } from "./stylesCommonValues";
 const styles = StyleSheet.create({
   bottomNavBar: {
     paddingVertical: 2,
-    backgroundColor: styleCommon.primaryColor,
+    backgroundColor: styleCommon.primaryButtonColor,
     color: styleCommon.textColor1,
-    tintColor: styleCommon.unSelected
+    tintColor: styleCommon.secondaryColor //styleCommon.unSelected
   },
   activeTintColor: {
     color: styleCommon.textColor1
   },
   tintColor: {
-    color: styleCommon.unSelected
+    color: styleCommon.secondaryColor //styleCommon.unSelected
   },
   labelStyle: {
-    fontSize: fontsCommon.font14,
-    fontWeight: "bold",
-    paddingVertical: 4
+    fontSize: fontsCommon.font12,
+    fontWeight: "bold"
+    //backgroundColor: "red"
   },
   headerStyle: {
     height: 35,
-    //borderBottomWidth: 1,
-    //borderColor: "black", //styleCommon.btnGradientColorLeft,
     backgroundColor: styleCommon.primaryColor,
     color: styleCommon.secondaryButtonTextColor
   },

@@ -5,7 +5,14 @@ import { styles } from "../../assets/style/stylesFitnessLevel";
 
 export default class FitnessLevel extends Component {
   render() {
-    const { gender, levels, selectedLevel, setFitnessLevel } = this.props;
+    const {
+      gender,
+      levels,
+      selectedLevel,
+      setFitnessLevel,
+      alterDimensions,
+      changeFactor
+    } = this.props;
     return (
       <View style={styles.mainContent}>
         <VerticalSelectView
@@ -13,6 +20,8 @@ export default class FitnessLevel extends Component {
           levels={levels}
           selectedLevel={selectedLevel}
           setFitnessLevel={setFitnessLevel}
+          alterDimensions={alterDimensions}
+          changeFactor={changeFactor}
         />
       </View>
     );

@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { View, UIManager } from "react-native";
+import { View, UIManager, KeyboardAvoidingView } from "react-native";
 import { Input } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { ICON_SIZE_MED } from "../common/Common";
+import {
+  ICON_SIZE_MED,
+  styleCommon
+} from "../../assets/style/stylesCommonValues";
 import { styles } from "../../assets/style/stylesEmailOrMobileSignup";
 
 // Enable LayoutAnimation for Android Devices
@@ -11,7 +14,7 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 
 export default class EmailOrMobileSignup extends Component {
   render() {
-    const placeholderTextColor = "#004a94";
+    const placeholderTextColor = styleCommon.textColor1;
     const {
       email,
       password,
@@ -27,11 +30,22 @@ export default class EmailOrMobileSignup extends Component {
       validateConfirmationPassword
     } = this.props.signupObject;
     return (
-      <View style={styles.mainContent}>
+      <KeyboardAvoidingView
+        style={styles.mainContent}
+        contentContainerStyle={styles.mainContent}
+        behavior="padding"
+        enabled
+      >
         <Input
           placeholder="Email"
           placeholderTextColor={placeholderTextColor}
-          leftIcon={<Icon name="email" color="#004a94" size={ICON_SIZE_MED} />}
+          leftIcon={
+            <Icon
+              name="email"
+              color={styleCommon.textColor1}
+              size={ICON_SIZE_MED}
+            />
+          }
           containerStyle={styles.inputViewContainer}
           inputContainerStyle={styles.inputContainer}
           inputStyle={styles.inputStyle}
@@ -55,7 +69,13 @@ export default class EmailOrMobileSignup extends Component {
         />
         <Input
           placeholder="Password"
-          leftIcon={<Icon name="lock" color="#004a94" size={ICON_SIZE_MED} />}
+          leftIcon={
+            <Icon
+              name="lock"
+              color={styleCommon.textColor1}
+              size={ICON_SIZE_MED}
+            />
+          }
           containerStyle={styles.inputViewContainer}
           inputContainerStyle={styles.inputContainer}
           inputStyle={styles.inputStyle}
@@ -85,7 +105,11 @@ export default class EmailOrMobileSignup extends Component {
         <Input
           placeholder="Confirm Password"
           leftIcon={
-            <Icon name="asterisk" color="#004a94" size={ICON_SIZE_MED} />
+            <Icon
+              name="asterisk"
+              color={styleCommon.textColor1}
+              size={ICON_SIZE_MED}
+            />
           }
           containerStyle={styles.inputViewContainer}
           inputContainerStyle={styles.inputContainer}
@@ -114,7 +138,7 @@ export default class EmailOrMobileSignup extends Component {
             confirmationPasswordValid ? null : "The Passwords do not match !"
           }
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

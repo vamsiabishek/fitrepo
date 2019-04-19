@@ -1,20 +1,14 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  styleCommon,
+  errorTextcolor,
+  BUTTON_HEIGHT_GENERAL,
+  fontsCommon
+} from "./stylesCommonValues";
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#28292B"
-  },
-  viewContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
+export const styles = StyleSheet.create({
   bgImage: {
     flex: 1,
     justifyContent: "center",
@@ -22,87 +16,102 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT
   },
-  loginView: {
-    width: 250,
-    height: 400,
-    marginTop: 150,
-    backgroundColor: "transparent"
-  },
-  loginTitle: {
+  container: {
     flex: 1,
+    alignItems: "center",
     justifyContent: "center",
-    alignItems: "center"
+    width: SCREEN_WIDTH * 0.89,
+    marginVertical: 20
+    //backgroundColor: "cadetblue"
+  },
+  loginView: {
+    justifyContent: "flex-end",
+    alignItems: "center",
+    width: SCREEN_WIDTH * 0.89,
+    marginTop: SCREEN_HEIGHT * 0.3,
+    marginBottom: 20
+    //backgroundColor: "pink"
+  },
+  viewContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 5
+    //backgroundColor: "brown"
   },
   logoText: {
-    color: "white",
-    fontSize: 30,
-    fontWeight: "bold"
-  },
-  textStyle: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "normal"
+    padding: 5,
+    letterSpacing: fontsCommon.letterSpacingOneFive,
+    fontWeight: "700",
+    fontSize: fontsCommon.font30,
+    color: styleCommon.textColor3
+    //backgroundColor: "firebrick"
   },
   loginInputContainer: {
-    flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    width: SCREEN_WIDTH * 0.7,
+    margin: 5
+    //backgroundColor: "chocolate"
   },
   inputContainer: {
+    justifyContent: "center",
+    alignItems: "center",
     marginVertical: 10
+    //backgroundColor: "crimson"
   },
   inputStyle: {
     marginLeft: 10,
-    color: "white"
+    color: styleCommon.textColor2
   },
   errorInputStyle: {
     textAlign: "center",
-    fontSize: 12,
-    color: "#F44336"
+    fontSize: fontsCommon.font12,
+    color: errorTextcolor
   },
-  loginButtonContainer: {
-    marginTop: 10
+  buttonContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 5
+    //backgroundColor: "orange"
+  },
+  loginButtonContainerStyle: {
+    justifyContent: "center",
+    alignItems: "center"
+    //backgroundColor: "gold"
   },
   loginButtonStyle: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50,
-    width: 250,
-    borderWidth: 2,
-    borderColor: "#00DB8D",
+    width: SCREEN_WIDTH * 0.7,
+    height: BUTTON_HEIGHT_GENERAL,
+    borderColor: "transparent",
     borderRadius: 30,
-    backgroundColor: "#00DB8D"
+    backgroundColor: "transparent"
   },
   loginButtonText: {
-    fontSize: 16,
+    fontSize: fontsCommon.font16,
     fontWeight: "bold",
-    color: "white"
+    color: styleCommon.textColor2
   },
   loginButtonIcon: {
     paddingLeft: 5,
-    color: "white"
+    color: styleCommon.textColor2
   },
   loginButtonDes: {
-    color: "white"
+    color: styleCommon.textColor2
   },
   signUpHereContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10
+    padding: 5
+    //backgroundColor: "coral"
   },
   newUserText: {
-    fontSize: 16,
-    color: "white"
-  },
-  signUpButtonStyle: {
-    paddingHorizontal: 2
+    fontSize: fontsCommon.font16,
+    color: styleCommon.textColor2
   },
   signUpButtonTitle: {
-    color: "#00DB8D",
-    fontSize: 15,
+    color: styleCommon.secondaryColor,
+    fontSize: fontsCommon.font15,
     fontWeight: "bold"
   }
 });
-
-export { styles };

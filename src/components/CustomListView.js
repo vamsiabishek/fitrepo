@@ -1,13 +1,7 @@
 import React from "react";
 import { View, FlatList, StyleSheet, Text } from "react-native";
 import CustomListViewRow from "./CustomListViewRow";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop:8,
-  }
-});
+import { styles } from "../../assets/style/stylesCustomListView";
 
 class CustomListview extends React.Component {
   _keyExtractor = item => item.key;
@@ -19,7 +13,7 @@ class CustomListview extends React.Component {
         <FlatList
           data={diets}
           renderItem={({ item }) => (
-            <CustomListViewRow item={item} navigation={navigation}/>
+            <CustomListViewRow item={item} navigation={navigation} />
           )}
           keyExtractor={this._keyExtractor}
         />

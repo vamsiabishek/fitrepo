@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { SCREEN_WIDTH } from "./stylesCommonValues";
+import { SCREEN_WIDTH, fontsCommon, SCREEN_HEIGHT } from "./stylesCommonValues";
 
 export const styles = StyleSheet.create({
   container: {
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 10
   },
   modalHeaderText: {
-    fontSize: 14,
+    fontSize: fontsCommon.font14,
     color: "grey",
     textAlign: "center"
   },
@@ -47,10 +47,10 @@ export const styles = StyleSheet.create({
     borderColor: "white"
   },
   modalButtonStyle: {
-    height: 56
+    height: SCREEN_HEIGHT * 0.0839 //56
   },
   modalButtonTextStyle: {
-    fontSize: 18
+    fontSize: fontsCommon.font18
   },
   modalCancelButtonTextStyle: {
     fontWeight: "bold"

@@ -1,116 +1,93 @@
 import { StyleSheet } from "react-native";
-import { styleCommon, SCREEN_HEIGHT, SCREEN_WIDTH } from "./stylesCommonValues";
+import {
+  styleCommon,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  fontsCommon
+} from "./stylesCommonValues";
 
 export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+    //backgroundColor: "lightpink"
   },
-  inputOuterViewContainer: {
+  innerView: {
+    flex: 1
+  },
+  innerViewContainer: {
     justifyContent: "center",
-    alignItems: "center",
-    width: SCREEN_WIDTH * 0.8,
-    height: 200, //SCREEN_HEIGHT * 0.24,
-    backgroundColor: styleCommon.secondaryButtonColor,
-    borderRadius: 10,
-    borderBottomWidth: 0,
-    shadowColor: "grey",
-    shadowOffset: { width: 2, height: 4 },
-    shadowOpacity: 0.6,
-    shadowRadius: 2,
-    elevation: 5
+    alignItems: "center"
   },
-  buttonStyle: {
-    width: SCREEN_WIDTH * 0.75,
-    height: 65,
-    backgroundColor: styleCommon.secondaryButtonColor,
-    borderRadius: 10,
-    borderBottomWidth: 0,
-    shadowColor: "grey",
-    shadowOffset: { width: 2, height: 4 },
-    shadowOpacity: 0.6,
-    shadowRadius: 2,
-    elevation: 5,
-    marginHorizontal: 5,
-    marginVertical: 5
-  },
-  activeButtonStyle: {
-    width: SCREEN_WIDTH * 0.75,
-    height: 65,
-    backgroundColor: styleCommon.selectedButtonColor, //styleCommon.selectedButtonColor,
-    borderRadius: 10,
-    borderBottomWidth: 0,
-    shadowColor: "grey",
-    shadowOffset: { width: 2, height: 4 },
-    shadowOpacity: 0.6,
-    shadowRadius: 2,
-    elevation: 5,
-    marginHorizontal: 5,
-    marginVertical: 5
-  },
-  buttonTitle: {
+  contentContainer: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+    //backgroundColor: "yellow"
+  },
+  contentBoxStyle: {
+    padding: 10,
+    backgroundColor: styleCommon.secondaryButtonColor,
+    borderRadius: 10,
+    borderBottomWidth: 0,
+    shadowColor: "grey",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    elevation: 5,
+    marginHorizontal: 5,
+    marginVertical: 5
+  },
+  contentBoxHeaderStyle: {
+    width: SCREEN_WIDTH * 0.8, //300,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "space-between",
+    //backgroundColor: "red",
+    padding: 5
+  },
+  headerTextStyle: {
+    padding: 5,
     textAlign: "left",
     color: styleCommon.secondaryButtonTextColor,
-    fontSize: 15,
-    fontWeight: "300"
+    fontSize: fontsCommon.font15
   },
-  activeButtonTitle: {
-    flex: 1,
-    textAlign: "left",
-    color: styleCommon.textColor2,
-    fontWeight: "500"
-  },
-  buttonIcon: {
-    position: "absolute",
-    right: 10,
-    color: styleCommon.secondaryButtonTextColor
-  },
-  activeButtonIcon: {
-    position: "absolute",
-    right: 10,
+  headerIconStyle: {
+    paddingRight: 5,
     color: styleCommon.selectedButtonColor
   },
+  contentBoxMainStyle: {
+    width: SCREEN_WIDTH * 0.8,
+    marginTop: 10
+    //backgroundColor: "purple"
+  },
+  buttonGroupTextStyle: {
+    fontSize: fontsCommon.font14
+  },
+  buttonGroupSelectedTextStyle: {
+    fontSize: fontsCommon.font15,
+    fontWeight: "bold",
+    color: styleCommon.primaryButtonTextColor
+  },
   vegButtonGroup: {
-    width: "100%",
-    height: 60,
+    height: SCREEN_HEIGHT * 0.074, //60,
     borderRadius: 30,
     borderWidth: 0,
-    backgroundColor: styleCommon.disableColor // "#494b50"
+    backgroundColor: styleCommon.disableColor
   },
   veg: {
-    backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A",
+    backgroundColor: styleCommon.selectedButtonColor,
     borderRadius: 30,
     width: "110%",
     alignItems: "center",
     paddingHorizontal: 10
   },
   nonVeg: {
-    backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A",
+    backgroundColor: styleCommon.selectedButtonColor,
     borderRadius: 30,
     width: "110%",
     alignItems: "center",
     paddingHorizontal: 10
-  },
-  dropdownContainer: {
-    width: 300,
-    marginTop: 15
-  },
-  labelContainer: {
-    flexDirection: "row",
-    paddingBottom: 15
-  },
-  labelText: {
-    fontSize: 15,
-    color: styleCommon.textColor1
-  },
-  selectedOptionLabel: {
-    fontSize: 15,
-    color: styleCommon.textColor1
-  },
-  selectedButtonStyle: {
-    backgroundColor: styleCommon.selectedButtonColor,
-    alignItems: "center"
   }
 });

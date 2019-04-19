@@ -4,8 +4,8 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT } from "./stylesCommonValues";
 const commonStyles = StyleSheet.create({
   container: {
     flex: 1
-    // alignItems: "center",
-    //justifyContent: "center",
+    //alignItems: "center",
+    //justifyContent: "center"
   },
   bgImage: {
     //flex: 1,
@@ -17,6 +17,9 @@ const commonStyles = StyleSheet.create({
   subContainer: {
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT
+  },
+  scrollContainer: {
+    flex: 1
   },
   scrollContentContainer: {
     justifyContent: "center",

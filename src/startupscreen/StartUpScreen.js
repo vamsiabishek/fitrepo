@@ -4,7 +4,6 @@ import {
   View,
   ImageBackground,
   StatusBar,
-  Dimensions,
   ScrollView,
   UIManager
 } from "react-native";
@@ -22,14 +21,18 @@ import {
   source8,
   source9
 } from "../common/Common";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+import {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  btnGradientColorLeft,
+  btnGradientColorRight,
+  modalBtnGradientColorRight
+} from "../../assets/style/stylesCommonValues";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
-
+console.log(SCREEN_WIDTH, SCREEN_HEIGHT);
 export default class StartUpScreen extends Component {
   intervalId = 0;
   componentDidMount = () => {
@@ -52,8 +55,6 @@ export default class StartUpScreen extends Component {
     clearInterval(this.intervalId);
   };
   render() {
-    const gradientColorLeft = "#66ffff";
-    const gradientColorRight = "#FA8072";
     const { navigate } = this.props.navigation;
     return (
       <View>
@@ -125,7 +126,7 @@ export default class StartUpScreen extends Component {
                 title="SIGN UP"
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                  colors: [gradientColorLeft, gradientColorRight],
+                  colors: [btnGradientColorLeft, modalBtnGradientColorRight],
                   start: { x: 0, y: 0.5 },
                   end: { x: 1, y: 0.5 }
                 }}

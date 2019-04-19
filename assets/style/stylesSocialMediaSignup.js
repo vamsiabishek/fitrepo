@@ -6,9 +6,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-around",
     alignItems: "center"
+    //backgroundColor: "oldlace"
   },
   iconsWrapper: {
     flexDirection: "row"
+    //backgroundColor: "black"
   },
   iconContainer: {
     justifyContent: "center",
@@ -24,7 +26,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 10,
     borderRightWidth: 0,
-    borderColor: "#66ffff"
+    borderColor: styleCommon.primaryColor
   },
   overlapOne: {
     borderRightWidth: 0

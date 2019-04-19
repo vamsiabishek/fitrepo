@@ -6,16 +6,22 @@ import {
   StatusBar,
   LayoutAnimation
 } from "react-native";
-import { Input, Button, ButtonGroup } from "react-native-elements";
+import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
 import { f, auth, database } from "./../common/FirebaseConfig";
 import {
   BG_IMAGE,
   EMAIL_VERIFICATION,
-  PASSWORD_LENGTH_MINIMUM,
-  ICON_SIZE
+  PASSWORD_LENGTH_MINIMUM
 } from "../common/Common";
+import {
+  ICON_SIZE,
+  btnGradientColorLeft,
+  modalBtnGradientColorRight,
+  btnGradientColorRight
+} from "../../assets/style/stylesCommonValues";
+import LinearGradient from "react-native-linear-gradient";
 
 export default class LoginScreen1 extends Component {
   constructor(props) {
@@ -88,9 +94,9 @@ export default class LoginScreen1 extends Component {
       showLoading
     } = this.state;
     return (
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
+      <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
+        <View style={styles.container}>
+          <StatusBar barStyle="light-content" />
           <View style={styles.loginView}>
             <View style={styles.viewContainer}>
               <Text style={styles.logoText}>FITREPO</Text>
@@ -156,35 +162,42 @@ export default class LoginScreen1 extends Component {
                 }
               />
             </View>
-            <Button
-              title="LOGIN"
-              icon={
-                <Icon
-                  name="login"
-                  size={ICON_SIZE}
-                  style={styles.loginButtonIcon}
-                />
-              }
-              iconRight={true}
-              loading={showLoading}
-              containerStyle={styles.loginButtonContainer}
-              buttonStyle={styles.loginButtonStyle}
-              titleStyle={styles.loginButtonText}
-              onPress={() => this.submitLoginCredentials()}
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title="LOGIN"
+                icon={
+                  <Icon
+                    name="login"
+                    size={ICON_SIZE}
+                    style={styles.loginButtonIcon}
+                  />
+                }
+                iconRight={true}
+                loading={showLoading}
+                ViewComponent={LinearGradient}
+                linearGradientProps={{
+                  colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
+                  start: { x: 0, y: 0.5 },
+                  end: { x: 1, y: 0.5 }
+                }}
+                containerStyle={styles.loginButtonContainerStyle}
+                buttonStyle={styles.loginButtonStyle}
+                titleStyle={styles.loginButtonText}
+                onPress={() => this.submitLoginCredentials()}
+              />
+            </View>
             <View style={styles.signUpHereContainer}>
-              <Text style={styles.newUserText}>New here?</Text>
+              <Text style={styles.newUserText}>New here ?</Text>
               <Button
                 title="SIGN UP"
-                buttonStyle={styles.sighUpButtonStyle}
                 titleStyle={styles.signUpButtonTitle}
                 type="clear"
                 onPress={() => this.signUpButttonClicked()}
               />
             </View>
           </View>
-        </ImageBackground>
-      </View>
+        </View>
+      </ImageBackground>
     );
   }
 }

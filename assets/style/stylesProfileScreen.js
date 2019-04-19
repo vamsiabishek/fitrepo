@@ -1,27 +1,32 @@
-import { StyleSheet, Dimensions } from "react-native";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
+import { StyleSheet } from "react-native";
+import {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  styleCommon,
+  fontsCommon
+} from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: 20,
-    backgroundColor: "#28292B"
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT
+    //backgroundColor: styleCommon.primaryColor
   },
   innerContainer: {
     alignItems: "center",
     justifyContent: "center"
+    //backgroundColor: styleCommon.secondaryColor //"pink"
   },
   bannerHeaderContainer: {
-    justifyContent: "flex-start",
-    alignContent: "stretch",
-    height: 1
+    justifyContent: "space-between",
+    alignContent: "center"
   },
   bannerContainer: {
     width: SCREEN_WIDTH,
-    height: 220
+    height: SCREEN_HEIGHT * 0.27 //220
   },
   bannergradientStyle: {
     flex: 1,
@@ -29,68 +34,66 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   avatarContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 120
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center"
+    //backgroundColor: "firebrick"
   },
   avatarOverlayContainerStyle: {
-    backgroundColor: "#636568"
+    backgroundColor: styleCommon.unSelected
   },
   avatarImagePropsStyle: {
-    backgroundColor: "#636568"
+    backgroundColor: styleCommon.unSelected
   },
   profileBannerStyle: {
     justifyContent: "center",
     alignContent: "center",
-    marginTop: 230,
     paddingVertical: 5,
     paddingHorizontal: 10
     //backgroundColor: "green"
   },
   profileBannerTitleStyle: {
     textAlign: "center",
-    color: "white",
-    fontSize: 28,
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font28,
     fontWeight: "bold"
   },
   profileBannerSubTitleStyle: {
     textAlign: "center",
-    color: "white",
-    fontSize: 14
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font14
   },
   profileSubBannerStyle: {
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignContent: "space-between",
-    width: "100%",
-    height: 50,
     borderBottomWidth: 1,
-    borderBottomColor: "#28292B",
-    paddingHorizontal: 40,
+    borderBottomColor: "transparent",
     paddingVertical: 5
-    //backgroundColor: "red"
+    //backgroundColor: "indigo"
   },
   profileSubBannerBoxStyle: {
     justifyContent: "center",
     alignItems: "center"
   },
   profileBannerTextStyle: {
-    fontSize: 14,
-    color: "white"
+    fontSize: fontsCommon.font14,
+    color: styleCommon.textColor1
   },
   profileStarColor: {
     color: "#f8bf45"
   },
   profileButtonIconStyle: {
-    color: "#00DB8D"
+    color: styleCommon.textColor1
   },
   profileButtonStyle: {
-    backgroundColor: "transparent"
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+    //backgroundColor: "yellow"
   },
   scrollViewContainerStyle: {
-    flex: 1,
-    width: "100%",
-    marginTop: 10
+    flex: 1
     //backgroundColor: "orange"
   },
   scrollViewContentContainer: {
@@ -102,16 +105,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignContent: "space-between",
     margin: 3
-    //backgroundColor: "blue"
+    //backgroundColor: "hotpink"
   },
   boxesStyle: {
     width: "98%",
-    height: 170,
+    height: SCREEN_HEIGHT * 0.21,
     borderWidth: 1,
-    borderColor: "transparent", //#36373A",
+    borderColor: "transparent",
     marginVertical: 3,
     marginHorizontal: 3,
-    backgroundColor: "transparent" //"#36373A",
+    backgroundColor: styleCommon.secondaryColor //"transparent"
   },
   boxHeaderContainerView: {
     flexDirection: "row",
@@ -121,19 +124,19 @@ const styles = StyleSheet.create({
   },
   boxHeaderIconStyle: {
     paddingRight: 3,
-    color: "white"
+    color: styleCommon.textColor1
   },
   boxHeaderTextStyle: {
-    fontSize: 15,
+    fontSize: fontsCommon.font15,
     fontWeight: "bold",
-    color: "white"
+    color: styleCommon.textColor1
   },
   boxContentRowContainerStyle: {
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignContent: "stretch",
     padding: 3
-    //backgroundColor: "pink"
+    //backgroundColor: "yellow"
   },
   boxContentColumnContainerStyle: {
     justifyContent: "space-evenly",
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
   },
   boxContentIconStyle: {
     color: "#53C19A"
-    //backgroundColor: "pink"
+    //backgroundColor: "indigo"
   },
   boxContentTextStyle: {
     justifyContent: "flex-start",
@@ -159,27 +162,27 @@ const styles = StyleSheet.create({
   },
   boxTextStyle: {
     paddingBottom: 5,
-    fontSize: 13,
+    fontSize: fontsCommon.font13,
     fontWeight: "bold",
-    color: "white"
+    color: styleCommon.textColor1
   },
   avatarHumanOverlayStyle: {
     backgroundColor: "transparent"
   },
   progressCircleColor: {
-    color: "#00DB8D"
+    color: styleCommon.textColor1
   },
   progressCircleShadowColor: {
-    color: "#999"
+    color: styleCommon.unSelected
   },
   progressCircleBgColor: {
-    color: "#28292B"
+    color: styleCommon.secondaryColor //"#28292B"
   },
   progressBarBgColorComplete: {
-    color: "#00DB8D"
+    color: styleCommon.textColor1
   },
   progressBarBgColor: {
-    color: "#00DB8D"
+    color: styleCommon.textColor1
   }
 });
 

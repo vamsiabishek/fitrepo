@@ -1,17 +1,17 @@
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, ImageBackground } from "react-native";
 import {
   createSwitchNavigator,
   createAppContainer,
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
-
 import StartUpScreen from "./../startupscreen/StartUpScreen";
 import LoginScreen from "./../login/LoginScreen1";
 import Home from "./../home/Home";
 import CreateDiet from "../diet/CreateDiet";
 import Workouts from "./../workouts/Workouts";
+import Supplements from "./../supplements/Supplements";
 import Profile from "./../profile/Profile";
 import EditProfile from "./../profile/EditProfile";
 import EditProfileSubScreen1 from "./../profile/EditProfileSubScreen1";
@@ -24,7 +24,9 @@ import SignUpScreen3 from "../signup/SignUpScreen3";
 import Signup from "../signup/Signup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
-import { ICON_SIZE_NAV } from "../common/Common";
+import { ICON_SIZE_NAV } from "../../assets/style/stylesCommonValues";
+import LoadingAnimation from "../signup/LoadingAnimation";
+import NewDiet from "../diet/NewDiet";
 
 const SignUpStackNavigator = createStackNavigator(
   {
@@ -61,8 +63,14 @@ const ProfileStackNavigator = createStackNavigator(
 
 const DietStackNavigator = createStackNavigator(
   {
-    CreateDiet: {
-      screen: CreateDiet,
+    Diet: {
+      screen: Diet,
+      navigationOptions: {
+        header: null
+      }
+    },
+    NewDiet: {
+      screen: NewDiet,
       navigationOptions: {
         header: null
       }
@@ -95,15 +103,9 @@ const DietStackNavigator = createStackNavigator(
           )
         };
       }
-    },
-    Diet: {
-      screen: Diet,
-      navigationOptions: {
-        header: null
-      }
     }
   },
-  { initialRouteName: "MyDiet" }
+  { initialRouteName: "Diet" }
 );
 
 const AppBottomTabNavigator = createBottomTabNavigator(
@@ -142,13 +144,13 @@ const AppBottomTabNavigator = createBottomTabNavigator(
         }
       }
     },
-    Workouts: {
-      screen: Workouts,
+    Supplements: {
+      screen: Supplements,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => {
           return (
             <Icon
-              name="dumbbell"
+              name="medical-bag" //"dumbbell"
               size={ICON_SIZE_NAV}
               style={{
                 color: tintColor,
@@ -178,23 +180,16 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Diet",
+    initialRouteName: "Home",
     defaultNavigationOptions: {
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,
-        //activeBackgroundColor: styles.bottomNavBar.backgroundColor, // "transparent",
         inactiveTintColor: styles.bottomNavBar.tintColor,
-        //inactiveBackgroundColor: styles.bottomNavBar.backgroundColor, // "transparent",
         labelStyle: styles.labelStyle,
         style: {
-          backgroundColor: styles.bottomNavBar.backgroundColor, //"transparent",
-          opacity: 0.8,
+          backgroundColor: styles.bottomNavBar.backgroundColor,
           borderTopWidth: 1,
-          borderTopColor: "transparent",
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0
+          borderTopColor: styles.bottomNavBar.backgroundColor
         }
       }
     }
@@ -221,7 +216,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "HomeScreen"
+    initialRouteName: "StartUp"
   }
 );
 
