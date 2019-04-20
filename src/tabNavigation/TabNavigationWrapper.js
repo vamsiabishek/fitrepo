@@ -105,7 +105,7 @@ const DietStackNavigator = createStackNavigator(
       }
     }
   },
-  { initialRouteName: "Diet" }
+  { initialRouteName: "MyDiet" }
 );
 
 const AppBottomTabNavigator = createBottomTabNavigator(
@@ -180,7 +180,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Diet",
     defaultNavigationOptions: {
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,
@@ -216,7 +216,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "StartUp"
+    initialRouteName: "SignUp"
   }
 );
 

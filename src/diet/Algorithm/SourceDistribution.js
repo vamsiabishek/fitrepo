@@ -8,6 +8,14 @@ import {
   calculateCalFromProteinOrCarbs,
   calculateCalFromFats
 } from "../../common/Common";
+import {
+  getStandardSources,
+  getSourcesByIdListAndType
+} from "../../common/SourceUtil";
+import {
+  createRefBySourceType,
+  createKeyAndValuesFromResult
+} from "../../common/Util";
 
 export const sourceQuantities = ({
   selectedSources,
@@ -27,9 +35,9 @@ export const sourceQuantities = ({
     totalSourceInGramsForRD = Math.round(calFromSourceForRD / 9);
   }
 
-  const standardSourcesForBeginner = selectedSources.filter(
+  /*const standardSourcesForBeginner = selectedSources.filter(
     source => source.value.isStandardForBeginner
-  );
+  );*/
   let sourceQuantityDistribution = [];
   let calFromSources = {
     calFromProtein: 0,
@@ -42,7 +50,7 @@ export const sourceQuantities = ({
     calFromFatsForRD: 0
   };
   const { sources, selectedCategory } = getSelectedCategoryAndSource({
-    standardSourcesForBeginner,
+    selectedSources,
     isProtein,
     isCarb,
     isFat
@@ -91,7 +99,7 @@ export const sourceQuantities = ({
 };
 
 const getSelectedCategoryAndSource = ({
-  standardSourcesForBeginner,
+  selectedSources,
   isProtein,
   isCarb,
   isFat
@@ -103,7 +111,7 @@ const getSelectedCategoryAndSource = ({
   let highSources = [];
   let averageSources = [];
   let lowSources = [];
-  standardSourcesForBeginner.map(source => {
+  selectedSources.map(source => {
     const { minValue, maxValue, averageValue } = getSourceCatgeroryValues({
       isProtein,
       isCarb,
@@ -257,23 +265,32 @@ export const manageSources = async ({
     standardSourcesForProtein: proteinSources,
     standardSourcesForCarbs: carbSources,
     standardSourcesForFats: fatSources
-  } = await standardSourceSelection(
+  } = await standardSourceSelection({
     selectedProteinSources,
     selectedFatSources,
     selectedCarbSources
-  );
+  });
 
   console.log(proteinSources, carbSources, fatSources);
 
   let extraProteinSourcesRequired = false;
   let extraCarbSourcesRequired = false;
   let extraFatSourcesRequired = false;
-  if (selectedProteinSources.length > 0 && selectedProteinSources.length <= 2)
-    extraProteinSourcesRequired = true;
-  if (selectedCarbSources.length > 0 && selectedCarbSources.length <= 2)
-    extraCarbSourcesRequired = true;
-  if (selectedFatSources.length > 0 && selectedFatSources.length < 2)
-    extraFatSourcesRequired = true;
+  if (selectedProteinSources.length > 0) {
+    proteinSources = getSourcesByIdListAndType(
+      selectedProteinSources,
+      "protein"
+    );
+    if (selectedProteinSources.length <= 2) extraProteinSourcesRequired = true;
+  }
+  if (selectedCarbSources.length > 0) {
+    carbSources = getSourcesByIdListAndType(selectedCarbSources, "carb");
+    if (selectedCarbSources.length <= 2) extraCarbSourcesRequired = true;
+  }
+  if (selectedFatSources.length > 0) {
+    fatSources = getSourcesByIdListAndType(selectedFatSources, "fat");
+    if (selectedFatSources.length < 2) extraFatSourcesRequired = true;
+  }
 
   const {
     extraProteinSources,
@@ -347,14 +364,39 @@ getExtraSources = async ({
   extraCarbSourcesRequired,
   extraFatSourcesRequired
 }) => {
-  let extraProteinSources = [];
-  let extraCarbSources = [];
-  let extraFatSources = [];
   return {
-    extraProteinSources,
-    extraCarbSources,
-    extraFatSources
+    extraProteinSources: addExtraSources(
+      extraProteinSourcesRequired,
+      selectedProteinSources,
+      getStandardSources("protein")
+    ),
+    extraCarbSources: addExtraSources(
+      extraCarbSourcesRequired,
+      selectedCarbSources,
+      getStandardSources("carb")
+    ),
+    extraFatSources: addExtraSources(
+      extraFatSourcesRequired,
+      selectedFatSources,
+      getStandardSources("fat")
+    )
   };
+};
+
+addExtraSources = (extraRequired, currentSources, standardSources) => {
+  const extraSources = [];
+  if (extraRequired && currentSources.length > 0) {
+    const numberOfExtra = 4 - currentSources.length;
+    standardSources.map(source => {
+      if (extraSources.length < numberOfExtra) {
+        const extraSource = currentSources.find(
+          currSource => currSource.key === source.key
+        );
+        if (!extraSource) extraSources.push(source);
+      }
+    });
+  }
+  return extraSources;
 };
 
 const getStandardSourcesForBeginner = async (
@@ -385,78 +427,100 @@ const getStandardSourcesForBeginner = async (
 
 getStandardProteinSourcesForBeginners = async isProteinRequired => {
   let standardProteinSources = [];
-  if (isProteinRequired)
-    await database
-      .ref("protein-sources")
-      .orderByChild("isStandardForBeginner")
-      .equalTo(true)
-      .once("value")
-      .then(snapshot => {
-        if (snapshot.val()) {
-          const result = snapshot.val();
-          standardProteinSources = Object.keys(result).map(key => ({
-            key,
-            value: result[key]
-          }));
-        }
-      })
-      .catch(error => {
-        console.log(
-          "error while fetching standard protein sources in DietAlgorithm:",
-          error
-        );
-      });
+  if (isProteinRequired) {
+    standardProteinSources = getStandardSources("protein");
+    if (!standardProteinSources)
+      await database
+        .ref("protein-sources")
+        .orderByChild("isStandardForBeginner")
+        .equalTo(true)
+        .once("value")
+        .then(snapshot => {
+          if (snapshot.val()) {
+            const result = snapshot.val();
+            standardProteinSources = createKeyAndValuesFromResult(result);
+          }
+        })
+        .catch(error => {
+          console.log(
+            "error while fetching standard protein sources in DietAlgorithm:",
+            error
+          );
+        });
+  }
   return standardProteinSources;
 };
 
 getStandardCarbSourcesForBeginners = async isCarbsRequired => {
   let standardCarbSources = [];
-  if (isCarbsRequired)
-    await database
-      .ref("carb-sources")
-      .orderByChild("isStandardForBeginner")
-      .equalTo(true)
-      .once("value")
-      .then(snapshot => {
-        if (snapshot.val()) {
-          const result = snapshot.val();
-          standardCarbSources = Object.keys(result).map(key => ({
-            key,
-            value: result[key]
-          }));
-        }
-      })
-      .catch(error => {
-        console.log(
-          "error while fetching standard carb sources in DietAlgorithm:",
-          error
-        );
-      });
+  if (isCarbsRequired) {
+    standardCarbSources = getStandardSources("carb");
+    if (!standardCarbSources)
+      await database
+        .ref("carb-sources")
+        .orderByChild("isStandardForBeginner")
+        .equalTo(true)
+        .once("value")
+        .then(snapshot => {
+          if (snapshot.val()) {
+            const result = snapshot.val();
+            standardCarbSources = createKeyAndValuesFromResult(result);
+          }
+        })
+        .catch(error => {
+          console.log(
+            "error while fetching standard carb sources in DietAlgorithm:",
+            error
+          );
+        });
+  }
   return standardCarbSources;
 };
 
 getStandardFatSourcesForBeginners = async isFatsRequired => {
   let standardFatSources = [];
-  if (isFatsRequired)
-    await database
-      .ref("fat-sources")
-      .orderByChild("isStandardForBeginner")
-      .equalTo(true)
-      .once("value")
-      .then(snapshot => {
-        if (snapshot.val()) {
-          const result = snapshot.val();
-          standardFatSources = Object.keys(result).map(key => ({
-            key,
-            value: result[key]
-          }));
-        }
-      })
-      .catch(error => {
-        console.log(
-          "error while fetching standard fat sources in DietAlgorithm:",
-          error
-        );
-      });
+  if (isFatsRequired) {
+    standardFatSources = getStandardSources("fat");
+    if (!standardFatSources)
+      await database
+        .ref("fat-sources")
+        .orderByChild("isStandardForBeginner")
+        .equalTo(true)
+        .once("value")
+        .then(snapshot => {
+          if (snapshot.val()) {
+            const result = snapshot.val();
+            standardFatSources = createKeyAndValuesFromResult(result);
+          }
+        })
+        .catch(error => {
+          console.log(
+            "error while fetching standard fat sources in DietAlgorithm:",
+            error
+          );
+        });
+  }
   return standardFatSources;
+};
+
+getSourceById = async (id, sourceType) => {
+  let source = {};
+  let sourceRef = createRefBySourceType(sourceType);
+  await database
+    .ref(sourceRef)
+    .child(id)
+    .once("value")
+    .then(snapshot => {
+      if (snapshot.val()) {
+        const result = snapshot.val();
+        source = createKeyAndValuesFromResult(result);
+      }
+    })
+    .catch(error => {
+      console.log(
+        "error while fetching standard fat sources in DietAlgorithm:",
+        error
+      );
+    });
+  return source;
 };

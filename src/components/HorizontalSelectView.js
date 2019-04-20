@@ -50,7 +50,6 @@ export default class HorizontalComponent extends React.Component {
                 height: iconDataStyleHW
               };
             }
-            console.log(iconStyle);
             if (item === selectedItem) {
               iconStyle = {
                 ...iconStyle,

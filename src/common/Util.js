@@ -51,3 +51,11 @@ export const createKeyAndNameFromResult = result => {
     };
   });
 };
+
+export const createRefBySourceType = type => {
+  let sourceRef = "";
+  if (type === "protein") sourceRef = "protein-sources";
+  else if (type === "carb") sourceRef = "carb-sources";
+  else if (type === "fat") sourceRef = "fat-sources";
+  return sourceRef
+}

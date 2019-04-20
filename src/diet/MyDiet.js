@@ -40,8 +40,8 @@ export default class MyDiet extends Component {
   componentDidMount = async () => {
     const { navigation } = this.props;
     this.setState({ isLoading: true });
-    //const dietId = navigation.getParam("dietId");
-    const dietId = "-Lclf4s_EpD6d4QkAB1j";
+    const dietId = navigation.getParam("dietId");
+    //const dietId = "-Lcun_Bc-uGbmYUoSFn2";
     console.log("fetching details for the diet with Id:", dietId);
     const { diet, meals } = await this.fetchDietAndMeals(dietId);
     console.log("diet and meals:", diet, meals);

@@ -54,29 +54,34 @@ export default class Signup extends Component {
       proteinSources: [
         {
           name: "Chicken breast",
-          uri: require("../../assets/images/sources/chicken-breast.png")
+          uri: require("../../assets/images/sources/chicken-breast.png"),
+          key: "chicken-breast"
         },
         {
           name: "Salmon",
-          uri: require("../../assets/images/sources/salmon.png")
+          uri: require("../../assets/images/sources/salmon.png"),
+          key: "salmon-fish"
         },
-        { name: "Eggs", uri: require("../../assets/images/sources/eggs.png") },
+        { name: "Eggs", uri: require("../../assets/images/sources/eggs.png"), key: "egg-white" },
         {
           name: "Panner",
-          uri: require("../../assets/images/sources/panner.png")
+          uri: require("../../assets/images/sources/panner.png"),
+          key: "panner"
         },
-        { name: "Tofu", uri: require("../../assets/images/sources/tofu.png") },
-        { name: "Rajma", uri: require("../../assets/images/sources/rajma.png") }
+        { name: "Tofu", uri: require("../../assets/images/sources/tofu.png"), key: "tofu" },
+        { name: "Rajma", uri: require("../../assets/images/sources/rajma.png"), key: "rajma" }
       ],
       carbSources: [
-        { name: "White rice" },
-        { name: "Chapati" },
-        { name: "Bread" }
+        { name: "White rice", key: "white-rice" },
+        { name: "Chapati", key: "chapathi" },
+        { name: "Wheat bread", key: "wheat-bread" },
+        { name: "Oats", key: "oats" }
       ],
       fatSources: [
-        { name: "Chia seeds" },
-        { name: "Flax seeds" },
-        { name: "Almonds" }
+        { name: "Chia seeds", key: "chia-seeds" },
+        { name: "Flax seeds", key: "flax-seeds" },
+        { name: "Almonds", key: "almonds" },
+        { name: "Walnuts", key: "walnuts" }
       ],
       selectedProteinSources: [],
       selectedCarbSources: [],
@@ -191,7 +196,7 @@ export default class Signup extends Component {
   };
   onBack = currentScreen => {
     const { navigate } = this.props.navigation;
-    console.log(currentScreen);
+    //console.log(currentScreen);
     if (currentScreen !== 1) {
       const scrollValue = SCREEN_WIDTH * (currentScreen - 1) - SCREEN_WIDTH;
       this.scrollRef.scrollTo({ x: scrollValue });
@@ -280,7 +285,7 @@ export default class Signup extends Component {
   onSourceToggle = (index, selected) => {
     const { sources, selectedSources, modalContains } = this.state;
 
-    if (selectedSources.length < 4) {
+    if (selectedSources.length < 4 || sources[index].selected) {
       const selectedSource = sources[index];
       sources[index].selected = !selected;
       if (!selected) selectedSources.push(this.state.sources[index]);
@@ -338,7 +343,7 @@ export default class Signup extends Component {
     this.setState({ showModal: false });
   };
   onConfirm = () => {
-    console.log("selectedSources:", this.state.selectedSources);
+    //console.log("selectedSources:", this.state.selectedSources);
     this.setState({ showModal: false });
   };
   filterSources = searchTerm => {
@@ -360,7 +365,7 @@ export default class Signup extends Component {
         }
       });
 
-    console.log("filteredSources: ", filteredSources);
+    //console.log("filteredSources: ", filteredSources);
 
     this.setState({ searchTerm, filteredSources });
   };
@@ -538,7 +543,7 @@ export default class Signup extends Component {
       .child(user.uid)
       .set(user)
       .then(() => {
-        this.setState({ isLoading: false });
+        //this.setState({ isLoading: false });
       })
       .catch(error => {
         this.setState({ isLoading: false });
@@ -546,7 +551,7 @@ export default class Signup extends Component {
   };
 
   createDietAndMeals = async () => {
-    this.setState({ isLoading: true });
+    //this.setState({ isLoading: true });
     const {
       selectedProteinSources,
       selectedFatSources,
@@ -569,9 +574,10 @@ export default class Signup extends Component {
       isVeg: false,
       uid
     };
+    //console.log('dietInfo:', dietInfo)
     const dietId = await createDiet(dietInfo);
     this.setState({ isLoading: false });
-   // this.props.navigation.navigate("MyDiet", { dietId });
+    this.props.navigation.navigate("MyDiet", { dietId });
   };
 
   render() {
