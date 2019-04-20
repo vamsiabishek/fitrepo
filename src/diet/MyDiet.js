@@ -18,7 +18,7 @@ import {
 } from "../../assets/style/stylesCommonValues";
 import { database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
-import LoadingAnimation from "../signup/LoadingAnimation";
+import LoadingAnimation from "../components/LoadingAnimation";
 
 export default class MyDiet extends Component {
   constructor(props) {

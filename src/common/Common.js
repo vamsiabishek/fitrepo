@@ -1,3 +1,8 @@
+import {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH
+} from "../../assets/style/stylesCommonValues";
+
 export const LEVELS_OPTIONS = [
   { label: "Beginner", value: "Beginner" },
   { label: "Intermediate", value: "Intermediate" },
@@ -105,7 +110,6 @@ export const ADVANCED_DESC =
   "Exercises 5 to 6 times a week, highly dedicated towards fitness.";
 export const EMAIL_VERIFICATION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const PASSWORD_LENGTH_MINIMUM = 8;
-export const AVATAR_SIZE = 100;
 export const MIN_DATE = new Date("01/01/1960");
 export const MAX_DATE = new Date();
 export const BUTTON_SIZE = 9;
@@ -117,16 +121,17 @@ export const MAX_WEIGHT = 110;
 export const MIN_HEIGHT = 140;
 export const MAX_HEIGHT = 199;
 let WEIGHT_RANGE = [];
-for (let x = 0; x < MAX_WEIGHT; x++) {
-  WEIGHT_RANGE.push(MIN_WEIGHT + x * 0.5);
+for (let x = MIN_WEIGHT; x <= MAX_WEIGHT; x++) {
+  WEIGHT_RANGE.push(x);
+  WEIGHT_RANGE.push(x + 0.5);
 }
 export const WEIGHT_RANGE_FINAL = [...WEIGHT_RANGE];
 let HEIGHT_RANGE = [];
-for (let x = 0; x < MAX_HEIGHT; x++) {
-  HEIGHT_RANGE.push(MIN_HEIGHT + x);
+for (let x = MIN_HEIGHT; x <= MAX_HEIGHT; x++) {
+  HEIGHT_RANGE.push(x);
 }
 export const HEIGHT_RANGE_FINAL = [...HEIGHT_RANGE];
 export const STAR_RATING_MAX = 5;
-export const PROGRESS_BAR_WIDTH = 300;
-export const PROGRESS_CIRCLE_RADIUS = 65;
-export const PROGRESS_CIRCLE_BORDER_WIDTH = 8;
+export const PROGRESS_BAR_WIDTH = SCREEN_WIDTH * 0.8;
+export const PROGRESS_CIRCLE_RADIUS = SCREEN_HEIGHT * 0.08;
+export const PROGRESS_CIRCLE_BORDER_WIDTH = 6;

@@ -21,7 +21,6 @@ import {
   convertLevelToStarRating,
   convertLevelToLevelColor,
   GRADIENT_COLORS_ARRAY,
-  AVATAR_SIZE,
   STAR_RATING_MAX,
   PROGRESS_BAR_WIDTH,
   PROGRESS_CIRCLE_RADIUS,
@@ -32,7 +31,8 @@ import { commonStyles } from "../../assets/style/stylesCommon";
 import {
   styleCommon,
   ICON_SIZE,
-  ICON_SIZE_MED
+  ICON_SIZE_MED,
+  AVATAR_SIZE
 } from "../../assets/style/stylesCommonValues";
 
 // Enable LayoutAnimation for Android Devices
@@ -217,7 +217,7 @@ export default class Profile extends Component {
                   </View>
                   <View style={styles.boxContentRowContainerStyle}>
                     <ProgressCircle
-                      percent={10}
+                      percent={40}
                       radius={PROGRESS_CIRCLE_RADIUS}
                       borderWidth={PROGRESS_CIRCLE_BORDER_WIDTH}
                       color={styles.progressCircleColor.color}
