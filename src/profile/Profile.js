@@ -26,7 +26,8 @@ import {
   PROGRESS_BAR_WIDTH,
   PROGRESS_CIRCLE_RADIUS,
   PROGRESS_CIRCLE_BORDER_WIDTH,
-  GRADIENT_BG_IMAGE
+  GRADIENT_BG_IMAGE,
+  GRADIENT_BG_BANNER_IMAGE
 } from "../common/Common";
 import { commonStyles } from "../../assets/style/stylesCommon";
 import {
@@ -130,7 +131,7 @@ export default class Profile extends Component {
             <View style={styles.bannerHeaderContainer}>
               <View style={styles.bannerContainer}>
                 <ImageBackground
-                  source={GRADIENT_BG_IMAGE}
+                  source={GRADIENT_BG_BANNER_IMAGE}
                   style={styles.bannerContainer}
                   /*start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}

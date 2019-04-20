@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "space-between",
-    margin: 3
+    margin: 3,
+    //backgroundColor: "rgba(102,255,255,.2)"
     //backgroundColor: "hotpink"
   },
   boxesStyle: {
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     marginVertical: 3,
     marginHorizontal: 3,
-    backgroundColor: styleCommon.secondaryColor //"transparent"
+   // backgroundColor: styleCommon.secondaryColor //"transparent"
   },
   boxHeaderContainerView: {
     flexDirection: "row",

@@ -86,6 +86,7 @@ export const LEVEL_COLORS = {
 };
 export const BG_IMAGE = require("../../assets/images/barbell.jpg");
 export const GRADIENT_BG_IMAGE = require("../../assets/images/Gradient_Image.png");
+export const GRADIENT_BG_BANNER_IMAGE = require("../../assets/images/gradient_image_banner.png");
 export const NON_VEG_ICON = require("../../assets/images/non-veg.png");
 export const VEG_ICON = require("../../assets/images/veg.png");
 export const MALE_BEGINNER_ICON = require("../../assets/images/beginner_1.png");
