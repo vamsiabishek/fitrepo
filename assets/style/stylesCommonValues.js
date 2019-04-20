@@ -59,6 +59,7 @@ export const ICON_BACK_SIZE = fontsCommon.font32;
 export const ICON_SIZE_EXTRA_LARGE = fontsCommon.font35;
 export const ICON_SELECT_SIGNUP_OPTION = fontsCommon.font50;
 export const ICON_SELECT_GENDER = fontsCommon.font80;
+export const AVATAR_SIZE = SCREEN_HEIGHT * 0.12;
 export const BUTTON_HEIGHT_GENERAL = SCREEN_HEIGHT * 0.06;
 
 export const styleCommon = {
