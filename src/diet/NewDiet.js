@@ -94,11 +94,16 @@ export default class NewDiet extends Component {
       isLoadingDiet: false
     };
   }
+  gotToNext = () => {
+    setTimeout(() => this.onNext(this.state.screen), 400);
+  };
   setGoal = goal => {
-    this.setState({ goal, navButtonActive: true });
+    this.setState({ goal });
+    this.gotToNext();
   };
   setFitnessLevel = fitnessLevel => {
-    this.setState({ fitnessLevel, navButtonActive: true });
+    this.setState({ fitnessLevel });
+    this.gotToNext();
   };
   setDob = (dob, age) => {
     const { weight, height } = this.state;
@@ -544,12 +549,6 @@ export default class NewDiet extends Component {
                     onBack={this.onBack}
                   />
                   <Goal goal={goal} setGoal={this.setGoal} />
-                  <NavNextButton
-                    isActive={navButtonActive}
-                    screen={screen}
-                    onNext={this.onNext}
-                    hasBottomBar={true}
-                  />
                 </View>
               </View>
               <View style={commonStyles.subContainer}>
@@ -566,12 +565,6 @@ export default class NewDiet extends Component {
                     levels={[1, 2, 3]}
                     alterDimensions={true}
                     changeFactor={-20}
-                  />
-                  <NavNextButton
-                    isActive={navButtonActive}
-                    screen={screen}
-                    onNext={this.onNext}
-                    hasBottomBar={true}
                   />
                 </View>
               </View>

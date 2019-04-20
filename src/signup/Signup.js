@@ -62,14 +62,26 @@ export default class Signup extends Component {
           uri: require("../../assets/images/sources/salmon.png"),
           key: "salmon-fish"
         },
-        { name: "Eggs", uri: require("../../assets/images/sources/eggs.png"), key: "egg-white" },
+        {
+          name: "Eggs",
+          uri: require("../../assets/images/sources/eggs.png"),
+          key: "egg-white"
+        },
         {
           name: "Panner",
           uri: require("../../assets/images/sources/panner.png"),
           key: "panner"
         },
-        { name: "Tofu", uri: require("../../assets/images/sources/tofu.png"), key: "tofu" },
-        { name: "Rajma", uri: require("../../assets/images/sources/rajma.png"), key: "rajma" }
+        {
+          name: "Tofu",
+          uri: require("../../assets/images/sources/tofu.png"),
+          key: "tofu"
+        },
+        {
+          name: "Rajma",
+          uri: require("../../assets/images/sources/rajma.png"),
+          key: "rajma"
+        }
       ],
       carbSources: [
         { name: "White rice", key: "white-rice" },
@@ -105,14 +117,22 @@ export default class Signup extends Component {
       isLoggedIn: false
     };
   }
+
+  gotToNext = () => {
+    setTimeout(() => this.onNext(this.state.screen), 400);
+  };
+
   setGoal = goal => {
-    this.setState({ goal, navButtonActive: true });
+    this.setState({ goal });
+    this.gotToNext();
   };
   setGender = gender => {
-    this.setState({ gender, navButtonActive: true });
+    this.setState({ gender });
+    this.gotToNext();
   };
   setFitnessLevel = fitnessLevel => {
-    this.setState({ fitnessLevel, navButtonActive: true });
+    this.setState({ fitnessLevel });
+    this.gotToNext();
   };
   setFBUser = user => {
     this.setState({ user });
@@ -674,11 +694,6 @@ export default class Signup extends Component {
                     onBack={this.onBack}
                   />
                   <Goal goal={goal} setGoal={this.setGoal} />
-                  <NavNextButton
-                    isActive={navButtonActive}
-                    screen={screen}
-                    onNext={this.onNext}
-                  />
                 </View>
               </View>
               <View style={commonStyles.subContainer}>
@@ -689,11 +704,6 @@ export default class Signup extends Component {
                     onBack={this.onBack}
                   />
                   <Gender gender={gender} setGender={this.setGender} />
-                  <NavNextButton
-                    isActive={navButtonActive}
-                    screen={screen}
-                    onNext={this.onNext}
-                  />
                 </View>
               </View>
               <View style={commonStyles.subContainer}>
@@ -708,11 +718,6 @@ export default class Signup extends Component {
                     selectedLevel={fitnessLevel}
                     setFitnessLevel={this.setFitnessLevel}
                     levels={[1, 2, 3]}
-                  />
-                  <NavNextButton
-                    isActive={navButtonActive}
-                    screen={screen}
-                    onNext={this.onNext}
                   />
                 </View>
               </View>
