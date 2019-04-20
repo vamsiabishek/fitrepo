@@ -18,7 +18,7 @@ import PersonalDetails from "../signup/PersonalDetails";
 import PreferenceDetails from "../signup/PreferenceDetails";
 import FitnessLevel from "../signup/FitnessLevel";
 import FoodSources from "../signup/FoodSources";
-import LoadingAnimation from "../signup/LoadingAnimation";
+import LoadingAnimation from "../components/LoadingAnimation";
 import { createDiet } from "../signup/UpdateDiet";
 import { styles } from "../../assets/style/stylesSignup";
 import {

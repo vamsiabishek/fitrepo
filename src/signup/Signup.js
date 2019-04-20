@@ -22,7 +22,7 @@ import PreferenceDetails from "./PreferenceDetails";
 import FitnessLevel from "./FitnessLevel";
 import FoodSources from "./FoodSources";
 import SocialMediaSignup from "./SocialMediaSignup";
-import LoadingAnimation from "./LoadingAnimation";
+import LoadingAnimation from "../components/LoadingAnimation";
 import { styles } from "../../assets/style/stylesSignup";
 import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
 import { auth, database } from "../common/FirebaseConfig";
@@ -101,7 +101,8 @@ export default class Signup extends Component {
       passwordValid: true,
       confirmationPasswordValid: true,
       user: {},
-      isLoading: false
+      isLoading: false,
+      isLoggedIn: false
     };
   }
   setGoal = goal => {
@@ -189,15 +190,31 @@ export default class Signup extends Component {
     this.setState({ targetWeight, program, navButtonActive: true });
   };
 
-  scrollToNextScreen = currentScreen => {
-    const scrollValue = SCREEN_WIDTH * currentScreen;
-    this.scrollRef.scrollTo({ x: scrollValue });
-    this.setState({ screen: this.state.screen + 1, navButtonActive: false });
+  scrollToNextScreen = (currentScreen, isLoggedIn) => {
+    if (isLoggedIn && currentScreen === 3) {
+      const scrollValue = SCREEN_WIDTH * (currentScreen + 1);
+      this.scrollRef.scrollTo({ x: scrollValue });
+      this.setState({ screen: this.state.screen + 2, navButtonActive: false });
+    } else {
+      const scrollValue = SCREEN_WIDTH * currentScreen;
+      this.scrollRef.scrollTo({ x: scrollValue });
+      this.setState({ screen: this.state.screen + 1, navButtonActive: false });
+    }
   };
+
   onBack = currentScreen => {
     const { navigate } = this.props.navigation;
-    //console.log(currentScreen);
-    if (currentScreen !== 1) {
+    const { email } = this.state;
+    console.log(currentScreen);
+    if (currentScreen === 5) {
+      const scrollValue = SCREEN_WIDTH * (currentScreen - 2) - SCREEN_WIDTH;
+      this.scrollRef.scrollTo({ x: scrollValue });
+      this.setState({
+        screen: this.state.screen - 2,
+        navButtonActive: true,
+        isLoggedIn: true
+      });
+    } else if (currentScreen !== 1) {
       const scrollValue = SCREEN_WIDTH * (currentScreen - 1) - SCREEN_WIDTH;
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen - 1, navButtonActive: true });
@@ -447,7 +464,7 @@ export default class Signup extends Component {
 
   createNewUser = async () => {
     const { email, password } = this.state;
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, isLoggedIn: true });
     try {
       await auth
         .createUserWithEmailAndPassword(email, password)
@@ -476,7 +493,8 @@ export default class Signup extends Component {
       weight,
       height,
       foodPreference,
-      numberOfMeals
+      numberOfMeals,
+      isLoggedIn
     } = this.state;
     let isScrollable = false;
     if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
@@ -509,7 +527,7 @@ export default class Signup extends Component {
       await this.createDietAndMeals();
     }
     if (isScrollable && this.scrollRef) {
-      this.scrollToNextScreen(currentScreen);
+      this.scrollToNextScreen(currentScreen, isLoggedIn);
     }
   };
 
@@ -601,6 +619,7 @@ export default class Signup extends Component {
       passwordValid,
       confirmationPasswordValid,
       isLoading,
+      isLoggedIn,
       dob,
       weight,
       height,
@@ -635,8 +654,9 @@ export default class Signup extends Component {
           source={GRADIENT_BG_IMAGE}
           style={commonStyles.bgImage}
         >
-          {isLoading && <LoadingAnimation />}
-          {!isLoading && (
+          {isLoading ? (
+            <LoadingAnimation />
+          ) : (
             <ScrollView
               horizontal="true"
               scrollEnabled={false}

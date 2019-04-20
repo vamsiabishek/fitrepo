@@ -4,13 +4,16 @@ import { SocialIcon } from "react-native-elements";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { f } from "../common/FirebaseConfig";
 import EmailOrMobileSignup from "./EmailOrMobileSignup";
+import Loading from "../components/Loading";
 import { styles } from "../../assets/style/stylesSocialMediaSignup";
 import { ICON_SELECT_SIGNUP_OPTION } from "../../assets/style/stylesCommonValues";
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false
+    };
     this.animatedFBValue = new Animated.Value(1);
     this.animatedGValue = new Animated.Value(1);
     this.animatedTValue = new Animated.Value(1);
@@ -42,6 +45,7 @@ export default class SocialMediaSignup extends Component {
     }
   };
   onPressLogin = () => {
+    this.setState({ isLoading: true });
     LoginManager.logInWithReadPermissions([
       "public_profile",
       "user_birthday",
@@ -58,8 +62,10 @@ export default class SocialMediaSignup extends Component {
       });
   };
   getFBTokenFromResponse = result => {
-    if (result.isCancelled)
+    if (result.isCancelled) {
+      this.setState({ isLoading: false });
       return Promise.reject(new Error("The user cancelled the request"));
+    }
     console.log(
       "FB login success with permission: ",
       result.grantedPermissions.toString()
@@ -92,6 +98,7 @@ export default class SocialMediaSignup extends Component {
   };
   render() {
     const { signupObject } = this.props;
+    const { isLoading } = this.state;
     const animatedFBStyle = {
       transform: [{ scale: this.animatedFBValue }]
     };
@@ -103,57 +110,82 @@ export default class SocialMediaSignup extends Component {
     };
     return (
       <View style={styles.mainContent}>
-        <View style={styles.iconsWrapper}>
-          <Animated.View
-            style={[styles.iconContainer, styles.overlapOne, animatedFBStyle]}
-          >
-            <TouchableOpacity
-              onPressIn={() => this.handlePressIn("FB")}
-              onPressOut={() => this.handlePressOut("FB")}
-            >
-              <SocialIcon
-                iconSize={ICON_SELECT_SIGNUP_OPTION}
-                style={styles.iconStyle}
-                type="facebook"
-              />
-            </TouchableOpacity>
-          </Animated.View>
-          <Animated.View
-            style={[styles.iconContainer, styles.overlapTwo, animatedGStyle]}
-          >
-            <TouchableOpacity
-              onPressIn={() => this.handlePressIn("G")}
-              onPressOut={() => this.handlePressOut("G")}
-            >
-              <SocialIcon
-                iconSize={ICON_SELECT_SIGNUP_OPTION}
-                style={styles.iconStyle}
-                type="google-plus-official"
-              />
-            </TouchableOpacity>
-          </Animated.View>
-          <Animated.View
-            style={[styles.iconContainer, styles.overlapThree, animatedTStyle]}
-          >
-            <TouchableOpacity
-              onPressIn={() => this.handlePressIn("T")}
-              onPressOut={() => this.handlePressOut("T")}
-            >
-              <SocialIcon
-                iconSize={ICON_SELECT_SIGNUP_OPTION}
-                style={styles.iconStyle}
-                type="twitter"
-              />
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
-        <View>
-          <Text style={styles.textColor}>──────── OR ────────</Text>
-        </View>
-        <View>
-          <EmailOrMobileSignup signupObject={signupObject} />
-        </View>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <React.Fragment>
+            <View style={styles.iconsWrapper}>
+              <Animated.View
+                style={[
+                  styles.iconContainer,
+                  styles.overlapOne,
+                  animatedFBStyle
+                ]}
+              >
+                <TouchableOpacity
+                  onPressIn={() => this.handlePressIn("FB")}
+                  onPressOut={() => this.handlePressOut("FB")}
+                >
+                  <SocialIcon
+                    iconSize={ICON_SELECT_SIGNUP_OPTION}
+                    style={styles.iconStyle}
+                    type="facebook"
+                  />
+                </TouchableOpacity>
+              </Animated.View>
+              <Animated.View
+                style={[
+                  styles.iconContainer,
+                  styles.overlapTwo,
+                  animatedGStyle
+                ]}
+              >
+                <TouchableOpacity
+                  onPressIn={() => this.handlePressIn("G")}
+                  onPressOut={() => this.handlePressOut("G")}
+                >
+                  <SocialIcon
+                    iconSize={ICON_SELECT_SIGNUP_OPTION}
+                    style={styles.iconStyle}
+                    type="google-plus-official"
+                  />
+                </TouchableOpacity>
+              </Animated.View>
+              <Animated.View
+                style={[
+                  styles.iconContainer,
+                  styles.overlapThree,
+                  animatedTStyle
+                ]}
+              >
+                <TouchableOpacity
+                  onPressIn={() => this.handlePressIn("T")}
+                  onPressOut={() => this.handlePressOut("T")}
+                >
+                  <SocialIcon
+                    iconSize={ICON_SELECT_SIGNUP_OPTION}
+                    style={styles.iconStyle}
+                    type="twitter"
+                  />
+                </TouchableOpacity>
+              </Animated.View>
+            </View>
+            <View>
+              <Text style={styles.textColor}>──────── OR ────────</Text>
+            </View>
+            <View>
+              <EmailOrMobileSignup signupObject={signupObject} />
+            </View>
+          </React.Fragment>
+        )}
       </View>
+      //)}
     );
   }
+}
+
+{
+  /*isLoading ? (
+        <Loading />
+      ) : (*/
 }

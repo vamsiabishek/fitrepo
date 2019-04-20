@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ActivityIndicator, Text, View, ImageBackground } from "react-native";
+import Loading from "../components/Loading";
 import { styles } from "../../assets/style/stylesHomeScreen";
 import { f, database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
@@ -41,7 +42,7 @@ export default class Home extends Component {
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
         {isLoading ? (
-          <ActivityIndicator color={styleCommon.textColor1} size="large" />
+          <Loading />
         ) : (
           <View style={styles.viewContainer}>
             <Text style={styles.headerText}>Welcome {name}!</Text>
@@ -51,4 +52,8 @@ export default class Home extends Component {
       </ImageBackground>
     );
   }
+}
+
+{
+  /*<ActivityIndicator color={styleCommon.textColor1} size="large" />*/
 }
