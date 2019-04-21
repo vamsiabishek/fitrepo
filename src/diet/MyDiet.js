@@ -175,14 +175,7 @@ export default class MyDiet extends Component {
   };
 
   render() {
-    const {
-      isLoading,
-      activeDay,
-      diet,
-      meals,
-      allMeals,
-      currentWeek
-    } = this.state;
+    const { isLoading, activeDay, meals, allMeals, currentWeek } = this.state;
     const {
       totalCalories,
       proteinInGm,
@@ -195,11 +188,6 @@ export default class MyDiet extends Component {
       outputRange: [this.dayBarExpandedHeight, this.dayBarCollapsedHeight],
       extrapolate: "clamp"
     });
-
-    const { navigation } = this.props;
-    //const subHeaderLeftText = "Week 1";
-    //const subHeaderCenterText = "Week 2";
-    //const subHeaderRightText = "Week 3";
     const trainingIconColor = activeDay ? "white" : styleCommon.unSelected;
     const restIconColor = !activeDay ? "white" : styleCommon.unSelected;
     const nextWeekEnabled = allMeals[currentWeek] ? true : false;

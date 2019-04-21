@@ -377,7 +377,6 @@ export default class NewDiet extends Component {
   };
   onBack = currentScreen => {
     const { navigate } = this.props.navigation;
-    console.log(currentScreen);
     if (currentScreen !== 1) {
       const scrollValue = SCREEN_WIDTH * (currentScreen - 1) - SCREEN_WIDTH;
       this.scrollRef.scrollTo({ x: scrollValue });
@@ -417,7 +416,6 @@ export default class NewDiet extends Component {
       });
   };
   createDietAndMeals = async () => {
-    this.setState({ isLoadingDiet: true });
     const {
       selectedProteinSources,
       selectedFatSources,
@@ -426,6 +424,7 @@ export default class NewDiet extends Component {
       targetWeight,
       goal,
       program,
+      numberOfMeals,
       user,
       uid
     } = this.state;
@@ -436,6 +435,8 @@ export default class NewDiet extends Component {
       weight,
       targetWeight,
       goal,
+      program,
+      numberOfMeals,
       user,
       uid
     );
@@ -445,7 +446,7 @@ export default class NewDiet extends Component {
       selectedCarbSources,
       selectedGoal: goal,
       selectedProgram: program,
-      selectedMeals: 5,
+      selectedMeals: numberOfMeals,
       currentWeight: weight,
       targetWeight,
       isVeg: false,
