@@ -98,7 +98,7 @@ export default class Diet extends Component {
   fetchMyDiets = async userId => {
     let myDiets = [];
     await database
-      .ref(`diets/aE2FvZJd4DWG8jxeRZSoPwvEHAf1`)
+      .ref(`diets/${userId}`)
       .orderByChild("createdDate")
       .once("value")
       .then(snap => {

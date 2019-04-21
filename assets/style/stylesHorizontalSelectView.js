@@ -32,7 +32,21 @@ export const styles = StyleSheet.create({
     justifyContent: "center"
   },
   iconTextStyle: {
-    fontSize: 9,
+    fontSize: 10,
     color: "#494b50"
+  },
+  labelContainer: {
+    width: 28,
+    height: 28,
+    marginTop: 3,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  labelText: {
+    fontSize: 9,
+    fontWeight: "600",
+    alignItems: "center",
+    justifyContent: "center",
+    color: styleCommon.textColor1,
   }
 });

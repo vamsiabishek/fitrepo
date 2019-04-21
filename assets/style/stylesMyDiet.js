@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 10 },
     shadowOpacity: 0.8,
     //shadowRadius: 2,
-   // elevation: 5,
+    elevation: 10,
     zIndex: 1,
   },
   weeklyTouchableStyle: {

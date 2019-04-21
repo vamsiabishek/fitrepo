@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    width: SCREEN_WIDTH * 0.89,
+    width: SCREEN_WIDTH,
     marginVertical: 20
     //backgroundColor: "cadetblue"
   },
@@ -28,14 +28,17 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     width: SCREEN_WIDTH * 0.89,
-    marginTop: SCREEN_HEIGHT * 0.3,
+    marginTop: SCREEN_HEIGHT * 0.15,
     marginBottom: 20
     //backgroundColor: "pink"
   },
-  viewContainer: {
+  logoContainer: {
+    marginBottom: SCREEN_HEIGHT * 0.15,
     justifyContent: "center",
     alignItems: "center",
-    margin: 5
+    shadowOffset: { width: 2, height: 20 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4.5,
     //backgroundColor: "brown"
   },
   logoText: {
@@ -43,7 +46,7 @@ export const styles = StyleSheet.create({
     letterSpacing: fontsCommon.letterSpacingOneFive,
     fontWeight: "700",
     fontSize: fontsCommon.font30,
-    color: styleCommon.textColor3
+    color: styleCommon.textColor1
     //backgroundColor: "firebrick"
   },
   loginInputContainer: {
@@ -56,12 +59,12 @@ export const styles = StyleSheet.create({
   inputContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 10
+    marginVertical: 10,
     //backgroundColor: "crimson"
   },
   inputStyle: {
     marginLeft: 10,
-    color: styleCommon.textColor2
+    color: styleCommon.textColor1
   },
   errorInputStyle: {
     textAlign: "center",
@@ -71,7 +74,10 @@ export const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: "center",
     alignItems: "center",
-    margin: 5
+    margin: 5,
+    shadowOffset: { width: 2, height: 8 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
     //backgroundColor: "orange"
   },
   loginButtonContainerStyle: {
@@ -86,6 +92,10 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "transparent"
   },
+  facebookLoginBtn: {
+    width: SCREEN_WIDTH * 0.7,
+    height: BUTTON_HEIGHT_GENERAL,
+  },
   loginButtonText: {
     fontSize: fontsCommon.font16,
     fontWeight: "bold",
@@ -96,13 +106,16 @@ export const styles = StyleSheet.create({
     color: styleCommon.textColor2
   },
   loginButtonDes: {
-    color: styleCommon.textColor2
+    color: styleCommon.textColor1
   },
   signUpHereContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: 5
+    padding: 5,
+    shadowOffset: { width: 2, height: 8 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
     //backgroundColor: "coral"
   },
   newUserText: {

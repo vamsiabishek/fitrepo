@@ -20,7 +20,7 @@ export default class PreferenceDetails extends Component {
     super(props);
     this.state = {
       isHealthCondStrPickerVisible: false,
-      selectedIndex: 0
+      selectedIndex: 1
     };
   }
   showHealthCondStrPicker = () => {
@@ -88,17 +88,14 @@ export default class PreferenceDetails extends Component {
                 <Text style={styles.headerTextStyle}>
                   Number of Meals You Eat in a Day
                 </Text>
-                <Icon
-                  name={"numeric-" + numberOfMeals + "-circle"}
-                  style={styles.headerIconStyle}
-                  size={ICON_SIZE_LARGE}
-                />
               </View>
               <View style={styles.contentBoxMainStyle}>
                 <HorizontalSelectView
                   items={numberOfMealsOptions}
                   selectedItem={numberOfMeals}
                   onSelectionChange={this.onMealsChange}
+                  showSelectedLabel={true}
+                  label='meals/day'
                 />
               </View>
             </View>

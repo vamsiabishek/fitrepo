@@ -16,7 +16,9 @@ export default class HorizontalComponent extends React.Component {
       selectedHW,
       lineWidth,
       iconStyleHW,
-      iconDataStyleHW
+      iconDataStyleHW,
+      showSelectedLabel,
+      label
     } = this.props;
     return (
       <View style={styles.container}>
@@ -53,40 +55,49 @@ export default class HorizontalComponent extends React.Component {
             if (item === selectedItem) {
               iconStyle = {
                 ...iconStyle,
-                height: selectedHW !== undefined ? selectedHW : 25, //20, Make dynamic
-                width: selectedHW !== undefined ? selectedHW : 25, //20,  Make dynamic
+                height: selectedHW !== undefined ? selectedHW : 28, //20, Make dynamic
+                width: selectedHW !== undefined ? selectedHW : 28, //20,  Make dynamic
                 backgroundColor: styleCommon.selectedButtonColor,
                 borderRadius: 40
               };
               iconDataStyle = {
                 ...iconDataStyle,
-                height: selectedHW !== undefined ? selectedHW : 25, //20, Make dynamic
-                width: selectedHW !== undefined ? selectedHW : 25 //20  Make dynamic
+                height: selectedHW !== undefined ? selectedHW : 28, //20, Make dynamic
+                width: selectedHW !== undefined ? selectedHW : 28 //20  Make dynamic
               };
               iconTextStyle = {
                 ...iconTextStyle,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: "bold",
                 color: styleCommon.primaryButtonTextColor
               };
             }
+            const selectedMealContainerStyle =
+              item === selectedItem ? { marginTop: iconStyle.height } : {};
             return (
               <View style={styles.subContainer}>
                 {index !== 0 && <View style={styles.lineContainer} />}
-                <TouchableOpacity
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                  onPress={() => onSelectionChange(item)}
-                >
-                  <View style={iconStyle}>
-                    <View style={iconDataStyle}>
-                      <Text style={iconTextStyle}>{item}</Text>
+                <View style={selectedMealContainerStyle}>
+                  <TouchableOpacity
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                    onPress={() => onSelectionChange(item)}
+                  >
+                    <View style={iconStyle}>
+                      <View style={iconDataStyle}>
+                        <Text style={iconTextStyle}>{item}</Text>
+                      </View>
                     </View>
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                  {item === selectedItem && showSelectedLabel && (
+                    <View style={styles.labelContainer}>
+                      <Text style={styles.labelText}>{label}</Text>
+                    </View>
+                  )}
+                </View>
               </View>
             );
           }}
