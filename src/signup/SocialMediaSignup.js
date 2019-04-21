@@ -111,7 +111,10 @@ export default class SocialMediaSignup extends Component {
     return (
       <View style={styles.mainContent}>
         {isLoading ? (
-          <Loading />
+          <Loading
+            text={"Signing you up with Fitrepo ..."}
+            isTextBold={false}
+          />
         ) : (
           <React.Fragment>
             <View style={styles.iconsWrapper}>

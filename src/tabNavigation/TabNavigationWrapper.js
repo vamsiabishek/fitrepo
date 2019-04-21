@@ -26,6 +26,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 import { ICON_SIZE_NAV } from "../../assets/style/stylesCommonValues";
 import NewDiet from "../diet/NewDiet";
+import Loading from "../components/Loading";
 
 const SignUpStackNavigator = createStackNavigator(
   {
@@ -209,6 +210,7 @@ const HomeStackNavigator = createStackNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
+    Loading: Loading,
     StartUp: StartUpScreen,
     Login: LoginScreen,
     SignUp: SignUpStackNavigator,

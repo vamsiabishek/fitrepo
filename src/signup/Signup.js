@@ -224,8 +224,6 @@ export default class Signup extends Component {
 
   onBack = currentScreen => {
     const { navigate } = this.props.navigation;
-    const { email } = this.state;
-    console.log(currentScreen);
     if (currentScreen === 5) {
       const scrollValue = SCREEN_WIDTH * (currentScreen - 2) - SCREEN_WIDTH;
       this.scrollRef.scrollTo({ x: scrollValue });
@@ -598,6 +596,7 @@ export default class Signup extends Component {
       targetWeight,
       goal,
       program,
+      numberOfMeals,
       user: { uid }
     } = this.state;
     const dietInfo = {
@@ -606,7 +605,7 @@ export default class Signup extends Component {
       selectedCarbSources,
       selectedGoal: goal,
       selectedProgram: program,
-      selectedMeals: 5,
+      selectedMeals: numberOfMeals,
       currentWeight: weight,
       targetWeight,
       isVeg: false,
