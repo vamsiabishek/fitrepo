@@ -84,7 +84,11 @@ export default class SourceSelectorModal extends Component {
                     >
                       <Image
                         source={source.uri}
-                        style={{ width: 80, height: 60 }}
+                        style={{
+                          width: 80,
+                          height: 60
+                          //backgroundColor: "indigo"
+                        }}
                       />
                       {source.selected && (
                         <MaterialIcon

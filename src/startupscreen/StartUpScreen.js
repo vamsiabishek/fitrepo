@@ -32,7 +32,7 @@ import {
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
-console.log(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 export default class StartUpScreen extends Component {
   intervalId = 0;
   componentDidMount = () => {
@@ -51,7 +51,6 @@ export default class StartUpScreen extends Component {
     }, 3000);
   };
   componentWillUnmount = () => {
-    console.log("In componentunmount");
     clearInterval(this.intervalId);
   };
   render() {

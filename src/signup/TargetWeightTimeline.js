@@ -44,7 +44,6 @@ export default class TargetWeightTimeline extends Component {
       this.targetWeightLabels.push(`${targetWeight} kg`);
       this.targetWeightOptions.push(targetWeight);
     });
-    console.log(this.targetWeightOptions);
   };
 
   _resetProgramAndTargetWeight = () => {

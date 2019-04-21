@@ -11,19 +11,13 @@ const styles = StyleSheet.create({
     flex: 1
   },
   weeklyBarStyle: {
-    //flex:1,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: 15,
     paddingBottom: 10,
-   // backgroundColor: "#66f2ff",
-    //borderWidth: 1,
-    //shadowColor: "white",
     shadowOffset: { width: 2, height: 10 },
     shadowOpacity: 0.8,
-    //shadowRadius: 2,
-   // elevation: 5,
-    zIndex: 1,
+    zIndex: 1
   },
   weeklyTouchableStyle: {
     flexDirection: "row"
