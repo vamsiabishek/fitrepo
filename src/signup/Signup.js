@@ -27,6 +27,11 @@ import { styles } from "../../assets/style/stylesSignup";
 import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
 import { auth, database } from "../common/FirebaseConfig";
 import { createDiet } from "./UpdateDiet";
+import {
+  proteinSources,
+  carbSources,
+  fatSources
+} from "../common/SourceImages";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -51,50 +56,9 @@ export default class Signup extends Component {
       showTargetWeightButton: false,
       navButtonActive: false,
       screen: 1,
-      proteinSources: [
-        {
-          name: "Chicken breast",
-          uri: require("../../assets/images/sources/chicken-breast.png"),
-          key: "chicken-breast"
-        },
-        {
-          name: "Salmon",
-          uri: require("../../assets/images/sources/salmon.png"),
-          key: "salmon-fish"
-        },
-        {
-          name: "Eggs",
-          uri: require("../../assets/images/sources/eggs.png"),
-          key: "egg-white"
-        },
-        {
-          name: "Panner",
-          uri: require("../../assets/images/sources/panner.png"),
-          key: "panner"
-        },
-        {
-          name: "Tofu",
-          uri: require("../../assets/images/sources/tofu.png"),
-          key: "tofu"
-        },
-        {
-          name: "Rajma",
-          uri: require("../../assets/images/sources/rajma.png"),
-          key: "rajma"
-        }
-      ],
-      carbSources: [
-        { name: "White rice", key: "white-rice" },
-        { name: "Chapati", key: "chapathi" },
-        { name: "Wheat bread", key: "wheat-bread" },
-        { name: "Oats", key: "oats" }
-      ],
-      fatSources: [
-        { name: "Chia seeds", key: "chia-seeds" },
-        { name: "Flax seeds", key: "flax-seeds" },
-        { name: "Almonds", key: "almonds" },
-        { name: "Walnuts", key: "walnuts" }
-      ],
+      proteinSources: proteinSources,
+      carbSources: carbSources,
+      fatSources: fatSources,
       selectedProteinSources: [],
       selectedCarbSources: [],
       selectedFatSources: [],
@@ -171,7 +135,7 @@ export default class Signup extends Component {
   setFoodPref = foodPreference => {
     const { numberOfMeals } = this.state;
     this.setState({
-      foodPreference,
+      foodPreference: foodPreference === 0 ? true : false,
       navButtonActive: this.changeNavButtonToActive(
         foodPreference,
         numberOfMeals
@@ -597,6 +561,7 @@ export default class Signup extends Component {
       goal,
       program,
       numberOfMeals,
+      foodPreference,
       user: { uid }
     } = this.state;
     const dietInfo = {
@@ -608,10 +573,11 @@ export default class Signup extends Component {
       selectedMeals: numberOfMeals,
       currentWeight: weight,
       targetWeight,
-      isVeg: false,
+      isVeg: foodPreference,
+      uid
     };
     //console.log('dietInfo:', dietInfo)
-    const dietId = await createDiet({uid, dietInfo});
+    const dietId = await createDiet({ uid, dietInfo });
     this.setState({ isLoading: false });
     this.props.navigation.navigate("MyDiet", { dietId });
   };
