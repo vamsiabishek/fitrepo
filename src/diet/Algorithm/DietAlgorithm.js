@@ -6,6 +6,7 @@ import {
 } from "../../common/Common";
 import { sourceQuantities, manageSources } from "./SourceDistribution";
 import { createMeals } from "./MealsAlgorithm";
+import { convertGoal } from "../../common/Util";
 
 const MALE = "male";
 const FEMALE = "female";
@@ -56,7 +57,6 @@ const getCalPercent = ({ goal, fitnessLevel, weightChangePerWeek }) => {
   return null;
 };
 
-convertGoal = goal => (goal === 0 ? "loss" : "gain");
 convertMealsPerDay = mealsPerDay => mealsPerDay.charAt(0);
 
 export const getPossibleTargetWeights = (

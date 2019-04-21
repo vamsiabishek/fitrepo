@@ -610,10 +610,9 @@ export default class Signup extends Component {
       currentWeight: weight,
       targetWeight,
       isVeg: false,
-      uid
     };
     //console.log('dietInfo:', dietInfo)
-    const dietId = await createDiet(dietInfo);
+    const dietId = await createDiet({uid, dietInfo});
     this.setState({ isLoading: false });
     this.props.navigation.navigate("MyDiet", { dietId });
   };

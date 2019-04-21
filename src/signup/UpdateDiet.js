@@ -1,30 +1,18 @@
 import { designDiet } from "../diet/Algorithm/DietAlgorithm";
 import { f, database } from "../common/FirebaseConfig";
 
-export const createDiet = async ({
-  selectedProteinSources,
-  selectedFatSources,
-  selectedCarbSources,
-  selectedGoal,
-  selectedProgram,
-  selectedMeals,
-  currentWeight,
-  targetWeight,
-  isVeg,
-  uid,
-}) => {
-  
-  //create diet using these options
-  const mealDetails = await designDiet({
-    selectedProteinSources,
-    selectedFatSources,
-    selectedCarbSources,
+export const createDiet = async ({dietInfo, uid}) => {
+  const {
     selectedGoal,
     selectedProgram,
     selectedMeals,
     currentWeight,
     targetWeight,
     isVeg,
+  } = dietInfo
+  //create diet using these options
+  const mealDetails = await designDiet({
+    ...dietInfo,
     uid,
   });
   //console.log(mealDetails);
@@ -36,18 +24,17 @@ export const createDiet = async ({
     currentWeight,
     targetWeight,
     isVeg,
-    userId: uid
   };
 
   //save diet and meals
-  const dietId = await this.saveDietAndMeals({ dietDetails, mealDetails });
+  const dietId = await this.saveDietAndMeals({ dietDetails, mealDetails, uid });
   return dietId;
 };
 
-saveDietAndMeals = async ({ dietDetails, mealDetails }) => {
+saveDietAndMeals = async ({ dietDetails, mealDetails, uid }) => {
   let dietId = "";
   await database
-    .ref("diets")
+    .ref(`diets/${uid}`)
     .push({
       ...dietDetails,
       createdDate: f.database.ServerValue.TIMESTAMP,

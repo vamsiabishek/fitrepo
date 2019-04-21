@@ -33,6 +33,12 @@ export const timeConverter = timeStamp => {
   return seconds + " sec" + pluralCheck(seconds);
 };
 
+export const convertGoal = goal => (goal === 0 ? "loss" : "gain");
+
+export const getGoalString = goal => (goal === 0 ? "Fat-loss" : "Weight-gain");
+
+export const convertGender = gender => (gender === 0 ? "Female" : "Male");
+
 export const createKeyAndValuesFromResult = result => {
   return Object.keys(result).map(key => {
     return {

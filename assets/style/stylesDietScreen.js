@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "orange"
   },
   subHeaderMenuItems: {
-    fontSize: fontsCommon.font16,
+    fontSize: fontsCommon.font18,
     fontWeight: "bold",
     color: styleCommon.textColor2
   },
@@ -131,7 +131,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "space-between",
     flexDirection: "row",
-    alignSelf: "stretch"
+    alignSelf: "stretch",
+    marginTop: 5,
     //backgroundColor: "pink"
   }
 });

@@ -9,6 +9,7 @@ import {
   ICON_SIZE_MED,
   ICON_SIZE_LARGE
 } from "../../assets/style/stylesCommonValues";
+import { getGoalString } from "../common/Util";
 
 const CustomListViewRow = ({
   item: {
@@ -27,7 +28,7 @@ const CustomListViewRow = ({
   <View style={styles.rowContainer}>
     <View style={styles.container_text}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{selectedGoal}</Text>
+        <Text style={styles.title}>{getGoalString(selectedGoal)}</Text>
         <TouchableOpacity style={styles.vegContainer}>
           <Image
             style={styles.vegIcon}
@@ -37,11 +38,11 @@ const CustomListViewRow = ({
       </View>
 
       <View style={styles.descriptionContainer}>
-        <Text style={styles.description}>{selectedProgram}</Text>
-        <Text style={styles.description}>{selectedMeals}</Text>
+        <Text style={styles.description}>{selectedProgram} Weeks program</Text>
+        <Text style={styles.description}>{selectedMeals} meals per day</Text>
       </View>
 
-      <View style={styles.likesContainer}>
+      {/*<View style={styles.likesContainer}>
         <Icon
           name="star"
           size={ICON_SIZE_MED}
@@ -49,7 +50,7 @@ const CustomListViewRow = ({
           style={styles.nextButtonIconStyle}
         />
         <Text style={styles.likesLabel}>{likes} Likes</Text>
-      </View>
+</View>*/}
     </View>
     <View style={styles.timeStampContainer}>
       <Text style={styles.timeStampLabel}>

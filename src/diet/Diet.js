@@ -37,61 +37,22 @@ export default class Diet extends Component {
           id: "rating"
         }
       ],
-      currentDietOption: "popular",
+      currentDietOption: "myDiets",
       pupularDiets: [],
       myDiets: [],
       isLoading: false,
-      diets: [
-        {
-          goal: "Fat loss",
-          program: "12 Week program",
-          isVegetarian: false,
-          numberOfMeals: "5 Meals per day",
-          likes: "50",
-          dietId: "diet1",
-          createdDate: 1553318315960
-        },
-        {
-          goal: "Weight gain",
-          program: "12 Week program",
-          isVegetarian: false,
-          numberOfMeals: "5 Meals per day",
-          likes: "10",
-          dietId: "diet2",
-          createdDate: 1553318315960
-        },
-        {
-          goal: "Fat loss",
-          program: "12 Week program",
-          isVegetarian: true,
-          numberOfMeals: "5 Meals per day",
-          likes: "102",
-          dietId: "diet3",
-          createdDate: 1553318315960
-        },
-        {
-          goal: "Fat loss",
-          program: "12 Week program",
-          isVegetarian: false,
-          numberOfMeals: "5 Meals per day",
-          likes: "78",
-          dietId: "diet4",
-          createdDate: 1553318315960
-        }
-      ]
     };
   }
   componentDidMount = async () => {
     this.setState({ isLoading: true });
     const { uid } = await f.auth().currentUser;
 
-    const [popularDiets, myDiets] = await Promise.all([
-      this.fetchPopularDiets(),
+    const [myDiets] = await Promise.all([
+      //this.fetchPopularDiets(),
       this.fetchMyDiets(uid)
     ]);
-    console.log("popularDiets & myDiets:", popularDiets, myDiets);
+    console.log("myDiets:", myDiets);
     this.setState({
-      popularDiets,
       myDiets,
       isLoading: false
     });
@@ -137,14 +98,13 @@ export default class Diet extends Component {
   fetchMyDiets = async userId => {
     let myDiets = [];
     await database
-      .ref("diets")
-      .orderByChild("userId")
-      .equalTo(userId)
+      .ref(`diets/aE2FvZJd4DWG8jxeRZSoPwvEHAf1`)
+      .orderByChild("createdDate")
       .once("value")
       .then(snap => {
         if (snap.val()) {
           const results = snap.val();
-          myDiets = createKeyAndValuesFromResult(results);
+          myDiets = createKeyAndValuesFromResult(results).reverse();
         }
       })
       .catch(error => {
@@ -201,7 +161,7 @@ export default class Diet extends Component {
             </View>
 
             <View style={styles.subHeaderContainer}>
-              <TouchableOpacity
+              { /*<TouchableOpacity
                 style={
                   currentDietOption === "popular"
                     ? styles.activeSubHeaderComponents
@@ -210,7 +170,7 @@ export default class Diet extends Component {
                 onPress={() => this.setState({ currentDietOption: "popular" })}
               >
                 <Text style={styles.subHeaderMenuItems}>Popular</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 style={
                   currentDietOption !== "popular"

@@ -449,9 +449,8 @@ export default class NewDiet extends Component {
       currentWeight: weight,
       targetWeight,
       isVeg: false,
-      uid
     };
-    const dietId = await createDiet(dietInfo);
+    const dietId = await createDiet({uid, dietInfo});
     this.setState({ isLoadingDiet: false });
     this.props.navigation.navigate("MyDiet", { dietId });
   };
