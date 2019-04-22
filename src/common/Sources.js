@@ -1,10 +1,24 @@
 export const proteinSources = {
+  amaranth: {
+    carbs: 46,
+    fat: 5.2,
+    isVeg: true,
+    name: "Amaranth",
+    protein: 9.3
+  },
   "basa-fish": {
     carbs: 0,
     fat: 2.5,
     isVeg: false,
     name: "Basa Fish",
     protein: 18
+  },
+  "black-beans": {
+    carbs: 40.8,
+    fat: 0,
+    isVeg: true,
+    name: "Black Beans",
+    protein: 15.2
   },
   "chicken-breast": {
     carbs: 0,
@@ -13,6 +27,13 @@ export const proteinSources = {
     isVeg: false,
     name: "Chicken breast",
     protein: 31
+  },
+  chickpeas: {
+    carbs: 61,
+    fat: 6,
+    isVeg: true,
+    name: "Chickpeas/Channa",
+    protein: 19
   },
   "egg-white": {
     carbs: 0,
@@ -34,6 +55,34 @@ export const proteinSources = {
     name: "Whole Egg",
     protein: 6
   },
+  "feta-cheese": {
+    carbs: 1,
+    fat: 21.5,
+    isVeg: true,
+    name: "Feta Cheese",
+    protein: 16.3
+  },
+  "greek-yogurt": {
+    carbs: 3.6,
+    fat: 0,
+    isVeg: true,
+    name: "Greek Yogurt",
+    protein: 10
+  },
+  lamb: {
+    carbs: 0,
+    fat: 21,
+    isVeg: false,
+    name: "Lamb",
+    protein: 25
+  },
+  lentils: {
+    carbs: 20,
+    fat: 0,
+    isVeg: true,
+    name: "Lentils",
+    protein: 9
+  },
   paneer: {
     carbs: 1,
     fat: 21,
@@ -41,12 +90,26 @@ export const proteinSources = {
     name: "Paneer",
     protein: 18
   },
+  pork: {
+    carbs: 0,
+    fat: 6.4,
+    isVeg: false,
+    name: "Pork",
+    protein: 31.6
+  },
+  prawns: {
+    carbs: 0,
+    fat: 0.3,
+    isVeg: false,
+    name: "Prawns/Shrimps",
+    protein: 24
+  },
   rajma: {
     carbs: 23,
     fat: 0,
     isStandardForBeginner: true,
     isVeg: true,
-    name: "Rajma",
+    name: "Kidney Beans/Rajma",
     protein: 9
   },
   "salmon-fish": {
@@ -69,6 +132,13 @@ export const proteinSources = {
     isVeg: true,
     name: "Tofu",
     protein: 12
+  },
+  "tuna-fish": {
+    carbs: 0,
+    fat: 0.6,
+    isVeg: false,
+    name: "Tuna Fish",
+    protein: 29
   }
 };
 
@@ -79,6 +149,12 @@ export const fatSources = {
     isStandardForBeginner: true,
     name: "Almonds",
     protein: 21
+  },
+  avocados: {
+    carbs: 9,
+    fat: 15,
+    name: "Avocados",
+    protein: 2
   },
   cashews: {
     carbs: 30,
@@ -105,6 +181,34 @@ export const fatSources = {
     hasTableSpoon: true,
     name: "Flax seeds",
     protein: 18
+  },
+  ghee: {
+    beginnerDefaultQuantity: 2,
+    carbs: 0,
+    fat: 26,
+    hasTableSpoon: true,
+    name: "Ghee",
+    protein: 0
+  },
+  olives: {
+    carbs: 6.4,
+    fat: 10.9,
+    name: "Black/Green Olives",
+    protein: 0
+  },
+  "peanut-butter": {
+    beginnerDefaultQuantity: 2,
+    carbs: 6,
+    fat: 16,
+    hasTableSpoon: true,
+    name: "Peanut Butter",
+    protein: 8
+  },
+  "pumpkin-seeds": {
+    carbs: 11,
+    fat: 49,
+    name: "Pumpkin Seeds",
+    protein: 30
   },
   walnuts: {
     carbs: 14,
@@ -137,6 +241,24 @@ export const carbSources = {
     name: "Oats",
     protein: 11
   },
+  quinoa: {
+    carbs: 64,
+    fat: 6,
+    name: "Quinoa",
+    protein: 14
+  },
+  ragi: {
+    carbs: 75.6,
+    fat: 4.3,
+    name: "Ragi",
+    protein: 11
+  },
+  "sweet-potatoes": {
+    carbs: 20,
+    fat: 0,
+    name: "Sweet Potatoes",
+    protein: 1.6
+  },
   "wheat-bread": {
     carbs: 41,
     fat: 3.5,
@@ -148,6 +270,12 @@ export const carbSources = {
     fat: 3,
     name: "White bread",
     protein: 9
+  },
+  "white-potatoes": {
+    carbs: 17,
+    fat: 0,
+    name: "White Potatoes",
+    protein: 2
   },
   "white-rice": {
     carbs: 28,
