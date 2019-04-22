@@ -765,6 +765,7 @@ export default class Signup extends Component {
                   selectedProteinSources={selectedProteinSources}
                   selectedCarbSources={selectedCarbSources}
                   selectedFatSources={selectedFatSources}
+                  foodPreference={foodPreference}
                   showModal={showModal}
                   modalContains={modalContains}
                   selectedSources={selectedSources}
