@@ -24,6 +24,10 @@ export const getStandardSources = sourceType => {
   return createKeyAndValuesForStandard(getSourcesByType(sourceType));
 }
 
+export const getStandardVegSources = sourceType => {
+  return createKeyAndValuesForStandardVeg(getSourcesByType(sourceType));
+}
+
 export const getDefaultSources = sourceType => {
   return createKeyAndValuesForDefault(getSourcesByType(sourceType));
 }
@@ -69,6 +73,19 @@ export const createKeyAndValuesForStandard = sources => {
   Object.keys(sources).map(key => {
     const value = sources[key];
     if(value.isStandardForBeginner)
+      standardSources.push({
+        key,
+        value,
+      });
+    });
+  return standardSources;
+};
+
+export const createKeyAndValuesForStandardVeg = sources => {
+  const standardSources = [];
+  Object.keys(sources).map(key => {
+    const value = sources[key];
+    if(value.isStandardForBeginner && value.isVeg)
       standardSources.push({
         key,
         value,

@@ -197,7 +197,8 @@ export const designDiet = async ({
   const { proteinSources, carbSources, fatSources } = await manageSources({
     selectedProteinSources,
     selectedFatSources,
-    selectedCarbSources
+    selectedCarbSources,
+    isVeg
   });
   const weeklyMeals = [];
   trainingAndRestdayCals.map(({ trainingDayCal, restDayCal }, index) => {

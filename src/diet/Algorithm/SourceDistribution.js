@@ -10,6 +10,7 @@ import {
 } from "../../common/Common";
 import {
   getStandardSources,
+  getStandardVegSources,
   getSourcesByIdListAndType
 } from "../../common/SourceUtil";
 import {
@@ -259,7 +260,8 @@ const calculateCaloriesPerMarco = ({
 export const manageSources = async ({
   selectedProteinSources,
   selectedFatSources,
-  selectedCarbSources
+  selectedCarbSources,
+  isVeg
 }) => {
   let {
     standardSourcesForProtein: proteinSources,
@@ -268,7 +270,8 @@ export const manageSources = async ({
   } = await standardSourceSelection({
     selectedProteinSources,
     selectedFatSources,
-    selectedCarbSources
+    selectedCarbSources,
+    isVeg
   });
 
   console.log(proteinSources, carbSources, fatSources);
@@ -317,7 +320,8 @@ export const manageSources = async ({
 const standardSourceSelection = async ({
   selectedProteinSources,
   selectedFatSources,
-  selectedCarbSources
+  selectedCarbSources,
+  isVeg
 }) => {
   let standardSourcesForProtein = [];
   let standardSourcesForCarbs = [];
@@ -343,7 +347,8 @@ const standardSourceSelection = async ({
     } = await getStandardSourcesForBeginner(
       noProteinSourcesSelected,
       noCarbSourcesSelected,
-      noFatSourcesSelected
+      noFatSourcesSelected,
+      isVeg
     );
     standardSourcesForProtein = standardProteinSources;
     standardSourcesForCarbs = standardCarbSources;
@@ -402,7 +407,8 @@ addExtraSources = (extraRequired, currentSources, standardSources) => {
 const getStandardSourcesForBeginner = async (
   isProteinRequired,
   isCarbsRequired,
-  isFatsRequired
+  isFatsRequired,
+  isVeg
 ) => {
   /*const proteinSources = await getStandardProteinSourcesForBeginners();
   const carbSources = await getStandardCarbSourcesForBeginners();
@@ -412,9 +418,9 @@ const getStandardSourcesForBeginner = async (
     standardCarbSources,
     standardFatSources
   ] = await Promise.all([
-    getStandardProteinSourcesForBeginners(isProteinRequired),
-    getStandardCarbSourcesForBeginners(isCarbsRequired),
-    getStandardFatSourcesForBeginners(isFatsRequired)
+    getStandardProteinSourcesForBeginners(isProteinRequired, isVeg),
+    getStandardCarbSourcesForBeginners(isCarbsRequired, isVeg),
+    getStandardFatSourcesForBeginners(isFatsRequired, isVeg)
   ]);
   return {
     standardProteinSources,
@@ -425,10 +431,10 @@ const getStandardSourcesForBeginner = async (
 
 // ---------FETCH DATA------------
 
-getStandardProteinSourcesForBeginners = async isProteinRequired => {
+getStandardProteinSourcesForBeginners = async (isProteinRequired, isVeg) => {
   let standardProteinSources = [];
   if (isProteinRequired) {
-    standardProteinSources = getStandardSources("protein");
+    standardProteinSources = isVeg ? getStandardVegSources("protein") : getStandardSources("protein");
     if (!standardProteinSources)
       await database
         .ref("protein-sources")
@@ -451,10 +457,10 @@ getStandardProteinSourcesForBeginners = async isProteinRequired => {
   return standardProteinSources;
 };
 
-getStandardCarbSourcesForBeginners = async isCarbsRequired => {
+getStandardCarbSourcesForBeginners = async (isCarbsRequired, isVeg) => {
   let standardCarbSources = [];
   if (isCarbsRequired) {
-    standardCarbSources = getStandardSources("carb");
+    standardCarbSources = isVeg ? getStandardVegSources("carb") : getStandardSources("carb");
     if (!standardCarbSources)
       await database
         .ref("carb-sources")
@@ -477,10 +483,10 @@ getStandardCarbSourcesForBeginners = async isCarbsRequired => {
   return standardCarbSources;
 };
 
-getStandardFatSourcesForBeginners = async isFatsRequired => {
+getStandardFatSourcesForBeginners = async (isFatsRequired, isVeg) => {
   let standardFatSources = [];
   if (isFatsRequired) {
-    standardFatSources = getStandardSources("fat");
+    standardFatSources = isVeg ? getStandardVegSources("fat") : getStandardSources("fat");
     if (!standardFatSources)
       await database
         .ref("fat-sources")
