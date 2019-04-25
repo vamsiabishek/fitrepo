@@ -1,4 +1,4 @@
-export const proteinSources = [
+export const proteinSourcesWithImages = [
   {
     name: "Chicken breast",
     uri: require("../../assets/images/sources/chicken-breast.png"),
@@ -109,7 +109,7 @@ export const proteinSources = [
   }
 ];
 
-export const carbSources = [
+export const carbSourcesWithImages = [
   {
     name: "White rice",
     uri: require("../../assets/images/sources/white-rice.png"),
@@ -162,7 +162,7 @@ export const carbSources = [
   }
 ];
 
-export const fatSources = [
+export const fatSourcesWithImages = [
   {
     name: "Chia seeds",
     uri: require("../../assets/images/sources/chia-seeds.png"),

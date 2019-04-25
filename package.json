@@ -8,7 +8,7 @@
     "postinstall": "react-native-schemes-manager all"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-0",
+    "@babel/core": "^7.4.3",
     "@firebase/app-types": "0.x",
     "@firebase/util": "0.x",
     "firebase": "^5.8.5",
@@ -19,6 +19,7 @@
     "react-native-collapsible": "^1.4.0",
     "react-native-device-info": "^1.4.2",
     "react-native-elements": "^1.1.0",
+    "react-native-emoji": "^1.6.0",
     "react-native-fbsdk": "^0.8.0",
     "react-native-gesture-handler": "^1.0.16",
     "react-native-image-picker": "^0.28.0",

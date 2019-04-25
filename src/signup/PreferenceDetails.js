@@ -10,6 +10,7 @@ import {
 } from "../../assets/style/stylesCommonValues";
 import { styles } from "../../assets/style/stylesPreferenceDetails";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
+import Emoji from 'react-native-emoji';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -51,6 +52,9 @@ export default class PreferenceDetails extends Component {
       numberOfMealsOptions
     } = this.props;
     const { isHealthCondStrPickerVisible } = this.state;
+    let foodPrefIcon = "meat_on_bone"
+    if(foodPreference === 0) foodPrefIcon = "avocado"
+    else if(foodPreference === 1) foodPrefIcon = "fried_egg"
     return (
       <View style={styles.mainContent}>
         <KeyboardAvoidingView
@@ -62,22 +66,22 @@ export default class PreferenceDetails extends Component {
             <View style={styles.contentBoxStyle}>
               <View style={styles.contentBoxHeaderStyle}>
                 <Text style={styles.headerTextStyle}>Your Food Preference</Text>
-                <Icon
+                {/*<Icon
                   name={foodPreference === 0 ? "leaf" : "food-variant"}
                   style={styles.headerIconStyle}
                   size={ICON_SIZE}
-                />
+                />*/}
+                <Emoji name={foodPrefIcon} style={{fontSize: 40, marginRight:10}} />
+
               </View>
               <View style={styles.contentBoxMainStyle}>
                 <ButtonGroup
                   onPress={this.updateVegIndex}
                   selectedIndex={foodPreference}
-                  buttons={["Vegetarian", "Non-Vegetarian"]}
+                  buttons={["Vegetarian", "Eggetarian", "Non-Vegetarian"]}
                   containerStyle={styles.vegButtonGroup}
                   innerBorderStyle={{ width: 0 }}
-                  selectedButtonStyle={
-                    foodPreference === 0 ? styles.veg : styles.nonVeg
-                  }
+                  selectedButtonStyle={styles.veg}
                   textStyle={styles.buttonGroupTextStyle}
                   selectedTextStyle={styles.buttonGroupSelectedTextStyle}
                 />

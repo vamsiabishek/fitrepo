@@ -8,6 +8,7 @@ export const createDiet = async ({dietInfo, uid}) => {
     selectedMeals,
     currentWeight,
     targetWeight,
+    fitnessLevel,
     isVeg,
   } = dietInfo
   //create diet using these options
@@ -23,6 +24,7 @@ export const createDiet = async ({dietInfo, uid}) => {
     selectedMeals,
     currentWeight,
     targetWeight,
+    fitnessLevel,
     isVeg,
   };
 

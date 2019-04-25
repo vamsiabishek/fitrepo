@@ -286,7 +286,7 @@ export const manageSources = async ({
     );
     if (selectedProteinSources.length <= 2) extraProteinSourcesRequired = true;
   }
-  if (selectedCarbSources.length > 0) {
+  if (selectedCarbSources.length > 0 && !isVeg) {
     carbSources = getSourcesByIdListAndType(selectedCarbSources, "carb");
     if (selectedCarbSources.length <= 2) extraCarbSourcesRequired = true;
   }
@@ -459,8 +459,8 @@ getStandardProteinSourcesForBeginners = async (isProteinRequired, isVeg) => {
 
 getStandardCarbSourcesForBeginners = async (isCarbsRequired, isVeg) => {
   let standardCarbSources = [];
-  if (isCarbsRequired) {
-    standardCarbSources = isVeg ? getStandardVegSources("carb") : getStandardSources("carb");
+  if (isCarbsRequired && !isVeg) {
+    standardCarbSources = getStandardSources("carb");
     if (!standardCarbSources)
       await database
         .ref("carb-sources")
@@ -485,8 +485,8 @@ getStandardCarbSourcesForBeginners = async (isCarbsRequired, isVeg) => {
 
 getStandardFatSourcesForBeginners = async (isFatsRequired, isVeg) => {
   let standardFatSources = [];
-  if (isFatsRequired) {
-    standardFatSources = isVeg ? getStandardVegSources("fat") : getStandardSources("fat");
+  if (isFatsRequired && !isVeg) {
+    standardFatSources = getStandardSources("fat");
     if (!standardFatSources)
       await database
         .ref("fat-sources")

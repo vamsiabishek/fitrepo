@@ -27,11 +27,7 @@ import { styles } from "../../assets/style/stylesSignup";
 import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
 import { auth, database } from "../common/FirebaseConfig";
 import { createDiet } from "./UpdateDiet";
-import {
-  proteinSources,
-  carbSources,
-  fatSources
-} from "../common/SourceImages";
+import { getSourcesWithImages } from "../common/SourceUtil";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -51,14 +47,15 @@ export default class Signup extends Component {
       program: undefined,
       targetWeight: undefined,
       healthCond: undefined,
-      foodPreference: 0,
+      foodPreference: 1,
+      isVeg: false,
       numberOfMeals: 4,
       showTargetWeightButton: false,
       navButtonActive: false,
       screen: 1,
-      proteinSources: proteinSources,
-      carbSources: carbSources,
-      fatSources: fatSources,
+      proteinSources: getSourcesWithImages("protein"),
+      carbSources: getSourcesWithImages("carb"),
+      fatSources: getSourcesWithImages("fat"),
       selectedProteinSources: [],
       selectedCarbSources: [],
       selectedFatSources: [],
@@ -134,12 +131,19 @@ export default class Signup extends Component {
   };
   setFoodPref = foodPreference => {
     const { numberOfMeals } = this.state;
+    let { proteinSources, carbSources, fatSources, isVeg } = this.state
+    isVeg = foodPreference === 0
+    proteinSources = getSourcesWithImages("protein", isVeg)
+    carbSources = getSourcesWithImages("carb", isVeg)
+    fatSources = getSourcesWithImages("fat", isVeg)
     this.setState({
-      foodPreference: foodPreference === 0 ? true : false,
+      foodPreference,
+      isVeg,
       navButtonActive: this.changeNavButtonToActive(
         foodPreference,
         numberOfMeals
-      )
+      ),
+      proteinSources, carbSources, fatSources
     });
   };
   setNoOfMeals = numberOfMeals => {
@@ -561,7 +565,8 @@ export default class Signup extends Component {
       goal,
       program,
       numberOfMeals,
-      foodPreference,
+      fitnessLevel,
+      isVeg,
       user: { uid }
     } = this.state;
     const dietInfo = {
@@ -573,7 +578,8 @@ export default class Signup extends Component {
       selectedMeals: numberOfMeals,
       currentWeight: weight,
       targetWeight,
-      isVeg: foodPreference,
+      fitnessLevel,
+      isVeg,
       uid
     };
     //console.log('dietInfo:', dietInfo)
@@ -650,6 +656,7 @@ export default class Signup extends Component {
               style={commonStyles.container}
               contentContainerStyle={commonStyles.scrollContentContainer}
             >
+              
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header

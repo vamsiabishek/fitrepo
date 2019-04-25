@@ -18,6 +18,7 @@ export const proteinSources = {
     fat: 0,
     isVeg: true,
     name: "Black Beans",
+    isStandardForBeginner: true,
     protein: 15.2
   },
   "chicken-breast": {
@@ -33,6 +34,7 @@ export const proteinSources = {
     fat: 6,
     isVeg: true,
     name: "Chickpeas/Channa",
+    isStandardForBeginner: true,
     protein: 19
   },
   "egg-white": {
@@ -88,7 +90,8 @@ export const proteinSources = {
     fat: 21,
     isVeg: true,
     name: "Paneer",
-    protein: 18
+    protein: 18,
+    isStandardForBeginner: true,
   },
   pork: {
     carbs: 0,
@@ -285,3 +288,55 @@ export const carbSources = {
     protein: 0
   }
 };
+
+export const veggies = {
+  spinach: {
+    name: "Spinach",
+    isStandardForBeginner: true,
+    isStandardForIntermediate: true,
+    isStandardForAdvanced: true,
+    isVeggies: true,
+  },
+  "green-beans": {
+    name: "Green beans",
+    isStandardForBeginner: true,
+    isStandardForIntermediate: true,
+    isVeggies: true,
+  },
+  cucumber: {
+    name: "Cucumber",
+    isStandardForBeginner: true,
+    isStandardForIntermediate: true,
+    isStandardForAdvanced: true,
+    isVeggies: true,
+  },
+  broccoli: {
+    name: "Broccoli",
+    isStandardForAdvanced: true,
+    isVeggies: true,
+  },
+  "coli-flower": {
+    name: "Coli flower",
+    isStandardForIntermediate: true,
+    isVeggies: true,
+  },
+}
+
+export const fruits = {
+  Orange: {
+    name: "Orange",
+    isStandardForBeginner: true,
+    isStandardForIntermediate: true,
+    isStandardForAdvanced: true,
+    defaultQuantity: "1 medium size",
+    isFruit: true,
+  },
+  pomegranate: {
+    name: "Pomegranate",
+    isStandardForBeginner: true,
+    isStandardForIntermediate: true,
+    isStandardForAdvanced: true,
+    defaultQuantity: "1/2 cup",
+    isFruit: true,
+  },
+}

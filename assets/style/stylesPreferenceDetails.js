@@ -43,18 +43,20 @@ export const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.8, //300,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignContent: "space-between",
+    alignItems: "center",
     //backgroundColor: "red",
     padding: 5
   },
   headerTextStyle: {
     padding: 5,
     textAlign: "left",
+    alignItems: "center",
     color: styleCommon.secondaryButtonTextColor,
     fontSize: fontsCommon.font15
   },
   headerIconStyle: {
-    paddingRight: 5,
+    paddingRight: 10,
+    marginRight:30,
     color: styleCommon.selectedButtonColor
   },
   contentBoxMainStyle: {
@@ -63,10 +65,10 @@ export const styles = StyleSheet.create({
     //backgroundColor: "purple"
   },
   buttonGroupTextStyle: {
-    fontSize: fontsCommon.font14
+    fontSize: fontsCommon.font13
   },
   buttonGroupSelectedTextStyle: {
-    fontSize: fontsCommon.font15,
+    fontSize: fontsCommon.font14,
     fontWeight: "bold",
     color: styleCommon.primaryButtonTextColor
   },
@@ -81,13 +83,7 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
     width: "110%",
     alignItems: "center",
-    paddingHorizontal: 10
-  },
-  nonVeg: {
-    backgroundColor: styleCommon.selectedButtonColor,
-    borderRadius: 30,
-    width: "110%",
-    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 10
   },
   mealsNumber: {

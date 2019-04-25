@@ -7,6 +7,7 @@ import {
 import { sourceQuantities, manageSources } from "./SourceDistribution";
 import { createMeals } from "./MealsAlgorithm";
 import { convertGoal } from "../../common/Util";
+import { getVeggies, getFruits } from "../../common/SourceUtil"
 
 const MALE = "male";
 const FEMALE = "female";
@@ -39,6 +40,8 @@ const CALORIE_PERCENTS = [
 
 const LOSS_MACRO_PERCENTS = { carbs: 35, protein: 30, fat: 35 };
 const GAIN_MACRO_PERCENTS = { carbs: 40, protein: 30, fat: 30 };
+const LOSS_MACRO_PERCENTS_VEG = { carbs: 40, protein: 25, fat: 35 };
+const GAIN_MACRO_PERCENTS_VEG = { carbs: 45, protein: 25, fat: 30 };
 const BEGINNER_LOSS_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
 const BEGINNER_GAIN_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
 const MIN_HUMAN_CAL_INTAKE = 1500;
@@ -142,6 +145,7 @@ export const designDiet = async ({
   selectedMeals,
   currentWeight,
   targetWeight,
+  fitnessLevel,
   isVeg,
   uid
 }) => {
@@ -179,7 +183,7 @@ export const designDiet = async ({
     height: user.height,
     age: user.age,
     gender: user.gender.toLowerCase(),
-    fitnessLevel: 2
+    fitnessLevel,
   });
   console.log("Total daily calorie Intake is:", totalCalIntake);
   if (totalCalIntake <= 0) {
@@ -190,7 +194,7 @@ export const designDiet = async ({
   const calPerWeek = getCalPerWeek(totalCalIntake, selectedProgram);
 
   const trainingAndRestdayCals = calPerWeek.map(calories =>
-    getCalFromSources(goal, calories)
+    getCalFromSources(goal, calories, isVeg)
   );
 
   const defaultSourcesQuantities = await beginnerDefaultSourcesAndCal();
@@ -200,6 +204,8 @@ export const designDiet = async ({
     selectedCarbSources,
     isVeg
   });
+  const veggies = getVeggies(fitnessLevel);
+  const fruits = getFruits(fitnessLevel);
   const weeklyMeals = [];
   trainingAndRestdayCals.map(({ trainingDayCal, restDayCal }, index) => {
     if (
@@ -245,24 +251,29 @@ export const designDiet = async ({
       calFromFatsForRD =
         calFromFatsForRD -
         proteinSourcesAndQuantities.calFromSourcesForRD.calFromFatsForRD;
-      const fatSourcesAndQuantities = sourceQuantities({
-        selectedSources: fatSources,
-        calFromSource: calFromFats,
-        calFromSourceForRD: calFromFatsForRD,
-        isFat: true
-      });
-      calFromCarbs =
-        calFromCarbs - fatSourcesAndQuantities.calFromSources.calFromCarbs;
-      calFromCarbsForRD =
-        calFromCarbsForRD -
-        fatSourcesAndQuantities.calFromSourcesForRD.calFromCarbsForRD;
 
-      const carbSourcesAndQuantities = sourceQuantities({
-        selectedSources: carbSources,
-        calFromSource: calFromCarbs,
-        calFromSourceForRD: calFromCarbsForRD,
-        isCarb: true
-      });
+      let fatSourcesAndQuantities = [];
+      let carbSourcesAndQuantities = [];
+      if (!isVeg) {
+        fatSourcesAndQuantities = sourceQuantities({
+          selectedSources: fatSources,
+          calFromSource: calFromFats,
+          calFromSourceForRD: calFromFatsForRD,
+          isFat: true
+        });
+        calFromCarbs =
+          calFromCarbs - fatSourcesAndQuantities.calFromSources.calFromCarbs;
+        calFromCarbsForRD =
+          calFromCarbsForRD -
+          fatSourcesAndQuantities.calFromSourcesForRD.calFromCarbsForRD;
+
+        carbSourcesAndQuantities = sourceQuantities({
+          selectedSources: carbSources,
+          calFromSource: calFromCarbs,
+          calFromSourceForRD: calFromCarbsForRD,
+          isCarb: true
+        });
+      }
       const foodSources = [
         defaultSourcesQuantities,
         proteinSourcesAndQuantities,
@@ -273,7 +284,9 @@ export const designDiet = async ({
 
       const { trainingDayMeals, restDayMeals } = createMeals({
         foodSources,
-        numberOfMeals
+        numberOfMeals,
+        veggies,
+        fruits
       });
       const traningDayCalories =
         foodSourceCalories.calFromProtein +
@@ -307,53 +320,63 @@ export const designDiet = async ({
   return weeklyMeals;
 };
 
-getCalFromSources = (goal, totalCalIntake) => {
+getCalFromSources = (goal, totalCalIntake, isVeg) => {
+  let lossPercent = LOSS_MACRO_PERCENTS;
+  let gainPercent = GAIN_MACRO_PERCENTS;
+  let excludeProteinCal = 120;
+  const excludeFatCal = 100;
+  const excludeCarbCal = 0;
+  if (isVeg) {
+    lossPercent = LOSS_MACRO_PERCENTS_VEG;
+    gainPercent = GAIN_MACRO_PERCENTS_VEG;
+    //excludeProteinCal = 200;
+  }
   let calFromProtein =
     goal === WEIGHT_LOSS
-      ? (totalCalIntake * LOSS_MACRO_PERCENTS.protein) / 100
-      : (totalCalIntake * GAIN_MACRO_PERCENTS.protein) / 100;
+      ? (totalCalIntake * lossPercent.protein) / 100
+      : (totalCalIntake * gainPercent.protein) / 100;
 
   let calFromCarbs =
     goal === WEIGHT_LOSS
-      ? (totalCalIntake * LOSS_MACRO_PERCENTS.carbs) / 100
-      : (totalCalIntake * GAIN_MACRO_PERCENTS.carbs) / 100;
+      ? (totalCalIntake * lossPercent.carbs) / 100
+      : (totalCalIntake * gainPercent.carbs) / 100;
 
   let calFromFats =
     goal === WEIGHT_LOSS
-      ? (totalCalIntake * LOSS_MACRO_PERCENTS.fat) / 100
-      : (totalCalIntake * GAIN_MACRO_PERCENTS.fat) / 100;
+      ? (totalCalIntake * lossPercent.fat) / 100
+      : (totalCalIntake * gainPercent.fat) / 100;
 
   /* subtract 100 cal from protein and 50 cal from fat 
     because carb and fat sources contain some protein
     and also carb sources contain fat */
   const trainingDayCal = {
-    calFromProtein: calFromProtein - 120,
-    calFromFats: calFromFats - 100,
-    calFromCarbs
+    calFromProtein: calFromProtein - excludeProteinCal,
+    calFromFats: calFromFats - excludeFatCal,
+    calFromCarbs: calFromCarbs - excludeCarbCal
   };
 
   let calFromProteinForRD =
     goal === WEIGHT_LOSS
-      ? (BMR * LOSS_MACRO_PERCENTS.protein) / 100
-      : (BMR * GAIN_MACRO_PERCENTS.protein) / 100;
+      ? (BMR * lossPercent.protein) / 100
+      : (BMR * gainPercent.protein) / 100;
 
   let calFromCarbsForRD =
     goal === WEIGHT_LOSS
-      ? (BMR * LOSS_MACRO_PERCENTS.carbs) / 100
-      : (BMR * GAIN_MACRO_PERCENTS.carbs) / 100;
+      ? (BMR * lossPercent.carbs) / 100
+      : (BMR * gainPercent.carbs) / 100;
 
   let calFromFatsForRD =
     goal === WEIGHT_LOSS
-      ? (BMR * LOSS_MACRO_PERCENTS.fat) / 100
-      : (BMR * GAIN_MACRO_PERCENTS.fat) / 100;
+      ? (BMR * lossPercent.fat) / 100
+      : (BMR * gainPercent.fat) / 100;
 
   /* subtract 100 cal from protein and 50 cal from fat 
     because carb and fat sources contain some protein
     and also carb sources contain fat */
   const restDayCal = {
-    calFromProteinForRD: calFromProteinForRD - 120,
-    calFromFatsForRD: calFromFatsForRD - 100,
-    calFromCarbsForRD
+    calFromProteinForRD: calFromProteinForRD - excludeProteinCal,
+    calFromFatsForRD: calFromFatsForRD - excludeFatCal,
+    calFromCarbsForRD: calFromCarbsForRD - excludeCarbCal
   };
 
   return {
@@ -483,31 +506,33 @@ totalCaloriesFromSourceQuantities = foodSources => {
   let calFromFatsForRD = 0;
   let calFromCarbsForRD = 0;
   foodSources.map((sources, index) => {
-    let calFromSources = {};
-    let calFromSourcesForRD = {};
-    if (index === 0) {
-      calFromSources = sources.calFromSources;
-      calFromSourcesForRD = {
-        calFromProteinForRD: sources.calFromSources.calFromProtein,
-        calFromFatsForRD: sources.calFromSources.calFromFats,
-        calFromCarbsForRD: sources.calFromSources.calFromCarbs
-      };
-    } else {
-      calFromSources = sources.calFromSources;
-      calFromSourcesForRD = sources.calFromSourcesForRD;
+    if (sources && sources.calFromSources) {
+      let calFromSources = {};
+      let calFromSourcesForRD = {};
+      if (index === 0) {
+        calFromSources = sources.calFromSources;
+        calFromSourcesForRD = {
+          calFromProteinForRD: sources.calFromSources.calFromProtein,
+          calFromFatsForRD: sources.calFromSources.calFromFats,
+          calFromCarbsForRD: sources.calFromSources.calFromCarbs
+        };
+      } else {
+          calFromSources = sources.calFromSources;
+          calFromSourcesForRD = sources.calFromSourcesForRD;
+      }
+      calFromProtein = Math.round(calFromProtein + calFromSources.calFromProtein);
+      calFromProteinForRD = Math.round(
+        calFromProteinForRD + calFromSourcesForRD.calFromProteinForRD
+      );
+      calFromFats = Math.round(calFromFats + calFromSources.calFromFats);
+      calFromFatsForRD = Math.round(
+        calFromFatsForRD + calFromSourcesForRD.calFromFatsForRD
+      );
+      calFromCarbs = Math.round(calFromCarbs + calFromSources.calFromCarbs);
+      calFromCarbsForRD = Math.round(
+        calFromCarbsForRD + calFromSourcesForRD.calFromCarbsForRD
+      );
     }
-    calFromProtein = Math.round(calFromProtein + calFromSources.calFromProtein);
-    calFromProteinForRD = Math.round(
-      calFromProteinForRD + calFromSourcesForRD.calFromProteinForRD
-    );
-    calFromFats = Math.round(calFromFats + calFromSources.calFromFats);
-    calFromFatsForRD = Math.round(
-      calFromFatsForRD + calFromSourcesForRD.calFromFatsForRD
-    );
-    calFromCarbs = Math.round(calFromCarbs + calFromSources.calFromCarbs);
-    calFromCarbsForRD = Math.round(
-      calFromCarbsForRD + calFromSourcesForRD.calFromCarbsForRD
-    );
   });
 
   return {

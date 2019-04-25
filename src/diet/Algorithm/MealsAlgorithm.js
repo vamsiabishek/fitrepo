@@ -2,7 +2,12 @@ const roundToNearestTenFactor = value => {
   return Math.round(value / 10) * 10;
 };
 
-export const createMeals = ({ foodSources, numberOfMeals }) => {
+export const createMeals = ({
+  foodSources,
+  numberOfMeals,
+  veggies,
+  fruits
+}) => {
   let trainingDayMeals = [];
   let restDayMeals = [];
   //contains list of protein, carbs, fat and default sources
@@ -10,12 +15,20 @@ export const createMeals = ({ foodSources, numberOfMeals }) => {
     let sources = [];
     if (index === 0) sources = foodSource.defaultSourcesQuantities;
     else sources = foodSource.sourceQuantityDistribution;
-    createMealsPerMacro({
-      sources,
-      numberOfMeals,
-      trainingDayMeals,
-      restDayMeals
-    });
+    if (sources)
+      createMealsPerMacro({
+        sources,
+        numberOfMeals,
+        trainingDayMeals,
+        restDayMeals,
+      });
+  });
+  addVeggiesAndFruits({
+    trainingDayMeals,
+    restDayMeals,
+    numberOfMeals,
+    veggies,
+    fruits
   });
   console.log("trainingDayMeals:", trainingDayMeals);
   console.log("restDayMeals:", restDayMeals);
@@ -26,7 +39,7 @@ createMealsPerMacro = ({
   sources,
   numberOfMeals,
   trainingDayMeals,
-  restDayMeals
+  restDayMeals,
 }) => {
   let x = 1;
   let sourceQuantityMap = {};
@@ -102,7 +115,7 @@ createMealsPerMacro = ({
         let source = {};
 
         if (sourceQuantityMap[key].macroValue > 0) {
-          const { meal, updatedSource, sourceMap } = mealForSource({
+          let { meal, updatedSource, sourceMap } = mealForSource({
             source,
             meal: trainingDayMeal,
             sourceMap: sourceQuantityMap,
@@ -254,4 +267,85 @@ mealForSource = ({
   meal.sources.push(source);
 
   return { meal, updatedSource: source, sourceMap };
+};
+
+addVeggiesAndFruits = ({
+  trainingDayMeals,
+  restDayMeals,
+  numberOfMeals,
+  veggies,
+  fruits
+}) => {
+  trainingDayMeals.map((meal, index) => {
+    addVeggiesAndFruitsPerMeal({
+      meal,
+      mealNumber: index + 1,
+      veggies,
+      fruits,
+      numberOfMeals
+    });
+  });
+
+  restDayMeals.map((meal, index) => {
+    addVeggiesAndFruitsPerMeal({
+      meal,
+      mealNumber: index + 1,
+      veggies,
+      fruits,
+      numberOfMeals
+    });
+  });
+};
+
+addVeggiesAndFruitsPerMeal = ({
+  meal,
+  mealNumber,
+  numberOfMeals,
+  veggies,
+  fruits
+}) => {
+  let mealsWithVeggies = [];
+  let mealsWithFruits = [];
+  if (numberOfMeals === 4) {
+    mealsWithVeggies = [2, 4];
+    mealsWithFruits = [1, 3];
+  } else if (numberOfMeals === 5) {
+    mealsWithVeggies = [2, 5];
+    mealsWithFruits = [1, 3];
+  } else if (numberOfMeals === 6) {
+    mealsWithVeggies = [2, 6];
+    mealsWithFruits = [1, 4];
+  }
+  if (mealsWithVeggies.includes(mealNumber)) {
+    const veggieName = veggies.reduce(
+      (veggieName, veggie, index) => {
+        if(index === 0)
+          return veggieName + veggie.value.name
+        else
+          return veggieName + "," + veggie.value.name
+      },
+      ""
+    );
+
+    const source = {
+      name: `Veggies [${veggieName}]`,
+      macroValue: 0,
+      macroValueAlt: "1/2 bowl",
+      isVeggie: true
+    };
+    meal.sources.push(source);
+  }
+  mealsWithFruits.map(fruitMealNum => {
+    if (fruitMealNum === mealNumber) {
+      const fruit = fruitMealNum === 1 ? fruits[0] : fruits[1];
+      const source = {
+        name: fruit.value.name,
+        macroValue: 0,
+        macroValueAlt: fruit.value.defaultQuantity,
+        isFruit: true
+      };
+      meal.sources.push(source);
+    }
+  });
+  return meal;
 };

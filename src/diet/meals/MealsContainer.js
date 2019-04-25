@@ -63,7 +63,7 @@ export default class MealsContainer extends Component {
     var desc = null;
     const rotateX = this.onLoadAnimatedValue.interpolate({
       inputRange: [0, 0.5, 1],
-      outputRange: ["0deg", "180deg", "360deg"]
+      outputRange: ["0deg", "45deg", "0deg"]
     });
     const onLoadAnimatedStyle = {
       transform: [{ rotateX }]
@@ -79,11 +79,13 @@ export default class MealsContainer extends Component {
             let metricUnit = "gm";
             if (source.isPerSingleUnit) metricUnit = "";
             if (source.hasTableSpoon) metricUnit = "tbsp";
+            let quantity = `${source.macroValue} ${metricUnit}`
+            if(source.isVeggie || source.isFruit) quantity = source.macroValueAlt
             return (
               <View style={styles.mealItem} key={index}>
                 <Text style={styles.mealItemName}>{source.name}</Text>
                 <Text style={styles.mealItemQuantity}>
-                  {source.macroValue} {metricUnit}
+                  {quantity}
                 </Text>
               </View>
             );
