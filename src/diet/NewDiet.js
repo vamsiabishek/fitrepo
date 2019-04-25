@@ -25,11 +25,7 @@ import {
   SCREEN_WIDTH,
   styleCommon
 } from "../../assets/style/stylesCommonValues";
-import {
-  proteinSources,
-  carbSources,
-  fatSources
-} from "../common/SourceImages";
+import { getSourcesWithImages } from "../common/SourceUtil";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -54,9 +50,9 @@ export default class NewDiet extends Component {
       showTargetWeightButton: false,
       navButtonActive: false,
       screen: 1,
-      proteinSources: proteinSources,
-      carbSources: carbSources,
-      fatSources: fatSources,
+      proteinSources: getSourcesWithImages("protein"),
+      carbSources: getSourcesWithImages("carb"),
+      fatSources: getSourcesWithImages("fat"),
       selectedProteinSources: [],
       selectedCarbSources: [],
       selectedFatSources: [],
@@ -121,12 +117,21 @@ export default class NewDiet extends Component {
   };
   setFoodPref = foodPreference => {
     const { numberOfMeals } = this.state;
+    let { proteinSources, carbSources, fatSources, isVeg } = this.state;
+    isVeg = foodPreference === 0;
+    proteinSources = getSourcesWithImages("protein", isVeg);
+    carbSources = getSourcesWithImages("carb", isVeg);
+    fatSources = getSourcesWithImages("fat", isVeg);
     this.setState({
       foodPreference,
+      isVeg,
       navButtonActive: this.changeNavButtonToActive(
         foodPreference,
         numberOfMeals
-      )
+      ),
+      proteinSources,
+      carbSources,
+      fatSources
     });
   };
   setNoOfMeals = numberOfMeals => {

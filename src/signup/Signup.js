@@ -131,11 +131,11 @@ export default class Signup extends Component {
   };
   setFoodPref = foodPreference => {
     const { numberOfMeals } = this.state;
-    let { proteinSources, carbSources, fatSources, isVeg } = this.state
-    isVeg = foodPreference === 0
-    proteinSources = getSourcesWithImages("protein", isVeg)
-    carbSources = getSourcesWithImages("carb", isVeg)
-    fatSources = getSourcesWithImages("fat", isVeg)
+    let { proteinSources, carbSources, fatSources, isVeg } = this.state;
+    isVeg = foodPreference === 0;
+    proteinSources = getSourcesWithImages("protein", isVeg);
+    carbSources = getSourcesWithImages("carb", isVeg);
+    fatSources = getSourcesWithImages("fat", isVeg);
     this.setState({
       foodPreference,
       isVeg,
@@ -143,7 +143,9 @@ export default class Signup extends Component {
         foodPreference,
         numberOfMeals
       ),
-      proteinSources, carbSources, fatSources
+      proteinSources,
+      carbSources,
+      fatSources
     });
   };
   setNoOfMeals = numberOfMeals => {
@@ -656,7 +658,6 @@ export default class Signup extends Component {
               style={commonStyles.container}
               contentContainerStyle={commonStyles.scrollContentContainer}
             >
-              
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
