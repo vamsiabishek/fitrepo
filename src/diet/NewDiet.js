@@ -25,6 +25,11 @@ import {
   SCREEN_WIDTH,
   styleCommon
 } from "../../assets/style/stylesCommonValues";
+import {
+  proteinSources,
+  carbSources,
+  fatSources
+} from "../common/SourceImages";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -49,33 +54,9 @@ export default class NewDiet extends Component {
       showTargetWeightButton: false,
       navButtonActive: false,
       screen: 1,
-      proteinSources: [
-        {
-          name: "Chicken breast",
-          uri: require("../../assets/images/sources/chicken-breast.png")
-        },
-        {
-          name: "Salmon",
-          uri: require("../../assets/images/sources/salmon.png")
-        },
-        { name: "Eggs", uri: require("../../assets/images/sources/eggs.png") },
-        {
-          name: "Panner",
-          uri: require("../../assets/images/sources/panner.png")
-        },
-        { name: "Tofu", uri: require("../../assets/images/sources/tofu.png") },
-        { name: "Rajma", uri: require("../../assets/images/sources/rajma.png") }
-      ],
-      carbSources: [
-        { name: "White rice" },
-        { name: "Chapati" },
-        { name: "Bread" }
-      ],
-      fatSources: [
-        { name: "Chia seeds" },
-        { name: "Flax seeds" },
-        { name: "Almonds" }
-      ],
+      proteinSources: proteinSources,
+      carbSources: carbSources,
+      fatSources: fatSources,
       selectedProteinSources: [],
       selectedCarbSources: [],
       selectedFatSources: [],
@@ -449,9 +430,9 @@ export default class NewDiet extends Component {
       selectedMeals: numberOfMeals,
       currentWeight: weight,
       targetWeight,
-      isVeg: false,
+      isVeg: false
     };
-    const dietId = await createDiet({uid, dietInfo});
+    const dietId = await createDiet({ uid, dietInfo });
     this.setState({ isLoadingDiet: false });
     this.props.navigation.navigate("MyDiet", { dietId });
   };

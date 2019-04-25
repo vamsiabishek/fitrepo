@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { Text, View, ScrollView, Animated, Easing } from "react-native";
-import { styles } from "../../../assets/style/stylesMealContainer";
 import Timeline from "react-native-timeline-listview";
+import { styles } from "../../../assets/style/stylesMealContainer";
+import { MEALS_ICON } from "../../common/Common";
 
 export default class MealsContainer extends Component {
   constructor(props) {
     super(props);
-
-    // if(meals.length > 0)
-    //   meals.map(meal => meal.icon = require("../../../assets/images/dish.png"));
-
     this.state = {
       setIconUp: false,
       selected: null
@@ -102,11 +99,13 @@ export default class MealsContainer extends Component {
   };
 
   render() {
-    const { meals, dayBarScrollY, showDayLabelOnScroll, hideDayLabelOnScroll} = this.props;
-    if (meals.length > 0)
-      meals.map(
-        meal => (meal.icon = require("../../../assets/images/meal_1.png"))
-      );
+    const {
+      meals,
+      dayBarScrollY,
+      showDayLabelOnScroll,
+      hideDayLabelOnScroll
+    } = this.props;
+    if (meals.length > 0) meals.map(meal => (meal.icon = MEALS_ICON));
     return (
       <ScrollView
         removeClippedSubviews={false}

@@ -40,7 +40,7 @@ export default class Diet extends Component {
       currentDietOption: "myDiets",
       pupularDiets: [],
       myDiets: [],
-      isLoading: false,
+      isLoading: false
     };
   }
   componentDidMount = async () => {
@@ -144,11 +144,18 @@ export default class Diet extends Component {
                   buttonStyle={styles.nextButtonStyle}
                   titleStyle={styles.nextButtonTitleStyle}
                   icon={
-                    <Icon
+                    /*<Icon
                       name="pencil-outline"
                       size={ICON_SIZE_MED}
                       style={styles.nextButtonIconStyle}
-                    />
+                    />*/
+                    {
+                      name: "pencil",
+                      size: ICON_SIZE_MED,
+                      color: styleCommon.secondaryButtonTextColor,
+                      style: styles.nextButtonIconStyle,
+                      type: "material-community"
+                    }
                   }
                   iconRight={true}
                   onPress={() =>
@@ -161,7 +168,7 @@ export default class Diet extends Component {
             </View>
 
             <View style={styles.subHeaderContainer}>
-              { /*<TouchableOpacity
+              {/*<TouchableOpacity
                 style={
                   currentDietOption === "popular"
                     ? styles.activeSubHeaderComponents

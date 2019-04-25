@@ -15,7 +15,12 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { styles } from "../../assets/style/stylesSignUpScreen2";
 import { auth, database } from "../common/FirebaseConfig";
-import { ICON_SIZE, MIN_DATE, MAX_DATE } from "../common/Common";
+import {
+  ICON_SIZE,
+  MIN_DATE,
+  MAX_DATE,
+  GRADIENT_BG_IMAGE
+} from "../common/Common";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -175,7 +180,7 @@ export default class SignUpScreen2 extends Component {
     } = this.state;
     return (
       <ImageBackground
-        source={require("../../assets/images/SignUp_Photo_Slide_1.jpg")}
+        source={GRADIENT_BG_IMAGE}
         style={styles.bgImage}
         /*imageStyle={{
           opacity: 0.8

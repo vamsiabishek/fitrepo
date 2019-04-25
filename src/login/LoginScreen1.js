@@ -1,26 +1,15 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  ImageBackground,
-  StatusBar,
-  LayoutAnimation
-} from "react-native";
+import { Text, View, StatusBar, LayoutAnimation } from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { Input, Button, SocialIcon } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
-import { f, auth, database } from "./../common/FirebaseConfig";
-import {
-  BG_IMAGE,
-  EMAIL_VERIFICATION,
-  PASSWORD_LENGTH_MINIMUM
-} from "../common/Common";
+import { f, auth } from "./../common/FirebaseConfig";
+import { EMAIL_VERIFICATION, PASSWORD_LENGTH_MINIMUM } from "../common/Common";
 import {
   ICON_SIZE,
   btnGradientColorLeft,
-  modalBtnGradientColorRight,
-  btnGradientColorRight
+  modalBtnGradientColorRight
 } from "../../assets/style/stylesCommonValues";
 import LinearGradient from "react-native-linear-gradient";
 

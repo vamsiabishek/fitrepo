@@ -15,6 +15,7 @@ import { styles } from "../../assets/style/stylesSignUpScreen1";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { auth, database } from "../common/FirebaseConfig";
 import {
+  GRADIENT_BG_IMAGE,
   EMAIL_VERIFICATION,
   ICON_SIZE,
   GRADIENT_COLORS_ARRAY,
@@ -154,7 +155,7 @@ export default class SignUpScreen1 extends Component {
     } = this.state;
     return (
       <ImageBackground
-        source={require("../../assets/images/SignUp_Photo_Slide_1.jpg")}
+        source={GRADIENT_BG_IMAGE}
         style={styles.bgImage}
         /*imageStyle={{
           opacity: 0.8
