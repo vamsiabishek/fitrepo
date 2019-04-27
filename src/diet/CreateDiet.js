@@ -5,6 +5,11 @@ import DietGoalPlan from "./DietGoalPlan";
 import SelectFoodSources from "./SelectFoodSources";
 import { styles } from "../../assets/style/stylesCreateDiet";
 import { designDiet } from "../diet/Algorithm/DietAlgorithm";
+import {
+  FOOD_PREF_VEG,
+  FOOD_PREF_NON_VEG,
+  FOOD_PREF_EGGETARIAN
+} from "../common/SourceUtil";
 
 export default class CreateDiet extends Component {
   constructor(props) {
@@ -21,7 +26,7 @@ export default class CreateDiet extends Component {
       currentWeight: 0,
       targetWeight: 0,
       targetWeightIndex: 0,
-      isVeg: false,
+      foodPreference: FOOD_PREF_NON_VEG,
       isLoading: false
     };
   }
@@ -42,7 +47,7 @@ export default class CreateDiet extends Component {
     targetWeightIndex,
     selectedMeals,
     progress,
-    isVeg,
+    foodPreference,
   }) => {
     this.setState({
       selectedGoal,
@@ -51,7 +56,7 @@ export default class CreateDiet extends Component {
       targetWeightIndex,
       targetWeight,
       selectedMeals,
-      isVeg,
+      foodPreference,
     });
     this.changeSelectionLevel(progress);
   };
@@ -64,7 +69,7 @@ export default class CreateDiet extends Component {
     targetWeightIndex,
     selectedMeals,
     progress,
-    isVeg,
+    foodPreference,
   }) => {
     this.setState({
       selectedGoal,
@@ -73,7 +78,7 @@ export default class CreateDiet extends Component {
       targetWeightIndex,
       targetWeight,
       selectedMeals,
-      isVeg,
+      foodPreference,
     });
     this.changeSelectionLevel(progress);
     this.props.navigation.navigate("Diet");
@@ -109,7 +114,7 @@ export default class CreateDiet extends Component {
       selectedMeals,
       currentWeight,
       targetWeight,
-      isVeg
+      foodPreference
     } = this.state;
     this.setState({ isLoading: true });
     const { uid } = await f.auth().currentUser;
@@ -122,7 +127,7 @@ export default class CreateDiet extends Component {
       selectedMeals,
       currentWeight,
       targetWeight,
-      isVeg,
+      foodPreference,
       uid
     };
 
@@ -149,7 +154,7 @@ export default class CreateDiet extends Component {
       targetWeight,
       traningDayCal,
       restDayCal,
-      isVeg,
+      foodPreference,
       userId: uid
     };
 

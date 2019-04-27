@@ -9,7 +9,7 @@ export const createDiet = async ({dietInfo, uid}) => {
     currentWeight,
     targetWeight,
     fitnessLevel,
-    isVeg,
+    foodPreference,
   } = dietInfo
   //create diet using these options
   const mealDetails = await designDiet({
@@ -25,7 +25,7 @@ export const createDiet = async ({dietInfo, uid}) => {
     currentWeight,
     targetWeight,
     fitnessLevel,
-    isVeg,
+    foodPreference,
   };
 
   //save diet and meals

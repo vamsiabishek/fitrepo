@@ -11,6 +11,10 @@ import {
   fatSourcesWithImages
 } from "./SourcesWithImages";
 
+export const FOOD_PREF_VEG = "VEG";
+export const FOOD_PREF_NON_VEG = "NON_VEG";
+export const FOOD_PREF_EGGETARIAN = "EGGETARIAN";
+
 export const getProteinSources = () => {
   return createKeyAndValues(proteinSources);
 };
@@ -23,29 +27,30 @@ export const getFatSources = () => {
   return createKeyAndValues(fatSources);
 };
 
-export const getProteinSourcesWithImages = isVeg => {
-  return isVeg
-    ? proteinSourcesWithImages.filter(source => source.isVeg)
-    : proteinSourcesWithImages;
+export const getProteinSourcesWithImages = foodPreference => {
+  let proteinSources = [];
+  if(foodPreference === FOOD_PREF_VEG)
+    proteinSources = proteinSourcesWithImages.filter(source => source.isStandardForVeg)
+  else if(foodPreference === FOOD_PREF_NON_VEG)
+    proteinSources = proteinSourcesWithImages.filter(source => source.isStandardForNonVeg)
+  else if(foodPreference === FOOD_PREF_EGGETARIAN)
+    proteinSources = proteinSourcesWithImages.filter(source => source.isStandardForEgg)
+  return proteinSources
 };
 
-export const getCarbSourcesWithImages = isVeg => {
-  return isVeg
-    ? carbSourcesWithImages.filter(source => source.isVeg)
-    : carbSourcesWithImages;
+export const getCarbSourcesWithImages = () => {
+  return carbSourcesWithImages
 };
 
-export const getFatSourcesWithImages = isVeg => {
-  return isVeg
-    ? fatSourcesWithImages.filter(source => source.isVeg)
-    : fatSourcesWithImages;
+export const getFatSourcesWithImages = () => {
+  return fatSourcesWithImages
 };
 
-export const getSourcesWithImages = (sourceType, isVeg) => {
+export const getSourcesWithImages = (sourceType, foodPreference) => {
   let sources = [];
-  if (sourceType === "protein") sources = getProteinSourcesWithImages(isVeg);
-  else if (sourceType === "carb") sources = getCarbSourcesWithImages(isVeg);
-  else if (sourceType === "fat") sources = getFatSourcesWithImages(isVeg);
+  if (sourceType === "protein") sources = getProteinSourcesWithImages(foodPreference);
+  else if (sourceType === "carb") sources = getCarbSourcesWithImages();
+  else if (sourceType === "fat") sources = getFatSourcesWithImages();
   return sources;
 };
 
@@ -61,8 +66,11 @@ export const getStandardSources = sourceType => {
   return createKeyAndValuesForStandard(getSourcesByType(sourceType));
 };
 
-export const getStandardVegSources = sourceType => {
-  return createKeyAndValuesForStandardVeg(getSourcesByType(sourceType));
+export const getStandardForProteinSources = foodPref => {
+  return createKeyAndValuesForStandardProtein(
+    getSourcesByType("protein"),
+    foodPref
+  );
 };
 
 export const getDefaultSources = sourceType => {
@@ -133,7 +141,7 @@ export const createKeyAndValuesForStandard = sources => {
   const standardSources = [];
   Object.keys(sources).map(key => {
     const value = sources[key];
-    if (value.isStandardForBeginner)
+    if (value.isStandard)
       standardSources.push({
         key,
         value
@@ -142,11 +150,15 @@ export const createKeyAndValuesForStandard = sources => {
   return standardSources;
 };
 
-export const createKeyAndValuesForStandardVeg = sources => {
+export const createKeyAndValuesForStandardProtein = (sources, foodPref) => {
   const standardSources = [];
   Object.keys(sources).map(key => {
     const value = sources[key];
-    if (value.isStandardForBeginner && value.isVeg)
+    if (
+      (foodPref === FOOD_PREF_VEG && value.isStandardForVeg) ||
+      (foodPref === FOOD_PREF_NON_VEG && value.isStandardForNonVeg) ||
+      (foodPref === FOOD_PREF_EGGETARIAN && value.isStandardForEgg)
+    )
       standardSources.push({
         key,
         value

@@ -8,6 +8,11 @@ import { sourceQuantities, manageSources } from "./SourceDistribution";
 import { createMeals } from "./MealsAlgorithm";
 import { convertGoal } from "../../common/Util";
 import { getVeggies, getFruits } from "../../common/SourceUtil"
+import {
+  FOOD_PREF_VEG,
+  FOOD_PREF_NON_VEG,
+  FOOD_PREF_EGGETARIAN
+} from "../../common/SourceUtil";
 
 const MALE = "male";
 const FEMALE = "female";
@@ -42,6 +47,7 @@ const LOSS_MACRO_PERCENTS = { carbs: 35, protein: 30, fat: 35 };
 const GAIN_MACRO_PERCENTS = { carbs: 40, protein: 30, fat: 30 };
 const LOSS_MACRO_PERCENTS_VEG = { carbs: 40, protein: 25, fat: 35 };
 const GAIN_MACRO_PERCENTS_VEG = { carbs: 45, protein: 25, fat: 30 };
+
 const BEGINNER_LOSS_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
 const BEGINNER_GAIN_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
 const MIN_HUMAN_CAL_INTAKE = 1500;
@@ -146,7 +152,7 @@ export const designDiet = async ({
   currentWeight,
   targetWeight,
   fitnessLevel,
-  isVeg,
+  foodPreference,
   uid
 }) => {
   console.log(
@@ -156,7 +162,7 @@ export const designDiet = async ({
     selectedMeals,
     currentWeight,
     targetWeight,
-    isVeg,
+    foodPreference,
     uid
   );
 
@@ -194,7 +200,7 @@ export const designDiet = async ({
   const calPerWeek = getCalPerWeek(totalCalIntake, selectedProgram);
 
   const trainingAndRestdayCals = calPerWeek.map(calories =>
-    getCalFromSources(goal, calories, isVeg)
+    getCalFromSources(goal, calories, foodPreference)
   );
 
   const defaultSourcesQuantities = await beginnerDefaultSourcesAndCal();
@@ -202,7 +208,7 @@ export const designDiet = async ({
     selectedProteinSources,
     selectedFatSources,
     selectedCarbSources,
-    isVeg
+    foodPreference
   });
   const veggies = getVeggies(fitnessLevel);
   const fruits = getFruits(fitnessLevel);
@@ -254,7 +260,7 @@ export const designDiet = async ({
 
       let fatSourcesAndQuantities = [];
       let carbSourcesAndQuantities = [];
-      if (!isVeg) {
+      if (foodPreference === FOOD_PREF_NON_VEG) {
         fatSourcesAndQuantities = sourceQuantities({
           selectedSources: fatSources,
           calFromSource: calFromFats,
@@ -320,13 +326,13 @@ export const designDiet = async ({
   return weeklyMeals;
 };
 
-getCalFromSources = (goal, totalCalIntake, isVeg) => {
+getCalFromSources = (goal, totalCalIntake, foodPreference) => {
   let lossPercent = LOSS_MACRO_PERCENTS;
   let gainPercent = GAIN_MACRO_PERCENTS;
   let excludeProteinCal = 120;
   const excludeFatCal = 100;
   const excludeCarbCal = 0;
-  if (isVeg) {
+  if (foodPreference === FOOD_PREF_VEG) {
     lossPercent = LOSS_MACRO_PERCENTS_VEG;
     gainPercent = GAIN_MACRO_PERCENTS_VEG;
     //excludeProteinCal = 200;

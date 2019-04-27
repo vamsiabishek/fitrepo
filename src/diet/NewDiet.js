@@ -25,6 +25,11 @@ import {
   SCREEN_WIDTH,
   styleCommon
 } from "../../assets/style/stylesCommonValues";
+import {
+  FOOD_PREF_VEG,
+  FOOD_PREF_NON_VEG,
+  FOOD_PREF_EGGETARIAN
+} from "../common/SourceUtil";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -44,7 +49,8 @@ export default class NewDiet extends Component {
       program: undefined,
       targetWeight: undefined,
       healthCond: undefined,
-      foodPreference: 0,
+      foodPreference: FOOD_PREF_VEG,
+      foodPrefBtn: 0,
       numberOfMeals: 4,
       showTargetWeightButton: false,
       navButtonActive: false,
@@ -138,22 +144,22 @@ export default class NewDiet extends Component {
   setHealthCond = healthCond => {
     this.setState({ healthCond });
   };
-  setFoodPref = foodPreference => {
+  setFoodPref = foodPrefBtn => {
     const { numberOfMeals } = this.state;
     this.setState({
-      foodPreference,
+      foodPrefBtn,
       navButtonActive: this.changeNavButtonToActive(
-        foodPreference,
+        foodPrefBtn,
         numberOfMeals
       )
     });
   };
   setNoOfMeals = numberOfMeals => {
-    const { foodPreference } = this.state;
+    const { foodPrefBtn } = this.state;
     this.setState({
       numberOfMeals,
       navButtonActive: this.changeNavButtonToActive(
-        foodPreference,
+        foodPrefBtn,
         numberOfMeals
       )
     });
@@ -165,10 +171,10 @@ export default class NewDiet extends Component {
       return false;
     }
   };
-  changeNavButtonToActive = (foodPreference, numberOfMeals) => {
+  changeNavButtonToActive = (foodPrefBtn, numberOfMeals) => {
     if (
-      foodPreference >= 0 &&
-      foodPreference.length !== 0 &&
+      foodPrefBtn >= 0 &&
+      foodPrefBtn.length !== 0 &&
       numberOfMeals > 0
     ) {
       return true;
@@ -347,7 +353,7 @@ export default class NewDiet extends Component {
       fitnessLevel,
       weight,
       targetWeight,
-      foodPreference,
+      foodPrefBtn,
       numberOfMeals
     } = this.state;
     let isScrollable = false;
@@ -362,8 +368,8 @@ export default class NewDiet extends Component {
       isScrollable = true;
     if (
       currentScreen === 4 &&
-      foodPreference.length !== 0 &&
-      foodPreference >= 0 &&
+      foodPrefBtn.length !== 0 &&
+      foodPrefBtn >= 0 &&
       numberOfMeals > 0
     )
       isScrollable = true;
@@ -508,7 +514,7 @@ export default class NewDiet extends Component {
       showTargetWeightButton,
       screen,
       healthCond,
-      foodPreference,
+      foodPrefBtn,
       numberOfMeals,
       user
     } = this.state;
@@ -608,7 +614,7 @@ export default class NewDiet extends Component {
                   <PreferenceDetails
                     healthCond={healthCond}
                     setHealthCond={this.setHealthCond}
-                    foodPreference={foodPreference}
+                    foodPreference={foodPrefBtn}
                     setFoodPref={this.setFoodPref}
                     numberOfMeals={numberOfMeals}
                     numberOfMealsOptions={[3, 4, 5, 6]}

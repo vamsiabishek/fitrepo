@@ -18,13 +18,13 @@ export const proteinSources = {
     fat: 0,
     isVeg: true,
     name: "Black Beans",
-    isStandardForBeginner: true,
-    protein: 15.2
+    isStandardForVeg: true,
+    protein: 15.2,
   },
   "chicken-breast": {
     carbs: 0,
     fat: 4,
-    isStandardForBeginner: true,
+    isStandardForNonVeg: true,
     isVeg: false,
     name: "Chicken breast",
     protein: 31
@@ -34,15 +34,23 @@ export const proteinSources = {
     fat: 6,
     isVeg: true,
     name: "Chickpeas/Channa",
-    isStandardForBeginner: true,
+    isStandardForVeg: true,
     protein: 19
+  },
+  quinoa: {
+    carbs: 64,
+    fat: 6,
+    name: "Quinoa",
+    protein: 14,
+    isStandardForEgg: true,
   },
   "egg-white": {
     carbs: 0,
     fat: 0,
     isBreakfast: true,
     isPerSingleUnit: true,
-    isStandardForBeginner: true,
+    isStandardForNonVeg: true,
+    isStandardForEgg: true,
     isVeg: false,
     name: "Egg White",
     protein: 4
@@ -52,7 +60,8 @@ export const proteinSources = {
     fat: 4.5,
     isBreakfast: true,
     isPerSingleUnit: true,
-    isStandardForBeginner: true,
+    isStandardForNonVeg: true,
+    isStandardForEgg: true,
     isVeg: false,
     name: "Whole Egg",
     protein: 6
@@ -91,7 +100,7 @@ export const proteinSources = {
     isVeg: true,
     name: "Paneer",
     protein: 18,
-    isStandardForBeginner: true,
+    isStandardForVeg: true,
   },
   pork: {
     carbs: 0,
@@ -110,7 +119,9 @@ export const proteinSources = {
   rajma: {
     carbs: 23,
     fat: 0,
-    isStandardForBeginner: true,
+    isStandardForVeg: true,
+    isStandardForNonVeg: true,
+    isStandardForEgg: true,
     isVeg: true,
     name: "Kidney Beans/Rajma",
     protein: 9
@@ -149,7 +160,7 @@ export const fatSources = {
   almonds: {
     carbs: 22,
     fat: 49,
-    isStandardForBeginner: true,
+    isStandard: true,
     name: "Almonds",
     protein: 21
   },
@@ -216,10 +227,11 @@ export const fatSources = {
   walnuts: {
     carbs: 14,
     fat: 65,
-    isStandardForBeginner: true,
+    isStandard: true,
     name: "Walnuts",
     protein: 15
-  }
+  },
+  
 };
 
 export const carbSources = {
@@ -232,7 +244,7 @@ export const carbSources = {
   chapathi: {
     carbs: 18,
     fat: 0,
-    isStandardForBeginner: true,
+    isStandard: true,
     name: "Chapathi",
     protein: 3
   },
@@ -240,7 +252,7 @@ export const carbSources = {
     carbs: 66,
     fat: 8,
     fiber: 8,
-    isStandardForBeginner: true,
+    isStandard: true,
     name: "Oats",
     protein: 11
   },
@@ -283,7 +295,7 @@ export const carbSources = {
   "white-rice": {
     carbs: 28,
     fat: 2.5,
-    isStandardForBeginner: true,
+    isStandard: true,
     name: "White rice",
     protein: 0
   }

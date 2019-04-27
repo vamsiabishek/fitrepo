@@ -28,6 +28,11 @@ import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
 import { auth, database } from "../common/FirebaseConfig";
 import { createDiet } from "./UpdateDiet";
 import { getSourcesWithImages } from "../common/SourceUtil";
+import {
+  FOOD_PREF_VEG,
+  FOOD_PREF_NON_VEG,
+  FOOD_PREF_EGGETARIAN
+} from "../common/SourceUtil";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -47,8 +52,8 @@ export default class Signup extends Component {
       program: undefined,
       targetWeight: undefined,
       healthCond: undefined,
-      foodPreference: 1,
-      isVeg: false,
+      foodPreference: FOOD_PREF_NON_VEG,
+      foodPrefBtn: 2,
       numberOfMeals: 4,
       showTargetWeightButton: false,
       navButtonActive: false,
@@ -129,31 +134,34 @@ export default class Signup extends Component {
   setHealthCond = healthCond => {
     this.setState({ healthCond });
   };
-  setFoodPref = foodPreference => {
+  setFoodPref = foodPrefBtn => {
     const { numberOfMeals } = this.state;
-    let { proteinSources, carbSources, fatSources, isVeg } = this.state
-    isVeg = foodPreference === 0
-    proteinSources = getSourcesWithImages("protein", isVeg)
-    carbSources = getSourcesWithImages("carb", isVeg)
-    fatSources = getSourcesWithImages("fat", isVeg)
+    let {
+      proteinSources,
+      carbSources,
+      fatSources,
+      foodPreference
+    } = this.state;
+    if (foodPrefBtn === 0) foodPreference = FOOD_PREF_VEG;
+    else if (foodPrefBtn === 1) foodPreference = FOOD_PREF_EGGETARIAN;
+    else if (foodPrefBtn === 2) foodPreference = FOOD_PREF_NON_VEG;
+    proteinSources = getSourcesWithImages("protein", foodPreference);
+    carbSources = getSourcesWithImages("carb", foodPreference);
+    fatSources = getSourcesWithImages("fat", foodPreference);
     this.setState({
+      foodPrefBtn,
       foodPreference,
-      isVeg,
-      navButtonActive: this.changeNavButtonToActive(
-        foodPreference,
-        numberOfMeals
-      ),
-      proteinSources, carbSources, fatSources
+      navButtonActive: this.changeNavButtonToActive(foodPrefBtn, numberOfMeals),
+      proteinSources,
+      carbSources,
+      fatSources
     });
   };
   setNoOfMeals = numberOfMeals => {
-    const { foodPreference } = this.state;
+    const { foodPrefBtn } = this.state;
     this.setState({
       numberOfMeals,
-      navButtonActive: this.changeNavButtonToActive(
-        foodPreference,
-        numberOfMeals
-      )
+      navButtonActive: this.changeNavButtonToActive(foodPrefBtn, numberOfMeals)
     });
   };
   changeShowTargetWeightButton = (dob, weight, height) => {
@@ -163,12 +171,8 @@ export default class Signup extends Component {
       return false;
     }
   };
-  changeNavButtonToActive = (foodPreference, numberOfMeals) => {
-    if (
-      foodPreference >= 0 &&
-      foodPreference.length !== 0 &&
-      numberOfMeals > 0
-    ) {
+  changeNavButtonToActive = (foodPrefBtn, numberOfMeals) => {
+    if (foodPrefBtn >= 0 && foodPrefBtn.length !== 0 && numberOfMeals > 0) {
       return true;
     } else {
       return false;
@@ -478,7 +482,7 @@ export default class Signup extends Component {
       age,
       weight,
       height,
-      foodPreference,
+      foodPrefBtn,
       numberOfMeals,
       isLoggedIn
     } = this.state;
@@ -503,8 +507,8 @@ export default class Signup extends Component {
       isScrollable = true;
     if (
       currentScreen === 6 &&
-      foodPreference.length !== 0 &&
-      foodPreference >= 0 &&
+      foodPrefBtn.length !== 0 &&
+      foodPrefBtn >= 0 &&
       numberOfMeals > 0
     )
       isScrollable = true;
@@ -526,7 +530,8 @@ export default class Signup extends Component {
       dob,
       age,
       weight,
-      height
+      height,
+      foodPreference
     } = this.state;
     let { user, gender } = this.state;
     gender = gender === 0 ? "Female" : "Male";
@@ -540,7 +545,8 @@ export default class Signup extends Component {
       dob,
       age,
       weight,
-      height
+      height,
+      foodPreference,
     };
     await database
       .ref("users")
@@ -566,7 +572,7 @@ export default class Signup extends Component {
       program,
       numberOfMeals,
       fitnessLevel,
-      isVeg,
+      foodPreference,
       user: { uid }
     } = this.state;
     const dietInfo = {
@@ -579,7 +585,7 @@ export default class Signup extends Component {
       currentWeight: weight,
       targetWeight,
       fitnessLevel,
-      isVeg,
+      foodPreference,
       uid
     };
     //console.log('dietInfo:', dietInfo)
@@ -619,8 +625,9 @@ export default class Signup extends Component {
       showTargetWeightButton,
       screen,
       healthCond,
+      foodPrefBtn,
+      numberOfMeals,
       foodPreference,
-      numberOfMeals
     } = this.state;
     const signupObject = {
       email,
@@ -656,7 +663,6 @@ export default class Signup extends Component {
               style={commonStyles.container}
               contentContainerStyle={commonStyles.scrollContentContainer}
             >
-              
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
@@ -667,7 +673,7 @@ export default class Signup extends Component {
                   <Goal goal={goal} setGoal={this.setGoal} />
                 </View>
               </View>
-              <View style={commonStyles.subContainer}>
+             <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
                     title="Your gender ?"
@@ -749,7 +755,7 @@ export default class Signup extends Component {
                   <PreferenceDetails
                     healthCond={healthCond}
                     setHealthCond={this.setHealthCond}
-                    foodPreference={foodPreference}
+                    foodPreference={foodPrefBtn}
                     setFoodPref={this.setFoodPref}
                     numberOfMeals={numberOfMeals}
                     numberOfMealsOptions={[3, 4, 5, 6]}
@@ -790,7 +796,7 @@ export default class Signup extends Component {
                   onNext={this.onNext}
                   buttonText={sourcesButtonLabel}
                 />
-              </View>
+            </View>
             </ScrollView>
           )}
         </ImageBackground>

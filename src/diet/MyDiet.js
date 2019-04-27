@@ -39,14 +39,26 @@ export default class MyDiet extends Component {
 
   componentDidMount = async () => {
     const { navigation } = this.props;
+    const dietId = navigation.getParam("dietId");
+    //const dietId = "-LdSbrpg2bQE60HR6SxC";
+    await this.loadDietDetails(dietId)
+  };
+
+  componentDidUpdate = async (prevProps) => {
+    const { navigation } = this.props;
+    const dietId = navigation.getParam("dietId");
+    if(dietId !== prevProps.navigation.getParam("dietId")) {
+      await this.loadDietDetails(dietId)
+    }
+  }
+
+  loadDietDetails = async dietId => {
     this.setState({ isLoading: true });
-    //const dietId = navigation.getParam("dietId");
-    const dietId = "-LdJvDSpWF6ZUN-IoAUH";
     console.log("fetching details for the diet with Id:", dietId);
     const { diet, meals } = await this.fetchDietAndMeals(dietId);
     console.log("diet and meals:", diet, meals);
     this.setState({ diet, meals: meals["0"], allMeals: meals });
-  };
+  }
 
   fetchDietAndMeals = async dietId => {
     const [diet, meals] = await Promise.all([
