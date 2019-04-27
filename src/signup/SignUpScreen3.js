@@ -16,6 +16,7 @@ import RadioForm from "react-native-simple-radio-button";
 import { styles } from "../../assets/style/stylesSignUpScreen3";
 import { auth, database } from "../common/FirebaseConfig";
 import {
+  GRADIENT_BG_IMAGE,
   LEVELS_OPTIONS,
   FOOD_PREFERENCES_OPTIONS,
   ICON_SIZE,
@@ -188,7 +189,7 @@ export default class SignUpScreen3 extends Component {
     } = this.state;
     return (
       <ImageBackground
-        source={require("../../assets/images/SignUp_Photo_Slide_1.jpg")}
+        source={GRADIENT_BG_IMAGE}
         style={styles.bgImage}
         /*imageStyle={{
           opacity: 0.8

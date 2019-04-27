@@ -25,6 +25,7 @@ import {
   SCREEN_WIDTH,
   styleCommon
 } from "../../assets/style/stylesCommonValues";
+import { getSourcesWithImages } from "../common/SourceUtil";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -49,33 +50,9 @@ export default class NewDiet extends Component {
       showTargetWeightButton: false,
       navButtonActive: false,
       screen: 1,
-      proteinSources: [
-        {
-          name: "Chicken breast",
-          uri: require("../../assets/images/sources/chicken-breast.png")
-        },
-        {
-          name: "Salmon",
-          uri: require("../../assets/images/sources/salmon.png")
-        },
-        { name: "Eggs", uri: require("../../assets/images/sources/eggs.png") },
-        {
-          name: "Panner",
-          uri: require("../../assets/images/sources/panner.png")
-        },
-        { name: "Tofu", uri: require("../../assets/images/sources/tofu.png") },
-        { name: "Rajma", uri: require("../../assets/images/sources/rajma.png") }
-      ],
-      carbSources: [
-        { name: "White rice" },
-        { name: "Chapati" },
-        { name: "Bread" }
-      ],
-      fatSources: [
-        { name: "Chia seeds" },
-        { name: "Flax seeds" },
-        { name: "Almonds" }
-      ],
+      proteinSources: getSourcesWithImages("protein"),
+      carbSources: getSourcesWithImages("carb"),
+      fatSources: getSourcesWithImages("fat"),
       selectedProteinSources: [],
       selectedCarbSources: [],
       selectedFatSources: [],
@@ -140,12 +117,21 @@ export default class NewDiet extends Component {
   };
   setFoodPref = foodPreference => {
     const { numberOfMeals } = this.state;
+    let { proteinSources, carbSources, fatSources, isVeg } = this.state;
+    isVeg = foodPreference === 0;
+    proteinSources = getSourcesWithImages("protein", isVeg);
+    carbSources = getSourcesWithImages("carb", isVeg);
+    fatSources = getSourcesWithImages("fat", isVeg);
     this.setState({
       foodPreference,
+      isVeg,
       navButtonActive: this.changeNavButtonToActive(
         foodPreference,
         numberOfMeals
-      )
+      ),
+      proteinSources,
+      carbSources,
+      fatSources
     });
   };
   setNoOfMeals = numberOfMeals => {
@@ -449,9 +435,9 @@ export default class NewDiet extends Component {
       selectedMeals: numberOfMeals,
       currentWeight: weight,
       targetWeight,
-      isVeg: false,
+      isVeg: false
     };
-    const dietId = await createDiet({uid, dietInfo});
+    const dietId = await createDiet({ uid, dietInfo });
     this.setState({ isLoadingDiet: false });
     this.props.navigation.navigate("MyDiet", { dietId });
   };
