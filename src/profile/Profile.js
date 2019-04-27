@@ -20,13 +20,13 @@ import { f, database } from "../common/FirebaseConfig";
 import {
   convertLevelToStarRating,
   convertLevelToLevelColor,
-  GRADIENT_COLORS_ARRAY,
   STAR_RATING_MAX,
   PROGRESS_BAR_WIDTH,
   PROGRESS_CIRCLE_RADIUS,
   PROGRESS_CIRCLE_BORDER_WIDTH,
   GRADIENT_BG_IMAGE,
-  GRADIENT_BG_BANNER_IMAGE
+  GRADIENT_BG_BANNER_IMAGE,
+  VITRUVIAN_MAN
 } from "../common/Common";
 import { commonStyles } from "../../assets/style/stylesCommon";
 import {
@@ -228,7 +228,7 @@ export default class Profile extends Component {
                       <Avatar
                         rounded
                         size={AVATAR_SIZE}
-                        source={require("../../assets/images/vitruvian_man.png")} //require("../../assets/images/edited-Vitruvian-Man.png")
+                        source={VITRUVIAN_MAN}
                         imageProps={{
                           resizeMode: "contain",
                           tintColor: styleCommon.textColor1

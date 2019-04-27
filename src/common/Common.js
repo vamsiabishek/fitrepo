@@ -14,15 +14,15 @@ export const FOOD_PREFERENCES_OPTIONS = [
   { label: "Non-Vegetarian", value: "Non-Vegetarian" }
 ];
 
-export const source1 = require("../../assets/images/SlideShowImages/FoodPage_1_Color.jpg");
-export const source2 = require("../../assets/images/SlideShowImages/FoodPage_2_Color.jpg");
-export const source3 = require("../../assets/images/SlideShowImages/FoodPage_3_Color.jpg");
-export const source4 = require("../../assets/images/SlideShowImages/FoodPage_4_Color.jpg");
-export const source5 = require("../../assets/images/SlideShowImages/FoodPage_5_Color.jpg");
-export const source6 = require("../../assets/images/SlideShowImages/FoodPage_6_Color.jpg");
-export const source7 = require("../../assets/images/SlideShowImages/FoodPage_7_Color.jpg");
-export const source8 = require("../../assets/images/SlideShowImages/FoodPage_8_Color.jpg");
-export const source9 = require("../../assets/images/SlideShowImages/FoodPage_8_Color.jpg");
+export const source1 = require("../../assets/images/SlideShowImages/FoodPage_1_Color.svg");
+export const source2 = require("../../assets/images/SlideShowImages/FoodPage_2_Color.svg");
+export const source3 = require("../../assets/images/SlideShowImages/FoodPage_3_Color.svg");
+export const source4 = require("../../assets/images/SlideShowImages/FoodPage_4_Color.svg");
+export const source5 = require("../../assets/images/SlideShowImages/FoodPage_5_Color.svg");
+export const source6 = require("../../assets/images/SlideShowImages/FoodPage_6_Color.svg");
+export const source7 = require("../../assets/images/SlideShowImages/FoodPage_7_Color.svg");
+export const source8 = require("../../assets/images/SlideShowImages/FoodPage_8_Color.svg");
+export const source9 = require("../../assets/images/SlideShowImages/FoodPage_8_Color.svg");
 
 export const calculateCalFromProteinOrCarbs = amount => amount * 4;
 
@@ -89,17 +89,18 @@ export const LEVEL_COLORS = {
   INT: "#C4CACE",
   BEG: "#CD7F32"
 };
-export const BG_IMAGE = require("../../assets/images/barbell.jpg");
-export const GRADIENT_BG_IMAGE = require("../../assets/images/Gradient_Image.png");
-export const GRADIENT_BG_BANNER_IMAGE = require("../../assets/images/gradient_image_banner.png");
-export const NON_VEG_ICON = require("../../assets/images/non-veg.png");
-export const VEG_ICON = require("../../assets/images/veg.png");
-export const MALE_BEGINNER_ICON = require("../../assets/images/beginner_1.png");
-export const MALE_INTERMEDIATE_ICON = require("../../assets/images/intermediate_1.png");
-export const MALE_ADVANCED_ICON = require("../../assets/images/advanced_1.png");
-export const FEMALE_BEGINNER_ICON = require("../../assets/images/beginner_0.png");
-export const FEMALE_INTERMEDIATE_ICON = require("../../assets/images/intermediate_0.png");
-export const FEMALE_ADVANCED_ICON = require("../../assets/images/advanced_0.png");
+export const MEALS_ICON = require("../../assets/images/extras/meals_icon.svg");
+export const VITRUVIAN_MAN = require("../../assets/images/extras/vitruvian_man.svg");
+export const GRADIENT_BG_IMAGE = require("../../assets/images/Gradient_Image.svg");
+export const GRADIENT_BG_BANNER_IMAGE = require("../../assets/images/gradient_image_banner.svg");
+export const NON_VEG_ICON = require("../../assets/images/non-veg.svg");
+export const VEG_ICON = require("../../assets/images/veg.svg");
+export const MALE_BEGINNER_ICON = require("../../assets/images/beginner_1.svg");
+export const MALE_INTERMEDIATE_ICON = require("../../assets/images/intermediate_1.svg");
+export const MALE_ADVANCED_ICON = require("../../assets/images/advanced_1.svg");
+export const FEMALE_BEGINNER_ICON = require("../../assets/images/beginner_0.svg");
+export const FEMALE_INTERMEDIATE_ICON = require("../../assets/images/intermediate_0.svg");
+export const FEMALE_ADVANCED_ICON = require("../../assets/images/advanced_0.svg");
 export const BEGINNER_LABEL = "Beginner";
 export const INTERMEDIATE_LABEL = "Intermediate";
 export const ADVANCED_LABEL = "Advanced";
