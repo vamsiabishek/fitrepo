@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
   },
   headerIconStyle: {
     paddingRight: 10,
-    marginRight:30,
+    marginRight: 10,
     color: styleCommon.selectedButtonColor
   },
   contentBoxMainStyle: {
@@ -65,9 +65,11 @@ export const styles = StyleSheet.create({
     //backgroundColor: "purple"
   },
   buttonGroupTextStyle: {
+    textAlign: "center",
     fontSize: fontsCommon.font13
   },
   buttonGroupSelectedTextStyle: {
+    textAlign: "center",
     fontSize: fontsCommon.font14,
     fontWeight: "bold",
     color: styleCommon.primaryButtonTextColor
@@ -90,8 +92,8 @@ export const styles = StyleSheet.create({
     width: 25,
     height: 25,
     backgroundColor: styleCommon.selectedButtonColor,
-    justifyContent:"center",
-    alignItems:"center",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 10
   }
 });

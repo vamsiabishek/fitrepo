@@ -1,14 +1,43 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import {
   styleCommon,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
-  fontsCommon
+  fontsCommon,
+  DEVICE_NAME
 } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: SCREEN_WIDTH
+  },
+  backHeaderContainer: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    paddingTop:
+      Platform.OS === "ios" ? (DEVICE_NAME.includes("iPhone X") ? 40 : 20) : 10
+    //backgroundColor: "blueviolet"
+  },
+  buttonContainer: {
+    width: SCREEN_WIDTH
+    //backgroundColor: "chartreuse"
+  },
+  backButtonContainerStyle: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start"
+    //backgroundColor: "burlywood"
+  },
+  backButtonStyle: {
+    borderWidth: 0,
+    borderColor: "transparent",
+    backgroundColor: "transparent"
+  },
+  backButtonTitleStyle: {
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font18
   },
   weeklyBarStyle: {
     flexDirection: "row",
@@ -19,7 +48,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     //shadowRadius: 2,
     elevation: 10,
-    zIndex: 1,
+    zIndex: 1
   },
   weeklyTouchableStyle: {
     flexDirection: "row"

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StatusBar, LayoutAnimation } from "react-native";
+import { Text, View, LayoutAnimation } from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { Input, Button, SocialIcon } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -11,6 +11,7 @@ import {
   btnGradientColorLeft,
   modalBtnGradientColorRight
 } from "../../assets/style/stylesCommonValues";
+import Loading from "../components/Loading";
 import LinearGradient from "react-native-linear-gradient";
 
 export default class LoginScreen1 extends Component {
@@ -116,119 +117,127 @@ export default class LoginScreen1 extends Component {
       password,
       passwordValid,
       emailValid,
-      showLoading
+      showLoading,
+      isLoading
     } = this.state;
     return (
       <View style={styles.container}>
-        <StatusBar />
-        <View style={styles.loginView}>
-          <View style={styles.logoContainer}>
-            <Text style={styles.logoText}>FITREPO</Text>
+        {isLoading ? (
+          <Loading
+            text={"Logging you into Fitrepo..."}
+            animationStr={require("../../assets/jsons/user_animation_4.json")}
+            isTextBold={false}
+          />
+        ) : (
+          <View style={styles.loginView}>
+            <View style={styles.logoContainer}>
+              <Text style={styles.logoText}>FITREPO</Text>
+            </View>
+            <View style={styles.loginInputContainer}>
+              <Input
+                placeholder="Email"
+                placeholderTextColor="white"
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                errorStyle={styles.errorInputStyle}
+                leftIcon={
+                  <Icon
+                    name="account"
+                    color={styles.loginButtonDes.color}
+                    size={ICON_SIZE}
+                  />
+                }
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardAppearance="dark"
+                keyboardType="email-address"
+                returnKeyType="done"
+                value={email}
+                onChangeText={value => this.onEmailChange(value)}
+                ref={input => (this.emailInput = input)}
+                onSubmitEditing={() => {
+                  this.setState({ emailValid: this.validateEmail });
+                  this.passwordInput.focus();
+                }}
+                errorMessage={
+                  emailValid ? null : "Please enter a valid email address"
+                }
+              />
+              <Input
+                placeholder="Password"
+                placeholderTextColor="white"
+                leftIcon={
+                  <Icon
+                    name="key-variant"
+                    color={styles.loginButtonDes.color}
+                    size={ICON_SIZE}
+                  />
+                }
+                containerStyle={styles.inputContainer}
+                inputStyle={styles.inputStyle}
+                errorStyle={styles.errorInputStyle}
+                keyboardAppearance="dark"
+                keyboardType="default"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="default"
+                returnKeyType="go"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={password => this.onPasswordChange(password)}
+                ref={input => (this.passwordInput = input)}
+                onSubmitEditing={() => {
+                  this.setState({ passwordValid: this.validatePassword });
+                }}
+                errorMessage={
+                  passwordValid ? null : "Please enter a valid password"
+                }
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button
+                title="LOGIN"
+                icon={
+                  <Icon
+                    name="login"
+                    size={ICON_SIZE}
+                    style={styles.loginButtonIcon}
+                  />
+                }
+                iconRight={true}
+                loading={showLoading}
+                ViewComponent={LinearGradient}
+                linearGradientProps={{
+                  colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
+                  start: { x: 0, y: 0.5 },
+                  end: { x: 1, y: 0.5 }
+                }}
+                containerStyle={styles.loginButtonContainerStyle}
+                buttonStyle={styles.loginButtonStyle}
+                titleStyle={styles.loginButtonText}
+                onPress={() => this.submitLoginCredentials()}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <SocialIcon
+                style={styles.facebookLoginBtn}
+                title="Login With Facebook"
+                button
+                type="facebook"
+                onPress={() => this.onFBLogin()}
+              />
+            </View>
+            <View style={styles.signUpHereContainer}>
+              <Text style={styles.newUserText}>New here ?</Text>
+              <Button
+                title="SIGN UP"
+                titleStyle={styles.signUpButtonTitle}
+                type="clear"
+                onPress={() => this.signUpButttonClicked()}
+              />
+            </View>
           </View>
-          <View style={styles.loginInputContainer}>
-            <Input
-              placeholder="Email"
-              placeholderTextColor="white"
-              containerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              errorStyle={styles.errorInputStyle}
-              leftIcon={
-                <Icon
-                  name="account"
-                  color={styles.loginButtonDes.color}
-                  size={ICON_SIZE}
-                />
-              }
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardAppearance="dark"
-              keyboardType="email-address"
-              returnKeyType="done"
-              value={email}
-              onChangeText={value => this.onEmailChange(value)}
-              ref={input => (this.emailInput = input)}
-              onSubmitEditing={() => {
-                this.setState({ emailValid: this.validateEmail });
-                this.passwordInput.focus();
-              }}
-              errorMessage={
-                emailValid ? null : "Please enter a valid email address"
-              }
-            />
-            <Input
-              placeholder="Password"
-              placeholderTextColor="white"
-              leftIcon={
-                <Icon
-                  name="key-variant"
-                  color={styles.loginButtonDes.color}
-                  size={ICON_SIZE}
-                />
-              }
-              containerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              errorStyle={styles.errorInputStyle}
-              keyboardAppearance="dark"
-              keyboardType="default"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="default"
-              returnKeyType="go"
-              secureTextEntry={true}
-              value={password}
-              onChangeText={password => this.onPasswordChange(password)}
-              ref={input => (this.passwordInput = input)}
-              onSubmitEditing={() => {
-                this.setState({ passwordValid: this.validatePassword });
-              }}
-              errorMessage={
-                passwordValid ? null : "Please enter a valid password"
-              }
-            />
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              title="LOGIN"
-              icon={
-                <Icon
-                  name="login"
-                  size={ICON_SIZE}
-                  style={styles.loginButtonIcon}
-                />
-              }
-              iconRight={true}
-              loading={showLoading}
-              ViewComponent={LinearGradient}
-              linearGradientProps={{
-                colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
-                start: { x: 0, y: 0.5 },
-                end: { x: 1, y: 0.5 }
-              }}
-              containerStyle={styles.loginButtonContainerStyle}
-              buttonStyle={styles.loginButtonStyle}
-              titleStyle={styles.loginButtonText}
-              onPress={() => this.submitLoginCredentials()}
-            />
-          </View>
-          <View style={styles.buttonContainer}>
-            <SocialIcon
-              style={styles.facebookLoginBtn}
-              title="Login With Facebook"
-              button
-              type="facebook"
-              onPress={() => this.onFBLogin()}
-            />
-          </View>
-          <View style={styles.signUpHereContainer}>
-            <Text style={styles.newUserText}>New here ?</Text>
-            <Button
-              title="SIGN UP"
-              titleStyle={styles.signUpButtonTitle}
-              type="clear"
-              onPress={() => this.signUpButttonClicked()}
-            />
-          </View>
-        </View>
+        )}
       </View>
     );
   }

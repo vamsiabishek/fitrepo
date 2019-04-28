@@ -114,6 +114,7 @@ export default class SocialMediaSignup extends Component {
           <Loading
             text={"Signing you up with Fitrepo ..."}
             isTextBold={false}
+            animationStr={require("../../assets/jsons/user_animation_4.json")}
           />
         ) : (
           <React.Fragment>

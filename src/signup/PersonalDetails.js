@@ -128,10 +128,11 @@ export default class PersonalDetails extends Component {
                     : styles.activeButtonTitle
                 }
                 iconSize={dob.length === 0 ? ICON_SIZE : ICON_SIZE_LARGE}
-                iconName="cake-variant"
+                iconName={dob.length === 0 ? "calendar-star" : "birthday"}
                 buttonIcon={
                   dob.length === 0 ? styles.buttonIcon : styles.activeButtonIcon
                 }
+                shouldUseEmoji={dob.length === 0 ? false : true}
                 onPress={this.showDTPicker}
               />
             </TouchableOpacity>
@@ -158,13 +159,14 @@ export default class PersonalDetails extends Component {
                     ? styles.buttonTitle
                     : styles.activeButtonTitle
                 }
-                iconSize={ICON_SIZE}
-                iconName="scale-bathroom"
+                iconSize={weight === undefined ? ICON_SIZE : ICON_SIZE_LARGE}
+                iconName={weight === undefined ? "scale-bathroom" : "scales"}
                 buttonIcon={
                   weight === undefined
                     ? styles.buttonIcon
                     : styles.activeButtonIcon
                 }
+                shouldUseEmoji={weight === undefined ? false : true}
                 onPress={this.showWeightNumPicker}
               />
             </TouchableOpacity>
@@ -191,13 +193,14 @@ export default class PersonalDetails extends Component {
                     ? styles.buttonTitle
                     : styles.activeButtonTitle
                 }
-                iconSize={ICON_SIZE}
-                iconName="ruler"
+                iconSize={height === undefined ? ICON_SIZE : ICON_SIZE_LARGE}
+                iconName={height === undefined ? "ruler" : "straight_ruler"}
                 buttonIcon={
                   height === undefined
                     ? styles.buttonIcon
                     : styles.activeButtonIcon
                 }
+                shouldUseEmoji={height === undefined ? false : true}
                 onPress={this.showHeightNumPicker}
               />
             </TouchableOpacity>
@@ -230,13 +233,16 @@ export default class PersonalDetails extends Component {
                       ? styles.buttonTitle
                       : styles.activeButtonTitle
                   }
-                  iconSize={ICON_SIZE}
-                  iconName="bullseye-arrow"
+                  iconSize={
+                    targetWeight === undefined ? ICON_SIZE : ICON_SIZE_LARGE
+                  }
+                  iconName={targetWeight === undefined ? "bullseye" : "dart"}
                   buttonIcon={
                     targetWeight === undefined
                       ? styles.buttonIcon
                       : styles.activeButtonIcon
                   }
+                  shouldUseEmoji={targetWeight === undefined ? false : true}
                   onPress={this.showTargetWeightTimeline}
                 />
               </TouchableOpacity>

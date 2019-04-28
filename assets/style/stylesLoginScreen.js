@@ -9,13 +9,6 @@ import {
 } from "./stylesCommonValues";
 
 export const styles = StyleSheet.create({
-  bgImage: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT
-  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -38,7 +31,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     shadowOffset: { width: 2, height: 20 },
     shadowOpacity: 0.5,
-    shadowRadius: 4.5,
+    shadowRadius: 4.5
     //backgroundColor: "brown"
   },
   logoText: {
@@ -59,7 +52,7 @@ export const styles = StyleSheet.create({
   inputContainer: {
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 10,
+    marginVertical: 10
     //backgroundColor: "crimson"
   },
   inputStyle: {
@@ -77,7 +70,7 @@ export const styles = StyleSheet.create({
     margin: 5,
     shadowOffset: { width: 2, height: 8 },
     shadowOpacity: 0.5,
-    shadowRadius: 3,
+    shadowRadius: 3
     //backgroundColor: "orange"
   },
   loginButtonContainerStyle: {
@@ -94,7 +87,7 @@ export const styles = StyleSheet.create({
   },
   facebookLoginBtn: {
     width: SCREEN_WIDTH * 0.7,
-    height: BUTTON_HEIGHT_GENERAL,
+    height: BUTTON_HEIGHT_GENERAL
   },
   loginButtonText: {
     fontSize: fontsCommon.font16,
@@ -115,7 +108,7 @@ export const styles = StyleSheet.create({
     padding: 5,
     shadowOffset: { width: 2, height: 8 },
     shadowOpacity: 0.5,
-    shadowRadius: 3,
+    shadowRadius: 3
     //backgroundColor: "coral"
   },
   newUserText: {
