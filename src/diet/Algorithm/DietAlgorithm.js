@@ -107,7 +107,7 @@ const maintainanceCalBasedOnFitness = (fitnessLevel, bmr) => {
       return bmr * FITNESS_LEVEL_ONE_ADDITION;
     case 2:
       return bmr * FITNESS_LEVEL_TWO_ADDITION;
-    case 2:
+    case 3:
       return bmr * FITNESS_LEVEL_THREE_ADDITION;
     default:
       return bmr;
@@ -202,6 +202,8 @@ export const designDiet = async ({
   const trainingAndRestdayCals = calPerWeek.map(calories =>
     getCalFromSources(goal, calories, foodPreference)
   );
+
+  console.log('trainingAndRestdayCals:', trainingAndRestdayCals)
 
   const defaultSourcesQuantities = await beginnerDefaultSourcesAndCal();
   const { proteinSources, carbSources, fatSources } = await manageSources({
@@ -331,11 +333,11 @@ getCalFromSources = (goal, totalCalIntake, foodPreference) => {
   let gainPercent = GAIN_MACRO_PERCENTS;
   let excludeProteinCal = 120;
   const excludeFatCal = 100;
-  const excludeCarbCal = 0;
+  const excludeCarbCal = 50;
   if (foodPreference === FOOD_PREF_VEG) {
     lossPercent = LOSS_MACRO_PERCENTS_VEG;
     gainPercent = GAIN_MACRO_PERCENTS_VEG;
-    //excludeProteinCal = 200;
+    excludeProteinCal = 160;
   }
   let calFromProtein =
     goal === WEIGHT_LOSS

@@ -327,8 +327,8 @@ export const veggies = {
     isStandardForAdvanced: true,
     isVeggies: true,
   },
-  "coli-flower": {
-    name: "Coli flower",
+  "cauliflower": {
+    name: "Cauliflower",
     isStandardForIntermediate: true,
     isVeggies: true,
   },

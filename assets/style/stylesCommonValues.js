@@ -73,6 +73,7 @@ export const styleCommon = {
   textColor1: "#004a94",
   textColor2: "white",
   textColor3: "#d1feff", // Box light Blue color
+  descTextColor: "#808080", // dark gray
   unSelected: "grey",
   disableColor: "#d3d3d3", // Light grey
   selectedButtonColor: "#FA8072", // salmon

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import {
-  StyleSheet,
+  FlatList,
+  Image,
   Text,
+  TouchableOpacity,
   View,
   StatusBar,
   ImageBackground
@@ -9,13 +11,62 @@ import {
 import { Input, Button } from "react-native-elements";
 import { styles } from "../../assets/style/stylesSupplementsScreen";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
+import { getSupplementsByLevel } from "../common/SupplementsUtil";
 
 export default class Supplements extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      supplements: []
+    };
+  }
+  _keyExtractor = item => `key${item.key}`;
+  componentDidMount = () => {
+    this.setState({ supplements: getSupplementsByLevel("beginner") });
+  };
   render() {
+    const { supplements } = this.state;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <Text style={styles.textContainer}>Supplements Screen</Text>
+        <StatusBar />
+        <View style={styles.supplementContainer}>
+          <View style={styles.pageTitleContainer}>
+            <Text style={styles.pageTitle}>My Supplements</Text>
+          </View>
+          <FlatList
+            style={styles.flatListContainer}
+            contentContainerStyle={styles.flatListContentContainer}
+            data={supplements}
+            renderItem={({ item, index }) => {
+              const { name, desc, detailedDesc, image } = item.value;
+              return (
+                <View style={styles.returnViewContainer}>
+                  <View style={styles.subContainer}>
+                    <TouchableOpacity style={styles.touchableContainerView}>
+                      <View style={styles.iconDataStyle}>
+                        <Image source={image} style={styles.iconImageStyle} />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.supplementDescContainer}>
+                    <Text style={styles.supplementName}>{name}</Text>
+                    <Text style={styles.supplementDesc}>{desc}</Text>
+                    <Text style={styles.supplementDetailedDesc}>
+                      {detailedDesc}
+                    </Text>
+                    <View>
+                    <TouchableOpacity style={styles.timingsLabel}>
+                      <Text style={styles.timingsLabelText}>Best timings to consume:</Text>
+                      <Text style={styles.timingsOptions}>-Morning after breakfast</Text>
+                    </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              );
+            }}
+            keyExtractor={this._keyExtractor}
+          />
+        </View>
       </ImageBackground>
     );
   }

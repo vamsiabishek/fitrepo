@@ -20,7 +20,7 @@ export const createMeals = ({
         sources,
         numberOfMeals,
         trainingDayMeals,
-        restDayMeals,
+        restDayMeals
       });
   });
   addVeggiesAndFruits({
@@ -39,7 +39,7 @@ createMealsPerMacro = ({
   sources,
   numberOfMeals,
   trainingDayMeals,
-  restDayMeals,
+  restDayMeals
 }) => {
   let x = 1;
   let sourceQuantityMap = {};
@@ -255,8 +255,19 @@ mealForSource = ({
     }
     macroValue = quantity;
     macroQuantity = newQuantity;
-    sourceMap[key].macroQuantity = sourceMap[key].macroQuantity - newQuantity;
-    sourceMap[key].macroValue = sourceMap[key].macroValue - quantity;
+    const remainingMacroQuantity = sourceMap[key].macroQuantity - newQuantity;
+    const remainingMacroValue = sourceMap[key].macroValue - quantity;
+    // if the remaining quantity of a source is less than 30 then add it to current meal itself
+    if (remainingMacroValue <= 30) {
+      macroValue = macroValue + remainingMacroValue;
+      macroQuantity = macroQuantity + remainingMacroQuantity;
+      sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
+    } else {
+      sourceMap[key] = {
+        macroValue: remainingMacroQuantity,
+        macroQuantity: remainingMacroValue
+      };
+    }
   }
 
   source.macroValue = macroValue;
@@ -317,15 +328,10 @@ addVeggiesAndFruitsPerMeal = ({
     mealsWithFruits = [1, 4];
   }
   if (mealsWithVeggies.includes(mealNumber)) {
-    const veggieName = veggies.reduce(
-      (veggieName, veggie, index) => {
-        if(index === 0)
-          return veggieName + veggie.value.name
-        else
-          return veggieName + "," + veggie.value.name
-      },
-      ""
-    );
+    const veggieName = veggies.reduce((veggieName, veggie, index) => {
+      if (index === 0) return veggieName + veggie.value.name;
+      else return veggieName + "," + veggie.value.name;
+    }, "");
 
     const source = {
       name: `Veggies [${veggieName}]`,
