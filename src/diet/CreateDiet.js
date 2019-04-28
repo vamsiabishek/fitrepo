@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ActivityIndicator, StatusBar } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { f, database } from "../common/FirebaseConfig";
 import DietGoalPlan from "./DietGoalPlan";
 import SelectFoodSources from "./SelectFoodSources";
@@ -47,7 +47,7 @@ export default class CreateDiet extends Component {
     targetWeightIndex,
     selectedMeals,
     progress,
-    foodPreference,
+    foodPreference
   }) => {
     this.setState({
       selectedGoal,
@@ -56,7 +56,7 @@ export default class CreateDiet extends Component {
       targetWeightIndex,
       targetWeight,
       selectedMeals,
-      foodPreference,
+      foodPreference
     });
     this.changeSelectionLevel(progress);
   };
@@ -69,7 +69,7 @@ export default class CreateDiet extends Component {
     targetWeightIndex,
     selectedMeals,
     progress,
-    foodPreference,
+    foodPreference
   }) => {
     this.setState({
       selectedGoal,
@@ -78,7 +78,7 @@ export default class CreateDiet extends Component {
       targetWeightIndex,
       targetWeight,
       selectedMeals,
-      foodPreference,
+      foodPreference
     });
     this.changeSelectionLevel(progress);
     this.props.navigation.navigate("Diet");
@@ -213,7 +213,6 @@ export default class CreateDiet extends Component {
     const name = this.props.navigation.getParam("screenName");
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="default" />
         {isLoading && <ActivityIndicator />}
         <View>
           {!isLoading && selectionLevel === 1 && (

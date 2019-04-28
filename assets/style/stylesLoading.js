@@ -10,13 +10,13 @@ export const styles = StyleSheet.create({
   mainContainer: {
     //flex: 1,
     justifyContent: "space-around",
-    alignItems: "center"
+    alignItems: "center",
+    height: SCREEN_HEIGHT * 0.49
     //backgroundColor: styleCommon.secondaryColor
   },
   watermelonAnimationStyle: {
     justifyContent: "center",
     alignItems: "center",
-    width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT * 0.25
     //backgroundColor: "teal"
   },
@@ -24,12 +24,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.37
-    //backgroundColor: "cornsilk"
+    width: SCREEN_WIDTH
   },
   textStyle: {
-    marginTop: 50,
     textAlign: "center",
     fontSize: fontsCommon.font30,
     fontWeight: "700",

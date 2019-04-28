@@ -25,19 +25,12 @@ export default class Header extends React.Component {
         <View style={styles.backHeaderContainer}>
           <View style={styles.buttonContainer}>
             <Button
-              icon={
-                /*<Icon
-                  name="arrow-left-thick" //"arrow-left-circle-outline"
-                  size={ICON_BACK_SIZE}
-                  color={styleCommon.secondaryButtonTextColor}
-                />*/
-                {
-                  name: "arrow-left-thick",
-                  size: ICON_BACK_SIZE,
-                  color: styleCommon.secondaryButtonTextColor,
-                  type: "material-community"
-                }
-              }
+              icon={{
+                name: "arrow-left-thick",
+                size: ICON_BACK_SIZE,
+                color: styleCommon.secondaryButtonTextColor,
+                type: "material-community"
+              }}
               containerStyle={styles.backButtonContainerStyle}
               buttonStyle={styles.backButtonStyle}
               onPress={() => onBack(screen)}

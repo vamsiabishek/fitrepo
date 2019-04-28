@@ -8,7 +8,7 @@
  */
 
 import React, { Component } from "react";
-import { Platform, ImageBackground } from "react-native";
+import { Platform, ImageBackground, StatusBar } from "react-native";
 import { AppContainer } from "./src/tabNavigation/TabNavigationWrapper";
 import { GRADIENT_BG_IMAGE } from "./src/common/Common";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./assets/style/stylesCommonValues";
@@ -27,6 +27,7 @@ export default class App extends Component {
         source={GRADIENT_BG_IMAGE}
         style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
       >
+        <StatusBar barStyle="default" />
         <AppContainer />
       </ImageBackground>
     );

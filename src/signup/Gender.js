@@ -23,10 +23,13 @@ export default class Gender extends Component {
           }
           iconLeft
           iconSize={ICON_SELECT_GENDER}
-          iconName="human-male"
+          iconName={gender === 1 ? "man-tipping-hand" : "man"}
           buttonIcon={styles.buttonIcon}
-          buttonIconColor={gender === 1 ? buttonIconActiveColor : buttonIconColor}
+          buttonIconColor={
+            gender === 1 ? buttonIconActiveColor : buttonIconColor
+          }
           iconLeft
+          shouldUseEmoji={true}
           onPress={setGender}
           value={1}
         />
@@ -38,10 +41,13 @@ export default class Gender extends Component {
             gender === 0 ? styles.activeButtonTitle : styles.buttonTitle
           }
           iconSize={ICON_SELECT_GENDER}
-          iconName="human-female"
+          iconName={gender === 0 ? "woman-tipping-hand" : "woman"}
           buttonIcon={styles.buttonIcon}
-          buttonIconColor={gender === 0 ? buttonIconActiveColor : buttonIconColor}
+          buttonIconColor={
+            gender === 0 ? buttonIconActiveColor : buttonIconColor
+          }
           iconLeft
+          shouldUseEmoji={true}
           onPress={setGender}
           value={0}
         />

@@ -4,7 +4,6 @@ import {
   LayoutAnimation,
   KeyboardAvoidingView,
   ScrollView,
-  StatusBar,
   Text,
   TouchableOpacity,
   UIManager,
@@ -191,7 +190,6 @@ export default class SignUpScreen2 extends Component {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.container}
         >
-          <StatusBar barStyle="light-content" />
           <KeyboardAvoidingView
             behaviour="position"
             contentContainerStyle={styles.formContainer}

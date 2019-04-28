@@ -10,7 +10,7 @@ import {
 } from "../../assets/style/stylesCommonValues";
 import { styles } from "../../assets/style/stylesPreferenceDetails";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
-import Emoji from 'react-native-emoji';
+import Emoji from "react-native-emoji";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -52,9 +52,9 @@ export default class PreferenceDetails extends Component {
       numberOfMealsOptions
     } = this.props;
     const { isHealthCondStrPickerVisible } = this.state;
-    let foodPrefIcon = "meat_on_bone"
-    if(foodPreference === 0) foodPrefIcon = "avocado"
-    else if(foodPreference === 1) foodPrefIcon = "fried_egg"
+    let foodPrefIcon = "meat_on_bone";
+    if (foodPreference === 0) foodPrefIcon = "avocado";
+    else if (foodPreference === 1) foodPrefIcon = "fried_egg";
     return (
       <View style={styles.mainContent}>
         <KeyboardAvoidingView
@@ -66,13 +66,9 @@ export default class PreferenceDetails extends Component {
             <View style={styles.contentBoxStyle}>
               <View style={styles.contentBoxHeaderStyle}>
                 <Text style={styles.headerTextStyle}>Your Food Preference</Text>
-                {/*<Icon
-                  name={foodPreference === 0 ? "leaf" : "food-variant"}
-                  style={styles.headerIconStyle}
-                  size={ICON_SIZE}
-                />*/}
-                <Emoji name={foodPrefIcon} style={{fontSize: 40, marginRight:10}} />
-
+                <Icon style={styles.headerIconStyle} size={ICON_SIZE_LARGE}>
+                  <Emoji name={foodPrefIcon} />
+                </Icon>
               </View>
               <View style={styles.contentBoxMainStyle}>
                 <ButtonGroup
@@ -99,7 +95,7 @@ export default class PreferenceDetails extends Component {
                   selectedItem={numberOfMeals}
                   onSelectionChange={this.onMealsChange}
                   showSelectedLabel={true}
-                  label='meals/day'
+                  label="meals/day"
                 />
               </View>
             </View>

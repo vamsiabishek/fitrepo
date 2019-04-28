@@ -73,7 +73,11 @@ export default class HorizontalComponent extends React.Component {
               };
             }
             const selectedMealContainerStyle =
-              item === selectedItem ? { marginTop: iconStyle.height } : {};
+              item === selectedItem
+                ? showSelectedLabel
+                  ? { marginTop: iconStyle.height }
+                  : { marginTop: 0 }
+                : {};
             return (
               <View style={styles.subContainer}>
                 {index !== 0 && <View style={styles.lineContainer} />}
