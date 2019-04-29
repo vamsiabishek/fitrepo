@@ -208,148 +208,143 @@ export default class MyDiet extends Component {
     const nextWeekEnabled = allMeals[currentWeek] ? true : false;
     const prevWeekEnabled = allMeals[currentWeek - 2] ? true : false;
     return (
-      <View style={styles.container}>
-        <ImageBackground
-          source={GRADIENT_BG_IMAGE}
-          style={commonStyles.bgImage}
-        >
-          {isLoading ? (
-            <Loading
-              takeFullHeight={true}
-              text={"We are creating your diet ..."}
-              animationStr={require("../../assets/jsons/watermelon.json")}
-              animationHeight={SCREEN_HEIGHT * 0.615}
-            />
-          ) : (
-            <View style={styles.container}>
-              <View style={styles.backHeaderContainer}>
-                <View style={styles.buttonContainer}>
-                  <Button
-                    title="All Diets"
-                    icon={{
-                      name: "arrow-left-thick",
-                      size: ICON_SIZE,
-                      color: styleCommon.secondaryButtonTextColor,
-                      type: "material-community"
-                    }}
-                    containerStyle={styles.backButtonContainerStyle}
-                    buttonStyle={styles.backButtonStyle}
-                    titleStyle={styles.backButtonTitleStyle}
-                    onPress={() => navigate("Diet")}
-                  />
-                </View>
-              </View>
-              <View>
-                <Animated.View
-                  style={[styles.dayBarStyle, { height: dayBarHeight }]}
-                >
-                  <Button
-                    title="Training day"
-                    containerStyle={styles.buttonContainer}
-                    buttonStyle={
-                      activeDay ? styles.activeDayButton : styles.dayButton
-                    }
-                    icon={
-                      <Icon
-                        name="run-fast"
-                        size={ICON_SIZE}
-                        color={trainingIconColor}
-                        style={styles.buttonIconStyle}
-                      />
-                    }
-                    titleStyle={
-                      activeDay
-                        ? styles.activeDayButtonText
-                        : styles.dayButtonText
-                    }
-                    onPress={() => this.onDayChange("training")}
-                  />
-                  <Button
-                    title="Rest day"
-                    containerStyle={styles.buttonContainer}
-                    buttonStyle={
-                      !activeDay ? styles.activeDayButton : styles.dayButton
-                    }
-                    icon={
-                      <Icon
-                        name="sleep"
-                        size={ICON_SIZE}
-                        color={restIconColor}
-                        style={styles.buttonIconStyle}
-                      />
-                    }
-                    titleStyle={
-                      !activeDay
-                        ? styles.activeDayButtonText
-                        : styles.dayButtonText
-                    }
-                    onPress={() => this.onDayChange("rest")}
-                  />
-                </Animated.View>
-              </View>
-              <TotalDietMacros
-                totalCal={totalCalories}
-                protein={proteinInGm}
-                carbs={carbsInGm}
-                fat={fatsInGm}
-              />
-              <View style={styles.weeklyBarStyle}>
-                <View style={{ justifyContent: "flex-start" }}>
-                  <TouchableOpacity
-                    style={{ paddingHorizontal: 10 }}
-                    onPress={() => this.changeWeek({ prev: true })}
-                  >
-                    <Icon
-                      name="chevron-left"
-                      size={ICON_SIZE_LARGE}
-                      style={styles.navButtonIcon}
-                      color={
-                        prevWeekEnabled ? styleCommon.textColor1 : "lightgrey"
-                      }
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row"
+      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
+        {isLoading ? (
+          <Loading
+            takeFullHeight={true}
+            text={"We are creating your diet ..."}
+            animationStr={require("../../assets/jsons/watermelon.json")}
+            animationHeight={SCREEN_HEIGHT * 0.615}
+          />
+        ) : (
+          <View style={styles.container}>
+            <View style={styles.backHeaderContainer}>
+              <View style={styles.buttonContainer}>
+                <Button
+                  title="All Diets"
+                  icon={{
+                    name: "arrow-left-thick",
+                    size: ICON_SIZE,
+                    color: styleCommon.secondaryButtonTextColor,
+                    type: "material-community"
                   }}
-                >
-                  <Text style={styles.weekText}>
-                    Week {this.state.currentWeek}
-                  </Text>
-                  {this.state.showDayOnScroll && (
-                    <Text style={{ color: "grey" }}>({this.day})</Text>
-                  )}
-                </View>
-                <View style={{ justifyContent: "flex-end" }}>
-                  <TouchableOpacity
-                    style={{ paddingHorizontal: 10 }}
-                    onPress={() => this.changeWeek({ next: true })}
-                  >
-                    <Icon
-                      name="chevron-right"
-                      size={ICON_SIZE_LARGE}
-                      style={styles.navButtonIcon}
-                      color={
-                        nextWeekEnabled ? styleCommon.textColor1 : "lightgrey"
-                      }
-                    />
-                  </TouchableOpacity>
-                </View>
+                  containerStyle={styles.backButtonContainerStyle}
+                  buttonStyle={styles.backButtonStyle}
+                  titleStyle={styles.backButtonTitleStyle}
+                  onPress={() => navigate("Diet")}
+                />
               </View>
-
-              <MealsContainer
-                meals={mealList}
-                dayBarScrollY={this.dayBarScrollY}
-                showDayLabelOnScroll={this.showDayLabelOnScroll}
-                hideDayLabelOnScroll={this.hideDayLabelOnScroll}
-              />
             </View>
-          )}
-        </ImageBackground>
-      </View>
+            <View>
+              <Animated.View
+                style={[styles.dayBarStyle, { height: dayBarHeight }]}
+              >
+                <Button
+                  title="Training day"
+                  containerStyle={styles.buttonContainer}
+                  buttonStyle={
+                    activeDay ? styles.activeDayButton : styles.dayButton
+                  }
+                  icon={
+                    <Icon
+                      name="run-fast"
+                      size={ICON_SIZE}
+                      color={trainingIconColor}
+                      style={styles.buttonIconStyle}
+                    />
+                  }
+                  titleStyle={
+                    activeDay
+                      ? styles.activeDayButtonText
+                      : styles.dayButtonText
+                  }
+                  onPress={() => this.onDayChange("training")}
+                />
+                <Button
+                  title="Rest day"
+                  containerStyle={styles.buttonContainer}
+                  buttonStyle={
+                    !activeDay ? styles.activeDayButton : styles.dayButton
+                  }
+                  icon={
+                    <Icon
+                      name="sleep"
+                      size={ICON_SIZE}
+                      color={restIconColor}
+                      style={styles.buttonIconStyle}
+                    />
+                  }
+                  titleStyle={
+                    !activeDay
+                      ? styles.activeDayButtonText
+                      : styles.dayButtonText
+                  }
+                  onPress={() => this.onDayChange("rest")}
+                />
+              </Animated.View>
+            </View>
+            <TotalDietMacros
+              totalCal={totalCalories}
+              protein={proteinInGm}
+              carbs={carbsInGm}
+              fat={fatsInGm}
+            />
+            <View style={styles.weeklyBarStyle}>
+              <View style={{ justifyContent: "flex-start" }}>
+                <TouchableOpacity
+                  style={{ paddingHorizontal: 10 }}
+                  onPress={() => this.changeWeek({ prev: true })}
+                >
+                  <Icon
+                    name="chevron-left"
+                    size={ICON_SIZE_LARGE}
+                    style={styles.navButtonIcon}
+                    color={
+                      prevWeekEnabled ? styleCommon.textColor1 : "lightgrey"
+                    }
+                  />
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row"
+                }}
+              >
+                <Text style={styles.weekText}>
+                  Week {this.state.currentWeek}
+                </Text>
+                {this.state.showDayOnScroll && (
+                  <Text style={{ color: "grey" }}>({this.day})</Text>
+                )}
+              </View>
+              <View style={{ justifyContent: "flex-end" }}>
+                <TouchableOpacity
+                  style={{ paddingHorizontal: 10 }}
+                  onPress={() => this.changeWeek({ next: true })}
+                >
+                  <Icon
+                    name="chevron-right"
+                    size={ICON_SIZE_LARGE}
+                    style={styles.navButtonIcon}
+                    color={
+                      nextWeekEnabled ? styleCommon.textColor1 : "lightgrey"
+                    }
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <MealsContainer
+              meals={mealList}
+              dayBarScrollY={this.dayBarScrollY}
+              showDayLabelOnScroll={this.showDayLabelOnScroll}
+              hideDayLabelOnScroll={this.hideDayLabelOnScroll}
+            />
+          </View>
+        )}
+      </ImageBackground>
     );
   }
 }

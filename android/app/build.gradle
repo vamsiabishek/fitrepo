@@ -134,6 +134,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-payments')
     implementation project(':lottie-react-native')
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-device-info')
