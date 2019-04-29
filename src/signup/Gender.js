@@ -23,7 +23,7 @@ export default class Gender extends Component {
           }
           iconLeft
           iconSize={ICON_SELECT_GENDER}
-          iconName={gender === 1 ? "man-tipping-hand" : "man"}
+          iconName={gender === 1 ? "man-raising-hand" : "man"}
           buttonIcon={styles.buttonIcon}
           buttonIconColor={
             gender === 1 ? buttonIconActiveColor : buttonIconColor
@@ -41,7 +41,7 @@ export default class Gender extends Component {
             gender === 0 ? styles.activeButtonTitle : styles.buttonTitle
           }
           iconSize={ICON_SELECT_GENDER}
-          iconName={gender === 0 ? "woman-tipping-hand" : "woman"}
+          iconName={gender === 0 ? "woman-raising-hand" : "woman"}
           buttonIcon={styles.buttonIcon}
           buttonIconColor={
             gender === 0 ? buttonIconActiveColor : buttonIconColor

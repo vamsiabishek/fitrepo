@@ -9,10 +9,10 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
+    flex: 1
+    /*alignItems: "center",
     justifyContent: "center",
-    width: SCREEN_WIDTH
+    width: SCREEN_WIDTH*/
   },
   backHeaderContainer: {
     justifyContent: "flex-start",

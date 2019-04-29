@@ -24,7 +24,10 @@ import FoodSources from "./FoodSources";
 import SocialMediaSignup from "./SocialMediaSignup";
 import Loading from "../components/Loading";
 import { styles } from "../../assets/style/stylesSignup";
-import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
+import {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT
+} from "../../assets/style/stylesCommonValues";
 import { auth, database } from "../common/FirebaseConfig";
 import { createDiet } from "./UpdateDiet";
 import { getSourcesWithImages } from "../common/SourceUtil";
