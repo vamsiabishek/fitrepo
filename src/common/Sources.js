@@ -211,12 +211,11 @@ export const fatSources = {
     protein: 0
   },
   "peanut-butter": {
-    beginnerDefaultQuantity: 2,
-    carbs: 6,
-    fat: 16,
+    carbs: 20,
+    fat: 50,
     hasTableSpoon: true,
     name: "Peanut Butter",
-    protein: 8
+    protein: 25
   },
   "pumpkin-seeds": {
     carbs: 11,

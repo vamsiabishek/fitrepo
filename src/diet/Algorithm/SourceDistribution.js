@@ -28,7 +28,7 @@ export const sourceQuantities = ({
   isProtein,
   isCarb,
   isFat,
-  foodPreference,
+  foodPreference
 }) => {
   let totalSourceInGrams = 0;
   let totalSourceInGramsForRD = 0;
@@ -63,27 +63,33 @@ export const sourceQuantities = ({
   let sourcePercent = [];
   if (selectedSources.length === 2) {
     sourcePercent = twoSourcePercent[selectedCategory];
-    if(isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
-      eggSourceIndex = sources.findIndex((source) => source.key.includes('egg'))
-      if (eggSourceIndex === 0) sourcePercent = [70, 30] // 70% from egg whites
-      else sourcePercent = [30, 70] // 70% from egg whites
+    if (isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
+      eggSourceIndex = sources.findIndex(source => source.key.includes("egg"));
+      if (eggSourceIndex === 0) sourcePercent = [70, 30];
+      // 70% from egg whites
+      else sourcePercent = [30, 70]; // 70% from egg whites
     }
   } else if (selectedSources.length === 3) {
     sourcePercent = threeSourcePercent[selectedCategory];
-    if(isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
-      eggSourceIndex = sources.findIndex((source) => source.key.includes('egg'))
-      if (eggSourceIndex === 0) sourcePercent = [50, 25, 25] // 50% from egg whites
-      else if(eggSourceIndex === 1) sourcePercent = [50, 35, 15] // 35% from egg whites
-      else sourcePercent = [35, 35, 30] // 30% from egg whites
+    if (isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
+      eggSourceIndex = sources.findIndex(source => source.key.includes("egg"));
+      if (eggSourceIndex === 0) sourcePercent = [50, 25, 25];
+      // 50% from egg whites
+      else if (eggSourceIndex === 1) sourcePercent = [50, 35, 15];
+      // 35% from egg whites
+      else sourcePercent = [35, 35, 30]; // 30% from egg whites
     }
   } else if (selectedSources.length === 4) {
     sourcePercent = fourSourcePercent[selectedCategory];
-    if(isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
-      eggSourceIndex = sources.findIndex((source) => source.key.includes('egg'))
-      if (eggSourceIndex === 0) sourcePercent = [40, 20, 20, 20] // 40% from egg whites
-      else if(eggSourceIndex === 1) sourcePercent = [40, 30, 15, 15] // 30% from egg whites
-      else if(eggSourceIndex === 2) sourcePercent = [30, 30, 30, 10] // 30% from egg whites
-      else sourcePercent = [30, 20, 20, 30] // 30% from egg whites
+    if (isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
+      eggSourceIndex = sources.findIndex(source => source.key.includes("egg"));
+      if (eggSourceIndex === 0) sourcePercent = [40, 20, 20, 20];
+      // 40% from egg whites
+      else if (eggSourceIndex === 1) sourcePercent = [40, 30, 15, 15];
+      // 30% from egg whites
+      else if (eggSourceIndex === 2) sourcePercent = [30, 30, 30, 10];
+      // 30% from egg whites
+      else sourcePercent = [30, 20, 20, 30]; // 30% from egg whites
     }
   }
   sources.map((source, index) => {
@@ -214,6 +220,11 @@ const calculateMacroValue = ({
   if (source.value.isPerSingleUnit) {
     macroValue = Math.round(macroQuantity / referenceMacroValue);
     macroValueForRD = Math.round(macroQuantityForRD / referenceMacroValue);
+  } else if (source.value.hasTableSpoon) {
+    macroValue = Math.round((macroQuantity * 100) / referenceMacroValue / 14);
+    macroValueForRD = Math.round(
+      (macroQuantityForRD * 100) / referenceMacroValue / 14
+    );
   } else {
     macroValue = Math.round((macroQuantity * 100) / referenceMacroValue);
     macroValueForRD = Math.round(

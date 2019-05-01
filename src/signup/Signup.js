@@ -146,8 +146,8 @@ export default class Signup extends Component {
     else if (foodPrefBtn === 1) foodPreference = FOOD_PREF_EGGETARIAN;
     else if (foodPrefBtn === 2) foodPreference = FOOD_PREF_NON_VEG;
     proteinSources = getSourcesWithImages("protein", foodPreference);
-    carbSources = getSourcesWithImages("carb", foodPreference);
-    fatSources = getSourcesWithImages("fat", foodPreference);
+    carbSources = getSourcesWithImages("carb");
+    fatSources = getSourcesWithImages("fat");
     this.setState({
       foodPrefBtn,
       foodPreference,
@@ -291,8 +291,10 @@ export default class Signup extends Component {
   };
   onSourceToggle = (index, selected) => {
     const { sources, selectedSources, modalContains } = this.state;
+    let maxSourcesAllowed = 4
+    if(modalContains === "fat") maxSourcesAllowed = 2
 
-    if (selectedSources.length < 4 || sources[index].selected) {
+    if (selectedSources.length < maxSourcesAllowed || sources[index].selected) {
       const selectedSource = sources[index];
       sources[index].selected = !selected;
       if (!selected) selectedSources.push(this.state.sources[index]);

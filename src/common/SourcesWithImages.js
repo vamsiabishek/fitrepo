@@ -21,6 +21,7 @@ export const proteinSourcesWithImages = [
     name: "Eggs",
     uri: require("../../assets/images/sources/eggs.svg"),
     isVeg: false,
+    isEggetarian: true,
     key: "egg-white"
   },
   {

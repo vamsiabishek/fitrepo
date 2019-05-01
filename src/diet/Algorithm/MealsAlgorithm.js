@@ -30,8 +30,8 @@ export const createMeals = ({
     veggies,
     fruits
   });
-  console.log("trainingDayMeals:", trainingDayMeals);
-  console.log("restDayMeals:", restDayMeals);
+  //console.log("trainingDayMeals:", trainingDayMeals);
+  //console.log("restDayMeals:", restDayMeals);
   return { trainingDayMeals, restDayMeals };
 };
 
@@ -212,18 +212,21 @@ mealForSource = ({
   const { key, value } = item.source;
   source = { ...source, name: value.name, id: key };
   let { macroValue, macroQuantity } = source;
+  console.log("Starting:", source.name, "value:", sourceMap[key].macroValue, "quantity:", sourceMap[key].macroQuantity)
   if (
     sourceMap[key].macroQuantity <= maxMacroPerMeal ||
     (value.hasTableSpoon && sourceMap[key].macroValue <= 2)
   ) {
     if (!value.isPerSingleUnit && !value.hasTableSpoon)
       macroValue = roundToNearestTenFactor(sourceMap[key].macroValue);
-    else macroValue = sourceMap[key].macroValue;
-    macroQuantity = sourceMap[key].macroQuantity;
+    else {
+      macroValue = sourceMap[key].macroValue;
+      macroQuantity = sourceMap[key].macroQuantity;
+      sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
+    }
     if (macroValue <= 0 && macroQuantity > 0) {
       macroValue = 5;
     }
-    sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
   } else {
     let macroValuePerHundredGm = Math.round(
       (item.macroQuantity / item.macroValue) * 100
@@ -276,6 +279,8 @@ mealForSource = ({
   if (value.hasTableSpoon) source.hasTableSpoon = true;
 
   meal.sources.push(source);
+
+  console.log("Remaining after:", source.name, "value:", sourceMap[key].macroValue, "quantity:", sourceMap[key].macroQuantity)
 
   return { meal, updatedSource: source, sourceMap };
 };

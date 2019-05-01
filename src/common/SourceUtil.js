@@ -30,11 +30,12 @@ export const getFatSources = () => {
 export const getProteinSourcesWithImages = foodPreference => {
   let proteinSources = [];
   if(foodPreference === FOOD_PREF_VEG)
-    proteinSources = proteinSourcesWithImages.filter(source => source.isStandardForVeg)
-  else if(foodPreference === FOOD_PREF_NON_VEG)
-    proteinSources = proteinSourcesWithImages.filter(source => source.isStandardForNonVeg)
+    proteinSources = proteinSourcesWithImages.filter(source => source.isVeg)
   else if(foodPreference === FOOD_PREF_EGGETARIAN)
-    proteinSources = proteinSourcesWithImages.filter(source => source.isStandardForEgg)
+    proteinSources = proteinSourcesWithImages.filter(source => source.isVeg || source.isEggetarian)
+  else
+    proteinSources = proteinSourcesWithImages
+  
   return proteinSources
 };
 
