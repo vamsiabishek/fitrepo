@@ -82,7 +82,7 @@ export default class SocialMediaSignup extends Component {
   };
   createUserWithDetails = async ({ user, additionalUserInfo }) => {
     const { setFBUser } = this.props;
-    const { birthday } = additionalUserInfo;
+    const { birthday } = additionalUserInfo.profile;
     const dob = new Date(birthday).toDateString().substring(4);
     const age = new Date().getFullYear() - new Date(birthday).getFullYear();
     // user object also contains phone number
