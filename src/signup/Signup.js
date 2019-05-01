@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   ImageBackground,
   LayoutAnimation,
   ScrollView,
@@ -25,6 +26,7 @@ import SocialMediaSignup from "./SocialMediaSignup";
 import Loading from "../components/Loading";
 import { styles } from "../../assets/style/stylesSignup";
 import {
+  styleCommon,
   SCREEN_WIDTH,
   SCREEN_HEIGHT
 } from "../../assets/style/stylesCommonValues";
@@ -44,6 +46,8 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 export default class Signup extends Component {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
+    console.log(navigation.getParam("isExistingUser"));
     this.state = {
       goal: "",
       gender: "",
@@ -81,11 +85,60 @@ export default class Signup extends Component {
       emailValid: true,
       passwordValid: true,
       confirmationPasswordValid: true,
+      uid:
+        navigation.getParam("uid") !== undefined
+          ? navigation.getParam("uid")
+          : "",
       user: {},
       isLoading: false,
-      isLoggedIn: false
+      isLoadingComponent: false,
+      isLoggedIn: false,
+      isExistingUser:
+        navigation.getParam("isExistingUser") === true ? true : false
     };
   }
+
+  componentDidMount = async () => {
+    const { isExistingUser, uid } = this.state;
+    if (isExistingUser) {
+      this.setState({ isLoadingComponent: true });
+      await database
+        .ref("users")
+        .child(uid)
+        .once("value")
+        .then(snapshot => {
+          const userLoggedIn = snapshot.val();
+          LayoutAnimation.easeInEaseOut();
+          this.setState({
+            user: userLoggedIn,
+            age: userLoggedIn.age,
+            dob: userLoggedIn.dob,
+            weight: userLoggedIn.weight,
+            height: userLoggedIn.height,
+            gender: userLoggedIn.gender === "Male" ? 1 : 2,
+            fitnessLevel:
+              userLoggedIn.fitnessLevel === "Advanced"
+                ? 3
+                : userLoggedIn.fitnessLevel === "Intermediate"
+                ? 2
+                : 1,
+            foodPreference:
+              userLoggedIn.foodPreference === FOOD_PREF_NON_VEG
+                ? 2
+                : userLoggedIn.foodPreference === FOOD_PREF_EGGETARIAN
+                ? 1
+                : 0,
+            isLoadingComponent: false
+          });
+        })
+        .catch(error => {
+          console.log(
+            "error while fetching user details in componentDidMount of Diet:",
+            error
+          );
+        });
+    }
+  };
 
   gotToNext = () => {
     setTimeout(() => this.onNext(this.state.screen), 400);
@@ -104,7 +157,7 @@ export default class Signup extends Component {
     this.gotToNext();
   };
   setFBUser = user => {
-    this.setState({ user });
+    this.setState({ user, dob: user.dob, age: user.age });
     this.scrollToNextScreen(4);
   };
   setDob = (dob, age) => {
@@ -197,9 +250,16 @@ export default class Signup extends Component {
     }
   };
 
+  scrollToNextScreenForExistingUser = currentScreen => {
+    const scrollValue = SCREEN_WIDTH * currentScreen;
+    this.scrollRef.scrollTo({ x: scrollValue });
+    this.setState({ screen: this.state.screen + 1, navButtonActive: false });
+  };
+
   onBack = currentScreen => {
+    const { isExistingUser } = this.state;
     const { navigate } = this.props.navigation;
-    if (currentScreen === 5) {
+    if (currentScreen === 5 && !isExistingUser) {
       const scrollValue = SCREEN_WIDTH * (currentScreen - 2) - SCREEN_WIDTH;
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({
@@ -212,7 +272,7 @@ export default class Signup extends Component {
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen - 1, navButtonActive: true });
     } else {
-      navigate("StartUp");
+      !isExistingUser ? navigate("StartUp") : navigate("Diet");
     }
   };
 
@@ -487,47 +547,82 @@ export default class Signup extends Component {
       height,
       foodPrefBtn,
       numberOfMeals,
-      isLoggedIn
+      isLoggedIn,
+      isExistingUser
     } = this.state;
     let isScrollable = false;
-    if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
-      isScrollable = true;
-    if (currentScreen === 2 && (gender >= 0 && gender.length !== 0))
-      isScrollable = true;
-    if (currentScreen === 3 && (fitnessLevel > 0 && fitnessLevel.length !== 0))
-      isScrollable = true;
-    if (currentScreen === 4) {
-      await this.createNewUser();
-      isScrollable = true;
-    }
-    if (
-      currentScreen === 5 &&
-      (dob.length > 0 &&
-        age !== undefined &&
-        weight !== undefined &&
-        height !== undefined)
-    )
-      isScrollable = true;
-    if (
-      currentScreen === 6 &&
-      foodPrefBtn.length !== 0 &&
-      foodPrefBtn >= 0 &&
-      numberOfMeals > 0
-    )
-      isScrollable = true;
-    if (currentScreen === 7) {
-      await this.saveUserDetails();
-      await this.createDietAndMeals();
-    }
-    if (isScrollable && this.scrollRef) {
-      this.scrollToNextScreen(currentScreen, isLoggedIn);
+    if (!isExistingUser) {
+      if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
+        isScrollable = true;
+      if (currentScreen === 2 && (gender >= 0 && gender.length !== 0))
+        isScrollable = true;
+      if (
+        currentScreen === 3 &&
+        (fitnessLevel > 0 && fitnessLevel.length !== 0)
+      )
+        isScrollable = true;
+      if (currentScreen === 4) {
+        await this.createNewUser();
+        isScrollable = true;
+      }
+      if (
+        currentScreen === 5 &&
+        (dob.length > 0 &&
+          age !== undefined &&
+          weight !== undefined &&
+          height !== undefined)
+      )
+        isScrollable = true;
+      if (
+        currentScreen === 6 &&
+        foodPrefBtn.length !== 0 &&
+        foodPrefBtn >= 0 &&
+        numberOfMeals > 0
+      )
+        isScrollable = true;
+      if (currentScreen === 7) {
+        await this.saveUserDetails();
+        await this.createDietAndMeals();
+      }
+      if (isScrollable && this.scrollRef) {
+        this.scrollToNextScreen(currentScreen, isLoggedIn);
+      }
+    } else {
+      if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
+        isScrollable = true;
+      if (
+        currentScreen === 2 &&
+        (fitnessLevel > 0 && fitnessLevel.length !== 0)
+      )
+        isScrollable = true;
+      if (
+        currentScreen === 3 &&
+        (dob.length > 0 &&
+          age !== undefined &&
+          weight !== undefined &&
+          height !== undefined)
+      )
+        isScrollable = true;
+      if (
+        currentScreen === 4 &&
+        foodPrefBtn.length !== 0 &&
+        foodPrefBtn >= 0 &&
+        numberOfMeals > 0
+      )
+        isScrollable = true;
+      if (currentScreen === 5) {
+        await this.saveUserDetails();
+        await this.createDietAndMeals();
+      }
+      if (isScrollable && this.scrollRef) {
+        this.scrollToNextScreenForExistingUser(currentScreen);
+      }
     }
   };
 
   saveUserDetails = async () => {
     this.setState({ isLoading: true });
     const {
-      fitnessLevel,
       email,
       password,
       dob,
@@ -536,8 +631,14 @@ export default class Signup extends Component {
       height,
       foodPreference
     } = this.state;
-    let { user, gender } = this.state;
+    let { user, gender, fitnessLevel } = this.state;
     gender = gender === 0 ? "Female" : "Male";
+    fitnessLevel =
+      fitnessLevel === 3
+        ? "Advanced"
+        : fitnessLevel === 2
+        ? "Intermediate"
+        : "Beginner";
     if (password !== "") {
       user.email = email;
     }
@@ -599,6 +700,7 @@ export default class Signup extends Component {
 
   render() {
     const {
+      user,
       goal,
       gender,
       fitnessLevel,
@@ -618,6 +720,7 @@ export default class Signup extends Component {
       passwordValid,
       confirmationPasswordValid,
       isLoading,
+      isLoadingComponent,
       dob,
       weight,
       height,
@@ -629,7 +732,8 @@ export default class Signup extends Component {
       healthCond,
       foodPrefBtn,
       numberOfMeals,
-      foodPreference
+      foodPreference,
+      isExistingUser
     } = this.state;
     const signupObject = {
       email,
@@ -653,7 +757,13 @@ export default class Signup extends Component {
           source={GRADIENT_BG_IMAGE}
           style={commonStyles.bgImage}
         >
-          {isLoading ? (
+          {isLoadingComponent ? (
+            <ActivityIndicator
+              color={styleCommon.textColor1}
+              style={{ flex: 1 }}
+              size="large"
+            />
+          ) : isLoading ? (
             <Loading
               takeFullHeight={true}
               text={"We are creating your diet ..."}
@@ -680,16 +790,18 @@ export default class Signup extends Component {
                   <Goal goal={goal} setGoal={this.setGoal} />
                 </View>
               </View>
-              <View style={commonStyles.subContainer}>
-                <View style={styles.contentWrapper}>
-                  <Header
-                    title="Your gender ?"
-                    screen={screen}
-                    onBack={this.onBack}
-                  />
-                  <Gender gender={gender} setGender={this.setGender} />
+              {!isExistingUser && (
+                <View style={commonStyles.subContainer}>
+                  <View style={styles.contentWrapper}>
+                    <Header
+                      title="Your gender ?"
+                      screen={screen}
+                      onBack={this.onBack}
+                    />
+                    <Gender gender={gender} setGender={this.setGender} />
+                  </View>
                 </View>
-              </View>
+              )}
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
@@ -705,28 +817,30 @@ export default class Signup extends Component {
                   />
                 </View>
               </View>
-              <View style={commonStyles.subContainer}>
-                <View style={styles.contentWrapper}>
-                  <Header
-                    title="SIGN UP !"
-                    screen={screen}
-                    onBack={this.onBack}
-                  />
-                  <SocialMediaSignup
-                    signupObject={signupObject}
-                    setFBUser={this.setFBUser}
-                  />
-                  <NavNextButton
-                    isActive={navButtonActive}
-                    screen={screen}
-                    onNext={this.onNext}
-                  />
+              {!isExistingUser && (
+                <View style={commonStyles.subContainer}>
+                  <View style={styles.contentWrapper}>
+                    <Header
+                      title="SIGN UP !"
+                      screen={screen}
+                      onBack={this.onBack}
+                    />
+                    <SocialMediaSignup
+                      signupObject={signupObject}
+                      setFBUser={this.setFBUser}
+                    />
+                    <NavNextButton
+                      isActive={navButtonActive}
+                      screen={screen}
+                      onNext={this.onNext}
+                    />
+                  </View>
                 </View>
-              </View>
+              )}
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
-                    title="Lets's get to know you Better !"
+                    title={"Lets's get to know you Better," + user.name + " !"}
                     screen={screen}
                     onBack={this.onBack}
                   />
@@ -739,7 +853,9 @@ export default class Signup extends Component {
                     setWeight={this.setWeight}
                     height={height}
                     setHeight={this.setHeight}
-                    showTargetWeightButton={showTargetWeightButton}
+                    showTargetWeightButton={
+                      isExistingUser ? true : showTargetWeightButton
+                    }
                     programs={[4, 8, 12, 16]}
                     program={program}
                     targetWeight={targetWeight}

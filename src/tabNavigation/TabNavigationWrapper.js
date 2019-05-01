@@ -21,7 +21,6 @@ import Signup from "../signup/Signup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 import { ICON_SIZE_NAV } from "../../assets/style/stylesCommonValues";
-import NewDiet from "../diet/NewDiet";
 
 const SignUpStackNavigator = createStackNavigator(
   {
@@ -57,9 +56,6 @@ const DietStackNavigator = createStackNavigator(
   {
     Diet: {
       screen: Diet
-    },
-    NewDiet: {
-      screen: NewDiet
     },
     MyDiet: {
       screen: MyDiet
@@ -128,7 +124,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Supplements",
+    initialRouteName: "Diet",
     defaultNavigationOptions: {
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,

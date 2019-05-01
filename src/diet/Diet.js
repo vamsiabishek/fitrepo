@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { Button } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesDietScreen";
 import { f, database } from "../common/FirebaseConfig";
 import {
@@ -23,6 +22,7 @@ export default class Diet extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      uid: "",
       name: "",
       username: "",
       selectedSortOption: "Newest first",
@@ -50,8 +50,9 @@ export default class Diet extends Component {
       //this.fetchPopularDiets(),
       this.fetchMyDiets(uid)
     ]);
-    console.log("myDiets:", myDiets);
+    console.log("myDiets:", myDiets, "uid: ", uid);
     this.setState({
+      uid,
       myDiets,
       isLoading: false
     });
@@ -124,7 +125,8 @@ export default class Diet extends Component {
       currentDietOption,
       popularDiets,
       myDiets,
-      isLoading
+      isLoading,
+      uid
     } = this.state;
     const { navigation } = this.props;
     const currentDiet =
@@ -151,8 +153,9 @@ export default class Diet extends Component {
                   }}
                   iconRight={true}
                   onPress={() =>
-                    this.props.navigation.navigate("NewDiet", {
-                      screenName: name
+                    this.props.navigation.navigate("Signup", {
+                      isExistingUser: true,
+                      uid
                     })
                   }
                 />
