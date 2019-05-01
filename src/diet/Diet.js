@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  StatusBar,
   TouchableOpacity,
   ActivityIndicator,
   ImageBackground
@@ -143,20 +142,13 @@ export default class Diet extends Component {
                   containerStyle={styles.nextButtonContainerStyle}
                   buttonStyle={styles.nextButtonStyle}
                   titleStyle={styles.nextButtonTitleStyle}
-                  icon={
-                    /*<Icon
-                      name="pencil-outline"
-                      size={ICON_SIZE_MED}
-                      style={styles.nextButtonIconStyle}
-                    />*/
-                    {
-                      name: "pencil",
-                      size: ICON_SIZE_MED,
-                      color: styleCommon.secondaryButtonTextColor,
-                      style: styles.nextButtonIconStyle,
-                      type: "material-community"
-                    }
-                  }
+                  icon={{
+                    name: "pencil",
+                    size: ICON_SIZE_MED,
+                    color: styleCommon.secondaryButtonTextColor,
+                    style: styles.nextButtonIconStyle,
+                    type: "material-community"
+                  }}
                   iconRight={true}
                   onPress={() =>
                     this.props.navigation.navigate("NewDiet", {

@@ -22,9 +22,12 @@ import PreferenceDetails from "./PreferenceDetails";
 import FitnessLevel from "./FitnessLevel";
 import FoodSources from "./FoodSources";
 import SocialMediaSignup from "./SocialMediaSignup";
-import LoadingAnimation from "../components/LoadingAnimation";
+import Loading from "../components/Loading";
 import { styles } from "../../assets/style/stylesSignup";
-import { SCREEN_WIDTH } from "../../assets/style/stylesCommonValues";
+import {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT
+} from "../../assets/style/stylesCommonValues";
 import { auth, database } from "../common/FirebaseConfig";
 import { createDiet } from "./UpdateDiet";
 import { getSourcesWithImages } from "../common/SourceUtil";
@@ -548,7 +551,7 @@ export default class Signup extends Component {
       age,
       weight,
       height,
-      foodPreference,
+      foodPreference
     };
     await database
       .ref("users")
@@ -617,7 +620,6 @@ export default class Signup extends Component {
       passwordValid,
       confirmationPasswordValid,
       isLoading,
-      isLoggedIn,
       dob,
       weight,
       height,
@@ -629,7 +631,7 @@ export default class Signup extends Component {
       healthCond,
       foodPrefBtn,
       numberOfMeals,
-      foodPreference,
+      foodPreference
     } = this.state;
     const signupObject = {
       email,
@@ -654,7 +656,12 @@ export default class Signup extends Component {
           style={commonStyles.bgImage}
         >
           {isLoading ? (
-            <LoadingAnimation />
+            <Loading
+              takeFullHeight={true}
+              text={"We are creating your diet ..."}
+              animationStr={require("../../assets/jsons/watermelon.json")}
+              animationHeight={SCREEN_HEIGHT * 0.615}
+            />
           ) : (
             <ScrollView
               horizontal="true"
@@ -675,7 +682,7 @@ export default class Signup extends Component {
                   <Goal goal={goal} setGoal={this.setGoal} />
                 </View>
               </View>
-             <View style={commonStyles.subContainer}>
+              <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
                     title="Your gender ?"
@@ -798,7 +805,7 @@ export default class Signup extends Component {
                   onNext={this.onNext}
                   buttonText={sourcesButtonLabel}
                 />
-            </View>
+              </View>
             </ScrollView>
           )}
         </ImageBackground>

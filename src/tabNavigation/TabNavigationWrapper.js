@@ -1,5 +1,4 @@
 import React from "react";
-import { Text, TouchableOpacity, ImageBackground } from "react-native";
 import {
   createSwitchNavigator,
   createAppContainer,
@@ -8,9 +7,6 @@ import {
 } from "react-navigation";
 import StartUpScreen from "./../startupscreen/StartUpScreen";
 import LoginScreen from "./../login/LoginScreen1";
-import Home from "./../home/Home";
-import CreateDiet from "../diet/CreateDiet";
-import Workouts from "./../workouts/Workouts";
 import Supplements from "./../supplements/Supplements";
 import Profile from "./../profile/Profile";
 import EditProfile from "./../profile/EditProfile";
@@ -37,9 +33,7 @@ const SignUpStackNavigator = createStackNavigator(
   {
     initialRouteName: "Signup",
     defaultNavigationOptions: {
-      header: null,
-      headerTransparent: true,
-      headerStyle: styles.headerStyle
+      header: null
     }
   }
 );
@@ -54,8 +48,7 @@ const ProfileStackNavigator = createStackNavigator(
   {
     initialRouteName: "Profile",
     defaultNavigationOptions: {
-      header: null,
-      headerStyle: styles.headerStyle
+      header: null
     }
   }
 );
@@ -63,69 +56,25 @@ const ProfileStackNavigator = createStackNavigator(
 const DietStackNavigator = createStackNavigator(
   {
     Diet: {
-      screen: Diet,
-      navigationOptions: {
-        header: null
-      }
+      screen: Diet
     },
     NewDiet: {
-      screen: NewDiet,
-      navigationOptions: {
-        header: null
-      }
+      screen: NewDiet
     },
     MyDiet: {
-      screen: MyDiet,
-      navigationOptions: ({ navigation }) => {
-        return {
-          headerStyle: styles.headerStyle,
-          headerTitleStyle: styles.headerTitleStyle,
-          headerLeft: (
-            <TouchableOpacity
-              style={{ flexDirection: "row", marginLeft: 10 }}
-              onPress={() => navigation.navigate("Diet")}
-            >
-              <Icon
-                name="arrow-left-thick"
-                size={20}
-                color={styles.headerTIcolor.color}
-              />
-              <Text
-                style={{
-                  color: styles.headerTextStyle.color,
-                  fontSize: styles.headerTextStyle.fontSize
-                }}
-              >
-                All Diets
-              </Text>
-            </TouchableOpacity>
-          )
-        };
-      }
+      screen: MyDiet
     }
   },
-  { initialRouteName: "MyDiet" }
+  {
+    initialRouteName: "Diet",
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
 );
 
 const AppBottomTabNavigator = createBottomTabNavigator(
   {
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => {
-          return (
-            <Icon
-              name="home-variant"
-              size={ICON_SIZE_NAV}
-              style={{
-                color: tintColor,
-                paddingVertical: styles.bottomNavBar.paddingVertical
-              }}
-            />
-          );
-        }
-      }
-    },
     Diet: {
       screen: DietStackNavigator,
       navigationOptions: {
@@ -201,8 +150,7 @@ const HomeStackNavigator = createStackNavigator(
   },
   {
     defaultNavigationOptions: {
-      header: null,
-      headerStyle: styles.headerStyle
+      header: null
     }
   }
 );
@@ -215,7 +163,10 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "StartUp"
+    initialRouteName: "StartUp",
+    defaultNavigationOptions: {
+      header: null
+    }
   }
 );
 

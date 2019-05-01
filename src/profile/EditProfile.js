@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  ActivityIndicator,
-  StatusBar,
-  Text,
-  UIManager,
-  View
-} from "react-native";
+import { ActivityIndicator, Text, UIManager, View } from "react-native";
 import { Button, Avatar } from "react-native-elements";
 import { styles } from "../../assets/style/stylesEditProfileScreen";
 import EditProfileSubScreen1 from "./EditProfileSubScreen1";
@@ -200,7 +194,6 @@ export default class EditProfile extends Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
         <View style={styles.profileButtonHeaderContainer}>
           <View style={styles.profileButtonContainer}>
             <Button

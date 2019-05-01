@@ -28,7 +28,6 @@ export default class Supplements extends Component {
     const { supplements } = this.state;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
-        <StatusBar />
         <View style={styles.supplementContainer}>
           <View style={styles.pageTitleContainer}>
             <Text style={styles.pageTitle}>My Supplements</Text>
@@ -55,10 +54,14 @@ export default class Supplements extends Component {
                       {detailedDesc}
                     </Text>
                     <View>
-                    <TouchableOpacity style={styles.timingsLabel}>
-                      <Text style={styles.timingsLabelText}>Best timings to consume:</Text>
-                      <Text style={styles.timingsOptions}>-Morning after breakfast</Text>
-                    </TouchableOpacity>
+                      <TouchableOpacity style={styles.timingsLabel}>
+                        <Text style={styles.timingsLabelText}>
+                          Best timings to consume:
+                        </Text>
+                        <Text style={styles.timingsOptions}>
+                          -Morning after breakfast
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>

@@ -2,6 +2,7 @@ import React from "react";
 import { Animated } from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Emoji from "react-native-emoji";
 
 export default class SelectButton extends React.Component {
   constructor(props) {
@@ -32,7 +33,8 @@ export default class SelectButton extends React.Component {
       iconName,
       onPress,
       iconLeft,
-      value
+      value,
+      shouldUseEmoji
     } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }]
@@ -44,14 +46,20 @@ export default class SelectButton extends React.Component {
           titleStyle={titleStyle}
           title={title}
           icon={
-            <Icon
-              name={iconName}
-              size={iconSize}
-              color={buttonIconColor}
-              style={buttonIcon}
-            />
+            shouldUseEmoji ? (
+              <Icon style={buttonIcon} size={iconSize}>
+                <Emoji name={iconName} />
+              </Icon>
+            ) : (
+              <Icon
+                name={iconName}
+                size={iconSize}
+                color={buttonIconColor}
+                style={buttonIcon}
+              />
+            )
           }
-          iconLeft = {iconLeft}
+          iconLeft={iconLeft}
           onPressIn={() => this.handlePressIn()}
           onPressOut={() => this.handlePressOut()}
           onPress={() => onPress(value)}
