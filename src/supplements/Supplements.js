@@ -40,7 +40,7 @@ export default class Supplements extends Component {
               const { name, desc, detailedDesc, image } = item.value;
               return (
                 <View style={styles.returnViewContainer}>
-                  <View style={styles.subContainer}>
+                  <View style={styles.imageContainer}>
                     <TouchableOpacity style={styles.touchableContainerView}>
                       <View style={styles.iconDataStyle}>
                         <Image source={image} style={styles.iconImageStyle} />

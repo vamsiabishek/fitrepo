@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   },
   pageTitleContainer: {
     borderColor: 'grey',
-    borderBottomWidth: 0.2,
+    borderBottomWidth: 0.5,
     width: SCREEN_WIDTH,
     justifyContent: "center",
     alignItems: "center",
@@ -47,12 +47,17 @@ export const styles = StyleSheet.create({
     marginTop: 5,
     paddingVertical: 10,
     borderRadius: (SCREEN_HEIGHT * 0.10) / 2,
-    backgroundColor: styleCommon.textColor3,
+    backgroundColor: "white",
   },
-  subContainer: {
+  imageContainer: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
+   // borderRadius: (SCREEN_HEIGHT * 0.10) / 2,
+    width: SCREEN_WIDTH * 0.28, //180,
+    borderTopLeftRadius: (SCREEN_HEIGHT * 0.10) / 2,
+    borderBottomLeftRadius: (SCREEN_HEIGHT * 0.10) / 2,
   },
   touchableContainerView: {
     flexDirection: "row",
@@ -76,7 +81,7 @@ export const styles = StyleSheet.create({
     borderRadius: (SCREEN_HEIGHT * 0.15) / 2
   },
   iconImageStyle: {
-    width: SCREEN_HEIGHT * 0.1 - 18,
+    width: SCREEN_HEIGHT * 0.1 - 40,
     height: SCREEN_HEIGHT * 0.1,
     //tintColor: styleCommon.textColor1
   },
@@ -100,7 +105,7 @@ export const styles = StyleSheet.create({
   supplementName: {
     fontSize: fontsCommon.font18,
     fontWeight: "bold",
-    color: styleCommon.secondaryButtonTextColor
+    color: "#00aeef",
   },
   supplementDesc: {
     width: SCREEN_WIDTH * 0.60, //180,
@@ -108,7 +113,7 @@ export const styles = StyleSheet.create({
     color: styleCommon.secondaryButtonTextColor
   },
   supplementDetailedDesc: {
-    width: SCREEN_WIDTH * 0.60, //180,
+    width: SCREEN_WIDTH * 0.65, //180,
     fontSize: fontsCommon.font14,
     fontWeight:"500",
     marginTop: 5,
@@ -123,7 +128,7 @@ export const styles = StyleSheet.create({
     fontSize: fontsCommon.font13,
     fontWeight:"500",
     marginTop: 5,
-    backgroundColor: "#ff6600",
+    backgroundColor: "#04CD5E",
     borderBottomRightRadius: 20,
   },
   timingsLabelText: {

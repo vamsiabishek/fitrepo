@@ -108,6 +108,7 @@ createMealsPerMacro = ({
     }
 
     if (sources.length > 0) {
+      console.log("sources:", sources)
       // for training day
       for (let i = 0; i < sources.length; i++) {
         const item = sources[i];
@@ -219,14 +220,13 @@ mealForSource = ({
   ) {
     if (!value.isPerSingleUnit && !value.hasTableSpoon)
       macroValue = roundToNearestTenFactor(sourceMap[key].macroValue);
-    else {
+    else
       macroValue = sourceMap[key].macroValue;
-      macroQuantity = sourceMap[key].macroQuantity;
-      sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
-    }
+    macroQuantity = sourceMap[key].macroQuantity;
     if (macroValue <= 0 && macroQuantity > 0) {
       macroValue = 5;
     }
+    sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
   } else {
     let macroValuePerHundredGm = Math.round(
       (item.macroQuantity / item.macroValue) * 100
@@ -267,8 +267,8 @@ mealForSource = ({
       sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
     } else {
       sourceMap[key] = {
-        macroValue: remainingMacroQuantity,
-        macroQuantity: remainingMacroValue
+        macroValue: remainingMacroValue,
+        macroQuantity: remainingMacroQuantity
       };
     }
   }
@@ -279,8 +279,6 @@ mealForSource = ({
   if (value.hasTableSpoon) source.hasTableSpoon = true;
 
   meal.sources.push(source);
-
-  console.log("Remaining after:", source.name, "value:", sourceMap[key].macroValue, "quantity:", sourceMap[key].macroQuantity)
 
   return { meal, updatedSource: source, sourceMap };
 };
