@@ -41,8 +41,8 @@ export default class MyDiet extends Component {
 
   componentDidMount = async () => {
     const { navigation } = this.props;
-    const dietId = navigation.getParam("dietId");
-    //const dietId = "-LdSbrpg2bQE60HR6SxC";
+    //const dietId = navigation.getParam("dietId");
+    const dietId = "-Leb6jMRUi-VpalmHqfc";
     await this.loadDietDetails(dietId);
   };
 
@@ -190,6 +190,8 @@ export default class MyDiet extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
+     //const dietId = navigation.getParam("dietId");
+    const dietId = "-Leb6jMRUi-VpalmHqfc";
     const { isLoading, activeDay, meals, allMeals, currentWeek } = this.state;
     const {
       totalCalories,
@@ -219,7 +221,7 @@ export default class MyDiet extends Component {
         ) : (
           <View style={styles.container}>
             <View style={styles.backHeaderContainer}>
-              <View style={styles.buttonContainer}>
+              <View style={styles.backButtonContainerStyle}>
                 <Button
                   title="All Diets"
                   icon={{
@@ -228,10 +230,23 @@ export default class MyDiet extends Component {
                     color: styleCommon.secondaryButtonTextColor,
                     type: "material-community"
                   }}
-                  containerStyle={styles.backButtonContainerStyle}
+                  containerStyle={styles.backButtonStyle}
                   buttonStyle={styles.backButtonStyle}
                   titleStyle={styles.backButtonTitleStyle}
                   onPress={() => navigate("Diet")}
+                />
+                <Button
+                  title="Supplements"
+                  icon={{
+                    name: "medical-bag",
+                    size: ICON_SIZE,
+                    color: styleCommon.selectedButtonColor,
+                    type: "material-community"
+                  }}
+                  containerStyle={styles.backButtonStyle}
+                  buttonStyle={styles.backButtonStyle}
+                  titleStyle={styles.backButtonTitleStyle}
+                  onPress={() => navigate("Supplements", {dietId})}
                 />
               </View>
             </View>

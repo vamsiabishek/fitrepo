@@ -81,7 +81,7 @@ export const styles = StyleSheet.create({
     borderRadius: (SCREEN_HEIGHT * 0.15) / 2
   },
   iconImageStyle: {
-    width: SCREEN_HEIGHT * 0.1 - 40,
+    width: SCREEN_HEIGHT * 0.1 - 38,
     height: SCREEN_HEIGHT * 0.1,
     //tintColor: styleCommon.textColor1
   },

@@ -21,6 +21,7 @@ import Signup from "../signup/Signup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 import { ICON_SIZE_NAV } from "../../assets/style/stylesCommonValues";
+import AddButton from "./AddButton"
 
 const SignUpStackNavigator = createStackNavigator(
   {
@@ -91,7 +92,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     Supplements: {
       screen: Supplements,
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => {
+       /* tabBarIcon: ({ tintColor }) => {
           return (
             <Icon
               name="medical-bag" //"dumbbell"
@@ -102,8 +103,10 @@ const AppBottomTabNavigator = createBottomTabNavigator(
               }}
             />
           );
-        }
-      }
+        } */
+        tabBarLabel: () => {},
+        tabBarIcon: <AddButton /> // Plus button component
+      } 
     },
     Profile: {
       screen: ProfileStackNavigator,
@@ -134,7 +137,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
           backgroundColor: styles.bottomNavBar.backgroundColor,
           borderTopWidth: 1,
           borderTopColor: styles.bottomNavBar.backgroundColor
-        }
+        },
       }
     }
   }

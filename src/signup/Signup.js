@@ -116,12 +116,7 @@ export default class Signup extends Component {
             weight: userLoggedIn.weight,
             height: userLoggedIn.height,
             gender: userLoggedIn.gender === "Male" ? 1 : 0,
-            fitnessLevel:
-              userLoggedIn.fitnessLevel === "Advanced"
-                ? 3
-                : userLoggedIn.fitnessLevel === "Intermediate"
-                ? 2
-                : 1,
+            fitnessLevel: userLoggedIn.fitnessLevel,
             foodPrefBtn:
               userLoggedIn.foodPreference === FOOD_PREF_NON_VEG
                 ? 2
@@ -639,12 +634,6 @@ export default class Signup extends Component {
     } = this.state;
     let { user, gender, fitnessLevel } = this.state;
     gender = gender === 0 ? "Female" : "Male";
-    fitnessLevel =
-      fitnessLevel === 3
-        ? "Advanced"
-        : fitnessLevel === 2
-        ? "Intermediate"
-        : "Beginner";
     if (password !== "") {
       user.email = email;
     }

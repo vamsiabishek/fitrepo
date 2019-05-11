@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { styles } from "../../assets/style/stylesSupplementsScreen";
+import { f, database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
-import { getSupplementsByLevel } from "../common/SupplementsUtil";
+import { getSupplementsByKeyList } from "../common/SupplementsUtil";
 
 export default class Supplements extends Component {
   constructor(props) {
@@ -21,8 +22,29 @@ export default class Supplements extends Component {
     };
   }
   _keyExtractor = item => `key${item.key}`;
-  componentDidMount = () => {
-    this.setState({ supplements: getSupplementsByLevel("beginner") });
+  componentDidMount = async () => {
+    this.setState({ isLoading: true });
+    const { navigation } = this.props;
+    const dietId = navigation.getParam("dietId");
+    //const currentUser = await f.auth().currentUser;
+    await database
+      .ref(`/supplements/${dietId}`)
+      .once("value")
+      .then(snap => {
+        let supplements = []
+        if (snap.val()) {
+          supplements = snap.val()[Object.keys(snap.val())[0]];
+          supplements = getSupplementsByKeyList(supplements)
+        } 
+        this.setState({ supplements });
+      })
+      .catch(error => {
+        console.log(
+          "error while fetching user details in componentDidMount of Supplements:",
+          error
+        );
+      });
+    
   };
   render() {
     const { supplements } = this.state;
