@@ -1,6 +1,7 @@
 # OSX
 #
 .DS_Store
+settings.json
 
 # Xcode
 #
@@ -29,6 +30,10 @@ build/
 .gradle
 local.properties
 *.iml
+*.hprof
+*.aab
+*.apk
+output.json
 
 # node.js
 #
@@ -54,5 +59,4 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
-
 .png-cache
