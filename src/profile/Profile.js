@@ -7,10 +7,10 @@ import {
   Text,
   View,
   ActivityIndicator,
-  UIManager
+  Platform,
+  UIManager,
 } from "react-native";
 import { Avatar, Button } from "react-native-elements";
-import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import StarRating from "react-native-star-rating";
 import ProgressCircle from "react-native-progress-circle";
@@ -33,8 +33,10 @@ import {
   styleCommon,
   ICON_SIZE,
   ICON_SIZE_MED,
-  AVATAR_SIZE
+  AVATAR_SIZE,
+  DEVICE_ID
 } from "../../assets/style/stylesCommonValues";
+import Purchases from "react-native-purchases";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -52,7 +54,8 @@ export default class Profile extends Component {
       programCompletedPercent: 10, // Completion percent,
       goalCompletedPercent: 30,
       programChosen: "4-week program",
-      goalChosen: "Fat-Loss"
+      goalChosen: "Fat-Loss",
+      entitlements: undefined
     };
     this.profileHeaderScrollY = new Animated.Value(1);
     this.profileHeaderExpandedHeight = styles.bannerContainer.height; // calculated by onLayout
@@ -81,6 +84,9 @@ export default class Profile extends Component {
       });
     }
   };
+
+  makePayment = () => {};
+
   componentDidMount = async () => {
     const currentUser = await f.auth().currentUser;
     this.setState({
@@ -101,6 +107,12 @@ export default class Profile extends Component {
           error
         );
       });
+    Purchases.setDebugLogsEnabled(true);
+    Purchases.setup("jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH", currentUser.uid);
+    const entitlements = await Purchases.getEntitlements();
+    //Alert.alert("Entitlements", entitlements)
+    this.setState({ entitlements });
+    console.log("Emtilements: ", entitlements);
   };
   render() {
     const {
@@ -200,6 +212,24 @@ export default class Profile extends Component {
                     type="clear"
                   />
                 </View>
+                <View style={styles.profileSubBannerBoxStyle}>
+                  <Button
+                    title="Pay"
+                    icon={
+                      <Icon
+                        name="credit-card"
+                        size={ICON_SIZE}
+                        style={styles.profileButtonIconStyle}
+                      />
+                    }
+                    buttonStyle={styles.profileButtonStyle}
+                    titleStyle={styles.profileBannerTextStyle}
+                    onPress={() =>
+                      this.props.navigation.navigate("InitialScreen")
+                    }
+                    type="clear"
+                  />
+                </View>
               </View>
             </View>
             <ScrollView
@@ -296,7 +326,7 @@ export default class Profile extends Component {
                 <View style={styles.boxesStyle}>
                   <View style={styles.boxHeaderContainerView}>
                     <Icon
-                      name="postage-stamp"
+                      name="cards"
                       size={ICON_SIZE_MED}
                       style={styles.boxHeaderIconStyle}
                     />

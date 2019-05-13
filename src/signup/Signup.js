@@ -118,13 +118,22 @@ export default class Signup extends Component {
             gender: userLoggedIn.gender === "Male" ? 1 : 0,
             fitnessLevel: userLoggedIn.fitnessLevel,
             foodPrefBtn:
+              userLoggedIn.fitnessLevel === "Advanced"
+                ? 3
+                : userLoggedIn.fitnessLevel === "Intermediate"
+                ? 2
+                : 1,
+            foodPreference:
               userLoggedIn.foodPreference === FOOD_PREF_NON_VEG
                 ? 2
                 : userLoggedIn.foodPreference === FOOD_PREF_EGGETARIAN
                 ? 1
                 : 0,
             foodPreference: userLoggedIn.foodPreference,
-            proteinSources: getSourcesWithImages("protein", userLoggedIn.foodPreference),
+            proteinSources: getSourcesWithImages(
+              "protein",
+              userLoggedIn.foodPreference
+            ),
             carbSources: getSourcesWithImages("carb"),
             fatSources: getSourcesWithImages("fat"),
             isLoadingComponent: false
@@ -353,8 +362,8 @@ export default class Signup extends Component {
   };
   onSourceToggle = (index, selected) => {
     const { sources, selectedSources, modalContains } = this.state;
-    let maxSourcesAllowed = 4
-    if(modalContains === "fat") maxSourcesAllowed = 2
+    let maxSourcesAllowed = 4;
+    if (modalContains === "fat") maxSourcesAllowed = 2;
 
     if (selectedSources.length < maxSourcesAllowed || sources[index].selected) {
       const selectedSource = sources[index];

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -57,6 +56,7 @@
 		612DF668917D4E548A3B9532 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C8170B99C0C4B03B769F608 /* EvilIcons.ttf */; };
 		6225A434CEA84823969B3EBE /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 980B19A308E444BEBD1575E4 /* Zocial.ttf */; };
 		66EB036ED4904A0EAB943365 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BCC29A6CD6B9400699872272 /* FontAwesome5_Regular.ttf */; };
+		6DCFCF85DEE34845BD533718 /* libRNPurchases.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C980C989F3AB43E392DF2817 /* libRNPurchases.a */; };
 		728A201EB03E4A6CB9FF9485 /* libRCTLocationManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D5067821D047A09E7D5C21 /* libRCTLocationManagerIOS.a */; };
 		7C997482CDB24494AC3C8010 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C40B5C4151A42D9AD10D1D0 /* Lottie.framework */; };
 		7DC33F2A833448A4811FE2F0 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C17C4398E854DFEADCADFB8 /* FontAwesome.ttf */; };
@@ -70,6 +70,10 @@
 		C08614BFF9504C23B367ED1F /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25636826A0C14155BC3CD39A /* Foundation.ttf */; };
 		C84F2CB32261FAEE00400B63 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C84F2CA72261FA4500400B63 /* Lottie.framework */; };
 		C84F2CB42261FAEE00400B63 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C84F2CA72261FA4500400B63 /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C86F3056227D555A009EBBA9 /* Purchases.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C86F301E227D555A009EBBA9 /* Purchases.framework */; };
+		C86F3057227D5565009EBBA9 /* Purchases.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C86F301E227D555A009EBBA9 /* Purchases.framework */; };
+		C86F3058227D5565009EBBA9 /* Purchases.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C86F301E227D555A009EBBA9 /* Purchases.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C86F3072227D58F1009EBBA9 /* libRNPurchases.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C85BBD89227CF92100D15A73 /* libRNPurchases.a */; };
 		DD2CEA72CEFA476DBAC6F0D6 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0DBBC8999C994CF5919F384A /* MaterialIcons.ttf */; };
 		E99662DF11654389A1AE5692 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 434F4019EC054068993119F7 /* Feather.ttf */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
@@ -477,6 +481,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = ReactNativePayments;
 		};
+		C85BBD88227CF92100D15A73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7CE1BAB0C2E747B7BE833C6B /* RNPurchases.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNPurchases;
+		};
 		C88E866F225A4DA0004E42B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4D62A78B860349AC85BF17A3 /* RNDeviceInfo.xcodeproj */;
@@ -508,6 +519,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				C84F2CB42261FAEE00400B63 /* Lottie.framework in Embed Frameworks */,
+				C86F3058227D5565009EBBA9 /* Purchases.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,6 +562,7 @@
 		2D02E4901E0B4A5D006451C7 /* fitlog-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fitlog-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		301BCD6ADDC24ED1B909AAC2 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		35D0736A20AD0F740012EB8C /* Purchases.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Purchases.framework; sourceTree = SOURCE_ROOT; };
 		35E44E21CB73446BB587306A /* RCTLocationManagerIOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTLocationManagerIOS.xcodeproj; path = "../node_modules/react-native-location-manager-ios/ios/RCTLocationManagerIOS.xcodeproj"; sourceTree = "<group>"; };
 		3696C730DFF64524B7599595 /* libLottieReactNative.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottieReactNative.a; sourceTree = "<group>"; };
 		3828BEE7DB6845EBAAF4E23C /* RNScreens.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNScreens.xcodeproj; path = "../node_modules/react-native-screens/ios/RNScreens.xcodeproj"; sourceTree = "<group>"; };
@@ -568,6 +581,7 @@
 		7498A1EA55544167938E3CCB /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7C40B5C4151A42D9AD10D1D0 /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = System/Library/Frameworks/Lottie.framework; sourceTree = SDKROOT; };
+		7CE1BAB0C2E747B7BE833C6B /* RNPurchases.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPurchases.xcodeproj; path = "../node_modules/react-native-purchases/ios/RNPurchases.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		93C7E907E6A14C08BD05659F /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		980B19A308E444BEBD1575E4 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -579,7 +593,9 @@
 		BD4370F2EB6247619F577E3F /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		BD834BBBFB7B467ABBF7C877 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; };
 		C44FBFEF02A445AE8315A807 /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/src/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
+		C86F301E227D555A009EBBA9 /* Purchases.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Purchases.framework; path = "../node_modules/react-native-purchases/ios/Purchases.framework"; sourceTree = "<group>"; };
 		C937BF1D16F749BD9F18CE04 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
+		C980C989F3AB43E392DF2817 /* libRNPurchases.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNPurchases.a; sourceTree = "<group>"; };
 		CEEE20A57EC641FBA7432953 /* libRNVectorIcons-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNVectorIcons-tvOS.a"; sourceTree = "<group>"; };
 		DB43E341D6444948AA4B74E9 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		E8D2F3C8EF434D61A29B9051 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -622,6 +638,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				51C56B3CEE19427D921D776E /* libRNGestureHandler.a in Frameworks */,
 				512A49A1E02F47FFAC726A16 /* libRNVectorIcons.a in Frameworks */,
+				C86F3056227D555A009EBBA9 /* Purchases.framework in Frameworks */,
 				21B53B6DB14F409CACF81F4B /* libRNScreens.a in Frameworks */,
 				728A201EB03E4A6CB9FF9485 /* libRCTLocationManagerIOS.a in Frameworks */,
 				472F5CF63B5847C1A9C97C7B /* libBVLinearGradient.a in Frameworks */,
@@ -629,8 +646,11 @@
 				174E33FBFC104ECCB412E351 /* libRCTFBSDK.a in Frameworks */,
 				58D3AB3D8A74445ABDDC6B8E /* libRNDeviceInfo.a in Frameworks */,
 				7C997482CDB24494AC3C8010 /* Lottie.framework in Frameworks */,
+				6DCFCF85DEE34845BD533718 /* libRNPurchases.a in Frameworks */,
+				C86F3072227D58F1009EBBA9 /* libRNPurchases.a in Frameworks */,
 				1E1A7F98C73E48BC954BD26D /* libLottie.a in Frameworks */,
 				980819B734554262ACF5B74A /* libLottieReactNative.a in Frameworks */,
+				C86F3057227D5565009EBBA9 /* Purchases.framework in Frameworks */,
 				23A63452303846659B8BE693 /* libReactNativePayments.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -756,6 +776,8 @@
 				6FE4746543CD451595A556DA /* libLottie.a */,
 				3696C730DFF64524B7599595 /* libLottieReactNative.a */,
 				22EC94FFBAF64BF48ADC8136 /* libReactNativePayments.a */,
+				C980C989F3AB43E392DF2817 /* libRNPurchases.a */,
+				35D0736A20AD0F740012EB8C /* Purchases.framework */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -941,6 +963,7 @@
 				409B6B7D7DC0465380C00F0E /* Lottie.xcodeproj */,
 				C44FBFEF02A445AE8315A807 /* LottieReactNative.xcodeproj */,
 				BB309D1DE8D745AE831F8543 /* ReactNativePayments.xcodeproj */,
+				7CE1BAB0C2E747B7BE833C6B /* RNPurchases.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -957,6 +980,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C86F301E227D555A009EBBA9 /* Purchases.framework */,
 				13B07FAE1A68108700A75B9A /* fitlog */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* fitlogTests */,
@@ -1018,6 +1042,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C85BBD85227CF92100D15A73 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C85BBD89227CF92100D15A73 /* libRNPurchases.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C88E8658225A4DA0004E42B8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1057,12 +1089,12 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				C84E85D8225F5CEB00E358E7 /* Embed Frameworks */,
+				C85BBD8E227CF9D000D15A73 /* Strip Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				05A071A1225919770093A0B3 /* PBXTargetDependency */,
-				C84E85D7225F5CEB00E358E7 /* PBXTargetDependency */,
 				C84F2CB62261FAEE00400B63 /* PBXTargetDependency */,
 			);
 			name = fitlog;
@@ -1112,7 +1144,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 940;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -1138,10 +1170,9 @@
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "fitlog" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -1232,6 +1263,10 @@
 				{
 					ProductGroup = 05FEA1E4223D2AE000467102 /* Products */;
 					ProjectRef = E8D2F3C8EF434D61A29B9051 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = C85BBD85227CF92100D15A73 /* Products */;
+					ProjectRef = 7CE1BAB0C2E747B7BE833C6B /* RNPurchases.xcodeproj */;
 				},
 				{
 					ProductGroup = 05F189A5222BF13000CB2FCC /* Products */;
@@ -1624,6 +1659,13 @@
 			remoteRef = C84F70A82275E12B0037DEC4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C85BBD89227CF92100D15A73 /* libRNPurchases.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNPurchases.a;
+			remoteRef = C85BBD88227CF92100D15A73 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C88E8670225A4DA0004E42B8 /* libRNDeviceInfo.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1726,6 +1768,24 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		C85BBD8E227CF9D000D15A73 /* Strip Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Strip Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../node_modules/react-native-purchases/ios/strip-frameworks.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1781,10 +1841,6 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* fitlog-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
-		C84E85D7225F5CEB00E358E7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Lottie_iOS;
-		};
 		C84F2CB62261FAEE00400B63 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Lottie_iOS;
@@ -1827,6 +1883,7 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
 				);
 				INFOPLIST_FILE = fitlogTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1834,6 +1891,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1865,6 +1923,7 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
 				);
 				INFOPLIST_FILE = fitlogTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1872,6 +1931,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1894,6 +1954,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../node_modules/react-native-purchases/ios",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1908,15 +1975,20 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
 				);
 				INFOPLIST_FILE = fitlog/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.fitrepo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitness.fitrepo;
 				PRODUCT_NAME = fitlog;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1931,6 +2003,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../node_modules/react-native-purchases/ios",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1945,15 +2024,20 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
 				);
 				INFOPLIST_FILE = fitlog/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.fitrepo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fitness.fitrepo;
 				PRODUCT_NAME = fitlog;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1985,12 +2069,14 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
 				);
 				INFOPLIST_FILE = "fitlog-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2031,12 +2117,14 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
 				);
 				INFOPLIST_FILE = "fitlog-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2076,12 +2164,14 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
 				);
 				INFOPLIST_FILE = "fitlog-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2121,12 +2211,14 @@
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
 				);
 				INFOPLIST_FILE = "fitlog-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -2145,6 +2237,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2198,6 +2291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

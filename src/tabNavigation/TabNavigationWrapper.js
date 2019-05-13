@@ -18,6 +18,9 @@ import SignUpScreen1 from "../signup/SignUpScreen1";
 import SignUpScreen2 from "../signup/SignUpScreen2";
 import SignUpScreen3 from "../signup/SignUpScreen3";
 import Signup from "../signup/Signup";
+import InitialScreen from "../components/purchase/InitialScreen";
+import PurchaseOrderScreen from "../components/purchase/PurchaseOrderScreen";
+import AvailablePurchasesScreen from "../components/purchase/AvailablePurchasesScreen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 import { ICON_SIZE_NAV } from "../../assets/style/stylesCommonValues";
@@ -43,7 +46,10 @@ const ProfileStackNavigator = createStackNavigator(
     Profile,
     EditProfile,
     EditProfileSubScreen1,
-    EditProfileSubScreen2
+    EditProfileSubScreen2,
+    InitialScreen,
+    PurchaseOrderScreen,
+    AvailablePurchasesScreen
   },
   {
     initialRouteName: "Profile",
@@ -127,7 +133,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "Diet",
+    initialRouteName: "Profile",
     defaultNavigationOptions: {
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,
@@ -162,7 +168,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "StartUp",
+    initialRouteName: "Login",
     defaultNavigationOptions: {
       header: null
     }
