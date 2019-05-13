@@ -21,11 +21,13 @@ const styles = StyleSheet.create({
       Platform.OS === "ios" ? (DEVICE_NAME.includes("iPhone X") ? 40 : 20) : 10
     //backgroundColor: "blueviolet"
   },
-  buttonContainer: {
-    width: SCREEN_WIDTH
-    //backgroundColor: "chartreuse"
-  },
   backButtonContainerStyle: {
+    width: SCREEN_WIDTH,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  backButtonStyle: {
     justifyContent: "flex-start",
     alignItems: "flex-start"
     //backgroundColor: "burlywood"
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "#36373A"
   },
   buttonContainer: {
+    width: SCREEN_WIDTH,
     justifyContent: "center",
     alignItems: "center"
   },
