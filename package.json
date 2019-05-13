@@ -11,6 +11,7 @@
     "@babel/core": "^7.4.3",
     "@firebase/app-types": "0.x",
     "@firebase/util": "0.x",
+    "add": "^2.0.6",
     "firebase": "^5.8.5",
     "lottie-react-native": "2.5.11",
     "prop-types": "^15.0.0",
@@ -28,10 +29,11 @@
     "react-native-material-dropdown": "^0.11.1",
     "react-native-modal": "^9.0.0",
     "react-native-modal-datetime-picker": "^6.0.0",
+    "react-native-navigation-bar-color": "^0.0.9",
     "react-native-numeric-input": "^1.6.5",
-    "react-native-payments": "^0.7.1",
     "react-native-progress-bar-animated": "^1.0.6",
     "react-native-progress-circle": "^2.0.1",
+    "react-native-purchases": "^2.1.2",
     "react-native-screens": "^1.0.0-alpha.22",
     "react-native-sectioned-multi-select": "^0.6.5",
     "react-native-simple-radio-button": "^2.7.3",
@@ -39,7 +41,8 @@
     "react-native-svg-asset-plugin": "^0.1.1",
     "react-native-timeline-listview": "^0.2.3",
     "react-native-vector-icons": "6.2.0",
-    "react-navigation": "^3.3.2"
+    "react-navigation": "^3.3.2",
+    "yarn": "^1.15.2"
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",
