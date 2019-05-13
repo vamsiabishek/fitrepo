@@ -7,7 +7,8 @@ import {
   Text,
   View,
   ActivityIndicator,
-  UIManager
+  UIManager,
+  Image
 } from "react-native";
 import { Avatar, Button } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
@@ -26,7 +27,16 @@ import {
   PROGRESS_CIRCLE_BORDER_WIDTH,
   GRADIENT_BG_IMAGE,
   GRADIENT_BG_BANNER_IMAGE,
-  VITRUVIAN_MAN
+  VITRUVIAN_MAN,
+  MALE_BEGINNER_ICON,
+  MALE_INTERMEDIATE_ICON,
+  MALE_ADVANCED_ICON,
+  FEMALE_BEGINNER_ICON,
+  FEMALE_INTERMEDIATE_ICON,
+  FEMALE_ADVANCED_ICON,
+  BEGINNER_LABEL,
+  INTERMEDIATE_LABEL,
+  ADVANCED_LABEL,
 } from "../common/Common";
 import { commonStyles } from "../../assets/style/stylesCommon";
 import {
@@ -112,8 +122,22 @@ export default class Profile extends Component {
       goalChosen,
       goalCompletedPercent
     } = this.state;
+    const { gender, fitnessLevel } = user;
     let levelColor = convertLevelToLevelColor(user.level);
     let starRating = convertLevelToStarRating(user.level);
+    let levelImage =
+      gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
+    let levelTitle = BEGINNER_LABEL;
+    if (fitnessLevel === 2) {
+      levelImage =
+        gender === 1 ? MALE_INTERMEDIATE_ICON : FEMALE_INTERMEDIATE_ICON;
+      levelTitle = INTERMEDIATE_LABEL;
+    } else if (fitnessLevel === 3) {
+      levelImage =
+        gender === 1 ? MALE_ADVANCED_ICON : FEMALE_ADVANCED_ICON;
+      levelTitle = ADVANCED_LABEL;
+    }
+
     const profileHeaderHeight = this.profileHeaderScrollY.interpolate({
       inputRange: [0, this.profileHeaderExpandedHeight - 100],
       outputRange: [
@@ -128,31 +152,51 @@ export default class Profile extends Component {
           <ActivityIndicator color={styleCommon.textColor1} size="large" />
         ) : (
           <View style={styles.innerContainer}>
-            <View style={styles.bannerHeaderContainer}>
-              <View style={styles.bannerContainer}>
+            { /* <View style={styles.bannerHeaderContainer}>
+              <Animated.View
+                style={[
+                  styles.bannerContainer,
+                  { height: profileHeaderHeight }
+                ]}
+              >
                 <ImageBackground
                   source={GRADIENT_BG_BANNER_IMAGE}
-                  style={styles.bannerContainer}
-                  /*start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    colors={GRADIENT_COLORS_ARRAY}
-                    style={styles.bannergradientStyle}*/
-                >
-                  <View style={styles.avatarContainer}>
-                    <Avatar
-                      size={AVATAR_SIZE}
-                      rounded
-                      overlayContainerStyle={styles.avatarOverlayContainerStyle}
-                      icon={{
-                        type: "material-community",
-                        name: "chess-bishop",
-                        color: styleCommon.textColor2
-                      }}
-                      //source={{ uri: user.avatarSource }}
-                      imageProps={styles.avatarImagePropsStyle}
-                    />
-                  </View>
-                </ImageBackground>
+                  style={styles.bannerImage}
+                    // start={{ x: 0, y: 0 }}
+                    // end={{ x: 0, y: 1 }}
+                    // colors={GRADIENT_COLORS_ARRAY}
+                    // style={styles.bannergradientStyle}
+                />
+              </Animated.View>
+              </View> */ }
+            <ScrollView
+              style={styles.scrollViewContainerStyle}
+              contentContainerstyle={styles.scrollViewContentContainer}
+              
+              onScroll={Animated.event([
+                {
+                  nativeEvent: {
+                    contentOffset: {
+                      y: this.profileHeaderScrollY
+                    }
+                  }
+                }
+              ])}
+              scrollEventThrottle={16}
+            >
+              <View style={styles.avatarContainer}>
+                <Avatar
+                  size={AVATAR_SIZE}
+                  rounded
+                  overlayContainerStyle={styles.avatarOverlayContainerStyle}
+                  icon={{
+                    type: "material-community",
+                    name: "chess-bishop",
+                    color: styleCommon.textColor2
+                  }}
+                  //source={{ uri: user.avatarSource }}
+                  imageProps={styles.avatarImagePropsStyle}
+                />
               </View>
               <View style={styles.profileBannerStyle}>
                 <Text style={styles.profileBannerTitleStyle}>{user.name}</Text>
@@ -162,14 +206,10 @@ export default class Profile extends Component {
               </View>
               <View style={styles.profileSubBannerStyle}>
                 <View style={styles.profileSubBannerBoxStyle}>
-                  <Icon
-                    name="trophy-variant" // "medal"
-                    size={ICON_SIZE}
-                    color={levelColor}
-                  />
-                  <Text style={styles.profileBannerTextStyle}>Level</Text>
+                  <Image source={levelImage} style={{width:35, height:45}} />
+                  <Text style={styles.profileBannerTextStyle}>{levelTitle}</Text>
                 </View>
-                <View style={styles.profileSubBannerBoxStyle}>
+                {/*<View style={styles.profileSubBannerBoxStyle}>
                   <StarRating
                     disabled={false}
                     maxStars={STAR_RATING_MAX}
@@ -183,7 +223,7 @@ export default class Profile extends Component {
                     emptyStarColor={styles.profileStarColor.color}
                   />
                   <Text style={styles.profileBannerTextStyle}>Expertise</Text>
-                </View>
+                </View>*/}
                 <View style={styles.profileSubBannerBoxStyle}>
                   <Button
                     title="Edit"
@@ -201,11 +241,6 @@ export default class Profile extends Component {
                   />
                 </View>
               </View>
-            </View>
-            <ScrollView
-              style={styles.scrollViewContainerStyle}
-              contentContainerstyle={styles.scrollViewContentContainer}
-            >
               <View style={styles.boxesContainer}>
                 <View style={styles.boxesStyle}>
                   <View style={styles.boxHeaderContainerView}>

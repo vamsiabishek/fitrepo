@@ -69,7 +69,7 @@ export const styleCommon = {
   primaryButtonTextColor: "white",
   secondaryColor: "#d1feff", // Box light Blue color
   secondaryButtonColor: "#d1feff",
-  secondaryButtonTextColor: "#004a94", // Dark Blue Color
+  secondaryButtonTextColor: "#004a94", // bottom Dark Blue Color
   textColor1: "#004a94",
   textColor2: "white",
   textColor3: "#d1feff", // Box light Blue color

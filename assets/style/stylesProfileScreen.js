@@ -26,7 +26,11 @@ const styles = StyleSheet.create({
   },
   bannerContainer: {
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.27 //220
+    height: SCREEN_HEIGHT * 0.15 //220
+  },
+  bannerImage: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT * 0.15
   },
   bannergradientStyle: {
     flex: 1,
@@ -36,7 +40,8 @@ const styles = StyleSheet.create({
   avatarContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 60,
     //backgroundColor: "firebrick"
   },
   avatarOverlayContainerStyle: {
