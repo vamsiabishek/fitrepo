@@ -1,15 +1,23 @@
 import React, { Component } from "react";
-import { KeyboardAvoidingView, Text, UIManager, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Text,
+  UIManager,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import HorizontalSelectView from "../components/HorizontalSelectView";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   ICON_SIZE,
   ICON_SIZE_LARGE,
-  SCREEN_WIDTH
+  SCREEN_WIDTH,
+  ICON_SIZE_EXTRA_LARGE
 } from "../../assets/style/stylesCommonValues";
 import { styles } from "../../assets/style/stylesPreferenceDetails";
-import { styleCommon } from "../../assets/style/stylesCommonValues";
+import AnglePositionView from "../components/AnglePositionView";
 import Emoji from "react-native-emoji";
 
 // Enable LayoutAnimation for Android Devices
@@ -21,7 +29,7 @@ export default class PreferenceDetails extends Component {
     super(props);
     this.state = {
       isHealthCondStrPickerVisible: false,
-      selectedIndex: 1
+      selectedIndex: 1,
     };
   }
   showHealthCondStrPicker = () => {
@@ -54,7 +62,12 @@ export default class PreferenceDetails extends Component {
     const { isHealthCondStrPickerVisible } = this.state;
     let foodPrefIcon = "meat_on_bone";
     if (foodPreference === 0) foodPrefIcon = "avocado";
-    else if (foodPreference === 1) foodPrefIcon = "fried_egg";
+    else if (foodPreference === 1) foodPrefIcon = "glass_of_milk";
+    else if (foodPreference === 2) foodPrefIcon = "fried_egg";
+
+    const containerSize = 140;
+    const angleViewSize = 90;
+
     return (
       <View style={styles.mainContent}>
         <KeyboardAvoidingView
@@ -66,11 +79,11 @@ export default class PreferenceDetails extends Component {
             <View style={styles.contentBoxStyle}>
               <View style={styles.contentBoxHeaderStyle}>
                 <Text style={styles.headerTextStyle}>Your Food Preference</Text>
-                <Icon style={styles.headerIconStyle} size={ICON_SIZE_LARGE}>
+                <Icon style={styles.headerIconStyle} size={ICON_SIZE_EXTRA_LARGE}>
                   <Emoji name={foodPrefIcon} />
                 </Icon>
               </View>
-              <View style={styles.contentBoxMainStyle}>
+              {/* <View style={styles.contentBoxMainStyle}>
                 <ButtonGroup
                   onPress={this.updateVegIndex}
                   selectedIndex={foodPreference}
@@ -81,7 +94,55 @@ export default class PreferenceDetails extends Component {
                   textStyle={styles.buttonGroupTextStyle}
                   selectedTextStyle={styles.buttonGroupSelectedTextStyle}
                 />
-              </View>
+    </View> */}
+            </View>
+            <View
+              style={{
+                width: containerSize,
+                height: containerSize,
+                borderRadius: containerSize / 2,
+                //borderWidth: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                marginVertical: 40,
+              }}
+            >
+              <AnglePositionView
+                containerSize={containerSize}
+                viewSize={angleViewSize}
+                angle={270}
+                label="Non Vegetarian"
+                value={3}
+                isSelected={foodPreference === 3}
+                onSelect={this.updateVegIndex}
+              />
+              <AnglePositionView
+                containerSize={containerSize}
+                viewSize={angleViewSize}
+                angle={0}
+                label="Vegetarian"
+                value={1}
+                isSelected={foodPreference === 1}
+                onSelect={this.updateVegIndex}
+              />
+              <AnglePositionView
+                containerSize={containerSize}
+                viewSize={angleViewSize}
+                angle={90}
+                label="Eggetarian"
+                value={2}
+                isSelected={foodPreference === 2}
+                onSelect={this.updateVegIndex}
+              />
+              <AnglePositionView
+                containerSize={containerSize}
+                viewSize={angleViewSize}
+                angle={180}
+                label="Vegan"
+                value={0}
+                isSelected={foodPreference === 0}
+                onSelect={this.updateVegIndex}
+              />
             </View>
             <View style={styles.contentBoxStyle}>
               <View style={styles.contentBoxHeaderStyle}>

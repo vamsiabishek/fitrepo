@@ -64,6 +64,7 @@ export const proteinSourcesWithImages = [
     name: "Rajma",
     uri: require("../../assets/images/sources/rajma.svg"),
     isVeg: true,
+    isVegan: true,
     key: "rajma"
   },
   {
@@ -76,18 +77,21 @@ export const proteinSourcesWithImages = [
     name: "Amaranth Seeds",
     uri: require("../../assets/images/sources/amaranth-seeds.svg"),
     isVeg: true,
+    isVegan: true,
     key: "amaranth"
   },
   {
     name: "Black Beans",
     uri: require("../../assets/images/sources/black-beans.svg"),
     isVeg: true,
+    isVegan: true,
     key: "black-beans"
   },
   {
     name: "Chickpeas",
     uri: require("../../assets/images/sources/chickpeas.svg"),
     isVeg: true,
+    isVegan: true,
     key: "chickpeas"
   },
   {
@@ -106,6 +110,7 @@ export const proteinSourcesWithImages = [
     name: "Lentils",
     uri: require("../../assets/images/sources/lentils.svg"),
     isVeg: true,
+    isVegan: true,
     key: "lentils"
   }
 ];

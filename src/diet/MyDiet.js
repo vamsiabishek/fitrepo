@@ -41,8 +41,8 @@ export default class MyDiet extends Component {
 
   componentDidMount = async () => {
     const { navigation } = this.props;
-    //const dietId = navigation.getParam("dietId");
-    const dietId = "-Leb6jMRUi-VpalmHqfc";
+    const dietId = navigation.getParam("dietId");
+    //const dietId = "-Leb6jMRUi-VpalmHqfc";
     await this.loadDietDetails(dietId);
   };
 

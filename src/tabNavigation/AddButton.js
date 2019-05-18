@@ -22,37 +22,37 @@ class AddButton extends React.Component {
         console.log(error);
       });
     const { createdDate, selectedGoal, selectedProgram } = latestDiet.value;
-    const fromDate = new Date(createdDate)
-    const diffInMilliSecs = new Date().getTime()-fromDate.getTime()
+    const fromDate = new Date(createdDate);
+    const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
     const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000));
     const total_minutes = parseInt(Math.floor(total_seconds / 60));
     const total_hours = parseInt(Math.floor(total_minutes / 60));
     const days = parseInt(Math.floor(total_hours / 24));
-    if ( days <= selectedProgram * 7) {
+    if (days <= selectedProgram * 7) {
       Alert.alert(
-        'Create diet confirmation !',
+        "Create diet confirmation !",
         `You are curently active on ${selectedProgram} Week diet, are you sure about creating new diet ?`,
         [
           {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
           },
-          {text: 'Continue', onPress: () => this.navigateToCreateDiet()},
+          { text: "Continue", onPress: () => this.navigateToCreateDiet(uid) }
         ],
-        {cancelable: false},
+        { cancelable: false }
       );
     } else {
-      this.navigateToCreateDiet()
+      this.navigateToCreateDiet();
     }
   };
-  navigateToCreateDiet = () => {
+  navigateToCreateDiet = uid => {
     const { navigation } = this.props;
     navigation.navigate("Signup", {
       isExistingUser: true,
       uid
     });
-  }
+  };
   render() {
     const SIZE = 80;
     return (

@@ -34,6 +34,7 @@ import { auth, database } from "../common/FirebaseConfig";
 import { createDiet } from "./UpdateDiet";
 import { getSourcesWithImages } from "../common/SourceUtil";
 import {
+  FOOD_PREF_VEGAN,
   FOOD_PREF_VEG,
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN
@@ -60,7 +61,7 @@ export default class Signup extends Component {
       targetWeight: undefined,
       healthCond: undefined,
       foodPreference: FOOD_PREF_NON_VEG,
-      foodPrefBtn: 2,
+      foodPrefBtn: 3,
       numberOfMeals: 4,
       showTargetWeightButton: false,
       navButtonActive: false,
@@ -118,15 +119,11 @@ export default class Signup extends Component {
             gender: userLoggedIn.gender === "Male" ? 1 : 0,
             fitnessLevel: userLoggedIn.fitnessLevel,
             foodPrefBtn:
-              userLoggedIn.fitnessLevel === "Advanced"
-                ? 3
-                : userLoggedIn.fitnessLevel === "Intermediate"
-                ? 2
-                : 1,
-            foodPreference:
               userLoggedIn.foodPreference === FOOD_PREF_NON_VEG
-                ? 2
+                ? 3
                 : userLoggedIn.foodPreference === FOOD_PREF_EGGETARIAN
+                ? 2
+                : userLoggedIn.foodPreference === FOOD_PREF_VEG
                 ? 1
                 : 0,
             foodPreference: userLoggedIn.foodPreference,
@@ -206,9 +203,10 @@ export default class Signup extends Component {
       fatSources,
       foodPreference
     } = this.state;
-    if (foodPrefBtn === 0) foodPreference = FOOD_PREF_VEG;
-    else if (foodPrefBtn === 1) foodPreference = FOOD_PREF_EGGETARIAN;
-    else if (foodPrefBtn === 2) foodPreference = FOOD_PREF_NON_VEG;
+    if (foodPrefBtn === 0) foodPreference = FOOD_PREF_VEGAN;
+    else if (foodPrefBtn === 1) foodPreference = FOOD_PREF_VEG;
+    else if (foodPrefBtn === 2) foodPreference = FOOD_PREF_EGGETARIAN;
+    else if (foodPrefBtn === 3) foodPreference = FOOD_PREF_NON_VEG;
     proteinSources = getSourcesWithImages("protein", foodPreference);
     carbSources = getSourcesWithImages("carb");
     fatSources = getSourcesWithImages("fat");

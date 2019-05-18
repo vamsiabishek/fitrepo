@@ -55,8 +55,8 @@ export default class HorizontalComponent extends React.Component {
             if (item === selectedItem) {
               iconStyle = {
                 ...iconStyle,
-                height: selectedHW !== undefined ? selectedHW : 28, //20, Make dynamic
-                width: selectedHW !== undefined ? selectedHW : 28, //20,  Make dynamic
+                height: selectedHW !== undefined ? selectedHW : 30, //20, Make dynamic
+                width: selectedHW !== undefined ? selectedHW : 30, //20,  Make dynamic
                 backgroundColor: styleCommon.selectedButtonColor,
                 borderRadius: 40
               };
@@ -67,7 +67,7 @@ export default class HorizontalComponent extends React.Component {
               };
               iconTextStyle = {
                 ...iconTextStyle,
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: "bold",
                 color: styleCommon.primaryButtonTextColor
               };

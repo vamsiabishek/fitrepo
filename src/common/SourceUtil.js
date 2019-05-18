@@ -11,6 +11,7 @@ import {
   fatSourcesWithImages
 } from "./SourcesWithImages";
 
+export const FOOD_PREF_VEGAN = "VEGAN"
 export const FOOD_PREF_VEG = "VEG";
 export const FOOD_PREF_NON_VEG = "NON_VEG";
 export const FOOD_PREF_EGGETARIAN = "EGGETARIAN";
@@ -29,7 +30,9 @@ export const getFatSources = () => {
 
 export const getProteinSourcesWithImages = foodPreference => {
   let proteinSources = [];
-  if(foodPreference === FOOD_PREF_VEG)
+  if(foodPreference === FOOD_PREF_VEGAN)
+    proteinSources = proteinSourcesWithImages.filter(source => source.isVegan)
+  else if(foodPreference === FOOD_PREF_VEG)
     proteinSources = proteinSourcesWithImages.filter(source => source.isVeg)
   else if(foodPreference === FOOD_PREF_EGGETARIAN)
     proteinSources = proteinSourcesWithImages.filter(source => source.isVeg || source.isEggetarian)
@@ -156,6 +159,7 @@ export const createKeyAndValuesForStandardProtein = (sources, foodPref) => {
   Object.keys(sources).map(key => {
     const value = sources[key];
     if (
+      (foodPref === FOOD_PREF_VEGAN && value.isStandardForVegan) ||
       (foodPref === FOOD_PREF_VEG && value.isStandardForVeg) ||
       (foodPref === FOOD_PREF_NON_VEG && value.isStandardForNonVeg) ||
       (foodPref === FOOD_PREF_EGGETARIAN && value.isStandardForEgg)

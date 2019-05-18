@@ -3,8 +3,9 @@ export const proteinSources = {
     carbs: 46,
     fat: 5.2,
     isVeg: true,
+    isVegan: true,
     name: "Amaranth",
-    protein: 9.3
+    protein: 9.3,
   },
   "basa-fish": {
     carbs: 0,
@@ -17,8 +18,10 @@ export const proteinSources = {
     carbs: 40.8,
     fat: 0,
     isVeg: true,
+    isVegan: true,
     name: "Black Beans",
     isStandardForVeg: true,
+    isStandardForVegan: true,
     protein: 15.2,
   },
   "chicken-breast": {
@@ -33,8 +36,10 @@ export const proteinSources = {
     carbs: 61,
     fat: 6,
     isVeg: true,
+    isVegan: true,
     name: "Chickpeas/Channa",
     isStandardForVeg: true,
+    isStandardForVegan: true,
     protein: 19
   },
   quinoa: {
@@ -42,6 +47,8 @@ export const proteinSources = {
     fat: 6,
     name: "Quinoa",
     protein: 14,
+    isVeg: true,
+    isVegan: true,
     isStandardForEgg: true,
   },
   "egg-white": {
@@ -52,6 +59,7 @@ export const proteinSources = {
     isStandardForNonVeg: true,
     isStandardForEgg: true,
     isVeg: false,
+    isEggetarian: true,
     name: "Egg White",
     protein: 4
   },
@@ -63,6 +71,7 @@ export const proteinSources = {
     isStandardForNonVeg: true,
     isStandardForEgg: true,
     isVeg: false,
+    isEggetarian: true,
     name: "Whole Egg",
     protein: 6
   },
@@ -91,8 +100,10 @@ export const proteinSources = {
     carbs: 20,
     fat: 0,
     isVeg: true,
+    isVegan: true,
     name: "Lentils",
-    protein: 9
+    protein: 9,
+    isStandardForVegan: true,
   },
   paneer: {
     carbs: 1,
@@ -120,9 +131,11 @@ export const proteinSources = {
     carbs: 23,
     fat: 0,
     isStandardForVeg: true,
+    isStandardForVegan: true,
     isStandardForNonVeg: true,
     isStandardForEgg: true,
     isVeg: true,
+    isVegan: true,
     name: "Kidney Beans/Rajma",
     protein: 9
   },

@@ -11,8 +11,10 @@ import { getVeggies, getFruits } from "../../common/SourceUtil"
 import {
   FOOD_PREF_VEG,
   FOOD_PREF_NON_VEG,
-  FOOD_PREF_EGGETARIAN
+  FOOD_PREF_EGGETARIAN,
+  FOOD_PREF_VEGAN
 } from "../../common/SourceUtil";
+import { getCalPerWeek } from "./WeeklyCalories"
 
 const MALE = "male";
 const FEMALE = "female";
@@ -334,7 +336,7 @@ getCalFromSources = (goal, totalCalIntake, foodPreference) => {
   let excludeProteinCal = 120;
   const excludeFatCal = 100;
   const excludeCarbCal = 50;
-  if (foodPreference === FOOD_PREF_VEG) {
+  if (foodPreference === FOOD_PREF_VEG || foodPreference === FOOD_PREF_VEGAN) {
     lossPercent = LOSS_MACRO_PERCENTS_VEG;
     gainPercent = GAIN_MACRO_PERCENTS_VEG;
     excludeProteinCal = 160;
@@ -391,56 +393,6 @@ getCalFromSources = (goal, totalCalIntake, foodPreference) => {
     trainingDayCal,
     restDayCal
   };
-};
-
-const getCalPerWeek = (totalCalIntake, selectedProgram) => {
-  const calPerWeek = [];
-  if (selectedProgram === 4) {
-    calPerWeek.push(totalCalIntake);
-    calPerWeek.push(totalCalIntake - 100);
-    calPerWeek.push(totalCalIntake - 150);
-    calPerWeek.push(totalCalIntake - 200);
-  } else if (selectedProgram === 8) {
-    calPerWeek.push(totalCalIntake + 100);
-    calPerWeek.push(totalCalIntake);
-    calPerWeek.push(totalCalIntake - 100);
-    calPerWeek.push(totalCalIntake - 150);
-    calPerWeek.push(totalCalIntake - 200);
-    calPerWeek.push(totalCalIntake - 250);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 300);
-  } else if (selectedProgram === 12) {
-    calPerWeek.push(totalCalIntake + 150);
-    calPerWeek.push(totalCalIntake);
-    calPerWeek.push(totalCalIntake - 100);
-    calPerWeek.push(totalCalIntake - 150);
-    calPerWeek.push(totalCalIntake - 200);
-    calPerWeek.push(totalCalIntake - 250);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 100);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 200);
-    calPerWeek.push(totalCalIntake - 300);
-  } else if (selectedProgram === 12) {
-    calPerWeek.push(totalCalIntake + 150);
-    calPerWeek.push(totalCalIntake);
-    calPerWeek.push(totalCalIntake);
-    calPerWeek.push(totalCalIntake - 100);
-    calPerWeek.push(totalCalIntake - 150);
-    calPerWeek.push(totalCalIntake - 200);
-    calPerWeek.push(totalCalIntake - 250);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 100);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 200);
-    calPerWeek.push(totalCalIntake - 250);
-    calPerWeek.push(totalCalIntake - 300);
-    calPerWeek.push(totalCalIntake - 300);
-  }
-  return calPerWeek;
 };
 
 const beginnerDefaultSourcesAndCal = async () => {
