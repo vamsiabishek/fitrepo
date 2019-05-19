@@ -33,10 +33,8 @@ export default class TargetWeightTimeline extends Component {
     this.targetWeightLabels = [];
     const { goal, weight, fitnessLevel } = this.props;
     const { selectedProgram } = this.state;
-    let dummyGoal = goal;
-    if (goal === 1) dummyGoal = 0;
     getPossibleTargetWeights(
-      dummyGoal,
+      goal,
       selectedProgram,
       weight,
       fitnessLevel

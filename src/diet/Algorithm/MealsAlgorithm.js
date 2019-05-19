@@ -78,6 +78,7 @@ createMealsPerMacro = ({
   const maxMacroPerMealForRD = Math.round(
     totalMacroQuantityForRD / numberOfMeals
   );
+  const maxMacroPerMealForNuts = 8;
 
   while (x <= numberOfMeals) {
     const mealName = `Meal${x}`;
@@ -112,7 +113,7 @@ createMealsPerMacro = ({
       // for training day
       for (let i = 0; i < sources.length; i++) {
         const item = sources[i];
-        const { key } = item.source;
+        const { key, value } = item.source;
         let source = {};
 
         if (sourceQuantityMap[key].macroValue > 0) {
@@ -122,13 +123,16 @@ createMealsPerMacro = ({
             sourceMap: sourceQuantityMap,
             item,
             maxMacroPerMeal,
+            maxMacroPerMealForNuts,
             forRestDay: false
           });
           trainingDayMeal = meal;
           source = updatedSource;
           sourceQuantityMap = sourceMap;
         }
-        if (source.macroQuantity >= maxMacroPerMeal) {
+        if (source.macroQuantity >= maxMacroPerMeal && !value.isNuts) {
+          break;
+        } else if(value.isNuts && source.macroQuantity >= maxMacroPerMealForNuts) {
           break;
         } else if (trainingDayMeal.sources.length > 0) {
           const totalQuantity = trainingDayMeal.sources.reduce(
@@ -143,7 +147,7 @@ createMealsPerMacro = ({
       // for rest day
       for (let i = 0; i < sources.length; i++) {
         const item = sources[i];
-        const { key } = item.source;
+        const { key, value } = item.source;
         let source = {};
 
         if (sourceQuantityMapForRD[key].macroValue > 0) {
@@ -153,13 +157,16 @@ createMealsPerMacro = ({
             sourceMap: sourceQuantityMapForRD,
             item,
             maxMacroPerMeal: maxMacroPerMealForRD,
+            maxMacroPerMealForNuts,
             forRestDay: true
           });
           restDayMeal = meal;
           source = updatedSource;
           sourceQuantityMapForRD = sourceMap;
         }
-        if (source.macroQuantity >= maxMacroPerMealForRD) {
+        if (source.macroQuantity >= maxMacroPerMealForRD && !value.isNuts) {
+          break;
+        } else if (value.isNuts && source.macroQuantity >= maxMacroPerMealForNuts) {
           break;
         } else if (restDayMeal.sources.length > 0) {
           const totalQuantityForRD = restDayMeal.sources.reduce(
@@ -206,6 +213,7 @@ mealForSource = ({
   source,
   sourceMap,
   maxMacroPerMeal,
+  maxMacroPerMealForNuts,
   meal,
   item,
   forRestDay
@@ -216,7 +224,8 @@ mealForSource = ({
   console.log("Starting:", source.name, "value:", sourceMap[key].macroValue, "quantity:", sourceMap[key].macroQuantity)
   if (
     sourceMap[key].macroQuantity <= maxMacroPerMeal ||
-    (value.hasTableSpoon && sourceMap[key].macroValue <= 2)
+    (value.hasTableSpoon && sourceMap[key].macroValue <= 2) &&
+    !value.isNuts
   ) {
     if (!value.isPerSingleUnit && !value.hasTableSpoon)
       macroValue = roundToNearestTenFactor(sourceMap[key].macroValue);
@@ -227,6 +236,34 @@ mealForSource = ({
       macroValue = 5;
     }
     sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
+  } else if (value.isNuts) {
+    let macroValuePerHundredGm = Math.round(
+      (item.macroQuantity / item.macroValue) * 100
+    );
+    if (forRestDay) {
+      macroValuePerHundredGm = Math.round(
+        (item.macroQuantityForRD / item.macroValueForRD) * 100
+      );
+    }
+    let newQuantity = sourceMap[key].macroQuantity;
+    if(sourceMap[key].macroQuantity >= maxMacroPerMealForNuts)
+      newQuantity = maxMacroPerMealForNuts;
+    const quantity = Math.floor((newQuantity / macroValuePerHundredGm) * 100);
+    macroValue = quantity;
+    macroQuantity = newQuantity;
+    const remainingMacroQuantity = sourceMap[key].macroQuantity - newQuantity;
+    const remainingMacroValue = sourceMap[key].macroValue - quantity;
+    // if the remaining quantity of a source is less than 30 then add it to current meal itself
+    if (remainingMacroValue <= 5) {
+      macroValue = macroValue + remainingMacroValue;
+      macroQuantity = macroQuantity + remainingMacroQuantity;
+      sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
+    } else {
+      sourceMap[key] = {
+        macroValue: remainingMacroValue,
+        macroQuantity: remainingMacroQuantity
+      };
+    }
   } else {
     let macroValuePerHundredGm = Math.round(
       (item.macroQuantity / item.macroValue) * 100

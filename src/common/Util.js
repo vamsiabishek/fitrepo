@@ -1,3 +1,5 @@
+import { WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY } from "./Common";
+
 export const pluralCheck = s => {
   return s === 1 ? " ago" : "s ago";
 };
@@ -33,9 +35,11 @@ export const timeConverter = timeStamp => {
   return seconds + " sec" + pluralCheck(seconds);
 };
 
-export const convertGoal = goal => (goal === 0 ? "loss" : "gain");
+export const convertGoal = goal =>
+  goal === 0 ? WEIGHT_LOSS : goal === 1 ? BE_HEALTHY : WEIGHT_GAIN;
 
-export const getGoalString = goal => (goal === 0 ? "Fat-loss" : "Weight-gain");
+export const getGoalString = goal =>
+  goal === 0 ? "Fat-loss" : goal === 1 ? "Be healthy" : "Weight-gain";
 
 export const convertGender = gender => (gender === 0 ? "Female" : "Male");
 
@@ -43,7 +47,7 @@ export const createKeyAndValuesFromResult = result => {
   return Object.keys(result).map(key => {
     return {
       key,
-      value: result[key],
+      value: result[key]
     };
   });
 };
@@ -53,7 +57,7 @@ export const createKeyAndNameFromResult = result => {
     const { name } = result[key];
     return {
       key,
-      name,
+      name
     };
   });
 };
@@ -63,5 +67,5 @@ export const createRefBySourceType = type => {
   if (type === "protein") sourceRef = "protein-sources";
   else if (type === "carb") sourceRef = "carb-sources";
   else if (type === "fat") sourceRef = "fat-sources";
-  return sourceRef
-}
+  return sourceRef;
+};

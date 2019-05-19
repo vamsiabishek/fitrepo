@@ -40,7 +40,7 @@ export const proteinSourcesWithImages = [
     name: "Basa",
     uri: require("../../assets/images/sources/basa.svg"),
     isVeg: false,
-    key: "basa"
+    key: "basa-fish"
   },
   {
     name: "Tofu",
@@ -52,7 +52,7 @@ export const proteinSourcesWithImages = [
     name: "Tuna",
     uri: require("../../assets/images/sources/tuna.svg"),
     isVeg: false,
-    key: "tofu"
+    key: "tuna-fish"
   },
   {
     name: "Lamb",
@@ -71,7 +71,7 @@ export const proteinSourcesWithImages = [
     name: "Tilapia",
     uri: require("../../assets/images/sources/tilapia.svg"),
     isVeg: false,
-    key: "tilapia"
+    key: "tilapia-fish"
   },
   {
     name: "Amaranth Seeds",

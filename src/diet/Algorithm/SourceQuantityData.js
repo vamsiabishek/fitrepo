@@ -36,3 +36,16 @@ export const fourSourcePercent = {
   categoryTwoTwoThreeThree: [40, 40, 10, 10],
   categoryTwoTwoTwoThree: [30, 30, 30, 10],
 }
+
+export const LOSS_MACRO_PERCENTS = { carbs: 35, protein: 30, fat: 35 };
+export const GAIN_MACRO_PERCENTS = { carbs: 40, protein: 30, fat: 30 };
+export const LOSS_MACRO_PERCENTS_VEG = { carbs: 40, protein: 25, fat: 35 };
+export const GAIN_MACRO_PERCENTS_VEG = { carbs: 45, protein: 25, fat: 30 };
+export const LOSS_MACRO_PERCENTS_SEMI_NON_VEG = { carbs: 37, protein: 28, fat: 35 };
+export const GAIN_MACRO_PERCENTS_SEMI_NON_VEG = { carbs: 45, protein: 28, fat: 27 };
+export const LOSS_MACRO_PERCENTS_ADVANCED = { carbs: 30, protein: 35, fat: 35 };
+export const GAIN_MACRO_PERCENTS_ADVANCED = { carbs: 38, protein: 35, fat: 27 };
+export const LOSS_MACRO_PERCENTS_VEG_ADVANCED = { carbs: 40, protein: 25, fat: 35 };
+export const GAIN_MACRO_PERCENTS_VEG_ADVANCED = { carbs: 45, protein: 25, fat: 30 };
+export const LOSS_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED = { carbs: 37, protein: 28, fat: 35 };
+export const GAIN_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED = { carbs: 43, protein: 30, fat: 27 };

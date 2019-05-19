@@ -315,6 +315,22 @@ export default class Signup extends Component {
     else if (sourceType === "carbs") this.removeCarbSource(index);
     else if (sourceType === "fat") this.removeFatSource(index);
   };
+
+  canSelectCarbsAndFats = (selectedProteinSources, foodPreference) => {
+    if(foodPreference === FOOD_PREF_NON_VEG) {
+      if(selectedProteinSources && selectedProteinSources.length >= 2) {
+        let numberOfVegSources = 0;
+        selectedProteinSources.map(source => {
+          if(source.isVeg) numberOfVegSources = numberOfVegSources + 1
+        })
+        if(numberOfVegSources > 2) return false
+      }
+    } else {
+      return false
+    }
+    return true
+  }
+
   unSelectSource = selectedSource => {
     let { sources } = this.state;
     const selectedIndexFromSources = sources.findIndex(
@@ -334,24 +350,32 @@ export default class Signup extends Component {
     });
   };
   addCarbs = () => {
-    this.setState({
-      showModal: true,
-      modalContains: "carbs",
-      selectedSources: this.state.selectedCarbSources,
-      sources: this.state.carbSources,
-      filteredSources: this.state.carbSources,
-      searchTerm: ""
-    });
+    const {selectedProteinSources, foodPreference} = this.state
+    if (this.canSelectCarbsAndFats(selectedProteinSources, foodPreference))
+      this.setState({
+        showModal: true,
+        modalContains: "carbs",
+        selectedSources: this.state.selectedCarbSources,
+        sources: this.state.carbSources,
+        filteredSources: this.state.carbSources,
+        searchTerm: ""
+      });
+    else
+      alert("The Protein sources have required carbohydrates, you dont need to select anymore carbs !")
   };
   addFat = () => {
-    this.setState({
-      showModal: true,
-      modalContains: "fat",
-      selectedSources: this.state.selectedFatSources,
-      sources: this.state.fatSources,
-      filteredSources: this.state.fatSources,
-      searchTerm: ""
-    });
+    const {selectedProteinSources, foodPreference} = this.state
+    if (this.canSelectCarbsAndFats(selectedProteinSources, foodPreference))
+      this.setState({
+        showModal: true,
+        modalContains: "fat",
+        selectedSources: this.state.selectedFatSources,
+        sources: this.state.fatSources,
+        filteredSources: this.state.fatSources,
+        searchTerm: ""
+      });
+    else
+      alert("The Protein sources have required fats, you dont need to select anymore fats !")
   };
   addSource = sourceType => {
     if (sourceType === "protein") this.addProtein();

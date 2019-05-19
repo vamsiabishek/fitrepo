@@ -77,6 +77,16 @@ export const getStandardForProteinSources = foodPref => {
   );
 };
 
+export const findNumberOfVegProteinSources = proteinSources => {
+  let number = 0;
+  if (proteinSources) {
+    proteinSources.map(source => {
+      if (source.value.isVeg) number = number + 1;
+    });
+  }
+  return number;
+};
+
 export const getDefaultSources = sourceType => {
   return createKeyAndValuesForDefault(getSourcesByType(sourceType));
 };

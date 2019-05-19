@@ -175,7 +175,8 @@ export const fatSources = {
     fat: 49,
     isStandard: true,
     name: "Almonds",
-    protein: 21
+    protein: 21,
+    isNuts: true,
   },
   avocados: {
     carbs: 9,
@@ -187,7 +188,8 @@ export const fatSources = {
     carbs: 30,
     fat: 44,
     name: "Cashews",
-    protein: 18
+    protein: 18,
+    isNuts: true,
   },
   "chia-seeds": {
     beginnerDefault: true,
@@ -234,14 +236,16 @@ export const fatSources = {
     carbs: 11,
     fat: 49,
     name: "Pumpkin Seeds",
-    protein: 30
+    protein: 30,
+    isNuts: true,
   },
   walnuts: {
     carbs: 14,
     fat: 65,
     isStandard: true,
     name: "Walnuts",
-    protein: 15
+    protein: 15,
+    isNuts: true,
   },
   
 };

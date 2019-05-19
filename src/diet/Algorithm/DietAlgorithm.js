@@ -7,48 +7,68 @@ import {
 import { sourceQuantities, manageSources } from "./SourceDistribution";
 import { createMeals } from "./MealsAlgorithm";
 import { convertGoal } from "../../common/Util";
-import { getVeggies, getFruits } from "../../common/SourceUtil"
+import { getVeggies, getFruits } from "../../common/SourceUtil";
 import {
   FOOD_PREF_VEG,
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN,
-  FOOD_PREF_VEGAN
+  FOOD_PREF_VEGAN,
+  findNumberOfVegProteinSources
 } from "../../common/SourceUtil";
-import { getCalPerWeek } from "./WeeklyCalories"
+import { getCalPerWeek } from "./WeeklyCalories";
+import { WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY } from "../../common/Common";
+import {
+  LOSS_MACRO_PERCENTS,
+  GAIN_MACRO_PERCENTS,
+  LOSS_MACRO_PERCENTS_VEG,
+  GAIN_MACRO_PERCENTS_VEG,
+  LOSS_MACRO_PERCENTS_SEMI_NON_VEG,
+  GAIN_MACRO_PERCENTS_SEMI_NON_VEG,
+  LOSS_MACRO_PERCENTS_ADVANCED,
+  GAIN_MACRO_PERCENTS_ADVANCED,
+  LOSS_MACRO_PERCENTS_VEG_ADVANCED,
+  GAIN_MACRO_PERCENTS_VEG_ADVANCED,
+  LOSS_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED,
+  GAIN_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED
+} from "./SourceQuantityData";
 
 const MALE = "male";
 const FEMALE = "female";
-const WEIGHT_LOSS = "loss";
-const WEIGHT_GAIN = "gain";
 let BMR = 0;
 const FITNESS_LEVEL_ONE_ADDITION = 1.2; //1.2 times BMR i.e., (BMR * 1.2)
 const FITNESS_LEVEL_TWO_ADDITION = 1.46; //1.2 times BMR i.e., (BMR * 1.46)
 const FITNESS_LEVEL_THREE_ADDITION = 1.72; //1.2 times BMR i.e., (BMR * 1.72)
 const CALORIE_PERCENTS = [
-  { goal: "loss", weight: 0.25, level: 1, percent: 88 },
-  { goal: "loss", weight: 0.5, level: 1, percent: 75 },
-  { goal: "loss", weight: 1, level: 1, percent: 50 },
-  { goal: "loss", weight: 0.25, level: 2, percent: 90 },
-  { goal: "loss", weight: 0.5, level: 2, percent: 80 },
-  { goal: "loss", weight: 1, level: 2, percent: 59 },
-  { goal: "loss", weight: 0.25, level: 3, percent: 91 },
-  { goal: "loss", weight: 0.5, level: 3, percent: 83 },
-  { goal: "loss", weight: 1, level: 3, percent: 65 },
-  { goal: "gain", weight: 0.25, level: 1, percent: 112 },
-  { goal: "gain", weight: 0.5, level: 1, percent: 125 },
-  { goal: "gain", weight: 1, level: 1, percent: 150 },
-  { goal: "gain", weight: 0.25, level: 2, percent: 110 },
-  { goal: "gain", weight: 0.5, level: 2, percent: 120 },
-  { goal: "gain", weight: 1, level: 2, percent: 141 },
-  { goal: "gain", weight: 0.25, level: 3, percent: 109 },
-  { goal: "gain", weight: 0.5, level: 3, percent: 117 },
-  { goal: "gain", weight: 1, level: 3, percent: 135 }
-];
+  { goal: WEIGHT_LOSS, weight: 0.25, level: 1, percent: 88 },
+  { goal: WEIGHT_LOSS, weight: 0.5, level: 1, percent: 75 },
+  { goal: WEIGHT_LOSS, weight: 1, level: 1, percent: 50 },
+  { goal: WEIGHT_LOSS, weight: 0.25, level: 2, percent: 90 },
+  { goal: WEIGHT_LOSS, weight: 0.5, level: 2, percent: 80 },
+  { goal: WEIGHT_LOSS, weight: 1, level: 2, percent: 59 },
+  { goal: WEIGHT_LOSS, weight: 0.25, level: 3, percent: 91 },
+  { goal: WEIGHT_LOSS, weight: 0.5, level: 3, percent: 83 },
+  { goal: WEIGHT_LOSS, weight: 1, level: 3, percent: 65 },
 
-const LOSS_MACRO_PERCENTS = { carbs: 35, protein: 30, fat: 35 };
-const GAIN_MACRO_PERCENTS = { carbs: 40, protein: 30, fat: 30 };
-const LOSS_MACRO_PERCENTS_VEG = { carbs: 40, protein: 25, fat: 35 };
-const GAIN_MACRO_PERCENTS_VEG = { carbs: 45, protein: 25, fat: 30 };
+  { goal: BE_HEALTHY, weight: 0, level: 1, percent: 90 },
+  { goal: BE_HEALTHY, weight: 0.25, level: 1, percent: 84 },
+  { goal: BE_HEALTHY, weight: 0.5, level: 1, percent: 70 },
+  { goal: BE_HEALTHY, weight: 0, level: 2, percent: 92 },
+  { goal: BE_HEALTHY, weight: 0.25, level: 2, percent: 86 },
+  { goal: BE_HEALTHY, weight: 0.5, level: 2, percent: 75 },
+  { goal: BE_HEALTHY, weight: 0, level: 3, percent: 92 },
+  { goal: BE_HEALTHY, weight: 0.25, level: 3, percent: 88 },
+  { goal: BE_HEALTHY, weight: 0.5, level: 3, percent: 80 },
+
+  { goal: WEIGHT_GAIN, weight: 0.25, level: 1, percent: 112 },
+  { goal: WEIGHT_GAIN, weight: 0.5, level: 1, percent: 125 },
+  { goal: WEIGHT_GAIN, weight: 1, level: 1, percent: 150 },
+  { goal: WEIGHT_GAIN, weight: 0.25, level: 2, percent: 110 },
+  { goal: WEIGHT_GAIN, weight: 0.5, level: 2, percent: 120 },
+  { goal: WEIGHT_GAIN, weight: 1, level: 2, percent: 141 },
+  { goal: WEIGHT_GAIN, weight: 0.25, level: 3, percent: 109 },
+  { goal: WEIGHT_GAIN, weight: 0.5, level: 3, percent: 117 },
+  { goal: WEIGHT_GAIN, weight: 1, level: 3, percent: 135 }
+];
 
 const BEGINNER_LOSS_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
 const BEGINNER_GAIN_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
@@ -87,7 +107,7 @@ export const getPossibleTargetWeights = (
     ) {
       if (goal === WEIGHT_GAIN) {
         targetWeights.push(currentWeight + data.weight * program);
-      } else if (goal === WEIGHT_LOSS) {
+      } else if (goal === WEIGHT_LOSS || goal === BE_HEALTHY) {
         targetWeights.push(currentWeight - data.weight * program);
       }
     }
@@ -131,7 +151,7 @@ const getTotalCalIntake = ({
     maintainanceCalBasedOnFitness(fitnessLevel, BMR)
   );
   let weightChangePerWeek = 0;
-  if (goal === WEIGHT_LOSS) {
+  if (goal === WEIGHT_LOSS || goal === BE_HEALTHY) {
     weightChangePerWeek = (currentWeight - targetWeight) / selectedProgram;
   } else if (goal === WEIGHT_GAIN) {
     weightChangePerWeek = (targetWeight - currentWeight) / selectedProgram;
@@ -191,21 +211,12 @@ export const designDiet = async ({
     height: user.height,
     age: user.age,
     gender: user.gender.toLowerCase(),
-    fitnessLevel,
+    fitnessLevel
   });
   console.log("Total daily calorie Intake is:", totalCalIntake);
   if (totalCalIntake <= 0) {
     return;
   }
-
-  //calorie intake for each week
-  const calPerWeek = getCalPerWeek(totalCalIntake, selectedProgram);
-
-  const trainingAndRestdayCals = calPerWeek.map(calories =>
-    getCalFromSources(goal, calories, foodPreference)
-  );
-
-  console.log('trainingAndRestdayCals:', trainingAndRestdayCals)
 
   const defaultSourcesQuantities = await beginnerDefaultSourcesAndCal();
   const { proteinSources, carbSources, fatSources } = await manageSources({
@@ -216,6 +227,28 @@ export const designDiet = async ({
   });
   const veggies = getVeggies(fitnessLevel);
   const fruits = getFruits(fitnessLevel);
+
+  //calorie intake for each week
+  const calPerWeek = getCalPerWeek(totalCalIntake, selectedProgram, goal);
+
+  console.log("calPerWeek:", calPerWeek);
+
+  const numberOfVegProteinSources =
+    foodPreference === FOOD_PREF_NON_VEG
+      ? findNumberOfVegProteinSources(proteinSources)
+      : 0;
+
+  const trainingAndRestdayCals = calPerWeek.map(calories =>
+    getCalFromSources(
+      goal,
+      calories,
+      foodPreference,
+      numberOfVegProteinSources,
+      fitnessLevel
+    )
+  );
+
+  console.log("trainingAndRestdayCals:", trainingAndRestdayCals);
   const weeklyMeals = [];
   trainingAndRestdayCals.map(({ trainingDayCal, restDayCal }, index) => {
     if (
@@ -330,68 +363,128 @@ export const designDiet = async ({
   return weeklyMeals;
 };
 
-getCalFromSources = (goal, totalCalIntake, foodPreference) => {
-  let lossPercent = LOSS_MACRO_PERCENTS;
-  let gainPercent = GAIN_MACRO_PERCENTS;
-  let excludeProteinCal = 120;
-  const excludeFatCal = 100;
-  const excludeCarbCal = 50;
-  if (foodPreference === FOOD_PREF_VEG || foodPreference === FOOD_PREF_VEGAN) {
-    lossPercent = LOSS_MACRO_PERCENTS_VEG;
-    gainPercent = GAIN_MACRO_PERCENTS_VEG;
-    excludeProteinCal = 160;
-  }
+getCalFromSources = (
+  goal,
+  totalCalIntake,
+  foodPreference,
+  numberOfVegProteinSources,
+  fitnessLevel
+) => {
+  const {
+    lossPercent,
+    gainPercent,
+    excludeProteinCal,
+    excludeFatCal,
+    excludeCarbCal
+  } = getMacroPercentsAndExcludeCal({
+    fitnessLevel,
+    foodPreference,
+    numberOfVegProteinSources
+  });
+
   let calFromProtein =
-    goal === WEIGHT_LOSS
+    goal === WEIGHT_LOSS || goal === BE_HEALTHY
       ? (totalCalIntake * lossPercent.protein) / 100
       : (totalCalIntake * gainPercent.protein) / 100;
 
   let calFromCarbs =
-    goal === WEIGHT_LOSS
+    goal === WEIGHT_LOSS || goal === BE_HEALTHY
       ? (totalCalIntake * lossPercent.carbs) / 100
       : (totalCalIntake * gainPercent.carbs) / 100;
 
   let calFromFats =
-    goal === WEIGHT_LOSS
+    goal === WEIGHT_LOSS || goal === BE_HEALTHY
       ? (totalCalIntake * lossPercent.fat) / 100
       : (totalCalIntake * gainPercent.fat) / 100;
 
   /* subtract 100 cal from protein and 50 cal from fat 
     because carb and fat sources contain some protein
     and also carb sources contain fat */
+  calFromProtein = calFromProtein - excludeProteinCal;
+  calFromFats = calFromFats - excludeFatCal;
+  calFromCarbs = calFromCarbs - excludeCarbCal;
   const trainingDayCal = {
-    calFromProtein: calFromProtein - excludeProteinCal,
-    calFromFats: calFromFats - excludeFatCal,
-    calFromCarbs: calFromCarbs - excludeCarbCal
+    calFromProtein,
+    calFromFats: calFromFats > 0 ? calFromFats : 0,
+    calFromCarbs: calFromCarbs > 0 ? calFromCarbs : 0
   };
 
   let calFromProteinForRD =
-    goal === WEIGHT_LOSS
+    goal === WEIGHT_LOSS || goal === BE_HEALTHY
       ? (BMR * lossPercent.protein) / 100
       : (BMR * gainPercent.protein) / 100;
 
   let calFromCarbsForRD =
-    goal === WEIGHT_LOSS
+    goal === WEIGHT_LOSS || goal === BE_HEALTHY
       ? (BMR * lossPercent.carbs) / 100
       : (BMR * gainPercent.carbs) / 100;
 
   let calFromFatsForRD =
-    goal === WEIGHT_LOSS
+    goal === WEIGHT_LOSS || goal === BE_HEALTHY
       ? (BMR * lossPercent.fat) / 100
       : (BMR * gainPercent.fat) / 100;
 
   /* subtract 100 cal from protein and 50 cal from fat 
     because carb and fat sources contain some protein
     and also carb sources contain fat */
+  calFromProteinForRD = calFromProteinForRD - excludeProteinCal;
+  calFromFatsForRD = calFromFatsForRD - excludeFatCal;
+  calFromCarbsForRD = calFromCarbsForRD - excludeCarbCal;
   const restDayCal = {
-    calFromProteinForRD: calFromProteinForRD - excludeProteinCal,
-    calFromFatsForRD: calFromFatsForRD - excludeFatCal,
-    calFromCarbsForRD: calFromCarbsForRD - excludeCarbCal
+    calFromProteinForRD,
+    calFromFatsForRD: calFromFatsForRD > 0 ? calFromFatsForRD : 0,
+    calFromCarbsForRD: calFromCarbsForRD > 0 ? calFromCarbsForRD : 0
   };
 
   return {
     trainingDayCal,
     restDayCal
+  };
+};
+
+getMacroPercentsAndExcludeCal = ({
+  fitnessLevel,
+  foodPreference,
+  numberOfVegProteinSources
+}) => {
+  let lossPercent = LOSS_MACRO_PERCENTS;
+  let gainPercent = GAIN_MACRO_PERCENTS;
+  if (fitnessLevel === 3) {
+    lossPercent = LOSS_MACRO_PERCENTS_ADVANCED;
+    gainPercent = GAIN_MACRO_PERCENTS_ADVANCED;
+  }
+  let excludeProteinCal = 120;
+  const excludeFatCal = 120;
+  let excludeCarbCal = 100;
+  if (
+    foodPreference === FOOD_PREF_VEG ||
+    foodPreference === FOOD_PREF_VEGAN ||
+    foodPreference === FOOD_PREF_EGGETARIAN ||
+    numberOfVegProteinSources >= 3
+  ) {
+    lossPercent = LOSS_MACRO_PERCENTS_VEG;
+    gainPercent = GAIN_MACRO_PERCENTS_VEG;
+    if (fitnessLevel === 3) {
+      lossPercent = LOSS_MACRO_PERCENTS_VEG_ADVANCED;
+      gainPercent = GAIN_MACRO_PERCENTS_VEG_ADVANCED;
+    }
+    excludeProteinCal = 160;
+  } else if (numberOfVegProteinSources === 2) {
+    lossPercent = LOSS_MACRO_PERCENTS_SEMI_NON_VEG;
+    gainPercent = GAIN_MACRO_PERCENTS_SEMI_NON_VEG;
+    if (fitnessLevel === 3) {
+      lossPercent = LOSS_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED;
+      gainPercent = GAIN_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED;
+    }
+    excludeProteinCal = 140;
+    excludeCarbCal = 140;
+  }
+  return {
+    lossPercent,
+    gainPercent,
+    excludeProteinCal,
+    excludeFatCal,
+    excludeCarbCal
   };
 };
 
@@ -477,10 +570,12 @@ totalCaloriesFromSourceQuantities = foodSources => {
           calFromCarbsForRD: sources.calFromSources.calFromCarbs
         };
       } else {
-          calFromSources = sources.calFromSources;
-          calFromSourcesForRD = sources.calFromSourcesForRD;
+        calFromSources = sources.calFromSources;
+        calFromSourcesForRD = sources.calFromSourcesForRD;
       }
-      calFromProtein = Math.round(calFromProtein + calFromSources.calFromProtein);
+      calFromProtein = Math.round(
+        calFromProtein + calFromSources.calFromProtein
+      );
       calFromProteinForRD = Math.round(
         calFromProteinForRD + calFromSourcesForRD.calFromProteinForRD
       );
