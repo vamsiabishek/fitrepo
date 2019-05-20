@@ -3,11 +3,9 @@ import {
   Animated,
   ImageBackground,
   ScrollView,
-  StatusBar,
   Text,
   View,
   ActivityIndicator,
-  Platform,
   UIManager,
   Image
 } from "react-native";
@@ -36,9 +34,8 @@ import {
   FEMALE_ADVANCED_ICON,
   BEGINNER_LABEL,
   INTERMEDIATE_LABEL,
-  ADVANCED_LABEL,
+  ADVANCED_LABEL
 } from "../common/Common";
-import { commonStyles } from "../../assets/style/stylesCommon";
 import {
   styleCommon,
   ICON_SIZE,
@@ -46,7 +43,6 @@ import {
   AVATAR_SIZE,
   DEVICE_ID
 } from "../../assets/style/stylesCommonValues";
-import Purchases from "react-native-purchases";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -95,8 +91,6 @@ export default class Profile extends Component {
     }
   };
 
-  makePayment = () => {};
-
   componentDidMount = async () => {
     const currentUser = await f.auth().currentUser;
     this.setState({
@@ -117,12 +111,6 @@ export default class Profile extends Component {
           error
         );
       });
-    Purchases.setDebugLogsEnabled(true);
-    Purchases.setup("jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH", currentUser.uid);
-    const entitlements = await Purchases.getEntitlements();
-    //Alert.alert("Entitlements", entitlements)
-    this.setState({ entitlements });
-    console.log("Emtilements: ", entitlements);
   };
   render() {
     const {
@@ -137,16 +125,14 @@ export default class Profile extends Component {
     const { gender, fitnessLevel } = user;
     let levelColor = convertLevelToLevelColor(user.level);
     let starRating = convertLevelToStarRating(user.level);
-    let levelImage =
-      gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
+    let levelImage = gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
     let levelTitle = BEGINNER_LABEL;
     if (fitnessLevel === 2) {
       levelImage =
         gender === 1 ? MALE_INTERMEDIATE_ICON : FEMALE_INTERMEDIATE_ICON;
       levelTitle = INTERMEDIATE_LABEL;
     } else if (fitnessLevel === 3) {
-      levelImage =
-        gender === 1 ? MALE_ADVANCED_ICON : FEMALE_ADVANCED_ICON;
+      levelImage = gender === 1 ? MALE_ADVANCED_ICON : FEMALE_ADVANCED_ICON;
       levelTitle = ADVANCED_LABEL;
     }
 
@@ -164,7 +150,7 @@ export default class Profile extends Component {
           <ActivityIndicator color={styleCommon.textColor1} size="large" />
         ) : (
           <View style={styles.innerContainer}>
-            { /* <View style={styles.bannerHeaderContainer}>
+            {/* <View style={styles.bannerHeaderContainer}>
               <Animated.View
                 style={[
                   styles.bannerContainer,
@@ -180,11 +166,10 @@ export default class Profile extends Component {
                     // style={styles.bannergradientStyle}
                 />
               </Animated.View>
-              </View> */ }
+              </View> */}
             <ScrollView
               style={styles.scrollViewContainerStyle}
               contentContainerstyle={styles.scrollViewContentContainer}
-              
               onScroll={Animated.event([
                 {
                   nativeEvent: {
@@ -218,8 +203,13 @@ export default class Profile extends Component {
               </View>
               <View style={styles.profileSubBannerStyle}>
                 <View style={styles.profileSubBannerBoxStyle}>
-                  <Image source={levelImage} style={{width:35, height:45}} />
-                  <Text style={styles.profileBannerTextStyle}>{levelTitle}</Text>
+                  <Image
+                    source={levelImage}
+                    style={{ width: 35, height: 45 }}
+                  />
+                  <Text style={styles.profileBannerTextStyle}>
+                    {levelTitle}
+                  </Text>
                 </View>
                 {/*<View style={styles.profileSubBannerBoxStyle}>
                   <StarRating
@@ -249,24 +239,6 @@ export default class Profile extends Component {
                     buttonStyle={styles.profileButtonStyle}
                     titleStyle={styles.profileBannerTextStyle}
                     onPress={this.goToEditProfile}
-                    type="clear"
-                  />
-                </View>
-                <View style={styles.profileSubBannerBoxStyle}>
-                  <Button
-                    title="Pay"
-                    icon={
-                      <Icon
-                        name="credit-card"
-                        size={ICON_SIZE}
-                        style={styles.profileButtonIconStyle}
-                      />
-                    }
-                    buttonStyle={styles.profileButtonStyle}
-                    titleStyle={styles.profileBannerTextStyle}
-                    onPress={() =>
-                      this.props.navigation.navigate("InitialScreen")
-                    }
                     type="clear"
                   />
                 </View>

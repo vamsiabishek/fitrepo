@@ -18,13 +18,10 @@ import SignUpScreen1 from "../signup/SignUpScreen1";
 import SignUpScreen2 from "../signup/SignUpScreen2";
 import SignUpScreen3 from "../signup/SignUpScreen3";
 import Signup from "../signup/Signup";
-import InitialScreen from "../components/purchase/InitialScreen";
-import PurchaseOrderScreen from "../components/purchase/PurchaseOrderScreen";
-import AvailablePurchasesScreen from "../components/purchase/AvailablePurchasesScreen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 import { ICON_SIZE_NAV } from "../../assets/style/stylesCommonValues";
-import AddButton from "./AddButton"
+import AddButton from "./AddButton";
 
 const SignUpStackNavigator = createStackNavigator(
   {
@@ -46,10 +43,7 @@ const ProfileStackNavigator = createStackNavigator(
     Profile,
     EditProfile,
     EditProfileSubScreen1,
-    EditProfileSubScreen2,
-    InitialScreen,
-    PurchaseOrderScreen,
-    AvailablePurchasesScreen
+    EditProfileSubScreen2
   },
   {
     initialRouteName: "Profile",
@@ -98,7 +92,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     Supplements: {
       screen: Supplements,
       navigationOptions: {
-       /* tabBarIcon: ({ tintColor }) => {
+        /* tabBarIcon: ({ tintColor }) => {
           return (
             <Icon
               name="medical-bag" //"dumbbell"
@@ -112,7 +106,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
         } */
         tabBarLabel: () => {},
         tabBarIcon: <AddButton /> // Plus button component
-      } 
+      }
     },
     Profile: {
       screen: ProfileStackNavigator,
@@ -143,7 +137,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
           backgroundColor: styles.bottomNavBar.backgroundColor,
           borderTopWidth: 1,
           borderTopColor: styles.bottomNavBar.backgroundColor
-        },
+        }
       }
     }
   }

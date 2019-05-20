@@ -76,14 +76,13 @@ export default class MealsContainer extends Component {
             let metricUnit = "gm";
             if (source.isPerSingleUnit) metricUnit = "";
             if (source.hasTableSpoon) metricUnit = "tbsp";
-            let quantity = `${source.macroValue} ${metricUnit}`
-            if(source.isVeggie || source.isFruit) quantity = source.macroValueAlt
+            let quantity = `${source.macroValue} ${metricUnit}`;
+            if (source.isVeggie || source.isFruit)
+              quantity = source.macroValueAlt;
             return (
               <View style={styles.mealItem} key={index}>
                 <Text style={styles.mealItemName}>{source.name}</Text>
-                <Text style={styles.mealItemQuantity}>
-                  {quantity}
-                </Text>
+                <Text style={styles.mealItemQuantity}>{quantity}</Text>
               </View>
             );
           })}

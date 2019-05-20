@@ -44,6 +44,9 @@ import {
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
+global.isFirstTimeUser = true;
+console.log(global.isFirstTimeUser);
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
@@ -93,6 +96,7 @@ export default class Signup extends Component {
       user: {},
       isLoading: false,
       isLoadingComponent: false,
+      userLoginAnimation: false,
       isLoggedIn: false,
       isExistingUser:
         navigation.getParam("isExistingUser") === true ? true : false
@@ -568,7 +572,11 @@ export default class Signup extends Component {
 
   createNewUser = async () => {
     const { email, password } = this.state;
-    this.setState({ isLoading: true, isLoggedIn: true });
+    this.setState({
+      isLoading: true,
+      isLoggedIn: true,
+      userLoginAnimation: true
+    });
     try {
       await auth
         .createUserWithEmailAndPassword(email, password)
@@ -576,14 +584,22 @@ export default class Signup extends Component {
           const user = {
             uid: userObj.user.uid
           };
-          this.setState({ user, isLoading: false });
+          this.setState({ user, isLoading: false, userLoginAnimation: false });
         })
         .catch(error => {
-          this.setState({ isLoading: false });
+          this.setState({
+            isLoading: false,
+            isLoggedIn: false,
+            userLoginAnimation: false
+          });
           alert(error.message);
         });
     } catch (error) {
-      this.setState({ isLoading: false });
+      this.setState({
+        isLoading: false,
+        isLoggedIn: false,
+        userLoginAnimation: false
+      });
     }
   };
 
@@ -683,6 +699,7 @@ export default class Signup extends Component {
       foodPreference
     } = this.state;
     let { user, gender, fitnessLevel } = this.state;
+    let myDiets = [];
     gender = gender === 0 ? "Female" : "Male";
     if (password !== "") {
       user.email = email;
@@ -707,10 +724,28 @@ export default class Signup extends Component {
       .catch(error => {
         this.setState({ isLoading: false });
       });
+    await database
+      .ref(`diets/${user.uid}`)
+      .orderByChild("createdDate")
+      .once("value")
+      .then(snap => {
+        if (snap.val()) {
+          const results = snap.val();
+          myDiets = createKeyAndValuesFromResult(results).reverse();
+        }
+      })
+      .catch(error => {
+        console.log("error while fetching my diets in SignUp page", error);
+      });
+    if (myDiets.length !== 0 && global.isFirstTimeUser === true) {
+      global.isFirstTimeUser = false;
+      console.log(global.isFirstTimeUser);
+    }
   };
 
   createDietAndMeals = async () => {
     //this.setState({ isLoading: true });
+    const { navigate } = this.props.navigation;
     const {
       selectedProteinSources,
       selectedFatSources,
@@ -735,12 +770,19 @@ export default class Signup extends Component {
       targetWeight,
       fitnessLevel,
       foodPreference,
+      paymentStatus: false,
       uid
     };
     //console.log('dietInfo:', dietInfo)
     const dietId = await createDiet({ uid, dietInfo });
     this.setState({ isLoading: false });
-    this.props.navigation.navigate("MyDiet", { dietId });
+    navigate("MyDiet", {
+      uid,
+      dietId,
+      selectedProgram: program,
+      selectedGoal: goal,
+      fitnessLevel
+    });
   };
 
   render() {
@@ -778,7 +820,8 @@ export default class Signup extends Component {
       foodPrefBtn,
       numberOfMeals,
       foodPreference,
-      isExistingUser
+      isExistingUser,
+      userLoginAnimation
     } = this.state;
     const signupObject = {
       email,
@@ -795,6 +838,12 @@ export default class Signup extends Component {
       validatePassword: this.validatePassword,
       validateConfirmationPassword: this.validateConfirmationPassword
     };
+    const loadingAnimationText = userLoginAnimation
+      ? "Signing you up with Fitrepo ..."
+      : "We are creating your diet ...";
+    const loadingAnimation = userLoginAnimation
+      ? require("../../assets/jsons/user_animation_4.json")
+      : require("../../assets/jsons/watermelon.json");
     return (
       <View style={commonStyles.container}>
         <StatusBar hidden={true} />
@@ -811,8 +860,8 @@ export default class Signup extends Component {
           ) : isLoading ? (
             <Loading
               takeFullHeight={true}
-              text={"We are creating your diet ..."}
-              animationStr={require("../../assets/jsons/watermelon.json")}
+              text={loadingAnimationText}
+              animationStr={loadingAnimation}
               animationHeight={SCREEN_HEIGHT * 0.615}
             />
           ) : (

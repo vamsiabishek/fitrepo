@@ -41,6 +41,12 @@ export const convertGoal = goal =>
 export const getGoalString = goal =>
   goal === 0 ? "Fat-loss" : goal === 1 ? "Be healthy" : "Weight-gain";
 
+export const getFitnessLevelString = fitnessLevel =>
+  fitnessLevel === 1
+    ? "Beginner"
+    : fitnessLevel === 2
+    ? "Intermediate"
+    : "Advanced";
 export const convertGender = gender => (gender === 0 ? "Female" : "Male");
 
 export const createKeyAndValuesFromResult = result => {

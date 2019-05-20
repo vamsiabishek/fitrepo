@@ -110,6 +110,9 @@ export default class Diet extends Component {
       .catch(error => {
         console.log("error while fetching my diets in Diet page", error);
       });
+    if (myDiets.length > 1) {
+      global.isFirstTimeUser = false;
+    }
     return myDiets;
   };
 
@@ -198,7 +201,11 @@ export default class Diet extends Component {
               </View>
             </View>
             <View style={styles.listViewContainer}>
-              <CustomListView diets={currentDiet} navigation={navigation} />
+              <CustomListView
+                uid={uid}
+                diets={currentDiet}
+                navigation={navigation}
+              />
             </View>
           </View>
         )}
