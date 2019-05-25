@@ -290,7 +290,7 @@ export default class Signup extends Component {
   removeProteinSource = index => {
     if (index > -1) {
       let { selectedProteinSources } = this.state;
-      const sources = this.unSelectSource(selectedProteinSources[index]);
+      const sources = this.unSelectSource(selectedProteinSources[index], "protein");
       selectedProteinSources.splice(index, 1);
       let sourcesButtonLabel = this.changeSourceButtonLabel();
       this.setState({ selectedProteinSources, sources, sourcesButtonLabel });
@@ -299,7 +299,7 @@ export default class Signup extends Component {
   removeCarbSource = index => {
     if (index > -1) {
       let { selectedCarbSources } = this.state;
-      const sources = this.unSelectSource(selectedCarbSources[index]);
+      const sources = this.unSelectSource(selectedCarbSources[index], "carbs");
       selectedCarbSources.splice(index, 1);
       let sourcesButtonLabel = this.changeSourceButtonLabel();
       this.setState({ selectedCarbSources, sources, sourcesButtonLabel });
@@ -308,7 +308,7 @@ export default class Signup extends Component {
   removeFatSource = index => {
     if (index > -1) {
       let { selectedFatSources } = this.state;
-      const sources = this.unSelectSource(selectedFatSources[index]);
+      const sources = this.unSelectSource(selectedFatSources[index], "fat");
       selectedFatSources.splice(index, 1);
       let sourcesButtonLabel = this.changeSourceButtonLabel();
       this.setState({ selectedFatSources, sources, sourcesButtonLabel });
@@ -335,13 +335,28 @@ export default class Signup extends Component {
     return true
   }
 
-  unSelectSource = selectedSource => {
-    let { sources } = this.state;
-    const selectedIndexFromSources = sources.findIndex(
-      source => source.name === selectedSource.name
-    );
-    sources[selectedIndexFromSources].selected = false;
-    return sources;
+  unSelectSource = (selectedSource, sourceType) => {
+    let { proteinSources, carbSources, fatSources } = this.state;
+    if (sourceType === "protein") {
+      const selectedIndexFromSources = proteinSources.findIndex(
+        source => source.name === selectedSource.name
+      );
+      proteinSources[selectedIndexFromSources].selected = false;
+      return proteinSources;
+    } else if (sourceType === "carbs") {
+      const selectedIndexFromSources = carbSources.findIndex(
+        source => source.name === selectedSource.name
+      );
+      carbSources[selectedIndexFromSources].selected = false;
+      return carbSources;
+    } else {
+      const selectedIndexFromSources = fatSources.findIndex(
+        source => source.name === selectedSource.name
+      );
+      fatSources[selectedIndexFromSources].selected = false;
+      return fatSources;
+    }
+    
   };
   addProtein = () => {
     this.setState({
