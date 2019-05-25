@@ -165,6 +165,10 @@ export default class Signup extends Component {
     this.setState({ user, dob: user.dob, age: user.age });
     this.scrollToNextScreen(4);
   };
+  setGoogleUser = user => {
+    this.setState({ user });
+    this.scrollToNextScreen(4);
+  }
   setDob = (dob, age) => {
     const { weight, height } = this.state;
     let showTargetWeightButton = this.changeShowTargetWeightButton(
@@ -854,6 +858,7 @@ export default class Signup extends Component {
                     <SocialMediaSignup
                       signupObject={signupObject}
                       setFBUser={this.setFBUser}
+                      setGoogleUser={this.setGoogleUser}
                     />
                     <NavNextButton
                       isActive={navButtonActive}

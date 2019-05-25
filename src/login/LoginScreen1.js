@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Text, View, LayoutAnimation } from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
-import { Input, Button, SocialIcon } from "react-native-elements";
+import { GoogleSignin } from 'react-native-google-signin';
+import { Input, Button, SocialIcon, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
 import { f, auth } from "./../common/FirebaseConfig";
@@ -102,6 +103,23 @@ export default class LoginScreen1 extends Component {
     console.log("credentials:", credentials);
     return f.auth().signInAndRetrieveDataWithCredential(credentials);
   };
+  onGoogleLogin = async () => {
+    this.setState({ isLoading: true });
+    try {
+      // Add any configuration settings here:
+      await GoogleSignin.configure();
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      const data = await GoogleSignin.signIn();
+
+      // create a new firebase credential with the token
+      const credential = f.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+      // login with credential
+      const currentUser = await f.auth().signInAndRetrieveDataWithCredential(credential);
+      this.onLoginSuccess();
+    } catch (error) {
+      alert("Login failed with error ", error.code);
+    }
+  }
   onLoginSuccess = () => {
     this.setState({ showLoading: false });
     this.props.navigation.navigate("HomeScreen");
@@ -220,11 +238,18 @@ export default class LoginScreen1 extends Component {
             </View>
             <View style={styles.buttonContainer}>
               <SocialIcon
-                style={styles.facebookLoginBtn}
-                title="Login With Facebook"
+                style={styles.socialMediaLoginBtn}
+                title="Facebook"
                 button
                 type="facebook"
                 onPress={() => this.onFBLogin()}
+              />
+               <SocialIcon
+                style={styles.socialMediaLoginBtn}
+                title="Google"
+                button
+                type="google-plus-official"
+                onPress={() => this.onGoogleLogin()}
               />
             </View>
             <View style={styles.signUpHereContainer}>

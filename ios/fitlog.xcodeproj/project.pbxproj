@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -15,6 +16,15 @@
 		050DED6F225923D7004C5E40 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B6A9AD22590BDF002AF27D /* FBSDKCoreKit.framework */; };
 		050DED70225923D7004C5E40 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B6A9AB22590BDF002AF27D /* FBSDKLoginKit.framework */; };
 		050DEDA02259263C004C5E40 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 050DED9F2259263C004C5E40 /* JavaScriptCore.framework */; };
+		057065992291BDD20092A1FE /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		0574899322919B97007F3902 /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0574899222919B97007F3902 /* GoogleSignIn.bundle */; };
+		0574899522919BA8007F3902 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0574899422919BA8007F3902 /* GoogleSignIn.framework */; };
+		0574899722919BB2007F3902 /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0574899622919BB2007F3902 /* GoogleSignInDependencies.framework */; };
+		0574899922919C39007F3902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0574899822919C39007F3902 /* GoogleService-Info.plist */; };
+		0574899B22919EF7007F3902 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0574899A22919EF7007F3902 /* AddressBook.framework */; };
+		0574899D22919F17007F3902 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0574899C22919F16007F3902 /* SafariServices.framework */; };
+		0574899F22919F49007F3902 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0574899E22919F49007F3902 /* SystemConfiguration.framework */; };
+		057489A122919F6C007F3902 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 057489A022919F6C007F3902 /* libz.tbd */; };
 		05B6A9B622590C63002AF27D /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05B6A9AC22590BDF002AF27D /* FBSDKShareKit.framework */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		12EBAC14C6C842B4A150C16B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52CF1089F11C4309BCA6AA9F /* SimpleLineIcons.ttf */; };
@@ -32,7 +42,6 @@
 		1E1A7F98C73E48BC954BD26D /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FE4746543CD451595A556DA /* libLottie.a */; };
 		1F70B95755324E678691EFA6 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 42F2E9F1C87A4ACBAF774FD9 /* Octicons.ttf */; };
 		21B53B6DB14F409CACF81F4B /* libRNScreens.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5125D27C45D46709357864F /* libRNScreens.a */; };
-		23A63452303846659B8BE693 /* libReactNativePayments.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22EC94FFBAF64BF48ADC8136 /* libReactNativePayments.a */; };
 		2B19D757225F4C9EABD0AFAE /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93C7E907E6A14C08BD05659F /* FontAwesome5_Brands.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -49,6 +58,7 @@
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		472F5CF63B5847C1A9C97C7B /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FBFBE25CF0714CE99251B48C /* libBVLinearGradient.a */; };
 		4870B7A172364F04B722DB33 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB0BFBBA89C54168BD2A8308 /* libRNImagePicker.a */; };
+		4ABBD837FA7046C8BB463325 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 950FC1DE1471497DBCDFAFAF /* libRNGoogleSignin.a */; };
 		5017DFB0C4334B0E932E2B4E /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17B393AE0C6D4D0AB4BFD7D1 /* MaterialCommunityIcons.ttf */; };
 		512A49A1E02F47FFAC726A16 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BCD6ADDC24ED1B909AAC2 /* libRNVectorIcons.a */; };
 		51C56B3CEE19427D921D776E /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 981FD3424C524DB08F145837 /* libRNGestureHandler.a */; };
@@ -123,6 +133,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = fitlog;
+		};
+		0574899022919982007F3902 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC6D7E0E379F493B9F9B3167 /* RNGoogleSignin.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
+			remoteInfo = RNGoogleSignin;
 		};
 		05A07175225917670093A0B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -474,13 +491,6 @@
 			remoteGlobalIDString = 62CA59B71E3C173B002D7188;
 			remoteInfo = Lottie_iOS;
 		};
-		C84F70A82275E12B0037DEC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BB309D1DE8D745AE831F8543 /* ReactNativePayments.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = ReactNativePayments;
-		};
 		C85BBD88227CF92100D15A73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7CE1BAB0C2E747B7BE833C6B /* RNPurchases.xcodeproj */;
@@ -537,6 +547,14 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* fitlogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fitlogTests.m; sourceTree = "<group>"; };
 		050DED9F2259263C004C5E40 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		0574899222919B97007F3902 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
+		0574899422919BA8007F3902 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
+		0574899622919BB2007F3902 /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignInDependencies.framework; sourceTree = "<group>"; };
+		0574899822919C39007F3902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0574899A22919EF7007F3902 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		0574899C22919F16007F3902 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		0574899E22919F49007F3902 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		057489A022919F6C007F3902 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		05B6A9AB22590BDF002AF27D /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Frameworks/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		05B6A9AC22590BDF002AF27D /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Frameworks/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		05B6A9AD22590BDF002AF27D /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -584,11 +602,12 @@
 		7CE1BAB0C2E747B7BE833C6B /* RNPurchases.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPurchases.xcodeproj; path = "../node_modules/react-native-purchases/ios/RNPurchases.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		93C7E907E6A14C08BD05659F /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		950FC1DE1471497DBCDFAFAF /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		980B19A308E444BEBD1575E4 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		981FD3424C524DB08F145837 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
+		AC6D7E0E379F493B9F9B3167 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		BB0BFBBA89C54168BD2A8308 /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
-		BB309D1DE8D745AE831F8543 /* ReactNativePayments.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePayments.xcodeproj; path = "../node_modules/react-native-payments/lib/ios/ReactNativePayments.xcodeproj"; sourceTree = "<group>"; };
 		BCC29A6CD6B9400699872272 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		BD4370F2EB6247619F577E3F /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		BD834BBBFB7B467ABBF7C877 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; };
@@ -619,13 +638,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				057489A122919F6C007F3902 /* libz.tbd in Frameworks */,
+				0574899F22919F49007F3902 /* SystemConfiguration.framework in Frameworks */,
+				0574899D22919F17007F3902 /* SafariServices.framework in Frameworks */,
+				0574899B22919EF7007F3902 /* AddressBook.framework in Frameworks */,
 				050DEDA02259263C004C5E40 /* JavaScriptCore.framework in Frameworks */,
 				050DED6F225923D7004C5E40 /* FBSDKCoreKit.framework in Frameworks */,
 				050DED70225923D7004C5E40 /* FBSDKLoginKit.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				C84F2CB32261FAEE00400B63 /* Lottie.framework in Frameworks */,
-				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				0574899722919BB2007F3902 /* GoogleSignInDependencies.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -633,6 +657,7 @@
 				05B6A9B622590C63002AF27D /* FBSDKShareKit.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
+				0574899522919BA8007F3902 /* GoogleSignIn.framework in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
@@ -651,7 +676,7 @@
 				1E1A7F98C73E48BC954BD26D /* libLottie.a in Frameworks */,
 				980819B734554262ACF5B74A /* libLottieReactNative.a in Frameworks */,
 				C86F3057227D5565009EBBA9 /* Purchases.framework in Frameworks */,
-				23A63452303846659B8BE693 /* libReactNativePayments.a in Frameworks */,
+				4ABBD837FA7046C8BB463325 /* libRNGoogleSignin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,6 +768,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0574898D22919982007F3902 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0574899122919982007F3902 /* libRNGoogleSignin.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		05A0716B225917670093A0B3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -778,6 +811,7 @@
 				22EC94FFBAF64BF48ADC8136 /* libReactNativePayments.a */,
 				C980C989F3AB43E392DF2817 /* libRNPurchases.a */,
 				35D0736A20AD0F740012EB8C /* Purchases.framework */,
+				950FC1DE1471497DBCDFAFAF /* libRNGoogleSignin.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -848,6 +882,8 @@
 		13B07FAE1A68108700A75B9A /* fitlog */ = {
 			isa = PBXGroup;
 			children = (
+				0574899822919C39007F3902 /* GoogleService-Info.plist */,
+				0574899222919B97007F3902 /* GoogleSignIn.bundle */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -885,6 +921,12 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				057489A022919F6C007F3902 /* libz.tbd */,
+				0574899E22919F49007F3902 /* SystemConfiguration.framework */,
+				0574899C22919F16007F3902 /* SafariServices.framework */,
+				0574899A22919EF7007F3902 /* AddressBook.framework */,
+				0574899622919BB2007F3902 /* GoogleSignInDependencies.framework */,
+				0574899422919BA8007F3902 /* GoogleSignIn.framework */,
 				050DED9F2259263C004C5E40 /* JavaScriptCore.framework */,
 				05B6A9AE22590BDF002AF27D /* Bolts.framework */,
 				05B6A9AD22590BDF002AF27D /* FBSDKCoreKit.framework */,
@@ -940,7 +982,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */,
@@ -962,8 +1003,8 @@
 				4D62A78B860349AC85BF17A3 /* RNDeviceInfo.xcodeproj */,
 				409B6B7D7DC0465380C00F0E /* Lottie.xcodeproj */,
 				C44FBFEF02A445AE8315A807 /* LottieReactNative.xcodeproj */,
-				BB309D1DE8D745AE831F8543 /* ReactNativePayments.xcodeproj */,
 				7CE1BAB0C2E747B7BE833C6B /* RNPurchases.xcodeproj */,
+				AC6D7E0E379F493B9F9B3167 /* RNGoogleSignin.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -980,6 +1021,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				C86F301E227D555A009EBBA9 /* Purchases.framework */,
 				13B07FAE1A68108700A75B9A /* fitlog */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1030,14 +1072,6 @@
 			isa = PBXGroup;
 			children = (
 				C84F2CB22261FA4500400B63 /* libLottieReactNative.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C84F70A52275E12B0037DEC4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C84F70A92275E12B0037DEC4 /* libReactNativePayments.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1249,16 +1283,16 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = C84F70A52275E12B0037DEC4 /* Products */;
-					ProjectRef = BB309D1DE8D745AE831F8543 /* ReactNativePayments.xcodeproj */;
-				},
-				{
 					ProductGroup = C88E8658225A4DA0004E42B8 /* Products */;
 					ProjectRef = 4D62A78B860349AC85BF17A3 /* RNDeviceInfo.xcodeproj */;
 				},
 				{
 					ProductGroup = 05F9F57022280D64008B7F62 /* Products */;
 					ProjectRef = 68E124B9453B4BE48A1E1B2D /* RNGestureHandler.xcodeproj */;
+				},
+				{
+					ProductGroup = 0574898D22919982007F3902 /* Products */;
+					ProjectRef = AC6D7E0E379F493B9F9B3167 /* RNGoogleSignin.xcodeproj */;
 				},
 				{
 					ProductGroup = 05FEA1E4223D2AE000467102 /* Products */;
@@ -1321,6 +1355,13 @@
 			fileType = archive.ar;
 			path = libRCTVibration.a;
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0574899122919982007F3902 /* libRNGoogleSignin.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGoogleSignin.a;
+			remoteRef = 0574899022919982007F3902 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		05A07176225917670093A0B3 /* libRCTFBSDK.a */ = {
@@ -1652,13 +1693,6 @@
 			remoteRef = C84F2CB12261FA4500400B63 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C84F70A92275E12B0037DEC4 /* libReactNativePayments.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libReactNativePayments.a;
-			remoteRef = C84F70A82275E12B0037DEC4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C85BBD89227CF92100D15A73 /* libRNPurchases.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1701,6 +1735,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				057065992291BDD20092A1FE /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				14919D161EF14B559C971CFC /* AntDesign.ttf in Resources */,
@@ -1712,11 +1747,13 @@
 				66EB036ED4904A0EAB943365 /* FontAwesome5_Regular.ttf in Resources */,
 				A26F050960284D25A1259756 /* FontAwesome5_Solid.ttf in Resources */,
 				C08614BFF9504C23B367ED1F /* Foundation.ttf in Resources */,
+				0574899322919B97007F3902 /* GoogleSignIn.bundle in Resources */,
 				874D96C384814B16A1A9298C /* Ionicons.ttf in Resources */,
 				5017DFB0C4334B0E932E2B4E /* MaterialCommunityIcons.ttf in Resources */,
 				DD2CEA72CEFA476DBAC6F0D6 /* MaterialIcons.ttf in Resources */,
 				1F70B95755324E678691EFA6 /* Octicons.ttf in Resources */,
 				12EBAC14C6C842B4A150C16B /* SimpleLineIcons.ttf in Resources */,
+				0574899922919C39007F3902 /* GoogleService-Info.plist in Resources */,
 				6225A434CEA84823969B3EBE /* Zocial.ttf in Resources */,
 				EE63DC9473E64CD7AB94EFE2 /* Billabong.ttf in Resources */,
 			);
@@ -1752,7 +1789,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export DEVELOPMENT_BUILD_CONFIGURATIONS=\"+(Alpha|Debug)\"\nexport NODE_BINARY=node\n../node_modules/react-native-schemes-manager/lib/react-native-xcode.sh";
+			shellScript = "export DEVELOPMENT_BUILD_CONFIGURATIONS=\"+(Alpha|Debug)\"\nexport NODE_BINARY=node\n../node_modules/react-native-schemes-manager/lib/react-native-xcode.sh\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1884,6 +1921,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = fitlogTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1891,6 +1929,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1924,6 +1963,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = fitlogTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1931,6 +1971,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1976,6 +2017,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios",
 				);
 				INFOPLIST_FILE = fitlog/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2025,6 +2067,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios",
 				);
 				INFOPLIST_FILE = fitlog/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2070,12 +2113,14 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = "fitlog-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -2118,12 +2163,14 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = "fitlog-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -2165,12 +2212,14 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = "fitlog-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -2212,12 +2261,14 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-payments/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-purchases/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = "fitlog-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

@@ -29,6 +29,14 @@ Fitrepo</string>
 				<string>fb790304848006877</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.784097360045-hnfc21qjuvtb1be3498t6f44ctprhh41</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>

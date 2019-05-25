@@ -3,6 +3,7 @@ package com.fitness.fitrepo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.reactlibrary.RNPurchasesPackage;
 import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -41,7 +42,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNPurchasesPackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RNGoogleSigninPackage(), new RNPurchasesPackage(),
           new NavigationBarColorPackage(), new LottiePackage(), new FBSDKPackage(mCallbackManager), new RNDeviceInfo(),
           new ImagePickerPackage(), new LinearGradientPackage(), new RNScreensPackage(), new VectorIconsPackage(),
           new RNGestureHandlerPackage());

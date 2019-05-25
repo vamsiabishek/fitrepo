@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
     color: errorTextcolor
   },
   buttonContainer: {
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     margin: 5,
@@ -79,14 +80,14 @@ export const styles = StyleSheet.create({
     //backgroundColor: "gold"
   },
   loginButtonStyle: {
-    width: SCREEN_WIDTH * 0.7,
+    width: SCREEN_WIDTH * 0.73,
     height: BUTTON_HEIGHT_GENERAL,
     borderColor: "transparent",
     borderRadius: 30,
     backgroundColor: "transparent"
   },
-  facebookLoginBtn: {
-    width: SCREEN_WIDTH * 0.7,
+  socialMediaLoginBtn: {
+    width: SCREEN_WIDTH * 0.35,
     height: BUTTON_HEIGHT_GENERAL
   },
   loginButtonText: {

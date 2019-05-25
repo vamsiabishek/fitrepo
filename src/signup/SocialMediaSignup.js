@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { SocialIcon } from "react-native-elements";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
+import { GoogleSignin } from "react-native-google-signin";
 import { f } from "../common/FirebaseConfig";
 import EmailOrMobileSignup from "./EmailOrMobileSignup";
 import Loading from "../components/Loading";
@@ -41,10 +42,91 @@ export default class SocialMediaSignup extends Component {
     }).start();
 
     if (media === "FB") {
-      this.onPressLogin();
+      this.onPressFBLogin();
+    } else if (media === "G") {
+      this.googleLogin();
     }
   };
-  onPressLogin = () => {
+  // Calling this function will open Google for login.
+  googleLogin = async () => {
+    this.setState({ isLoading: true });
+    try {
+      // Add any configuration settings here:
+      //await GoogleSignin.configure();
+      await GoogleSignin.configure({
+        scopes: [
+          "https://www.googleapis.com/auth/userinfo.profile",
+          "https://www.googleapis.com/auth/userinfo.email",
+          "https://www.googleapis.com/auth/user.birthday.read"
+        ]
+      });
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true
+      });
+      const data = await GoogleSignin.signIn();
+
+      // create a new firebase credential with the token
+      const credential = f.auth.GoogleAuthProvider.credential(
+        data.idToken,
+        data.accessToken
+      );
+      // login with credential
+      const currentUser = await f
+        .auth()
+        .signInAndRetrieveDataWithCredential(credential);
+
+      const googleUser = await GoogleSignin.getCurrentUser();
+
+      const userString = JSON.stringify(currentUser);
+      const userObject = JSON.parse(userString);
+      console.log("userString:", userString);
+      console.log("userObject:", userObject);
+      console.log("googleUser:", googleUser);
+      this.createUserWithGoogleDetails({ userObject, googleUser });
+      this.setState({ isLoading: false });
+    } catch (error) {
+      alert("Login failed with error ", error.code);
+    }
+  };
+  createUserWithGoogleDetails = async ({
+    userObject: { user },
+    googleUser
+  }) => {
+    // user object also contains phone number
+    const { setGoogleUser } = this.props;
+    const {
+      user: { id, name, photo, email }
+    } = googleUser;
+    /* const { accessToken, apiKey } = user.stsTokenManager
+    fetch(`https://people.googleapis.com/v1/people/${uid}/?key=${apiKey}&personFields=names,birthdays`, {
+         method: 'GET',
+         headers: {
+           Authorisation: `Bearer ${accessToken}`
+         }
+      })
+      .then((response) => {
+        console.log("response: ", response)
+        response.json()
+      })
+      .then((responseJson) => {
+         console.log("responseJson", responseJson);
+      })
+      .catch((error) => {
+         console.error(error);
+      }); */
+    const newUser = {
+      uid: user.uid,
+      email,
+      //dob,
+      //age,
+      name,
+      avatar: photo,
+      provider: "google.com",
+      providerId: id
+    };
+    setGoogleUser(newUser);
+  };
+  onPressFBLogin = () => {
     this.setState({ isLoading: true });
     LoginManager.logInWithReadPermissions([
       "public_profile",
@@ -55,7 +137,7 @@ export default class SocialMediaSignup extends Component {
       .then(data => this.getFBCredentialsUsingToken(data))
       .then(currentUser => {
         console.log("current FB User:", currentUser);
-        this.createUserWithDetails(currentUser);
+        this.createUserWithFBDetails(currentUser);
       })
       .catch(error => {
         alert("Login fail with error: " + error);
@@ -80,7 +162,8 @@ export default class SocialMediaSignup extends Component {
     console.log("credentials:", credentials);
     return f.auth().signInAndRetrieveDataWithCredential(credentials);
   };
-  createUserWithDetails = async ({ user, additionalUserInfo }) => {
+
+  createUserWithFBDetails = async ({ user, additionalUserInfo }) => {
     const { setFBUser } = this.props;
     const { birthday } = additionalUserInfo.profile;
     const dob = new Date(birthday).toDateString().substring(4);
