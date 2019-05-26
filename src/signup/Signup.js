@@ -44,6 +44,9 @@ import {
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
+global.isFirstTimeUser = true;
+console.log(global.isFirstTimeUser);
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
@@ -93,6 +96,7 @@ export default class Signup extends Component {
       user: {},
       isLoading: false,
       isLoadingComponent: false,
+      userLoginAnimation: false,
       isLoggedIn: false,
       isExistingUser:
         navigation.getParam("isExistingUser") === true ? true : false
@@ -286,6 +290,12 @@ export default class Signup extends Component {
     }
   };
 
+  onCancelSignup = () => {
+    const { isExistingUser } = this.state;
+    const { navigate } = this.props.navigation;
+    !isExistingUser ? navigate("StartUp") : navigate("Diet");
+  };
+
   // source selection methods
   removeProteinSource = index => {
     if (index > -1) {
@@ -321,19 +331,19 @@ export default class Signup extends Component {
   };
 
   canSelectCarbsAndFats = (selectedProteinSources, foodPreference) => {
-    if(foodPreference === FOOD_PREF_NON_VEG) {
-      if(selectedProteinSources && selectedProteinSources.length >= 2) {
+    if (foodPreference === FOOD_PREF_NON_VEG) {
+      if (selectedProteinSources && selectedProteinSources.length >= 2) {
         let numberOfVegSources = 0;
         selectedProteinSources.map(source => {
-          if(source.isVeg) numberOfVegSources = numberOfVegSources + 1
-        })
-        if(numberOfVegSources > 2) return false
+          if (source.isVeg) numberOfVegSources = numberOfVegSources + 1;
+        });
+        if (numberOfVegSources > 2) return false;
       }
     } else {
-      return false
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   unSelectSource = (selectedSource, sourceType) => {
     let { proteinSources, carbSources, fatSources } = this.state;
@@ -369,7 +379,7 @@ export default class Signup extends Component {
     });
   };
   addCarbs = () => {
-    const {selectedProteinSources, foodPreference} = this.state
+    const { selectedProteinSources, foodPreference } = this.state;
     if (this.canSelectCarbsAndFats(selectedProteinSources, foodPreference))
       this.setState({
         showModal: true,
@@ -380,10 +390,12 @@ export default class Signup extends Component {
         searchTerm: ""
       });
     else
-      alert("The Protein sources have required carbohydrates, you dont need to select anymore carbs !")
+      alert(
+        "The Protein sources have required carbohydrates, you dont need to select anymore carbs !"
+      );
   };
   addFat = () => {
-    const {selectedProteinSources, foodPreference} = this.state
+    const { selectedProteinSources, foodPreference } = this.state;
     if (this.canSelectCarbsAndFats(selectedProteinSources, foodPreference))
       this.setState({
         showModal: true,
@@ -394,7 +406,9 @@ export default class Signup extends Component {
         searchTerm: ""
       });
     else
-      alert("The Protein sources have required fats, you dont need to select anymore fats !")
+      alert(
+        "The Protein sources have required fats, you dont need to select anymore fats !"
+      );
   };
   addSource = sourceType => {
     if (sourceType === "protein") this.addProtein();
@@ -567,23 +581,43 @@ export default class Signup extends Component {
   };
 
   createNewUser = async () => {
-    const { email, password } = this.state;
-    this.setState({ isLoading: true, isLoggedIn: true });
+    const { user, email, password } = this.state;
+    const getIndex = email.indexOf("@");
+    const name = email.substring(0, getIndex);
+    const username = name;
+    const userAddInfo = { ...user, name, username, email };
+    this.setState({
+      isLoading: true,
+      isLoggedIn: true,
+      userLoginAnimation: true
+    });
     try {
       await auth
         .createUserWithEmailAndPassword(email, password)
         .then(userObj => {
-          const user = {
+          const userNewObj = {
             uid: userObj.user.uid
           };
-          this.setState({ user, isLoading: false });
+          this.setState({
+            user: { ...user, ...userNewObj, ...userAddInfo },
+            isLoading: false,
+            userLoginAnimation: false
+          });
         })
         .catch(error => {
-          this.setState({ isLoading: false });
+          this.setState({
+            isLoading: false,
+            isLoggedIn: false,
+            userLoginAnimation: false
+          });
           alert(error.message);
         });
     } catch (error) {
-      this.setState({ isLoading: false });
+      this.setState({
+        isLoading: false,
+        isLoggedIn: false,
+        userLoginAnimation: false
+      });
     }
   };
 
@@ -683,6 +717,7 @@ export default class Signup extends Component {
       foodPreference
     } = this.state;
     let { user, gender, fitnessLevel } = this.state;
+    let myDiets = [];
     gender = gender === 0 ? "Female" : "Male";
     if (password !== "") {
       user.email = email;
@@ -707,10 +742,28 @@ export default class Signup extends Component {
       .catch(error => {
         this.setState({ isLoading: false });
       });
+    await database
+      .ref(`diets/${user.uid}`)
+      .orderByChild("createdDate")
+      .once("value")
+      .then(snap => {
+        if (snap.val()) {
+          const results = snap.val();
+          myDiets = createKeyAndValuesFromResult(results).reverse();
+        }
+      })
+      .catch(error => {
+        console.log("error while fetching my diets in SignUp page", error);
+      });
+    if (myDiets.length !== 0 && global.isFirstTimeUser === true) {
+      global.isFirstTimeUser = false;
+      console.log(global.isFirstTimeUser);
+    }
   };
 
   createDietAndMeals = async () => {
     //this.setState({ isLoading: true });
+    const { navigate } = this.props.navigation;
     const {
       selectedProteinSources,
       selectedFatSources,
@@ -735,12 +788,19 @@ export default class Signup extends Component {
       targetWeight,
       fitnessLevel,
       foodPreference,
+      paymentStatus: false,
       uid
     };
     //console.log('dietInfo:', dietInfo)
     const dietId = await createDiet({ uid, dietInfo });
     this.setState({ isLoading: false });
-    this.props.navigation.navigate("MyDiet", { dietId });
+    navigate("MyDiet", {
+      uid,
+      dietId,
+      selectedProgram: program,
+      selectedGoal: goal,
+      fitnessLevel
+    });
   };
 
   render() {
@@ -778,7 +838,8 @@ export default class Signup extends Component {
       foodPrefBtn,
       numberOfMeals,
       foodPreference,
-      isExistingUser
+      isExistingUser,
+      userLoginAnimation
     } = this.state;
     const signupObject = {
       email,
@@ -795,6 +856,12 @@ export default class Signup extends Component {
       validatePassword: this.validatePassword,
       validateConfirmationPassword: this.validateConfirmationPassword
     };
+    const loadingAnimationText = userLoginAnimation
+      ? "Signing you up with Fitrepo ..."
+      : "We are creating your diet ...";
+    const loadingAnimation = userLoginAnimation
+      ? require("../../assets/jsons/user_animation_4.json")
+      : require("../../assets/jsons/watermelon.json");
     return (
       <View style={commonStyles.container}>
         <StatusBar hidden={true} />
@@ -811,8 +878,8 @@ export default class Signup extends Component {
           ) : isLoading ? (
             <Loading
               takeFullHeight={true}
-              text={"We are creating your diet ..."}
-              animationStr={require("../../assets/jsons/watermelon.json")}
+              text={loadingAnimationText}
+              animationStr={loadingAnimation}
               animationHeight={SCREEN_HEIGHT * 0.615}
             />
           ) : (
@@ -831,6 +898,7 @@ export default class Signup extends Component {
                     title="What is your goal ?"
                     screen={screen}
                     onBack={this.onBack}
+                    onCancel={this.onCancelSignup}
                   />
                   <Goal goal={goal} setGoal={this.setGoal} />
                 </View>
@@ -842,6 +910,7 @@ export default class Signup extends Component {
                       title="Your gender ?"
                       screen={screen}
                       onBack={this.onBack}
+                      onCancel={this.onCancelSignup}
                     />
                     <Gender gender={gender} setGender={this.setGender} />
                   </View>
@@ -853,6 +922,7 @@ export default class Signup extends Component {
                     title="What is your activity level ?"
                     screen={screen}
                     onBack={this.onBack}
+                    onCancel={this.onCancelSignup}
                   />
                   <FitnessLevel
                     gender={gender}
@@ -869,6 +939,7 @@ export default class Signup extends Component {
                       title="SIGN UP !"
                       screen={screen}
                       onBack={this.onBack}
+                      onCancel={this.onCancelSignup}
                     />
                     <SocialMediaSignup
                       signupObject={signupObject}
@@ -889,6 +960,7 @@ export default class Signup extends Component {
                     title={"Lets's get to know you Better," + user.name + " !"}
                     screen={screen}
                     onBack={this.onBack}
+                    onCancel={this.onCancelSignup}
                   />
                   <PersonalDetails
                     goal={goal}
@@ -920,6 +992,7 @@ export default class Signup extends Component {
                     title="Choose your Preference !"
                     screen={screen}
                     onBack={this.onBack}
+                    onCancel={this.onCancelSignup}
                   />
                   <PreferenceDetails
                     healthCond={healthCond}
@@ -942,6 +1015,7 @@ export default class Signup extends Component {
                   title="Would you like to choose ?"
                   screen={screen}
                   onBack={this.onBack}
+                  onCancel={this.onCancelSignup}
                 />
                 <FoodSources
                   selectedProteinSources={selectedProteinSources}

@@ -7,13 +7,13 @@ class CustomListview extends React.Component {
   _keyExtractor = item => item.key;
 
   render() {
-    const { diets, navigation } = this.props;
+    const { diets, navigation, uid } = this.props;
     return (
       <View style={styles.container}>
         <FlatList
           data={diets}
           renderItem={({ item }) => (
-            <CustomListViewRow item={item} navigation={navigation} />
+            <CustomListViewRow uid={uid} item={item} navigation={navigation} />
           )}
           keyExtractor={this._keyExtractor}
         />

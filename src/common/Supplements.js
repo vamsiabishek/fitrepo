@@ -14,7 +14,7 @@ const supplements = {
       bestConsume: [],
       fatLoss: true,
       weightGain: true,
-      healthy: true,
+      healthy: true
     },
     multivitamin: {
       name: "Multi-Vitamin",
@@ -30,37 +30,39 @@ const supplements = {
       image: require("../../assets/images/supplements/opti-men.png"),
       fatLoss: true,
       weightGain: true,
-      healthy: true,
+      healthy: true
     },
     vitaminD: {
       name: "Vit D",
       desc: "Vitamin D supplement",
-      detailedDesc: "Extremely necessary as it helps in production your body hormones",
+      detailedDesc:
+        "Extremely necessary as it helps in production your body hormones",
       brands: [
         {
           name: "D-rise",
-          desc: "Best buy from local pharmacy",
+          desc: "Best buy from local pharmacy"
         }
       ],
-      image: require("../../assets/images/supplements/vit-d3-small.png"),
+      image: require("../../assets/images/supplements/vit-D-PNG.png"),
       fatLoss: true,
       weightGain: true,
-      healthy: true,
+      healthy: true
     },
     vitaminC: {
       name: "Vit C",
       desc: "Vitamin C supplement",
-      detailedDesc: "Improves your immunity, protects you from getting sick frequently",
+      detailedDesc:
+        "Improves your immunity, protects you from getting sick frequently",
       brands: [
         {
           name: "LimC",
-          desc: "Best buy from local pharmacy",
+          desc: "Best buy from local pharmacy"
         }
       ],
-      image: require("../../assets/images/supplements/vit-c-small.png"),
+      image: require("../../assets/images/supplements/vit-C-PNG.png"),
       fatLoss: true,
       weightGain: true,
-      healthy: true,
+      healthy: true
     }
   },
   intermediate: {
@@ -72,18 +74,18 @@ const supplements = {
         {
           brandName: "ON(Optimum Nutrition)",
           name: "Fish oil",
-          desc: "",
+          desc: ""
         },
         {
           brandName: "NOW",
           name: "Omega 3",
-          desc: "",
+          desc: ""
         }
       ],
       image: require("../../assets/images/supplements/fish-oil-small.jpg"),
       fatLoss: true,
       weightGain: true,
-      healthy: true,
+      healthy: true
     },
     lCarnitine: {
       name: "L-carnitine",
@@ -91,7 +93,7 @@ const supplements = {
       detailedDesc: "",
       brands: [],
       image: require("../../assets/images/supplements/l-carnitine-small.jpg"),
-      fatLoss: true,
+      fatLoss: true
     },
     cla: {
       name: "CLA",
@@ -99,7 +101,7 @@ const supplements = {
       detailedDesc: "",
       brands: [],
       image: require("../../assets/images/supplements/cla-small.jpg"),
-      fatLoss: true,
+      fatLoss: true
     },
     bcaa: {
       name: "BCAA",
@@ -108,7 +110,7 @@ const supplements = {
       brands: [],
       image: require("../../assets/images/supplements/BCAA-small.jpg"),
       fatLoss: true,
-      weightGain: true,
+      weightGain: true
     },
     creatine: {
       name: "Creatine",
@@ -116,7 +118,7 @@ const supplements = {
       detailedDesc: "",
       brands: [],
       image: require("../../assets/images/supplements/creatine-small.jpg"),
-      weightGain: true,
+      weightGain: true
     },
     fatBurner: {
       name: "Fat Burner",
@@ -124,7 +126,7 @@ const supplements = {
       detailedDesc: "",
       brands: [],
       image: require("../../assets/images/supplements/hydroxy-fat-burner-small.jpg"),
-      weightGain: true,
+      weightGain: true
     },
     biotin: {
       name: "Biotin",
@@ -134,7 +136,7 @@ const supplements = {
       image: require("../../assets/images/supplements/biotin-small.jpg"),
       fatLoss: true,
       weightGain: true,
-      healthy: true,
+      healthy: true
     },
     casein: {
       name: "Casein",
@@ -142,8 +144,8 @@ const supplements = {
       detailedDesc: "",
       brands: [],
       image: require("../../assets/images/supplements/glutamine-small.jpg"),
-      weightGain: true,
-    },
+      weightGain: true
+    }
   },
   advanced: {
     hmb: {
@@ -155,7 +157,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
-      optional: true,
+      optional: true
     },
     lGlutamine: {
       name: "L-Glutamine",
@@ -164,7 +166,7 @@ const supplements = {
       brands: [],
       image: require("../../assets/images/supplements/glutamine-small.jpg"),
       fatLoss: true,
-      weightGain: true,
+      weightGain: true
     },
     glucosamine: {
       name: "Glucosamine",
@@ -175,7 +177,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
-      optional:true,
+      optional: true
     },
     ashwagandha: {
       name: "Ashwagandha",
@@ -197,7 +199,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
-      optional: true,
+      optional: true
     },
     coq10: {
       name: "CoQ10",
@@ -207,7 +209,7 @@ const supplements = {
       image: require("../../assets/images/supplements/coq10-small.jpg"),
       fatLoss: true,
       weightGain: true,
-      healthy: true,
+      healthy: true
     },
     ubiquinol: {
       name: "Ubiquinol",
@@ -218,7 +220,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       optional: true,
-      alternativeTo: "coq10",
+      alternativeTo: "coq10"
     },
     zma: {
       name: "ZMA",
@@ -227,7 +229,7 @@ const supplements = {
       brands: [],
       image: require("../../assets/images/supplements/zma-small.jpg"),
       fatLoss: true,
-      weightGain: true,
+      weightGain: true
     },
     betaAlanine: {
       name: "Beta Alanine",
@@ -235,7 +237,7 @@ const supplements = {
       detailedDesc: "",
       brands: [],
       image: require("../../assets/images/supplements/beta-alanine-small.jpg"),
-      weightGain: true,
+      weightGain: true
     },
     lArginine: {
       name: "L-Arginine",
@@ -243,9 +245,9 @@ const supplements = {
       detailedDesc: "",
       brands: [],
       image: require("../../assets/images/supplements/l-arginine-small.jpg"),
-      weightGain: true,
-    },
+      weightGain: true
+    }
   }
-}
+};
 
 export default supplements;

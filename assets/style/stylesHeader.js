@@ -15,11 +15,14 @@ export const styles = StyleSheet.create({
     //backgroundColor: "blueviolet"
   },
   buttonContainer: {
-    width: SCREEN_WIDTH
+    width: SCREEN_WIDTH,
+    flexDirection: "row",
+    justifyContent: "space-between"
     //backgroundColor: "chartreuse"
   },
   backButtonContainerStyle: {
     justifyContent: "flex-start",
+    width: SCREEN_WIDTH / 2,
     alignItems: "flex-start"
     //backgroundColor: "burlywood"
   },
@@ -27,6 +30,21 @@ export const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: "transparent",
     backgroundColor: "transparent"
+  },
+  cancelButtonContainerStyle: {
+    justifyContent: "flex-end",
+    width: SCREEN_WIDTH / 2,
+    alignItems: "flex-end"
+    //backgroundColor: "red"
+  },
+  cancelButtonStyle: {
+    borderWidth: 0,
+    borderColor: "transparent",
+    backgroundColor: "transparent"
+  },
+  cancelTitleStyle: {
+    color: styleCommon.textColor1,
+    paddingBottom: 5
   },
   header: {
     justifyContent: "center",

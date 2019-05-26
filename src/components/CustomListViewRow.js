@@ -12,6 +12,7 @@ import {
 import { getGoalString } from "../common/Util";
 
 const CustomListViewRow = ({
+  uid,
   item: {
     key,
     value: {
@@ -20,7 +21,8 @@ const CustomListViewRow = ({
       isVeg,
       selectedMeals,
       likes,
-      createdDate
+      createdDate,
+      fitnessLevel
     }
   },
   navigation
@@ -50,7 +52,7 @@ const CustomListViewRow = ({
           style={styles.nextButtonIconStyle}
         />
         <Text style={styles.likesLabel}>{likes} Likes</Text>
-</View>*/}
+        </View>*/}
     </View>
     <View style={styles.timeStampContainer}>
       <Text style={styles.timeStampLabel}>
@@ -60,7 +62,15 @@ const CustomListViewRow = ({
 
     <View style={styles.rightIcon}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("MyDiet", { dietId: key })}
+        onPress={() =>
+          navigation.navigate("MyDiet", {
+            uid,
+            dietId: key,
+            selectedProgram,
+            selectedGoal,
+            fitnessLevel
+          })
+        }
       >
         <Icon
           name="chevron-right"

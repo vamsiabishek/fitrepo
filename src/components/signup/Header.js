@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   styleCommon,
   ICON_BACK_SIZE
@@ -10,7 +9,15 @@ import { styles } from "../../../assets/style/stylesHeader";
 
 export default class Header extends React.Component {
   render() {
-    const { title, marginTop, height, flex, screen, onBack } = this.props;
+    const {
+      title,
+      marginTop,
+      height,
+      flex,
+      screen,
+      onBack,
+      onCancel
+    } = this.props;
     let { header } = styles;
     if (marginTop || height || flex) {
       header = {
@@ -34,6 +41,17 @@ export default class Header extends React.Component {
               containerStyle={styles.backButtonContainerStyle}
               buttonStyle={styles.backButtonStyle}
               onPress={() => onBack(screen)}
+            />
+            <Button
+              icon={{
+                name: "close",
+                size: ICON_BACK_SIZE,
+                color: styleCommon.secondaryButtonTextColor,
+                type: "material-community"
+              }}
+              containerStyle={styles.cancelButtonContainerStyle}
+              buttonStyle={styles.cancelButtonStyle}
+              onPress={() => onCancel()}
             />
           </View>
         </View>

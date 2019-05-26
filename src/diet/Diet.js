@@ -110,6 +110,9 @@ export default class Diet extends Component {
       .catch(error => {
         console.log("error while fetching my diets in Diet page", error);
       });
+    if (myDiets.length > 1) {
+      global.isFirstTimeUser = false;
+    }
     return myDiets;
   };
 
@@ -138,28 +141,7 @@ export default class Diet extends Component {
         ) : (
           <View style={styles.container}>
             <View style={styles.buttonHeaderContainer}>
-              <View style={styles.buttonContainer}>
-                <Button
-                  title="CREATE NEW"
-                  containerStyle={styles.nextButtonContainerStyle}
-                  buttonStyle={styles.nextButtonStyle}
-                  titleStyle={styles.nextButtonTitleStyle}
-                  icon={{
-                    name: "pencil",
-                    size: ICON_SIZE_MED,
-                    color: styleCommon.secondaryButtonTextColor,
-                    style: styles.nextButtonIconStyle,
-                    type: "material-community"
-                  }}
-                  iconRight={true}
-                  onPress={() =>
-                    this.props.navigation.navigate("Signup", {
-                      isExistingUser: true,
-                      uid
-                    })
-                  }
-                />
-              </View>
+              <View style={styles.buttonContainer} />
             </View>
 
             <View style={styles.subHeaderContainer}>
@@ -198,7 +180,11 @@ export default class Diet extends Component {
               </View>
             </View>
             <View style={styles.listViewContainer}>
-              <CustomListView diets={currentDiet} navigation={navigation} />
+              <CustomListView
+                uid={uid}
+                diets={currentDiet}
+                navigation={navigation}
+              />
             </View>
           </View>
         )}
