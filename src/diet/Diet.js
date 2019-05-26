@@ -141,28 +141,7 @@ export default class Diet extends Component {
         ) : (
           <View style={styles.container}>
             <View style={styles.buttonHeaderContainer}>
-              <View style={styles.buttonContainer}>
-                <Button
-                  title="CREATE NEW"
-                  containerStyle={styles.nextButtonContainerStyle}
-                  buttonStyle={styles.nextButtonStyle}
-                  titleStyle={styles.nextButtonTitleStyle}
-                  icon={{
-                    name: "pencil",
-                    size: ICON_SIZE_MED,
-                    color: styleCommon.secondaryButtonTextColor,
-                    style: styles.nextButtonIconStyle,
-                    type: "material-community"
-                  }}
-                  iconRight={true}
-                  onPress={() =>
-                    this.props.navigation.navigate("Signup", {
-                      isExistingUser: true,
-                      uid
-                    })
-                  }
-                />
-              </View>
+              <View style={styles.buttonContainer} />
             </View>
 
             <View style={styles.subHeaderContainer}>

@@ -1,12 +1,18 @@
-import { StyleSheet, Dimensions } from "react-native";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
+import { StyleSheet } from "react-native";
+import {
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  styleCommon,
+  fontsCommon
+} from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT
   },
   innerContainer: {
     alignItems: "center",
@@ -67,8 +73,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    color: "#b0b3b7",
-    fontSize: 18
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font15
+  },
+  inputDisableStyle: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+    color: styleCommon.darkDisableColor,
+    fontSize: fontsCommon.font15
   },
   errorInputStyle: {
     marginTop: 0,
@@ -99,7 +113,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "blue"
   },
   radioButtonOuterIconStyle: {
-    color: "#00DB8D"
+    color: styleCommon.textColor1
     //backgroundColor: "blue"
   },
   radioButtonWrapStyle: {
@@ -123,32 +137,32 @@ const styles = StyleSheet.create({
   },
   radioButtonText: {
     paddingLeft: 9,
-    color: "#b0b3b7",
-    fontSize: 16
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font15
   },
   radioButtonLabelStyle: {
     marginRight: 15,
     paddingLeft: 4,
     paddingRight: 4,
-    color: "#b0b3b7"
+    color: styleCommon.textColor1
     //backgroundColor: "red"
   },
   levelRadioButtonLabelStyle: {
     marginRight: 5,
     paddingLeft: 4,
     paddingRight: 4,
-    color: "#b0b3b7"
+    color: styleCommon.textColor1
     //backgroundColor: "red"
   },
   radioButtonDes: {
     borderWidth: 1,
-    color: "#00DB8D"
+    color: styleCommon.textColor1
   },
   errorInputStyle2: {
     marginTop: 0,
     textAlign: "center",
     color: "#F44336",
-    fontSize: 12
+    fontSize: fontsCommon.font12
   },
   numericInputButtonView: {
     flexDirection: "row",
@@ -173,22 +187,22 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   numericInputButtonIconStyle: {
-    color: "#00DB8D",
+    color: styleCommon.textColor1,
     marginBottom: 10
   },
   numericInputButtonText: {
     marginTop: 5,
     paddingLeft: 9,
     paddingRight: 10,
-    color: "#b0b3b7",
-    fontSize: 16
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font15
   },
   numericInputButtonTextSmall: {
     marginTop: 5,
     paddingLeft: 9,
     paddingRight: 10,
     color: "#44484E",
-    fontSize: 10
+    fontSize: fontsCommon.font10
   },
   numberPickerContainer: {
     justifyContent: "center",
@@ -199,37 +213,44 @@ const styles = StyleSheet.create({
     color: "#28292B"
   },
   numberPickerButtonDes: {
-    color: "#b0b3b7",
-    backgroundColor: "#00DB8D"
-  },
-  groupButtonViewContainer: {
-    flexDirection: "row",
-    alignContent: "center",
-    justifyContent: "space-between",
-    marginHorizontal: 5,
-    marginTop: 15,
-    padding: 10
-    //backgroundColor: "blue"
+    color: styleCommon.textColor2,
+    backgroundColor: styleCommon.textColor1
   },
   btsButtonContainer: {
     justifyContent: "center",
     alignItems: "center"
   },
   btsButtonStyle: {
-    width: SCREEN_WIDTH - 40,
-    borderWidth: 0,
-    borderRadius: 20,
-    backgroundColor: "#00DB8D"
+    width: SCREEN_WIDTH * 0.81,
+    height: 50,
+    borderColor: "transparent",
+    borderRadius: 30,
+    backgroundColor: styleCommon.secondaryButtonColor
+  },
+  btsButtonDisableStyle: {
+    width: SCREEN_WIDTH * 0.81,
+    height: 50,
+    borderColor: "transparent",
+    borderRadius: 30,
+    backgroundColor: styleCommon.secondaryButtonColor,
+    opacity: 0.6
   },
   btsButtonText: {
-    fontSize: 16,
+    fontSize: fontsCommon.font15,
     fontWeight: "bold",
-    color: "white"
+    letterSpacing: fontsCommon.letterSpacingOneFive,
+    color: styleCommon.textColor2
+  },
+  btsButtonDisableText: {
+    fontSize: fontsCommon.font15,
+    fontWeight: "700",
+    letterSpacing: fontsCommon.letterSpacingOneFive,
+    color: styleCommon.textColor2
   },
   btsButtonIconStyle: {
-    color: "white",
-    marginTop: 1,
-    padding: 2
+    position: "absolute",
+    left: 20,
+    color: styleCommon.textColor2
   },
   profileButtonHeaderContainer: {
     justifyContent: "flex-start",
@@ -253,12 +274,12 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   profileButtonTitleStyle: {
-    fontSize: 16,
+    fontSize: fontsCommon.font15,
     fontWeight: "bold",
-    color: "#00DB8D"
+    color: styleCommon.textColor1
   },
   profileButtonIconStyle: {
-    color: "#00DB8D",
+    color: styleCommon.textColor1,
     paddingTop: 2
   },
   avatarOverlayContainerStyle: {

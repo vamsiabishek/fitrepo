@@ -13,14 +13,21 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import { styles } from "../../assets/style/stylesEditProfileScreen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
-  ICON_SIZE,
-  ICON_SIZE_MED,
   MIN_DATE,
   MAX_DATE,
   BUTTON_SIZE,
   BUTTON_OUTER_SIZE,
   EMAIL_VERIFICATION
 } from "../common/Common";
+import {
+  styleCommon,
+  ICON_SIZE,
+  ICON_SIZE_MED,
+  btnGradientColorLeft,
+  btnGradientColorRight,
+  btnGradientColorRightDisabled
+} from "../../assets/style/stylesCommonValues";
+import LinearGradient from "react-native-linear-gradient";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -35,17 +42,11 @@ export default class EditProfileSubScreen1 extends Component {
       usernameValid: true,
       emailValid: true,
       nameValid: true,
-      genders: [
-        { label: "Female", value: "Female" },
-        { label: "Male", value: "Male" },
-        { label: "Other", value: "Other" }
-      ],
-      genderValid: true,
       isDTPickerVisible: false,
       dobAgeValid: true,
-      errorMsgWtAge: ""
+      errorMsgWtAge: "",
+      isActive: false
     };
-    this.s;
   }
 
   validateUsername = () => {
@@ -78,7 +79,8 @@ export default class EditProfileSubScreen1 extends Component {
     //LayoutAnimation.easeInEaseOut();
     this.setState({
       dob: newDate,
-      age: ageFromDate
+      age: ageFromDate,
+      isActive: true
     });
     this.hideDTPicker();
   };
@@ -108,38 +110,23 @@ export default class EditProfileSubScreen1 extends Component {
       return dobAgeValid;
     }
   };
-  validateGender = () => {
-    const { gender } = this.state.user;
-    const genderValid = gender.length > 0;
-    //LayoutAnimation.easeInEaseOut();
-    this.setState({ genderValid });
-    return genderValid;
-  };
   goToNextSubSection = () => {
     LayoutAnimation.easeInEaseOut();
-    const { name, username, dob, age, email, gender } = this.state.user;
+    const { name, username, dob, age, email } = this.state.user;
     const usernameValid = this.validateUsername();
     const emailValid = this.validateEmail();
     const nameValid = this.validateName();
     const dobageValid = this.validateDobAndAge();
-    const genderValid = this.validateGender();
-    const progress = true;
-    if (
-      usernameValid &&
-      emailValid &&
-      dobageValid &&
-      nameValid &&
-      genderValid
-    ) {
+    // const progress = true;
+    if (usernameValid && emailValid && dobageValid && nameValid) {
       const setUserPartial = {
         name,
         username,
         dob,
         age,
-        email,
-        gender
+        email
       };
-      this.props.setSubScreenUserVals(setUserPartial, progress);
+      this.props.setSubScreenUserVals(setUserPartial); // progress
     }
   };
   render() {
@@ -149,11 +136,10 @@ export default class EditProfileSubScreen1 extends Component {
       emailValid,
       usernameValid,
       nameValid,
-      genders,
-      genderValid,
       isDTPickerVisible,
       dobAgeValid,
-      errorMsgWtAge
+      errorMsgWtAge,
+      isActive
     } = this.state;
     return (
       <View style={styles.container}>
@@ -167,8 +153,12 @@ export default class EditProfileSubScreen1 extends Component {
                 <Input
                   placeholder="Username"
                   placeholderTextColor={styles.inputStyle.color}
-                  leftIcon={
-                    <Icon name="account-box" color="#00DB8D" size={ICON_SIZE} />
+                  rightIcon={
+                    <Icon
+                      name="account-box"
+                      color={styleCommon.textColor1}
+                      size={ICON_SIZE}
+                    />
                   }
                   containerStyle={styles.inputViewContainer}
                   inputContainerStyle={styles.inputContainer}
@@ -181,7 +171,10 @@ export default class EditProfileSubScreen1 extends Component {
                   keyboardType="default"
                   returnKeyType="done"
                   onChangeText={username =>
-                    this.setState({ user: { ...user, username } })
+                    this.setState({
+                      user: { ...user, username },
+                      isActive: true
+                    })
                   }
                   value={user.username}
                   ref={input => (this.usernameInput = input)}
@@ -196,13 +189,18 @@ export default class EditProfileSubScreen1 extends Component {
                 <Input
                   placeholder="Email"
                   placeholderTextColor={styles.inputStyle.color}
-                  leftIcon={
-                    <Icon name="email" color="#00DB8D" size={ICON_SIZE} />
+                  rightIcon={
+                    <Icon
+                      name="email"
+                      color={styleCommon.darkDisableColor}
+                      size={ICON_SIZE}
+                    />
                   }
                   containerStyle={styles.inputViewContainer}
                   inputContainerStyle={styles.inputContainer}
-                  inputStyle={styles.inputStyle}
+                  inputStyle={styles.inputDisableStyle}
                   errorStyle={styles.errorInputStyle}
+                  editable={false}
                   keyboardAppearance="dark"
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -210,7 +208,7 @@ export default class EditProfileSubScreen1 extends Component {
                   blurOnSubmit={true}
                   returnKeyType="done"
                   onChangeText={email =>
-                    this.setState({ user: { ...user, email } })
+                    this.setState({ user: { ...user, email, isActive: true } })
                   }
                   value={user.email}
                   ref={input => (this.emailInput = input)}
@@ -225,10 +223,10 @@ export default class EditProfileSubScreen1 extends Component {
                 <Input
                   placeholder="Name"
                   placeholderTextColor={styles.inputStyle.color}
-                  leftIcon={
+                  rightIcon={
                     <Icon
-                      name="alpha-n-circle"
-                      color="#00DB8D"
+                      name="alpha-n-box"
+                      color={styleCommon.textColor1}
                       size={ICON_SIZE}
                     />
                   }
@@ -237,7 +235,7 @@ export default class EditProfileSubScreen1 extends Component {
                   inputStyle={styles.inputStyle}
                   errorStyle={styles.errorInputStyle}
                   onChangeText={name =>
-                    this.setState({ user: { ...user, name } })
+                    this.setState({ user: { ...user, name }, isActive: true })
                   }
                   value={user.name}
                   keyboardAppearance="light"
@@ -257,15 +255,19 @@ export default class EditProfileSubScreen1 extends Component {
                   <Input
                     placeholder="Date of Birth"
                     placeholderTextColor={styles.inputStyle.color}
-                    leftIcon={
-                      <Icon name="calendar" color="#00DB8D" size={ICON_SIZE} />
+                    rightIcon={
+                      <Icon
+                        name="calendar"
+                        color={styleCommon.textColor1}
+                        size={ICON_SIZE}
+                      />
                     }
                     containerStyle={styles.inputViewContainer}
                     inputContainerStyle={styles.inputContainer}
                     inputStyle={styles.inputStyle}
                     errorStyle={styles.errorInputStyle}
                     onChangeText={dob =>
-                      this.setState({ user: { ...user, dob } })
+                      this.setState({ user: { ...user, dob }, isActive: true })
                     }
                     value={user.dob}
                     keyboardAppearance="light"
@@ -289,64 +291,33 @@ export default class EditProfileSubScreen1 extends Component {
                   onConfirm={this.handleDTPicker}
                   onCancel={this.hideDTPicker}
                 />
-                <View>
-                  <View style={styles.radioButtonView}>
-                    <View styles={styles.radioButtonTextIconStyle}>
-                      <View style={styles.radioButtonTextStyle}>
-                        <Icon
-                          name="gender-transgender"
-                          size={ICON_SIZE}
-                          style={styles.radioButtonOuterIconStyle}
-                        />
-                        <Text style={styles.radioButtonText}>Gender</Text>
-                      </View>
-                    </View>
-                    <View style={styles.radioButtonsWrapperStyle}>
-                      <RadioForm
-                        formHorizontal={true}
-                        labelHorizontal={true}
-                        radio_props={genders}
-                        value={user.gender}
-                        ref={input => (this.genderInput = input)}
-                        initial={-1}
-                        borderWidth={styles.radioButtonDes.borderWidth}
-                        buttonColor={styles.radioButtonDes.color}
-                        selectedButtonColor={styles.radioButtonDes.color}
-                        buttonSize={BUTTON_SIZE}
-                        buttonOuterSize={BUTTON_OUTER_SIZE}
-                        labelStyle={styles.radioButtonLabelStyle}
-                        buttonWrapStyle={styles.radioButtonWrapStyle}
-                        onPress={gender => {
-                          this.setState({ user: { ...user, gender } });
-                        }}
-                      />
-                    </View>
-                  </View>
-                  {genderValid ? null : (
-                    <Text style={styles.errorInputStyle}>
-                      Please choose an Option
-                    </Text>
-                  )}
-                </View>
               </View>
-              <View style={styles.groupButtonViewContainer}>
-                <Button
-                  title="NEXT"
-                  containerStyle={styles.btsButtonContainer}
-                  buttonStyle={styles.btsButtonStyle}
-                  titleStyle={styles.btsButtonText}
-                  icon={
-                    <Icon
-                      name="chevron-right"
-                      size={ICON_SIZE_MED}
-                      style={styles.btsButtonIconStyle}
-                    />
-                  }
-                  iconRight={true}
-                  loading={isLoading}
-                  onPress={this.goToNextSubSection}
-                />
-              </View>
+              <Button
+                title="SAVE & GO BACK"
+                ViewComponent={LinearGradient}
+                linearGradientProps={{
+                  colors: [
+                    btnGradientColorLeft,
+                    isActive
+                      ? btnGradientColorRight
+                      : btnGradientColorRightDisabled
+                  ],
+                  start: { x: 0, y: 0.5 },
+                  end: { x: 1, y: 0.5 }
+                }}
+                containerStyle={styles.btsButtonContainer}
+                buttonStyle={
+                  isActive
+                    ? styles.btsButtonStyle
+                    : styles.btsButtonDisableStyle
+                }
+                titleStyle={
+                  isActive ? styles.btsButtonText : styles.btsButtonDisableText
+                }
+                loading={isLoading}
+                onPress={this.goToNextSubSection}
+                disabled={!isActive}
+              />
             </KeyboardAvoidingView>
           </View>
         </View>

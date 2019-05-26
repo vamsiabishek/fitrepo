@@ -205,7 +205,11 @@ export default class Profile extends Component {
                 <View style={styles.profileSubBannerBoxStyle}>
                   <Image
                     source={levelImage}
-                    style={{ width: 35, height: 45 }}
+                    style={{
+                      width: 35,
+                      height: 45,
+                      tintColor: styleCommon.textColor1
+                    }}
                   />
                   <Text style={styles.profileBannerTextStyle}>
                     {levelTitle}

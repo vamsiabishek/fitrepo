@@ -121,6 +121,7 @@ export default class MyDiet extends Component {
     Purchases.setDebugLogsEnabled(true);
     Purchases.setup("jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH", purchaseId);
     const entitlements = await Purchases.getEntitlements();
+    console.log('EntitleMents: ', entitlements);
     this.setState({ isLoading: false, paymentOptions: entitlements });
   };
 
