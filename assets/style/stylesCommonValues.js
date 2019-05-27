@@ -76,6 +76,7 @@ export const styleCommon = {
   descTextColor: "#808080", // dark gray
   unSelected: "grey",
   disableColor: "#d3d3d3", // Light grey
+  darkDisableColor: "#636568",
   selectedButtonColor: "#FA8072", // salmon
   transparentButtonColorRGBA: "rgba(211, 211, 211, 0.3)",
   panelHeaderBoxColor: "#0099CC" // the header color for macros in mydiet page

@@ -179,6 +179,7 @@ export const designDiet = async ({
 }) => {
   console.log(
     "props",
+    fitnessLevel,
     selectedGoal,
     selectedProgram,
     selectedMeals,

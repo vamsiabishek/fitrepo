@@ -1,11 +1,18 @@
 import React, { Component } from "react";
-import { ActivityIndicator, Text, UIManager, View } from "react-native";
+import {
+  ActivityIndicator,
+  Text,
+  UIManager,
+  View,
+  ImageBackground
+} from "react-native";
 import { Button, Avatar } from "react-native-elements";
 import { styles } from "../../assets/style/stylesEditProfileScreen";
 import EditProfileSubScreen1 from "./EditProfileSubScreen1";
 import EditProfileSubScreen2 from "./EditProfileSubScreen2";
-import { ICON_SIZE } from "../common/Common";
+import { ICON_SIZE, GRADIENT_BG_IMAGE } from "../common/Common";
 import { database, storage } from "../common/FirebaseConfig";
+import { styleCommon } from "../../assets/style/stylesCommonValues";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -34,14 +41,16 @@ export default class EditProfile extends Component {
       });
     }
   };
-  setSubScreen1UserVals = (setUserPartial, progress) => {
-    this.updateUserProfile(setUserPartial, (subScreen2 = false));
-    this.changeSelectedSubScreen(progress);
+  setSubScreen1UserVals = setUserPartial => {
+    // progress
+    this.updateUserProfile(setUserPartial); // (subScreen2 = false));
+    // this.changeSelectedSubScreen(progress);
   };
   setSubScreen2UserVals = setUserPartial => {
     this.updateUserProfile(setUserPartial);
   };
-  updateUserProfile = async (setUserPartial, subScreen2 = true) => {
+  updateUserProfile = async setUserPartial => {
+    // subScreen2 = true
     const { userId, user } = this.state;
     const { navigation } = this.props;
     const { navigate } = this.props.navigation;
@@ -57,9 +66,9 @@ export default class EditProfile extends Component {
           user: { ...user, ...setUserPartial }
         });
         updateUserOnProfile(setUserPartial, haveNavigated);
-        if (subScreen2 === true) {
-          navigate("Profile");
-        }
+        // if (subScreen2 === true) {
+        navigate("Profile");
+        // }
       })
       .catch(error => {
         console.log("Error while updating new user with details:", error);
@@ -193,77 +202,77 @@ export default class EditProfile extends Component {
     const { user, avatarChanged, selectedSubScreen } = this.state;
     const { navigate } = this.props.navigation;
     return (
-      <View style={styles.container}>
-        <View style={styles.profileButtonHeaderContainer}>
-          <View style={styles.profileButtonContainer}>
-            <Button
-              title="CANCEL"
-              containerStyle={styles.profileButtonContainerStyle}
-              buttonStyle={styles.profileButtonStyle}
-              titleStyle={styles.profileButtonTitleStyle}
-              onPress={() => navigate("Profile")}
-            />
+      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
+        <View style={styles.innerContainer}>
+          <View style={styles.profileButtonHeaderContainer}>
+            <View style={styles.profileButtonContainer}>
+              <Button
+                title="CANCEL"
+                containerStyle={styles.profileButtonContainerStyle}
+                buttonStyle={styles.profileButtonStyle}
+                titleStyle={styles.profileButtonTitleStyle}
+                onPress={() => navigate("Profile")}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.avatarContainer}>
-          {avatarChanged && (
-            <Avatar
-              size={120}
-              rounded
-              showEditButton
-              overlayContainerStyle={{ backgroundColor: "#636568" }}
-              //source={{ uri: user.avatarSource }}
-              imageProps={{
-                backgroundColor: "#636568"
-              }}
-              renderPlaceholderContent={<ActivityIndicator color="white" />}
-              editButton={{
-                type: "material-community",
-                name: "pencil-outline",
-                color: "white",
-                style: { backgroundColor: "#636568" },
-                size: ICON_SIZE
-              }}
-              onEditPress={this.uploadImageClicked}
-            />
-          )}
-          {!avatarChanged && (
-            <Avatar
-              size={120}
-              rounded
-              showEditButton
-              overlayContainerStyle={{ backgroundColor: "#636568" }}
-              //source={{ uri: user.avatarSource }}
-              imageProps={{
-                backgroundColor: "#636568"
-              }}
-              editButton={{
-                type: "material-community",
-                name: "pencil-outline",
-                color: "white",
-                style: { backgroundColor: "#636568" },
-                size: ICON_SIZE
-              }}
-              onEditPress={this.uploadImageClicked}
-            />
-          )}
-        </View>
-        <View style={styles.subScreenContainer}>
-          {selectedSubScreen === 1 && (
+          <View style={styles.avatarContainer}>
+            {avatarChanged && (
+              <Avatar
+                size={120}
+                rounded
+                showEditButton
+                overlayContainerStyle={{ backgroundColor: "#636568" }}
+                icon={{
+                  type: "material-community",
+                  name: "chess-bishop",
+                  color: styleCommon.textColor2
+                }}
+                //source={{ uri: user.avatarSource }}
+                imageProps={styles.avatarImagePropsStyle}
+                renderPlaceholderContent={<ActivityIndicator color="white" />}
+                editButton={{
+                  type: "material-community",
+                  name: "pencil",
+                  color: styleCommon.textColor2,
+                  style: { backgroundColor: "#636568" },
+                  size: ICON_SIZE
+                }}
+                onEditPress={this.uploadImageClicked}
+              />
+            )}
+            {!avatarChanged && (
+              <Avatar
+                size={120}
+                rounded
+                showEditButton
+                overlayContainerStyle={{ backgroundColor: "#636568" }}
+                icon={{
+                  type: "material-community",
+                  name: "chess-bishop",
+                  color: styleCommon.textColor2
+                }}
+                //source={{ uri: user.avatarSource }}
+                imageProps={styles.avatarImagePropsStyle}
+                editButton={{
+                  type: "material-community",
+                  name: "pencil",
+                  color: styleCommon.textColor2,
+                  style: { backgroundColor: "#636568" },
+                  size: ICON_SIZE
+                }}
+                // onEditPress={this.uploadImageClicked}
+              />
+            )}
+          </View>
+          <View style={styles.subScreenContainer}>
             <EditProfileSubScreen1
               userDets={user}
               onScreenChange={this.changeSelectedSubScreen}
               setSubScreenUserVals={this.setSubScreen1UserVals}
             />
-          )}
-          {selectedSubScreen === 2 && (
-            <EditProfileSubScreen2
-              userDets={user}
-              setSubScreenUserVals={this.setSubScreen2UserVals}
-            />
-          )}
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }

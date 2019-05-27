@@ -5,7 +5,7 @@ import {
   UIManager,
   View,
   SafeAreaView,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import HorizontalSelectView from "../components/HorizontalSelectView";
@@ -29,7 +29,7 @@ export default class PreferenceDetails extends Component {
     super(props);
     this.state = {
       isHealthCondStrPickerVisible: false,
-      selectedIndex: 1,
+      selectedIndex: 1
     };
   }
   showHealthCondStrPicker = () => {
@@ -62,7 +62,7 @@ export default class PreferenceDetails extends Component {
     const { isHealthCondStrPickerVisible } = this.state;
     let foodPrefIcon = "meat_on_bone";
     if (foodPreference === 0) foodPrefIcon = "avocado";
-    else if (foodPreference === 1) foodPrefIcon = "glass_of_milk";
+    else if (foodPreference === 1) foodPrefIcon = "green_salad";
     else if (foodPreference === 2) foodPrefIcon = "fried_egg";
 
     const containerSize = 140;
@@ -79,7 +79,10 @@ export default class PreferenceDetails extends Component {
             <View style={styles.contentBoxStyle}>
               <View style={styles.contentBoxHeaderStyle}>
                 <Text style={styles.headerTextStyle}>Your Food Preference</Text>
-                <Icon style={styles.headerIconStyle} size={ICON_SIZE_EXTRA_LARGE}>
+                <Icon
+                  style={styles.headerIconStyle}
+                  size={ICON_SIZE_EXTRA_LARGE}
+                >
                   <Emoji name={foodPrefIcon} />
                 </Icon>
               </View>
@@ -104,7 +107,7 @@ export default class PreferenceDetails extends Component {
                 //borderWidth: 1,
                 alignItems: "center",
                 justifyContent: "center",
-                marginVertical: 40,
+                marginVertical: 40
               }}
             >
               <AnglePositionView

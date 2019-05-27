@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     paddingTop:
-      Platform.OS === "ios" ? (DEVICE_NAME.includes("iPhone X") ? 40 : 20) : 10
+      Platform.OS === "ios" ? (DEVICE_NAME.includes("iPhone X") ? 40 : 20) : 30
     //backgroundColor: "crimson"
   },
   buttonContainer: {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     alignSelf: "stretch",
-    marginTop: 5,
+    marginTop: 5
     //backgroundColor: "pink"
   }
 });
