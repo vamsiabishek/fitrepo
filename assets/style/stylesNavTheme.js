@@ -6,13 +6,13 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     backgroundColor: styleCommon.primaryButtonColor,
     color: styleCommon.textColor1,
-    tintColor: styleCommon.secondaryColor //styleCommon.unSelected
+    tintColor: styleCommon.textColor1 //styleCommon.unSelected
   },
   activeTintColor: {
-    color: styleCommon.textColor1
+    color: styleCommon.secondaryColor
   },
   tintColor: {
-    color: styleCommon.secondaryColor //styleCommon.unSelected
+    color: styleCommon.textColor1 //styleCommon.unSelected
   },
   labelStyle: {
     fontSize: fontsCommon.font12,

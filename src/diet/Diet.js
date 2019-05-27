@@ -16,7 +16,15 @@ import {
 } from "../../assets/style/stylesCommonValues";
 import { createKeyAndValuesFromResult } from "../common/Util";
 import CustomListView from "../components/CustomListView";
-import { GRADIENT_BG_IMAGE } from "../common/Common";
+import {
+  GRADIENT_BG_IMAGE,
+  WEIGHT_LOSS,
+  WEIGHT_GAIN,
+  BE_HEALTHY,
+  WEIGHT_LOSS_DESC,
+  WEIGHT_GAIN_DESC,
+  BE_HEALTHY_DESC
+} from "../common/Common";
 
 export default class Diet extends Component {
   constructor(props) {
@@ -32,8 +40,16 @@ export default class Diet extends Component {
           id: "newest-first"
         },
         {
-          value: "Rating",
-          id: "rating"
+          value: WEIGHT_LOSS_DESC,
+          id: WEIGHT_LOSS
+        },
+        {
+          value: WEIGHT_GAIN_DESC,
+          id: WEIGHT_GAIN
+        },
+        {
+          value: BE_HEALTHY_DESC,
+          id: BE_HEALTHY
         }
       ],
       currentDietOption: "myDiets",
@@ -41,6 +57,7 @@ export default class Diet extends Component {
       myDiets: [],
       isLoading: false
     };
+    this.currentDietList = [];
   }
   componentDidMount = async () => {
     this.setState({ isLoading: true });
@@ -51,6 +68,7 @@ export default class Diet extends Component {
       this.fetchMyDiets(uid)
     ]);
     console.log("myDiets:", myDiets, "uid: ", uid);
+    this.currentDietList = myDiets;
     this.setState({
       uid,
       myDiets,
@@ -114,6 +132,26 @@ export default class Diet extends Component {
   };
 
   onSortChange = selectedSort => {
+    const { myDiets } = this.state;
+    this.currentDietList = [];
+    myDiets.map(diet => {
+      if (selectedSort === WEIGHT_LOSS_DESC && diet.value.selectedGoal === 0) {
+        this.currentDietList.push(diet);
+      } else if (
+        selectedSort === WEIGHT_GAIN_DESC &&
+        diet.value.selectedGoal === 2
+      ) {
+        this.currentDietList.push(diet);
+      } else if (
+        selectedSort === BE_HEALTHY_DESC &&
+        diet.value.selectedGoal === 1
+      ) {
+        this.currentDietList.push(diet);
+      } else if (selectedSort === "Newest first") {
+        this.currentDietList = myDiets;
+      }
+    });
+
     this.setState({ selectedSortOption: selectedSort });
   };
 
@@ -129,8 +167,6 @@ export default class Diet extends Component {
       uid
     } = this.state;
     const { navigation } = this.props;
-    const currentDiet =
-      currentDietOption === "popular" ? popularDiets : myDiets;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.mainContainer}>
         {isLoading ? (
@@ -198,7 +234,10 @@ export default class Diet extends Component {
               </View>
             </View>
             <View style={styles.listViewContainer}>
-              <CustomListView diets={currentDiet} navigation={navigation} />
+              <CustomListView
+                diets={this.currentDietList}
+                navigation={navigation}
+              />
             </View>
           </View>
         )}

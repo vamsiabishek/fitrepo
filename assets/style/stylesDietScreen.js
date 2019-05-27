@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   dropdownContainer: {
     width: SCREEN_WIDTH * 0.3,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   dropdownBaseColor: {
     color: styleCommon.textColor2
@@ -125,7 +125,13 @@ const styles = StyleSheet.create({
     color: styleCommon.textColor2
   },
   dropdownPickerStyle: {
-    backgroundColor: styleCommon.panelHeaderBoxColor
+    backgroundColor: styleCommon.panelHeaderBoxColor,
+    position: "absolute",
+    alignItems: "center",
+    top: 300,
+    left: SCREEN_WIDTH * 0.1,
+    width: SCREEN_WIDTH * 0.8, 
+    justifyContent: "center",
   },
   listViewContainer: {
     alignItems: "flex-start",
