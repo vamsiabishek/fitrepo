@@ -167,7 +167,7 @@ export default class EditProfileSubScreen1 extends Component {
                   autoCapitalize="none"
                   autoCorrect={false}
                   blurOnSubmit={true}
-                  keyboardAppearance="dark"
+                  keyboardAppearance="light"
                   keyboardType="default"
                   returnKeyType="done"
                   onChangeText={username =>
@@ -201,7 +201,7 @@ export default class EditProfileSubScreen1 extends Component {
                   inputStyle={styles.inputDisableStyle}
                   errorStyle={styles.errorInputStyle}
                   editable={false}
-                  keyboardAppearance="dark"
+                  keyboardAppearance="light"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoCorrect={false}
@@ -242,8 +242,8 @@ export default class EditProfileSubScreen1 extends Component {
                   keyboardType="default"
                   autoCapitalize="words"
                   autoCorrect={false}
-                  blurOnSubmit={false}
-                  returnKeyType="next"
+                  blurOnSubmit={true}
+                  returnKeyType="done"
                   ref={input => (this.nameInput = input)}
                   onSubmitEditing={() => {
                     this.setState({ nameValid: this.validateName });
@@ -273,9 +273,9 @@ export default class EditProfileSubScreen1 extends Component {
                     keyboardAppearance="light"
                     keyboardType="default"
                     autoCorrect={false}
-                    blurOnSubmit={false}
+                    blurOnSubmit={true}
                     editable={true}
-                    returnKeyType="next"
+                    returnKeyType="done"
                     ref={input => (this.dobInput = input)}
                     onSubmitEditing={() => {
                       this.setState({ dobAgeValid: this.validateDobAndAge });

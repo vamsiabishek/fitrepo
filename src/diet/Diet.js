@@ -218,7 +218,7 @@ export default class Diet extends Component {
             <View style={styles.listViewContainer}>
               <CustomListView
                 uid={uid}
-                diets={currentDietList}
+                diets={this.currentDietList}
                 navigation={navigation}
               />
             </View>

@@ -4,7 +4,8 @@ import {
   Text,
   UIManager,
   View,
-  ImageBackground
+  ImageBackground,
+  KeyboardAvoidingView
 } from "react-native";
 import { Button, Avatar } from "react-native-elements";
 import { styles } from "../../assets/style/stylesEditProfileScreen";
@@ -202,8 +203,9 @@ export default class EditProfile extends Component {
     const { user, avatarChanged, selectedSubScreen } = this.state;
     const { navigate } = this.props.navigation;
     return (
+      
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
-        <View style={styles.innerContainer}>
+        <KeyboardAvoidingView style={styles.innerContainer} behavior="padding" enabled>
           <View style={styles.profileButtonHeaderContainer}>
             <View style={styles.profileButtonContainer}>
               <Button
@@ -271,7 +273,7 @@ export default class EditProfile extends Component {
               setSubScreenUserVals={this.setSubScreen1UserVals}
             />
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }

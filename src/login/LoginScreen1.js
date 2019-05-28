@@ -5,8 +5,8 @@ import { GoogleSignin } from 'react-native-google-signin';
 import { Input, Button, SocialIcon, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
-import { f, auth } from "./../common/FirebaseConfig";
-import { EMAIL_VERIFICATION, PASSWORD_LENGTH_MINIMUM } from "../common/Common";
+import { f, database, auth } from "./../common/FirebaseConfig";
+import { EMAIL_VERIFICATION, PASSWORD_LENGTH_MINIMUM, PROVIDER_GOOGLE, PROVIDER_FACEBOOK } from "../common/Common";
 import {
   ICON_SIZE,
   btnGradientColorLeft,
@@ -29,7 +29,24 @@ export default class LoginScreen1 extends Component {
       showLoading: false,
       selectedIndex: 0
     };
+    //this.logoutGoogleUser()
+    
   }
+
+  /*logoutGoogleUser = async () => {
+    const currentUser = await GoogleSignin.getCurrentUser();
+    //this.setState({ currentUser });
+    if (currentUser) {
+      try {
+        await GoogleSignin.revokeAccess();
+        await GoogleSignin.signOut();
+        //this.setState({ user: null }); // Remember to remove the user from your app's state as well
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }*/
+
   onEmailChange = email => {
     this.setState({ email });
   };
@@ -78,7 +95,7 @@ export default class LoginScreen1 extends Component {
       .then(data => this.getFBCredentialsUsingToken(data))
       .then(currentUser => {
         //console.log("current FB User:", currentUser);
-        this.onLoginSuccess();
+        this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK)
       })
       .catch(error => {
         alert("Login fail with error: " + error);
@@ -115,10 +132,65 @@ export default class LoginScreen1 extends Component {
       const credential = f.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
       // login with credential
       const currentUser = await f.auth().signInAndRetrieveDataWithCredential(credential);
-      this.onLoginSuccess();
+      this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE)
     } catch (error) {
       alert("Login failed with error ", error.code);
     }
+  }
+  navigateLoggedInUser = async(currentUser, provider) => {
+    const { user: { uid }} = currentUser
+    const isExistingUser = await this.checkForExistingUser(uid)
+    if (isExistingUser) this.onLoginSuccess();
+    else {
+      let newUser = {}
+      if(provider === PROVIDER_GOOGLE ) {
+        const googleUser = await GoogleSignin.getCurrentUser();
+        const {
+          user: { id, name, photo, email }
+        } = googleUser;
+        newUser = {
+          uid,
+          email,
+          //dob,
+          //age,
+          name,
+          avatar: photo,
+          provider: PROVIDER_GOOGLE,
+          providerId: id
+        };
+      } else if (provider === PROVIDER_FACEBOOK) {
+        const { user, additionalUserInfo } = currentUser
+        const { birthday } = additionalUserInfo.profile;
+        const dob = new Date(birthday).toDateString().substring(4);
+        const age = new Date().getFullYear() - new Date(birthday).getFullYear();
+        // user object also contains phone number
+        newUser = {
+          uid,
+          email: user.email,
+          dob,
+          age,
+          name: user.displayName,
+          avatar: user.photoURL,
+          provider: PROVIDER_FACEBOOK,
+        };
+      }
+      
+      const { navigation } = this.props;
+      navigation.navigate("Signup", {
+        isExistingUser: true,
+        newLogin: true,
+        uid,
+        newUser,
+        provider,
+      });
+    }
+  }
+  checkForExistingUser = async(uid) => {
+    let isExistingUser = false
+    await database.ref(`users/${uid}`).once('value').then(snapshot => {
+      if(snapshot.val()) isExistingUser = true
+    })
+    return isExistingUser
   }
   onLoginSuccess = () => {
     this.setState({ showLoading: false });

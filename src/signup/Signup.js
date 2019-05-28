@@ -11,7 +11,9 @@ import {
 import {
   GRADIENT_BG_IMAGE,
   EMAIL_VERIFICATION,
-  PASSWORD_LENGTH_MINIMUM
+  PASSWORD_LENGTH_MINIMUM,
+  PROVIDER_FACEBOOK,
+  PROVIDER_GOOGLE
 } from "../common/Common";
 import { commonStyles } from "../../assets/style/stylesCommon";
 import Header from "../components/signup/Header";
@@ -99,13 +101,14 @@ export default class Signup extends Component {
       userLoginAnimation: false,
       isLoggedIn: false,
       isExistingUser:
-        navigation.getParam("isExistingUser") === true ? true : false
+        navigation.getParam("isExistingUser") ? true : false,
+      newLogin: navigation.getParam("newLogin") ? true : false,
     };
   }
 
   componentDidMount = async () => {
-    const { isExistingUser, uid } = this.state;
-    if (isExistingUser) {
+    const { isExistingUser, uid, newLogin } = this.state;
+    if (isExistingUser && !newLogin) {
       this.setState({ isLoadingComponent: true });
       await database
         .ref("users")
@@ -146,6 +149,14 @@ export default class Signup extends Component {
             error
           );
         });
+    } else if (newLogin) {
+      const { navigation } = this.props;
+      const provider = navigation.getParam("provider")
+      const mediaUser = navigation.getParam("newUser")
+      if (provider === PROVIDER_GOOGLE)
+        this.setState({ user: mediaUser });     
+      else if (provider === PROVIDER_FACEBOOK)
+        this.setState({ user: mediaUser, dob: mediaUser.dob, age: mediaUser.age });
     }
   };
 
@@ -264,7 +275,7 @@ export default class Signup extends Component {
     }
   };
 
-  scrollToNextScreenForExistingUser = currentScreen => {
+  scrollToNextScreenForExistingOrNewLoggedInUser = currentScreen => {
     const scrollValue = SCREEN_WIDTH * currentScreen;
     this.scrollRef.scrollTo({ x: scrollValue });
     this.setState({ screen: this.state.screen + 1, navButtonActive: false });
@@ -633,7 +644,8 @@ export default class Signup extends Component {
       foodPrefBtn,
       numberOfMeals,
       isLoggedIn,
-      isExistingUser
+      isExistingUser,
+      newLogin
     } = this.state;
     let isScrollable = false;
     if (!isExistingUser) {
@@ -672,6 +684,38 @@ export default class Signup extends Component {
       if (isScrollable && this.scrollRef) {
         this.scrollToNextScreen(currentScreen, isLoggedIn);
       }
+    } else if (newLogin) {
+      if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
+        isScrollable = true;
+      if (currentScreen === 2 && (gender >= 0 && gender.length !== 0))
+        isScrollable = true;
+      if (
+        currentScreen === 3 &&
+        (fitnessLevel > 0 && fitnessLevel.length !== 0)
+      )
+        isScrollable = true;
+      if (
+        currentScreen === 4 &&
+        (dob.length > 0 &&
+          age !== undefined &&
+          weight !== undefined &&
+          height !== undefined)
+      )
+        isScrollable = true;
+      if (
+        currentScreen === 5 &&
+        foodPrefBtn.length !== 0 &&
+        foodPrefBtn >= 0 &&
+        numberOfMeals > 0
+      )
+        isScrollable = true;
+      if (currentScreen === 6) {
+        await this.saveUserDetails();
+        await this.createDietAndMeals();
+      }
+      if (isScrollable && this.scrollRef) {
+        this.scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
+      }
     } else {
       if (currentScreen === 1 && (goal >= 0 && goal.length !== 0))
         isScrollable = true;
@@ -700,7 +744,7 @@ export default class Signup extends Component {
         await this.createDietAndMeals();
       }
       if (isScrollable && this.scrollRef) {
-        this.scrollToNextScreenForExistingUser(currentScreen);
+        this.scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
       }
     }
   };
@@ -839,7 +883,8 @@ export default class Signup extends Component {
       numberOfMeals,
       foodPreference,
       isExistingUser,
-      userLoginAnimation
+      userLoginAnimation,
+      newLogin
     } = this.state;
     const signupObject = {
       email,
@@ -856,6 +901,7 @@ export default class Signup extends Component {
       validatePassword: this.validatePassword,
       validateConfirmationPassword: this.validateConfirmationPassword
     };
+    const showGender = isExistingUser === newLogin
     const loadingAnimationText = userLoginAnimation
       ? "Signing you up with Fitrepo ..."
       : "We are creating your diet ...";
@@ -903,7 +949,7 @@ export default class Signup extends Component {
                   <Goal goal={goal} setGoal={this.setGoal} />
                 </View>
               </View>
-              {!isExistingUser && (
+              {showGender &&  (
                 <View style={commonStyles.subContainer}>
                   <View style={styles.contentWrapper}>
                     <Header
