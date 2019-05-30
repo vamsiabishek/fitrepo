@@ -1,3 +1,5 @@
+import { AsyncStorage } from 'react-native';
+import { f, auth } from './FirebaseConfig'
 import { WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY } from "./Common";
 
 export const pluralCheck = s => {
@@ -75,3 +77,24 @@ export const createRefBySourceType = type => {
   else if (type === "fat") sourceRef = "fat-sources";
   return sourceRef;
 };
+
+export const setCurrentUser = (user) => {
+  if (user)
+    AsyncStorage.setItem("user_data", JSON.stringify(user))
+}
+
+export const removeCurrentUser = () => {
+  AsyncStorage.removeItem("user_data")
+}
+
+export const getCurrentUser = async() => {
+  let user = {}
+  await AsyncStorage.getItem("user_data", (err, result) => {
+    console.log(result)
+    if(result)
+      user = JSON.parse(result)
+  })
+  if (!user.uid)
+    user = await f.auth().currentUser
+  return user;
+}

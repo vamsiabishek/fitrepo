@@ -1,12 +1,22 @@
 import React, { Component } from "react";
 import { Text, View, LayoutAnimation } from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
-import { GoogleSignin } from 'react-native-google-signin';
+import { GoogleSignin } from "react-native-google-signin";
 import { Input, Button, SocialIcon, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
 import { f, database, auth } from "./../common/FirebaseConfig";
-import { EMAIL_VERIFICATION, PASSWORD_LENGTH_MINIMUM, PROVIDER_GOOGLE, PROVIDER_FACEBOOK } from "../common/Common";
+import {
+  EMAIL_VERIFICATION,
+  PASSWORD_LENGTH_MINIMUM,
+  PROVIDER_GOOGLE,
+  PROVIDER_FACEBOOK
+} from "../common/Common";
+import {
+  setCurrentUser,
+  getCurrentUser,
+  removeCurrentUser
+} from "../common/Util";
 import {
   ICON_SIZE,
   btnGradientColorLeft,
@@ -18,6 +28,16 @@ import LinearGradient from "react-native-linear-gradient";
 export default class LoginScreen1 extends Component {
   constructor(props) {
     super(props);
+    
+    (async () => {
+        // All async code here
+        //await removeCurrentUser()
+        const user = await getCurrentUser("user_data");
+        if (user) {
+          console.log("uid:", user.uid);
+          this.onLoginSuccess()
+        }
+    })();
     this.state = {
       email: "dhiv.tester1@gmail.com", //"dhivya@gmail.com",
       //email: "vamsi@gmail.com",
@@ -30,7 +50,6 @@ export default class LoginScreen1 extends Component {
       selectedIndex: 0
     };
     //this.logoutGoogleUser()
-    
   }
 
   /*logoutGoogleUser = async () => {
@@ -81,7 +100,11 @@ export default class LoginScreen1 extends Component {
   login = async () => {
     const { email, password } = this.state;
     try {
-      const user = await auth.signInWithEmailAndPassword(email, password);
+      const credentials = await auth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+      setCurrentUser(credentials.user);
       this.onLoginSuccess();
     } catch (error) {
       this.setState({ showLoading: false });
@@ -95,7 +118,7 @@ export default class LoginScreen1 extends Component {
       .then(data => this.getFBCredentialsUsingToken(data))
       .then(currentUser => {
         //console.log("current FB User:", currentUser);
-        this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK)
+        this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
       })
       .catch(error => {
         alert("Login fail with error: " + error);
@@ -125,25 +148,34 @@ export default class LoginScreen1 extends Component {
     try {
       // Add any configuration settings here:
       await GoogleSignin.configure();
-      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true
+      });
       const data = await GoogleSignin.signIn();
 
       // create a new firebase credential with the token
-      const credential = f.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+      const credential = f.auth.GoogleAuthProvider.credential(
+        data.idToken,
+        data.accessToken
+      );
       // login with credential
-      const currentUser = await f.auth().signInAndRetrieveDataWithCredential(credential);
-      this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE)
+      const currentUser = await f
+        .auth()
+        .signInAndRetrieveDataWithCredential(credential);
+      this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
     } catch (error) {
       alert("Login failed with error ", error.code);
     }
-  }
-  navigateLoggedInUser = async(currentUser, provider) => {
-    const { user: { uid }} = currentUser
-    const isExistingUser = await this.checkForExistingUser(uid)
+  };
+  navigateLoggedInUser = async (currentUser, provider) => {
+    const {
+      user: { uid }
+    } = currentUser;
+    const isExistingUser = await this.checkForExistingUser(uid);
     if (isExistingUser) this.onLoginSuccess();
     else {
-      let newUser = {}
-      if(provider === PROVIDER_GOOGLE ) {
+      let newUser = {};
+      if (provider === PROVIDER_GOOGLE) {
         const googleUser = await GoogleSignin.getCurrentUser();
         const {
           user: { id, name, photo, email }
@@ -159,7 +191,7 @@ export default class LoginScreen1 extends Component {
           providerId: id
         };
       } else if (provider === PROVIDER_FACEBOOK) {
-        const { user, additionalUserInfo } = currentUser
+        const { user, additionalUserInfo } = currentUser;
         const { birthday } = additionalUserInfo.profile;
         const dob = new Date(birthday).toDateString().substring(4);
         const age = new Date().getFullYear() - new Date(birthday).getFullYear();
@@ -171,27 +203,30 @@ export default class LoginScreen1 extends Component {
           age,
           name: user.displayName,
           avatar: user.photoURL,
-          provider: PROVIDER_FACEBOOK,
+          provider: PROVIDER_FACEBOOK
         };
       }
-      
+
       const { navigation } = this.props;
       navigation.navigate("Signup", {
         isExistingUser: true,
         newLogin: true,
         uid,
         newUser,
-        provider,
+        provider
       });
     }
-  }
-  checkForExistingUser = async(uid) => {
-    let isExistingUser = false
-    await database.ref(`users/${uid}`).once('value').then(snapshot => {
-      if(snapshot.val()) isExistingUser = true
-    })
-    return isExistingUser
-  }
+  };
+  checkForExistingUser = async uid => {
+    let isExistingUser = false;
+    await database
+      .ref(`users/${uid}`)
+      .once("value")
+      .then(snapshot => {
+        if (snapshot.val()) isExistingUser = true;
+      });
+    return isExistingUser;
+  };
   onLoginSuccess = () => {
     this.setState({ showLoading: false });
     this.props.navigation.navigate("HomeScreen");
@@ -316,7 +351,7 @@ export default class LoginScreen1 extends Component {
                 type="facebook"
                 onPress={() => this.onFBLogin()}
               />
-               <SocialIcon
+              <SocialIcon
                 style={styles.socialMediaLoginBtn}
                 title="Google"
                 button

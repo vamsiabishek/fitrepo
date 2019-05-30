@@ -14,7 +14,7 @@ import {
   ICON_SIZE_MED,
   styleCommon
 } from "../../assets/style/stylesCommonValues";
-import { createKeyAndValuesFromResult } from "../common/Util";
+import { createKeyAndValuesFromResult, getCurrentUser } from "../common/Util";
 import CustomListView from "../components/CustomListView";
 import {
   GRADIENT_BG_IMAGE,
@@ -61,7 +61,12 @@ export default class Diet extends Component {
   }
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const { uid } = await f.auth().currentUser;
+    let { uid } = "";
+    const user = await getCurrentUser("user_data");
+    if (user) {
+      console.log("uid:", user.uid);
+      uid = user.uid;
+    }
 
     const [myDiets] = await Promise.all([
       //this.fetchPopularDiets(),
