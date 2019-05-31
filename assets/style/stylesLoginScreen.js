@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
     color: errorTextcolor
   },
   buttonContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     margin: 5,
@@ -87,8 +87,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   socialMediaLoginBtn: {
-    width: SCREEN_WIDTH * 0.35,
-    height: BUTTON_HEIGHT_GENERAL
+    width: SCREEN_WIDTH * 0.35
   },
   loginButtonText: {
     fontSize: fontsCommon.font16,
@@ -106,10 +105,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: 5,
-    shadowOffset: { width: 2, height: 8 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3
+    padding: 5
+    // shadowOffset: { width: 2, height: 8 },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 3
     //backgroundColor: "coral"
   },
   newUserText: {

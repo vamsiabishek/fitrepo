@@ -39,11 +39,13 @@ export const fontsCommon = {
   font18: normalizeFont(18),
   font20: normalizeFont(20),
   font22: normalizeFont(22),
+  font24: normalizeFont(24),
   font25: normalizeFont(25),
   font28: normalizeFont(28),
   font30: normalizeFont(30),
   font32: normalizeFont(32),
   font35: normalizeFont(35),
+  font40: normalizeFont(40),
   font50: normalizeFont(50),
   font70: normalizeFont(70),
   font80: normalizeFont(80),
@@ -52,6 +54,8 @@ export const fontsCommon = {
 
 export const ICON_SIZE_SMALL = fontsCommon.font16;
 export const ICON_SIZE_MED = fontsCommon.font20;
+export const ICON_SIZE_22 = fontsCommon.font22;
+export const ICON_SIZE_24 = fontsCommon.font24;
 export const ICON_SIZE = fontsCommon.font25;
 export const ICON_SIZE_NAV = fontsCommon.font28;
 export const ICON_SIZE_LARGE = fontsCommon.font30;

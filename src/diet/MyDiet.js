@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  Animated
+  Animated,
+  UIManager
 } from "react-native";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -14,6 +15,8 @@ import MealsContainer from "./meals/MealsContainer";
 import { styles } from "../../assets/style/stylesMyDiet";
 import {
   styleCommon,
+  ICON_SIZE_24,
+  ICON_SIZE_22,
   ICON_SIZE,
   ICON_SIZE_LARGE,
   SCREEN_HEIGHT
@@ -22,6 +25,10 @@ import { database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import Loading from "../components/Loading";
 import InitialScreen from "../components/purchase/InitialScreen";
+
+// Enable LayoutAnimation for Android Devices
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class MyDiet extends Component {
   constructor(props) {
@@ -121,7 +128,7 @@ export default class MyDiet extends Component {
     Purchases.setDebugLogsEnabled(true);
     Purchases.setup("jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH", purchaseId);
     const entitlements = await Purchases.getEntitlements();
-    console.log('EntitleMents: ', entitlements);
+    console.log("EntitleMents: ", entitlements);
     this.setState({ isLoading: false, paymentOptions: entitlements });
   };
 
@@ -325,9 +332,10 @@ export default class MyDiet extends Component {
                   icon={{
                     name: "medical-bag",
                     size: ICON_SIZE,
-                    color: styleCommon.selectedButtonColor,
+                    color: styleCommon.secondaryButtonTextColor,
                     type: "material-community"
                   }}
+                  iconRight={true}
                   containerStyle={styles.backButtonStyle}
                   buttonStyle={styles.backButtonStyle}
                   titleStyle={styles.backButtonTitleStyle}
@@ -337,7 +345,10 @@ export default class MyDiet extends Component {
             </View>
             <View>
               <Animated.View
-                style={[styles.dayBarStyle, { height: dayBarHeight }]}
+                style={[
+                  styles.dayBarStyle,
+                  { height: dayBarHeight, backgroundColor: "transparent" }
+                ]}
               >
                 <Button
                   title="Training day"
@@ -348,7 +359,7 @@ export default class MyDiet extends Component {
                   icon={
                     <Icon
                       name="run-fast"
-                      size={ICON_SIZE}
+                      size={activeDay ? ICON_SIZE_24 : ICON_SIZE_22}
                       color={trainingIconColor}
                       style={styles.buttonIconStyle}
                     />
@@ -369,7 +380,7 @@ export default class MyDiet extends Component {
                   icon={
                     <Icon
                       name="sleep"
-                      size={ICON_SIZE}
+                      size={!activeDay ? ICON_SIZE_24 : ICON_SIZE_22}
                       color={restIconColor}
                       style={styles.buttonIconStyle}
                     />

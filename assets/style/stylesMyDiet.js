@@ -6,6 +6,7 @@ import {
   fontsCommon,
   DEVICE_NAME
 } from "./stylesCommonValues";
+console.log("Screen height: ", SCREEN_HEIGHT);
 
 const styles = StyleSheet.create({
   container: {
@@ -17,15 +18,14 @@ const styles = StyleSheet.create({
   backHeaderContainer: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    paddingTop:
-      Platform.OS === "ios" ? (DEVICE_NAME.includes("iPhone X") ? 40 : 20) : 10
+    paddingTop: DEVICE_NAME.includes("iPhone X") ? 40 : 20
     //backgroundColor: "blueviolet"
   },
   backButtonContainerStyle: {
     width: SCREEN_WIDTH,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-between"
   },
   backButtonStyle: {
     justifyContent: "flex-start",
@@ -45,12 +45,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: 15,
-    paddingBottom: 10,
-    shadowOffset: { width: 2, height: 10 },
-    shadowOpacity: 0.8,
+    paddingBottom: 10
+    // shadowOffset: { width: 2, height: 10 },
+    // shadowOpacity: 0.8,
     //shadowRadius: 2,
-    elevation: 10,
-    zIndex: 1
+    // elevation: 10,
+    // zIndex: 1
   },
   weeklyTouchableStyle: {
     flexDirection: "row"
@@ -76,27 +76,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    height: Math.round(SCREEN_HEIGHT * 0.06)
-    //backgroundColor: "#36373A"
+    height: Math.round(
+      DEVICE_NAME.includes("iPhone X")
+        ? SCREEN_HEIGHT * 0.062
+        : SCREEN_HEIGHT * 0.075
+    ),
+    backgroundColor: "#36373A"
   },
   buttonContainer: {
-    width: SCREEN_WIDTH,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  activeDayButton: {
-    flexDirection: "row",
+    width: SCREEN_WIDTH / 2,
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 0
+    // backgroundColor: "yellow"
+  },
+  activeDayButton: {
     width: SCREEN_WIDTH / 2,
     height: "100%",
     borderRadius: 0,
     backgroundColor: styleCommon.selectedButtonColor
   },
   dayButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
     width: SCREEN_WIDTH / 2,
     height: "100%",
     borderRadius: 0,

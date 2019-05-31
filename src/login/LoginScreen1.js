@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Text, View, LayoutAnimation } from "react-native";
+import {
+  Platform,
+  Text,
+  View,
+  LayoutAnimation,
+  UIManager,
+  ImageBackground
+} from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { GoogleSignin } from "react-native-google-signin";
 import { Input, Button, SocialIcon, ButtonGroup } from "react-native-elements";
@@ -17,26 +24,33 @@ import {
   getCurrentUser,
   removeCurrentUser
 } from "../common/Util";
+import { f, auth } from "./../common/FirebaseConfig";
 import {
   ICON_SIZE,
   btnGradientColorLeft,
-  modalBtnGradientColorRight
+  modalBtnGradientColorRight,
+  fontsCommon
 } from "../../assets/style/stylesCommonValues";
+import { commonStyles } from "../../assets/style/stylesCommon";
 import Loading from "../components/Loading";
 import LinearGradient from "react-native-linear-gradient";
+
+// Enable LayoutAnimation for Android Devices
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class LoginScreen1 extends Component {
   constructor(props) {
     super(props);
-    
+
     (async () => {
-        // All async code here
-        //await removeCurrentUser()
-        const user = await getCurrentUser("user_data");
-        if (user) {
-          console.log("uid:", user.uid);
-          this.onLoginSuccess()
-        }
+      // All async code here
+      //await removeCurrentUser()
+      const user = await getCurrentUser("user_data");
+      if (user) {
+        console.log("uid:", user.uid);
+        this.onLoginSuccess();
+      }
     })();
     this.state = {
       email: "dhiv.tester1@gmail.com", //"dhivya@gmail.com",
@@ -46,7 +60,7 @@ export default class LoginScreen1 extends Component {
       password: "dhivya123", //"Dhivya09",
       passwordValid: true,
       login_failed: false,
-      showLoading: false,
+      isLoading: false,
       selectedIndex: 0
     };
     //this.logoutGoogleUser()
@@ -93,7 +107,7 @@ export default class LoginScreen1 extends Component {
     const passwordValid = this.validatePassword(password);
     this.setState({ emailValid, passwordValid });
     if (emailValid && passwordValid) {
-      this.setState({ showLoading: true });
+      this.setState({ isLoading: true });
       this.login();
     }
   };
@@ -107,7 +121,7 @@ export default class LoginScreen1 extends Component {
       setCurrentUser(credentials.user);
       this.onLoginSuccess();
     } catch (error) {
-      this.setState({ showLoading: false });
+      this.setState({ isLoading: false });
       alert("Invalid username/password");
     }
   };
@@ -147,7 +161,12 @@ export default class LoginScreen1 extends Component {
     this.setState({ isLoading: true });
     try {
       // Add any configuration settings here:
-      await GoogleSignin.configure();
+      if (Platform.OS === "android")
+        await GoogleSignin.configure({
+          webClientId:
+            "784097360045-qjliaef9a4kphpdlcoo1v6ff2jj4oaum.apps.googleusercontent.com"
+        });
+      else await GoogleSignin.configure();
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true
       });
@@ -163,6 +182,7 @@ export default class LoginScreen1 extends Component {
         .auth()
         .signInAndRetrieveDataWithCredential(credential);
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
+      this.onLoginSuccess();
     } catch (error) {
       alert("Login failed with error ", error.code);
     }
@@ -228,12 +248,16 @@ export default class LoginScreen1 extends Component {
     return isExistingUser;
   };
   onLoginSuccess = () => {
-    this.setState({ showLoading: false });
+    this.setState({ isLoading: false });
     this.props.navigation.navigate("HomeScreen");
   };
   signUpButttonClicked = () => {
     const { navigate } = this.props.navigation;
     navigate("SignUp");
+  };
+  onClickForgotPassword = () => {
+    const { navigate } = this.props.navigation;
+    navigate("ForgotPasswordScreen");
   };
 
   render() {
@@ -242,135 +266,148 @@ export default class LoginScreen1 extends Component {
       password,
       passwordValid,
       emailValid,
-      showLoading,
       isLoading
     } = this.state;
     return (
-      <View style={styles.container}>
-        {isLoading ? (
-          <Loading
-            text={"Logging you into Fitrepo..."}
-            animationStr={require("../../assets/jsons/user_animation_4.json")}
-            isTextBold={false}
-          />
-        ) : (
-          <View style={styles.loginView}>
-            <View style={styles.logoContainer}>
-              <Text style={styles.logoText}>FITREPO</Text>
+      <ImageBackground source={GRADIENT_BG_IMAGE} style={commonStyles.bgImage}>
+        <View style={styles.container}>
+          {isLoading ? (
+            <Loading
+              text={"Logging you into Fitrepo..."}
+              animationStr={require("../../assets/jsons/user_animation_4.json")}
+              isTextBold={false}
+            />
+          ) : (
+            <View style={styles.loginView}>
+              <View style={styles.logoContainer}>
+                <Text style={styles.logoText}>FITREPO</Text>
+              </View>
+              <View style={styles.loginInputContainer}>
+                <Input
+                  placeholder="Email"
+                  placeholderTextColor="white"
+                  containerStyle={styles.inputContainer}
+                  inputStyle={styles.inputStyle}
+                  errorStyle={styles.errorInputStyle}
+                  leftIcon={
+                    <Icon
+                      name="account"
+                      color={styles.loginButtonDes.color}
+                      size={ICON_SIZE}
+                    />
+                  }
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardAppearance="dark"
+                  keyboardType="email-address"
+                  returnKeyType="done"
+                  value={email}
+                  onChangeText={value => this.onEmailChange(value)}
+                  ref={input => (this.emailInput = input)}
+                  onSubmitEditing={() => {
+                    this.setState({ emailValid: this.validateEmail });
+                    this.passwordInput.focus();
+                  }}
+                  errorMessage={
+                    emailValid ? null : "Please enter a valid email address"
+                  }
+                  style={{
+                    fontSize: fontsCommon.font16
+                  }}
+                />
+                <Input
+                  placeholder="Password"
+                  placeholderTextColor="white"
+                  leftIcon={
+                    <Icon
+                      name="key-variant"
+                      color={styles.loginButtonDes.color}
+                      size={ICON_SIZE}
+                    />
+                  }
+                  containerStyle={styles.inputContainer}
+                  inputStyle={styles.inputStyle}
+                  errorStyle={styles.errorInputStyle}
+                  keyboardAppearance="dark"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="default"
+                  returnKeyType="go"
+                  secureTextEntry={true}
+                  value={password}
+                  onChangeText={password => this.onPasswordChange(password)}
+                  ref={input => (this.passwordInput = input)}
+                  onSubmitEditing={() => {
+                    this.setState({ passwordValid: this.validatePassword });
+                  }}
+                  errorMessage={
+                    passwordValid ? null : "Please enter a valid password"
+                  }
+                />
+              </View>
+              <View style={styles.buttonContainer}>
+                <Button
+                  title="LOGIN"
+                  icon={
+                    <Icon
+                      name="login"
+                      size={ICON_SIZE}
+                      style={styles.loginButtonIcon}
+                    />
+                  }
+                  iconRight={true}
+                  ViewComponent={LinearGradient}
+                  linearGradientProps={{
+                    colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
+                    start: { x: 0, y: 0.5 },
+                    end: { x: 1, y: 0.5 }
+                  }}
+                  containerStyle={styles.loginButtonContainerStyle}
+                  buttonStyle={styles.loginButtonStyle}
+                  titleStyle={styles.loginButtonText}
+                  onPress={() => this.submitLoginCredentials()}
+                />
+                <Button
+                  title="Forgot Password ?"
+                  titleStyle={styles.signUpButtonTitle}
+                  type="clear"
+                  onPress={() => this.onClickForgotPassword()}
+                />
+              </View>
+              <View style={{ ...styles.buttonContainer, flexDirection: "row" }}>
+                <SocialIcon
+                  style={styles.socialMediaLoginBtn}
+                  title="Facebook"
+                  button
+                  type="facebook"
+                  onPress={() => this.onFBLogin()}
+                  iconSize={fontsCommon.font22}
+                />
+                <SocialIcon
+                  style={styles.socialMediaLoginBtn}
+                  title="Google"
+                  button
+                  type="google-plus-official"
+                  onPress={() => this.onGoogleLogin()}
+                  iconSize={fontsCommon.font22}
+                />
+              </View>
+              <View style={styles.signUpHereContainer}>
+                <Text style={styles.newUserText}>New here ?</Text>
+                <Button
+                  title="SIGN UP"
+                  titleStyle={styles.signUpButtonTitle}
+                  type="clear"
+                  onPress={() => this.signUpButttonClicked()}
+                />
+              </View>
+              >>>>>>> Made some styling and introduced forgot password
+              functionality.
             </View>
-            <View style={styles.loginInputContainer}>
-              <Input
-                placeholder="Email"
-                placeholderTextColor="white"
-                containerStyle={styles.inputContainer}
-                inputStyle={styles.inputStyle}
-                errorStyle={styles.errorInputStyle}
-                leftIcon={
-                  <Icon
-                    name="account"
-                    color={styles.loginButtonDes.color}
-                    size={ICON_SIZE}
-                  />
-                }
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardAppearance="dark"
-                keyboardType="email-address"
-                returnKeyType="done"
-                value={email}
-                onChangeText={value => this.onEmailChange(value)}
-                ref={input => (this.emailInput = input)}
-                onSubmitEditing={() => {
-                  this.setState({ emailValid: this.validateEmail });
-                  this.passwordInput.focus();
-                }}
-                errorMessage={
-                  emailValid ? null : "Please enter a valid email address"
-                }
-              />
-              <Input
-                placeholder="Password"
-                placeholderTextColor="white"
-                leftIcon={
-                  <Icon
-                    name="key-variant"
-                    color={styles.loginButtonDes.color}
-                    size={ICON_SIZE}
-                  />
-                }
-                containerStyle={styles.inputContainer}
-                inputStyle={styles.inputStyle}
-                errorStyle={styles.errorInputStyle}
-                keyboardAppearance="dark"
-                keyboardType="default"
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="default"
-                returnKeyType="go"
-                secureTextEntry={true}
-                value={password}
-                onChangeText={password => this.onPasswordChange(password)}
-                ref={input => (this.passwordInput = input)}
-                onSubmitEditing={() => {
-                  this.setState({ passwordValid: this.validatePassword });
-                }}
-                errorMessage={
-                  passwordValid ? null : "Please enter a valid password"
-                }
-              />
-            </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                title="LOGIN"
-                icon={
-                  <Icon
-                    name="login"
-                    size={ICON_SIZE}
-                    style={styles.loginButtonIcon}
-                  />
-                }
-                iconRight={true}
-                loading={showLoading}
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                  colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
-                  start: { x: 0, y: 0.5 },
-                  end: { x: 1, y: 0.5 }
-                }}
-                containerStyle={styles.loginButtonContainerStyle}
-                buttonStyle={styles.loginButtonStyle}
-                titleStyle={styles.loginButtonText}
-                onPress={() => this.submitLoginCredentials()}
-              />
-            </View>
-            <View style={styles.buttonContainer}>
-              <SocialIcon
-                style={styles.socialMediaLoginBtn}
-                title="Facebook"
-                button
-                type="facebook"
-                onPress={() => this.onFBLogin()}
-              />
-              <SocialIcon
-                style={styles.socialMediaLoginBtn}
-                title="Google"
-                button
-                type="google-plus-official"
-                onPress={() => this.onGoogleLogin()}
-              />
-            </View>
-            <View style={styles.signUpHereContainer}>
-              <Text style={styles.newUserText}>New here ?</Text>
-              <Button
-                title="SIGN UP"
-                titleStyle={styles.signUpButtonTitle}
-                type="clear"
-                onPress={() => this.signUpButttonClicked()}
-              />
-            </View>
-          </View>
-        )}
-      </View>
+          )}
+        </View>
+      </ImageBackground>
     );
   }
 }

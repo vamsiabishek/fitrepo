@@ -53,13 +53,24 @@ export default class SocialMediaSignup extends Component {
     try {
       // Add any configuration settings here:
       //await GoogleSignin.configure();
-      await GoogleSignin.configure({
-        scopes: [
-          "https://www.googleapis.com/auth/userinfo.profile",
-          "https://www.googleapis.com/auth/userinfo.email",
-          "https://www.googleapis.com/auth/user.birthday.read"
-        ]
-      });
+      if (Platform.OS === "android")
+        await GoogleSignin.configure({
+          webClientId:
+            "784097360045-qjliaef9a4kphpdlcoo1v6ff2jj4oaum.apps.googleusercontent.com",
+          scopes: [
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/user.birthday.read"
+          ]
+        });
+      else
+        await GoogleSignin.configure({
+          scopes: [
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/user.birthday.read"
+          ]
+        });
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true
       });
