@@ -7,6 +7,7 @@ import {
 } from "react-navigation";
 import StartUpScreen from "./../startupscreen/StartUpScreen";
 import LoginScreen from "./../login/LoginScreen1";
+import ForgotPasswordScreen from "./../login/ForgotPasswordScreen";
 import Supplements from "./../supplements/Supplements";
 import Profile from "./../profile/Profile";
 import EditProfile from "./../profile/EditProfile";
@@ -22,6 +23,19 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
 import { ICON_SIZE_NAV } from "../../assets/style/stylesCommonValues";
 import AddButton from "./AddButton";
+
+const LoginStackNavigator = createStackNavigator(
+  {
+    LoginScreen,
+    ForgotPasswordScreen
+  },
+  {
+    initialRouteName: "LoginScreen",
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
 
 const SignUpStackNavigator = createStackNavigator(
   {
@@ -157,7 +171,7 @@ const HomeStackNavigator = createStackNavigator(
 const AppSwitchNavigator = createSwitchNavigator(
   {
     StartUp: StartUpScreen,
-    Login: LoginScreen,
+    Login: LoginStackNavigator,
     SignUp: SignUpStackNavigator,
     HomeScreen: HomeStackNavigator
   },
