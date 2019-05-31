@@ -74,12 +74,14 @@ const styles = StyleSheet.create({
     alignContent: "space-between",
     borderBottomWidth: 1,
     borderBottomColor: "transparent",
-    paddingVertical: 5
+    paddingVertical: 5,
+    backgroundColor: "rgba(8, 215, 226, .8)"
     //backgroundColor: "indigo"
   },
   profileSubBannerBoxStyle: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    paddingHorizontal: 15,
   },
   profileBannerTextStyle: {
     fontSize: fontsCommon.font14,
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
     color: "#f8bf45"
   },
   profileButtonIconStyle: {
-    color: styleCommon.textColor1
+    color: styleCommon.selectedButtonColor
   },
   profileButtonStyle: {
     flexDirection: "column",

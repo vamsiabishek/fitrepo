@@ -40,9 +40,11 @@ import {
   styleCommon,
   ICON_SIZE,
   ICON_SIZE_MED,
+  ICON_SIZE_LARGE,
   AVATAR_SIZE,
   DEVICE_ID
 } from "../../assets/style/stylesCommonValues";
+import { getCurrentUser, signOutUser } from "../common/Util"
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -91,8 +93,16 @@ export default class Profile extends Component {
     }
   };
 
+  logoutUser = async() => {
+    const logoutSuccessful = await signOutUser()
+    if(logoutSuccessful) {
+      const { navigate } = this.props.navigation;
+      navigate("Login")
+    }
+  }
+
   componentDidMount = async () => {
-    const currentUser = await f.auth().currentUser;
+    const currentUser = await getCurrentUser();
     this.setState({
       isLoading: true,
       uid: currentUser.uid
@@ -206,9 +216,9 @@ export default class Profile extends Component {
                   <Image
                     source={levelImage}
                     style={{
-                      width: 35,
-                      height: 45,
-                      tintColor: styleCommon.textColor1
+                      width: 30,
+                      height: 38,
+                      tintColor: styleCommon.selectedButtonColor
                     }}
                   />
                   <Text style={styles.profileBannerTextStyle}>
@@ -236,13 +246,29 @@ export default class Profile extends Component {
                     icon={
                       <Icon
                         name="account-edit"
-                        size={ICON_SIZE}
+                        size={ICON_SIZE_LARGE}
                         style={styles.profileButtonIconStyle}
                       />
                     }
                     buttonStyle={styles.profileButtonStyle}
                     titleStyle={styles.profileBannerTextStyle}
                     onPress={this.goToEditProfile}
+                    type="clear"
+                  />
+                </View>
+                <View style={styles.profileSubBannerBoxStyle}>
+                  <Button
+                    title="Logout"
+                    icon={
+                      <Icon
+                        name="power"
+                        size={ICON_SIZE_LARGE}
+                        style={styles.profileButtonIconStyle}
+                      />
+                    }
+                    buttonStyle={styles.profileButtonStyle}
+                    titleStyle={styles.profileBannerTextStyle}
+                    onPress={this.logoutUser}
                     type="clear"
                   />
                 </View>

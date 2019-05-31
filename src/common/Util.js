@@ -83,8 +83,8 @@ export const setCurrentUser = (user) => {
     AsyncStorage.setItem("user_data", JSON.stringify(user))
 }
 
-export const removeCurrentUser = () => {
-  AsyncStorage.removeItem("user_data")
+export const removeCurrentUser = async () => {
+  await AsyncStorage.removeItem("user_data")
 }
 
 export const getCurrentUser = async() => {
@@ -97,4 +97,15 @@ export const getCurrentUser = async() => {
   if (!user.uid)
     user = await f.auth().currentUser
   return user;
+}
+
+export const signOutUser = async () => {
+  const user = await f.auth().currentUser
+  await removeCurrentUser()
+  if(user){ 
+    await f.auth().signOut().then(() => {
+      return true
+    })  
+  }
+  return true
 }
