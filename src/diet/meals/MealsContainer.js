@@ -1,8 +1,19 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView, Animated, Easing } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  Animated,
+  Easing,
+  UIManager
+} from "react-native";
 import Timeline from "react-native-timeline-listview";
 import { styles } from "../../../assets/style/stylesMealContainer";
 import { MEALS_ICON } from "../../common/Common";
+
+// Enable LayoutAnimation for Android Devices
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class MealsContainer extends Component {
   constructor(props) {
@@ -18,7 +29,8 @@ export default class MealsContainer extends Component {
     Animated.timing(this.onLoadAnimatedValue, {
       toValue: 1,
       duration: 1000,
-      easing: Easing.ease
+      easing: Easing.ease,
+      useNativeDriver: true
     }).start(() => (this.onLoadAnimatedValue = new Animated.Value(0)));
   };
 
@@ -30,14 +42,16 @@ export default class MealsContainer extends Component {
     Animated.timing(this.animatedValue, {
       toValue: 1,
       duration: 500,
-      easing: Easing.ease
+      easing: Easing.ease,
+      useNativeDriver: true
     }).start();
   };
   handlePressOut = () => {
     Animated.timing(this.animatedValue, {
       toValue: 0,
       duration: 500,
-      easing: Easing.ease
+      easing: Easing.ease,
+      useNativeDriver: true
     }).start();
   };
 

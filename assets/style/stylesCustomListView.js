@@ -3,7 +3,8 @@ import {
   styleCommon,
   SCREEN_WIDTH,
   fontsCommon,
-  SCREEN_HEIGHT
+  SCREEN_HEIGHT,
+  DEVICE_NAME
 } from "./stylesCommonValues";
 
 export const styles = StyleSheet.create({
@@ -44,7 +45,9 @@ export const styles = StyleSheet.create({
     borderRadius: 4
   },
   vegIcon: {
-    height: SCREEN_HEIGHT * 0.029, //24,
+    height: DEVICE_NAME.includes("iPhone X")
+      ? SCREEN_HEIGHT * 0.0295
+      : SCREEN_HEIGHT * 0.0359, //24,
     width: SCREEN_WIDTH * 0.064, //24,
     paddingLeft: 10
   },

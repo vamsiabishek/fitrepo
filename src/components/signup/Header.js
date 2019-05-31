@@ -16,7 +16,8 @@ export default class Header extends React.Component {
       flex,
       screen,
       onBack,
-      onCancel
+      onCancel,
+      showOnCancel
     } = this.props;
     let { header } = styles;
     if (marginTop || height || flex) {
@@ -27,6 +28,7 @@ export default class Header extends React.Component {
         height
       };
     }
+    if (showOnCancel === undefined) showOnCancel = true;
     return (
       <View>
         <View style={styles.backHeaderContainer}>
@@ -42,17 +44,19 @@ export default class Header extends React.Component {
               buttonStyle={styles.backButtonStyle}
               onPress={() => onBack(screen)}
             />
-            <Button
-              icon={{
-                name: "close",
-                size: ICON_BACK_SIZE,
-                color: styleCommon.secondaryButtonTextColor,
-                type: "material-community"
-              }}
-              containerStyle={styles.cancelButtonContainerStyle}
-              buttonStyle={styles.cancelButtonStyle}
-              onPress={() => onCancel()}
-            />
+            {showOnCancel && (
+              <Button
+                icon={{
+                  name: "close",
+                  size: ICON_BACK_SIZE,
+                  color: styleCommon.secondaryButtonTextColor,
+                  type: "material-community"
+                }}
+                containerStyle={styles.cancelButtonContainerStyle}
+                buttonStyle={styles.cancelButtonStyle}
+                onPress={() => onCancel()}
+              />
+            )}
           </View>
         </View>
         <View style={header}>

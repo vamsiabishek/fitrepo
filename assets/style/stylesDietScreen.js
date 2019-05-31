@@ -35,8 +35,7 @@ const styles = StyleSheet.create({
   buttonHeaderContainer: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    paddingTop:
-      Platform.OS === "ios" ? (DEVICE_NAME.includes("iPhone X") ? 40 : 20) : 30
+    paddingTop: DEVICE_NAME.includes("iPhone X") ? 40 : 30
     //backgroundColor: "crimson"
   },
   buttonContainer: {
@@ -74,8 +73,7 @@ const styles = StyleSheet.create({
   subHeaderComponents: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 10,
-    marginTop: 5,
+    alignSelf: "stretch",
     marginLeft: 20,
     borderBottomWidth: 7,
     borderColor: styleCommon.textColor3
@@ -84,17 +82,16 @@ const styles = StyleSheet.create({
   activeSubHeaderComponents: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 10,
-    marginTop: 5,
+    alignSelf: "stretch",
     marginLeft: 20,
     borderBottomWidth: 7,
     borderColor: styleCommon.selectedButtonColor
-    //backgroundColor: "orange"
   },
   subHeaderMenuItems: {
     fontSize: fontsCommon.font18,
     fontWeight: "bold",
     color: styleCommon.textColor2
+    // backgroundColor: "orange"
   },
   sortContainerStyle: {
     flexDirection: "row",
