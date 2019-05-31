@@ -17,14 +17,14 @@ import {
   EMAIL_VERIFICATION,
   PASSWORD_LENGTH_MINIMUM,
   PROVIDER_GOOGLE,
-  PROVIDER_FACEBOOK
+  PROVIDER_FACEBOOK,
+  GRADIENT_BG_IMAGE
 } from "../common/Common";
 import {
   setCurrentUser,
   getCurrentUser,
   removeCurrentUser
 } from "../common/Util";
-import { f, auth } from "./../common/FirebaseConfig";
 import {
   ICON_SIZE,
   btnGradientColorLeft,
@@ -402,8 +402,6 @@ export default class LoginScreen1 extends Component {
                   onPress={() => this.signUpButttonClicked()}
                 />
               </View>
-              >>>>>>> Made some styling and introduced forgot password
-              functionality.
             </View>
           )}
         </View>
