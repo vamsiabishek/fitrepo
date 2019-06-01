@@ -20,6 +20,7 @@ import {
   MAX_DATE,
   GRADIENT_BG_IMAGE
 } from "../common/Common";
+import { getCurrentUser } from "../common/Util"
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -125,7 +126,7 @@ export default class SignUpScreen2 extends Component {
     if (firstNameValid && dobValid && genderValid) {
       this.setState({ isLoading: true });
       try {
-        const user = await auth.currentUser;
+        const user = await getCurrentUser();
         this.updateUserWithDetails(user);
       } catch (error) {
         this.setState({ isLoading: false });

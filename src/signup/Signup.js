@@ -41,6 +41,8 @@ import {
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN
 } from "../common/SourceUtil";
+import { getCurrentUser, setCurrentUser } from "../common/Util"
+
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -609,6 +611,7 @@ export default class Signup extends Component {
           const userNewObj = {
             uid: userObj.user.uid
           };
+          setCurrentUser(userObj.user)
           this.setState({
             user: { ...user, ...userNewObj, ...userAddInfo },
             isLoading: false,

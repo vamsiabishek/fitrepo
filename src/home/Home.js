@@ -5,6 +5,7 @@ import { styles } from "../../assets/style/stylesHomeScreen";
 import { f, database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
+import { getCurrentUser } from "../common/Util"
 
 export default class Home extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class Home extends Component {
   }
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const currentUser = await f.auth().currentUser;
+    const currentUser = await getCurrentUser();
     database
       .ref("users")
       .child(currentUser.uid)

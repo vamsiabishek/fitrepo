@@ -5,10 +5,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { withNavigation } from "react-navigation";
 import { createKeyAndValuesFromResult } from "../common/Util";
 import { fontsCommon } from "../../assets/style/stylesCommonValues";
+import { getCurrentUser } from "../common/Util"
 
 class AddButton extends React.Component {
   addNew = async () => {
-    const { uid } = await f.auth().currentUser;
+    const { uid } = await getCurrentUser();
     let latestDiet = {};
     await database
       .ref(`diets/${uid}`)

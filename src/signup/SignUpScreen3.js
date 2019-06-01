@@ -29,6 +29,7 @@ import {
   MIN_WEIGHT,
   MAX_WEIGHT
 } from "../common/Common";
+import { getCurrentUser } from "../common/Util"
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -125,7 +126,7 @@ export default class SignUpScreen3 extends Component {
     if (weightValid && heightValid && levelValid && foodPreferenceValid) {
       this.setState({ isLoading: true });
       try {
-        const user = await auth.currentUser;
+        const user = await getCurrentUser();
         this.updateUserWithOtherDetails(user);
       } catch (error) {
         this.setState({ isLoading: false });

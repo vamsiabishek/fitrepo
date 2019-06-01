@@ -15,6 +15,7 @@ import { f, database } from "./../common/FirebaseConfig";
 import { convertProgramToWeeks, GRADIENT_BG_IMAGE } from "../common/Common";
 import HorizontalSelectView from "../components/HorizontalSelectView";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
+import { getCurrentUser } from "../common/Util"
 
 export default class DietGoalPlan extends Component {
   constructor(props) {
@@ -58,7 +59,7 @@ export default class DietGoalPlan extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    const currentUser = await f.auth().currentUser;
+    const currentUser = await getCurrentUser();
     await database
       .ref("users")
       .child(currentUser.uid)

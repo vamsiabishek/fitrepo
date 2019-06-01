@@ -8,6 +8,7 @@ import EmailOrMobileSignup from "./EmailOrMobileSignup";
 import Loading from "../components/Loading";
 import { styles } from "../../assets/style/stylesSocialMediaSignup";
 import { ICON_SELECT_SIGNUP_OPTION } from "../../assets/style/stylesCommonValues";
+import { setCurrentUser } from "../common/Util"
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
@@ -85,6 +86,7 @@ export default class SocialMediaSignup extends Component {
       const currentUser = await f
         .auth()
         .signInAndRetrieveDataWithCredential(credential);
+      setCurrentUser(currentUser.user);
 
       const googleUser = await GoogleSignin.getCurrentUser();
 
@@ -148,6 +150,7 @@ export default class SocialMediaSignup extends Component {
       .then(data => this.getFBCredentialsUsingToken(data))
       .then(currentUser => {
         console.log("current FB User:", currentUser);
+        setCurrentUser(currentUser.user);
         this.createUserWithFBDetails(currentUser);
       })
       .catch(error => {

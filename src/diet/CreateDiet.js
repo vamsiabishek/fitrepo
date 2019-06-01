@@ -10,6 +10,7 @@ import {
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN
 } from "../common/SourceUtil";
+import { getCurrentUser } from "../common/Util"
 
 export default class CreateDiet extends Component {
   constructor(props) {
@@ -117,7 +118,7 @@ export default class CreateDiet extends Component {
       foodPreference
     } = this.state;
     this.setState({ isLoading: true });
-    const { uid } = await f.auth().currentUser;
+    const { uid } = await getCurrentUser();
     const completeDietOptions = {
       selectedProteinSources,
       selectedFatSources,

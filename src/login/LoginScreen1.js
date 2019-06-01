@@ -132,6 +132,7 @@ export default class LoginScreen1 extends Component {
       .then(data => this.getFBCredentialsUsingToken(data))
       .then(currentUser => {
         //console.log("current FB User:", currentUser);
+        setCurrentUser(currentUser.user);
         this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
       })
       .catch(error => {
@@ -181,6 +182,7 @@ export default class LoginScreen1 extends Component {
       const currentUser = await f
         .auth()
         .signInAndRetrieveDataWithCredential(credential);
+      setCurrentUser(currentUser.user);
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
       this.onLoginSuccess();
     } catch (error) {

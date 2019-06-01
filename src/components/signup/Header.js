@@ -28,7 +28,6 @@ export default class Header extends React.Component {
         height
       };
     }
-    if (showOnCancel === undefined) showOnCancel = true;
     return (
       <View>
         <View style={styles.backHeaderContainer}>
@@ -65,4 +64,8 @@ export default class Header extends React.Component {
       </View>
     );
   }
+}
+
+Header.defaultProps = {
+  showOnCancel: true,
 }
