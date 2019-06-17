@@ -25,6 +25,7 @@ import { database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import Loading from "../components/Loading";
 import InitialScreen from "../components/purchase/InitialScreen";
+import {setFirstTimeUser, getFirstTimeUser} from "./../common/Util"
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -56,7 +57,7 @@ export default class MyDiet extends Component {
     const { diet } = this.state;
     const dietId = navigation.getParam("dietId");
     const uid = navigation.getParam("uid");
-    console.log("FirstTimeUser ? ", global.isFirstTimeUser);
+    //alert(getFirstTimeUser());
     await this.loadDietDetails(uid, dietId);
     await this.loadPaymentEntitlements(uid, dietId);
   };
@@ -98,7 +99,8 @@ export default class MyDiet extends Component {
         if (!diet.paymentStatus) {
           this.setState({ showAllMeals: false, showPaymentModal: true });
         } else {
-          global.isFirstTimeUser = false;
+          //global.isFirstTimeUser = false;
+          setFirstTimeUser(false)
         }
       })
       .catch(error => {
@@ -205,7 +207,7 @@ export default class MyDiet extends Component {
 
   changeWeek = ({ prev, next }) => {
     const { diet } = this.state;
-    if (!global.isFirstTimeUser && diet.paymentStatus) {
+    if (!getFirstTimeUser() && diet.paymentStatus) {
       const { currentWeek, allMeals } = this.state;
       if (prev && allMeals[currentWeek - 2]) {
         this.setState({
@@ -238,7 +240,7 @@ export default class MyDiet extends Component {
         showMeals: true,
         showAllMeals: true
       });
-      global.isFirstTimeUser = false;
+      setFirstTimeUser(false);
       await database
         .ref(`diets/${uid}`)
         .child(dietId)
@@ -252,7 +254,7 @@ export default class MyDiet extends Component {
             error
           );
         });
-    } else if (!paymentDone && !global.isFirstTimeUser) {
+    } else if (!paymentDone && !getFirstTimeUser()) {
       navigate("Diet");
     }
   };
@@ -287,7 +289,7 @@ export default class MyDiet extends Component {
     });
     let dietTrialEndDate = undefined;
     let trialDaysLeft = undefined;
-    if (global.isFirstTimeUser && !diet.purchaseStatus) {
+    if (getFirstTimeUser() && !diet.purchaseStatus) {
       const currentDate = new Date();
       const dietCreatedDate = new Date(diet.createdDate);
       dietTrialEndDate = new Date(

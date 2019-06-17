@@ -89,11 +89,11 @@ export const removeCurrentUser = async () => {
 
 export const getCurrentUser = async() => {
   let user = {}
-  await AsyncStorage.getItem("user_data", (err, result) => {
+  /*await AsyncStorage.getItem("user_data", (err, result) => {
     console.log(result)
     if(result)
       user = JSON.parse(result)
-  })
+  })*/
   if (!user.uid)
     user = await f.auth().currentUser
   return user;
@@ -109,3 +109,11 @@ export const signOutUser = async () => {
   }
   return true
 }
+
+let IS_FIRST_TIME_USER = false;
+
+export const setFirstTimeUser = isFirstTimeUser => {
+  IS_FIRST_TIME_USER = isFirstTimeUser
+}
+
+export const getFirstTimeUser = () => IS_FIRST_TIME_USER

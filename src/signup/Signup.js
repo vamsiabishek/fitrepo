@@ -48,8 +48,8 @@ import { getCurrentUser, setCurrentUser } from "../common/Util"
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-global.isFirstTimeUser = true;
-console.log(global.isFirstTimeUser);
+setCurrentUser(true);
+console.log(getFirstTimeUser());
 
 export default class Signup extends Component {
   constructor(props) {
@@ -802,9 +802,9 @@ export default class Signup extends Component {
       .catch(error => {
         console.log("error while fetching my diets in SignUp page", error);
       });
-    if (myDiets.length !== 0 && global.isFirstTimeUser === true) {
-      global.isFirstTimeUser = false;
-      console.log(global.isFirstTimeUser);
+    if (myDiets.length !== 0 && getFirstTimeUser()) {
+      setFirstTimeUser(false);
+      console.log(getFirstTimeUser());
     }
   };
 
