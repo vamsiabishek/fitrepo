@@ -7,20 +7,19 @@ import {
   ImageBackground
 } from "react-native";
 import { Button } from "react-native-elements";
-import { Dropdown } from "react-native-material-dropdown";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import StringPicker from "../components/Picker/StringPicker";
 import { styles } from "../../assets/style/stylesDietScreen";
-import { f, database } from "../common/FirebaseConfig";
+import { database } from "../common/FirebaseConfig";
 import {
-  ICON_SIZE_MED,
-  styleCommon
+  ICON_SIZE,
+  styleCommon,
+  ICON_SIZE_MED
 } from "../../assets/style/stylesCommonValues";
 import { createKeyAndValuesFromResult, getCurrentUser, setFirstTimeUser, getFirstTimeUser } from "../common/Util";
 import CustomListView from "../components/CustomListView";
 import {
   GRADIENT_BG_IMAGE,
-  WEIGHT_LOSS,
-  WEIGHT_GAIN,
-  BE_HEALTHY,
   WEIGHT_LOSS_DESC,
   WEIGHT_GAIN_DESC,
   BE_HEALTHY_DESC
@@ -34,28 +33,17 @@ export default class Diet extends Component {
       name: "",
       username: "",
       selectedSortOption: "Newest first",
-      sortOptions: [
-        {
-          value: "Newest first",
-          id: "newest-first"
-        },
-        {
-          value: WEIGHT_LOSS_DESC,
-          id: WEIGHT_LOSS
-        },
-        {
-          value: WEIGHT_GAIN_DESC,
-          id: WEIGHT_GAIN
-        },
-        {
-          value: BE_HEALTHY_DESC,
-          id: BE_HEALTHY
-        }
+      sortOptionsArray: [
+        "Newest first",
+        WEIGHT_LOSS_DESC,
+        WEIGHT_GAIN_DESC,
+        BE_HEALTHY_DESC
       ],
       currentDietOption: "myDiets",
       pupularDiets: [],
       myDiets: [],
-      isLoading: false
+      isLoading: false,
+      showSortPicker: false
     };
     this.currentDietList = [];
   }
@@ -68,10 +56,7 @@ export default class Diet extends Component {
       uid = user.uid;
     }
 
-    const [myDiets] = await Promise.all([
-      //this.fetchPopularDiets(),
-      this.fetchMyDiets(uid)
-    ]);
+    const [myDiets] = await Promise.all([this.fetchMyDiets(uid)]);
     console.log("myDiets:", myDiets, "uid: ", uid);
     this.currentDietList = myDiets;
     this.setState({
@@ -79,25 +64,6 @@ export default class Diet extends Component {
       myDiets,
       isLoading: false
     });
-
-    /* await database
-      .ref("users")
-      .child(currentUser.uid)
-      .once("value")
-      .then(snapshot => {
-        const userLoggedIn = snapshot.val();
-        LayoutAnimation.easeInEaseOut();
-        this.setState({
-          username: userLoggedIn.username,
-          name: userLoggedIn.name
-        });
-      })
-      .catch(error => {
-        console.log(
-          "error while fetching user details in componentDidMount of Diet:",
-          error
-        );
-      }); */
   };
 
   fetchPopularDiets = async () => {
@@ -161,18 +127,22 @@ export default class Diet extends Component {
       }
     });
 
-    this.setState({ selectedSortOption: selectedSort });
+    this.setState({ selectedSortOption: selectedSort, showSortPicker: false });
+  };
+  showSortPicker = () => {
+    this.setState({ showSortPicker: true });
+  };
+  hideSortPicker = () => {
+    this.setState({ showSortPicker: false });
   };
 
   render() {
     const {
-      name,
       selectedSortOption,
-      sortOptions,
       currentDietOption,
-      popularDiets,
-      myDiets,
       isLoading,
+      showSortPicker,
+      sortOptionsArray,
       uid
     } = this.state;
     const { navigation } = this.props;
@@ -187,37 +157,51 @@ export default class Diet extends Component {
             </View>
 
             <View style={styles.subHeaderContainer}>
-              {/*<TouchableOpacity
-                style={
-                  currentDietOption === "popular"
-                    ? styles.activeSubHeaderComponents
-                    : styles.subHeaderComponents
-                }
-                onPress={() => this.setState({ currentDietOption: "popular" })}
-              >
-                <Text style={styles.subHeaderMenuItems}>Popular</Text>
-              </TouchableOpacity> */}
               <TouchableOpacity
-                style={
-                  currentDietOption !== "popular"
-                    ? styles.activeSubHeaderComponents
-                    : styles.subHeaderComponents
-                }
+                style={styles.activeSubHeaderComponents}
                 onPress={() => this.setState({ currentDietOption: "myDiets" })}
               >
                 <Text style={styles.subHeaderMenuItems}>My Diets</Text>
               </TouchableOpacity>
               <View style={styles.sortContainerStyle}>
-                <Text style={styles.sortLabel}>Sort by</Text>
-                <Dropdown
-                  data={sortOptions}
-                  baseColor={styles.dropdownBaseColor.color}
-                  textColor={styles.dropdownTextColor.color}
-                  containerStyle={styles.dropdownContainer}
-                  pickerStyle={styles.dropdownPickerStyle}
-                  dropdownOffset={styles.dropdownOffset}
-                  onChangeText={this.onSortChange}
-                  value={selectedSortOption}
+                <StringPicker
+                  pickerHeading="Pick an option to filter your diets"
+                  stringArray={sortOptionsArray}
+                  isVisible={showSortPicker}
+                  selectedStr={selectedSortOption}
+                  onConfirm={this.onSortChange}
+                  onCancel={this.hideSortPicker}
+                />
+                <Button
+                  title={selectedSortOption}
+                  containerStyle={styles.filterButtonContainerStyle}
+                  buttonStyle={
+                    selectedSortOption === "Newest first"
+                      ? styles.filterButtonStyle
+                      : styles.activeFilterButtonStyle
+                  }
+                  titleStyle={
+                    selectedSortOption === "Newest first"
+                      ? styles.filterButtonTitle
+                      : styles.activeFilterButtonTitle
+                  }
+                  icon={
+                    <Icon
+                      name={
+                        selectedSortOption === "Newest first"
+                          ? "filter-outline"
+                          : "filter"
+                      }
+                      size={ICON_SIZE_MED}
+                      style={
+                        selectedSortOption === "Newest first"
+                          ? styles.filterButtonIcon
+                          : styles.activeFilterButtonIcon
+                      }
+                    />
+                  }
+                  iconRight
+                  onPress={this.showSortPicker}
                 />
               </View>
             </View>

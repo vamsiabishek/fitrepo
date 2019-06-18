@@ -9,15 +9,18 @@ import {
 export const styles = StyleSheet.create({
   flatListContainer: {
     flex: 1
+    // backgroundColor: "pink"
   },
   flatListContentContainer: {
     justifyContent: "center",
-    alignContent: "center"
+    alignContent: "center",
+    margin: 10
+    // backgroundColor: "purple"
   },
   returnViewContainer: {
     flex: 1,
-    flexDirection: "row",
-    //backgroundColor: "firebrick"
+    flexDirection: "row"
+    // backgroundColor: "firebrick"
   },
   subContainer: {
     flexDirection: "column",
@@ -34,7 +37,7 @@ export const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.13, //50,
     marginLeft: 45,
     borderLeftWidth: 3,
-    borderColor: styleCommon.secondaryButtonColor,
+    borderColor: styleCommon.secondaryButtonColor
     //backgroundColor: "magenta"
   },
   iconStyle: {
@@ -46,7 +49,7 @@ export const styles = StyleSheet.create({
     borderRadius: (SCREEN_HEIGHT * 0.15) / 2
   },
   iconImageStyle: {
-    width: SCREEN_HEIGHT * 0.1 - 18,
+    width: SCREEN_HEIGHT * 0.1 - 19,
     height: SCREEN_HEIGHT * 0.1,
     tintColor: styleCommon.textColor1
   },

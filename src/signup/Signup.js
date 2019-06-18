@@ -41,8 +41,7 @@ import {
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN
 } from "../common/SourceUtil";
-import { getCurrentUser, setCurrentUser, getFirstTimeUser } from "../common/Util"
-
+import { setCurrentUser, createKeyAndValuesFromResult } from "../common/Util";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -102,9 +101,8 @@ export default class Signup extends Component {
       isLoadingComponent: false,
       userLoginAnimation: false,
       isLoggedIn: false,
-      isExistingUser:
-        navigation.getParam("isExistingUser") ? true : false,
-      newLogin: navigation.getParam("newLogin") ? true : false,
+      isExistingUser: navigation.getParam("isExistingUser") ? true : false,
+      newLogin: navigation.getParam("newLogin") ? true : false
     };
   }
 
@@ -153,12 +151,15 @@ export default class Signup extends Component {
         });
     } else if (newLogin) {
       const { navigation } = this.props;
-      const provider = navigation.getParam("provider")
-      const mediaUser = navigation.getParam("newUser")
-      if (provider === PROVIDER_GOOGLE)
-        this.setState({ user: mediaUser });     
+      const provider = navigation.getParam("provider");
+      const mediaUser = navigation.getParam("newUser");
+      if (provider === PROVIDER_GOOGLE) this.setState({ user: mediaUser });
       else if (provider === PROVIDER_FACEBOOK)
-        this.setState({ user: mediaUser, dob: mediaUser.dob, age: mediaUser.age });
+        this.setState({
+          user: mediaUser,
+          dob: mediaUser.dob,
+          age: mediaUser.age
+        });
     }
   };
 
@@ -185,7 +186,7 @@ export default class Signup extends Component {
   setGoogleUser = user => {
     this.setState({ user });
     this.scrollToNextScreen(4);
-  }
+  };
   setDob = (dob, age) => {
     const { weight, height } = this.state;
     let showTargetWeightButton = this.changeShowTargetWeightButton(
@@ -313,7 +314,10 @@ export default class Signup extends Component {
   removeProteinSource = index => {
     if (index > -1) {
       let { selectedProteinSources } = this.state;
-      const sources = this.unSelectSource(selectedProteinSources[index], "protein");
+      const sources = this.unSelectSource(
+        selectedProteinSources[index],
+        "protein"
+      );
       selectedProteinSources.splice(index, 1);
       let sourcesButtonLabel = this.changeSourceButtonLabel();
       this.setState({ selectedProteinSources, sources, sourcesButtonLabel });
@@ -379,7 +383,6 @@ export default class Signup extends Component {
       fatSources[selectedIndexFromSources].selected = false;
       return fatSources;
     }
-    
   };
   addProtein = () => {
     this.setState({
@@ -611,7 +614,7 @@ export default class Signup extends Component {
           const userNewObj = {
             uid: userObj.user.uid
           };
-          setCurrentUser(userObj.user)
+          setCurrentUser(userObj.user);
           this.setState({
             user: { ...user, ...userNewObj, ...userAddInfo },
             isLoading: false,
@@ -904,7 +907,7 @@ export default class Signup extends Component {
       validatePassword: this.validatePassword,
       validateConfirmationPassword: this.validateConfirmationPassword
     };
-    const showGender = isExistingUser === newLogin
+    const showGender = isExistingUser === newLogin;
     const loadingAnimationText = userLoginAnimation
       ? "Signing you up with Fitrepo ..."
       : "We are creating your diet ...";
@@ -952,7 +955,7 @@ export default class Signup extends Component {
                   <Goal goal={goal} setGoal={this.setGoal} />
                 </View>
               </View>
-              {showGender &&  (
+              {showGender && (
                 <View style={commonStyles.subContainer}>
                   <View style={styles.contentWrapper}>
                     <Header

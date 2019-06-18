@@ -28,24 +28,22 @@ export const styles = StyleSheet.create({
   },
   contentBoxStyle: {
     padding: 10,
-    //backgroundColor: styleCommon.secondaryButtonColor,
-    borderRadius: 10,
-    borderBottomWidth: 0,
-    shadowColor: "grey",
+    backgroundColor: "transparent"
+    /*shadowColor: "grey",
     shadowOffset: { width: 2, height: 4 },
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
     marginHorizontal: 5,
-    marginVertical: 5
+    marginVertical: 5*/
   },
   contentBoxHeaderStyle: {
     width: SCREEN_WIDTH * 0.8, //300,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    //backgroundColor: "red",
     padding: 5
+    //backgroundColor: "red",
   },
   headerTextStyle: {
     padding: 5,

@@ -3,7 +3,8 @@ import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
   styleCommon,
-  fontsCommon
+  fontsCommon,
+  DEVICE_NAME
 } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
@@ -254,11 +255,9 @@ const styles = StyleSheet.create({
   },
   profileButtonHeaderContainer: {
     justifyContent: "flex-start",
-    alignContent: "stretch",
-    marginTop: 10,
-    paddingTop: 20,
-    paddingLeft: 20
-    //backgroundColor: "orange"
+    alignItems: "flex-start",
+    paddingTop: DEVICE_NAME.includes("iPhone X") ? 40 : 20
+    //backgroundColor: "blueviolet"
   },
   profileButtonContainer: {
     width: SCREEN_WIDTH,
@@ -266,11 +265,17 @@ const styles = StyleSheet.create({
     //backgroundColor: "pink"
   },
   profileButtonContainerStyle: {
-    flex: 1,
-    justifyContent: "space-evenly",
-    alignItems: "flex-start"
+    width: SCREEN_WIDTH,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   profileButtonStyle: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    //backgroundColor: "burlywood"
+    borderWidth: 0,
+    borderColor: "transparent",
     backgroundColor: "transparent"
   },
   profileButtonTitleStyle: {

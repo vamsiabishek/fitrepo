@@ -1,14 +1,29 @@
-import { AsyncStorage } from 'react-native';
-import { f, auth } from './FirebaseConfig'
+import { AsyncStorage } from "react-native";
+import { f, auth } from "./FirebaseConfig";
 import { WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY } from "./Common";
 
 export const pluralCheck = s => {
   return s === 1 ? " ago" : "s ago";
 };
 
+export const getSeconds = timeStamp => {
+  let timeStampDate = new Date(timeStamp);
+  return Math.floor(timeStampDate / 1000);
+};
+
+export const getProgramEndDate = (createdTimestamp, programDuration) => {
+  const programDurationInMS = programDuration * 7 * 24 * 3600000;
+  const programEndDate = new Date(createdTimestamp + programDurationInMS);
+  return programEndDate;
+};
+
+export const getDifferenceInSeconds = (timeStamp1, timeStamp2 = new Date()) => {
+  return getSeconds(timeStamp2) - getSeconds(timeStamp1);
+};
+
 export const timeConverter = timeStamp => {
   let a = new Date(timeStamp);
-  let seconds = Math.floor((new Date() - a) / 1000);
+  let seconds = getSeconds(new Date()) - getSeconds(a); // Math.floor((new Date() - a) / 1000);
 
   let interval = Math.floor(seconds / 31536000);
   if (interval >= 1) {
@@ -78,42 +93,44 @@ export const createRefBySourceType = type => {
   return sourceRef;
 };
 
-export const setCurrentUser = (user) => {
-  if (user)
-    AsyncStorage.setItem("user_data", JSON.stringify(user))
-}
+export const setCurrentUser = user => {
+  if (user) AsyncStorage.setItem("user_data", JSON.stringify(user));
+};
 
 export const removeCurrentUser = async () => {
-  await AsyncStorage.removeItem("user_data")
-}
+  await AsyncStorage.removeItem("user_data");
+};
 
-export const getCurrentUser = async() => {
-  let user = {}
+export const getCurrentUser = async () => {
+  let user = {};
   /*await AsyncStorage.getItem("user_data", (err, result) => {
     console.log(result)
     if(result)
       user = JSON.parse(result)
   })*/
-  if (!user.uid)
-    user = await f.auth().currentUser
+  if (!user.uid) user = await f.auth().currentUser;
   return user;
-}
+};
 
 export const signOutUser = async () => {
-  const user = await f.auth().currentUser
-  await removeCurrentUser()
-  if(user){ 
-    await f.auth().signOut().then(() => {
-      return true
-    })  
+  const user = await f.auth().currentUser;
+  await removeCurrentUser();
+  if (user) {
+    await f
+      .auth()
+      .signOut()
+      .then(() => {
+        return true;
+      });
   }
-  return true
-}
+
+  return true;
+};
 
 let IS_FIRST_TIME_USER = false;
 
 export const setFirstTimeUser = isFirstTimeUser => {
-  IS_FIRST_TIME_USER = isFirstTimeUser
-}
+  IS_FIRST_TIME_USER = isFirstTimeUser;
+};
 
-export const getFirstTimeUser = () => IS_FIRST_TIME_USER
+export const getFirstTimeUser = () => IS_FIRST_TIME_USER;

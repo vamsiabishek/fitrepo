@@ -131,7 +131,7 @@ export default class MealsContainer extends Component {
             }
           }
         ])}
-        scrollEventThrottle={16}
+        scrollEventThrottle={320}
         onScrollEndDrag={e => showDayLabelOnScroll(e)}
         onMomentumScrollEnd={e => hideDayLabelOnScroll(e)}
       >

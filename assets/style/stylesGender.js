@@ -2,20 +2,28 @@ import { StyleSheet } from "react-native";
 import {
   styleCommon,
   SCREEN_HEIGHT,
-  SCREEN_WIDTH
+  SCREEN_WIDTH,
+  DEVICE_NAME
 } from "../../assets/style/stylesCommonValues";
 
 export const styles = StyleSheet.create({
-  mainContent: {
+  mainWrapper: {
     flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingTop: SCREEN_HEIGHT * 0.25 // 200
+    // backgroundColor: "thistle"
+  },
+  mainContent: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
-    //backgroundColor: "thistle"
   },
   buttonStyle: {
     width: SCREEN_WIDTH * 0.37, //140,
-    height: SCREEN_HEIGHT * 0.21, //140,
+    height: DEVICE_NAME.includes("iPhone X")
+      ? SCREEN_HEIGHT * 0.17
+      : SCREEN_HEIGHT * 0.21, //140,
     backgroundColor: styleCommon.secondaryColor,
     borderRadius: 20,
     borderBottomWidth: 0,
@@ -29,7 +37,9 @@ export const styles = StyleSheet.create({
   },
   activeButtonStyle: {
     width: SCREEN_WIDTH * 0.37, //140,
-    height: SCREEN_HEIGHT * 0.21, //140,
+    height: DEVICE_NAME.includes("iPhone X")
+      ? SCREEN_HEIGHT * 0.17
+      : SCREEN_HEIGHT * 0.21, //140,
     backgroundColor: styleCommon.selectedButtonColor,
     borderRadius: 20,
     borderBottomWidth: 0,
