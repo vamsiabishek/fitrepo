@@ -9,9 +9,10 @@ import {
 export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-    //backgroundColor: "rosybrown"
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingTop: SCREEN_HEIGHT * 0.18 // 150
+    // backgroundColor: "rosybrown"
   },
   buttonStyle: {
     width: SCREEN_WIDTH * 0.75,

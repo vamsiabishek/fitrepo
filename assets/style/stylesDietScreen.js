@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
   },
   sortContainerStyle: {
     flexDirection: "row",
-    height: SCREEN_HEIGHT * 0.068
+    height: SCREEN_HEIGHT * 0.068,
+    marginRight: 10
     //backgroundColor: "orange"
   },
   sortLabel: {
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   },
   dropdownContainer: {
     width: SCREEN_WIDTH * 0.3,
-    paddingVertical: 10,
+    paddingVertical: 10
   },
   dropdownBaseColor: {
     color: styleCommon.textColor2
@@ -127,8 +128,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: 300,
     left: SCREEN_WIDTH * 0.1,
-    width: SCREEN_WIDTH * 0.8, 
-    justifyContent: "center",
+    width: SCREEN_WIDTH * 0.8,
+    justifyContent: "center"
   },
   listViewContainer: {
     alignItems: "flex-start",
@@ -137,6 +138,40 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     marginTop: 5
     //backgroundColor: "pink"
+  },
+  filterButtonContainerStyle: {
+    justifyContent: "center",
+    alignContent: "center"
+  },
+  filterButtonStyle: {
+    justifyContent: "center",
+    alignContent: "center",
+    borderRadius: 20,
+    backgroundColor: styleCommon.secondaryColor
+  },
+  activeFilterButtonStyle: {
+    justifyContent: "center",
+    alignContent: "center",
+    borderRadius: 20,
+    backgroundColor: styleCommon.selectedButtonColor
+  },
+  filterButtonTitle: {
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font15,
+    fontWeight: "bold"
+  },
+  activeFilterButtonTitle: {
+    color: styleCommon.textColor2,
+    fontSize: fontsCommon.font15,
+    fontWeight: "bold"
+  },
+  filterButtonIcon: {
+    paddingLeft: 5,
+    color: styleCommon.textColor1
+  },
+  activeFilterButtonIcon: {
+    paddingLeft: 5,
+    color: styleCommon.textColor2
   }
 });
 

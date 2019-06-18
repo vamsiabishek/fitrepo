@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { GoogleSignin } from "react-native-google-signin";
-import { Input, Button, SocialIcon, ButtonGroup } from "react-native-elements";
+import { Input, Button, SocialIcon } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesLoginScreen";
 import { f, database, auth } from "./../common/FirebaseConfig";
@@ -20,11 +20,7 @@ import {
   PROVIDER_FACEBOOK,
   GRADIENT_BG_IMAGE
 } from "../common/Common";
-import {
-  setCurrentUser,
-  getCurrentUser,
-  removeCurrentUser
-} from "../common/Util";
+import { setCurrentUser, getCurrentUser } from "../common/Util";
 import {
   ICON_SIZE,
   btnGradientColorLeft,

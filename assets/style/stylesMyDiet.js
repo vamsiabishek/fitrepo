@@ -29,10 +29,8 @@ const styles = StyleSheet.create({
   },
   backButtonStyle: {
     justifyContent: "flex-start",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
     //backgroundColor: "burlywood"
-  },
-  backButtonStyle: {
     borderWidth: 0,
     borderColor: "transparent",
     backgroundColor: "transparent"
@@ -81,7 +79,8 @@ const styles = StyleSheet.create({
         ? SCREEN_HEIGHT * 0.062
         : SCREEN_HEIGHT * 0.075
     ),
-    backgroundColor: "#36373A"
+    backgroundColor: "#36373A",
+    overflow: "hidden"
   },
   buttonContainer: {
     width: SCREEN_WIDTH / 2,
