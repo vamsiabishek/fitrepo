@@ -41,7 +41,7 @@ import {
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN
 } from "../common/SourceUtil";
-import { setCurrentUser, createKeyAndValuesFromResult } from "../common/Util";
+import { setCurrentUser, createKeyAndValuesFromResult, getFirstTimeUser } from "../common/Util";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
