@@ -11,20 +11,15 @@ import {
 } from "react-native";
 import { Avatar, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import StarRating from "react-native-star-rating";
 import ProgressCircle from "react-native-progress-circle";
-import ProgressBarAnimated from "react-native-progress-bar-animated";
 import { styles } from "../../assets/style/stylesProfileScreen";
-import { f, database } from "../common/FirebaseConfig";
+import { database } from "../common/FirebaseConfig";
 import {
   convertLevelToStarRating,
   convertLevelToLevelColor,
-  STAR_RATING_MAX,
-  PROGRESS_BAR_WIDTH,
   PROGRESS_CIRCLE_RADIUS,
   PROGRESS_CIRCLE_BORDER_WIDTH,
   GRADIENT_BG_IMAGE,
-  GRADIENT_BG_BANNER_IMAGE,
   VITRUVIAN_MAN,
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,
@@ -41,10 +36,15 @@ import {
   ICON_SIZE,
   ICON_SIZE_MED,
   ICON_SIZE_LARGE,
-  AVATAR_SIZE,
-  DEVICE_ID
+  ICON_BACK_SIZE,
+  AVATAR_SIZE
 } from "../../assets/style/stylesCommonValues";
-import { getCurrentUser, signOutUser } from "../common/Util"
+import {
+  getCurrentUser,
+  signOutUser,
+  createKeyAndValuesFromResult,
+  getDifferenceInSeconds
+} from "../common/Util";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -59,11 +59,8 @@ export default class Profile extends Component {
       user: {},
       avatarSource: "",
       avatarChanged: false,
-      programCompletedPercent: 10, // Completion percent,
-      goalCompletedPercent: 30,
-      programChosen: "4-week program",
-      goalChosen: "Fat-Loss",
-      entitlements: undefined
+      entitlements: undefined,
+      currentDiet: undefined
     };
     this.profileHeaderScrollY = new Animated.Value(1);
     this.profileHeaderExpandedHeight = styles.bannerContainer.height; // calculated by onLayout
@@ -93,13 +90,13 @@ export default class Profile extends Component {
     }
   };
 
-  logoutUser = async() => {
-    const logoutSuccessful = await signOutUser()
-    if(logoutSuccessful) {
+  logoutUser = async () => {
+    const logoutSuccessful = await signOutUser();
+    if (logoutSuccessful) {
       const { navigate } = this.props.navigation;
-      navigate("Login")
+      navigate("Login");
     }
-  }
+  };
 
   componentDidMount = async () => {
     const currentUser = await getCurrentUser();
@@ -121,17 +118,29 @@ export default class Profile extends Component {
           error
         );
       });
+    let myDiets = [];
+    await database
+      .ref(`diets/${currentUser.uid}`)
+      .orderByChild("createdDate")
+      .once("value")
+      .then(snap => {
+        if (snap.val()) {
+          const results = snap.val();
+          myDiets = createKeyAndValuesFromResult(results).reverse();
+          let currentDiet = myDiets.find(diet => {
+            if (diet.value.paymentStatus !== false) {
+              return diet;
+            }
+          });
+          this.setState({ currentDiet });
+        }
+      })
+      .catch(error => {
+        console.log("error while fetching my diets in SignUp page", error);
+      });
   };
   render() {
-    const {
-      isLoading,
-      avatarChanged,
-      user,
-      programChosen,
-      programCompletedPercent,
-      goalChosen,
-      goalCompletedPercent
-    } = this.state;
+    const { isLoading, avatarChanged, user, currentDiet } = this.state;
     const { gender, fitnessLevel } = user;
     let levelColor = convertLevelToLevelColor(user.level);
     let starRating = convertLevelToStarRating(user.level);
@@ -154,29 +163,51 @@ export default class Profile extends Component {
       ],
       extrapolate: "clamp"
     });
+    const noOfSecondsGoneInProgram = currentDiet
+      ? getDifferenceInSeconds(currentDiet.value.createdDate)
+      : undefined;
+    const getPercent = currentDiet
+      ? Math.floor(
+          (noOfSecondsGoneInProgram /
+            (currentDiet.value.selectedProgram * 7 * 24 * 3600)) *
+            100
+        )
+      : undefined;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.mainContainer}>
         {isLoading ? (
           <ActivityIndicator color={styleCommon.textColor1} size="large" />
         ) : (
           <View style={styles.innerContainer}>
-            {/* <View style={styles.bannerHeaderContainer}>
-              <Animated.View
-                style={[
-                  styles.bannerContainer,
-                  { height: profileHeaderHeight }
-                ]}
-              >
-                <ImageBackground
-                  source={GRADIENT_BG_BANNER_IMAGE}
-                  style={styles.bannerImage}
-                    // start={{ x: 0, y: 0 }}
-                    // end={{ x: 0, y: 1 }}
-                    // colors={GRADIENT_COLORS_ARRAY}
-                    // style={styles.bannergradientStyle}
+            <View style={styles.actionsHeaderContainer}>
+              <View style={styles.actionsButtonContainerStyle}>
+                <Button
+                  icon={{
+                    name: "account-edit",
+                    size: ICON_BACK_SIZE,
+                    color: styleCommon.secondaryButtonTextColor,
+                    type: "material-community"
+                  }}
+                  containerStyle={styles.actionsButtonStyle}
+                  buttonStyle={styles.actionsButtonStyle}
+                  titleStyle={styles.actionsButtonTitleStyle}
+                  onPress={this.goToEditProfile}
                 />
-              </Animated.View>
-              </View> */}
+                <Button
+                  icon={{
+                    name: "logout",
+                    size: ICON_BACK_SIZE,
+                    color: styleCommon.secondaryButtonTextColor,
+                    type: "material-community"
+                  }}
+                  iconRight={true}
+                  containerStyle={styles.actionsButtonStyle}
+                  buttonStyle={styles.actionsButtonStyle}
+                  titleStyle={styles.actionsButtonTitleStyle}
+                  onPress={this.logoutUser}
+                />
+              </View>
+            </View>
             <ScrollView
               style={styles.scrollViewContainerStyle}
               contentContainerstyle={styles.scrollViewContentContainer}
@@ -225,53 +256,6 @@ export default class Profile extends Component {
                     {levelTitle}
                   </Text>
                 </View>
-                {/*<View style={styles.profileSubBannerBoxStyle}>
-                  <StarRating
-                    disabled={false}
-                    maxStars={STAR_RATING_MAX}
-                    rating={starRating}
-                    starSize={ICON_SIZE}
-                    emptyStar="star-outline"
-                    fullStar="star"
-                    halfStar="star-half"
-                    iconSet="MaterialCommunityIcons"
-                    fullStarColor={styles.profileStarColor.color}
-                    emptyStarColor={styles.profileStarColor.color}
-                  />
-                  <Text style={styles.profileBannerTextStyle}>Expertise</Text>
-                </View>*/}
-                <View style={styles.profileSubBannerBoxStyle}>
-                  <Button
-                    title="Edit"
-                    icon={
-                      <Icon
-                        name="account-edit"
-                        size={ICON_SIZE_LARGE}
-                        style={styles.profileButtonIconStyle}
-                      />
-                    }
-                    buttonStyle={styles.profileButtonStyle}
-                    titleStyle={styles.profileBannerTextStyle}
-                    onPress={this.goToEditProfile}
-                    type="clear"
-                  />
-                </View>
-                <View style={styles.profileSubBannerBoxStyle}>
-                  <Button
-                    title="Logout"
-                    icon={
-                      <Icon
-                        name="power"
-                        size={ICON_SIZE_LARGE}
-                        style={styles.profileButtonIconStyle}
-                      />
-                    }
-                    buttonStyle={styles.profileButtonStyle}
-                    titleStyle={styles.profileBannerTextStyle}
-                    onPress={this.logoutUser}
-                    type="clear"
-                  />
-                </View>
               </View>
               <View style={styles.boxesContainer}>
                 <View style={styles.boxesStyle}>
@@ -285,7 +269,7 @@ export default class Profile extends Component {
                   </View>
                   <View style={styles.boxContentRowContainerStyle}>
                     <ProgressCircle
-                      percent={40}
+                      percent={getPercent ? getPercent : 0}
                       radius={PROGRESS_CIRCLE_RADIUS}
                       borderWidth={PROGRESS_CIRCLE_BORDER_WIDTH}
                       color={styles.progressCircleColor.color}
@@ -308,53 +292,9 @@ export default class Profile extends Component {
                         Current Weight: {user.weight} kgs
                       </Text>
                       <Text style={styles.boxTextStyle}>
-                        Target Weight: 75 kgs
+                        Target Weight:{" "}
+                        {currentDiet && currentDiet.value.targetWeight} kgs
                       </Text>
-                      <Text style={styles.boxTextStyle}>
-                        Ideal Weight: (60 - 80) kgs
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.boxesContainer}>
-                <View style={styles.boxesStyle}>
-                  <View style={styles.boxHeaderContainerView}>
-                    <Icon
-                      name="target"
-                      size={ICON_SIZE_MED}
-                      style={styles.boxHeaderIconStyle}
-                    />
-                    <Text style={styles.boxHeaderTextStyle}>Goal</Text>
-                  </View>
-                  <View style={styles.boxContentColumnContainerStyle}>
-                    <View style={styles.boxContentGoalTextStyle}>
-                      <Text style={styles.boxTextStyle}>
-                        Program choosen: {programChosen}
-                      </Text>
-                      <ProgressBarAnimated
-                        width={PROGRESS_BAR_WIDTH}
-                        borderColor={styleCommon.unSelected}
-                        value={programCompletedPercent}
-                        backgroundColorOnComplete={
-                          styles.progressBarBgColorComplete.color
-                        }
-                        backgroundColor={styles.progressBarBgColor.color}
-                      />
-                    </View>
-                    <View style={styles.boxContentGoalTextStyle}>
-                      <Text style={styles.boxTextStyle}>
-                        Goal choosen: {goalChosen}
-                      </Text>
-                      <ProgressBarAnimated
-                        width={PROGRESS_BAR_WIDTH}
-                        borderColor={styleCommon.unSelected}
-                        value={goalCompletedPercent}
-                        backgroundColorOnComplete={
-                          styles.progressBarBgColorComplete.color
-                        }
-                        backgroundColor={styles.progressBarBgColor.color}
-                      />
                     </View>
                   </View>
                 </View>
@@ -367,7 +307,7 @@ export default class Profile extends Component {
                       size={ICON_SIZE_MED}
                       style={styles.boxHeaderIconStyle}
                     />
-                    <Text style={styles.boxHeaderTextStyle}>Posts</Text>
+                    <Text style={styles.boxHeaderTextStyle}>Past Payments</Text>
                   </View>
                   <View style={styles.boxContentColumnContainerStyle}>
                     <View style={styles.boxContentTextStyle}>

@@ -3,7 +3,8 @@ import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
   styleCommon,
-  fontsCommon
+  fontsCommon,
+  DEVICE_NAME
 } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
@@ -19,6 +20,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
     //backgroundColor: styleCommon.secondaryColor //"pink"
+  },
+  actionsHeaderContainer: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    paddingTop: DEVICE_NAME.includes("iPhone X") ? 40 : 20
+    //backgroundColor: "blueviolet"
+  },
+  actionsButtonContainerStyle: {
+    width: SCREEN_WIDTH,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  actionsButtonStyle: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    //backgroundColor: "burlywood"
+    borderWidth: 0,
+    borderColor: "transparent",
+    backgroundColor: "transparent"
+  },
+  actionsButtonTitleStyle: {
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font18
   },
   bannerHeaderContainer: {
     justifyContent: "space-between",
@@ -39,10 +64,9 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginTop: 60,
-    //backgroundColor: "firebrick"
+    justifyContent: "center",
+    alignItems: "center"
+    // backgroundColor: "firebrick"
   },
   avatarOverlayContainerStyle: {
     backgroundColor: styleCommon.unSelected
@@ -81,7 +105,7 @@ const styles = StyleSheet.create({
   profileSubBannerBoxStyle: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 15,
+    paddingHorizontal: 15
   },
   profileBannerTextStyle: {
     fontSize: fontsCommon.font14,
@@ -101,7 +125,7 @@ const styles = StyleSheet.create({
   },
   scrollViewContainerStyle: {
     flex: 1
-    //backgroundColor: "orange"
+    // backgroundColor: "orange"
   },
   scrollViewContentContainer: {
     justifyContent: "center",
@@ -111,7 +135,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "space-between",
-    margin: 3,
+    margin: 3
     //backgroundColor: "rgba(102,255,255,.2)"
     //backgroundColor: "hotpink"
   },
@@ -121,8 +145,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "transparent",
     marginVertical: 3,
-    marginHorizontal: 3,
-   // backgroundColor: styleCommon.secondaryColor //"transparent"
+    marginHorizontal: 3
+    // backgroundColor: styleCommon.secondaryColor //"transparent"
   },
   boxHeaderContainerView: {
     flexDirection: "row",
@@ -135,7 +159,7 @@ const styles = StyleSheet.create({
     color: styleCommon.textColor1
   },
   boxHeaderTextStyle: {
-    fontSize: fontsCommon.font15,
+    fontSize: fontsCommon.font16,
     fontWeight: "bold",
     color: styleCommon.textColor1
   },
@@ -170,7 +194,7 @@ const styles = StyleSheet.create({
   },
   boxTextStyle: {
     paddingBottom: 5,
-    fontSize: fontsCommon.font13,
+    fontSize: fontsCommon.font14,
     fontWeight: "bold",
     color: styleCommon.textColor1
   },

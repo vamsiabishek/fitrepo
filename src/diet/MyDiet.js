@@ -25,7 +25,8 @@ import { database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import Loading from "../components/Loading";
 import InitialScreen from "../components/purchase/InitialScreen";
-import {setFirstTimeUser, getFirstTimeUser} from "./../common/Util"
+import { setFirstTimeUser, getFirstTimeUser } from "./../common/Util";
+import { getProgramEndDate, getSeconds } from "../common/Util";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -100,7 +101,7 @@ export default class MyDiet extends Component {
           this.setState({ showAllMeals: false, showPaymentModal: true });
         } else {
           //global.isFirstTimeUser = false;
-          setFirstTimeUser(false)
+          setFirstTimeUser(false);
         }
       })
       .catch(error => {
@@ -290,14 +291,11 @@ export default class MyDiet extends Component {
     let dietTrialEndDate = undefined;
     let trialDaysLeft = undefined;
     if (getFirstTimeUser() && !diet.purchaseStatus) {
-      const currentDate = new Date();
-      const dietCreatedDate = new Date(diet.createdDate);
-      dietTrialEndDate = new Date(
-        dietCreatedDate.getFullYear(),
-        dietCreatedDate.getMonth(),
-        dietCreatedDate.getDate() + 7 - 1
-      );
-      trialDaysLeft = dietTrialEndDate.getDate() - currentDate.getDate();
+      const trialPeriod = 1;
+      dietTrialEndDate = getProgramEndDate(diet.createdDate, trialPeriod);
+      const trialDaysLeftSeconds =
+        getSeconds(dietTrialEndDate) - getSeconds(new Date());
+      trialDaysLeft = Math.floor(trialDaysLeftSeconds / (24 * 3600));
     }
     const trainingIconColor = activeDay ? "white" : styleCommon.unSelected;
     const restIconColor = !activeDay ? "white" : styleCommon.unSelected;

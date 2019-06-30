@@ -13,7 +13,10 @@ import EditProfileSubScreen1 from "./EditProfileSubScreen1";
 import EditProfileSubScreen2 from "./EditProfileSubScreen2";
 import { ICON_SIZE, GRADIENT_BG_IMAGE } from "../common/Common";
 import { database, storage } from "../common/FirebaseConfig";
-import { styleCommon } from "../../assets/style/stylesCommonValues";
+import {
+  styleCommon,
+  ICON_BACK_SIZE
+} from "../../assets/style/stylesCommonValues";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -203,19 +206,25 @@ export default class EditProfile extends Component {
     const { user, avatarChanged, selectedSubScreen } = this.state;
     const { navigate } = this.props.navigation;
     return (
-      
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
-        <KeyboardAvoidingView style={styles.innerContainer} behavior="padding" enabled>
+        <KeyboardAvoidingView
+          style={styles.innerContainer}
+          behavior="padding"
+          enabled
+        >
           <View style={styles.profileButtonHeaderContainer}>
-            <View style={styles.profileButtonContainer}>
-              <Button
-                title="CANCEL"
-                containerStyle={styles.profileButtonContainerStyle}
-                buttonStyle={styles.profileButtonStyle}
-                titleStyle={styles.profileButtonTitleStyle}
-                onPress={() => navigate("Profile")}
-              />
-            </View>
+            <Button
+              icon={{
+                size: ICON_BACK_SIZE,
+                type: "material-community",
+                name: "arrow-left-thick",
+                color: styleCommon.textColor1
+              }}
+              containerStyle={styles.profileButtonContainerStyle}
+              buttonStyle={styles.profileButtonStyle}
+              titleStyle={styles.profileButtonTitleStyle}
+              onPress={() => navigate("Profile")}
+            />
           </View>
           <View style={styles.avatarContainer}>
             {avatarChanged && (

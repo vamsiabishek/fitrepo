@@ -8,13 +8,19 @@ export default class StringPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedString: this.props.stringArray[0]
+      selectedString:
+        this.props.selectedStr !== undefined
+          ? this.props.selectedStr
+          : this.props.stringArray[0]
     };
   }
 
   _resetStringAndArray = () => {
     this.setState({
-      selectedString: this.props.stringArray[0]
+      selectedString:
+        this.props.selectedStr !== undefined
+          ? this.props.selectedStr
+          : this.props.stringArray[0]
     });
   };
 
@@ -30,7 +36,7 @@ export default class StringPicker extends Component {
     this._resetStringAndArray();
   };
   render() {
-    const { stringArray, isVisible, unit } = this.props;
+    const { stringArray, isVisible, pickerHeading } = this.props;
     const { selectedString } = this.state;
     return (
       <View>
@@ -44,7 +50,7 @@ export default class StringPicker extends Component {
             <View style={styles.modalViewInnerComponent}>
               <View style={styles.modalHeaderView}>
                 <Text style={styles.modalHeaderText}>
-                  Pick a number ({unit})
+                  {pickerHeading ? pickerHeading : "Pick an option"}
                 </Text>
               </View>
               <Picker
@@ -54,7 +60,7 @@ export default class StringPicker extends Component {
                 }}
               >
                 {stringArray.map(str => (
-                  <Picker.Item key={str } label={str.toString()} value={str} />
+                  <Picker.Item key={str} label={str.toString()} value={str} />
                 ))}
               </Picker>
               <View>
