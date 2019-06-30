@@ -253,8 +253,8 @@ mealForSource = ({
     macroQuantity = newQuantity;
     const remainingMacroQuantity = sourceMap[key].macroQuantity - newQuantity;
     const remainingMacroValue = sourceMap[key].macroValue - quantity;
-    // if the remaining quantity of a source is less than 30 then add it to current meal itself
-    if (remainingMacroValue <= 5) {
+    // if the remaining quantity of nuts is less than maxMacroPerMealForNuts then add it to current meal itself
+    if (remainingMacroValue < maxMacroPerMealForNuts) {
       macroValue = macroValue + remainingMacroValue;
       macroQuantity = macroQuantity + remainingMacroQuantity;
       sourceMap[key] = { macroValue: 0, macroQuantity: 0 };
