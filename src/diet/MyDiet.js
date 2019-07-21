@@ -95,13 +95,13 @@ export default class MyDiet extends Component {
       .ref(`diets/${uid}`)
       .child(dietId)
       .once("value")
-      .then(snap => {
+      .then( async(snap) => {
         if (snap.val()) diet = snap.val();
         if (!diet.paymentStatus) {
           this.setState({ showAllMeals: false, showPaymentModal: true });
         } else {
           //global.isFirstTimeUser = false;
-          setFirstTimeUser(false);
+          await setFirstTimeUser();
         }
       })
       .catch(error => {
@@ -241,7 +241,6 @@ export default class MyDiet extends Component {
         showMeals: true,
         showAllMeals: true
       });
-      setFirstTimeUser(false);
       await database
         .ref(`diets/${uid}`)
         .child(dietId)

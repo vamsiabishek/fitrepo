@@ -16,7 +16,12 @@ import {
   styleCommon,
   ICON_SIZE_MED
 } from "../../assets/style/stylesCommonValues";
-import { createKeyAndValuesFromResult, getCurrentUser, setFirstTimeUser, getFirstTimeUser } from "../common/Util";
+import {
+  createKeyAndValuesFromResult,
+  getCurrentUser,
+  setFirstTimeUser,
+  getFirstTimeUser
+} from "../common/Util";
 import CustomListView from "../components/CustomListView";
 import {
   GRADIENT_BG_IMAGE,
@@ -100,7 +105,7 @@ export default class Diet extends Component {
         console.log("error while fetching my diets in Diet page", error);
       });
     if (myDiets.length > 1) {
-      setFirstTimeUser(false);
+      await setFirstTimeUser();
       //alert(getFirstTimeUser())
     }
     return myDiets;

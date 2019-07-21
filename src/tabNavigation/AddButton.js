@@ -45,7 +45,7 @@ class AddButton extends React.Component {
         { cancelable: false }
       );
     } else {
-      this.navigateToCreateDiet();
+      this.navigateToCreateDiet(uid);
     }
   };
   navigateToCreateDiet = uid => {

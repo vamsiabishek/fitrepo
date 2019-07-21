@@ -1,5 +1,5 @@
 import { AsyncStorage } from "react-native";
-import { f, auth } from "./FirebaseConfig";
+import { f, database } from "./FirebaseConfig";
 import { WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY } from "./Common";
 
 export const pluralCheck = s => {
@@ -127,10 +127,39 @@ export const signOutUser = async () => {
   return true;
 };
 
-let IS_FIRST_TIME_USER = false;
+let IS_FIRST_TIME_USER = true;
 
-export const setFirstTimeUser = isFirstTimeUser => {
-  IS_FIRST_TIME_USER = isFirstTimeUser;
+export const setFirstTimeUser = async() => {
+  if (IS_FIRST_TIME_USER) {
+    IS_FIRST_TIME_USER = await isNewUser()
+  }
 };
 
 export const getFirstTimeUser = () => IS_FIRST_TIME_USER;
+
+const isNewUser = async() => {
+  const { uid } = await getCurrentUser();
+  let firstDiet = {};
+  await database
+    .ref(`diets/${uid}`)
+    .orderByChild("createdDate")
+    .limitToFirst(1)
+    .once("value")
+    .then(snap => {
+      const results = snap.val();
+      firstDiet = createKeyAndValuesFromResult(results)[0];
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  const { createdDate } = firstDiet.value;
+  const fromDate = new Date(createdDate);
+  const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
+  const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000));
+  const total_minutes = parseInt(Math.floor(total_seconds / 60));
+  const total_hours = parseInt(Math.floor(total_minutes / 60));
+  const days = parseInt(Math.floor(total_hours / 24));
+  if(days <= 7)
+    return true
+  else return false
+}

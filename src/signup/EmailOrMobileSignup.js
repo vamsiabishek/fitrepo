@@ -30,11 +30,9 @@ export default class EmailOrMobileSignup extends Component {
       validateConfirmationPassword
     } = this.props.signupObject;
     return (
-      <KeyboardAvoidingView
+      <View
         style={styles.mainContent}
-        contentContainerStyle={styles.mainContent}
-        behavior="padding"
-        enabled
+       
       >
         <Input
           placeholder="Email"
@@ -50,7 +48,7 @@ export default class EmailOrMobileSignup extends Component {
           inputContainerStyle={styles.inputContainer}
           inputStyle={styles.inputStyle}
           errorStyle={styles.errorInputStyle}
-          keyboardAppearance="dark"
+          keyboardAppearance="light"
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
@@ -82,7 +80,7 @@ export default class EmailOrMobileSignup extends Component {
           placeholderTextColor={placeholderTextColor}
           errorStyle={styles.errorInputStyle}
           secureTextEntry={true}
-          keyboardAppearance="dark"
+          keyboardAppearance="light"
           keyboardType="default"
           autoCapitalize="none"
           autoCorrect={false}
@@ -128,7 +126,7 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          ref={input => (confirmationPasswordInput = input)}
+          ref={input => (this.confirmationPasswordInput = input)}
           onSubmitEditing={() => {
             this.setState({
               confirmationPasswordValid: validateConfirmationPassword
@@ -138,7 +136,7 @@ export default class EmailOrMobileSignup extends Component {
             confirmationPasswordValid ? null : "The Passwords do not match !"
           }
         />
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

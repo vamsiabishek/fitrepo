@@ -127,11 +127,7 @@ export default class Profile extends Component {
         if (snap.val()) {
           const results = snap.val();
           myDiets = createKeyAndValuesFromResult(results).reverse();
-          let currentDiet = myDiets.find(diet => {
-            if (diet.value.paymentStatus !== false) {
-              return diet;
-            }
-          });
+          let currentDiet = myDiets[0]
           this.setState({ currentDiet });
         }
       })
