@@ -14,6 +14,9 @@ export const FOOD_PREFERENCES_OPTIONS = [
   { label: "Non-Vegetarian", value: "Non-Vegetarian" }
 ];
 
+export const MALE = 1;
+export const FEMALE = 0;
+
 export const WEIGHT_LOSS = "loss";
 export const WEIGHT_GAIN = "gain";
 export const BE_HEALTHY = "healthy";

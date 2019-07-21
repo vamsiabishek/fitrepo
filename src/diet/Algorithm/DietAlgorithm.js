@@ -2,7 +2,8 @@ import { f, auth, database } from "../../common/FirebaseConfig";
 import {
   convertProgramToWeeks,
   calculateCalFromProteinOrCarbs,
-  calculateCalFromFats
+  calculateCalFromFats,
+  MALE, FEMALE
 } from "../../common/Common";
 import { sourceQuantities, manageSources } from "./SourceDistribution";
 import { createMeals } from "./MealsAlgorithm";
@@ -32,8 +33,6 @@ import {
   GAIN_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED
 } from "./SourceQuantityData";
 
-const MALE = "male";
-const FEMALE = "female";
 let BMR = 0;
 const FITNESS_LEVEL_ONE_ADDITION = 1.2; //1.2 times BMR i.e., (BMR * 1.2)
 const FITNESS_LEVEL_TWO_ADDITION = 1.46; //1.2 times BMR i.e., (BMR * 1.46)
@@ -211,7 +210,7 @@ export const designDiet = async ({
     targetWeight,
     height: user.height,
     age: user.age,
-    gender: user.gender.toLowerCase(),
+    gender: user.gender,
     fitnessLevel
   });
   console.log("Total daily calorie Intake is:", totalCalIntake);

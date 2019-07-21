@@ -50,10 +50,12 @@ export default class LoginScreen1 extends Component {
     })();
     this.state = {
       email: "dhiv.tester1@gmail.com", //"dhivya@gmail.com",
+      password: "dhivya123", //"Dhivya09",
       //email: "vamsi@gmail.com",
       //password: "vamsi123",
+      // email: "test123@gmail.com",
+      // password: "test1234",
       emailValid: true,
-      password: "dhivya123", //"Dhivya09",
       passwordValid: true,
       login_failed: false,
       isLoading: false,

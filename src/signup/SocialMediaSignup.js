@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Animated } from "react-native";
+import { View, Text, TouchableOpacity, Animated, KeyboardAvoidingView } from "react-native";
 import { SocialIcon } from "react-native-elements";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { GoogleSignin } from "react-native-google-signin";
@@ -206,7 +206,12 @@ export default class SocialMediaSignup extends Component {
       transform: [{ scale: this.animatedTValue }]
     };
     return (
-      <View style={styles.mainContent}>
+      <KeyboardAvoidingView
+        style={styles.mainContent}
+        contentContainerStyle={styles.mainContent}
+        behavior="padding"
+        enabled
+      >
         {isLoading ? (
           <Loading
             text={"Signing you up with Fitrepo ..."}
@@ -279,7 +284,7 @@ export default class SocialMediaSignup extends Component {
             </View>
           </React.Fragment>
         )}
-      </View>
+      </KeyboardAvoidingView>
       //)}
     );
   }

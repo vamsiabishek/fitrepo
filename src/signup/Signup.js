@@ -123,7 +123,7 @@ export default class Signup extends Component {
             dob: userLoggedIn.dob,
             weight: userLoggedIn.weight,
             height: userLoggedIn.height,
-            gender: userLoggedIn.gender === "Male" ? 1 : 0,
+            gender: userLoggedIn.gender,
             fitnessLevel: userLoggedIn.fitnessLevel,
             foodPrefBtn:
               userLoggedIn.foodPreference === FOOD_PREF_NON_VEG
@@ -197,13 +197,19 @@ export default class Signup extends Component {
     this.setState({ dob, age, showTargetWeightButton });
   };
   setWeight = weight => {
-    const { dob, height } = this.state;
+    const { dob, height, targetWeight, program } = this.state;
     let showTargetWeightButton = this.changeShowTargetWeightButton(
       dob,
       weight,
       height
     );
-    this.setState({ weight, showTargetWeightButton });
+    let newTargetWeight = targetWeight
+    let newProgram = program
+    if (targetWeight && program && weight !== this.state.weight) {
+      newTargetWeight = undefined
+      newProgram = undefined
+    }
+    this.setState({ weight, showTargetWeightButton, targetWeight: newTargetWeight, program: newProgram });
   };
   setHeight = height => {
     const { dob, weight } = this.state;
@@ -768,7 +774,7 @@ export default class Signup extends Component {
     } = this.state;
     let { user, gender, fitnessLevel } = this.state;
     let myDiets = [];
-    gender = gender === 0 ? "Female" : "Male";
+   // gender = gender === 0 ? "Female" : "Male";
     if (password !== "") {
       user.email = email;
     }
@@ -805,9 +811,8 @@ export default class Signup extends Component {
       .catch(error => {
         console.log("error while fetching my diets in SignUp page", error);
       });
-    if (myDiets.length !== 0 && getFirstTimeUser()) {
-      setFirstTimeUser(false);
-      console.log(getFirstTimeUser());
+    if (myDiets.length !== 0) {
+      setFirstTimeUser();
     }
   };
 

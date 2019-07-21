@@ -4,7 +4,7 @@ import { styleCommon } from "./stylesCommonValues";
 export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     alignItems: "center"
     //backgroundColor: "oldlace"
   },
@@ -42,5 +42,5 @@ export const styles = StyleSheet.create({
   },
   textColor: {
     color: styleCommon.textColor1
-  }
+  },
 });
