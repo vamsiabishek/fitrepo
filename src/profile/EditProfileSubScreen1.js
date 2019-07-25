@@ -47,6 +47,7 @@ export default class EditProfileSubScreen1 extends Component {
       errorMsgWtAge: "",
       isActive: false
     };
+    this.selectedDate = new Date(this.state.user.dob);
   }
 
   validateUsername = () => {
@@ -72,17 +73,20 @@ export default class EditProfileSubScreen1 extends Component {
     this.setState({ isDTPickerVisible: false });
   };
   handleDTPicker = date => {
+    const { user } = this.state;
     let currentDate = new Date();
     let dateFormat = new Date(date);
     let newDate = dateFormat.toDateString().substring(4);
     let ageFromDate = currentDate.getFullYear() - dateFormat.getFullYear();
     //LayoutAnimation.easeInEaseOut();
     this.setState({
-      dob: newDate,
-      age: ageFromDate,
+      user: { ...user, dob: newDate, age: ageFromDate },
       isActive: true
     });
     this.hideDTPicker();
+  };
+  onDateChangePicker = date => {
+    this.selectedDate = date;
   };
   validateName = () => {
     const { name } = this.state.user;
@@ -141,6 +145,7 @@ export default class EditProfileSubScreen1 extends Component {
       errorMsgWtAge,
       isActive
     } = this.state;
+    const dateInDatetime = new Date(user.dob);
     return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
@@ -208,7 +213,7 @@ export default class EditProfileSubScreen1 extends Component {
                   blurOnSubmit={true}
                   returnKeyType="done"
                   onChangeText={email =>
-                    this.setState({ user: { ...user, email, isActive: true } })
+                    this.setState({ user: { ...user, email }, isActive: true })
                   }
                   value={user.email}
                   ref={input => (this.emailInput = input)}
@@ -252,45 +257,54 @@ export default class EditProfileSubScreen1 extends Component {
                   errorMessage={nameValid ? null : "Please enter a Name!"}
                 />
                 <TouchableOpacity onPress={this.showDTPicker}>
-                  <Input
-                    placeholder="Date of Birth"
-                    placeholderTextColor={styles.inputStyle.color}
-                    rightIcon={
-                      <Icon
-                        name="calendar"
-                        color={styleCommon.textColor1}
-                        size={ICON_SIZE}
-                      />
+                  <DateTimePicker
+                    mode="date"
+                    date={
+                      this.selectedDate ? this.selectedDate : dateInDatetime
                     }
-                    containerStyle={styles.inputViewContainer}
-                    inputContainerStyle={styles.inputContainer}
-                    inputStyle={styles.inputStyle}
-                    errorStyle={styles.errorInputStyle}
-                    onChangeText={dob =>
-                      this.setState({ user: { ...user, dob }, isActive: true })
-                    }
-                    value={user.dob}
-                    keyboardAppearance="light"
-                    keyboardType="default"
-                    autoCorrect={false}
-                    blurOnSubmit={true}
-                    editable={true}
-                    returnKeyType="done"
-                    ref={input => (this.dobInput = input)}
-                    onSubmitEditing={() => {
-                      this.setState({ dobAgeValid: this.validateDobAndAge });
-                    }}
-                    errorMessage={dobAgeValid ? null : errorMsgWtAge}
+                    minimumDate={MIN_DATE}
+                    maximumDate={MAX_DATE}
+                    isVisible={isDTPickerVisible}
+                    onDateChange={this.onDateChangePicker}
+                    onConfirm={this.handleDTPicker}
+                    onCancel={this.hideDTPicker}
                   />
+                  <View pointerEvents="none">
+                    <Input
+                      placeholder="Date of Birth"
+                      placeholderTextColor={styles.inputStyle.color}
+                      rightIcon={
+                        <Icon
+                          name="calendar"
+                          color={styleCommon.textColor1}
+                          size={ICON_SIZE}
+                        />
+                      }
+                      containerStyle={styles.inputViewContainer}
+                      inputContainerStyle={styles.inputContainer}
+                      inputStyle={styles.inputStyle}
+                      errorStyle={styles.errorInputStyle}
+                      onChangeText={date =>
+                        this.setState({
+                          user: { ...user, dob: date },
+                          isActive: true
+                        })
+                      }
+                      value={user.dob}
+                      keyboardAppearance="light"
+                      keyboardType="default"
+                      autoCorrect={false}
+                      blurOnSubmit={true}
+                      editable={true}
+                      returnKeyType="done"
+                      ref={input => (this.dobInput = input)}
+                      onSubmitEditing={() => {
+                        this.setState({ dobAgeValid: this.validateDobAndAge });
+                      }}
+                      errorMessage={dobAgeValid ? null : errorMsgWtAge}
+                    />
+                  </View>
                 </TouchableOpacity>
-                <DateTimePicker
-                  mode="date"
-                  minimumDate={MIN_DATE}
-                  maximumDate={MAX_DATE}
-                  isVisible={isDTPickerVisible}
-                  onConfirm={this.handleDTPicker}
-                  onCancel={this.hideDTPicker}
-                />
               </View>
               <Button
                 title="SAVE & GO BACK"

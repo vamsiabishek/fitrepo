@@ -13,6 +13,7 @@ export default class NumberPicker extends Component {
           ? this.props.selectedNum
           : this.props.numberArray[0]
     };
+    this.selectedValue = this.props.selectedNum;
   }
   _resetNumberAndArray = () => {
     this.setState({
@@ -22,6 +23,15 @@ export default class NumberPicker extends Component {
           : this.props.numberArray[0]
     });
   };
+
+  componentDidMount = () => {
+    const { selectedNumber } = this.state;
+    if (selectedNumber !== this.props.selectedNum) {
+      this.setState({
+        selectedNumber: this.props.selectedNum
+      });
+    }
+  };
   _handleConfirm = () => {
     this.confirmed = true;
     this.props.onConfirm(this.state.selectedNumber);
@@ -30,11 +40,15 @@ export default class NumberPicker extends Component {
   _handleCancel = () => {
     this.confirmed = false;
     this.props.onCancel();
+    this.selectedValue = this.props.selectedNum;
     this._resetNumberAndArray();
+  };
+  _handleOnValueChange = value => {
+    this.selectedValue = value;
+    this.setState({ selectedNumber: value });
   };
   render() {
     const { numberArray, isVisible, unit } = this.props;
-    const { selectedNumber } = this.state;
     return (
       <View>
         <Modal
@@ -51,10 +65,10 @@ export default class NumberPicker extends Component {
                 </Text>
               </View>
               <Picker
-                selectedValue={selectedNumber}
-                onValueChange={itemValue => {
-                  this.setState({ selectedNumber: itemValue });
-                }}
+                selectedValue={this.selectedValue}
+                onValueChange={itemValue =>
+                  this._handleOnValueChange(itemValue)
+                }
               >
                 {numberArray.map(number => (
                   <Picker.Item

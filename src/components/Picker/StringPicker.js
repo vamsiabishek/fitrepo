@@ -13,6 +13,7 @@ export default class StringPicker extends Component {
           ? this.props.selectedStr
           : this.props.stringArray[0]
     };
+    this.selectedValue = this.props.selectedStr;
   }
 
   _resetStringAndArray = () => {
@@ -24,6 +25,15 @@ export default class StringPicker extends Component {
     });
   };
 
+  componentDidMount = () => {
+    const { selectedString } = this.state;
+    if (selectedString !== this.props.selectedStr) {
+      this.setState({
+        selectedString: this.props.selectedStr
+      });
+    }
+  };
+
   _handleConfirm = () => {
     this.confirmed = true;
     this.props.onConfirm(this.state.selectedString);
@@ -33,7 +43,12 @@ export default class StringPicker extends Component {
   _handleCancel = () => {
     this.confirmed = false;
     this.props.onCancel();
+    this.selectedValue = this.props.selectedStr;
     this._resetStringAndArray();
+  };
+  _handleOnValueChange = value => {
+    this.selectedValue = value;
+    this.setState({ selectedString: value });
   };
   render() {
     const { stringArray, isVisible, pickerHeading } = this.props;
@@ -54,10 +69,10 @@ export default class StringPicker extends Component {
                 </Text>
               </View>
               <Picker
-                selectedValue={selectedString}
-                onValueChange={itemValue => {
-                  this.setState({ selectedString: itemValue });
-                }}
+                selectedValue={this.selectedValue}
+                onValueChange={itemValue =>
+                  this._handleOnValueChange(itemValue)
+                }
               >
                 {stringArray.map(str => (
                   <Picker.Item key={str} label={str.toString()} value={str} />
