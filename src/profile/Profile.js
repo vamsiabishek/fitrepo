@@ -45,6 +45,7 @@ import {
   createKeyAndValuesFromResult,
   getDifferenceInSeconds
 } from "../common/Util";
+import PurchaseList from '../components/purchase/PurchaseList'
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -304,6 +305,7 @@ export default class Profile extends Component {
                       style={styles.boxHeaderIconStyle}
                     />
                     <Text style={styles.boxHeaderTextStyle}>Past Payments</Text>
+                    <PurchaseList purchases={user.purchases} />
                   </View>
                   <View style={styles.boxContentColumnContainerStyle}>
                     <View style={styles.boxContentTextStyle}>
