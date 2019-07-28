@@ -68,12 +68,30 @@ export default class InitialScreen extends React.Component {
 
   handlePaymentProcess = async priceIdentifier => {
     this.setState({ isLoading: true });
+    const {uid, dietId} = this.props
     try {
       const purchaseMade = await Purchases.makePurchase(priceIdentifier);
       console.log("Purchase Made: ", purchaseMade);
       if (purchaseMade.purchaserInfo.activeEntitlements !== "undefined") {
         const purchaseSummary = await Purchases.getPurchaserInfo();
         console.log(purchaseSummary);
+        const purchaseId = uid + "-" + dietId;
+        const purchaseDetails = {
+          productIdentifier,
+          purchaseId
+        }
+        await database
+        .ref(`users/${uid}/purchases/`)
+        .push({
+          ...purchaseDetails,
+          createdDate: f.database.ServerValue.TIMESTAMP,
+        })
+        .then(res => {
+          alert("Purchase Successful !")
+        })
+        .catch(error => {
+          console.log("error while saving purchase details:", error);
+        });
         this.setState({
           isLoading: false,
           showPurchaseSummary: true,
