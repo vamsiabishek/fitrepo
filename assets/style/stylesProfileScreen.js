@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignContent: "center",
     padding: 10
-    //backgroundColor: "black"
+    //backgroundColor: "orange"
   },
   boxContentGoalTextStyle: {
     justifyContent: "flex-start",

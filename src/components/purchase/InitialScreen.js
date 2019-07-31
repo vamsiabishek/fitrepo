@@ -4,6 +4,7 @@ import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Purchases from "react-native-purchases";
 import Modal from "react-native-modal";
+import { f, database } from "../../common/FirebaseConfig";
 import MyButton from "../MyButton";
 import { styles } from "../../../assets/style/stylesInitialScreen";
 import {
@@ -77,14 +78,14 @@ export default class InitialScreen extends React.Component {
         console.log(purchaseSummary);
         const purchaseId = uid + "-" + dietId;
         const purchaseDetails = {
-          productIdentifier,
+          productIdentifier: purchaseSummary.activeEntitlements[0],
           purchaseId
         }
         await database
         .ref(`users/${uid}/purchases/`)
         .push({
           ...purchaseDetails,
-          createdDate: f.database.ServerValue.TIMESTAMP,
+          purchaseDate: f.database.ServerValue.TIMESTAMP,
         })
         .then(res => {
           alert("Purchase Successful !")

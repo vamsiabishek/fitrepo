@@ -25,7 +25,7 @@ import { database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import Loading from "../components/Loading";
 import InitialScreen from "../components/purchase/InitialScreen";
-import { setFirstTimeUser, getFirstTimeUser } from "./../common/Util";
+import { setFirstTimeUser, getFirstTimeUser } from "../common/Util";
 import { getProgramEndDate, getSeconds } from "../common/Util";
 
 // Enable LayoutAnimation for Android Devices
@@ -95,7 +95,7 @@ export default class MyDiet extends Component {
       .ref(`diets/${uid}`)
       .child(dietId)
       .once("value")
-      .then( async(snap) => {
+      .then(async snap => {
         if (snap.val()) diet = snap.val();
         if (!diet.paymentStatus) {
           this.setState({ showAllMeals: false, showPaymentModal: true });

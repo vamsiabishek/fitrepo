@@ -25,8 +25,8 @@ export const WEIGHT_LOSS_DESC = "Fat-loss";
 export const WEIGHT_GAIN_DESC = "Weight-gain";
 export const BE_HEALTHY_DESC = "Be-healthy";
 
-export const PROVIDER_GOOGLE = "google.com"
-export const PROVIDER_FACEBOOK = "facebook.com"
+export const PROVIDER_GOOGLE = "google.com";
+export const PROVIDER_FACEBOOK = "facebook.com";
 
 export const source1 = require("../../assets/images/SlideShowImages/FoodPage_1_Color.svg");
 export const source2 = require("../../assets/images/SlideShowImages/FoodPage_2_Color.svg");
@@ -92,6 +92,21 @@ export const convertProgramToWeeks = program => {
       return 12;
     default:
       return 0;
+  }
+};
+
+export const convertProductIdentifierToPrograms = productIdentifier => {
+  switch (productIdentifier) {
+    case "four_week_plans":
+      return "4 Week Program";
+    case "eight_week_plans":
+      return "8 Week Program";
+    case "twelve_week_plans":
+      return "12 Week Program";
+    case "sixteen_week_plans":
+      return "16 Week Program";
+    default:
+      return "Invalid String";
   }
 };
 

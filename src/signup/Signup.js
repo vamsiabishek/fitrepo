@@ -41,7 +41,12 @@ import {
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN
 } from "../common/SourceUtil";
-import { setCurrentUser, createKeyAndValuesFromResult, getFirstTimeUser } from "../common/Util";
+import {
+  setCurrentUser,
+  createKeyAndValuesFromResult,
+  getFirstTimeUser,
+  setFirstTimeUser
+} from "../common/Util";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -203,13 +208,18 @@ export default class Signup extends Component {
       weight,
       height
     );
-    let newTargetWeight = targetWeight
-    let newProgram = program
+    let newTargetWeight = targetWeight;
+    let newProgram = program;
     if (targetWeight && program && weight !== this.state.weight) {
-      newTargetWeight = undefined
-      newProgram = undefined
+      newTargetWeight = undefined;
+      newProgram = undefined;
     }
-    this.setState({ weight, showTargetWeightButton, targetWeight: newTargetWeight, program: newProgram });
+    this.setState({
+      weight,
+      showTargetWeightButton,
+      targetWeight: newTargetWeight,
+      program: newProgram
+    });
   };
   setHeight = height => {
     const { dob, weight } = this.state;
@@ -774,7 +784,7 @@ export default class Signup extends Component {
     } = this.state;
     let { user, gender, fitnessLevel } = this.state;
     let myDiets = [];
-   // gender = gender === 0 ? "Female" : "Male";
+    // gender = gender === 0 ? "Female" : "Male";
     if (password !== "") {
       user.email = email;
     }

@@ -1,28 +1,35 @@
 import { StyleSheet } from "react-native";
-import {
-  styleCommon,
-} from "./stylesCommonValues";
+import { styleCommon } from "./stylesCommonValues";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1
+    borderColor: styleCommon.textColor1,
+    borderWidth: 1,
+    borderRadius: 5
     //backgroundColor: "pink"
   },
   rowContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 10,
     paddingHorizontal: 5,
-    marginHorizontal: 16,
+    marginHorizontal: 10,
     marginTop: 8,
-    borderRadius: 5,
-    elevation: 2,
-    backgroundColor: styleCommon.secondaryColor
+    elevation: 2
   },
-  container_text: {
-    marginLeft: 7,
-    padding: 2
+  rowContainerHeader: {
+    borderBottomColor: styleCommon.textColor1,
+    borderBottomWidth: 1
+  },
+  rowContainerTextHeader: {
+    color: styleCommon.textColor1,
+    padding: 2,
+    fontWeight: "600"
     //backgroundColor: "grey"
   },
+  rowContainerText: {
+    color: styleCommon.textColor1,
+    padding: 2
+    //backgroundColor: "grey"
+  }
 });
