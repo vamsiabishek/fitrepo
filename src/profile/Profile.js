@@ -230,7 +230,7 @@ export default class Profile extends Component {
                     color: styleCommon.textColor2
                   }}
                   //source={{ uri: user.avatarSource }}
-                  imageProps={styles.avatarImagePropsStyle}
+                  //imageProps={styles.avatarImagePropsStyle}
                 />
               </View>
               <View style={styles.profileBannerStyle}>

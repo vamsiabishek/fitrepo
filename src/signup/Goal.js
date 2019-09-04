@@ -29,7 +29,6 @@ export default class Goal extends React.Component {
           iconName="scale-bathroom"
           buttonIcon={styles.buttonIcon}
           buttonIconColor={goal === 0 ? buttonIconActiveColor : buttonIconColor}
-          iconLeft={true}
           onPress={setGoal}
           value={0}
         />
@@ -45,7 +44,6 @@ export default class Goal extends React.Component {
           iconName="heart-pulse"
           buttonIcon={styles.buttonIcon}
           buttonIconColor={goal === 1 ? buttonIconActiveColor : buttonIconColor}
-          iconLeft
           onPress={setGoal}
           value={1}
         />
@@ -61,7 +59,6 @@ export default class Goal extends React.Component {
           iconName="scale-bathroom"
           buttonIcon={styles.buttonIcon}
           buttonIconColor={goal === 2 ? buttonIconActiveColor : buttonIconColor}
-          iconLeft
           onPress={setGoal}
           value={2}
         />

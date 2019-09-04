@@ -263,7 +263,7 @@ export default class EditProfile extends Component {
                   color: styleCommon.textColor2
                 }}
                 //source={{ uri: user.avatarSource }}
-                imageProps={styles.avatarImagePropsStyle}
+                //imageProps={styles.avatarImagePropsStyle}
                 editButton={{
                   type: "material-community",
                   name: "pencil",

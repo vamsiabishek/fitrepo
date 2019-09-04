@@ -5,14 +5,14 @@ import {
   Text,
   TouchableOpacity,
   View,
-  StatusBar,
   ImageBackground
 } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Button } from "react-native-elements";
 import { styles } from "../../assets/style/stylesSupplementsScreen";
 import { f, database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import { getSupplementsByKeyList } from "../common/SupplementsUtil";
+import { styleCommon, ICON_SIZE } from "../../assets/style/stylesCommonValues";
 
 export default class Supplements extends Component {
   constructor(props) {
@@ -31,11 +31,11 @@ export default class Supplements extends Component {
       .ref(`/supplements/${dietId}`)
       .once("value")
       .then(snap => {
-        let supplements = []
+        let supplements = [];
         if (snap.val()) {
           supplements = snap.val()[Object.keys(snap.val())[0]];
-          supplements = getSupplementsByKeyList(supplements)
-        } 
+          supplements = getSupplementsByKeyList(supplements);
+        }
         this.setState({ supplements });
       })
       .catch(error => {
@@ -44,15 +44,31 @@ export default class Supplements extends Component {
           error
         );
       });
-    
   };
   render() {
     const { supplements } = this.state;
+    const { navigate } = this.props.navigation;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
         <View style={styles.supplementContainer}>
-          <View style={styles.pageTitleContainer}>
-            <Text style={styles.pageTitle}>My Supplements</Text>
+          <View style={styles.backHeaderContainer}>
+            <View style={styles.backButtonContainerStyle}>
+              <Button
+                icon={{
+                  name: "arrow-left-thick",
+                  size: ICON_SIZE,
+                  color: styleCommon.secondaryButtonTextColor,
+                  type: "material-community"
+                }}
+                containerStyle={styles.backButtonStyle}
+                buttonStyle={styles.backButtonStyle}
+                titleStyle={styles.backButtonTitleStyle}
+                onPress={() => navigate("MyDiet")}
+              />
+              <View style={styles.pageTitleContainer}>
+                <Text style={styles.pageTitle}>Supplements</Text>
+              </View>
+            </View>
           </View>
           <FlatList
             style={styles.flatListContainer}

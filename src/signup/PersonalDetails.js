@@ -132,6 +132,7 @@ export default class PersonalDetails extends Component {
                 buttonIcon={
                   dob.length === 0 ? styles.buttonIcon : styles.activeButtonIcon
                 }
+                iconRight={true}
                 shouldUseEmoji={dob.length === 0 ? false : true}
                 onPress={this.showDTPicker}
               />
@@ -166,6 +167,7 @@ export default class PersonalDetails extends Component {
                     ? styles.buttonIcon
                     : styles.activeButtonIcon
                 }
+                iconRight={true}
                 shouldUseEmoji={weight === undefined ? false : true}
                 onPress={this.showWeightNumPicker}
               />
@@ -200,6 +202,7 @@ export default class PersonalDetails extends Component {
                     ? styles.buttonIcon
                     : styles.activeButtonIcon
                 }
+                iconRight={true}
                 shouldUseEmoji={height === undefined ? false : true}
                 onPress={this.showHeightNumPicker}
               />
@@ -242,6 +245,7 @@ export default class PersonalDetails extends Component {
                       ? styles.buttonIcon
                       : styles.activeButtonIcon
                   }
+                  iconRight={true}
                   shouldUseEmoji={targetWeight === undefined ? false : true}
                   onPress={this.showTargetWeightTimeline}
                 />

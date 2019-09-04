@@ -12,6 +12,9 @@ export const styles = StyleSheet.create({
     flex: 1
     //backgroundColor: "pink"
   },
+  contentContainer: {
+    paddingBottom: 20
+  },
   rowContainer: {
     flex: 1,
     flexDirection: "row",
@@ -41,14 +44,14 @@ export const styles = StyleSheet.create({
   },
   vegContainer: {
     backgroundColor: styleCommon.textColor3,
-    marginLeft: 10,
+    marginLeft: 8,
     borderRadius: 4
   },
   vegIcon: {
     height: DEVICE_NAME.includes("iPhone X")
       ? SCREEN_HEIGHT * 0.0295
       : SCREEN_HEIGHT * 0.0359, //24,
-    width: SCREEN_WIDTH * 0.064, //24,
+    width: SCREEN_WIDTH * 0.066, //24,
     paddingLeft: 10
   },
   descriptionContainer: {

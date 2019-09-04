@@ -32,7 +32,7 @@ export default class SelectButton extends React.Component {
       iconSize,
       iconName,
       onPress,
-      iconLeft,
+      iconRight,
       value,
       shouldUseEmoji
     } = this.props;
@@ -59,7 +59,7 @@ export default class SelectButton extends React.Component {
               />
             )
           }
-          iconLeft={iconLeft}
+          iconRight={iconRight}
           onPressIn={() => this.handlePressIn()}
           onPressOut={() => this.handlePressOut()}
           onPress={() => onPress(value)}

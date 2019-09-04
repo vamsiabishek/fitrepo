@@ -40,6 +40,7 @@ export default class Loading extends React.Component {
           source={animationStr}
           autoPlay
           loop
+          resizeMode="cover"
           style={watermelonAnimationStyle}
         />
         {!isTextNotAvailable ? (

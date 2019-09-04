@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   listViewContainer: {
+    flex: 1,
     alignItems: "flex-start",
     justifyContent: "space-between",
     flexDirection: "row",

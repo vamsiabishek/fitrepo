@@ -35,6 +35,7 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 
 export default class StartUpScreen extends Component {
   intervalId = 0;
+  overlayVisible = true;
   componentDidMount = () => {
     const numberOfImages = 9;
     let scrollValue = 0,
@@ -52,6 +53,7 @@ export default class StartUpScreen extends Component {
   };
   componentWillUnmount = () => {
     clearInterval(this.intervalId);
+    this.overlayVisible = false;
   };
   render() {
     const { navigate } = this.props.navigation;
@@ -108,42 +110,44 @@ export default class StartUpScreen extends Component {
             style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}
           />
         </ScrollView>
-        <Overlay
-          fullScreen={true}
-          isVisible={true}
-          windowBackgroundColor="rgb(0, 0, 0, .5)"
-          overlayStyle={styles.overlayContainerstyle}
-          overlayBackgroundColor="transparent"
-        >
-          <View style={styles.overlaySubContainerstyle}>
-            <View style={styles.headerViewContainer}>
-              <Text style={styles.textStyle}>WELCOME TO</Text>
-              <Text style={styles.logoText}>FITREPO</Text>
+        <View>
+          <Overlay
+            fullScreen={true}
+            isVisible={this.overlayVisible}
+            windowBackgroundColor="rgb(0, 0, 0, .5)"
+            overlayStyle={styles.overlayContainerstyle}
+            overlayBackgroundColor="transparent"
+          >
+            <View style={styles.overlaySubContainerstyle}>
+              <View style={styles.headerViewContainer}>
+                <Text style={styles.textStyle}>WELCOME TO</Text>
+                <Text style={styles.logoText}>FITREPO</Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                <Button
+                  title="SIGN UP"
+                  ViewComponent={LinearGradient}
+                  linearGradientProps={{
+                    colors: [btnGradientColorLeft, modalBtnGradientColorRight],
+                    start: { x: 0, y: 0.5 },
+                    end: { x: 1, y: 0.5 }
+                  }}
+                  containerStyle={styles.buttonContainerStyle}
+                  buttonStyle={styles.signUpButtonStyle}
+                  titleStyle={styles.signUpButtonTitleStyle}
+                  onPress={() => navigate("SignUp")}
+                />
+                <Button
+                  title="LOG IN"
+                  containerStyle={styles.buttonContainerStyle}
+                  buttonStyle={styles.loginButtonStyle}
+                  titleStyle={styles.loginButtonTitleStyle}
+                  onPress={() => navigate("Login")}
+                />
+              </View>
             </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                title="SIGN UP"
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                  colors: [btnGradientColorLeft, modalBtnGradientColorRight],
-                  start: { x: 0, y: 0.5 },
-                  end: { x: 1, y: 0.5 }
-                }}
-                containerStyle={styles.buttonContainerStyle}
-                buttonStyle={styles.signUpButtonStyle}
-                titleStyle={styles.signUpButtonTitleStyle}
-                onPress={() => navigate("SignUp")}
-              />
-              <Button
-                title="LOG IN"
-                containerStyle={styles.buttonContainerStyle}
-                buttonStyle={styles.loginButtonStyle}
-                titleStyle={styles.loginButtonTitleStyle}
-                onPress={() => navigate("Login")}
-              />
-            </View>
-          </View>
-        </Overlay>
+          </Overlay>
+        </View>
       </View>
     );
   }

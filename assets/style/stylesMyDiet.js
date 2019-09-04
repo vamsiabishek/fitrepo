@@ -6,7 +6,6 @@ import {
   fontsCommon,
   DEVICE_NAME
 } from "./stylesCommonValues";
-console.log("Screen height: ", SCREEN_HEIGHT);
 
 const styles = StyleSheet.create({
   container: {

@@ -6,7 +6,8 @@ import {
   ScrollView,
   StatusBar,
   UIManager,
-  View
+  View,
+  Platform
 } from "react-native";
 import {
   GRADIENT_BG_IMAGE,
@@ -30,7 +31,8 @@ import { styles } from "../../assets/style/stylesSignup";
 import {
   styleCommon,
   SCREEN_WIDTH,
-  SCREEN_HEIGHT
+  SCREEN_HEIGHT,
+  commonValues
 } from "../../assets/style/stylesCommonValues";
 import { auth, database } from "../common/FirebaseConfig";
 import { createDiet } from "./UpdateDiet";
@@ -284,11 +286,16 @@ export default class Signup extends Component {
 
   scrollToNextScreen = (currentScreen, isLoggedIn) => {
     if (isLoggedIn && currentScreen === 3) {
-      const scrollValue = SCREEN_WIDTH * (currentScreen + 1);
+      const scrollValue = commonValues.SCREEN_WIDTH * (currentScreen + 1);
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen + 2, navButtonActive: false });
     } else {
-      const scrollValue = SCREEN_WIDTH * currentScreen;
+      let scrollValue = commonValues.SCREEN_WIDTH * currentScreen;
+      if (Platform.OS === "android") {
+        if (scrollValue > 1400) {
+          scrollValue = 1000;
+        }
+      }
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen + 1, navButtonActive: false });
     }
@@ -957,6 +964,7 @@ export default class Signup extends Component {
                 this.scrollRef = scrollView;
               }}
               style={commonStyles.container}
+              pagingEnabled={true}
               contentContainerStyle={commonStyles.scrollContentContainer}
             >
               <View style={commonStyles.subContainer}>

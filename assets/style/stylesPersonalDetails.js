@@ -3,7 +3,8 @@ import {
   styleCommon,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
-  fontsCommon
+  fontsCommon,
+  ICON_SIZE
 } from "./stylesCommonValues";
 
 export const styles = StyleSheet.create({
@@ -55,13 +56,12 @@ export const styles = StyleSheet.create({
     fontWeight: "500"
   },
   buttonIcon: {
-    position: "absolute",
-    right: 10,
     color: styleCommon.secondaryButtonTextColor
+    //backgroundColor: "red",
   },
   activeButtonIcon: {
-    position: "absolute",
-    right: 10,
-    color: styleCommon.selectedButtonColor
+    color: styleCommon.selectedButtonColor,
+    height: 40
+    //backgroundColor: "red",
   }
 });
