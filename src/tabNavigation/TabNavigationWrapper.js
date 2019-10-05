@@ -12,12 +12,8 @@ import Supplements from "./../supplements/Supplements";
 import Profile from "./../profile/Profile";
 import EditProfile from "./../profile/EditProfile";
 import EditProfileSubScreen1 from "./../profile/EditProfileSubScreen1";
-import EditProfileSubScreen2 from "./../profile/EditProfileSubScreen2";
 import MyDiet from "./../diet/MyDiet";
 import Diet from "./../diet/Diet";
-import SignUpScreen1 from "../signup/SignUpScreen1";
-import SignUpScreen2 from "../signup/SignUpScreen2";
-import SignUpScreen3 from "../signup/SignUpScreen3";
 import Signup from "../signup/Signup";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesNavTheme";
@@ -39,10 +35,7 @@ const LoginStackNavigator = createStackNavigator(
 
 const SignUpStackNavigator = createStackNavigator(
   {
-    Signup,
-    SignUpScreen1,
-    SignUpScreen2,
-    SignUpScreen3
+    Signup
   },
   {
     initialRouteName: "Signup",
@@ -56,8 +49,7 @@ const ProfileStackNavigator = createStackNavigator(
   {
     Profile,
     EditProfile,
-    EditProfileSubScreen1,
-    EditProfileSubScreen2
+    EditProfileSubScreen1
   },
   {
     initialRouteName: "Profile",
@@ -176,7 +168,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator
   },
   {
-    initialRouteName: "Login",
+    initialRouteName: "StartUp",
     defaultNavigationOptions: {
       header: null
     }

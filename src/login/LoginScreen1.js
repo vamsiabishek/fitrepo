@@ -25,7 +25,8 @@ import {
   ICON_SIZE,
   btnGradientColorLeft,
   modalBtnGradientColorRight,
-  fontsCommon
+  fontsCommon,
+  styleCommon
 } from "../../assets/style/stylesCommonValues";
 import { commonStyles } from "../../assets/style/stylesCommon";
 import Loading from "../components/Loading";
@@ -38,7 +39,6 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 export default class LoginScreen1 extends Component {
   constructor(props) {
     super(props);
-
     (async () => {
       // All async code here
       //await removeCurrentUser()
@@ -59,7 +59,8 @@ export default class LoginScreen1 extends Component {
       passwordValid: true,
       login_failed: false,
       isLoading: false,
-      selectedIndex: 0
+      selectedIndex: 0,
+      secureTextKey: true
     };
     //this.logoutGoogleUser()
   }
@@ -77,7 +78,12 @@ export default class LoginScreen1 extends Component {
       }
     }
   }*/
-
+  onEyeIconPress = () => {
+    this.setState({ secureTextKey: false });
+  };
+  onEyeOffIconPress = () => {
+    this.setState({ secureTextKey: true });
+  };
   onEmailChange = email => {
     this.setState({ email });
   };
@@ -266,7 +272,8 @@ export default class LoginScreen1 extends Component {
       password,
       passwordValid,
       emailValid,
-      isLoading
+      isLoading,
+      secureTextKey
     } = this.state;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={commonStyles.bgImage}>
@@ -285,7 +292,7 @@ export default class LoginScreen1 extends Component {
               <View style={styles.loginInputContainer}>
                 <Input
                   placeholder="Email"
-                  placeholderTextColor="white"
+                  placeholderTextColor={styleCommon.textColor1}
                   containerStyle={styles.inputContainer}
                   inputStyle={styles.inputStyle}
                   errorStyle={styles.errorInputStyle}
@@ -317,7 +324,7 @@ export default class LoginScreen1 extends Component {
                 />
                 <Input
                   placeholder="Password"
-                  placeholderTextColor="white"
+                  placeholderTextColor={styleCommon.textColor1}
                   leftIcon={
                     <Icon
                       name="key-variant"
@@ -334,7 +341,7 @@ export default class LoginScreen1 extends Component {
                   autoCorrect={false}
                   keyboardType="default"
                   returnKeyType="go"
-                  secureTextEntry={true}
+                  secureTextEntry={secureTextKey}
                   value={password}
                   onChangeText={password => this.onPasswordChange(password)}
                   ref={input => (this.passwordInput = input)}
@@ -343,6 +350,25 @@ export default class LoginScreen1 extends Component {
                   }}
                   errorMessage={
                     passwordValid ? null : "Please enter a valid password"
+                  }
+                  rightIcon={
+                    <Button
+                      icon={
+                        <Icon
+                          name={secureTextKey ? "eye" : "eye-off"}
+                          size={ICON_SIZE}
+                          style={{ color: styleCommon.textColor1 }}
+                        />
+                      }
+                      buttonStyle={{
+                        backgroundColor: "transparent"
+                      }}
+                      onPress={
+                        secureTextKey
+                          ? this.onEyeIconPress
+                          : this.onEyeOffIconPress
+                      }
+                    />
                   }
                 />
               </View>

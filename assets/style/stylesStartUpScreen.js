@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import {
   styleCommon,
   SCREEN_WIDTH,
@@ -19,7 +19,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignContent: "center",
-    margin: 20
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+    margin: Platform.OS === "android" ? 0 : 20,
+    borderWidth: 0
   },
   overlaySubContainerstyle: {
     flex: 1,

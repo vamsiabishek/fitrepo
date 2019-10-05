@@ -55,6 +55,7 @@ export const styles = StyleSheet.create({
   headerIconStyle: {
     paddingRight: 10,
     marginRight: 10,
+    height: 40, 
     color: styleCommon.selectedButtonColor
   },
   contentBoxMainStyle: {

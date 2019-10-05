@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     height: 3,
     borderTopWidth: 3,
     borderColor: styleCommon.disableColor,
-    width: 55 //65 Make dynamic
+    width: 54 //65 Make dynamic
   },
   iconStyle: {
     height: 25, //15, Make dynamic
@@ -36,8 +36,8 @@ export const styles = StyleSheet.create({
     color: "#494b50"
   },
   labelContainer: {
-    width: 30,
-    height: 30,
+    width: 32,
+    height: 32,
     marginTop: 3,
     alignItems: "center",
     justifyContent: "center"
@@ -47,6 +47,6 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     alignItems: "center",
     justifyContent: "center",
-    color: styleCommon.textColor1,
+    color: styleCommon.textColor1
   }
 });

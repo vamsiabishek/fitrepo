@@ -33,7 +33,7 @@ export default class App extends Component {
         style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
       >
         <StatusBar
-          barStyle="default"
+          barStyle="dark-content"
           backgroundColor="transparent" //{styleCommon.primaryColor}
           translucent={true}
         />

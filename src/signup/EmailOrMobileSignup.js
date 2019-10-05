@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { View, UIManager, KeyboardAvoidingView } from "react-native";
-import { Input } from "react-native-elements";
+import { View, UIManager } from "react-native";
+import { Input, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   ICON_SIZE_MED,
+  ICON_SIZE,
   styleCommon
 } from "../../assets/style/stylesCommonValues";
 import { styles } from "../../assets/style/stylesEmailOrMobileSignup";
@@ -13,6 +14,25 @@ UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class EmailOrMobileSignup extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      secureTextKeyP: true,
+      secureTextKeyCP: true
+    };
+  }
+  onEyeIconPressP = () => {
+    this.setState({ secureTextKeyP: false });
+  };
+  onEyeOffIconPressP = () => {
+    this.setState({ secureTextKeyP: true });
+  };
+  onEyeIconPressCP = () => {
+    this.setState({ secureTextKeyCP: false });
+  };
+  onEyeOffIconPressCP = () => {
+    this.setState({ secureTextKeyCP: true });
+  };
   render() {
     const placeholderTextColor = styleCommon.textColor1;
     const {
@@ -29,11 +49,9 @@ export default class EmailOrMobileSignup extends Component {
       validatePassword,
       validateConfirmationPassword
     } = this.props.signupObject;
+    const { secureTextKeyP, secureTextKeyCP } = this.state;
     return (
-      <View
-        style={styles.mainContent}
-       
-      >
+      <View style={styles.mainContent}>
         <Input
           placeholder="Email"
           placeholderTextColor={placeholderTextColor}
@@ -79,7 +97,7 @@ export default class EmailOrMobileSignup extends Component {
           inputStyle={styles.inputStyle}
           placeholderTextColor={placeholderTextColor}
           errorStyle={styles.errorInputStyle}
-          secureTextEntry={true}
+          secureTextEntry={secureTextKeyP}
           keyboardAppearance="light"
           keyboardType="default"
           autoCapitalize="none"
@@ -98,6 +116,23 @@ export default class EmailOrMobileSignup extends Component {
             passwordValid
               ? null
               : "Password should have more than 8 charecters!"
+          }
+          rightIcon={
+            <Button
+              icon={
+                <Icon
+                  name={secureTextKeyP ? "eye" : "eye-off"}
+                  size={ICON_SIZE}
+                  style={{ color: styleCommon.textColor1 }}
+                />
+              }
+              buttonStyle={{
+                backgroundColor: "transparent"
+              }}
+              onPress={
+                secureTextKeyP ? this.onEyeIconPressP : this.onEyeOffIconPressP
+              }
+            />
           }
         />
         <Input
@@ -119,9 +154,9 @@ export default class EmailOrMobileSignup extends Component {
           }
           onFocus={() => validatePassword(password, this.passwordInput)}
           value={confirmationPassword}
-          secureTextEntry={true}
+          secureTextEntry={secureTextKeyCP}
           keyboardAppearance="light"
-          keyboardType="email-address"
+          keyboardType="default"
           autoCapitalize="none"
           autoCorrect={false}
           blurOnSubmit={true}
@@ -134,6 +169,25 @@ export default class EmailOrMobileSignup extends Component {
           }}
           errorMessage={
             confirmationPasswordValid ? null : "The Passwords do not match !"
+          }
+          rightIcon={
+            <Button
+              icon={
+                <Icon
+                  name={secureTextKeyCP ? "eye" : "eye-off"}
+                  size={ICON_SIZE}
+                  style={{ color: styleCommon.textColor1 }}
+                />
+              }
+              buttonStyle={{
+                backgroundColor: "transparent"
+              }}
+              onPress={
+                secureTextKeyCP
+                  ? this.onEyeIconPressCP
+                  : this.onEyeOffIconPressCP
+              }
+            />
           }
         />
       </View>

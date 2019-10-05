@@ -22,7 +22,6 @@ export default class Gender extends Component {
             titleStyle={
               gender === 1 ? styles.activeButtonTitle : styles.buttonTitle
             }
-            iconLeft
             iconSize={ICON_SELECT_GENDER}
             iconName={gender === 1 ? "man-raising-hand" : "man"}
             buttonIcon={styles.buttonIcon}

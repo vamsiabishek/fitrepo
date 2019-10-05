@@ -16,6 +16,7 @@ class CustomListview extends React.Component {
             <CustomListViewRow uid={uid} item={item} navigation={navigation} />
           )}
           keyExtractor={this._keyExtractor}
+          contentContainerStyle={styles.contentContainer}
         />
       </View>
     );

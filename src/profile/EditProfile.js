@@ -10,7 +10,6 @@ import {
 import { Button, Avatar } from "react-native-elements";
 import { styles } from "../../assets/style/stylesEditProfileScreen";
 import EditProfileSubScreen1 from "./EditProfileSubScreen1";
-import EditProfileSubScreen2 from "./EditProfileSubScreen2";
 import { ICON_SIZE, GRADIENT_BG_IMAGE } from "../common/Common";
 import { database, storage } from "../common/FirebaseConfig";
 import {
@@ -263,7 +262,7 @@ export default class EditProfile extends Component {
                   color: styleCommon.textColor2
                 }}
                 //source={{ uri: user.avatarSource }}
-                imageProps={styles.avatarImagePropsStyle}
+                //imageProps={styles.avatarImagePropsStyle}
                 editButton={{
                   type: "material-community",
                   name: "pencil",

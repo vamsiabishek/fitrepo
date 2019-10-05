@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, Animated, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  KeyboardAvoidingView
+} from "react-native";
 import { SocialIcon } from "react-native-elements";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { GoogleSignin } from "react-native-google-signin";
@@ -8,7 +14,7 @@ import EmailOrMobileSignup from "./EmailOrMobileSignup";
 import Loading from "../components/Loading";
 import { styles } from "../../assets/style/stylesSocialMediaSignup";
 import { ICON_SELECT_SIGNUP_OPTION } from "../../assets/style/stylesCommonValues";
-import { setCurrentUser } from "../common/Util"
+import { setCurrentUser } from "../common/Util";
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
@@ -285,13 +291,6 @@ export default class SocialMediaSignup extends Component {
           </React.Fragment>
         )}
       </KeyboardAvoidingView>
-      //)}
     );
   }
-}
-
-{
-  /*isLoading ? (
-        <Loading />
-      ) : (*/
 }

@@ -86,18 +86,20 @@ export default class PreferenceDetails extends Component {
                   <Emoji name={foodPrefIcon} />
                 </Icon>
               </View>
-              {/* <View style={styles.contentBoxMainStyle}>
-                <ButtonGroup
-                  onPress={this.updateVegIndex}
-                  selectedIndex={foodPreference}
-                  buttons={["Vegetarian", "Eggetarian", "Non-Vegetarian"]}
-                  containerStyle={styles.vegButtonGroup}
-                  innerBorderStyle={{ width: 0 }}
-                  selectedButtonStyle={styles.veg}
-                  textStyle={styles.buttonGroupTextStyle}
-                  selectedTextStyle={styles.buttonGroupSelectedTextStyle}
-                />
-    </View> */}
+              {/* 
+                <View style={styles.contentBoxMainStyle}>
+                  <ButtonGroup
+                    onPress={this.updateVegIndex}
+                    selectedIndex={foodPreference}
+                    buttons={["Vegetarian", "Eggetarian", "Non-Vegetarian"]}
+                    containerStyle={styles.vegButtonGroup}
+                    innerBorderStyle={{ width: 0 }}
+                    selectedButtonStyle={styles.veg}
+                    textStyle={styles.buttonGroupTextStyle}
+                    selectedTextStyle={styles.buttonGroupSelectedTextStyle}
+                  />
+                </View> 
+              */}
             </View>
             <View
               style={{
