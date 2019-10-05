@@ -10,7 +10,6 @@ import {
 import { Button, Avatar } from "react-native-elements";
 import { styles } from "../../assets/style/stylesEditProfileScreen";
 import EditProfileSubScreen1 from "./EditProfileSubScreen1";
-import EditProfileSubScreen2 from "./EditProfileSubScreen2";
 import { ICON_SIZE, GRADIENT_BG_IMAGE } from "../common/Common";
 import { database, storage } from "../common/FirebaseConfig";
 import {

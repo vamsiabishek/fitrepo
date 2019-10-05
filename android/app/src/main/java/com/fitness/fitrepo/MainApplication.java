@@ -9,7 +9,6 @@ import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.imagepicker.ImagePickerPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -20,7 +19,6 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
 import java.util.Arrays;
@@ -42,10 +40,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(),
-            new RNGoogleSigninPackage(), new RNPurchasesPackage(),
-          new NavigationBarColorPackage(), new LottiePackage(), new FBSDKPackage(mCallbackManager), new RNDeviceInfo(),
-          new ImagePickerPackage(), new LinearGradientPackage(), new RNScreensPackage(), new VectorIconsPackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNGoogleSigninPackage(), new RNPurchasesPackage(),
+          new NavigationBarColorPackage(), new LottiePackage(), new FBSDKPackage(mCallbackManager), new RNDeviceInfo(), new LinearGradientPackage(), new RNScreensPackage(), new VectorIconsPackage(),
           new RNGestureHandlerPackage());
     }
 

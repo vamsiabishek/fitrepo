@@ -109,7 +109,7 @@ export default class Signup extends Component {
       userLoginAnimation: false,
       isLoggedIn: false,
       isExistingUser: navigation.getParam("isExistingUser") ? true : false,
-      newLogin: navigation.getParam("newLogin") ? true : false
+      newLogin: navigation.getParam("newLogin") ? true : false // if new user chooses to login through FB/Google from the "Log In" page
     };
   }
 
