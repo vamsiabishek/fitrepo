@@ -305,7 +305,7 @@ export default class MyDiet extends Component {
         {isLoading ? (
           <Loading
             takeFullHeight={true}
-            text={"We are creating your diet ..."}
+            text={"We are getting your diet ..."}
             animationStr={require("../../assets/jsons/watermelon.json")}
             animationHeight={SCREEN_HEIGHT * 0.615}
           />

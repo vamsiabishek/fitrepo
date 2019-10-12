@@ -170,21 +170,21 @@ export default class Signup extends Component {
     }
   };
 
-  gotToNext = () => {
+  goToNext = () => {
     setTimeout(() => this.onNext(this.state.screen), 400);
   };
 
   setGoal = goal => {
     this.setState({ goal });
-    this.gotToNext();
+    this.goToNext();
   };
   setGender = gender => {
     this.setState({ gender });
-    this.gotToNext();
+    this.goToNext();
   };
   setFitnessLevel = fitnessLevel => {
     this.setState({ fitnessLevel });
-    this.gotToNext();
+    this.goToNext();
   };
   setFBUser = user => {
     this.setState({ user, dob: user.dob, age: user.age });
@@ -192,6 +192,10 @@ export default class Signup extends Component {
   };
   setGoogleUser = user => {
     this.setState({ user });
+    this.scrollToNextScreen(4);
+  };
+  setNewUser = async () => {
+    await this.createNewUser();
     this.scrollToNextScreen(4);
   };
   setDob = (dob, age) => {
@@ -284,18 +288,13 @@ export default class Signup extends Component {
     this.setState({ targetWeight, program, navButtonActive: true });
   };
 
-  scrollToNextScreen = (currentScreen, isLoggedIn) => {
+  scrollToNextScreen = (currentScreen, isLoggedIn = false) => {
     if (isLoggedIn && currentScreen === 3) {
       const scrollValue = commonValues.SCREEN_WIDTH * (currentScreen + 1);
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen + 2, navButtonActive: false });
     } else {
       let scrollValue = commonValues.SCREEN_WIDTH * currentScreen;
-      if (Platform.OS === "android") {
-        if (scrollValue > 1400) {
-          scrollValue = 1000;
-        }
-      }
       this.scrollRef.scrollTo({ x: scrollValue });
       this.setState({ screen: this.state.screen + 1, navButtonActive: false });
     }
@@ -688,7 +687,7 @@ export default class Signup extends Component {
       )
         isScrollable = true;
       if (currentScreen === 4) {
-        await this.createNewUser();
+        await this.setNewUser();
         isScrollable = true;
       }
       if (
@@ -710,7 +709,7 @@ export default class Signup extends Component {
         await this.saveUserDetails();
         await this.createDietAndMeals();
       }
-      if (isScrollable && this.scrollRef) {
+      if (isScrollable && this.scrollRef && currentScreen !== 4) {
         this.scrollToNextScreen(currentScreen, isLoggedIn);
       }
     } else if (newLogin) {
@@ -932,10 +931,10 @@ export default class Signup extends Component {
     const showGender = isExistingUser === newLogin;
     const loadingAnimationText = userLoginAnimation
       ? "Signing you up with Fitrepo ..."
-      : "We are creating your diet ...";
+      : "Creating your new diet ...";
     const loadingAnimation = userLoginAnimation
       ? require("../../assets/jsons/user_animation_4.json")
-      : require("../../assets/jsons/watermelon.json");
+      : require("../../assets/jsons/dots_circle_salmon_animation.json");
     return (
       <View style={commonStyles.container}>
         <StatusBar hidden={true} />
@@ -948,13 +947,6 @@ export default class Signup extends Component {
               color={styleCommon.textColor1}
               style={{ flex: 1 }}
               size="large"
-            />
-          ) : isLoading ? (
-            <Loading
-              takeFullHeight={true}
-              text={loadingAnimationText}
-              animationStr={loadingAnimation}
-              animationHeight={SCREEN_HEIGHT * 0.615}
             />
           ) : (
             <ScrollView
@@ -1011,18 +1003,28 @@ export default class Signup extends Component {
                 <View style={commonStyles.subContainer}>
                   <View style={styles.contentWrapper}>
                     <Header
-                      title="SIGN UP !"
+                      title={isLoading ? "Hold on ..." : "SIGN UP !"}
                       screen={screen}
                       onBack={this.onBack}
                       onCancel={this.onCancelSignup}
                     />
-                    <SocialMediaSignup
-                      signupObject={signupObject}
-                      setFBUser={this.setFBUser}
-                      setGoogleUser={this.setGoogleUser}
-                    />
+                    {isLoading ? (
+                      <View style={styles.contentWrapper}>
+                        <Loading
+                          text={loadingAnimationText}
+                          isTextBold={false}
+                          animationStr={loadingAnimation}
+                        />
+                      </View>
+                    ) : (
+                      <SocialMediaSignup
+                        signupObject={signupObject}
+                        setFBUser={this.setFBUser}
+                        setGoogleUser={this.setGoogleUser}
+                      />
+                    )}
                     <NavNextButton
-                      isActive={navButtonActive}
+                      isActive={isLoading ? false : navButtonActive}
                       screen={screen}
                       onNext={this.onNext}
                     />
@@ -1032,7 +1034,7 @@ export default class Signup extends Component {
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
-                    title={"Lets's get to know you Better," + user.name + " !"}
+                    title={"Let's get to know you Better, " + user.name + " !"}
                     screen={screen}
                     onBack={this.onBack}
                     onCancel={this.onCancelSignup}
@@ -1087,29 +1089,41 @@ export default class Signup extends Component {
               </View>
               <View style={commonStyles.subContainer}>
                 <Header
-                  title="Would you like to choose ?"
+                  title={
+                    isLoading ? "Hold On ..." : "Would you like to choose ?"
+                  }
                   screen={screen}
                   onBack={this.onBack}
                   onCancel={this.onCancelSignup}
                 />
-                <FoodSources
-                  selectedProteinSources={selectedProteinSources}
-                  selectedCarbSources={selectedCarbSources}
-                  selectedFatSources={selectedFatSources}
-                  foodPreference={foodPreference}
-                  showModal={showModal}
-                  modalContains={modalContains}
-                  selectedSources={selectedSources}
-                  filteredSources={filteredSources}
-                  removeSource={this.removeSource}
-                  addSource={this.addSource}
-                  onSourceToggle={this.onSourceToggle}
-                  onCancel={this.onCancel}
-                  onConfirm={this.onConfirm}
-                  filterSources={this.filterSources}
-                />
+                {isLoading ? (
+                  <View style={styles.contentWrapper}>
+                    <Loading
+                      isTextBold={false}
+                      text={loadingAnimationText}
+                      animationStr={loadingAnimation}
+                    />
+                  </View>
+                ) : (
+                  <FoodSources
+                    selectedProteinSources={selectedProteinSources}
+                    selectedCarbSources={selectedCarbSources}
+                    selectedFatSources={selectedFatSources}
+                    foodPreference={foodPreference}
+                    showModal={showModal}
+                    modalContains={modalContains}
+                    selectedSources={selectedSources}
+                    filteredSources={filteredSources}
+                    removeSource={this.removeSource}
+                    addSource={this.addSource}
+                    onSourceToggle={this.onSourceToggle}
+                    onCancel={this.onCancel}
+                    onConfirm={this.onConfirm}
+                    filterSources={this.filterSources}
+                  />
+                )}
                 <NavNextButton
-                  isActive={true}
+                  isActive={isLoading ? false : true}
                   screen={screen}
                   onNext={this.onNext}
                   buttonText={sourcesButtonLabel}

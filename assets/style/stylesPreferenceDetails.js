@@ -50,12 +50,13 @@ export const styles = StyleSheet.create({
     textAlign: "left",
     alignItems: "center",
     color: styleCommon.secondaryButtonTextColor,
-    fontSize: fontsCommon.font15
+    fontSize: fontsCommon.font15,
+    fontWeight: "bold"
   },
   headerIconStyle: {
     paddingRight: 10,
     marginRight: 10,
-    height: 40, 
+    height: 40,
     color: styleCommon.selectedButtonColor
   },
   contentBoxMainStyle: {

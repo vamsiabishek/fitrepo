@@ -49,8 +49,8 @@ export default class LoginScreen1 extends Component {
       }
     })();
     this.state = {
-      email: "dhiv.tester1@gmail.com", //"dhivya@gmail.com",
-      password: "dhivya123", //"Dhivya09",
+      email: "jake@live.com", //"dhivya@gmail.com", //"dhiv.tester1@gmail.com",
+      password: "12345678", //"Dhivya09", // "dhivya123",
       //email: "vamsi@gmail.com",
       //password: "vamsi123",
       // email: "test123@gmail.com",
