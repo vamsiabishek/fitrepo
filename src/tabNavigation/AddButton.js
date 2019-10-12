@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { withNavigation } from "react-navigation";
 import { createKeyAndValuesFromResult } from "../common/Util";
 import { fontsCommon } from "../../assets/style/stylesCommonValues";
-import { getCurrentUser } from "../common/Util"
+import { getCurrentUser } from "../common/Util";
 
 class AddButton extends React.Component {
   addNew = async () => {
@@ -21,29 +21,34 @@ class AddButton extends React.Component {
         latestDiet = createKeyAndValuesFromResult(results)[0];
       })
       .catch(error => {
+        latestDiet = undefined;
         console.log(error);
       });
-    const { createdDate, selectedGoal, selectedProgram } = latestDiet.value;
-    const fromDate = new Date(createdDate);
-    const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
-    const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000));
-    const total_minutes = parseInt(Math.floor(total_seconds / 60));
-    const total_hours = parseInt(Math.floor(total_minutes / 60));
-    const days = parseInt(Math.floor(total_hours / 24));
-    if (days <= selectedProgram * 7) {
-      Alert.alert(
-        "Create diet confirmation !",
-        `You are curently active on ${selectedProgram} Week diet, are you sure about creating new diet ?`,
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          },
-          { text: "Continue", onPress: () => this.navigateToCreateDiet(uid) }
-        ],
-        { cancelable: false }
-      );
+    if (latestDiet !== undefined) {
+      const { createdDate, selectedGoal, selectedProgram } = latestDiet.value;
+      const fromDate = new Date(createdDate);
+      const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
+      const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000));
+      const total_minutes = parseInt(Math.floor(total_seconds / 60));
+      const total_hours = parseInt(Math.floor(total_minutes / 60));
+      const days = parseInt(Math.floor(total_hours / 24));
+      if (days <= selectedProgram * 7) {
+        Alert.alert(
+          "Create diet confirmation !",
+          `You are curently active on ${selectedProgram} Week diet, are you sure about creating new diet ?`,
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+            { text: "Continue", onPress: () => this.navigateToCreateDiet(uid) }
+          ],
+          { cancelable: false }
+        );
+      } else {
+        this.navigateToCreateDiet(uid);
+      }
     } else {
       this.navigateToCreateDiet(uid);
     }
