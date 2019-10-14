@@ -10,7 +10,7 @@ import {
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN
 } from "../common/SourceUtil";
-import { getCurrentUser } from "../common/Util"
+import { getCurrentUser } from "../common/Util";
 
 export default class CreateDiet extends Component {
   constructor(props) {
@@ -180,18 +180,18 @@ export default class CreateDiet extends Component {
         dietId = res.key;
       })
       .catch(error => {
-        console.log("error while saving new diet:", error);
+        // console.log("error while saving new diet:", error);
         this.setState({ isLoading: false });
       });
     await database
       .ref("meals")
       .push({ ...mealDetails, dietId })
       .then(res => {
-        console.log("Successfully saved diet and meals");
+        // console.log("Successfully saved diet and meals");
         this.setState({ isLoading: false });
       })
       .catch(error => {
-        console.log("error while saving meals to the diet:", error);
+        // console.log("error while saving meals to the diet:", error);
         this.setState({ isLoading: false });
       });
     return dietId;

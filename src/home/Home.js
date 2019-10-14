@@ -5,7 +5,7 @@ import { styles } from "../../assets/style/stylesHomeScreen";
 import { f, database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
-import { getCurrentUser } from "../common/Util"
+import { getCurrentUser } from "../common/Util";
 
 export default class Home extends Component {
   constructor(props) {
@@ -32,10 +32,10 @@ export default class Home extends Component {
         });
       })
       .catch(error => {
-        console.log(
+        /* console.log(
           "error while fetching user details in componentDidMount of Home:",
           error
-        );
+        );*/
       });
   };
   render() {

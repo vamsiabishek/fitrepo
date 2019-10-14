@@ -18,7 +18,7 @@ export const createDiet = async ({ dietInfo, uid }) => {
     ...dietInfo,
     uid
   });
-  //console.log(mealDetails);
+  // console.log(mealDetails);
 
   const dietDetails = {
     selectedGoal,
@@ -50,23 +50,23 @@ saveDietAndMeals = async ({ dietDetails, mealDetails, uid }) => {
       dietId = res.key;
     })
     .catch(error => {
-      console.log("error while saving new diet:", error);
+      // console.log("error while saving new diet:", error);
     });
   await database
     .ref("meals")
     .push({ ...mealDetails, dietId })
     .then(res => {
-      console.log("Successfully saved diet and meals");
+      // console.log("Successfully saved diet and meals");
     })
     .catch(error => {
-      console.log("error while saving meals to the diet:", error);
+      // console.log("error while saving meals to the diet:", error);
     });
 
   return dietId;
 };
 
 createSupplements = async ({ fitnessLevel, goal, dietId }) => {
-  console.log("creating  supplements for dietId :", dietId);
+  // console.log("creating  supplements for dietId :", dietId);
   const supplementKeys = getSupplementKeysBasedOnFitnessAndGoal({
     fitnessLevel,
     goal
@@ -75,9 +75,9 @@ createSupplements = async ({ fitnessLevel, goal, dietId }) => {
     .ref(`supplements/${dietId}`)
     .push(supplementKeys)
     .then(res => {
-      console.log("successfully saved the supplements for the diet");
+      // console.log("successfully saved the supplements for the diet");
     })
     .catch(error => {
-      console.log("error while saving supplements for a diet:", error);
+      // console.log("error while saving supplements for a diet:", error);
     });
 };

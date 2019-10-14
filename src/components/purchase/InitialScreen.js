@@ -26,7 +26,7 @@ export default class InitialScreen extends React.Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
     const purchaserInfo = await Purchases.getPurchaserInfo();
-    console.log("Purchaser Info: ", purchaserInfo);
+    // console.log("Purchaser Info: ", purchaserInfo);
     if (purchaserInfo.activeEntitlements.length === 0) {
       this.setState({ isLoading: false });
     } else {
@@ -69,30 +69,30 @@ export default class InitialScreen extends React.Component {
 
   handlePaymentProcess = async priceIdentifier => {
     this.setState({ isLoading: true });
-    const {uid, dietId} = this.props
+    const { uid, dietId } = this.props;
     try {
       const purchaseMade = await Purchases.makePurchase(priceIdentifier);
-      console.log("Purchase Made: ", purchaseMade);
+      // console.log("Purchase Made: ", purchaseMade);
       if (purchaseMade.purchaserInfo.activeEntitlements !== "undefined") {
         const purchaseSummary = await Purchases.getPurchaserInfo();
-        console.log(purchaseSummary);
+        // console.log(purchaseSummary);
         const purchaseId = uid + "-" + dietId;
         const purchaseDetails = {
           productIdentifier: purchaseSummary.activeEntitlements[0],
           purchaseId
-        }
+        };
         await database
-        .ref(`users/${uid}/purchases/`)
-        .push({
-          ...purchaseDetails,
-          purchaseDate: f.database.ServerValue.TIMESTAMP,
-        })
-        .then(res => {
-          alert("Purchase Successful !")
-        })
-        .catch(error => {
-          console.log("error while saving purchase details:", error);
-        });
+          .ref(`users/${uid}/purchases/`)
+          .push({
+            ...purchaseDetails,
+            purchaseDate: f.database.ServerValue.TIMESTAMP
+          })
+          .then(res => {
+            alert("Purchase Successful !");
+          })
+          .catch(error => {
+            // console.log("error while saving purchase details:", error);
+          });
         this.setState({
           isLoading: false,
           showPurchaseSummary: true,
@@ -102,10 +102,10 @@ export default class InitialScreen extends React.Component {
     } catch (e) {
       if (!e.userCancelled) {
         this.setState({ isLoading: false });
-        console.log("Error occurred while handling payment: ", e);
+        // console.log("Error occurred while handling payment: ", e);
       } else {
         this.setState({ isLoading: false });
-        console.log("User cancelled payment: ", e);
+        // console.log("User cancelled payment: ", e);
         Alert.alert("User cancelled payment !");
       }
     }
@@ -134,7 +134,7 @@ export default class InitialScreen extends React.Component {
       activeEntitlement = purchaseSummary.activeEntitlements[0];
       donePurchase =
         purchaseSummary.purchaseDatesForActiveEntitlements[activeEntitlement];
-      console.log("Done Purchase: ", donePurchase);
+      // console.log("Done Purchase: ", donePurchase);
     }
     return (
       <View>

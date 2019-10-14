@@ -41,14 +41,14 @@ class PurchaseList extends React.Component {
   };
   render() {
     const { purchases } = this.props;
-    console.log(purchases);
+    // console.log(purchases);
     let purchaseList = [];
     if (purchases) {
       purchaseList = Object.keys(purchases).map(key => {
         return purchases[key];
       });
     }
-    console.log(purchaseList);
+    // console.log(purchaseList);
 
     return (
       <View style={styles.container}>

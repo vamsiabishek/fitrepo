@@ -39,10 +39,10 @@ export default class Supplements extends Component {
         this.setState({ supplements });
       })
       .catch(error => {
-        console.log(
+        /* console.log(
           "error while fetching user details in componentDidMount of Supplements:",
           error
-        );
+        );*/
       });
   };
   render() {

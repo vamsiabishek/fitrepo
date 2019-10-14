@@ -64,7 +64,7 @@ export default class EditProfile extends Component {
       .child(userId)
       .update(setUserPartial)
       .then(() => {
-        console.log("Successfully updated existing user with details");
+        // console.log("Successfully updated existing user with details");
         this.setState({
           user: { ...user, ...setUserPartial }
         });
@@ -74,7 +74,7 @@ export default class EditProfile extends Component {
         // }
       })
       .catch(error => {
-        console.log("Error while updating new user with details:", error);
+        // console.log("Error while updating new user with details:", error);
       });
   };
 
@@ -109,20 +109,20 @@ export default class EditProfile extends Component {
       }
     };
     ImagePicker.showImagePicker(uploadOptions, response => {
-      console.log("Response = ", response);
+      // console.log("Response = ", response);
       if (response.didCancel) {
-        console.log("User cancelled Image picker");
+        // console.log("User cancelled Image picker");
       } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
+        // console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
-        console.log("User tapped custon button: ", response.customButton);
+        // console.log("User tapped custon button: ", response.customButton);
       } else {
         const source = { uri: response.uri };
         this.uploadImage(response.uri, response.data);
         this.setState({
           avatarSource: source.uri
         });
-        console.log(this.state.avatarSource);
+        // console.log(this.state.avatarSource);
       }
     });
   };
@@ -142,11 +142,11 @@ export default class EditProfile extends Component {
       .on(
         "state_changed",
         snapshot => {
-          console.log(
+          /* console.log(
             "Progress: ",
             snapshot.bytesTransferred,
             snapshot.totalBytes
-          );
+          );*/
         },
         error => {},
         () => {
@@ -155,7 +155,7 @@ export default class EditProfile extends Component {
             .child(filePath)
             .getDownloadURL()
             .then(url => {
-              console.log("download url:", url);
+              // console.log("download url:", url);
               this.setState({
                 avatarSource: url
               });
@@ -181,12 +181,12 @@ export default class EditProfile extends Component {
         });
       })
       .catch(error => {
-        console.log("error while updating with profile pic url: ", error);
+        // console.log("error while updating with profile pic url: ", error);
       });
   };
 
   forceUpdate = () => {
-    console.log("In force update !");
+    // console.log("In force update !");
     const { userId } = this.state;
     database
       .ref("users")

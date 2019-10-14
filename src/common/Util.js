@@ -129,15 +129,15 @@ export const signOutUser = async () => {
 
 let IS_FIRST_TIME_USER = true;
 
-export const setFirstTimeUser = async() => {
+export const setFirstTimeUser = async () => {
   if (IS_FIRST_TIME_USER) {
-    IS_FIRST_TIME_USER = await isNewUser()
+    IS_FIRST_TIME_USER = await isNewUser();
   }
 };
 
 export const getFirstTimeUser = () => IS_FIRST_TIME_USER;
 
-const isNewUser = async() => {
+const isNewUser = async () => {
   const { uid } = await getCurrentUser();
   let firstDiet = {};
   await database
@@ -150,7 +150,7 @@ const isNewUser = async() => {
       firstDiet = createKeyAndValuesFromResult(results)[0];
     })
     .catch(error => {
-      console.log(error);
+      // console.log(error);
     });
   const { createdDate } = firstDiet.value;
   const fromDate = new Date(createdDate);
@@ -159,7 +159,6 @@ const isNewUser = async() => {
   const total_minutes = parseInt(Math.floor(total_seconds / 60));
   const total_hours = parseInt(Math.floor(total_minutes / 60));
   const days = parseInt(Math.floor(total_hours / 24));
-  if(days <= 7)
-    return true
-  else return false
-}
+  if (days <= 7) return true;
+  else return false;
+};

@@ -130,7 +130,7 @@ export default class SignUpScreen3 extends Component {
         this.updateUserWithOtherDetails(user);
       } catch (error) {
         this.setState({ isLoading: false });
-        //console.log("error before updating from :", error);
+        // console.log("error before updating from :", error);
       }
     }
   };
@@ -157,13 +157,13 @@ export default class SignUpScreen3 extends Component {
       .child(user.uid)
       .update(extraUserDetails)
       .then(() => {
-        //console.log("Successfully updated existing user with details");
+        // console.log("Successfully updated existing user with details");
         this.setState({ isLoading: false });
         navigate("HomeScreen");
       })
       .catch(error => {
         this.setState({ isLoading: false });
-        //console.log("error while updating new user with details:", error);
+        // console.log("error while updating new user with details:", error);
       });
   };
   skipButtonClicked = () => {

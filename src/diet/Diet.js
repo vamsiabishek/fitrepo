@@ -57,12 +57,12 @@ export default class Diet extends Component {
     let { uid } = "";
     const user = await getCurrentUser("user_data");
     if (user) {
-      console.log("uid:", user.uid);
+      // console.log("uid:", user.uid);
       uid = user.uid;
     }
 
     const [myDiets] = await Promise.all([this.fetchMyDiets(uid)]);
-    console.log("myDiets:", myDiets, "uid: ", uid);
+    // console.log("myDiets:", myDiets, "uid: ", uid);
     this.currentDietList = myDiets;
     this.setState({
       uid,
@@ -84,7 +84,7 @@ export default class Diet extends Component {
         }
       })
       .catch(error => {
-        console.log("error while fetching popular diets in Diet page", error);
+        // console.log("error while fetching popular diets in Diet page", error);
       });
     return popularDiets;
   };
@@ -102,7 +102,7 @@ export default class Diet extends Component {
         }
       })
       .catch(error => {
-        console.log("error while fetching my diets in Diet page", error);
+        // console.log("error while fetching my diets in Diet page", error);
       });
     if (myDiets.length > 1) {
       await setFirstTimeUser();

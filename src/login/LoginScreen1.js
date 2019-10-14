@@ -44,7 +44,7 @@ export default class LoginScreen1 extends Component {
       //await removeCurrentUser()
       const user = await getCurrentUser("user_data");
       if (user) {
-        console.log("uid:", user.uid);
+        // console.log("uid:", user.uid);
         this.onLoginSuccess();
       }
     })();
@@ -135,7 +135,7 @@ export default class LoginScreen1 extends Component {
       .then(result => this.getFBTokenFromResponse(result))
       .then(data => this.getFBCredentialsUsingToken(data))
       .then(currentUser => {
-        //console.log("current FB User:", currentUser);
+        // console.log("current FB User:", currentUser);
         setCurrentUser(currentUser.user);
         this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
       })
@@ -148,10 +148,10 @@ export default class LoginScreen1 extends Component {
       this.setState({ isLoading: false });
       return Promise.reject(new Error("The user cancelled the request"));
     }
-    console.log(
+    /* console.log(
       "FB login success with permission: ",
       result.grantedPermissions.toString()
-    );
+    );*/
     //get access token
     return AccessToken.getCurrentAccessToken();
   };
@@ -159,7 +159,7 @@ export default class LoginScreen1 extends Component {
     const credentials = f.auth.FacebookAuthProvider.credential(
       data.accessToken
     );
-    console.log("credentials:", credentials);
+    // console.log("credentials:", credentials);
     return f.auth().signInAndRetrieveDataWithCredential(credentials);
   };
   onGoogleLogin = async () => {

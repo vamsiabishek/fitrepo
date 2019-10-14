@@ -87,7 +87,7 @@ export default class SignUpScreen1 extends Component {
       .child(user.uid)
       .set(newUser)
       .then(() => {
-        //console.log(
+        // console.log(
         //  "Successfully create new user with details in page SignUpScreen1."
         //);
         this.setState({ isLoading: false });
@@ -95,7 +95,7 @@ export default class SignUpScreen1 extends Component {
       })
       .catch(error => {
         this.setState({ isLoading: false });
-        //console.log(
+        // console.log(
         //  "error while creating new user with details in page SignUpScreen1."
         //);
       });
@@ -120,7 +120,7 @@ export default class SignUpScreen1 extends Component {
           .then(userObj => this.createUserWithDetails(userObj.user))
           .catch(error => {
             this.setState({ isLoading: false });
-            //console.log(
+            // console.log(
             //  "error while creating user with email and password",
             //  error
             //);
@@ -128,7 +128,7 @@ export default class SignUpScreen1 extends Component {
           });
       } catch (error) {
         this.setState({ isLoading: false });
-        //console.log(
+        // console.log(
         //  "error before creating user with email and password",
         //  error
         //);

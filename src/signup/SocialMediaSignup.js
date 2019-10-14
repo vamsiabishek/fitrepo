@@ -98,9 +98,9 @@ export default class SocialMediaSignup extends Component {
 
       const userString = JSON.stringify(currentUser);
       const userObject = JSON.parse(userString);
-      console.log("userString:", userString);
-      console.log("userObject:", userObject);
-      console.log("googleUser:", googleUser);
+      // console.log("userString:", userString);
+      // console.log("userObject:", userObject);
+      // console.log("googleUser:", googleUser);
       this.createUserWithGoogleDetails({ userObject, googleUser });
       this.setState({ isLoading: false });
     } catch (error) {
@@ -124,11 +124,11 @@ export default class SocialMediaSignup extends Component {
          }
       })
       .then((response) => {
-        console.log("response: ", response)
+        // console.log("response: ", response)
         response.json()
       })
       .then((responseJson) => {
-         console.log("responseJson", responseJson);
+         // console.log("responseJson", responseJson);
       })
       .catch((error) => {
          console.error(error);
@@ -155,7 +155,7 @@ export default class SocialMediaSignup extends Component {
       .then(result => this.getFBTokenFromResponse(result))
       .then(data => this.getFBCredentialsUsingToken(data))
       .then(currentUser => {
-        console.log("current FB User:", currentUser);
+        // console.log("current FB User:", currentUser);
         setCurrentUser(currentUser.user);
         this.createUserWithFBDetails(currentUser);
       })
@@ -168,10 +168,10 @@ export default class SocialMediaSignup extends Component {
       this.setState({ isLoading: false });
       return Promise.reject(new Error("The user cancelled the request"));
     }
-    console.log(
+    /* console.log(
       "FB login success with permission: ",
       result.grantedPermissions.toString()
-    );
+    );*/
     //get access token
     return AccessToken.getCurrentAccessToken();
   };
@@ -179,7 +179,7 @@ export default class SocialMediaSignup extends Component {
     const credentials = f.auth.FacebookAuthProvider.credential(
       data.accessToken
     );
-    console.log("credentials:", credentials);
+    // console.log("credentials:", credentials);
     return f.auth().signInAndRetrieveDataWithCredential(credentials);
   };
 

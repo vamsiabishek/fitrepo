@@ -30,8 +30,8 @@ export const createMeals = ({
     veggies,
     fruits
   });
-  //console.log("trainingDayMeals:", trainingDayMeals);
-  //console.log("restDayMeals:", restDayMeals);
+  // console.log("trainingDayMeals:", trainingDayMeals);
+  // console.log("restDayMeals:", restDayMeals);
   return { trainingDayMeals, restDayMeals };
 };
 
@@ -109,7 +109,7 @@ createMealsPerMacro = ({
     }
 
     if (sources.length > 0) {
-      console.log("sources:", sources)
+      // console.log("sources:", sources);
       // for training day
       for (let i = 0; i < sources.length; i++) {
         const item = sources[i];
@@ -132,14 +132,17 @@ createMealsPerMacro = ({
         }
         if (source.macroQuantity >= maxMacroPerMeal && !value.isNuts) {
           break;
-        } else if(value.isNuts && source.macroQuantity >= maxMacroPerMealForNuts) {
+        } else if (
+          value.isNuts &&
+          source.macroQuantity >= maxMacroPerMealForNuts
+        ) {
           break;
         } else if (trainingDayMeal.sources.length > 0) {
           const totalQuantity = trainingDayMeal.sources.reduce(
             (sum, source) => sum + source.macroQuantity,
             0
           );
-          //console.log("macro sum:", macroQuantity);
+          // console.log("macro sum:", macroQuantity);
           if (totalQuantity >= maxMacroPerMeal) break;
         }
       }
@@ -166,14 +169,17 @@ createMealsPerMacro = ({
         }
         if (source.macroQuantity >= maxMacroPerMealForRD && !value.isNuts) {
           break;
-        } else if (value.isNuts && source.macroQuantity >= maxMacroPerMealForNuts) {
+        } else if (
+          value.isNuts &&
+          source.macroQuantity >= maxMacroPerMealForNuts
+        ) {
           break;
         } else if (restDayMeal.sources.length > 0) {
           const totalQuantityForRD = restDayMeal.sources.reduce(
             (sum, source) => sum + source.macroQuantity,
             0
           );
-          //console.log("macro sum:", macroQuantity);
+          // console.log("macro sum:", macroQuantity);
           if (totalQuantityForRD >= maxMacroPerMealForRD) break;
         }
       }
@@ -221,16 +227,14 @@ mealForSource = ({
   const { key, value } = item.source;
   source = { ...source, name: value.name, id: key };
   let { macroValue, macroQuantity } = source;
-  console.log("Starting:", source.name, "value:", sourceMap[key].macroValue, "quantity:", sourceMap[key].macroQuantity)
+  // console.log("Starting:", source.name, "value:", sourceMap[key].macroValue, "quantity:", sourceMap[key].macroQuantity)
   if (
     sourceMap[key].macroQuantity <= maxMacroPerMeal ||
-    (value.hasTableSpoon && sourceMap[key].macroValue <= 2) &&
-    !value.isNuts
+    (value.hasTableSpoon && sourceMap[key].macroValue <= 2 && !value.isNuts)
   ) {
     if (!value.isPerSingleUnit && !value.hasTableSpoon)
       macroValue = roundToNearestTenFactor(sourceMap[key].macroValue);
-    else
-      macroValue = sourceMap[key].macroValue;
+    else macroValue = sourceMap[key].macroValue;
     macroQuantity = sourceMap[key].macroQuantity;
     if (macroValue <= 0 && macroQuantity > 0) {
       macroValue = 5;
@@ -246,7 +250,7 @@ mealForSource = ({
       );
     }
     let newQuantity = sourceMap[key].macroQuantity;
-    if(sourceMap[key].macroQuantity >= maxMacroPerMealForNuts)
+    if (sourceMap[key].macroQuantity >= maxMacroPerMealForNuts)
       newQuantity = maxMacroPerMealForNuts;
     const quantity = Math.floor((newQuantity / macroValuePerHundredGm) * 100);
     macroValue = quantity;

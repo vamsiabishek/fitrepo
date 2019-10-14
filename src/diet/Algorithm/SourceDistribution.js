@@ -307,7 +307,7 @@ export const manageSources = async ({
     foodPreference
   });
 
-  console.log(proteinSources, carbSources, fatSources);
+  // console.log(proteinSources, carbSources, fatSources);
 
   let extraProteinSourcesRequired = false;
   let extraCarbSourcesRequired = false;
@@ -481,10 +481,10 @@ getStandardProteinSources = async (isProteinRequired, foodPreference) => {
           }
         })
         .catch(error => {
-          console.log(
+          /* console.log(
             "error while fetching standard protein sources in DietAlgorithm:",
             error
-          );
+          );*/
         });
   }
   return standardProteinSources;
@@ -507,10 +507,10 @@ getStandardCarbSources = async (isCarbsRequired, foodPreference) => {
           }
         })
         .catch(error => {
-          console.log(
+          /* console.log(
             "error while fetching standard carb sources in DietAlgorithm:",
             error
-          );
+          );*/
         });
   }
   return standardCarbSources;
@@ -533,10 +533,10 @@ getStandardFatSources = async (isFatsRequired, foodPreference) => {
           }
         })
         .catch(error => {
-          console.log(
+          /* console.log(
             "error while fetching standard fat sources in DietAlgorithm:",
             error
-          );
+          );*/
         });
   }
   return standardFatSources;
@@ -556,10 +556,10 @@ getSourceById = async (id, sourceType) => {
       }
     })
     .catch(error => {
-      console.log(
+      /* console.log(
         "error while fetching standard fat sources in DietAlgorithm:",
         error
-      );
+      );*/
     });
   return source;
 };

@@ -55,13 +55,13 @@ UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
 setCurrentUser(true);
-console.log(getFirstTimeUser());
+// console.log(getFirstTimeUser());
 
 export default class Signup extends Component {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    console.log(navigation.getParam("isExistingUser"));
+    // console.log(navigation.getParam("isExistingUser"));
     this.state = {
       goal: "",
       gender: "",
@@ -151,10 +151,10 @@ export default class Signup extends Component {
           });
         })
         .catch(error => {
-          console.log(
+          /* console.log(
             "error while fetching user details in componentDidMount of Diet:",
             error
-          );
+          );*/
         });
     } else if (newLogin) {
       const { navigation } = this.props;
@@ -516,7 +516,7 @@ export default class Signup extends Component {
     this.setState({ showModal: false });
   };
   onConfirm = () => {
-    //console.log("selectedSources:", this.state.selectedSources);
+    // console.log("selectedSources:", this.state.selectedSources);
     this.setState({ showModal: false });
   };
   filterSources = searchTerm => {
@@ -538,7 +538,7 @@ export default class Signup extends Component {
         }
       });
 
-    //console.log("filteredSources: ", filteredSources);
+    // console.log("filteredSources: ", filteredSources);
 
     this.setState({ searchTerm, filteredSources });
   };
@@ -825,7 +825,7 @@ export default class Signup extends Component {
         }
       })
       .catch(error => {
-        console.log("error while fetching my diets in SignUp page", error);
+        // console.log("error while fetching my diets in SignUp page", error);
       });
     if (myDiets.length !== 0) {
       setFirstTimeUser();
@@ -862,7 +862,7 @@ export default class Signup extends Component {
       paymentStatus: false,
       uid
     };
-    //console.log('dietInfo:', dietInfo)
+    // console.log('dietInfo:', dietInfo)
     const dietId = await createDiet({ uid, dietInfo });
     this.setState({ isLoading: false });
     navigate("MyDiet", {

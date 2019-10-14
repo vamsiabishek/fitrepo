@@ -114,10 +114,10 @@ export default class Profile extends Component {
         this.updateProfileCall(userLoggedIn);
       })
       .catch(error => {
-        console.log(
+        /* console.log(
           "error while fetching user details in componentDidMount of Profile:",
           error
-        );
+        );*/
       });
     let myDiets = [];
     await database
@@ -133,7 +133,7 @@ export default class Profile extends Component {
         }
       })
       .catch(error => {
-        console.log("error while fetching my diets in SignUp page", error);
+        // console.log("error while fetching my diets in SignUp page", error);
       });
   };
   render() {

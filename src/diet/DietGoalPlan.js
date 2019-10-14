@@ -15,7 +15,7 @@ import { f, database } from "./../common/FirebaseConfig";
 import { convertProgramToWeeks, GRADIENT_BG_IMAGE } from "../common/Common";
 import HorizontalSelectView from "../components/HorizontalSelectView";
 import { styleCommon } from "../../assets/style/stylesCommonValues";
-import { getCurrentUser } from "../common/Util"
+import { getCurrentUser } from "../common/Util";
 
 export default class DietGoalPlan extends Component {
   constructor(props) {
@@ -70,10 +70,10 @@ export default class DietGoalPlan extends Component {
       })
       .catch(error => {
         this.setState({ isLoading: false });
-        console.log(
+        /* console.log(
           "error while fetching user details in DietGoalPlan:",
           error
-        );
+        );*/
       });
   };
 
@@ -112,7 +112,7 @@ export default class DietGoalPlan extends Component {
     let { currentWeight: targetWeight } = this.state;
     if (!goal) goal = selectedGoal;
     if (!program) program = selectedProgram;
-    console.log(goal, program);
+    // console.log(goal, program);
     if (!targetWeightChanged) {
       if (goal === 0) {
         //fat-loss
@@ -122,14 +122,14 @@ export default class DietGoalPlan extends Component {
         else if (program === 12) targetWeight = targetWeight - 2;
       } else if (goal === 1) {
         //weight gain
-        console.log("inside weight gain", targetWeight);
+        // console.log("inside weight gain", targetWeight);
         targetWeight = targetWeight + 3;
         if (program === 4) targetWeight = targetWeight - 1;
         else if (program === 8) targetWeight = targetWeight;
         else if (program === 12) targetWeight = targetWeight + 1;
       }
     }
-    console.log("targetWeight:", targetWeight);
+    // console.log("targetWeight:", targetWeight);
     return targetWeight;
   };
 
@@ -142,7 +142,7 @@ export default class DietGoalPlan extends Component {
       targetWeight,
       targetWeightIndex
     } = this.state;
-    console.log("state:", this.state);
+    // console.log("state:", this.state);
     this.props.setDietGoals({
       selectedGoal,
       selectedProgram,

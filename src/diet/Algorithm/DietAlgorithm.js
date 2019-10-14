@@ -3,7 +3,8 @@ import {
   convertProgramToWeeks,
   calculateCalFromProteinOrCarbs,
   calculateCalFromFats,
-  MALE, FEMALE
+  MALE,
+  FEMALE
 } from "../../common/Common";
 import { sourceQuantities, manageSources } from "./SourceDistribution";
 import { createMeals } from "./MealsAlgorithm";
@@ -156,7 +157,7 @@ const getTotalCalIntake = ({
     weightChangePerWeek = (targetWeight - currentWeight) / selectedProgram;
   }
 
-  console.log("weightChangePerWeek:", weightChangePerWeek);
+  // console.log("weightChangePerWeek:", weightChangePerWeek);
   const calPercent = getCalPercent({ goal, fitnessLevel, weightChangePerWeek });
 
   const totalCalIntake = (maintainanceCal * calPercent) / 100;
@@ -176,7 +177,7 @@ export const designDiet = async ({
   foodPreference,
   uid
 }) => {
-  console.log(
+  /* console.log(
     "props",
     fitnessLevel,
     selectedGoal,
@@ -186,7 +187,7 @@ export const designDiet = async ({
     targetWeight,
     foodPreference,
     uid
-  );
+  );*/
 
   let user = {};
   await database
@@ -197,9 +198,9 @@ export const designDiet = async ({
       user = snapshot.val();
     })
     .catch(error => {
-      console.log("error while fetching user details in DietAlgorithm:", error);
+      // console.log("error while fetching user details in DietAlgorithm:", error);
     });
-  console.log("user:", user);
+  // console.log("user:", user);
   const goal = convertGoal(selectedGoal);
   let numberOfMeals = 4;
   if (selectedMeals) numberOfMeals = selectedMeals;
@@ -213,7 +214,7 @@ export const designDiet = async ({
     gender: user.gender,
     fitnessLevel
   });
-  console.log("Total daily calorie Intake is:", totalCalIntake);
+  // console.log("Total daily calorie Intake is:", totalCalIntake);
   if (totalCalIntake <= 0) {
     return;
   }
@@ -231,7 +232,7 @@ export const designDiet = async ({
   //calorie intake for each week
   const calPerWeek = getCalPerWeek(totalCalIntake, selectedProgram, goal);
 
-  console.log("calPerWeek:", calPerWeek);
+  // console.log("calPerWeek:", calPerWeek);
 
   const numberOfVegProteinSources =
     foodPreference === FOOD_PREF_NON_VEG
@@ -248,7 +249,7 @@ export const designDiet = async ({
     )
   );
 
-  console.log("trainingAndRestdayCals:", trainingAndRestdayCals);
+  // console.log("trainingAndRestdayCals:", trainingAndRestdayCals);
   const weeklyMeals = [];
   trainingAndRestdayCals.map(({ trainingDayCal, restDayCal }, index) => {
     if (
@@ -540,11 +541,11 @@ const beginnerDefaultSourcesAndCal = async () => {
     calFromFats: fatCal
   };
 
-  console.log(
+  /* console.log(
     "default source values: ",
     defaultSourcesQuantities,
     calFromSources
-  );
+  );*/
   return {
     defaultSourcesQuantities,
     calFromSources
@@ -619,7 +620,7 @@ getBeginnerDefaultSources = async () => {
     .equalTo(true)
     .once("value")
     .then(snapshot => {
-      console.log("beginner default values :", snapshot.val());
+      // console.log("beginner default values :", snapshot.val());
       if (snapshot.val()) {
         const result = snapshot.val();
         defaultSources = Object.keys(result).map(key => ({
@@ -628,11 +629,11 @@ getBeginnerDefaultSources = async () => {
         }));
       }
     })
-    .catch(error =>
-      console.log(
+    .catch(error => {
+      /* console.log(
         "error while fetching default sources from DietAlgorithm:",
         error
-      )
-    );
+      )*/
+    });
   return defaultSources;
 };

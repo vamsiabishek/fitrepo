@@ -28,7 +28,7 @@ export default class SelectFoodSources extends Component {
       this.fetchCarbSources(),
       this.fetchFatSources()
     ]);
-    console.log(proteinSources, carbSources, fatSources);
+    // console.log(proteinSources, carbSources, fatSources);
     this.setState({
       proteinSources,
       fatSources,
@@ -54,10 +54,10 @@ export default class SelectFoodSources extends Component {
         }
       })
       .catch(error => {
-        console.log(
+        /* console.log(
           "error while fetching protein sources in select food sources page",
           error
-        );
+        );*/
       });
     return proteinSources;
   };
@@ -80,10 +80,10 @@ export default class SelectFoodSources extends Component {
         }
       })
       .catch(error => {
-        console.log(
+        /* console.log(
           "error while fetching carb sources in select food sources page",
           error
-        );
+        );*/
       });
     return carbSources;
   };
@@ -106,10 +106,10 @@ export default class SelectFoodSources extends Component {
         }
       })
       .catch(error => {
-        console.log(
+        /* console.log(
           "error while fetching fat sources in select food sources page",
           error
-        );
+        );*/
       });
     return fatSources;
   };
@@ -186,7 +186,7 @@ export default class SelectFoodSources extends Component {
     return {
       container: {
         marginVertical: 100,
-        backgroundColor:"white"
+        backgroundColor: "white"
       },
       chipText: {
         //color: "white",
@@ -219,8 +219,8 @@ export default class SelectFoodSources extends Component {
   };
 
   getMultiSelectColors = () => {
-    return { chipColor: "white", primary: "#00DB8D", text: "#4caf50" }
-  }
+    return { chipColor: "white", primary: "#00DB8D", text: "#4caf50" };
+  };
 
   renderProteinSelectText = () => {
     return <Text style={{ color: "white" }}>Choose Protein ...</Text>;

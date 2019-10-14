@@ -22,7 +22,7 @@ class AddButton extends React.Component {
       })
       .catch(error => {
         latestDiet = undefined;
-        console.log(error);
+        // console.log(error);
       });
     if (latestDiet !== undefined) {
       const { createdDate, selectedGoal, selectedProgram } = latestDiet.value;
@@ -39,7 +39,9 @@ class AddButton extends React.Component {
           [
             {
               text: "Cancel",
-              onPress: () => console.log("Cancel Pressed"),
+              onPress: () => {
+                /* console.log("Cancel Pressed")*/
+              },
               style: "cancel"
             },
             { text: "Continue", onPress: () => this.navigateToCreateDiet(uid) }

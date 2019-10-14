@@ -20,7 +20,7 @@ import {
   MAX_DATE,
   GRADIENT_BG_IMAGE
 } from "../common/Common";
-import { getCurrentUser } from "../common/Util"
+import { getCurrentUser } from "../common/Util";
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -130,7 +130,7 @@ export default class SignUpScreen2 extends Component {
         this.updateUserWithDetails(user);
       } catch (error) {
         this.setState({ isLoading: false });
-        console.log("Error before updating from :", error);
+        // console.log("Error before updating from :", error);
       }
     }
   };
@@ -148,9 +148,9 @@ export default class SignUpScreen2 extends Component {
       .child(user.uid)
       .update(extraUserDetails)
       .then(() => {
-        console.log(
+        /* console.log(
           "Successfully updated existing user with details in page SignUpScreen2."
-        );
+        );*/
         this.setState({ isLoading: false });
         navigate("SignUpScreen3", {
           screenName: name
@@ -158,10 +158,10 @@ export default class SignUpScreen2 extends Component {
       })
       .catch(error => {
         this.setState({ isLoading: false });
-        console.log(
+        /* console.log(
           "error while updating new user with details in page SignUpScreen2.",
           error
-        );
+        );*/
       });
   };
 

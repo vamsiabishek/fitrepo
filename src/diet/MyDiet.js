@@ -75,9 +75,9 @@ export default class MyDiet extends Component {
 
   loadDietDetails = async (uid, dietId) => {
     this.setState({ isLoading: true });
-    console.log("fetching details for the diet with Id:", dietId);
+    // console.log("fetching details for the diet with Id:", dietId);
     const { diet, meals } = await this.fetchDietAndMeals(uid, dietId);
-    console.log("diet and meals:", diet, meals);
+    // console.log("diet and meals:", diet, meals);
     this.setState({ diet, meals: meals["0"], allMeals: meals });
   };
 
@@ -105,7 +105,7 @@ export default class MyDiet extends Component {
         }
       })
       .catch(error => {
-        console.log("error while fetching diets from MyDiet page: ", error);
+        // console.log("error while fetching diets from MyDiet page: ", error);
       });
     return diet;
   };
@@ -121,7 +121,7 @@ export default class MyDiet extends Component {
         if (snap.val()) meals = snap.val()[Object.keys(snap.val())[0]];
       })
       .catch(error => {
-        console.log("error while fetching meals from MyDiet page: ", error);
+        // console.log("error while fetching meals from MyDiet page: ", error);
       });
     return meals;
   };
@@ -131,7 +131,7 @@ export default class MyDiet extends Component {
     Purchases.setDebugLogsEnabled(true);
     Purchases.setup("jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH", purchaseId);
     const entitlements = await Purchases.getEntitlements();
-    console.log("EntitleMents: ", entitlements);
+    // console.log("EntitleMents: ", entitlements);
     this.setState({ isLoading: false, paymentOptions: entitlements });
   };
 
@@ -249,10 +249,10 @@ export default class MyDiet extends Component {
           this.setState({ diet: { ...diet, ...newDietWithPayment } });
         })
         .catch(error => {
-          console.log(
+          /* console.log(
             "Error while closing the payment modal and saving new diet details: ",
             error
-          );
+          );*/
         });
     } else if (!paymentDone && !getFirstTimeUser()) {
       navigate("Diet");

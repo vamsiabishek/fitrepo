@@ -46,7 +46,7 @@ export default class PurchaseOrderScreen extends React.Component {
       const info = await Purchases.getPurchaserInfo();
       this.handleInfo(info);
     } catch (e) {
-      console.log("Error handling");
+      // console.log("Error handling");
     }
   }
 
@@ -85,7 +85,7 @@ export default class PurchaseOrderScreen extends React.Component {
                         const info = await Purchases.restoreTransactions();
                         this.handleInfo(info);
                       } catch (e) {
-                        console.log(JSON.stringify(e));
+                        // console.log(JSON.stringify(e));
                       }
                     }}
                   >
