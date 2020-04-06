@@ -8,17 +8,19 @@ import {
   ImageBackground
 } from "react-native";
 import { Button } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { styles } from "../../assets/style/stylesSupplementsScreen";
 import { f, database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import { getSupplementsByKeyList } from "../common/SupplementsUtil";
-import { styleCommon, ICON_SIZE } from "../../assets/style/stylesCommonValues";
+import { styleCommon, ICON_SIZE_SMALL, ICON_SIZE } from "../../assets/style/stylesCommonValues";
 
 export default class Supplements extends Component {
   constructor(props) {
     super(props);
     this.state = {
       supplements: []
+      //supplements: getSupplementsByKeyList(['wheyConcentrate', 'multivitamin', 'lGlutamine', 'glucosamine', 'ashwagandha'])
     };
   }
   _keyExtractor = item => `key${item.key}`;
@@ -36,6 +38,7 @@ export default class Supplements extends Component {
           supplements = snap.val()[Object.keys(snap.val())[0]];
           supplements = getSupplementsByKeyList(supplements);
         }
+        //supplements = getSupplementsByKeyList(['wheyConcentrate', 'multivitamin', 'lGlutamine', 'glucosamine', 'ashwagandha']);
         this.setState({ supplements });
       })
       .catch(error => {
@@ -49,7 +52,7 @@ export default class Supplements extends Component {
     const { supplements } = this.state;
     const { navigate } = this.props.navigation;
     return (
-      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.supplementContainer}>
           <View style={styles.backHeaderContainer}>
             <View style={styles.backButtonContainerStyle}>
@@ -57,7 +60,7 @@ export default class Supplements extends Component {
                 icon={{
                   name: "arrow-left-thick",
                   size: ICON_SIZE,
-                  color: styleCommon.secondaryButtonTextColor,
+                  color: styleCommon.panelHeaderIconColor,
                   type: "material-community"
                 }}
                 containerStyle={styles.backButtonStyle}
@@ -77,8 +80,8 @@ export default class Supplements extends Component {
             renderItem={({ item, index }) => {
               const { name, desc, detailedDesc, image } = item.value;
               return (
-                <View style={styles.returnViewContainer}>
-                  <View style={styles.imageContainer}>
+                <View style={styles.listItemContainer}>
+                  <View style={styles.badgeContainer}>
                     <TouchableOpacity style={styles.touchableContainerView}>
                       <View style={styles.iconDataStyle}>
                         <Image source={image} style={styles.iconImageStyle} />
@@ -93,9 +96,17 @@ export default class Supplements extends Component {
                     </Text>
                     <View>
                       <TouchableOpacity style={styles.timingsLabel}>
-                        <Text style={styles.timingsLabelText}>
-                          Best timings to consume:
-                        </Text>
+                        <View style={{flexDirection: 'row'}}>
+                          <Icon
+                            name="calendar-clock"
+                            size={ICON_SIZE_SMALL}
+                            color="#4CAF50"
+                            style={styles.timingIconStyle}
+                          />
+                          <Text style={styles.timingsLabelText}>
+                            Best timings to consume:
+                          </Text>
+                        </View>
                         <Text style={styles.timingsOptions}>
                           -Morning after breakfast
                         </Text>
@@ -108,7 +119,7 @@ export default class Supplements extends Component {
             keyExtractor={this._keyExtractor}
           />
         </View>
-      </ImageBackground>
+      </View>
     );
   }
 }

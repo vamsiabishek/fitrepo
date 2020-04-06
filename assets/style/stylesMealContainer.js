@@ -7,16 +7,24 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  title: {
+  titleContainer: {
     textAlign: "left",
-    fontSize: 16,
+    backgroundColor: styleCommon.badgeColor,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  title: {
+    fontSize: fontsCommon.font18,
     fontWeight: "bold",
     marginBottom: 5,
-    textShadowColor: styleCommon.primaryColor,
-    textShadowOffset: { width: -3, height: 5 },
-    textShadowRadius: 20,
+    paddingBottom: 10,
+    //marginLeft: 10,
+    padding: 10,
+    // textShadowColor: styleCommon.primaryColor,
+    // textShadowOffset: { width: -3, height: 5 },
+    // textShadowRadius: 20,
     //color: "#00DB8D"
-    color: styleCommon.textColor1
+    color: styleCommon.textColorWhite,
   },
   list: {
     //flex: 1,
@@ -25,7 +33,10 @@ export const styles = StyleSheet.create({
     marginRight: 40
   },
   descriptionContainer: {
-    flexDirection: "column"
+    flexDirection: "column",
+    paddingBottom: 10,
+    marginLeft: 10,
+    padding: 10,
   },
   active: {
     backgroundColor: "rgba(255,252,255,1)"
@@ -35,11 +46,8 @@ export const styles = StyleSheet.create({
   },
   mealContainer: {
     flex: 1,
-    paddingBottom: 10,
     width: "95%",
-    marginLeft: 10,
-    backgroundColor: styleCommon.secondaryColor,
-    padding: 10,
+    backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 15,
     shadowColor: "black",
     shadowOffset: { width: 2, height: 5 },

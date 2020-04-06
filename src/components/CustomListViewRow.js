@@ -6,6 +6,7 @@ import { timeConverter } from "../common/Util";
 import { styles } from "../../assets/style/stylesCustomListView";
 import {
   styleCommon,
+  ICON_SIZE_SMALL,
   ICON_SIZE_MED,
   ICON_SIZE_LARGE
 } from "../../assets/style/stylesCommonValues";
@@ -39,22 +40,37 @@ const CustomListViewRow = ({
     }
   >
     <View style={styles.rowContainer}>
-      <View style={styles.container_text}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{getGoalString(selectedGoal)}</Text>
-          <TouchableOpacity style={styles.vegContainer}>
-            <Image
-              style={styles.vegIcon}
-              source={isVeg ? VEG_ICON : NON_VEG_ICON}
-            />
-          </TouchableOpacity>
+      <View style={{flex: 1, flexDirection: "row"}}>
+        <View style={styles.badgeContainer}>
+         <Icon
+            name="calendar-range"
+            size={ICON_SIZE_MED}
+            color="white"
+            style={styles.nextButtonIconStyle}
+          />
+          <Text style={styles.badgeTitle}>{selectedProgram} Week</Text>
+          <Text style={styles.badgeDescription}>Program</Text>
         </View>
+        <View style={styles.container_text}> 
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{getGoalString(selectedGoal)}</Text>
+          </View>
 
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.description}>
-            {selectedProgram} Weeks program
-          </Text>
-          <Text style={styles.description}>{selectedMeals} meals per day</Text>
+          <View style={styles.descriptionContainer}>
+            <Icon
+              name="silverware-fork-knife"
+              size={ICON_SIZE_SMALL}
+              color="#e87517"
+              style={styles.nextButtonIconStyle}
+            />
+            <Text style={styles.description}>{selectedMeals} meals/day</Text>
+          </View>
+
+          <View style={styles.timeStampContainer}>
+            <Text style={styles.timeStampLabel}>
+              Created: {timeConverter(createdDate)}
+            </Text>
+          </View>
         </View>
 
         {/*<View style={styles.likesContainer}>
@@ -67,11 +83,7 @@ const CustomListViewRow = ({
         <Text style={styles.likesLabel}>{likes} Likes</Text>
         </View>*/}
       </View>
-      <View style={styles.timeStampContainer}>
-        <Text style={styles.timeStampLabel}>
-          Created: {timeConverter(createdDate)}
-        </Text>
-      </View>
+      
       <View style={styles.rightIcon}>
         <Icon
           name="chevron-right"

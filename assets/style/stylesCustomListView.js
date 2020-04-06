@@ -19,15 +19,21 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 10,
-    paddingHorizontal: 5,
     marginHorizontal: 16,
     marginTop: 8,
     borderRadius: 5,
     elevation: 2,
-    backgroundColor: styleCommon.secondaryColor
+    //backgroundColor: "aquamarine",
+    backgroundColor: styleCommon.secondaryColorNew,
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    height: 100,
   },
   container_text: {
+    paddingVertical: 10,
+    paddingHorizontal: 5,
     marginLeft: 7,
     padding: 2
     //backgroundColor: "grey"
@@ -38,9 +44,9 @@ export const styles = StyleSheet.create({
     //backgroundColor: "orange"
   },
   title: {
-    fontSize: fontsCommon.font17,
+    fontSize: fontsCommon.font15,
     fontWeight: "700",
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
   },
   vegContainer: {
     backgroundColor: styleCommon.textColor3,
@@ -55,11 +61,13 @@ export const styles = StyleSheet.create({
     paddingLeft: 10
   },
   descriptionContainer: {
-    paddingVertical: 6
+    paddingVertical: 6,
+    flexDirection: "row",
   },
   description: {
+    marginLeft: 4,
     fontSize: fontsCommon.font13,
-    fontStyle: "italic",
+    fontWeight: "500",
     color: styleCommon.textColor1
   },
   likesContainer: {
@@ -76,10 +84,7 @@ export const styles = StyleSheet.create({
     fontWeight: "500"
   },
   timeStampContainer: {
-    justifyContent: "flex-end",
-    alignItems: "center",
     padding: 2
-    //backgroundColor: "red"
   },
   timeStampLabel: {
     fontSize: fontsCommon.font12,
@@ -89,5 +94,22 @@ export const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "center"
     //backgroundColor: "yellow"
+  },
+  badgeContainer: {
+    backgroundColor: styleCommon.badgeColor, 
+    width: 110, 
+    justifyContent:'center', 
+    alignItems: 'center'
+  },
+  badgeTitle: {
+    fontSize: fontsCommon.font20,
+    fontWeight: 'bold', 
+    color: styleCommon.textColorWhite,
+  },
+  badgeDescription: {
+    marginTop: 5, 
+    fontSize: fontsCommon.font16,
+    fontWeight: 'bold',
+    color: styleCommon.textColorWhite,
   }
 });

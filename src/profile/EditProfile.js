@@ -205,7 +205,7 @@ export default class EditProfile extends Component {
     const { user, avatarChanged, selectedSubScreen } = this.state;
     const { navigate } = this.props.navigation;
     return (
-      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
+      <View style={styles.container}>
         <KeyboardAvoidingView
           style={styles.innerContainer}
           behavior="padding"
@@ -282,7 +282,7 @@ export default class EditProfile extends Component {
             />
           </View>
         </KeyboardAvoidingView>
-      </ImageBackground>
+      </View>
     );
   }
 }

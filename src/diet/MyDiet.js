@@ -25,7 +25,7 @@ import { database } from "../common/FirebaseConfig";
 import { GRADIENT_BG_IMAGE } from "../common/Common";
 import Loading from "../components/Loading";
 import InitialScreen from "../components/purchase/InitialScreen";
-import { setFirstTimeUser, getFirstTimeUser } from "../common/Util";
+import { setFirstTimeUser, getFirstTimeUser, isTrailUser } from "../common/Util";
 import { getProgramEndDate, getSeconds } from "../common/Util";
 
 // Enable LayoutAnimation for Android Devices
@@ -43,8 +43,8 @@ export default class MyDiet extends Component {
       allMeals: {},
       currentWeek: 1,
       showDayOnScroll: false,
-      showMeals: true,
-      showAllMeals: true,
+      showInitialTrailMeals: true,
+      showAllMealsForSubscribed: false,
       showPaymentModal: false,
       paymentOptions: undefined
     };
@@ -61,6 +61,7 @@ export default class MyDiet extends Component {
     //alert(getFirstTimeUser());
     await this.loadDietDetails(uid, dietId);
     await this.loadPaymentEntitlements(uid, dietId);
+    await this.checkDietTrail();
   };
 
   componentDidUpdate = async prevProps => {
@@ -72,6 +73,11 @@ export default class MyDiet extends Component {
       await this.loadPaymentEntitlements(uid, dietId);
     }
   };
+
+  checkDietTrail = async() => {
+    const showInitialTrailMeals = await isTrailUser()
+    this.setState({showInitialTrailMeals})
+  }
 
   loadDietDetails = async (uid, dietId) => {
     this.setState({ isLoading: true });
@@ -98,7 +104,7 @@ export default class MyDiet extends Component {
       .then(async snap => {
         if (snap.val()) diet = snap.val();
         if (!diet.paymentStatus) {
-          this.setState({ showAllMeals: false, showPaymentModal: true });
+          this.setState({ showAllMealsForSubscribed: false, showPaymentModal: true });
         } else {
           //global.isFirstTimeUser = false;
           await setFirstTimeUser();
@@ -222,7 +228,7 @@ export default class MyDiet extends Component {
         });
       }
     } else {
-      this.setState({ showMeals: false, showPaymentModal: true });
+      this.setState({ showInitialTrailMeals: false, showPaymentModal: true });
     }
   };
 
@@ -238,8 +244,8 @@ export default class MyDiet extends Component {
       const uid = navigation.getParam("uid");
       const dietId = navigation.getParam("dietId");
       this.setState({
-        showMeals: true,
-        showAllMeals: true
+        showInitialTrailMeals: true,
+        showAllMealsForSubscribed: true
       });
       await database
         .ref(`diets/${uid}`)
@@ -269,8 +275,8 @@ export default class MyDiet extends Component {
       meals,
       allMeals,
       currentWeek,
-      showMeals,
-      showAllMeals,
+      showInitialTrailMeals,
+      showAllMealsForSubscribed,
       paymentOptions,
       showPaymentModal,
       diet
@@ -287,6 +293,7 @@ export default class MyDiet extends Component {
       outputRange: [this.dayBarExpandedHeight, this.dayBarCollapsedHeight],
       extrapolate: "clamp"
     });
+    const showMeals = showInitialTrailMeals ? true : showAllMealsForSubscribed
     let dietTrialEndDate = undefined;
     let trialDaysLeft = undefined;
     if (getFirstTimeUser() && !diet.purchaseStatus) {
@@ -296,12 +303,12 @@ export default class MyDiet extends Component {
         getSeconds(dietTrialEndDate) - getSeconds(new Date());
       trialDaysLeft = Math.floor(trialDaysLeftSeconds / (24 * 3600));
     }
-    const trainingIconColor = activeDay ? "white" : styleCommon.unSelected;
-    const restIconColor = !activeDay ? "white" : styleCommon.unSelected;
+    const trainingIconColor = activeDay ? "white" : styleCommon.unSelectedButtonColor;
+    const restIconColor = !activeDay ? "white" : styleCommon.unSelectedButtonColor;
     const nextWeekEnabled = allMeals[currentWeek] ? true : false;
     const prevWeekEnabled = allMeals[currentWeek - 2] ? true : false;
     return (
-      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
+      <View style={styles.container}>
         {isLoading ? (
           <Loading
             takeFullHeight={true}
@@ -318,7 +325,7 @@ export default class MyDiet extends Component {
                   icon={{
                     name: "arrow-left-thick",
                     size: ICON_SIZE,
-                    color: styleCommon.secondaryButtonTextColor,
+                    color: styleCommon.panelHeaderIconColor,
                     type: "material-community"
                   }}
                   containerStyle={styles.backButtonStyle}
@@ -331,7 +338,7 @@ export default class MyDiet extends Component {
                   icon={{
                     name: "medical-bag",
                     size: ICON_SIZE,
-                    color: styleCommon.secondaryButtonTextColor,
+                    color: styleCommon.panelHeaderIconColor,
                     type: "material-community"
                   }}
                   iconRight={true}
@@ -410,7 +417,7 @@ export default class MyDiet extends Component {
                     size={ICON_SIZE_LARGE}
                     style={styles.navButtonIcon}
                     color={
-                      prevWeekEnabled ? styleCommon.textColor1 : "lightgrey"
+                      prevWeekEnabled ?  "lightgrey" : styleCommon.textColor1
                     }
                   />
                 </TouchableOpacity>
@@ -426,7 +433,7 @@ export default class MyDiet extends Component {
                   Week {this.state.currentWeek}
                 </Text>
                 {this.state.showDayOnScroll && (
-                  <Text style={{ color: "grey" }}>({this.day})</Text>
+                  <Text style={{ color: "lightgrey" }}>({this.day})</Text>
                 )}
               </View>
               <View style={{ justifyContent: "flex-end" }}>
@@ -439,7 +446,7 @@ export default class MyDiet extends Component {
                     size={ICON_SIZE_LARGE}
                     style={styles.navButtonIcon}
                     color={
-                      nextWeekEnabled ? styleCommon.textColor1 : "lightgrey"
+                      nextWeekEnabled ?  "lightgrey" : styleCommon.textColor1
                     }
                   />
                 </TouchableOpacity>
@@ -451,7 +458,7 @@ export default class MyDiet extends Component {
               showDayLabelOnScroll={this.showDayLabelOnScroll}
               hideDayLabelOnScroll={this.hideDayLabelOnScroll}
             />
-            {(!showMeals || !showAllMeals) && (
+            {!showMeals && (
               <InitialScreen
                 isVisible={showPaymentModal}
                 uid={navigation.getParam("uid")}
@@ -467,7 +474,7 @@ export default class MyDiet extends Component {
             )}
           </View>
         )}
-      </ImageBackground>
+      </View>
     );
   }
 }

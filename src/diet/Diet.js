@@ -152,7 +152,7 @@ export default class Diet extends Component {
     } = this.state;
     const { navigation } = this.props;
     return (
-      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
         {isLoading ? (
           <ActivityIndicator color={styleCommon.textColor1} size="large" />
         ) : (
@@ -219,7 +219,7 @@ export default class Diet extends Component {
             </View>
           </View>
         )}
-      </ImageBackground>
+      </View>
     );
   }
 }

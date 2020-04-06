@@ -4,15 +4,16 @@ import {
   SCREEN_HEIGHT,
   styleCommon,
   fontsCommon,
-  DEVICE_NAME
+  DEVICE_NAME,
+  BG_COLOR,
 } from "../../assets/style/stylesCommonValues";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
-    //backgroundColor: "#28292B"
+    alignItems: "center",
+    backgroundColor: BG_COLOR
   },
   supplementContainer: {
     justifyContent: "center",
@@ -52,7 +53,7 @@ export const styles = StyleSheet.create({
   pageTitle: {
     fontSize: fontsCommon.font20,
     fontWeight: "bold",
-    color: styleCommon.secondaryButtonTextColor
+    color: styleCommon.textColorTitles,
   },
   flatListContainer: {
     flex: 1,
@@ -63,23 +64,26 @@ export const styles = StyleSheet.create({
     alignContent: "center",
     paddingBottom: 20
   },
-  returnViewContainer: {
+  listItemContainer: {
     flex: 1,
     flexDirection: "row",
-    marginTop: 5,
-    paddingVertical: 10,
-    borderRadius: (SCREEN_HEIGHT * 0.1) / 2,
-    backgroundColor: "white"
+     borderRadius: (SCREEN_HEIGHT * 0.1) / 4,
+    marginTop: 8,
+    elevation: 2,
+    backgroundColor: styleCommon.secondaryColorNew,
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
   },
-  imageContainer: {
+  badgeContainer: {
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    // borderRadius: (SCREEN_HEIGHT * 0.10) / 2,
+    backgroundColor: styleCommon.badgeColor, 
     width: SCREEN_WIDTH * 0.28, //180,
-    borderTopLeftRadius: (SCREEN_HEIGHT * 0.1) / 2,
-    borderBottomLeftRadius: (SCREEN_HEIGHT * 0.1) / 2
+    justifyContent:'center', 
+    alignItems: 'center',
+    borderTopLeftRadius: (SCREEN_HEIGHT * 0.1) / 4,
+    borderBottomLeftRadius: (SCREEN_HEIGHT * 0.1) / 4
   },
   touchableContainerView: {
     flexDirection: "row",
@@ -121,17 +125,19 @@ export const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginLeft: 5,
     paddingLeft: 5,
+    paddingVertical: 6,
     borderLeftWidth: 0.2,
     borderColor: "grey"
   },
   supplementName: {
     fontSize: fontsCommon.font18,
-    fontWeight: "bold",
-    color: "#00aeef"
+    fontWeight: "700",
+    color: styleCommon.textColor1,
   },
   supplementDesc: {
     width: SCREEN_WIDTH * 0.6, //180,
     fontSize: fontsCommon.font14,
+    paddingRight: 5,
     color: styleCommon.secondaryButtonTextColor
   },
   supplementDetailedDesc: {
@@ -150,20 +156,23 @@ export const styles = StyleSheet.create({
     fontSize: fontsCommon.font13,
     fontWeight: "500",
     marginTop: 5,
-    backgroundColor: "#04CD5E",
+    //backgroundColor: "white",
     borderBottomRightRadius: 20
   },
   timingsLabelText: {
     fontSize: fontsCommon.font14,
     padding: 5,
     fontWeight: "600",
-    color: "white"
+    color: styleCommon.textColor1,
   },
   timingsOptions: {
     padding: 3,
     paddingLeft: 4,
     fontWeight: "400",
     fontSize: fontsCommon.font13,
-    color: "white"
+    color: styleCommon.textColor1,
+  },
+  timingIconStyle: {
+    marginTop: 5,
   }
 });

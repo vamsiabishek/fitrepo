@@ -70,7 +70,7 @@ export default class MealsContainer extends Component {
   };
 
   renderDetail = (rowData, sectionID, rowID) => {
-    let title = <Text style={[styles.title]}>{rowData.name}</Text>;
+    let title = <View  style={styles.titleContainer}><Text style={[styles.title]}>{rowData.name}</Text></View>;
     var desc = null;
     const rotateX = this.onLoadAnimatedValue.interpolate({
       inputRange: [0, 0.5, 1],
@@ -82,10 +82,10 @@ export default class MealsContainer extends Component {
     if (rowData.sources)
       desc = (
         <View style={styles.descriptionContainer}>
-          <View style={styles.mealItem}>
+          {/* <View style={styles.mealItem}>
             <Text style={styles.mealItemName} />
             <Text style={styles.mealItemQuantityLabel}>Quantity</Text>
-          </View>
+          </View> */}
           {rowData.sources.map((source, index) => {
             let metricUnit = "gm";
             if (source.isPerSingleUnit) metricUnit = "";
@@ -142,7 +142,7 @@ export default class MealsContainer extends Component {
           circleSize={35}
           circleColor="#00DB8D"
           //circleColor="white"
-          lineColor="grey"
+          lineColor="lightgrey"
           timeStyle={{
             textAlign: "center",
             color: "white",

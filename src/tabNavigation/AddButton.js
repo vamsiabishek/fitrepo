@@ -4,7 +4,7 @@ import { f, database } from "../common/FirebaseConfig";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { withNavigation } from "react-navigation";
 import { createKeyAndValuesFromResult } from "../common/Util";
-import { fontsCommon } from "../../assets/style/stylesCommonValues";
+import { styleCommon, fontsCommon } from "../../assets/style/stylesCommonValues";
 import { getCurrentUser } from "../common/Util";
 
 class AddButton extends React.Component {
@@ -78,10 +78,10 @@ class AddButton extends React.Component {
             width: SIZE,
             height: SIZE,
             borderRadius: SIZE / 2,
-            backgroundColor: "#48A2F8"
+            backgroundColor: "#FA8072"
           }}
         >
-          <Icon name="plus" size={fontsCommon.font28} color="#F8F8F8" />
+          <Icon name="plus" size={fontsCommon.font28} color={styleCommon.textColor1} />
         </TouchableHighlight>
       </View>
     );

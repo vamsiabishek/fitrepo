@@ -4,7 +4,8 @@ import {
   SCREEN_HEIGHT,
   styleCommon,
   fontsCommon,
-  DEVICE_NAME
+  DEVICE_NAME,
+  BG_COLOR
 } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
@@ -13,7 +14,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT
+    height: SCREEN_HEIGHT,
+    backgroundColor: BG_COLOR
   },
   innerContainer: {
     alignItems: "center",
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    color: styleCommon.textColor1,
+    color: styleCommon.textColorWhite,
     fontSize: fontsCommon.font15
   },
   inputDisableStyle: {

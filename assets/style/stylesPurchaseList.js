@@ -5,7 +5,8 @@ export const styles = StyleSheet.create({
   container: {
     borderColor: styleCommon.textColor1,
     borderWidth: 1,
-    borderRadius: 5
+    borderRadius: 5,
+    padding: 3,
     //backgroundColor: "pink"
   },
   rowContainer: {

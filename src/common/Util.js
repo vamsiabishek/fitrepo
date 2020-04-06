@@ -139,6 +139,20 @@ export const getFirstTimeUser = () => IS_FIRST_TIME_USER;
 
 const isNewUser = async() => {
   const { uid } = await getCurrentUser();
+  const firstDiet = await getFirstDietOfUser(uid);
+  const { createdDate } = firstDiet.value;
+  const fromDate = new Date(createdDate);
+  const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
+  const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000));
+  const total_minutes = parseInt(Math.floor(total_seconds / 60));
+  const total_hours = parseInt(Math.floor(total_minutes / 60));
+  const days = parseInt(Math.floor(total_hours / 24));
+  if(days <= 28)
+    return true
+  else return false
+}
+
+const getFirstDietOfUser = async(uid) => {
   let firstDiet = {};
   await database
     .ref(`diets/${uid}`)
@@ -152,14 +166,10 @@ const isNewUser = async() => {
     .catch(error => {
       console.log(error);
     });
-  const { createdDate } = firstDiet.value;
-  const fromDate = new Date(createdDate);
-  const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
-  const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000));
-  const total_minutes = parseInt(Math.floor(total_seconds / 60));
-  const total_hours = parseInt(Math.floor(total_minutes / 60));
-  const days = parseInt(Math.floor(total_hours / 24));
-  if(days <= 7)
-    return true
-  else return false
+  return firstDiet
+}
+
+export const isTrailUser = async() => {
+  const { uid } = await getCurrentUser();
+  return await isNewUser() || uid === 'FOW1bWhyufVcUYeNiVpHGWP4bAe2'
 }

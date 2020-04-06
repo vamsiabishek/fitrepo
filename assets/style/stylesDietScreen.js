@@ -4,7 +4,8 @@ import {
   SCREEN_WIDTH,
   DEVICE_NAME,
   fontsCommon,
-  SCREEN_HEIGHT
+  SCREEN_HEIGHT,
+  BG_COLOR
 } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: styleCommon.primaryColor
+    backgroundColor: BG_COLOR
   },
   container: {
     flex: 1,
@@ -90,8 +91,11 @@ const styles = StyleSheet.create({
   subHeaderMenuItems: {
     fontSize: fontsCommon.font18,
     fontWeight: "bold",
-    color: styleCommon.textColor2
-    // backgroundColor: "orange"
+    color: styleCommon.textColor2,
+    shadowColor: "black",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
   },
   sortContainerStyle: {
     flexDirection: "row",

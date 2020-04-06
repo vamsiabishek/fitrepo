@@ -14,6 +14,7 @@
     "@firebase/util": "0.x",
     "add": "^2.0.6",
     "firebase": "^5.8.5",
+    "flag": "^4.4.0",
     "jetifier": "^1.6.4",
     "lottie-react-native": "2.5.11",
     "prop-types": "^15.0.0",

@@ -4,7 +4,8 @@ import {
   SCREEN_HEIGHT,
   styleCommon,
   fontsCommon,
-  DEVICE_NAME
+  DEVICE_NAME,
+  BG_COLOR
 } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
@@ -13,8 +14,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT
-    //backgroundColor: styleCommon.primaryColor
+    height: SCREEN_HEIGHT,
+    backgroundColor: BG_COLOR
   },
   innerContainer: {
     alignItems: "center",
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "transparent",
     paddingVertical: 5,
-    backgroundColor: "rgba(8, 215, 226, .8)"
+    backgroundColor:  styleCommon.panelSubHeaderBoxColor //"rgba(8, 215, 226, .8)"
     //backgroundColor: "indigo"
   },
   profileSubBannerBoxStyle: {
@@ -135,8 +136,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "space-between",
-    margin: 3
-    //backgroundColor: "rgba(102,255,255,.2)"
+    margin: 3,
+    backgroundColor: styleCommon.secondaryColorNew
     //backgroundColor: "hotpink"
   },
   boxesStyle: {
@@ -144,8 +145,8 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.21,
     borderWidth: 1,
     borderColor: "transparent",
-    marginVertical: 3,
-    marginHorizontal: 3
+    //marginVertical: 3,
+    //marginHorizontal: 3
     // backgroundColor: styleCommon.secondaryColor //"transparent"
   },
   boxHeaderContainerView: {
@@ -192,11 +193,17 @@ const styles = StyleSheet.create({
     padding: 10
     //backgroundColor: "black"
   },
+  boxTextContainer: {
+    flexDirection: "row",
+    borderWidth: 0.5,
+    borderRadius: 2,
+    padding: 3
+  },
   boxTextStyle: {
-    paddingBottom: 5,
+    padding: 5,
     fontSize: fontsCommon.font14,
     fontWeight: "bold",
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
   },
   avatarHumanOverlayStyle: {
     backgroundColor: "transparent"
@@ -215,6 +222,9 @@ const styles = StyleSheet.create({
   },
   progressBarBgColor: {
     color: styleCommon.textColor1
+  },
+  weightIconStyle: {
+    marginTop: 5,
   }
 });
 

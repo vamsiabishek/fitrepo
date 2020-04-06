@@ -9,7 +9,7 @@ import {
   UIManager,
   Image
 } from "react-native";
-import { Avatar, Button } from "react-native-elements";
+import { Avatar as ProgressAvatar, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ProgressCircle from "react-native-progress-circle";
 import { styles } from "../../assets/style/stylesProfileScreen";
@@ -37,7 +37,8 @@ import {
   ICON_SIZE_MED,
   ICON_SIZE_LARGE,
   ICON_BACK_SIZE,
-  AVATAR_SIZE
+  AVATAR_SIZE,
+  ICON_SIZE_SMALL
 } from "../../assets/style/stylesCommonValues";
 import {
   getCurrentUser,
@@ -46,6 +47,7 @@ import {
   getDifferenceInSeconds
 } from "../common/Util";
 import PurchaseList from "../components/purchase/PurchaseList";
+import Avatar from "../components/Avatar"
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -171,7 +173,7 @@ export default class Profile extends Component {
         )
       : undefined;
     return (
-      <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
         {isLoading ? (
           <ActivityIndicator color={styleCommon.textColor1} size="large" />
         ) : (
@@ -182,7 +184,7 @@ export default class Profile extends Component {
                   icon={{
                     name: "account-edit",
                     size: ICON_BACK_SIZE,
-                    color: styleCommon.secondaryButtonTextColor,
+                    color: styleCommon.panelHeaderIconColor,
                     type: "material-community"
                   }}
                   containerStyle={styles.actionsButtonStyle}
@@ -194,7 +196,7 @@ export default class Profile extends Component {
                   icon={{
                     name: "logout",
                     size: ICON_BACK_SIZE,
-                    color: styleCommon.secondaryButtonTextColor,
+                    color: styleCommon.panelHeaderIconColor,
                     type: "material-community"
                   }}
                   iconRight={true}
@@ -221,14 +223,9 @@ export default class Profile extends Component {
             >
               <View style={styles.avatarContainer}>
                 <Avatar
-                  size={AVATAR_SIZE}
-                  rounded
-                  overlayContainerStyle={styles.avatarOverlayContainerStyle}
-                  icon={{
-                    type: "material-community",
-                    name: "chess-bishop",
-                    color: styleCommon.textColor2
-                  }}
+                  size={120}
+                  iconSize={80}
+                  gender={gender}
                   //source={{ uri: user.avatarSource }}
                   //imageProps={styles.avatarImagePropsStyle}
                 />
@@ -273,7 +270,7 @@ export default class Profile extends Component {
                       shadowColor={styles.progressCircleShadowColor.color}
                       bgColor={styles.progressCircleBgColor.color}
                     >
-                      <Avatar
+                      <ProgressAvatar
                         rounded
                         size={AVATAR_SIZE}
                         source={VITRUVIAN_MAN}
@@ -285,13 +282,31 @@ export default class Profile extends Component {
                       />
                     </ProgressCircle>
                     <View style={styles.boxContentTextStyle}>
-                      <Text style={styles.boxTextStyle}>
-                        Current Weight: {user.weight} kgs
-                      </Text>
-                      <Text style={styles.boxTextStyle}>
-                        Target Weight:{" "}
-                        {currentDiet && currentDiet.value.targetWeight} kgs
-                      </Text>
+                      <View style={styles.boxTextContainer}>
+                        <Icon
+                          name="weight-kilogram"
+                          size={ICON_SIZE_SMALL}
+                          color="#4CAF50"
+                          style={styles.weightIconStyle}
+                        />
+                        <Text style={styles.boxTextStyle}>
+                          Current Weight: {user.weight} kgs
+                        </Text>
+                      </View>
+                      <View style={styles.boxTextContainer}>
+                        <Icon
+                          name="bullseye-arrow"
+                          size={ICON_SIZE_SMALL}
+                          color="#4CAF50"
+                          style={styles.weightIconStyle}
+                        />
+                        <Text style={styles.boxTextStyle}>
+                          Target Weight:{" "}
+                          {currentDiet && currentDiet.value.targetWeight} kgs
+                        </Text>
+                      </View>
+                      
+                      
                     </View>
                   </View>
                 </View>
@@ -304,7 +319,7 @@ export default class Profile extends Component {
                       size={ICON_SIZE_MED}
                       style={styles.boxHeaderIconStyle}
                     />
-                    <Text style={styles.boxHeaderTextStyle}>Past Payments</Text>
+                    <Text style={styles.boxHeaderTextStyle}>Payments</Text>
                   </View>
                   <View style={styles.boxContentColumnContainerStyle}>
                     <View style={styles.boxContentTextStyle}>
@@ -316,7 +331,7 @@ export default class Profile extends Component {
             </ScrollView>
           </View>
         )}
-      </ImageBackground>
+      </View>
     );
   }
 }

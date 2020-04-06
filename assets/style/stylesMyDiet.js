@@ -4,12 +4,14 @@ import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
   fontsCommon,
-  DEVICE_NAME
+  DEVICE_NAME,
+  BG_COLOR
 } from "./stylesCommonValues";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: BG_COLOR,
     /*alignItems: "center",
     justifyContent: "center",
     width: SCREEN_WIDTH*/
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   backButtonTitleStyle: {
-    color: styleCommon.textColor1,
+    color: styleCommon.textColorTitles,
     fontSize: fontsCommon.font18
   },
   weeklyBarStyle: {
@@ -103,12 +105,12 @@ const styles = StyleSheet.create({
   activeDayButtonText: {
     fontSize: fontsCommon.font16,
     fontWeight: "bold",
-    color: "white"
+    color: styleCommon.textColorTitles,
   },
   dayButtonText: {
     fontSize: fontsCommon.font14,
     fontWeight: "bold",
-    color: styleCommon.unSelected
+    color: styleCommon.unSelectedButtonColor
   },
   buttonIconStyle: {
     padding: 5
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
   weekText: {
     fontSize: fontsCommon.font18,
     fontWeight: "bold",
-    color: styleCommon.textColor1
+    color: styleCommon.textColorTitles
   }
 });
 

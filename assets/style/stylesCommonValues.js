@@ -73,21 +73,33 @@ export const BUTTON_HEIGHT_GENERAL = SCREEN_HEIGHT * 0.06;
 export const styleCommon = {
   //primaryColor: "#3399ff", // Top Blue Color of Gradient BG
   primaryColor: "#66ffff", // Top Blue Color of Gradient BG
-  primaryButtonColor: "#3399ff",
+  //primaryColor: "white",
+  //primaryButtonColor: "#3399ff",
+  primaryButtonColor: "#2c7873",
   primaryButtonTextColor: "white",
   secondaryColor: "#d1feff", // Box light Blue color
+  secondaryColorNew: "#b0cfb8", //"#a1be95",
   secondaryButtonColor: "#d1feff",
   secondaryButtonTextColor: "#004a94", // bottom Dark Blue Color
-  textColor1: "#004a94",
+  textColor1: "#004445",
+  //textColor1: "black",
   textColor2: "white",
   textColor3: "#d1feff", // Box light Blue color
+  textColorWhite: 'white',
+  textColorTitles: 'white',
   descTextColor: "#808080", // dark gray
-  unSelected: "grey",
+  unSelected: "#d3d3d3",
   disableColor: "#d3d3d3", // Light grey
   darkDisableColor: "#636568",
   selectedButtonColor: "#FA8072", // salmon
+  unSelectedButtonColor: "grey",
   transparentButtonColorRGBA: "rgba(211, 211, 211, 0.3)",
-  panelHeaderBoxColor: "#0099CC" // the header color for macros in mydiet page
+ // panelHeaderBoxColor: "#0099CC", // the header color for macros in mydiet page
+ // panelHeaderBoxColor: "#20948B",
+  panelHeaderBoxColor: BG_COLOR,
+  panelSubHeaderBoxColor: "#20948B",
+  panelHeaderIconColor: '#4CAF50',
+  badgeColor: '#4CAF50',
 };
 
 export const btnGradientColorLeft = "#66ffff"; // bright blue color
@@ -95,3 +107,4 @@ export const btnGradientColorRight = "#FA8072"; // salmon
 export const btnGradientColorRightDisabled = "#d3d3d3";
 export const modalBtnGradientColorRight = "#004a94"; // bottom blue of background
 export const errorTextcolor = "#F44336";
+export const BG_COLOR = "#2C7873"

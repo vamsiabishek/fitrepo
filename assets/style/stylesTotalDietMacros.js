@@ -4,7 +4,13 @@ import { styleCommon, fontsCommon } from "./stylesCommonValues";
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: styleCommon.panelSubHeaderBoxColor,
+    //borderBottomWidth: 0.3,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   macrosBarStyle: {
     flexDirection: "row",
