@@ -1,231 +1,231 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
   styleCommon,
   fontsCommon,
   DEVICE_NAME,
-  BG_COLOR
-} from "./stylesCommonValues";
+  BG_COLOR,
+} from './stylesCommonValues';
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
-    backgroundColor: BG_COLOR
+    backgroundColor: BG_COLOR,
   },
   innerContainer: {
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
     //backgroundColor: styleCommon.secondaryColor //"pink"
   },
   actionsHeaderContainer: {
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    paddingTop: DEVICE_NAME.includes("iPhone X") ? 40 : 20
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    paddingTop: DEVICE_NAME.includes('iPhone 11') ? 40 : 20,
     //backgroundColor: "blueviolet"
   },
   actionsButtonContainerStyle: {
     width: SCREEN_WIDTH,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   actionsButtonStyle: {
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     //backgroundColor: "burlywood"
     borderWidth: 0,
-    borderColor: "transparent",
-    backgroundColor: "transparent"
+    borderColor: 'transparent',
+    backgroundColor: 'transparent',
   },
   actionsButtonTitleStyle: {
     color: styleCommon.textColor1,
-    fontSize: fontsCommon.font18
+    fontSize: fontsCommon.font18,
   },
   bannerHeaderContainer: {
-    justifyContent: "space-between",
-    alignContent: "center"
+    justifyContent: 'space-between',
+    alignContent: 'center',
   },
   bannerContainer: {
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.15 //220
+    height: SCREEN_HEIGHT * 0.15, //220
   },
   bannerImage: {
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.15
+    height: SCREEN_HEIGHT * 0.15,
   },
   bannergradientStyle: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   avatarContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
     // backgroundColor: "firebrick"
   },
   avatarOverlayContainerStyle: {
-    backgroundColor: styleCommon.unSelected
+    backgroundColor: styleCommon.unSelected,
   },
   avatarImagePropsStyle: {
-    backgroundColor: styleCommon.unSelected
+    backgroundColor: styleCommon.unSelected,
   },
   profileBannerStyle: {
-    justifyContent: "center",
-    alignContent: "center",
+    justifyContent: 'center',
+    alignContent: 'center',
     paddingVertical: 5,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
     //backgroundColor: "green"
   },
   profileBannerTitleStyle: {
-    textAlign: "center",
+    textAlign: 'center',
     color: styleCommon.textColor1,
     fontSize: fontsCommon.font28,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   profileBannerSubTitleStyle: {
-    textAlign: "center",
+    textAlign: 'center',
     color: styleCommon.textColor1,
-    fontSize: fontsCommon.font14
+    fontSize: fontsCommon.font14,
   },
   profileSubBannerStyle: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: "transparent",
+    borderBottomColor: 'transparent',
     paddingVertical: 5,
-    backgroundColor:  styleCommon.panelSubHeaderBoxColor //"rgba(8, 215, 226, .8)"
+    backgroundColor: styleCommon.panelSubHeaderBoxColor, //"rgba(8, 215, 226, .8)"
     //backgroundColor: "indigo"
   },
   profileSubBannerBoxStyle: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 15
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 15,
   },
   profileBannerTextStyle: {
     fontSize: fontsCommon.font14,
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
   },
   profileStarColor: {
-    color: "#f8bf45"
+    color: '#f8bf45',
   },
   profileButtonIconStyle: {
-    color: styleCommon.selectedButtonColor
+    color: styleCommon.selectedButtonColor,
   },
   profileButtonStyle: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     //backgroundColor: "yellow"
   },
   scrollViewContainerStyle: {
-    flex: 1
+    flex: 1,
     // backgroundColor: "orange"
   },
   scrollViewContentContainer: {
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   boxesContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignContent: 'space-between',
     margin: 3,
-    backgroundColor: styleCommon.secondaryColorNew
+    backgroundColor: styleCommon.secondaryColorNew,
     //backgroundColor: "hotpink"
   },
   boxesStyle: {
-    width: "98%",
+    width: '98%',
     height: SCREEN_HEIGHT * 0.21,
     borderWidth: 1,
-    borderColor: "transparent",
+    borderColor: 'transparent',
     //marginVertical: 3,
     //marginHorizontal: 3
     // backgroundColor: styleCommon.secondaryColor //"transparent"
   },
   boxHeaderContainerView: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    padding: 3
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    padding: 3,
     //backgroundColor: "green"
   },
   boxHeaderIconStyle: {
     paddingRight: 3,
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
   },
   boxHeaderTextStyle: {
     fontSize: fontsCommon.font16,
-    fontWeight: "bold",
-    color: styleCommon.textColor1
+    fontWeight: 'bold',
+    color: styleCommon.textColor1,
   },
   boxContentRowContainerStyle: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignContent: "stretch",
-    padding: 3
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignContent: 'stretch',
+    padding: 3,
     //backgroundColor: "yellow"
   },
   boxContentColumnContainerStyle: {
-    justifyContent: "space-evenly",
-    alignContent: "stretch",
-    padding: 3
+    justifyContent: 'space-evenly',
+    alignContent: 'stretch',
+    padding: 3,
     //backgroundColor: "purple"
   },
   boxContentIconStyle: {
-    color: "#53C19A"
+    color: '#53C19A',
     //backgroundColor: "indigo"
   },
   boxContentTextStyle: {
-    justifyContent: "flex-start",
-    alignContent: "center",
-    padding: 10
+    justifyContent: 'flex-start',
+    alignContent: 'center',
+    padding: 10,
     //backgroundColor: "orange"
   },
   boxContentGoalTextStyle: {
-    justifyContent: "flex-start",
-    alignContent: "center",
-    padding: 10
+    justifyContent: 'flex-start',
+    alignContent: 'center',
+    padding: 10,
     //backgroundColor: "black"
   },
   boxTextContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderWidth: 0.5,
     borderRadius: 2,
-    padding: 3
+    padding: 3,
   },
   boxTextStyle: {
     padding: 5,
     fontSize: fontsCommon.font14,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: styleCommon.textColor1,
   },
   avatarHumanOverlayStyle: {
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent',
   },
   progressCircleColor: {
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
   },
   progressCircleShadowColor: {
-    color: styleCommon.unSelected
+    color: styleCommon.unSelected,
   },
   progressCircleBgColor: {
-    color: styleCommon.secondaryColor //"#28292B"
+    color: styleCommon.secondaryColor, //"#28292B"
   },
   progressBarBgColorComplete: {
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
   },
   progressBarBgColor: {
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
   },
   weightIconStyle: {
     marginTop: 5,
-  }
+  },
 });
 
-export { styles };
+export {styles};

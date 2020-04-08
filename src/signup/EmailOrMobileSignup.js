@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { View, UIManager } from "react-native";
-import { Input, Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React, {Component} from 'react';
+import {View, UIManager} from 'react-native';
+import {Input, Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   ICON_SIZE_MED,
   ICON_SIZE,
-  styleCommon
-} from "../../assets/style/stylesCommonValues";
-import { styles } from "../../assets/style/stylesEmailOrMobileSignup";
+  styleCommon,
+} from '../../assets/style/stylesCommonValues';
+import {styles} from '../../assets/style/stylesEmailOrMobileSignup';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -18,20 +18,20 @@ export default class EmailOrMobileSignup extends Component {
     super(props);
     this.state = {
       secureTextKeyP: true,
-      secureTextKeyCP: true
+      secureTextKeyCP: true,
     };
   }
   onEyeIconPressP = () => {
-    this.setState({ secureTextKeyP: false });
+    this.setState({secureTextKeyP: false});
   };
   onEyeOffIconPressP = () => {
-    this.setState({ secureTextKeyP: true });
+    this.setState({secureTextKeyP: true});
   };
   onEyeIconPressCP = () => {
-    this.setState({ secureTextKeyCP: false });
+    this.setState({secureTextKeyCP: false});
   };
   onEyeOffIconPressCP = () => {
-    this.setState({ secureTextKeyCP: true });
+    this.setState({secureTextKeyCP: true});
   };
   render() {
     const placeholderTextColor = styleCommon.textColor1;
@@ -47,9 +47,9 @@ export default class EmailOrMobileSignup extends Component {
       onConfirmPasswordChange,
       validateEmail,
       validatePassword,
-      validateConfirmationPassword
+      validateConfirmationPassword,
     } = this.props.signupObject;
-    const { secureTextKeyP, secureTextKeyCP } = this.state;
+    const {secureTextKeyP, secureTextKeyCP} = this.state;
     return (
       <View style={styles.mainContent}>
         <Input
@@ -72,15 +72,15 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          onChangeText={email => onEmailChange(email)}
+          onChangeText={(email) => onEmailChange(email)}
           value={email}
-          ref={input => (this.emailInput = input)}
+          ref={(input) => (this.emailInput = input)}
           onSubmitEditing={() => {
-            this.setState({ emailValid: validateEmail });
+            this.setState({emailValid: validateEmail});
             this.passwordInput.focus();
           }}
           errorMessage={
-            emailValid ? null : "Please enter a valid email address!"
+            emailValid ? null : 'Please enter a valid email address!'
           }
         />
         <Input
@@ -104,30 +104,30 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          onChangeText={password => onPasswordChange(password)}
+          onChangeText={(password) => onPasswordChange(password)}
           onFocus={() => validateEmail(email, this.emailInput)}
           value={password}
-          ref={input => (this.passwordInput = input)}
+          ref={(input) => (this.passwordInput = input)}
           onSubmitEditing={() => {
-            this.setState({ passwordValid: validatePassword });
+            this.setState({passwordValid: validatePassword});
             this.confirmationPasswordInput.focus();
           }}
           errorMessage={
             passwordValid
               ? null
-              : "Password should have more than 8 charecters!"
+              : 'Password should have more than 8 charecters!'
           }
           rightIcon={
             <Button
               icon={
                 <Icon
-                  name={secureTextKeyP ? "eye" : "eye-off"}
+                  name={secureTextKeyP ? 'eye' : 'eye-off'}
                   size={ICON_SIZE}
-                  style={{ color: styleCommon.iconColor }}
+                  style={{color: styleCommon.iconColor}}
                 />
               }
               buttonStyle={{
-                backgroundColor: "transparent"
+                backgroundColor: 'transparent',
               }}
               onPress={
                 secureTextKeyP ? this.onEyeIconPressP : this.onEyeOffIconPressP
@@ -149,7 +149,7 @@ export default class EmailOrMobileSignup extends Component {
           inputStyle={styles.inputStyle}
           placeholderTextColor={placeholderTextColor}
           errorStyle={styles.errorInputStyle}
-          onChangeText={confirmationPassword =>
+          onChangeText={(confirmationPassword) =>
             onConfirmPasswordChange(confirmationPassword)
           }
           onFocus={() => validatePassword(password, this.passwordInput)}
@@ -161,26 +161,26 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          ref={input => (this.confirmationPasswordInput = input)}
+          ref={(input) => (this.confirmationPasswordInput = input)}
           onSubmitEditing={() => {
             this.setState({
-              confirmationPasswordValid: validateConfirmationPassword
+              confirmationPasswordValid: validateConfirmationPassword,
             });
           }}
           errorMessage={
-            confirmationPasswordValid ? null : "The Passwords do not match !"
+            confirmationPasswordValid ? null : 'The Passwords do not match !'
           }
           rightIcon={
             <Button
               icon={
                 <Icon
-                  name={secureTextKeyCP ? "eye" : "eye-off"}
+                  name={secureTextKeyCP ? 'eye' : 'eye-off'}
                   size={ICON_SIZE}
-                  style={{ color: styleCommon.iconColor }}
+                  style={{color: styleCommon.iconColor}}
                 />
               }
               buttonStyle={{
-                backgroundColor: "transparent"
+                backgroundColor: 'transparent',
               }}
               onPress={
                 secureTextKeyCP

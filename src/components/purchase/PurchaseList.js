@@ -1,10 +1,10 @@
-import React from "react";
-import { View, Text, FlatList } from "react-native";
-import { convertProductIdentifierToPrograms } from "../../common/Common";
-import { styles } from "../../../assets/style/stylesPurchaseList";
+import React from 'react';
+import {View, Text, FlatList} from 'react-native';
+import {convertProductIdentifierToPrograms} from '../../common/Common';
+import {styles} from '../../../assets/style/stylesPurchaseList';
 
 class PurchaseList extends React.Component {
-  _keyExtractor = item => item.purchaseDate.toString();
+  _keyExtractor = (item) => item.purchaseDate.toString();
   renderPurchaseItem = (purchase, index) => {
     const purchaseDateTime = new Date(purchase.purchaseDate);
     if (index === 0) {
@@ -40,11 +40,11 @@ class PurchaseList extends React.Component {
     }
   };
   render() {
-    const { purchases } = this.props;
+    const {purchases} = this.props;
     console.log(purchases);
     let purchaseList = [];
     if (purchases) {
-      purchaseList = Object.keys(purchases).map(key => {
+      purchaseList = Object.keys(purchases).map((key) => {
         return purchases[key];
       });
     }
@@ -55,9 +55,7 @@ class PurchaseList extends React.Component {
         {purchaseList.length > 0 ? (
           <FlatList
             data={purchaseList}
-            renderItem={({ item, index }) =>
-              this.renderPurchaseItem(item, index)
-            }
+            renderItem={({item, index}) => this.renderPurchaseItem(item, index)}
             keyExtractor={this._keyExtractor}
           />
         ) : (

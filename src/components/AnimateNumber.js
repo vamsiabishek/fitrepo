@@ -1,17 +1,17 @@
-import * as React from "react";
-import { Text, View } from "react-native";
+import * as React from 'react';
+import {Text} from 'react-native';
 
 const HALF_RAD = Math.PI / 2;
 
 export default class AnimateNumber extends React.Component {
   static defaultProps = {
     interval: 14,
-    timing: "linear",
+    timing: 'linear',
     steps: 45,
     value: 0,
-    formatter: val => val,
+    formatter: (val) => val,
     renderContent: (value, style) => <Text style={style}>{value}</Text>,
-    onFinish: () => {}
+    onFinish: () => {},
   };
 
   static TimingFunctions = {
@@ -25,7 +25,7 @@ export default class AnimateNumber extends React.Component {
 
     easeIn: (interval, progress) => {
       return interval * Math.sin(HALF_RAD - HALF_RAD * progress) * 5;
-    }
+    },
   };
 
   constructor(props) {
@@ -33,7 +33,7 @@ export default class AnimateNumber extends React.Component {
     // default values of state and non-state variables
     this.state = {
       value: this.props.initial ? this.props.initial : 0,
-      displayValue: 0
+      displayValue: 0,
     };
     this.dirty = false;
     this.startFrom = 0;
@@ -89,7 +89,9 @@ export default class AnimateNumber extends React.Component {
       if (this.mounted) {
         let value = (this.endWith - this.startFrom) / this.props.steps;
         let sign = value >= 0 ? 1 : -1;
-        if (this.props.countBy) value = sign * Math.abs(this.props.countBy);
+        if (this.props.countBy) {
+          value = sign * Math.abs(this.props.countBy);
+        }
         let total = parseFloat(this.state.value) + parseFloat(value);
 
         this.direction = value > 0;
@@ -99,12 +101,13 @@ export default class AnimateNumber extends React.Component {
           total = this.endWith;
         }
 
-        if (this.props.onProgress)
+        if (this.props.onProgress) {
           this.props.onProgress(this.state.value, total);
+        }
 
         this.setState({
           value: total,
-          displayValue: this.props.formatter(total)
+          displayValue: this.props.formatter(total),
         });
       }
     }, this.getTimingFunction(this.props.interval, progress));
@@ -117,11 +120,13 @@ export default class AnimateNumber extends React.Component {
   };
 
   getTimingFunction = (interval, progress) => {
-    if (typeof this.props.timing === "string") {
+    if (typeof this.props.timing === 'string') {
       let fn = AnimateNumber.TimingFunctions[this.props.timing];
       return fn(interval, progress);
-    } else if (typeof this.props.timing === "function")
+    } else if (typeof this.props.timing === 'function') {
       return this.props.timing(interval, progress);
-    else return AnimateNumber.TimingFunctions["linear"](interval, progress);
+    } else {
+      return AnimateNumber.TimingFunctions.linear(interval, progress);
+    }
   };
 }

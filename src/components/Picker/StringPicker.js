@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Picker, View, Text } from "react-native";
-import { Button } from "react-native-elements";
-import Modal from "react-native-modal";
-import { styles } from "../../../assets/style/stylesNumberPicker";
+import React, {Component} from 'react';
+import {Picker, View, Text} from 'react-native';
+import {Button} from 'react-native-elements';
+import Modal from 'react-native-modal';
+import {styles} from '../../../assets/style/stylesNumberPicker';
 
 export default class StringPicker extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ export default class StringPicker extends Component {
       selectedString:
         this.props.selectedStr !== undefined
           ? this.props.selectedStr
-          : this.props.stringArray[0]
+          : this.props.stringArray[0],
     };
     this.selectedValue = this.props.selectedStr;
   }
@@ -21,15 +21,15 @@ export default class StringPicker extends Component {
       selectedString:
         this.props.selectedStr !== undefined
           ? this.props.selectedStr
-          : this.props.stringArray[0]
+          : this.props.stringArray[0],
     });
   };
 
   componentDidMount = () => {
-    const { selectedString } = this.state;
+    const {selectedString} = this.state;
     if (selectedString !== this.props.selectedStr) {
       this.setState({
-        selectedString: this.props.selectedStr
+        selectedString: this.props.selectedStr,
       });
     }
   };
@@ -46,35 +46,32 @@ export default class StringPicker extends Component {
     this.selectedValue = this.props.selectedStr;
     this._resetStringAndArray();
   };
-  _handleOnValueChange = value => {
+  _handleOnValueChange = (value) => {
     this.selectedValue = value;
-    this.setState({ selectedString: value });
+    this.setState({selectedString: value});
   };
   render() {
-    const { stringArray, isVisible, pickerHeading } = this.props;
-    const { selectedString } = this.state;
+    const {stringArray, isVisible, pickerHeading} = this.props;
     return (
       <View>
         <Modal
           isVisible={isVisible}
           backdropColor="black"
           backdropOpacity={0.5}
-          style={styles.modalStyle}
-        >
+          style={styles.modalStyle}>
           <View style={styles.modalViewContainer}>
             <View style={styles.modalViewInnerComponent}>
               <View style={styles.modalHeaderView}>
                 <Text style={styles.modalHeaderText}>
-                  {pickerHeading ? pickerHeading : "Pick an option"}
+                  {pickerHeading ? pickerHeading : 'Pick an option'}
                 </Text>
               </View>
               <Picker
                 selectedValue={this.selectedValue}
-                onValueChange={itemValue =>
+                onValueChange={(itemValue) =>
                   this._handleOnValueChange(itemValue)
-                }
-              >
-                {stringArray.map(str => (
+                }>
+                {stringArray.map((str) => (
                   <Picker.Item key={str} label={str.toString()} value={str} />
                 ))}
               </Picker>

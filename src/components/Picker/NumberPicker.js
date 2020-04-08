@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Picker, View, Text } from "react-native";
-import { Button } from "react-native-elements";
-import Modal from "react-native-modal";
-import { styles } from "../../../assets/style/stylesNumberPicker";
+import React, {Component} from 'react';
+import {Picker, View, Text} from 'react-native';
+import {Button} from 'react-native-elements';
+import Modal from 'react-native-modal';
+import {styles} from '../../../assets/style/stylesNumberPicker';
 
 export default class NumberPicker extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ export default class NumberPicker extends Component {
       selectedNumber:
         this.props.selectedNum !== undefined
           ? this.props.selectedNum
-          : this.props.numberArray[0]
+          : this.props.numberArray[0],
     };
     this.selectedValue = this.props.selectedNum;
   }
@@ -20,15 +20,15 @@ export default class NumberPicker extends Component {
       selectedNumber:
         this.props.selectedNum !== undefined
           ? this.props.selectedNum
-          : this.props.numberArray[0]
+          : this.props.numberArray[0],
     });
   };
 
   componentDidMount = () => {
-    const { selectedNumber } = this.state;
+    const {selectedNumber} = this.state;
     if (selectedNumber !== this.props.selectedNum) {
       this.setState({
-        selectedNumber: this.props.selectedNum
+        selectedNumber: this.props.selectedNum,
       });
     }
   };
@@ -43,20 +43,19 @@ export default class NumberPicker extends Component {
     this.selectedValue = this.props.selectedNum;
     this._resetNumberAndArray();
   };
-  _handleOnValueChange = value => {
+  _handleOnValueChange = (value) => {
     this.selectedValue = value;
-    this.setState({ selectedNumber: value });
+    this.setState({selectedNumber: value});
   };
   render() {
-    const { numberArray, isVisible, unit } = this.props;
+    const {numberArray, isVisible, unit} = this.props;
     return (
       <View>
         <Modal
           isVisible={isVisible}
           backdropColor="black"
           backdropOpacity={0.5}
-          style={styles.modalStyle}
-        >
+          style={styles.modalStyle}>
           <View style={styles.modalViewContainer}>
             <View style={styles.modalViewInnerComponent}>
               <View style={styles.modalHeaderView}>
@@ -66,11 +65,10 @@ export default class NumberPicker extends Component {
               </View>
               <Picker
                 selectedValue={this.selectedValue}
-                onValueChange={itemValue =>
+                onValueChange={(itemValue) =>
                   this._handleOnValueChange(itemValue)
-                }
-              >
-                {numberArray.map(number => (
+                }>
+                {numberArray.map((number) => (
                   <Picker.Item
                     key={number}
                     label={number.toString()}

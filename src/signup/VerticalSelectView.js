@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import {
   FlatList,
   Image,
   Text,
   TouchableOpacity,
   View,
-  Animated
-} from "react-native";
+  Animated,
+} from 'react-native';
 import {
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,
@@ -19,13 +19,10 @@ import {
   ADVANCED_LABEL,
   BEGINNER_DESC,
   INTERMEDIATE_DESC,
-  ADVANCED_DESC
-} from "../common/Common";
-import { styles } from "../../assets/style/stylesVerticalSelectView";
-import {
-  styleCommon,
-  fontsCommon
-} from "../../assets/style/stylesCommonValues";
+  ADVANCED_DESC,
+} from '../common/Common';
+import {styles} from '../../assets/style/stylesVerticalSelectView';
+import {styleCommon, fontsCommon} from '../../assets/style/stylesCommonValues';
 
 export default class VerticalSelectView extends React.Component {
   constructor(props) {
@@ -33,18 +30,18 @@ export default class VerticalSelectView extends React.Component {
     this.animatedValue = new Animated.Value(1);
   }
 
-  _keyExtractor = item => `key${item}`;
+  _keyExtractor = (item) => `key${item}`;
 
   handlePressIn = () => {
     Animated.spring(this.animatedValue, {
-      toValue: 0.5
+      toValue: 0.5,
     }).start();
   };
   handlePressOut = () => {
     Animated.spring(this.animatedValue, {
       toValue: 1,
       friction: 3, //default 7
-      tension: 40
+      tension: 40,
     }).start();
   };
 
@@ -55,10 +52,10 @@ export default class VerticalSelectView extends React.Component {
       selectedLevel,
       setFitnessLevel,
       alterDimensions,
-      changeFactor
+      changeFactor,
     } = this.props;
     const animatedStyle = {
-      transform: [{ scale: this.animatedValue }]
+      transform: [{scale: this.animatedValue}],
     };
     return (
       <FlatList
@@ -66,7 +63,7 @@ export default class VerticalSelectView extends React.Component {
         style={styles.flatListContainer}
         contentContainerStyle={styles.flatListContentContainer}
         data={levels}
-        renderItem={({ item, index }) => {
+        renderItem={({item, index}) => {
           let {
             iconStyle,
             iconImageStyle,
@@ -74,37 +71,37 @@ export default class VerticalSelectView extends React.Component {
             levelDecriptionContainer,
             lineContainer,
             levelDescriptionStyle,
-            levelTitleStyle
+            levelTitleStyle,
           } = styles;
           if (alterDimensions) {
             iconStyle = {
               ...iconStyle,
               height: iconStyle.height + changeFactor,
-              width: iconStyle.width + changeFactor
+              width: iconStyle.width + changeFactor,
             };
             iconDataStyle = {
               ...iconDataStyle,
               height: iconDataStyle.height + changeFactor,
-              width: iconDataStyle.width + changeFactor
+              width: iconDataStyle.width + changeFactor,
             };
           }
           if (item === selectedLevel) {
             iconStyle = {
               ...iconStyle,
-              backgroundColor: styleCommon.selectedButtonColor
+              backgroundColor: styleCommon.selectedButtonColor,
             };
             iconImageStyle = {
               ...iconImageStyle,
-              tintColor: styleCommon.textColor2
+              tintColor: styleCommon.textColor2,
             };
             levelTitleStyle = {
               ...levelTitleStyle,
-              fontSize: fontsCommon.font18
+              fontSize: fontsCommon.font18,
             };
             levelDescriptionStyle = {
               ...levelDescriptionStyle,
               fontSize: fontsCommon.font14,
-              fontWeight: "600"
+              fontWeight: '600',
             };
           }
           let levelImage =
@@ -117,13 +114,13 @@ export default class VerticalSelectView extends React.Component {
               gender === 1 ? MALE_INTERMEDIATE_ICON : FEMALE_INTERMEDIATE_ICON;
             levelTitle = INTERMEDIATE_LABEL;
             levelDec = INTERMEDIATE_DESC;
-            levelDescriptionStyles.push({ marginTop: lineContainer.height });
+            levelDescriptionStyles.push({marginTop: lineContainer.height});
           } else if (index === 2) {
             levelImage =
               gender === 1 ? MALE_ADVANCED_ICON : FEMALE_ADVANCED_ICON;
             levelTitle = ADVANCED_LABEL;
             levelDec = ADVANCED_DESC;
-            levelDescriptionStyles.push({ marginTop: lineContainer.height });
+            levelDescriptionStyles.push({marginTop: lineContainer.height});
           }
 
           return (
@@ -134,8 +131,7 @@ export default class VerticalSelectView extends React.Component {
                   style={styles.touchableContainerView}
                   onPress={() => setFitnessLevel(item)}
                   onPressIn={() => this.handlePressIn()}
-                  onPressOut={() => this.handlePressOut()}
-                >
+                  onPressOut={() => this.handlePressOut()}>
                   <Animated.View style={[iconStyle, animatedStyle]}>
                     <View style={styles.iconDataStyle}>
                       <Image source={levelImage} style={iconImageStyle} />

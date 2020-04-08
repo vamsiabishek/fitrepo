@@ -1,25 +1,23 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   Animated,
-  ImageBackground,
   ScrollView,
   Text,
   View,
   ActivityIndicator,
   UIManager,
-  Image
-} from "react-native";
-import { Avatar as ProgressAvatar, Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import ProgressCircle from "react-native-progress-circle";
-import { styles } from "../../assets/style/stylesProfileScreen";
-import { database } from "../common/FirebaseConfig";
+  Image,
+} from 'react-native';
+import {Avatar as ProgressAvatar, Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ProgressCircle from 'react-native-progress-circle';
+import {styles} from '../../assets/style/stylesProfileScreen';
+import {database} from '../common/FirebaseConfig';
 import {
   convertLevelToStarRating,
   convertLevelToLevelColor,
   PROGRESS_CIRCLE_RADIUS,
   PROGRESS_CIRCLE_BORDER_WIDTH,
-  GRADIENT_BG_IMAGE,
   VITRUVIAN_MAN,
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,
@@ -29,25 +27,23 @@ import {
   FEMALE_ADVANCED_ICON,
   BEGINNER_LABEL,
   INTERMEDIATE_LABEL,
-  ADVANCED_LABEL
-} from "../common/Common";
+  ADVANCED_LABEL,
+} from '../common/Common';
 import {
   styleCommon,
-  ICON_SIZE,
   ICON_SIZE_MED,
-  ICON_SIZE_LARGE,
   ICON_BACK_SIZE,
   AVATAR_SIZE,
-  ICON_SIZE_SMALL
-} from "../../assets/style/stylesCommonValues";
+  ICON_SIZE_SMALL,
+} from '../../assets/style/stylesCommonValues';
 import {
   getCurrentUser,
   signOutUser,
   createKeyAndValuesFromResult,
-  getDifferenceInSeconds
-} from "../common/Util";
-import PurchaseList from "../components/purchase/PurchaseList";
-import Avatar from "../components/Avatar"
+  getDifferenceInSeconds,
+} from '../common/Util';
+import PurchaseList from '../components/purchase/PurchaseList';
+import Avatar from '../components/Avatar';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -58,12 +54,12 @@ export default class Profile extends Component {
     super(props);
     this.state = {
       isLoading: false,
-      uid: "",
+      uid: '',
       user: {},
-      avatarSource: "",
+      avatarSource: '',
       avatarChanged: false,
       entitlements: undefined,
-      currentDiet: undefined
+      currentDiet: undefined,
     };
     this.profileHeaderScrollY = new Animated.Value(1);
     this.profileHeaderExpandedHeight = styles.bannerContainer.height; // calculated by onLayout
@@ -71,24 +67,24 @@ export default class Profile extends Component {
   }
 
   goToEditProfile = () => {
-    const { navigate } = this.props.navigation;
-    const { user, uid } = this.state;
-    navigate("EditProfile", {
+    const {navigate} = this.props.navigation;
+    const {user, uid} = this.state;
+    navigate('EditProfile', {
       userLoggedIn: user,
       userId: uid,
-      updateProfileCall: this.updateProfileCall
+      updateProfileCall: this.updateProfileCall,
     });
   };
   updateProfileCall = (recievedData, haveNavigated = false) => {
-    const { user } = this.state;
+    const {user} = this.state;
     if (haveNavigated === true) {
       this.setState({
-        user: { ...user, ...recievedData }
+        user: {...user, ...recievedData},
       });
     } else {
       this.setState({
         user: recievedData,
-        isLoading: false
+        isLoading: false,
       });
     }
   };
@@ -96,8 +92,8 @@ export default class Profile extends Component {
   logoutUser = async () => {
     const logoutSuccessful = await signOutUser();
     if (logoutSuccessful) {
-      const { navigate } = this.props.navigation;
-      navigate("Login");
+      const {navigate} = this.props.navigation;
+      navigate('Login');
     }
   };
 
@@ -105,44 +101,42 @@ export default class Profile extends Component {
     const currentUser = await getCurrentUser();
     this.setState({
       isLoading: true,
-      uid: currentUser.uid
+      uid: currentUser.uid,
     });
     database
-      .ref("users")
+      .ref('users')
       .child(currentUser.uid)
-      .once("value")
-      .then(snapshot => {
+      .once('value')
+      .then((snapshot) => {
         const userLoggedIn = snapshot.val();
         this.updateProfileCall(userLoggedIn);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(
-          "error while fetching user details in componentDidMount of Profile:",
-          error
+          'error while fetching user details in componentDidMount of Profile:',
+          error,
         );
       });
     let myDiets = [];
     await database
       .ref(`diets/${currentUser.uid}`)
-      .orderByChild("createdDate")
-      .once("value")
-      .then(snap => {
+      .orderByChild('createdDate')
+      .once('value')
+      .then((snap) => {
         if (snap.val()) {
           const results = snap.val();
           myDiets = createKeyAndValuesFromResult(results).reverse();
           let currentDiet = myDiets[0];
-          this.setState({ currentDiet });
+          this.setState({currentDiet});
         }
       })
-      .catch(error => {
-        console.log("error while fetching my diets in SignUp page", error);
+      .catch((error) => {
+        console.log('error while fetching my diets in SignUp page', error);
       });
   };
   render() {
-    const { isLoading, avatarChanged, user, currentDiet } = this.state;
-    const { gender, fitnessLevel } = user;
-    let levelColor = convertLevelToLevelColor(user.level);
-    let starRating = convertLevelToStarRating(user.level);
+    const {isLoading, user, currentDiet} = this.state;
+    const {gender, fitnessLevel} = user;
     let levelImage = gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
     let levelTitle = BEGINNER_LABEL;
     if (fitnessLevel === 2) {
@@ -158,9 +152,9 @@ export default class Profile extends Component {
       inputRange: [0, this.profileHeaderExpandedHeight - 100],
       outputRange: [
         this.profileHeaderExpandedHeight,
-        this.profileHeaderCollapsedHeight
+        this.profileHeaderCollapsedHeight,
       ],
-      extrapolate: "clamp"
+      extrapolate: 'clamp',
     });
     const noOfSecondsGoneInProgram = currentDiet
       ? getDifferenceInSeconds(currentDiet.value.createdDate)
@@ -169,7 +163,7 @@ export default class Profile extends Component {
       ? Math.floor(
           (noOfSecondsGoneInProgram /
             (currentDiet.value.selectedProgram * 7 * 24 * 3600)) *
-            100
+            100,
         )
       : undefined;
     return (
@@ -182,10 +176,10 @@ export default class Profile extends Component {
               <View style={styles.actionsButtonContainerStyle}>
                 <Button
                   icon={{
-                    name: "account-edit",
+                    name: 'account-edit',
                     size: ICON_BACK_SIZE,
                     color: styleCommon.panelHeaderIconColor,
-                    type: "material-community"
+                    type: 'material-community',
                   }}
                   containerStyle={styles.actionsButtonStyle}
                   buttonStyle={styles.actionsButtonStyle}
@@ -194,10 +188,10 @@ export default class Profile extends Component {
                 />
                 <Button
                   icon={{
-                    name: "logout",
+                    name: 'logout',
                     size: ICON_BACK_SIZE,
                     color: styleCommon.panelHeaderIconColor,
-                    type: "material-community"
+                    type: 'material-community',
                   }}
                   iconRight={true}
                   containerStyle={styles.actionsButtonStyle}
@@ -214,13 +208,12 @@ export default class Profile extends Component {
                 {
                   nativeEvent: {
                     contentOffset: {
-                      y: this.profileHeaderScrollY
-                    }
-                  }
-                }
+                      y: this.profileHeaderScrollY,
+                    },
+                  },
+                },
               ])}
-              scrollEventThrottle={16}
-            >
+              scrollEventThrottle={16}>
               <View style={styles.avatarContainer}>
                 <Avatar
                   size={120}
@@ -243,7 +236,7 @@ export default class Profile extends Component {
                     style={{
                       width: 30,
                       height: 38,
-                      tintColor: styleCommon.selectedButtonColor
+                      tintColor: styleCommon.selectedButtonColor,
                     }}
                   />
                   <Text style={styles.profileBannerTextStyle}>
@@ -268,15 +261,14 @@ export default class Profile extends Component {
                       borderWidth={PROGRESS_CIRCLE_BORDER_WIDTH}
                       color={styles.progressCircleColor.color}
                       shadowColor={styles.progressCircleShadowColor.color}
-                      bgColor={styles.progressCircleBgColor.color}
-                    >
+                      bgColor={styles.progressCircleBgColor.color}>
                       <ProgressAvatar
                         rounded
                         size={AVATAR_SIZE}
                         source={VITRUVIAN_MAN}
                         imageProps={{
-                          resizeMode: "contain",
-                          tintColor: styleCommon.textColor1
+                          resizeMode: 'contain',
+                          tintColor: styleCommon.textColor1,
                         }}
                         overlayContainerStyle={styles.avatarHumanOverlayStyle}
                       />
@@ -301,12 +293,10 @@ export default class Profile extends Component {
                           style={styles.weightIconStyle}
                         />
                         <Text style={styles.boxTextStyle}>
-                          Target Weight:{" "}
+                          Target Weight:{' '}
                           {currentDiet && currentDiet.value.targetWeight} kgs
                         </Text>
                       </View>
-                      
-                      
                     </View>
                   </View>
                 </View>

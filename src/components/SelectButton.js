@@ -1,8 +1,8 @@
-import React from "react";
-import { Animated } from "react-native";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Emoji from "react-native-emoji";
+import React from 'react';
+import {Animated} from 'react-native';
+import {Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Emoji from 'react-native-emoji';
 
 export default class SelectButton extends React.Component {
   constructor(props) {
@@ -11,14 +11,14 @@ export default class SelectButton extends React.Component {
   }
   handlePressIn = () => {
     Animated.spring(this.animatedValue, {
-      toValue: 0.5
+      toValue: 0.5,
     }).start();
   };
   handlePressOut = () => {
     Animated.spring(this.animatedValue, {
       toValue: 1,
       friction: 3, //default 7
-      tension: 40
+      tension: 40,
     }).start();
   };
   render() {
@@ -34,10 +34,10 @@ export default class SelectButton extends React.Component {
       onPress,
       iconRight,
       value,
-      shouldUseEmoji
+      shouldUseEmoji,
     } = this.props;
     const animatedStyle = {
-      transform: [{ scale: this.animatedValue }]
+      transform: [{scale: this.animatedValue}],
     };
     return (
       <Animated.View style={[containerStyle, animatedStyle]}>

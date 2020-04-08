@@ -1,13 +1,13 @@
-import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { styleCommon } from "../../assets/style/stylesCommonValues";
-import { styles } from "../../assets/style/stylesHorizontalSelectView";
+import React from 'react';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {styleCommon} from '../../assets/style/stylesCommonValues';
+import {styles} from '../../assets/style/stylesHorizontalSelectView';
 
 export default class HorizontalComponent extends React.Component {
   constructor(props) {
     super(props);
   }
-  _keyExtractor = item => `key${item}`;
+  _keyExtractor = (item) => `key${item}`;
   render() {
     const {
       items,
@@ -18,38 +18,38 @@ export default class HorizontalComponent extends React.Component {
       iconStyleHW,
       iconDataStyleHW,
       showSelectedLabel,
-      label
+      label,
     } = this.props;
     return (
       <View style={styles.container}>
         <FlatList
           data={items}
           horizontal={true}
-          renderItem={({ item, index }) => {
+          renderItem={({item, index}) => {
             let {
-              lineContainer,
               iconStyle,
               iconDataStyle,
-              iconTextStyle
+              iconTextStyle,
+              lineContainer,
             } = styles;
             if (lineWidth !== undefined) {
               lineContainer = {
                 ...lineContainer,
-                width: lineWidth
+                width: lineWidth,
               };
             }
             if (iconStyleHW !== undefined) {
               iconStyle = {
                 ...iconStyle,
                 width: iconStyleHW,
-                height: iconStyleHW
+                height: iconStyleHW,
               };
             }
             if (iconDataStyleHW !== undefined) {
               iconDataStyle = {
                 ...iconDataStyle,
                 width: iconDataStyleHW,
-                height: iconDataStyleHW
+                height: iconDataStyleHW,
               };
             }
             if (item === selectedItem) {
@@ -58,25 +58,25 @@ export default class HorizontalComponent extends React.Component {
                 height: selectedHW !== undefined ? selectedHW : 30, //20, Make dynamic
                 width: selectedHW !== undefined ? selectedHW : 30, //20,  Make dynamic
                 backgroundColor: styleCommon.selectedButtonColor,
-                borderRadius: 40
+                borderRadius: 40,
               };
               iconDataStyle = {
                 ...iconDataStyle,
                 height: selectedHW !== undefined ? selectedHW : 28, //20, Make dynamic
-                width: selectedHW !== undefined ? selectedHW : 28 //20  Make dynamic
+                width: selectedHW !== undefined ? selectedHW : 28, //20  Make dynamic
               };
               iconTextStyle = {
                 ...iconTextStyle,
                 fontSize: 13,
-                fontWeight: "bold",
-                color: styleCommon.primaryButtonTextColor
+                fontWeight: 'bold',
+                color: styleCommon.primaryButtonTextColor,
               };
             }
             const selectedMealContainerStyle =
               item === selectedItem
                 ? showSelectedLabel
-                  ? { marginTop: iconStyle.height }
-                  : { marginTop: 0 }
+                  ? {marginTop: iconStyle.height}
+                  : {marginTop: 0}
                 : {};
             return (
               <View style={styles.subContainer}>
@@ -84,12 +84,11 @@ export default class HorizontalComponent extends React.Component {
                 <View style={selectedMealContainerStyle}>
                   <TouchableOpacity
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center"
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
-                    onPress={() => onSelectionChange(item)}
-                  >
+                    onPress={() => onSelectionChange(item)}>
                     <View style={iconStyle}>
                       <View style={iconDataStyle}>
                         <Text style={iconTextStyle}>{item}</Text>

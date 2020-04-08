@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { Text, UIManager, View } from "react-native";
-import { Button, ButtonGroup } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Modal from "react-native-modal";
-import HorizontalSelectView from "../components/HorizontalSelectView";
-import { styles } from "../../assets/style/stylesTargetWeightTimeline";
-import { getPossibleTargetWeights } from "../diet/Algorithm/DietAlgorithm";
-import MyButton from "../components/MyButton";
+import React, {Component} from 'react';
+import {Text, UIManager, View} from 'react-native';
+import {Button, ButtonGroup} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Modal from 'react-native-modal';
+import HorizontalSelectView from '../components/HorizontalSelectView';
+import {styles} from '../../assets/style/stylesTargetWeightTimeline';
+import {getPossibleTargetWeights} from '../diet/Algorithm/DietAlgorithm';
+import MyButton from '../components/MyButton';
 import {
   styleCommon,
-  ICON_SIZE_MED
-} from "../../assets/style/stylesCommonValues";
+  ICON_SIZE_MED,
+} from '../../assets/style/stylesCommonValues';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -22,7 +22,7 @@ export default class TargetWeightTimeline extends Component {
     this.state = {
       selectedProgram: this.props.programs[0],
       targetWeightIndex: 1,
-      selectedTargetWeight: undefined
+      selectedTargetWeight: undefined,
     };
     this.targetWeightLabels = [];
     this.targetWeightOptions = [];
@@ -31,37 +31,34 @@ export default class TargetWeightTimeline extends Component {
   _getTargetWeightOptions = () => {
     this.targetWeightOptions = [];
     this.targetWeightLabels = [];
-    const { goal, weight, fitnessLevel } = this.props;
-    const { selectedProgram } = this.state;
-    getPossibleTargetWeights(
-      goal,
-      selectedProgram,
-      weight,
-      fitnessLevel
-    ).map(targetWeight => {
-      this.targetWeightLabels.push(`${targetWeight} kg`);
-      this.targetWeightOptions.push(targetWeight);
-    });
+    const {goal, weight, fitnessLevel} = this.props;
+    const {selectedProgram} = this.state;
+    getPossibleTargetWeights(goal, selectedProgram, weight, fitnessLevel).map(
+      (targetWeight) => {
+        this.targetWeightLabels.push(`${targetWeight} kg`);
+        this.targetWeightOptions.push(targetWeight);
+      },
+    );
   };
 
   _resetProgramAndTargetWeight = () => {
     this.setState({
       selectedProgram: this.props.programs[0],
       selectedTargetWeight: undefined,
-      targetWeightIndex: 1
+      targetWeightIndex: 1,
     });
   };
 
-  _onProgramChange = selectedProgram => {
+  _onProgramChange = (selectedProgram) => {
     this.setState({
-      selectedProgram
+      selectedProgram,
     });
   };
 
-  _updateTargetWeight = targetWeightIndex => {
+  _updateTargetWeight = (targetWeightIndex) => {
     this.setState({
       targetWeightIndex,
-      selectedTargetWeight: this.targetWeightOptions[targetWeightIndex]
+      selectedTargetWeight: this.targetWeightOptions[targetWeightIndex],
     });
   };
 
@@ -69,34 +66,33 @@ export default class TargetWeightTimeline extends Component {
     const {
       selectedProgram,
       selectedTargetWeight,
-      targetWeightIndex
+      targetWeightIndex,
     } = this.state;
     let weightToBeUsed = selectedTargetWeight;
     if (selectedTargetWeight === undefined) {
       weightToBeUsed = this.targetWeightOptions[targetWeightIndex];
     }
-    const { onConfirm } = this.props;
+    const {onConfirm} = this.props;
     onConfirm(weightToBeUsed, selectedProgram);
     this._resetProgramAndTargetWeight();
   };
 
   _handleClose = () => {
-    const { onClose } = this.props;
+    const {onClose} = this.props;
     onClose();
     this._resetProgramAndTargetWeight();
   };
 
   render() {
-    const { selectedProgram, targetWeightIndex } = this.state;
-    const { isVisible, programs } = this.props;
+    const {selectedProgram, targetWeightIndex} = this.state;
+    const {isVisible, programs} = this.props;
     this._getTargetWeightOptions();
     return (
       <View>
         <Modal
           isVisible={isVisible}
           backdropColor="black"
-          backdropOpacity={0.5}
-        >
+          backdropOpacity={0.5}>
           <View style={styles.modalInsideStyle}>
             <Button
               icon={
@@ -133,7 +129,7 @@ export default class TargetWeightTimeline extends Component {
                   selectedIndex={targetWeightIndex}
                   buttons={this.targetWeightLabels}
                   containerStyle={styles.buttonGroupStyle}
-                  innerBorderStyle={{ width: 0 }}
+                  innerBorderStyle={{width: 0}}
                   selectedButtonStyle={styles.selectedButtonStyle}
                 />
               </View>

@@ -1,27 +1,27 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#0a1915"
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0a1915',
   },
   viewContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 70
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 70,
   },
   titleContainer: {
-    color: "white", //"#717173",
-    fontFamily: "Billabong",
-    fontSize: 60
+    color: 'white', //"#717173",
+    fontFamily: 'Billabong',
+    fontSize: 60,
     //fontWeight: "bold",
     //fontStyle: "italic"
   },
   textContainer: {
-    color: "white"
-  }
+    color: 'white',
+  },
 });
 
-export { styles };
+export {styles};

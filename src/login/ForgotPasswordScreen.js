@@ -1,25 +1,25 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   Alert,
   Text,
   View,
   LayoutAnimation,
   UIManager,
-  ImageBackground
-} from "react-native";
-import { Input, Button } from "react-native-elements";
-import { styles } from "../../assets/style/stylesForgotPasswordScreen";
-import { auth } from "./../common/FirebaseConfig";
-import { EMAIL_VERIFICATION, GRADIENT_BG_IMAGE } from "../common/Common";
+  ImageBackground,
+} from 'react-native';
+import {Input, Button} from 'react-native-elements';
+import {styles} from '../../assets/style/stylesForgotPasswordScreen';
+import {auth} from './../common/FirebaseConfig';
+import {EMAIL_VERIFICATION, GRADIENT_BG_IMAGE} from '../common/Common';
 import {
   btnGradientColorLeft,
   modalBtnGradientColorRight,
   fontsCommon,
-  styleCommon
-} from "../../assets/style/stylesCommonValues";
-import { commonStyles } from "../../assets/style/stylesCommon";
-import LinearGradient from "react-native-linear-gradient";
-import Header from "../components/signup/Header";
+  styleCommon,
+} from '../../assets/style/stylesCommonValues';
+import {commonStyles} from '../../assets/style/stylesCommon';
+import LinearGradient from 'react-native-linear-gradient';
+import Header from '../components/signup/Header';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -29,18 +29,18 @@ export default class ForgotPasswordScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      email: '',
       emailValid: true,
-      isLoading: false
+      isLoading: false,
     };
   }
 
-  onEmailChange = email => {
-    this.setState({ email });
+  onEmailChange = (email) => {
+    this.setState({email});
   };
 
   validateEmail = () => {
-    const { email } = this.state;
+    const {email} = this.state;
     const emailValid = EMAIL_VERIFICATION.test(email);
     LayoutAnimation.easeInEaseOut();
     emailValid || this.emailInput.shake();
@@ -48,33 +48,33 @@ export default class ForgotPasswordScreen extends Component {
   };
 
   forgotPassword = () => {
-    const { email } = this.state;
-    const { navigate } = this.props.navigation;
-    this.setState({ isLoading: true });
+    const {email} = this.state;
+    const {navigate} = this.props.navigation;
+    this.setState({isLoading: true});
     auth
       .sendPasswordResetEmail(email)
-      .then(user => {
-        this.setState({ isLoading: false });
-        navigate("LoginScreen");
-        alert("Please check your email to change your password !");
+      .then((user) => {
+        this.setState({isLoading: false});
+        navigate('LoginScreen');
+        alert('Please check your email to change your password !');
       })
-      .catch(e => {
-        this.setState({ isLoading: false });
+      .catch((e) => {
+        this.setState({isLoading: false});
         Alert.alert(
-          "Oops !",
+          'Oops !',
           email +
-            " is not registered with us. Re-enter your email address and try again."
+            ' is not registered with us. Re-enter your email address and try again.',
         );
       });
   };
 
   onBack = () => {
-    const { navigate } = this.props.navigation;
-    navigate("LoginScreen");
+    const {navigate} = this.props.navigation;
+    navigate('LoginScreen');
   };
 
   render() {
-    const { email, emailValid, isLoading } = this.state;
+    const {email, emailValid, isLoading} = this.state;
     return (
       <ImageBackground style={commonStyles.bgImage} source={GRADIENT_BG_IMAGE}>
         <View style={styles.contentWrapper}>
@@ -104,16 +104,16 @@ export default class ForgotPasswordScreen extends Component {
                 keyboardType="email-address"
                 returnKeyType="done"
                 value={email}
-                onChangeText={value => this.onEmailChange(value)}
-                ref={input => (this.emailInput = input)}
+                onChangeText={(value) => this.onEmailChange(value)}
+                ref={(input) => (this.emailInput = input)}
                 onSubmitEditing={() =>
-                  this.setState({ emailValid: this.validateEmail })
+                  this.setState({emailValid: this.validateEmail})
                 }
                 errorMessage={
-                  emailValid ? null : "Please enter a valid email address"
+                  emailValid ? null : 'Please enter a valid email address'
                 }
                 style={{
-                  fontSize: fontsCommon.font16
+                  fontSize: fontsCommon.font16,
                 }}
               />
               <View style={styles.buttonContainer}>
@@ -123,8 +123,8 @@ export default class ForgotPasswordScreen extends Component {
                   ViewComponent={LinearGradient}
                   linearGradientProps={{
                     colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
-                    start: { x: 0, y: 0.5 },
-                    end: { x: 1, y: 0.5 }
+                    start: {x: 0, y: 0.5},
+                    end: {x: 1, y: 0.5},
                   }}
                   containerStyle={styles.loginButtonContainerStyle}
                   buttonStyle={styles.loginButtonStyle}

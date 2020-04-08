@@ -1,32 +1,24 @@
-import React, { Component } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ImageBackground,
-  Animated,
-  UIManager
-} from "react-native";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Purchases from "react-native-purchases";
-import TotalDietMacros from "./TotalDietMarcos";
-import MealsContainer from "./meals/MealsContainer";
-import { styles } from "../../assets/style/stylesMyDiet";
+import React, {Component} from 'react';
+import {Text, View, TouchableOpacity, Animated, UIManager} from 'react-native';
+import {Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Purchases from 'react-native-purchases';
+import TotalDietMacros from './TotalDietMarcos';
+import MealsContainer from './meals/MealsContainer';
+import {styles} from '../../assets/style/stylesMyDiet';
 import {
   styleCommon,
   ICON_SIZE_24,
   ICON_SIZE_22,
   ICON_SIZE,
   ICON_SIZE_LARGE,
-  SCREEN_HEIGHT
-} from "../../assets/style/stylesCommonValues";
-import { database } from "../common/FirebaseConfig";
-import { GRADIENT_BG_IMAGE } from "../common/Common";
-import Loading from "../components/Loading";
-import InitialScreen from "../components/purchase/InitialScreen";
-import { setFirstTimeUser, getFirstTimeUser, isTrailUser } from "../common/Util";
-import { getProgramEndDate, getSeconds } from "../common/Util";
+  SCREEN_HEIGHT,
+} from '../../assets/style/stylesCommonValues';
+import {database} from '../common/FirebaseConfig';
+import Loading from '../components/Loading';
+import InitialScreen from '../components/purchase/InitialScreen';
+import {setFirstTimeUser, getFirstTimeUser, isTrailUser} from '../common/Util';
+import {getProgramEndDate, getSeconds} from '../common/Util';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -46,7 +38,7 @@ export default class MyDiet extends Component {
       showInitialTrailMeals: true,
       showAllMealsForSubscribed: false,
       showPaymentModal: false,
-      paymentOptions: undefined
+      paymentOptions: undefined,
     };
     this.dayBarScrollY = new Animated.Value(1);
     this.dayBarExpandedHeight = styles.dayBarStyle.height; // calculated by onLayout
@@ -54,45 +46,44 @@ export default class MyDiet extends Component {
   }
 
   componentDidMount = async () => {
-    const { navigation } = this.props;
-    const { diet } = this.state;
-    const dietId = navigation.getParam("dietId");
-    const uid = navigation.getParam("uid");
+    const {navigation} = this.props;
+    const dietId = navigation.getParam('dietId');
+    const uid = navigation.getParam('uid');
     //alert(getFirstTimeUser());
     await this.loadDietDetails(uid, dietId);
     await this.loadPaymentEntitlements(uid, dietId);
     await this.checkDietTrail();
   };
 
-  componentDidUpdate = async prevProps => {
-    const { navigation } = this.props;
-    const dietId = navigation.getParam("dietId");
-    const uid = navigation.getParam("uid");
-    if (dietId !== prevProps.navigation.getParam("dietId")) {
+  componentDidUpdate = async (prevProps) => {
+    const {navigation} = this.props;
+    const dietId = navigation.getParam('dietId');
+    const uid = navigation.getParam('uid');
+    if (dietId !== prevProps.navigation.getParam('dietId')) {
       await this.loadDietDetails(uid, dietId);
       await this.loadPaymentEntitlements(uid, dietId);
     }
   };
 
-  checkDietTrail = async() => {
-    const showInitialTrailMeals = await isTrailUser()
-    this.setState({showInitialTrailMeals})
-  }
+  checkDietTrail = async () => {
+    const showInitialTrailMeals = await isTrailUser();
+    this.setState({showInitialTrailMeals});
+  };
 
   loadDietDetails = async (uid, dietId) => {
-    this.setState({ isLoading: true });
-    console.log("fetching details for the diet with Id:", dietId);
-    const { diet, meals } = await this.fetchDietAndMeals(uid, dietId);
-    console.log("diet and meals:", diet, meals);
-    this.setState({ diet, meals: meals["0"], allMeals: meals });
+    this.setState({isLoading: true});
+    console.log('fetching details for the diet with Id:', dietId);
+    const {diet, meals} = await this.fetchDietAndMeals(uid, dietId);
+    console.log('diet and meals:', diet, meals);
+    this.setState({diet, meals: meals['0'], allMeals: meals});
   };
 
   fetchDietAndMeals = async (uid, dietId) => {
     const [diet, meals] = await Promise.all([
       this.fetchDiet(uid, dietId),
-      this.fetchMeals(dietId)
+      this.fetchMeals(dietId),
     ]);
-    return { diet, meals };
+    return {diet, meals};
   };
 
   fetchDiet = async (uid, dietId) => {
@@ -100,50 +91,60 @@ export default class MyDiet extends Component {
     await database
       .ref(`diets/${uid}`)
       .child(dietId)
-      .once("value")
-      .then(async snap => {
-        if (snap.val()) diet = snap.val();
+      .once('value')
+      .then(async (snap) => {
+        if (snap.val()) {
+          diet = snap.val();
+        }
         if (!diet.paymentStatus) {
-          this.setState({ showAllMealsForSubscribed: false, showPaymentModal: true });
+          this.setState({
+            showAllMealsForSubscribed: false,
+            showPaymentModal: true,
+          });
         } else {
           //global.isFirstTimeUser = false;
           await setFirstTimeUser();
         }
       })
-      .catch(error => {
-        console.log("error while fetching diets from MyDiet page: ", error);
+      .catch((error) => {
+        console.log('error while fetching diets from MyDiet page: ', error);
       });
     return diet;
   };
 
-  fetchMeals = async dietId => {
+  fetchMeals = async (dietId) => {
     let meals = {};
     await database
-      .ref("meals")
-      .orderByChild("dietId")
+      .ref('meals')
+      .orderByChild('dietId')
       .equalTo(dietId)
-      .once("value")
-      .then(snap => {
-        if (snap.val()) meals = snap.val()[Object.keys(snap.val())[0]];
+      .once('value')
+      .then((snap) => {
+        if (snap.val()) {
+          meals = snap.val()[Object.keys(snap.val())[0]];
+        }
       })
-      .catch(error => {
-        console.log("error while fetching meals from MyDiet page: ", error);
+      .catch((error) => {
+        console.log('error while fetching meals from MyDiet page: ', error);
       });
     return meals;
   };
 
   loadPaymentEntitlements = async (uid, dietId) => {
-    const purchaseId = uid + "-" + dietId;
+    const purchaseId = uid + '-' + dietId;
     Purchases.setDebugLogsEnabled(true);
-    Purchases.setup("jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH", purchaseId);
+    Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseId);
     const entitlements = await Purchases.getEntitlements();
-    console.log("EntitleMents: ", entitlements);
-    this.setState({ isLoading: false, paymentOptions: entitlements });
+    console.log('EntitleMents: ', entitlements);
+    this.setState({isLoading: false, paymentOptions: entitlements});
   };
 
-  onDayChange = selectedDay => {
-    if (selectedDay === "training") this.setState({ activeDay: true });
-    else if (selectedDay === "rest") this.setState({ activeDay: false });
+  onDayChange = (selectedDay) => {
+    if (selectedDay === 'training') {
+      this.setState({activeDay: true});
+    } else if (selectedDay === 'rest') {
+      this.setState({activeDay: false});
+    }
   };
 
   caloriesMacrosAndMeals = ({
@@ -154,14 +155,14 @@ export default class MyDiet extends Component {
     calFromCarbsForRD,
     calFromFatsForRD,
     trainingDayMeals,
-    restDayMeals
+    restDayMeals,
   }) => {
     let totalCalories = 0;
     let proteinInGm = 0;
     let carbsInGm = 0;
     let fatsInGm = 0;
     let mealList = {};
-    const { activeDay } = this.state;
+    const {activeDay} = this.state;
     if (trainingDayMeals && restDayMeals) {
       if (activeDay) {
         totalCalories = Math.round(calFromProtein + calFromCarbs + calFromFats);
@@ -171,7 +172,7 @@ export default class MyDiet extends Component {
         mealList = trainingDayMeals;
       } else {
         totalCalories = Math.round(
-          calFromProteinForRD + calFromCarbsForRD + calFromFatsForRD
+          calFromProteinForRD + calFromCarbsForRD + calFromFatsForRD,
         );
         proteinInGm = Math.round(calFromProteinForRD / 4);
         carbsInGm = Math.round(calFromCarbsForRD / 4);
@@ -184,91 +185,92 @@ export default class MyDiet extends Component {
       proteinInGm,
       carbsInGm,
       fatsInGm,
-      mealList
+      mealList,
     };
   };
 
-  showDayLabelOnScroll = event => {
-    const { showDayOnScroll } = this.state;
+  showDayLabelOnScroll = (event) => {
+    const {showDayOnScroll} = this.state;
     const {
       nativeEvent: {
-        contentOffset: { y: offset }
-      }
+        contentOffset: {y: offset},
+      },
     } = event;
     if (offset > 20 && !showDayOnScroll) {
-      this.day = this.state.activeDay ? "Training day" : "Rest day";
-      this.setState({ showDayOnScroll: true });
+      this.day = this.state.activeDay ? 'Training day' : 'Rest day';
+      this.setState({showDayOnScroll: true});
     }
   };
 
-  hideDayLabelOnScroll = event => {
-    const { showDayOnScroll } = this.state;
+  hideDayLabelOnScroll = (event) => {
+    const {showDayOnScroll} = this.state;
     const {
       nativeEvent: {
-        contentOffset: { y: offset }
-      }
+        contentOffset: {y: offset},
+      },
     } = event;
-    if (offset <= 0 && showDayOnScroll)
-      this.setState({ showDayOnScroll: false });
+    if (offset <= 0 && showDayOnScroll) {
+      this.setState({showDayOnScroll: false});
+    }
   };
 
-  changeWeek = ({ prev, next }) => {
-    const { diet } = this.state;
+  changeWeek = ({prev, next}) => {
+    const {diet} = this.state;
     if (!getFirstTimeUser() && diet.paymentStatus) {
-      const { currentWeek, allMeals } = this.state;
+      const {currentWeek, allMeals} = this.state;
       if (prev && allMeals[currentWeek - 2]) {
         this.setState({
           meals: allMeals[currentWeek - 2],
-          currentWeek: currentWeek - 1
+          currentWeek: currentWeek - 1,
         });
       } else if (next && allMeals[currentWeek]) {
         this.setState({
           meals: allMeals[currentWeek],
-          currentWeek: currentWeek + 1
+          currentWeek: currentWeek + 1,
         });
       }
     } else {
-      this.setState({ showInitialTrailMeals: false, showPaymentModal: true });
+      this.setState({showInitialTrailMeals: false, showPaymentModal: true});
     }
   };
 
   onClosePaymentModal = async (paymentDone = false) => {
-    const { navigate } = this.props.navigation;
-    this.setState({ showPaymentModal: false });
+    const {navigate} = this.props.navigation;
+    this.setState({showPaymentModal: false});
     if (paymentDone) {
-      const { navigation } = this.props;
-      const { diet } = this.state;
+      const {navigation} = this.props;
+      const {diet} = this.state;
       const newDietWithPayment = {
-        paymentStatus: true
+        paymentStatus: true,
       };
-      const uid = navigation.getParam("uid");
-      const dietId = navigation.getParam("dietId");
+      const uid = navigation.getParam('uid');
+      const dietId = navigation.getParam('dietId');
       this.setState({
         showInitialTrailMeals: true,
-        showAllMealsForSubscribed: true
+        showAllMealsForSubscribed: true,
       });
       await database
         .ref(`diets/${uid}`)
         .child(dietId)
         .update(newDietWithPayment)
         .then(() => {
-          this.setState({ diet: { ...diet, ...newDietWithPayment } });
+          this.setState({diet: {...diet, ...newDietWithPayment}});
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(
-            "Error while closing the payment modal and saving new diet details: ",
-            error
+            'Error while closing the payment modal and saving new diet details: ',
+            error,
           );
         });
     } else if (!paymentDone && !getFirstTimeUser()) {
-      navigate("Diet");
+      navigate('Diet');
     }
   };
 
   render() {
-    const { navigate } = this.props.navigation;
-    const { navigation } = this.props;
-    const dietId = navigation.getParam("dietId");
+    const {navigate} = this.props.navigation;
+    const {navigation} = this.props;
+    const dietId = navigation.getParam('dietId');
     const {
       isLoading,
       activeDay,
@@ -279,23 +281,23 @@ export default class MyDiet extends Component {
       showAllMealsForSubscribed,
       paymentOptions,
       showPaymentModal,
-      diet
+      diet,
     } = this.state;
     const {
       totalCalories,
       proteinInGm,
       carbsInGm,
       fatsInGm,
-      mealList
+      mealList,
     } = this.caloriesMacrosAndMeals(meals);
     const dayBarHeight = this.dayBarScrollY.interpolate({
       inputRange: [0, this.dayBarExpandedHeight - 20],
       outputRange: [this.dayBarExpandedHeight, this.dayBarCollapsedHeight],
-      extrapolate: "clamp"
+      extrapolate: 'clamp',
     });
-    const showMeals = showInitialTrailMeals ? true : showAllMealsForSubscribed
-    let dietTrialEndDate = undefined;
-    let trialDaysLeft = undefined;
+    const showMeals = showInitialTrailMeals ? true : showAllMealsForSubscribed;
+    let dietTrialEndDate;
+    let trialDaysLeft;
     if (getFirstTimeUser() && !diet.purchaseStatus) {
       const trialPeriod = 1;
       dietTrialEndDate = getProgramEndDate(diet.createdDate, trialPeriod);
@@ -303,8 +305,12 @@ export default class MyDiet extends Component {
         getSeconds(dietTrialEndDate) - getSeconds(new Date());
       trialDaysLeft = Math.floor(trialDaysLeftSeconds / (24 * 3600));
     }
-    const trainingIconColor = activeDay ? "white" : styleCommon.unSelectedButtonColor;
-    const restIconColor = !activeDay ? "white" : styleCommon.unSelectedButtonColor;
+    const trainingIconColor = activeDay
+      ? 'white'
+      : styleCommon.unSelectedButtonColor;
+    const restIconColor = !activeDay
+      ? 'white'
+      : styleCommon.unSelectedButtonColor;
     const nextWeekEnabled = allMeals[currentWeek] ? true : false;
     const prevWeekEnabled = allMeals[currentWeek - 2] ? true : false;
     return (
@@ -312,8 +318,8 @@ export default class MyDiet extends Component {
         {isLoading ? (
           <Loading
             takeFullHeight={true}
-            text={"We are getting your diet ..."}
-            animationStr={require("../../assets/jsons/watermelon.json")}
+            text={'We are getting your diet ...'}
+            animationStr={require('../../assets/jsons/watermelon.json')}
             animationHeight={SCREEN_HEIGHT * 0.615}
           />
         ) : (
@@ -323,29 +329,29 @@ export default class MyDiet extends Component {
                 <Button
                   title="All Diets"
                   icon={{
-                    name: "arrow-left-thick",
+                    name: 'arrow-left-thick',
                     size: ICON_SIZE,
                     color: styleCommon.panelHeaderIconColor,
-                    type: "material-community"
+                    type: 'material-community',
                   }}
                   containerStyle={styles.backButtonStyle}
                   buttonStyle={styles.backButtonStyle}
                   titleStyle={styles.backButtonTitleStyle}
-                  onPress={() => navigate("Diet")}
+                  onPress={() => navigate('Diet')}
                 />
                 <Button
                   title="Supplements"
                   icon={{
-                    name: "medical-bag",
+                    name: 'medical-bag',
                     size: ICON_SIZE,
                     color: styleCommon.panelHeaderIconColor,
-                    type: "material-community"
+                    type: 'material-community',
                   }}
                   iconRight={true}
                   containerStyle={styles.backButtonStyle}
                   buttonStyle={styles.backButtonStyle}
                   titleStyle={styles.backButtonTitleStyle}
-                  onPress={() => navigate("Supplements", { dietId })}
+                  onPress={() => navigate('Supplements', {dietId})}
                 />
               </View>
             </View>
@@ -353,9 +359,8 @@ export default class MyDiet extends Component {
               <Animated.View
                 style={[
                   styles.dayBarStyle,
-                  { height: dayBarHeight, backgroundColor: "transparent" }
-                ]}
-              >
+                  {height: dayBarHeight, backgroundColor: 'transparent'},
+                ]}>
                 <Button
                   title="Training day"
                   containerStyle={styles.buttonContainer}
@@ -375,7 +380,7 @@ export default class MyDiet extends Component {
                       ? styles.activeDayButtonText
                       : styles.dayButtonText
                   }
-                  onPress={() => this.onDayChange("training")}
+                  onPress={() => this.onDayChange('training')}
                 />
                 <Button
                   title="Rest day"
@@ -396,7 +401,7 @@ export default class MyDiet extends Component {
                       ? styles.activeDayButtonText
                       : styles.dayButtonText
                   }
-                  onPress={() => this.onDayChange("rest")}
+                  onPress={() => this.onDayChange('rest')}
                 />
               </Animated.View>
             </View>
@@ -407,46 +412,43 @@ export default class MyDiet extends Component {
               fat={fatsInGm}
             />
             <View style={styles.weeklyBarStyle}>
-              <View style={{ justifyContent: "flex-start" }}>
+              <View style={{justifyContent: 'flex-start'}}>
                 <TouchableOpacity
-                  style={{ paddingHorizontal: 10 }}
-                  onPress={() => this.changeWeek({ prev: true })}
-                >
+                  style={{paddingHorizontal: 10}}
+                  onPress={() => this.changeWeek({prev: true})}>
                   <Icon
                     name="chevron-left"
                     size={ICON_SIZE_LARGE}
                     style={styles.navButtonIcon}
                     color={
-                      prevWeekEnabled ?  "lightgrey" : styleCommon.textColor1
+                      prevWeekEnabled ? 'lightgrey' : styleCommon.textColor1
                     }
                   />
                 </TouchableOpacity>
               </View>
               <View
                 style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "row"
-                }}
-              >
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
                 <Text style={styles.weekText}>
                   Week {this.state.currentWeek}
                 </Text>
                 {this.state.showDayOnScroll && (
-                  <Text style={{ color: "lightgrey" }}>({this.day})</Text>
+                  <Text style={{color: 'lightgrey'}}>({this.day})</Text>
                 )}
               </View>
-              <View style={{ justifyContent: "flex-end" }}>
+              <View style={{justifyContent: 'flex-end'}}>
                 <TouchableOpacity
-                  style={{ paddingHorizontal: 10 }}
-                  onPress={() => this.changeWeek({ next: true })}
-                >
+                  style={{paddingHorizontal: 10}}
+                  onPress={() => this.changeWeek({next: true})}>
                   <Icon
                     name="chevron-right"
                     size={ICON_SIZE_LARGE}
                     style={styles.navButtonIcon}
                     color={
-                      nextWeekEnabled ?  "lightgrey" : styleCommon.textColor1
+                      nextWeekEnabled ? 'lightgrey' : styleCommon.textColor1
                     }
                   />
                 </TouchableOpacity>
@@ -461,11 +463,11 @@ export default class MyDiet extends Component {
             {!showMeals && (
               <InitialScreen
                 isVisible={showPaymentModal}
-                uid={navigation.getParam("uid")}
+                uid={navigation.getParam('uid')}
                 dietId={dietId}
-                selectedProgram={navigation.getParam("selectedProgram")}
-                selectedGoal={navigation.getParam("selectedGoal")}
-                fitnessLevel={navigation.getParam("fitnessLevel")}
+                selectedProgram={navigation.getParam('selectedProgram')}
+                selectedGoal={navigation.getParam('selectedGoal')}
+                fitnessLevel={navigation.getParam('fitnessLevel')}
                 paymentOptions={paymentOptions}
                 onClose={this.onClosePaymentModal}
                 dietTrialEndDate={dietTrialEndDate}
