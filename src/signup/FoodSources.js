@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import SourceSelector from "./SourceSelector";
-import SourceSelectorModal from "./SourceSelectorModal";
-import { styles } from "../../assets/style/stylesFoodSources";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import SourceSelector from './SourceSelector';
+import SourceSelectorModal from './SourceSelectorModal';
+import {styles} from '../../assets/style/stylesFoodSources';
 
 export default class FoodSources extends Component {
   render() {
@@ -19,7 +19,7 @@ export default class FoodSources extends Component {
       onSourceToggle,
       onCancel,
       onConfirm,
-      filterSources
+      filterSources,
     } = this.props;
     return (
       <View style={styles.mainContent}>

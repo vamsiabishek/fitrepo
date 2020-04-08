@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React, {Component} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   ICON_SIZE_LARGE,
-  ICON_SIZE_SMALL
-} from "../../assets/style/stylesCommonValues";
-import { styles } from "../../assets/style/stylesSourceSelector";
+  ICON_SIZE_SMALL,
+} from '../../assets/style/stylesCommonValues';
+import {styles} from '../../assets/style/stylesSourceSelector';
 
 export default class SourceSelector extends Component {
   render() {
@@ -14,7 +14,7 @@ export default class SourceSelector extends Component {
       removeSource,
       selectText,
       addSource,
-      sourceType
+      sourceType,
     } = this.props;
     return (
       <View style={styles.sourceContainer}>
@@ -34,8 +34,7 @@ export default class SourceSelector extends Component {
               <Text style={styles.selectedSourceLabel}>{source.name}</Text>
               <TouchableOpacity
                 style={styles.selectedSourceCancel}
-                onPress={() => removeSource(index, sourceType)}
-              >
+                onPress={() => removeSource(index, sourceType)}>
                 <Icon name="close" color="white" size={ICON_SIZE_SMALL} />
               </TouchableOpacity>
             </View>

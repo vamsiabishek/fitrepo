@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import SelectButton from "../components/SelectButton";
-import { styles } from "../../assets/style/stylesGender";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import SelectButton from '../components/SelectButton';
+import {styles} from '../../assets/style/stylesGender';
 import {
   styleCommon,
-  ICON_SELECT_GENDER
-} from "../../assets/style/stylesCommonValues";
+  ICON_SELECT_GENDER,
+} from '../../assets/style/stylesCommonValues';
 
 export default class Gender extends Component {
   render() {
     const buttonIconColor = styleCommon.secondaryButtonTextColor;
     const buttonIconActiveColor = styleCommon.textColor2;
-    const { gender, setGender } = this.props;
+    const {gender, setGender} = this.props;
     return (
       <View style={styles.mainWrapper}>
         <View style={styles.mainContent}>
@@ -23,7 +23,7 @@ export default class Gender extends Component {
               gender === 1 ? styles.activeButtonTitle : styles.buttonTitle
             }
             iconSize={ICON_SELECT_GENDER}
-            iconName={gender === 1 ? "man-raising-hand" : "man"}
+            iconName={gender === 1 ? 'man-raising-hand' : 'man'}
             buttonIcon={styles.buttonIcon}
             buttonIconColor={
               gender === 1 ? buttonIconActiveColor : buttonIconColor
@@ -41,7 +41,7 @@ export default class Gender extends Component {
               gender === 0 ? styles.activeButtonTitle : styles.buttonTitle
             }
             iconSize={ICON_SELECT_GENDER}
-            iconName={gender === 0 ? "woman-raising-hand" : "woman"}
+            iconName={gender === 0 ? 'woman-raising-hand' : 'woman'}
             buttonIcon={styles.buttonIcon}
             buttonIconColor={
               gender === 0 ? buttonIconActiveColor : buttonIconColor

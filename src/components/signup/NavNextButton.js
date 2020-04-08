@@ -1,27 +1,29 @@
-import React from "react";
-import { View } from "react-native";
-import { Button } from "react-native-elements";
-import LinearGradient from "react-native-linear-gradient";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React from 'react';
+import {View} from 'react-native';
+import {Button} from 'react-native-elements';
+import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   btnGradientColorLeft,
   btnGradientColorRight,
   btnGradientColorRightDisabled,
-  ICON_SIZE_LARGE
-} from "../../../assets/style/stylesCommonValues";
-import { styles } from "../../../assets/style/stylesNavNextButton";
+  ICON_SIZE_LARGE,
+} from '../../../assets/style/stylesCommonValues';
+import {styles} from '../../../assets/style/stylesNavNextButton';
 
 class NavNextButton extends React.Component {
   render() {
     let gradientColorRight = btnGradientColorRightDisabled;
-    const { isActive, screen, onNext, buttonText, hasBottomBar } = this.props;
-    let { bottomNav } = styles;
-    let { marginBottom } = styles.bottomNav;
-    if (isActive) gradientColorRight = btnGradientColorRight;
+    const {isActive, screen, onNext, buttonText, hasBottomBar} = this.props;
+    let {bottomNav} = styles;
+    let {marginBottom} = styles.bottomNav;
+    if (isActive) {
+      gradientColorRight = btnGradientColorRight;
+    }
     if (hasBottomBar) {
       bottomNav = {
         ...bottomNav,
-        marginBottom: marginBottom + 60
+        marginBottom: marginBottom + 60,
       };
     }
     return (
@@ -30,14 +32,14 @@ class NavNextButton extends React.Component {
           ViewComponent={LinearGradient} // Don't forget this!
           linearGradientProps={{
             colors: [btnGradientColorLeft, gradientColorRight],
-            start: { x: 0, y: 0.5 },
-            end: { x: 1, y: 0.5 }
+            start: {x: 0, y: 0.5},
+            end: {x: 1, y: 0.5},
           }}
           buttonStyle={
             isActive ? styles.navButtonActive : styles.navButtonDisabled
           }
           titleStyle={isActive ? styles.activeButtonTitle : styles.buttonTitle}
-          title={buttonText ? buttonText : "NEXT"}
+          title={buttonText ? buttonText : 'NEXT'}
           icon={
             <Icon
               name="chevron-right"

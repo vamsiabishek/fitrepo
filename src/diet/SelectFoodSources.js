@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Text, View, ScrollView, Switch } from "react-native";
-import { Button } from "react-native-elements";
-import { database } from "../common/FirebaseConfig";
-import { createKeyAndNameFromResult } from "../common/Util";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import { styles } from "../../assets/style/stylesSelectFoodSources";
+import React, {Component} from 'react';
+import {Text, View, ScrollView, Switch} from 'react-native';
+import {Button} from 'react-native-elements';
+import {database} from '../common/FirebaseConfig';
+import {createKeyAndNameFromResult} from '../common/Util';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import {styles} from '../../assets/style/stylesSelectFoodSources';
 
 export default class SelectFoodSources extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export default class SelectFoodSources extends Component {
       isNonVegetarian: true,
       selectedProteinSources: props.selectedProteins,
       selectedFatSources: props.selectedFats,
-      selectedCarbSources: props.selectedCarbs
+      selectedCarbSources: props.selectedCarbs,
     };
     this.fatSelectPosition = 0;
   }
@@ -26,37 +26,37 @@ export default class SelectFoodSources extends Component {
     const [proteinSources, carbSources, fatSources] = await Promise.all([
       this.fetchProteinSources(),
       this.fetchCarbSources(),
-      this.fetchFatSources()
+      this.fetchFatSources(),
     ]);
     console.log(proteinSources, carbSources, fatSources);
     this.setState({
       proteinSources,
       fatSources,
-      carbSources
+      carbSources,
     });
   };
 
   fetchProteinSources = async () => {
     let proteinSources = [];
     await database
-      .ref("protein-sources")
-      .once("value")
-      .then(snap => {
+      .ref('protein-sources')
+      .once('value')
+      .then((snap) => {
         if (snap.val()) {
           const results = snap.val();
           proteinSources = [
             {
-              name: "Protein Sources",
-              key: "protein",
-              sources: createKeyAndNameFromResult(results)
-            }
+              name: 'Protein Sources',
+              key: 'protein',
+              sources: createKeyAndNameFromResult(results),
+            },
           ];
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(
-          "error while fetching protein sources in select food sources page",
-          error
+          'error while fetching protein sources in select food sources page',
+          error,
         );
       });
     return proteinSources;
@@ -65,24 +65,24 @@ export default class SelectFoodSources extends Component {
   fetchCarbSources = async () => {
     let carbSources = [];
     await database
-      .ref("carb-sources")
-      .once("value")
-      .then(snap => {
+      .ref('carb-sources')
+      .once('value')
+      .then((snap) => {
         if (snap.val()) {
           const results = snap.val();
           carbSources = [
             {
-              name: "Carbs",
-              key: "carbs",
-              sources: createKeyAndNameFromResult(results)
-            }
+              name: 'Carbs',
+              key: 'carbs',
+              sources: createKeyAndNameFromResult(results),
+            },
           ];
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(
-          "error while fetching carb sources in select food sources page",
-          error
+          'error while fetching carb sources in select food sources page',
+          error,
         );
       });
     return carbSources;
@@ -91,41 +91,41 @@ export default class SelectFoodSources extends Component {
   fetchFatSources = async () => {
     let fatSources = [];
     await database
-      .ref("fat-sources")
-      .once("value")
-      .then(snap => {
+      .ref('fat-sources')
+      .once('value')
+      .then((snap) => {
         if (snap.val()) {
           const results = snap.val();
           fatSources = [
             {
-              name: "Fats",
-              key: "fats",
-              sources: createKeyAndNameFromResult(results)
-            }
+              name: 'Fats',
+              key: 'fats',
+              sources: createKeyAndNameFromResult(results),
+            },
           ];
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(
-          "error while fetching fat sources in select food sources page",
-          error
+          'error while fetching fat sources in select food sources page',
+          error,
         );
       });
     return fatSources;
   };
 
-  onPreviousOrNextClick = progress => {
+  onPreviousOrNextClick = (progress) => {
     const {
       selectedProteinSources,
       selectedFatSources,
-      selectedCarbSources
+      selectedCarbSources,
     } = this.state;
-    const { setSelectedSources } = this.props;
+    const {setSelectedSources} = this.props;
     setSelectedSources({
       selectedProteinSources,
       selectedFatSources,
       selectedCarbSources,
-      progress
+      progress,
     });
   };
 
@@ -133,60 +133,65 @@ export default class SelectFoodSources extends Component {
     const {
       selectedProteinSources,
       selectedFatSources,
-      selectedCarbSources
+      selectedCarbSources,
     } = this.state;
-    const { createDiet } = this.props;
+    const {createDiet} = this.props;
     createDiet({
       selectedProteinSources,
       selectedFatSources,
-      selectedCarbSources
+      selectedCarbSources,
     });
   };
 
-  onVegChange = value => {
+  onVegChange = (value) => {
     this.setState({
-      isNonVegetarian: value
+      isNonVegetarian: value,
     });
   };
 
-  onProteinSelectedChange = selectedProteinSources => {
-    if (this.validateSelectedSources(selectedProteinSources))
-      this.setState({ selectedProteinSources });
+  onProteinSelectedChange = (selectedProteinSources) => {
+    if (this.validateSelectedSources(selectedProteinSources)) {
+      this.setState({selectedProteinSources});
+    }
   };
-  onCarbSelectedChange = selectedCarbSources => {
-    if (this.validateSelectedSources(selectedCarbSources))
-      this.setState({ selectedCarbSources });
+  onCarbSelectedChange = (selectedCarbSources) => {
+    if (this.validateSelectedSources(selectedCarbSources)) {
+      this.setState({selectedCarbSources});
+    }
   };
-  onFatSelectedChange = selectedFatSources => {
-    if (this.validateSelectedSources(selectedFatSources))
-      this.setState({ selectedFatSources });
-    if (this.scrollView)
-      this.scrollView.scrollTo({ y: this.fatSelectPosition - 250 });
+  onFatSelectedChange = (selectedFatSources) => {
+    if (this.validateSelectedSources(selectedFatSources)) {
+      this.setState({selectedFatSources});
+    }
+    if (this.scrollView) {
+      this.scrollView.scrollTo({y: this.fatSelectPosition - 250});
+    }
   };
 
-  validateSelectedSources = selectedSources => {
+  validateSelectedSources = (selectedSources) => {
     if (selectedSources.length > 4) {
-      alert("You can only select 4 sources!");
+      alert('You can only select 4 sources!');
       return false;
     }
     return true;
   };
 
-  getConfirmText = selectedList => (selectedList.length ? "Confirm" : "Cancel");
+  getConfirmText = (selectedList) =>
+    selectedList.length ? 'Confirm' : 'Cancel';
 
   getSourceLabel = (selectedList, source) =>
     selectedList.length ? `${source}s !` : `Choose your ${source}!`;
 
-  getMultiSelectStyle = source => {
-    let chipBackgroundColor = "grey";
+  getMultiSelectStyle = (source) => {
+    let chipBackgroundColor = 'grey';
     chipBackgroundColor =
-      source === "protein" ? "#F1948A" : chipBackgroundColor;
-    chipBackgroundColor = source === "carb" ? "#82E0AA" : chipBackgroundColor;
-    chipBackgroundColor = source === "fat" ? "#F7DC6F" : chipBackgroundColor;
+      source === 'protein' ? '#F1948A' : chipBackgroundColor;
+    chipBackgroundColor = source === 'carb' ? '#82E0AA' : chipBackgroundColor;
+    chipBackgroundColor = source === 'fat' ? '#F7DC6F' : chipBackgroundColor;
     return {
       container: {
         marginVertical: 100,
-        backgroundColor:"white"
+        backgroundColor: 'white',
       },
       chipText: {
         //color: "white",
@@ -196,34 +201,34 @@ export default class SelectFoodSources extends Component {
       chipContainer: {
         backgroundColor: chipBackgroundColor,
         borderWidth: 0,
-        fontSize: 3
+        fontSize: 3,
         //opacity: 0.5,
       },
       itemText: {
-        color: "black",
-        fontSize: 20
+        color: 'black',
+        fontSize: 20,
       },
       subItemText: {
-        color: "black",
+        color: 'black',
         fontSize: 15,
-        paddingVertical: 5
+        paddingVertical: 5,
       },
       selectedSubItemText: {
-        fontWeight: "bold",
-        color: "black"
+        fontWeight: 'bold',
+        color: 'black',
       },
       selectedItem: {
-        color: "red"
-      }
+        color: 'red',
+      },
     };
   };
 
   getMultiSelectColors = () => {
-    return { chipColor: "white", primary: "#00DB8D", text: "#4caf50" }
-  }
+    return {chipColor: 'white', primary: '#00DB8D', text: '#4caf50'};
+  };
 
   renderProteinSelectText = () => {
-    return <Text style={{ color: "white" }}>Choose Protein ...</Text>;
+    return <Text style={{color: 'white'}}>Choose Protein ...</Text>;
   };
 
   render() {
@@ -234,17 +239,17 @@ export default class SelectFoodSources extends Component {
       fatSources,
       carbSources,
       selectedFatSources,
-      selectedCarbSources
+      selectedCarbSources,
     } = this.state;
-    const isVegLabel = isNonVegetarian ? "Non-Vegetarian" : "Vegetarian";
+    const isVegLabel = isNonVegetarian ? 'Non-Vegetarian' : 'Vegetarian';
     const proteinSourceLabel = this.getSourceLabel(
       selectedProteinSources,
-      "Protein"
+      'Protein',
     );
-    const carbSourceLabel = this.getSourceLabel(selectedCarbSources, "Carb");
-    const fatSourceLabel = this.getSourceLabel(selectedFatSources, "Fat");
+    const carbSourceLabel = this.getSourceLabel(selectedCarbSources, 'Carb');
+    const fatSourceLabel = this.getSourceLabel(selectedFatSources, 'Fat');
     const proteinSourceConfirmText = this.getConfirmText(
-      selectedProteinSources
+      selectedProteinSources,
     );
     const carbSourceConfirmText = this.getConfirmText(selectedCarbSources);
     const fatSourceConfirmText = this.getConfirmText(selectedFatSources);
@@ -256,7 +261,7 @@ export default class SelectFoodSources extends Component {
         <ScrollView
           style={styles.scrollviewContainer}
           contentContainerStyle={styles.scrollviewContentContainer}
-          ref={ref => (this.scrollView = ref)}
+          ref={(ref) => (this.scrollView = ref)}
           /*onContentSizeChange={(contentWidth, contentHeight)=>{
             this.scrollView.scrollTo({y: contentHeight});
           }} */
@@ -264,9 +269,9 @@ export default class SelectFoodSources extends Component {
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>{isVegLabel}</Text>
             <Switch
-              onValueChange={value => this.onVegChange(value)}
+              onValueChange={(value) => this.onVegChange(value)}
               value={isNonVegetarian}
-              trackColor={{ false: "green", true: "red" }}
+              trackColor={{false: 'green', true: 'red'}}
               ios_backgroundColor="green"
             />
           </View>
@@ -283,7 +288,7 @@ export default class SelectFoodSources extends Component {
               onSelectedItemsChange={this.onProteinSelectedChange}
               selectedItems={selectedProteinSources}
               modalAnimationType="slide"
-              styles={this.getMultiSelectStyle("protein")}
+              styles={this.getMultiSelectStyle('protein')}
               colors={this.getMultiSelectColors()}
               searchPlaceholderText="Search sources..."
               confirmText={proteinSourceConfirmText}
@@ -301,7 +306,7 @@ export default class SelectFoodSources extends Component {
               onSelectedItemsChange={this.onCarbSelectedChange}
               selectedItems={selectedCarbSources}
               modalAnimationType="slide"
-              styles={this.getMultiSelectStyle("carb")}
+              styles={this.getMultiSelectStyle('carb')}
               colors={this.getMultiSelectColors()}
               searchPlaceholderText="Search sources..."
               confirmText={carbSourceConfirmText}
@@ -309,10 +314,9 @@ export default class SelectFoodSources extends Component {
           </View>
           <View
             style={styles.multiSelectDropdown}
-            onLayout={e => {
+            onLayout={(e) => {
               this.fatSelectPosition = e.nativeEvent.layout.y;
-            }}
-          >
+            }}>
             <SectionedMultiSelect
               items={fatSources}
               uniqueKey="key"
@@ -324,7 +328,7 @@ export default class SelectFoodSources extends Component {
               onSelectedItemsChange={this.onFatSelectedChange}
               selectedItems={selectedFatSources}
               modalAnimationType="slide"
-              styles={this.getMultiSelectStyle("fat")}
+              styles={this.getMultiSelectStyle('fat')}
               colors={this.getMultiSelectColors()}
               searchPlaceholderText="Search sources..."
               confirmText={fatSourceConfirmText}
@@ -341,7 +345,7 @@ export default class SelectFoodSources extends Component {
               <Icon
                 name="arrow-left-thick"
                 size={20}
-                style={{ color: "white" }}
+                style={{color: 'white'}}
               />
             }
             iconLeft={true}
@@ -356,7 +360,7 @@ export default class SelectFoodSources extends Component {
               <Icon
                 name="arrow-right-thick"
                 size={20}
-                style={{ color: "white" }}
+                style={{color: 'white'}}
               />
             }
             iconRight={true}

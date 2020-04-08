@@ -1,33 +1,24 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   LayoutAnimation,
   KeyboardAvoidingView,
-  Text,
   TouchableOpacity,
   UIManager,
-  View
-} from "react-native";
-import { Input, Button } from "react-native-elements";
-import RadioForm from "react-native-simple-radio-button";
-import DateTimePicker from "react-native-modal-datetime-picker";
-import { styles } from "../../assets/style/stylesEditProfileScreen";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  MIN_DATE,
-  MAX_DATE,
-  BUTTON_SIZE,
-  BUTTON_OUTER_SIZE,
-  EMAIL_VERIFICATION
-} from "../common/Common";
+  View,
+} from 'react-native';
+import {Input, Button} from 'react-native-elements';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import {styles} from '../../assets/style/stylesEditProfileScreen';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MIN_DATE, MAX_DATE, EMAIL_VERIFICATION} from '../common/Common';
 import {
   styleCommon,
   ICON_SIZE,
-  ICON_SIZE_MED,
   btnGradientColorLeft,
   btnGradientColorRight,
-  btnGradientColorRightDisabled
-} from "../../assets/style/stylesCommonValues";
-import LinearGradient from "react-native-linear-gradient";
+  btnGradientColorRightDisabled,
+} from '../../assets/style/stylesCommonValues';
+import LinearGradient from 'react-native-linear-gradient';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -44,79 +35,79 @@ export default class EditProfileSubScreen1 extends Component {
       nameValid: true,
       isDTPickerVisible: false,
       dobAgeValid: true,
-      errorMsgWtAge: "",
-      isActive: false
+      errorMsgWtAge: '',
+      isActive: false,
     };
     this.selectedDate = new Date(this.state.user.dob);
   }
 
   validateUsername = () => {
-    const { username } = this.state.user;
+    const {username} = this.state.user;
     const usernameValid = username.length > 0;
     LayoutAnimation.easeInEaseOut();
-    this.setState({ usernameValid });
+    this.setState({usernameValid});
     usernameValid || this.usernameInput.shake();
     return usernameValid;
   };
   validateEmail = () => {
-    const { email } = this.state.user;
+    const {email} = this.state.user;
     const emailValid = EMAIL_VERIFICATION.test(email);
     LayoutAnimation.easeInEaseOut();
-    this.setState({ emailValid });
+    this.setState({emailValid});
     emailValid || this.emailInput.shake();
     return emailValid;
   };
   showDTPicker = () => {
-    this.setState({ isDTPickerVisible: true });
+    this.setState({isDTPickerVisible: true});
   };
   hideDTPicker = () => {
-    this.setState({ isDTPickerVisible: false });
+    this.setState({isDTPickerVisible: false});
   };
-  handleDTPicker = date => {
-    const { user } = this.state;
+  handleDTPicker = (date) => {
+    const {user} = this.state;
     let currentDate = new Date();
     let dateFormat = new Date(date);
     let newDate = dateFormat.toDateString().substring(4);
     let ageFromDate = currentDate.getFullYear() - dateFormat.getFullYear();
     //LayoutAnimation.easeInEaseOut();
     this.setState({
-      user: { ...user, dob: newDate, age: ageFromDate },
-      isActive: true
+      user: {...user, dob: newDate, age: ageFromDate},
+      isActive: true,
     });
     this.hideDTPicker();
   };
-  onDateChangePicker = date => {
+  onDateChangePicker = (date) => {
     this.selectedDate = date;
   };
   validateName = () => {
-    const { name } = this.state.user;
+    const {name} = this.state.user;
     const nameValid = name.length > 0;
     LayoutAnimation.easeInEaseOut();
-    this.setState({ nameValid });
+    this.setState({nameValid});
     nameValid || this.nameInput.shake();
     return nameValid;
   };
   validateDobAndAge = () => {
-    const { dob, age } = this.state.user;
+    const {dob, age} = this.state.user;
     if (age !== null) {
       const dobAgeValid = dob.length > 0 && age > 18;
-      const errorMsgWtAge = "You should be 18 years & above!";
+      const errorMsgWtAge = 'You should be 18 years & above!';
       //LayoutAnimation.easeInEaseOut();
-      this.setState({ dobAgeValid, errorMsgWtAge });
+      this.setState({dobAgeValid, errorMsgWtAge});
       dobAgeValid || this.dobInput.shake();
       return dobAgeValid;
     } else {
       const dobAgeValid = dob.length > 0;
-      const errorMsgWtAge = "Please select a Date!";
+      const errorMsgWtAge = 'Please select a Date!';
       //LayoutAnimation.easeInEaseOut();
-      this.setState({ dobAgeValid, errorMsgWtAge });
+      this.setState({dobAgeValid, errorMsgWtAge});
       dobAgeValid || this.dobInput.shake();
       return dobAgeValid;
     }
   };
   goToNextSubSection = () => {
     LayoutAnimation.easeInEaseOut();
-    const { name, username, dob, age, email } = this.state.user;
+    const {name, username, dob, age, email} = this.state.user;
     const usernameValid = this.validateUsername();
     const emailValid = this.validateEmail();
     const nameValid = this.validateName();
@@ -128,7 +119,7 @@ export default class EditProfileSubScreen1 extends Component {
         username,
         dob,
         age,
-        email
+        email,
       };
       this.props.setSubScreenUserVals(setUserPartial); // progress
     }
@@ -143,7 +134,7 @@ export default class EditProfileSubScreen1 extends Component {
       isDTPickerVisible,
       dobAgeValid,
       errorMsgWtAge,
-      isActive
+      isActive,
     } = this.state;
     const dateInDatetime = new Date(user.dob);
     return (
@@ -152,8 +143,7 @@ export default class EditProfileSubScreen1 extends Component {
           <View style={styles.scrollViewContainerStyle}>
             <KeyboardAvoidingView
               behaviour="position"
-              contentContainerStyle={styles.formContainer}
-            >
+              contentContainerStyle={styles.formContainer}>
               <View style={styles.inputOuterViewContainer}>
                 <Input
                   placeholder="Username"
@@ -175,16 +165,16 @@ export default class EditProfileSubScreen1 extends Component {
                   keyboardAppearance="light"
                   keyboardType="default"
                   returnKeyType="done"
-                  onChangeText={username =>
+                  onChangeText={(username) =>
                     this.setState({
-                      user: { ...user, username },
-                      isActive: true
+                      user: {...user, username},
+                      isActive: true,
                     })
                   }
                   value={user.username}
-                  ref={input => (this.usernameInput = input)}
+                  ref={(input) => (this.usernameInput = input)}
                   onSubmitEditing={() => {
-                    this.setState({ usernameValid: this.validateUsername });
+                    this.setState({usernameValid: this.validateUsername});
                     this.emailInput.focus();
                   }}
                   errorMessage={
@@ -212,17 +202,17 @@ export default class EditProfileSubScreen1 extends Component {
                   autoCorrect={false}
                   blurOnSubmit={true}
                   returnKeyType="done"
-                  onChangeText={email =>
-                    this.setState({ user: { ...user, email }, isActive: true })
+                  onChangeText={(email) =>
+                    this.setState({user: {...user, email}, isActive: true})
                   }
                   value={user.email}
-                  ref={input => (this.emailInput = input)}
+                  ref={(input) => (this.emailInput = input)}
                   onSubmitEditing={() => {
-                    this.setState({ emailValid: this.validateEmail });
+                    this.setState({emailValid: this.validateEmail});
                     this.passwordInput.focus();
                   }}
                   errorMessage={
-                    emailValid ? null : "Please enter a valid email address!"
+                    emailValid ? null : 'Please enter a valid email address!'
                   }
                 />
                 <Input
@@ -239,8 +229,8 @@ export default class EditProfileSubScreen1 extends Component {
                   inputContainerStyle={styles.inputContainer}
                   inputStyle={styles.inputStyle}
                   errorStyle={styles.errorInputStyle}
-                  onChangeText={name =>
-                    this.setState({ user: { ...user, name }, isActive: true })
+                  onChangeText={(name) =>
+                    this.setState({user: {...user, name}, isActive: true})
                   }
                   value={user.name}
                   keyboardAppearance="light"
@@ -249,12 +239,12 @@ export default class EditProfileSubScreen1 extends Component {
                   autoCorrect={false}
                   blurOnSubmit={true}
                   returnKeyType="done"
-                  ref={input => (this.nameInput = input)}
+                  ref={(input) => (this.nameInput = input)}
                   onSubmitEditing={() => {
-                    this.setState({ nameValid: this.validateName });
+                    this.setState({nameValid: this.validateName});
                     this.dobInput.focus();
                   }}
-                  errorMessage={nameValid ? null : "Please enter a Name!"}
+                  errorMessage={nameValid ? null : 'Please enter a Name!'}
                 />
                 <TouchableOpacity onPress={this.showDTPicker}>
                   <DateTimePicker
@@ -284,10 +274,10 @@ export default class EditProfileSubScreen1 extends Component {
                       inputContainerStyle={styles.inputContainer}
                       inputStyle={styles.inputStyle}
                       errorStyle={styles.errorInputStyle}
-                      onChangeText={date =>
+                      onChangeText={(date) =>
                         this.setState({
-                          user: { ...user, dob: date },
-                          isActive: true
+                          user: {...user, dob: date},
+                          isActive: true,
                         })
                       }
                       value={user.dob}
@@ -297,9 +287,9 @@ export default class EditProfileSubScreen1 extends Component {
                       blurOnSubmit={true}
                       editable={true}
                       returnKeyType="done"
-                      ref={input => (this.dobInput = input)}
+                      ref={(input) => (this.dobInput = input)}
                       onSubmitEditing={() => {
-                        this.setState({ dobAgeValid: this.validateDobAndAge });
+                        this.setState({dobAgeValid: this.validateDobAndAge});
                       }}
                       errorMessage={dobAgeValid ? null : errorMsgWtAge}
                     />
@@ -314,10 +304,10 @@ export default class EditProfileSubScreen1 extends Component {
                     btnGradientColorLeft,
                     isActive
                       ? btnGradientColorRight
-                      : btnGradientColorRightDisabled
+                      : btnGradientColorRightDisabled,
                   ],
-                  start: { x: 0, y: 0.5 },
-                  end: { x: 1, y: 0.5 }
+                  start: {x: 0, y: 0.5},
+                  end: {x: 1, y: 0.5},
                 }}
                 containerStyle={styles.btsButtonContainer}
                 buttonStyle={

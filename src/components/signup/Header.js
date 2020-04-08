@@ -1,11 +1,11 @@
-import React from "react";
-import { Text, View } from "react-native";
-import { Button } from "react-native-elements";
+import React from 'react';
+import {Text, View} from 'react-native';
+import {Button} from 'react-native-elements';
 import {
   styleCommon,
-  ICON_BACK_SIZE
-} from "../../../assets/style/stylesCommonValues";
-import { styles } from "../../../assets/style/stylesHeader";
+  ICON_BACK_SIZE,
+} from '../../../assets/style/stylesCommonValues';
+import {styles} from '../../../assets/style/stylesHeader';
 
 export default class Header extends React.Component {
   render() {
@@ -17,15 +17,15 @@ export default class Header extends React.Component {
       screen,
       onBack,
       onCancel,
-      showOnCancel
+      showOnCancel,
     } = this.props;
-    let { header } = styles;
+    let {header} = styles;
     if (marginTop || height || flex) {
       header = {
         ...header,
         marginTop,
         flex,
-        height
+        height,
       };
     }
     return (
@@ -34,10 +34,10 @@ export default class Header extends React.Component {
           <View style={styles.buttonContainer}>
             <Button
               icon={{
-                name: "arrow-left-thick",
+                name: 'arrow-left-thick',
                 size: ICON_BACK_SIZE,
                 color: styleCommon.headerIconsColor,
-                type: "material-community"
+                type: 'material-community',
               }}
               containerStyle={styles.backButtonContainerStyle}
               buttonStyle={styles.backButtonStyle}
@@ -46,10 +46,10 @@ export default class Header extends React.Component {
             {showOnCancel && (
               <Button
                 icon={{
-                  name: "close",
+                  name: 'close',
                   size: ICON_BACK_SIZE,
                   color: styleCommon.headerIconsColor,
-                  type: "material-community"
+                  type: 'material-community',
                 }}
                 containerStyle={styles.cancelButtonContainerStyle}
                 buttonStyle={styles.cancelButtonStyle}
@@ -68,4 +68,4 @@ export default class Header extends React.Component {
 
 Header.defaultProps = {
   showOnCancel: true,
-}
+};

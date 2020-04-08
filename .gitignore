@@ -21,7 +21,6 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
 
 # Android/IntelliJ
 #
@@ -34,6 +33,7 @@ local.properties
 *.aab
 *.apk
 output.json
+!debug.keystore
 
 # node.js
 #
@@ -60,3 +60,7 @@ buck-out/
 # Bundle artifact
 *.jsbundle
 .png-cache
+ios/assets
+
+# CocoaPods
+/ios/Pods/

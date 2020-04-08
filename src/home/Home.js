@@ -1,45 +1,44 @@
-import React, { Component } from "react";
-import { ActivityIndicator, Text, View, ImageBackground } from "react-native";
-import Loading from "../components/Loading";
-import { styles } from "../../assets/style/stylesHomeScreen";
-import { f, database } from "../common/FirebaseConfig";
-import { GRADIENT_BG_IMAGE } from "../common/Common";
-import { styleCommon } from "../../assets/style/stylesCommonValues";
-import { getCurrentUser } from "../common/Util"
+import React, {Component} from 'react';
+import {Text, View, ImageBackground} from 'react-native';
+import Loading from '../components/Loading';
+import {styles} from '../../assets/style/stylesHomeScreen';
+import {database} from '../common/FirebaseConfig';
+import {GRADIENT_BG_IMAGE} from '../common/Common';
+import {getCurrentUser} from '../common/Util';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      username: "",
-      name: ""
+      username: '',
+      name: '',
     };
   }
   componentDidMount = async () => {
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
     const currentUser = await getCurrentUser();
     database
-      .ref("users")
+      .ref('users')
       .child(currentUser.uid)
-      .once("value")
-      .then(snapshot => {
+      .once('value')
+      .then((snapshot) => {
         const userLoggedIn = snapshot.val();
         this.setState({
           username: userLoggedIn.username,
           name: userLoggedIn.name,
-          isLoading: false
+          isLoading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(
-          "error while fetching user details in componentDidMount of Home:",
-          error
+          'error while fetching user details in componentDidMount of Home:',
+          error,
         );
       });
   };
   render() {
-    const { isLoading, name } = this.state;
+    const {isLoading, name} = this.state;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={styles.container}>
         {isLoading ? (
@@ -53,8 +52,4 @@ export default class Home extends Component {
       </ImageBackground>
     );
   }
-}
-
-{
-  /*<ActivityIndicator color={styleCommon.textColor1} size="large" />*/
 }

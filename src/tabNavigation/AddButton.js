@@ -1,50 +1,50 @@
-import React from "react";
-import { Animated, TouchableHighlight, View, Alert } from "react-native";
-import { f, database } from "../common/FirebaseConfig";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { withNavigation } from "react-navigation";
-import { createKeyAndValuesFromResult } from "../common/Util";
-import { styleCommon, fontsCommon } from "../../assets/style/stylesCommonValues";
-import { getCurrentUser } from "../common/Util";
+import React from 'react';
+import {TouchableHighlight, View, Alert} from 'react-native';
+import {database} from '../common/FirebaseConfig';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {withNavigation} from 'react-navigation';
+import {createKeyAndValuesFromResult} from '../common/Util';
+import {styleCommon, fontsCommon} from '../../assets/style/stylesCommonValues';
+import {getCurrentUser} from '../common/Util';
 
 class AddButton extends React.Component {
   addNew = async () => {
-    const { uid } = await getCurrentUser();
+    const {uid} = await getCurrentUser();
     let latestDiet = {};
     await database
       .ref(`diets/${uid}`)
-      .orderByChild("createdDate")
+      .orderByChild('createdDate')
       .limitToLast(1)
-      .once("value")
-      .then(snap => {
+      .once('value')
+      .then((snap) => {
         const results = snap.val();
         latestDiet = createKeyAndValuesFromResult(results)[0];
       })
-      .catch(error => {
+      .catch((error) => {
         latestDiet = undefined;
         console.log(error);
       });
     if (latestDiet !== undefined) {
-      const { createdDate, selectedGoal, selectedProgram } = latestDiet.value;
+      const {createdDate, selectedProgram} = latestDiet.value;
       const fromDate = new Date(createdDate);
       const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
-      const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000));
-      const total_minutes = parseInt(Math.floor(total_seconds / 60));
-      const total_hours = parseInt(Math.floor(total_minutes / 60));
-      const days = parseInt(Math.floor(total_hours / 24));
+      const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000), 10);
+      const total_minutes = parseInt(Math.floor(total_seconds / 60), 10);
+      const total_hours = parseInt(Math.floor(total_minutes / 60), 10);
+      const days = parseInt(Math.floor(total_hours / 24), 10);
       if (days <= selectedProgram * 7) {
         Alert.alert(
-          "Create diet confirmation !",
+          'Create diet confirmation !',
           `You are curently active on ${selectedProgram} Week diet, are you sure about creating new diet ?`,
           [
             {
-              text: "Cancel",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
             },
-            { text: "Continue", onPress: () => this.navigateToCreateDiet(uid) }
+            {text: 'Continue', onPress: () => this.navigateToCreateDiet(uid)},
           ],
-          { cancelable: false }
+          {cancelable: false},
         );
       } else {
         this.navigateToCreateDiet(uid);
@@ -53,11 +53,11 @@ class AddButton extends React.Component {
       this.navigateToCreateDiet(uid);
     }
   };
-  navigateToCreateDiet = uid => {
-    const { navigation } = this.props;
-    navigation.navigate("Signup", {
+  navigateToCreateDiet = (uid) => {
+    const {navigation} = this.props;
+    navigation.navigate('Signup', {
       isExistingUser: true,
-      uid
+      uid,
     });
   };
   render() {
@@ -65,23 +65,25 @@ class AddButton extends React.Component {
     return (
       <View
         style={{
-          position: "absolute",
-          alignItems: "center"
-        }}
-      >
+          position: 'absolute',
+          alignItems: 'center',
+        }}>
         <TouchableHighlight
           onPress={() => this.addNew()}
           underlayColor="#2882D8"
           style={{
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: 'center',
+            justifyContent: 'center',
             width: SIZE,
             height: SIZE,
             borderRadius: SIZE / 2,
-            backgroundColor: "#FA8072"
-          }}
-        >
-          <Icon name="plus" size={fontsCommon.font28} color={styleCommon.textColor1} />
+            backgroundColor: '#FA8072',
+          }}>
+          <Icon
+            name="plus"
+            size={fontsCommon.font28}
+            color={styleCommon.textColor1}
+          />
         </TouchableHighlight>
       </View>
     );

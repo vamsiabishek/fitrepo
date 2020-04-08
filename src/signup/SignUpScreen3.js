@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   ImageBackground,
   LayoutAnimation,
@@ -6,14 +6,14 @@ import {
   ScrollView,
   Text,
   UIManager,
-  View
-} from "react-native";
-import NumericInput from "react-native-numeric-input";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import RadioForm from "react-native-simple-radio-button";
-import { styles } from "../../assets/style/stylesSignUpScreen3";
-import { auth, database } from "../common/FirebaseConfig";
+  View,
+} from 'react-native';
+import NumericInput from 'react-native-numeric-input';
+import {Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import RadioForm from 'react-native-simple-radio-button';
+import {styles} from '../../assets/style/stylesSignUpScreen3';
+import {database} from '../common/FirebaseConfig';
 import {
   GRADIENT_BG_IMAGE,
   LEVELS_OPTIONS,
@@ -27,9 +27,9 @@ import {
   MIN_HEIGHT,
   MAX_HEIGHT,
   MIN_WEIGHT,
-  MAX_WEIGHT
-} from "../common/Common";
-import { getCurrentUser } from "../common/Util"
+  MAX_WEIGHT,
+} from '../common/Common';
+import {getCurrentUser} from '../common/Util';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -42,78 +42,78 @@ export default class SignUpScreen3 extends Component {
       isLoading: false,
       weight: 0,
       weightValid: true,
-      errorMsgWeight: "",
+      errorMsgWeight: '',
       height: 0,
       heightValid: true,
-      errorMsgHeight: "",
+      errorMsgHeight: '',
       levels: LEVELS_OPTIONS,
-      level: "",
+      level: '',
       levelValid: true,
       foodPreferences: FOOD_PREFERENCES_OPTIONS,
-      foodPreference: "",
+      foodPreference: '',
       foodPreferenceValid: true,
       latitude: null,
       longitude: null,
-      error: ""
+      error: '',
     };
   }
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          error: null
+          error: null,
         });
       },
-      error => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      (error) => this.setState({error: error.message}),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   }
   validateWeight = () => {
-    const { weight } = this.state;
+    const {weight} = this.state;
     if (weight !== 0) {
       const weightValid =
         (weight > MIN_WEIGHT || weight === MIN_WEIGHT) &&
         (weight < MAX_WEIGHT || weight === MAX_WEIGHT);
       const errorMsgWeight =
-        "Weight should be between " + MIN_WEIGHT + " & " + MAX_WEIGHT + " kgs!";
-      this.setState({ weightValid, errorMsgWeight });
+        'Weight should be between ' + MIN_WEIGHT + ' & ' + MAX_WEIGHT + ' kgs!';
+      this.setState({weightValid, errorMsgWeight});
       return weightValid;
     } else {
       const weightValid = weight > 0 && weight !== 0;
-      const errorMsgWeight = "Please select a value!";
-      this.setState({ weightValid, errorMsgWeight });
+      const errorMsgWeight = 'Please select a value!';
+      this.setState({weightValid, errorMsgWeight});
       return weightValid;
     }
   };
   validateHeight = () => {
-    const { height } = this.state;
+    const {height} = this.state;
     if (height !== 0) {
       const heightValid =
         (height > MIN_HEIGHT || height === MIN_HEIGHT) &&
         (height < MAX_HEIGHT || height === MAX_HEIGHT);
       const errorMsgHeight =
-        "Height should be between " + MIN_HEIGHT + " & " + MAX_HEIGHT + " cms!";
-      this.setState({ heightValid, errorMsgHeight });
+        'Height should be between ' + MIN_HEIGHT + ' & ' + MAX_HEIGHT + ' cms!';
+      this.setState({heightValid, errorMsgHeight});
       return heightValid;
     } else {
       const heightValid = height > 0 && height !== 0;
-      const errorMsgHeight = "Please select a value!";
-      this.setState({ heightValid, errorMsgHeight });
+      const errorMsgHeight = 'Please select a value!';
+      this.setState({heightValid, errorMsgHeight});
       return heightValid;
     }
   };
   validateLevel = () => {
-    const { level } = this.state;
+    const {level} = this.state;
     const levelValid = level.length > 0;
-    this.setState({ levelValid });
+    this.setState({levelValid});
     return levelValid;
   };
   validateFoodPreference = () => {
-    const { foodPreference } = this.state;
+    const {foodPreference} = this.state;
     const foodPreferenceValid = foodPreference.length > 0;
-    this.setState({ foodPreferenceValid });
+    this.setState({foodPreferenceValid});
     return foodPreferenceValid;
   };
   goToHomeScreen = async () => {
@@ -124,51 +124,51 @@ export default class SignUpScreen3 extends Component {
     const foodPreferenceValid = this.validateFoodPreference();
 
     if (weightValid && heightValid && levelValid && foodPreferenceValid) {
-      this.setState({ isLoading: true });
+      this.setState({isLoading: true});
       try {
         const user = await getCurrentUser();
         this.updateUserWithOtherDetails(user);
       } catch (error) {
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
         //console.log("error before updating from :", error);
       }
     }
   };
-  updateUserWithOtherDetails = async user => {
+  updateUserWithOtherDetails = async (user) => {
     const {
       level,
       weight,
       height,
       foodPreference,
       latitude,
-      longitude
+      longitude,
     } = this.state;
-    const { navigate } = this.props.navigation;
+    const {navigate} = this.props.navigation;
     const extraUserDetails = {
       level,
       weight,
       height,
       foodPreference,
       latitude,
-      longitude
+      longitude,
     };
     database
-      .ref("users")
+      .ref('users')
       .child(user.uid)
       .update(extraUserDetails)
       .then(() => {
         //console.log("Successfully updated existing user with details");
-        this.setState({ isLoading: false });
-        navigate("HomeScreen");
+        this.setState({isLoading: false});
+        navigate('HomeScreen');
       })
-      .catch(error => {
-        this.setState({ isLoading: false });
+      .catch((error) => {
+        this.setState({isLoading: false});
         //console.log("error while updating new user with details:", error);
       });
   };
   skipButtonClicked = () => {
-    const { navigate } = this.props.navigation;
-    navigate("HomeScreen");
+    const {navigate} = this.props.navigation;
+    navigate('HomeScreen');
   };
 
   render() {
@@ -180,12 +180,10 @@ export default class SignUpScreen3 extends Component {
       height,
       heightValid,
       errorMsgHeight,
-      levels,
-      level,
       levelValid,
       foodPreferences,
       foodPreference,
-      foodPreferenceValid
+      foodPreferenceValid,
     } = this.state;
     return (
       <ImageBackground
@@ -198,12 +196,10 @@ export default class SignUpScreen3 extends Component {
         <ScrollView
           scrollEnabled={false}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.container}
-        >
+          contentContainerStyle={styles.container}>
           <KeyboardAvoidingView
             behaviour="position"
-            contentContainerStyle={styles.formContainer}
-          >
+            contentContainerStyle={styles.formContainer}>
             <View style={styles.viewContainer}>
               <Text style={styles.signUpText}>Medical Id...</Text>
             </View>
@@ -224,7 +220,7 @@ export default class SignUpScreen3 extends Component {
                   initValue={weight}
                   minValue={MIN_WEIGHT}
                   maxValue={MAX_WEIGHT}
-                  onChange={value => this.setState({ weight: value })}
+                  onChange={(value) => this.setState({weight: value})}
                   totalWidth={NUMERIC_INPUT_WIDTH}
                   totalHeight={NUMERIC_INPUT_HEIGHT}
                   iconSize={ICON_SIZE}
@@ -262,7 +258,7 @@ export default class SignUpScreen3 extends Component {
                   initValue={height}
                   minValue={MIN_HEIGHT}
                   maxValue={MAX_HEIGHT}
-                  onChange={value => this.setState({ height: value })}
+                  onChange={(value) => this.setState({height: value})}
                   totalWidth={NUMERIC_INPUT_WIDTH}
                   totalHeight={NUMERIC_INPUT_HEIGHT}
                   type="up-down"
@@ -293,12 +289,12 @@ export default class SignUpScreen3 extends Component {
                     <Text style={styles.radioButtonText}>Level</Text>
                   </View>
                 </View>
-                <RadioForm
+                {/*<RadioForm
                   formHorizontal={true}
                   labelHorizontal={true}
                   radio_props={levels}
                   value={level}
-                  ref={input => (this.levelInput = input)}
+                  ref={(input) => (this.levelInput = input)}
                   initial={-1}
                   borderWidth={styles.radioButtonDes.borderWidth}
                   buttonColor={styles.radioButtonDes.color}
@@ -307,10 +303,10 @@ export default class SignUpScreen3 extends Component {
                   buttonOuterSize={BUTTON_OUTER_SIZE}
                   labelStyle={styles.radioButtonLabelStyle}
                   buttonWrapStyle={styles.radioButtonWrapStyle}
-                  onPress={value => {
-                    this.setState({ level: value });
+                  onPress={(value) => {
+                    this.setState({level: value});
                   }}
-                />
+                />*/}
               </View>
               {levelValid ? null : (
                 <Text style={styles.errorInputStyle}>
@@ -333,7 +329,7 @@ export default class SignUpScreen3 extends Component {
                   labelHorizontal={true}
                   radio_props={foodPreferences}
                   value={foodPreference}
-                  ref={input => (this.foodPreferenceInput = input)}
+                  ref={(input) => (this.foodPreferenceInput = input)}
                   initial={-1}
                   borderWidth={styles.radioButtonDes.borderWidth}
                   buttonColor={styles.radioButtonDes.color}
@@ -342,8 +338,8 @@ export default class SignUpScreen3 extends Component {
                   buttonOuterSize={BUTTON_OUTER_SIZE}
                   labelStyle={styles.radioButtonLabelStyle}
                   buttonWrapStyle={styles.radioButtonWrapStyle}
-                  onPress={value => {
-                    this.setState({ foodPreference: value });
+                  onPress={(value) => {
+                    this.setState({foodPreference: value});
                   }}
                 />
               </View>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,12 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Dimensions
-} from "react-native";
-import Modal from "react-native-modal";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import MyButton from "../components/MyButton";
-import { styleCommon, BG_COLOR } from '../../assets/style/stylesCommonValues'
+  Dimensions,
+} from 'react-native';
+import Modal from 'react-native-modal';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MyButton from '../components/MyButton';
 
 export default class SourceSelectorModal extends Component {
   render() {
@@ -26,32 +25,27 @@ export default class SourceSelectorModal extends Component {
       onCancel,
       onConfirm,
       searchTerm,
-      onSearch
+      onSearch,
     } = this.props;
-    const searchPlaceholderTextColor = "grey";
-    const searchPlaceholderText = "Search sources...";
-    const searchSelectionColor = "black"//"rgba(0,0,0,0.2)";
+    const searchPlaceholderTextColor = 'grey';
+    const searchPlaceholderText = 'Search sources...';
+    const searchSelectionColor = 'black'; //"rgba(0,0,0,0.2)";
 
     return (
       <View>
         <Modal
           isVisible={showModal}
           backdropColor="black"
-          backdropOpacity={0.5}
-        >
+          backdropOpacity={0.5}>
           <View style={styles.modalContent}>
             <View style={styles.searchBar}>
               <View style={styles.center}>
-                <Icon
-                  name="search"
-                  size={18}
-                  style={{ marginHorizontal: 15 }}
-                />
+                <Icon name="search" size={18} style={{marginHorizontal: 15}} />
               </View>
               <TextInput
                 value={searchTerm}
                 selectionColor={searchSelectionColor}
-                onChangeText={searchTerm => onSearch(searchTerm)}
+                onChangeText={(searchTerm) => onSearch(searchTerm)}
                 placeholder={searchPlaceholderText}
                 autoFocus={false}
                 selectTextOnFocus
@@ -65,29 +59,26 @@ export default class SourceSelectorModal extends Component {
                 style={[
                   {
                     flex: 1,
-                    flexDirection: "row",
-                    flexWrap: "wrap",
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
                     marginTop: 5,
                     marginHorizontal: 15,
-                    justifyContent: "space-evenly"
-                  }
+                    justifyContent: 'space-evenly',
+                  },
                   //styles.center
-                ]}
-              >
+                ]}>
                 {sources.map((source, index) => (
                   <View
-                    style={[{ width: 80, margin: 5 }, styles.center]}
-                    key={source.name}
-                  >
+                    style={[{width: 80, margin: 5}, styles.center]}
+                    key={source.name}>
                     <TouchableOpacity
-                      style={{ flexDirection: "row" }}
-                      onPress={() => onSourceToggle(index, source.selected)}
-                    >
+                      style={{flexDirection: 'row'}}
+                      onPress={() => onSourceToggle(index, source.selected)}>
                       <Image
                         source={source.uri}
                         style={{
                           width: 80,
-                          height: 60
+                          height: 60,
                           //backgroundColor: "indigo"
                         }}
                       />
@@ -98,14 +89,14 @@ export default class SourceSelectorModal extends Component {
                           raised
                           size={17}
                           style={{
-                            position: "absolute",
+                            position: 'absolute',
                             right: 5,
-                            color: "blue"
+                            color: 'blue',
                           }}
                         />
                       )}
                     </TouchableOpacity>
-                    <Text style={[{ marginTop: 2 }, styles.center]}>
+                    <Text style={[{marginTop: 2}, styles.center]}>
                       {source.name}
                     </Text>
                   </View>
@@ -114,13 +105,12 @@ export default class SourceSelectorModal extends Component {
             </ScrollView>
             <View
               style={{
-                justifyContent: "flex-end",
-                alignItems: "center",
-                marginVertical: 50
-              }}
-            >
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                marginVertical: 50,
+              }}>
               <MyButton
-                label={selectedSources.length > 0 ? "Confirm" : "Cancel"}
+                label={selectedSources.length > 0 ? 'Confirm' : 'Cancel'}
                 width={200}
                 height={60}
                 onButtonClick={
@@ -134,31 +124,31 @@ export default class SourceSelectorModal extends Component {
     );
   }
 }
-const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   searchBar: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 5,
-    backgroundColor: "#6ac8c2",
+    backgroundColor: '#6ac8c2',
     borderBottomWidth: 1,
-    borderColor: "lightgrey"
+    borderColor: 'lightgrey',
   },
   searchTextInput: {
     flex: 1,
     fontSize: 17,
-    paddingVertical: 8
+    paddingVertical: 8,
   },
   center: {
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   modalContent: {
-    backgroundColor: "#6ac8c2",
+    backgroundColor: '#6ac8c2',
     height: SCREEN_HEIGHT - 100,
     marginTop: 20,
     //justifyContent: "center",
     //alignItems: "center",
     borderRadius: 4,
-    borderColor: "rgba(0, 0, 0, 0.1)"
-  }
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
 });

@@ -1,15 +1,6 @@
-import React from "react";
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  Animated,
-  StyleSheet
-} from "react-native";
-import {
-  styleCommon,
-  fontsCommon
-} from "../../assets/style/stylesCommonValues";
+import React from 'react';
+import {View, TouchableOpacity, Text, Animated, StyleSheet} from 'react-native';
+import {styleCommon, fontsCommon} from '../../assets/style/stylesCommonValues';
 
 class AnglePositionView extends React.Component {
   constructor(props) {
@@ -17,8 +8,8 @@ class AnglePositionView extends React.Component {
     this.state = {
       viewPosition: {
         x: 0,
-        y: 0
-      } // inits to zero
+        y: 0,
+      }, // inits to zero
     };
     this.animatedValue = new Animated.Value();
   }
@@ -40,7 +31,7 @@ class AnglePositionView extends React.Component {
       }
     ).start(); */
   };
-  degToRad = deg => {
+  degToRad = (deg) => {
     return (deg * Math.PI) / 180;
   };
   render() {
@@ -51,7 +42,7 @@ class AnglePositionView extends React.Component {
       label,
       isSelected,
       onSelect,
-      value
+      value,
     } = this.props;
     const angleRad = this.degToRad(angle);
     const radius = containerSize / 2;
@@ -90,20 +81,23 @@ class AnglePositionView extends React.Component {
             height: viewSize,
             borderRadius: viewSize / 2,
             left: x,
-            top: y
+            top: y,
           },
           styles.picker,
-          isSelected ? styles.selectedPicker : {}
-        ]}
-      >
-        <TouchableOpacity style={[{ width: viewSize,
-            height: viewSize, justifyContent: "center",
-            alignItems: "center"}]}
-          onPress={() => onSelect(value)}
-        >
+          isSelected ? styles.selectedPicker : {},
+        ]}>
+        <TouchableOpacity
+          style={[
+            {
+              width: viewSize,
+              height: viewSize,
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          ]}
+          onPress={() => onSelect(value)}>
           <Text
-            style={[styles.textStyle, isSelected ? styles.selectedText : {}]}
-          >
+            style={[styles.textStyle, isSelected ? styles.selectedText : {}]}>
             {label}
           </Text>
         </TouchableOpacity>
@@ -118,21 +112,21 @@ const styles = StyleSheet.create({
   picker: {
     //borderWidth: 1,
     flex: 1,
-    position: "absolute",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: styleCommon.secondaryColorNew
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: styleCommon.secondaryColorNew,
   },
   selectedPicker: {
-    backgroundColor: styleCommon.selectedButtonColor
+    backgroundColor: styleCommon.selectedButtonColor,
   },
   textStyle: {
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: fontsCommon.font15,
     textAlign: 'center',
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
   },
   selectedText: {
-    color: styleCommon.textColor2
-  }
+    color: styleCommon.textColor2,
+  },
 });

@@ -1,16 +1,15 @@
-import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { NON_VEG_ICON, VEG_ICON } from "../common/Common";
-import { timeConverter } from "../common/Util";
-import { styles } from "../../assets/style/stylesCustomListView";
+import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {timeConverter} from '../common/Util';
+import {styles} from '../../assets/style/stylesCustomListView';
 import {
   styleCommon,
   ICON_SIZE_SMALL,
   ICON_SIZE_MED,
-  ICON_SIZE_LARGE
-} from "../../assets/style/stylesCommonValues";
-import { getGoalString } from "../common/Util";
+  ICON_SIZE_LARGE,
+} from '../../assets/style/stylesCommonValues';
+import {getGoalString} from '../common/Util';
 
 const CustomListViewRow = ({
   uid,
@@ -23,26 +22,25 @@ const CustomListViewRow = ({
       selectedMeals,
       likes,
       createdDate,
-      fitnessLevel
-    }
+      fitnessLevel,
+    },
   },
-  navigation
+  navigation,
 }) => (
   <TouchableOpacity
     onPress={() =>
-      navigation.navigate("MyDiet", {
+      navigation.navigate('MyDiet', {
         uid,
         dietId: key,
         selectedProgram,
         selectedGoal,
-        fitnessLevel
+        fitnessLevel,
       })
-    }
-  >
+    }>
     <View style={styles.rowContainer}>
-      <View style={{flex: 1, flexDirection: "row"}}>
+      <View style={{flex: 1, flexDirection: 'row'}}>
         <View style={styles.badgeContainer}>
-         <Icon
+          <Icon
             name="calendar-range"
             size={ICON_SIZE_MED}
             color="white"
@@ -51,7 +49,7 @@ const CustomListViewRow = ({
           <Text style={styles.badgeTitle}>{selectedProgram} Week</Text>
           <Text style={styles.badgeDescription}>Program</Text>
         </View>
-        <View style={styles.container_text}> 
+        <View style={styles.container_text}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{getGoalString(selectedGoal)}</Text>
           </View>
@@ -83,7 +81,7 @@ const CustomListViewRow = ({
         <Text style={styles.likesLabel}>{likes} Likes</Text>
         </View>*/}
       </View>
-      
+
       <View style={styles.rightIcon}>
         <Icon
           name="chevron-right"

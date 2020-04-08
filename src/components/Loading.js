@@ -1,9 +1,9 @@
-import React from "react";
-import { View } from "react-native";
-import LottieView from "lottie-react-native";
-import AnimatedText from "./AnimatedText";
-import { styles } from "../../assets/style/stylesLoading";
-import { SCREEN_HEIGHT } from "../../assets/style/stylesCommonValues";
+import React from 'react';
+import {View} from 'react-native';
+import LottieView from 'lottie-react-native';
+import AnimatedText from './AnimatedText';
+import {styles} from '../../assets/style/stylesLoading';
+import {SCREEN_HEIGHT} from '../../assets/style/stylesCommonValues';
 
 export default class Loading extends React.Component {
   render() {
@@ -13,25 +13,25 @@ export default class Loading extends React.Component {
       isTextNotAvailable,
       animationStr,
       animationHeight,
-      takeFullHeight
+      takeFullHeight,
     } = this.props;
-    let { mainContainer, watermelonAnimationStyle, textStyle } = styles;
+    let {mainContainer, watermelonAnimationStyle, textStyle} = styles;
     if (isTextBold === false) {
       textStyle = {
         ...textStyle,
-        fontWeight: "normal"
+        fontWeight: 'normal',
       };
     }
     if (takeFullHeight) {
       mainContainer = {
         ...mainContainer,
-        height: SCREEN_HEIGHT
+        height: SCREEN_HEIGHT,
       };
     }
     if (animationHeight !== undefined) {
       watermelonAnimationStyle = {
         ...watermelonAnimationStyle,
-        height: animationHeight
+        height: animationHeight,
       };
     }
     return (
@@ -47,9 +47,7 @@ export default class Loading extends React.Component {
           <View style={styles.textViewContainer}>
             <AnimatedText text={text} textStyle={textStyle} />
           </View>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </View>
     );
   }

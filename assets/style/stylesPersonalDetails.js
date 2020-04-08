@@ -1,17 +1,16 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 import {
   styleCommon,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
   fontsCommon,
-  ICON_SIZE
-} from "./stylesCommonValues";
+} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
     //backgroundColor: "moccasin"
   },
   buttonStyle: {
@@ -20,13 +19,13 @@ export const styles = StyleSheet.create({
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 10,
     borderBottomWidth: 0,
-    shadowColor: "grey",
-    shadowOffset: { width: 2, height: 4 },
+    shadowColor: 'grey',
+    shadowOffset: {width: 2, height: 4},
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
     marginHorizontal: 5,
-    marginVertical: 5
+    marginVertical: 5,
   },
   activeButtonStyle: {
     width: SCREEN_WIDTH * 0.75,
@@ -34,34 +33,34 @@ export const styles = StyleSheet.create({
     backgroundColor: styleCommon.secondaryColorNew, //styleCommon.selectedButtonColor,
     borderRadius: 10,
     borderBottomWidth: 0,
-    shadowColor: "grey",
-    shadowOffset: { width: 2, height: 4 },
+    shadowColor: 'grey',
+    shadowOffset: {width: 2, height: 4},
     shadowOpacity: 0.6,
     shadowRadius: 2,
     elevation: 5,
     marginHorizontal: 5,
-    marginVertical: 5
+    marginVertical: 5,
   },
   buttonTitle: {
     flex: 1,
-    textAlign: "left",
+    textAlign: 'left',
     color: styleCommon.textColor1,
     fontSize: fontsCommon.font16,
-    fontWeight: "400"
+    fontWeight: '400',
   },
   activeButtonTitle: {
     flex: 1,
-    textAlign: "left",
+    textAlign: 'left',
     color: styleCommon.textColor1,
-    fontWeight: "700"
+    fontWeight: '700',
   },
   buttonIcon: {
-    color: styleCommon.textColor1
+    color: styleCommon.textColor1,
     //backgroundColor: "red",
   },
   activeButtonIcon: {
     color: styleCommon.selectedButtonColor,
-    height: 40
+    height: 40,
     //backgroundColor: "red",
-  }
+  },
 });

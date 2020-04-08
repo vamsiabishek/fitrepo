@@ -1,11 +1,11 @@
-import React from "react";
-import { View } from "react-native";
-import SelectButton from "../components/SelectButton";
-import { styles } from "../../assets/style/stylesGoal";
+import React from 'react';
+import {View} from 'react-native';
+import SelectButton from '../components/SelectButton';
+import {styles} from '../../assets/style/stylesGoal';
 import {
   styleCommon,
-  ICON_SIZE_EXTRA_LARGE
-} from "../../assets/style/stylesCommonValues";
+  ICON_SIZE_EXTRA_LARGE,
+} from '../../assets/style/stylesCommonValues';
 
 export default class Goal extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class Goal extends React.Component {
   render() {
     const buttonIconColor = styleCommon.textColor1;
     const buttonIconActiveColor = styleCommon.textColor2;
-    const { goal, setGoal } = this.props;
+    const {goal, setGoal} = this.props;
     return (
       <View style={styles.mainContent}>
         <SelectButton

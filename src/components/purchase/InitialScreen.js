@@ -1,17 +1,17 @@
-import React from "react";
-import { ActivityIndicator, Alert, View, Text, Image } from "react-native";
-import { Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Purchases from "react-native-purchases";
-import Modal from "react-native-modal";
-import { f, database } from "../../common/FirebaseConfig";
-import MyButton from "../MyButton";
-import { styles } from "../../../assets/style/stylesInitialScreen";
+import React from 'react';
+import {ActivityIndicator, Alert, View, Text, Image} from 'react-native';
+import {Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Purchases from 'react-native-purchases';
+import Modal from 'react-native-modal';
+import {f, database} from '../../common/FirebaseConfig';
+import MyButton from '../MyButton';
+import {styles} from '../../../assets/style/stylesInitialScreen';
 import {
   styleCommon,
-  ICON_SIZE_MED
-} from "../../../assets/style/stylesCommonValues";
-import { getGoalString, getFitnessLevelString } from "../../common/Util";
+  ICON_SIZE_MED,
+} from '../../../assets/style/stylesCommonValues';
+import {getGoalString, getFitnessLevelString} from '../../common/Util';
 
 export default class InitialScreen extends React.Component {
   constructor(props) {
@@ -19,21 +19,21 @@ export default class InitialScreen extends React.Component {
     this.state = {
       isLoading: false,
       showPurchaseSummary: false,
-      purchaseSummary: undefined
+      purchaseSummary: undefined,
     };
   }
 
   componentDidMount = async () => {
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
     const purchaserInfo = await Purchases.getPurchaserInfo();
-    console.log("Purchaser Info: ", purchaserInfo);
+    console.log('Purchaser Info: ', purchaserInfo);
     if (purchaserInfo.activeEntitlements.length === 0) {
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
     } else {
       this.setState({
         isLoading: false,
         showPurchaseSummary: true,
-        purchaseSummary: purchaserInfo
+        purchaseSummary: purchaserInfo,
       });
     }
   };
@@ -67,52 +67,52 @@ export default class InitialScreen extends React.Component {
     }
   };
 
-  handlePaymentProcess = async priceIdentifier => {
-    this.setState({ isLoading: true });
-    const {uid, dietId} = this.props
+  handlePaymentProcess = async (priceIdentifier) => {
+    this.setState({isLoading: true});
+    const {uid, dietId} = this.props;
     try {
       const purchaseMade = await Purchases.makePurchase(priceIdentifier);
-      console.log("Purchase Made: ", purchaseMade);
-      if (purchaseMade.purchaserInfo.activeEntitlements !== "undefined") {
+      console.log('Purchase Made: ', purchaseMade);
+      if (purchaseMade.purchaserInfo.activeEntitlements !== 'undefined') {
         const purchaseSummary = await Purchases.getPurchaserInfo();
         console.log(purchaseSummary);
-        const purchaseId = uid + "-" + dietId;
+        const purchaseId = uid + '-' + dietId;
         const purchaseDetails = {
           productIdentifier: purchaseSummary.activeEntitlements[0],
-          purchaseId
-        }
+          purchaseId,
+        };
         await database
-        .ref(`users/${uid}/purchases/`)
-        .push({
-          ...purchaseDetails,
-          purchaseDate: f.database.ServerValue.TIMESTAMP,
-        })
-        .then(res => {
-          alert("Purchase Successful !")
-        })
-        .catch(error => {
-          console.log("error while saving purchase details:", error);
-        });
+          .ref(`users/${uid}/purchases/`)
+          .push({
+            ...purchaseDetails,
+            purchaseDate: f.database.ServerValue.TIMESTAMP,
+          })
+          .then((res) => {
+            alert('Purchase Successful !');
+          })
+          .catch((error) => {
+            console.log('error while saving purchase details:', error);
+          });
         this.setState({
           isLoading: false,
           showPurchaseSummary: true,
-          purchaseSummary
+          purchaseSummary,
         });
       }
     } catch (e) {
       if (!e.userCancelled) {
-        this.setState({ isLoading: false });
-        console.log("Error occurred while handling payment: ", e);
+        this.setState({isLoading: false});
+        console.log('Error occurred while handling payment: ', e);
       } else {
-        this.setState({ isLoading: false });
-        console.log("User cancelled payment: ", e);
-        Alert.alert("User cancelled payment !");
+        this.setState({isLoading: false});
+        console.log('User cancelled payment: ', e);
+        Alert.alert('User cancelled payment !');
       }
     }
   };
 
   render() {
-    const { isLoading, showPurchaseSummary, purchaseSummary } = this.state;
+    const {isLoading, showPurchaseSummary, purchaseSummary} = this.state;
     const {
       isVisible,
       selectedGoal,
@@ -121,28 +121,27 @@ export default class InitialScreen extends React.Component {
       fitnessLevel,
       onClose,
       trialDaysLeft,
-      dietTrialEndDate
+      dietTrialEndDate,
     } = this.props;
     const priceObject = this.getPriceObjectOfChosenProgram(
       selectedProgram,
       fitnessLevel,
-      paymentOptions
+      paymentOptions,
     );
-    let activeEntitlement = "";
-    let donePurchase = "";
+    let activeEntitlement = '';
+    let donePurchase = '';
     if (purchaseSummary !== undefined) {
       activeEntitlement = purchaseSummary.activeEntitlements[0];
       donePurchase =
         purchaseSummary.purchaseDatesForActiveEntitlements[activeEntitlement];
-      console.log("Done Purchase: ", donePurchase);
+      console.log('Done Purchase: ', donePurchase);
     }
     return (
       <View>
         <Modal
           isVisible={isVisible}
           backdropColor="black"
-          backdropOpacity={0.5}
-        >
+          backdropOpacity={0.5}>
           <View style={styles.modalInsideStyle}>
             {!isLoading ? (
               <React.Fragment>
@@ -166,24 +165,24 @@ export default class InitialScreen extends React.Component {
                           One Step Away From Healthy Meals !
                         </Text>
                         <Image
-                          source={require("../../../assets/images/healthy_food_3.png")}
+                          source={require('../../../assets/images/healthy_food_3.png')}
                           style={{
-                            margin: 10
+                            margin: 10,
                           }}
                         />
                         <Text style={styles.labelText}>
                           To see the rest of the
                         </Text>
                         <Text style={styles.labelText}>
-                          {selectedProgram}-Week{" "}
-                          {getFitnessLevelString(fitnessLevel)} Level{" "}
+                          {selectedProgram}-Week{' '}
+                          {getFitnessLevelString(fitnessLevel)} Level{' '}
                           {getGoalString(selectedGoal)} Diet Program
                         </Text>
                         <Text style={styles.labelText}>
                           Click below to buy it !
                         </Text>
                         <MyButton
-                          label={"Pay " + priceObject.price_string}
+                          label={'Pay ' + priceObject.price_string}
                           onButtonClick={() =>
                             this.handlePaymentProcess(priceObject.identifier)
                           }
@@ -223,7 +222,7 @@ export default class InitialScreen extends React.Component {
                           Payment Date: {donePurchase}
                         </Text>
                         <MyButton
-                          label={"Done"}
+                          label={'Done'}
                           onButtonClick={() => onClose(true)}
                           containerStyle={styles.targetButtonContainer}
                         />

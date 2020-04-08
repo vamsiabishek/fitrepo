@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   KeyboardAvoidingView,
   TouchableOpacity,
   UIManager,
-  View
-} from "react-native";
-import SelectButton from "../components/SelectButton";
-import DateTimePicker from "react-native-modal-datetime-picker";
-import NumberPicker from "../components/Picker/NumberPicker";
-import TargetWeightTimeline from "./TargetWeightTimeline";
+  View,
+} from 'react-native';
+import SelectButton from '../components/SelectButton';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import NumberPicker from '../components/Picker/NumberPicker';
+import TargetWeightTimeline from './TargetWeightTimeline';
 import {
   MIN_DATE,
   MAX_DATE,
@@ -17,13 +17,13 @@ import {
   MIN_WEIGHT,
   MAX_WEIGHT,
   WEIGHT_RANGE_FINAL,
-  HEIGHT_RANGE_FINAL
-} from "../common/Common";
+  HEIGHT_RANGE_FINAL,
+} from '../common/Common';
 import {
   ICON_SIZE,
-  ICON_SIZE_LARGE
-} from "../../assets/style/stylesCommonValues";
-import { styles } from "../../assets/style/stylesPersonalDetails";
+  ICON_SIZE_LARGE,
+} from '../../assets/style/stylesCommonValues';
+import {styles} from '../../assets/style/stylesPersonalDetails';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -36,34 +36,34 @@ export default class PersonalDetails extends Component {
       isDTPickerVisible: false,
       isWeightNumPickerVisible: false,
       isHeightNumPickerVisible: false,
-      isTargetWeightTimelineVisible: false
+      isTargetWeightTimelineVisible: false,
     };
   }
   showDTPicker = () => {
-    this.setState({ isDTPickerVisible: true });
+    this.setState({isDTPickerVisible: true});
   };
   showWeightNumPicker = () => {
-    this.setState({ isWeightNumPickerVisible: true });
+    this.setState({isWeightNumPickerVisible: true});
   };
   showHeightNumPicker = () => {
-    this.setState({ isHeightNumPickerVisible: true });
+    this.setState({isHeightNumPickerVisible: true});
   };
   showTargetWeightTimeline = () => {
-    this.setState({ isTargetWeightTimelineVisible: true });
+    this.setState({isTargetWeightTimelineVisible: true});
   };
   hideDTPicker = () => {
-    this.setState({ isDTPickerVisible: false });
+    this.setState({isDTPickerVisible: false});
   };
   hideWeightNumPicker = () => {
-    this.setState({ isWeightNumPickerVisible: false });
+    this.setState({isWeightNumPickerVisible: false});
   };
   hideHeightNumPicker = () => {
-    this.setState({ isHeightNumPickerVisible: false });
+    this.setState({isHeightNumPickerVisible: false});
   };
   hideTargetWeightTimeline = () => {
-    this.setState({ isTargetWeightTimelineVisible: false });
+    this.setState({isTargetWeightTimelineVisible: false});
   };
-  handleDTPicker = date => {
+  handleDTPicker = (date) => {
     let currentDate = new Date();
     let dateFormat = new Date(date);
     let newDate = dateFormat.toDateString().substring(4);
@@ -71,11 +71,11 @@ export default class PersonalDetails extends Component {
     this.props.setDob(newDate, ageFromDate);
     this.hideDTPicker();
   };
-  handleNumPickerForWeight = number => {
+  handleNumPickerForWeight = (number) => {
     this.props.setWeight(number);
     this.hideWeightNumPicker();
   };
-  handleNumPickerForHeight = number => {
+  handleNumPickerForHeight = (number) => {
     this.props.setHeight(number);
     this.hideHeightNumPicker();
   };
@@ -94,13 +94,13 @@ export default class PersonalDetails extends Component {
       program,
       programs,
       targetWeight,
-      showTargetWeightButton
+      showTargetWeightButton,
     } = this.props;
     const {
       isDTPickerVisible,
       isWeightNumPickerVisible,
       isHeightNumPickerVisible,
-      isTargetWeightTimelineVisible
+      isTargetWeightTimelineVisible,
     } = this.state;
     return (
       <View style={styles.mainContent}>
@@ -116,7 +116,7 @@ export default class PersonalDetails extends Component {
                 onCancel={this.hideDTPicker}
               />
               <SelectButton
-                title={dob.length === 0 ? "Your Birthday" : dob}
+                title={dob.length === 0 ? 'Your Birthday' : dob}
                 buttonStyle={
                   dob.length === 0
                     ? styles.buttonStyle
@@ -128,7 +128,7 @@ export default class PersonalDetails extends Component {
                     : styles.activeButtonTitle
                 }
                 iconSize={dob.length === 0 ? ICON_SIZE : ICON_SIZE_LARGE}
-                iconName={dob.length === 0 ? "calendar-star" : "birthday"}
+                iconName={dob.length === 0 ? 'calendar-star' : 'birthday'}
                 buttonIcon={
                   dob.length === 0 ? styles.buttonIcon : styles.activeButtonIcon
                 }
@@ -149,7 +149,7 @@ export default class PersonalDetails extends Component {
                 onCancel={this.hideWeightNumPicker}
               />
               <SelectButton
-                title={weight === undefined ? "Your Weight" : weight + " kgs"}
+                title={weight === undefined ? 'Your Weight' : weight + ' kgs'}
                 buttonStyle={
                   weight === undefined
                     ? styles.buttonStyle
@@ -161,7 +161,7 @@ export default class PersonalDetails extends Component {
                     : styles.activeButtonTitle
                 }
                 iconSize={weight === undefined ? ICON_SIZE : ICON_SIZE_LARGE}
-                iconName={weight === undefined ? "scale-bathroom" : "scales"}
+                iconName={weight === undefined ? 'scale-bathroom' : 'scales'}
                 buttonIcon={
                   weight === undefined
                     ? styles.buttonIcon
@@ -184,7 +184,7 @@ export default class PersonalDetails extends Component {
                 onCancel={this.hideHeightNumPicker}
               />
               <SelectButton
-                title={height === undefined ? "Your Height" : height + " cms"}
+                title={height === undefined ? 'Your Height' : height + ' cms'}
                 buttonStyle={
                   height === undefined
                     ? styles.buttonStyle
@@ -196,7 +196,7 @@ export default class PersonalDetails extends Component {
                     : styles.activeButtonTitle
                 }
                 iconSize={height === undefined ? ICON_SIZE : ICON_SIZE_LARGE}
-                iconName={height === undefined ? "ruler" : "straight_ruler"}
+                iconName={height === undefined ? 'ruler' : 'straight_ruler'}
                 buttonIcon={
                   height === undefined
                     ? styles.buttonIcon
@@ -223,8 +223,8 @@ export default class PersonalDetails extends Component {
                 <SelectButton
                   title={
                     targetWeight === undefined && program === undefined
-                      ? "Your Target Weight"
-                      : targetWeight + " kgs in " + program + " Weeks"
+                      ? 'Your Target Weight'
+                      : targetWeight + ' kgs in ' + program + ' Weeks'
                   }
                   buttonStyle={
                     targetWeight === undefined
@@ -239,7 +239,7 @@ export default class PersonalDetails extends Component {
                   iconSize={
                     targetWeight === undefined ? ICON_SIZE : ICON_SIZE_LARGE
                   }
-                  iconName={targetWeight === undefined ? "bullseye" : "dart"}
+                  iconName={targetWeight === undefined ? 'bullseye' : 'dart'}
                   buttonIcon={
                     targetWeight === undefined
                       ? styles.buttonIcon

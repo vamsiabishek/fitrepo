@@ -1,36 +1,36 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   Platform,
   Text,
   View,
   LayoutAnimation,
   UIManager,
-  ImageBackground
-} from "react-native";
-import { LoginManager, AccessToken } from "react-native-fbsdk";
-import { GoogleSignin } from "react-native-google-signin";
-import { Input, Button, SocialIcon } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { styles } from "../../assets/style/stylesLoginScreen";
-import { f, database, auth } from "./../common/FirebaseConfig";
+  ImageBackground,
+} from 'react-native';
+import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import {GoogleSignin} from '@react-native-community/google-signin';
+import {Input, Button, SocialIcon} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {styles} from '../../assets/style/stylesLoginScreen';
+import {f, database, auth} from './../common/FirebaseConfig';
 import {
   EMAIL_VERIFICATION,
   PASSWORD_LENGTH_MINIMUM,
   PROVIDER_GOOGLE,
   PROVIDER_FACEBOOK,
-  GRADIENT_BG_IMAGE
-} from "../common/Common";
-import { setCurrentUser, getCurrentUser } from "../common/Util";
+  GRADIENT_BG_IMAGE,
+} from '../common/Common';
+import {setCurrentUser, getCurrentUser} from '../common/Util';
 import {
   ICON_SIZE,
   btnGradientColorLeft,
   modalBtnGradientColorRight,
   fontsCommon,
-  styleCommon
-} from "../../assets/style/stylesCommonValues";
-import { commonStyles } from "../../assets/style/stylesCommon";
-import Loading from "../components/Loading";
-import LinearGradient from "react-native-linear-gradient";
+  styleCommon,
+} from '../../assets/style/stylesCommonValues';
+import {commonStyles} from '../../assets/style/stylesCommon';
+import Loading from '../components/Loading';
+import LinearGradient from 'react-native-linear-gradient';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -42,15 +42,15 @@ export default class LoginScreen1 extends Component {
     (async () => {
       // All async code here
       //await removeCurrentUser()
-      const user = await getCurrentUser("user_data");
+      const user = await getCurrentUser('user_data');
       if (user) {
-        console.log("uid:", user.uid);
+        console.log('uid:', user.uid);
         this.onLoginSuccess();
       }
     })();
     this.state = {
-      email: "jake@live.com", //"dhivya@gmail.com", //"dhiv.tester1@gmail.com",
-      password: "12345678", //"Dhivya09", // "dhivya123",
+      email: 'jake@live.com', //"dhivya@gmail.com", //"dhiv.tester1@gmail.com",
+      password: '12345678', //"Dhivya09", // "dhivya123",
       //email: "vamsi@gmail.com",
       //password: "vamsi123",
       // email: "test123@gmail.com",
@@ -60,7 +60,7 @@ export default class LoginScreen1 extends Component {
       login_failed: false,
       isLoading: false,
       selectedIndex: 0,
-      secureTextKey: true
+      secureTextKey: true,
     };
     //this.logoutGoogleUser()
   }
@@ -79,108 +79,110 @@ export default class LoginScreen1 extends Component {
     }
   }*/
   onEyeIconPress = () => {
-    this.setState({ secureTextKey: false });
+    this.setState({secureTextKey: false});
   };
   onEyeOffIconPress = () => {
-    this.setState({ secureTextKey: true });
+    this.setState({secureTextKey: true});
   };
-  onEmailChange = email => {
-    this.setState({ email });
+  onEmailChange = (email) => {
+    this.setState({email});
   };
   validateEmail = () => {
-    const { email } = this.state;
+    const {email} = this.state;
     const emailValid = EMAIL_VERIFICATION.test(email);
     LayoutAnimation.easeInEaseOut();
     emailValid || this.emailInput.shake();
     return emailValid;
   };
-  onPasswordChange = password => {
-    this.setState({ password });
+  onPasswordChange = (password) => {
+    this.setState({password});
   };
   validatePassword = () => {
-    const { password } = this.state;
+    const {password} = this.state;
     const passwordValid = password.length >= PASSWORD_LENGTH_MINIMUM;
     LayoutAnimation.easeInEaseOut();
-    this.setState({ passwordValid });
+    this.setState({passwordValid});
     passwordValid || this.passwordInput.shake();
     return passwordValid;
   };
   submitLoginCredentials = () => {
-    const { email, password } = this.state;
+    const {email, password} = this.state;
     const emailValid = this.validateEmail(email);
     const passwordValid = this.validatePassword(password);
-    this.setState({ emailValid, passwordValid });
+    this.setState({emailValid, passwordValid});
     if (emailValid && passwordValid) {
-      this.setState({ isLoading: true });
+      this.setState({isLoading: true});
       this.login();
     }
   };
   login = async () => {
-    const { email, password } = this.state;
+    const {email, password} = this.state;
     try {
       const credentials = await auth.signInWithEmailAndPassword(
         email,
-        password
+        password,
       );
       setCurrentUser(credentials.user);
       this.onLoginSuccess();
     } catch (error) {
-      this.setState({ isLoading: false });
-      alert("Invalid username/password");
+      this.setState({isLoading: false});
+      alert('Invalid username/password');
     }
   };
   onFBLogin = () => {
-    this.setState({ isLoading: true });
-    LoginManager.logInWithReadPermissions(["public_profile", "email"])
-      .then(result => this.getFBTokenFromResponse(result))
-      .then(data => this.getFBCredentialsUsingToken(data))
-      .then(currentUser => {
+    this.setState({isLoading: true});
+    LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+      .then((result) => this.getFBTokenFromResponse(result))
+      .then((data) => this.getFBCredentialsUsingToken(data))
+      .then((currentUser) => {
         //console.log("current FB User:", currentUser);
         setCurrentUser(currentUser.user);
         this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
       })
-      .catch(error => {
-        alert("Login fail with error: " + error);
+      .catch((error) => {
+        alert('Login fail with error: ' + error);
       });
   };
-  getFBTokenFromResponse = result => {
+  getFBTokenFromResponse = (result) => {
     if (result.isCancelled) {
-      this.setState({ isLoading: false });
-      return Promise.reject(new Error("The user cancelled the request"));
+      this.setState({isLoading: false});
+      return Promise.reject(new Error('The user cancelled the request'));
     }
     console.log(
-      "FB login success with permission: ",
-      result.grantedPermissions.toString()
+      'FB login success with permission: ',
+      result.grantedPermissions.toString(),
     );
     //get access token
     return AccessToken.getCurrentAccessToken();
   };
-  getFBCredentialsUsingToken = data => {
+  getFBCredentialsUsingToken = (data) => {
     const credentials = f.auth.FacebookAuthProvider.credential(
-      data.accessToken
+      data.accessToken,
     );
-    console.log("credentials:", credentials);
+    console.log('credentials:', credentials);
     return f.auth().signInAndRetrieveDataWithCredential(credentials);
   };
   onGoogleLogin = async () => {
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
     try {
       // Add any configuration settings here:
-      if (Platform.OS === "android")
+      if (Platform.OS === 'android') {
         await GoogleSignin.configure({
           webClientId:
-            "784097360045-qjliaef9a4kphpdlcoo1v6ff2jj4oaum.apps.googleusercontent.com"
+            '784097360045-qjliaef9a4kphpdlcoo1v6ff2jj4oaum.apps.googleusercontent.com',
         });
-      else await GoogleSignin.configure();
+      } else {
+        await GoogleSignin.configure();
+      }
       await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true
+        showPlayServicesUpdateDialog: true,
       });
       const data = await GoogleSignin.signIn();
 
       // create a new firebase credential with the token
       const credential = f.auth.GoogleAuthProvider.credential(
         data.idToken,
-        data.accessToken
+        data.accessToken,
       );
       // login with credential
       const currentUser = await f
@@ -190,21 +192,22 @@ export default class LoginScreen1 extends Component {
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
       this.onLoginSuccess();
     } catch (error) {
-      alert("Login failed with error ", error.code);
+      alert('Login failed with error ', error.code);
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {
     const {
-      user: { uid }
+      user: {uid},
     } = currentUser;
     const isExistingUser = await this.checkForExistingUser(uid);
-    if (isExistingUser) this.onLoginSuccess();
-    else {
+    if (isExistingUser) {
+      this.onLoginSuccess();
+    } else {
       let newUser = {};
       if (provider === PROVIDER_GOOGLE) {
         const googleUser = await GoogleSignin.getCurrentUser();
         const {
-          user: { id, name, photo, email }
+          user: {id, name, photo, email},
         } = googleUser;
         newUser = {
           uid,
@@ -214,11 +217,11 @@ export default class LoginScreen1 extends Component {
           name,
           avatar: photo,
           provider: PROVIDER_GOOGLE,
-          providerId: id
+          providerId: id,
         };
       } else if (provider === PROVIDER_FACEBOOK) {
-        const { user, additionalUserInfo } = currentUser;
-        const { birthday } = additionalUserInfo.profile;
+        const {user, additionalUserInfo} = currentUser;
+        const {birthday} = additionalUserInfo.profile;
         const dob = new Date(birthday).toDateString().substring(4);
         const age = new Date().getFullYear() - new Date(birthday).getFullYear();
         // user object also contains phone number
@@ -229,41 +232,43 @@ export default class LoginScreen1 extends Component {
           age,
           name: user.displayName,
           avatar: user.photoURL,
-          provider: PROVIDER_FACEBOOK
+          provider: PROVIDER_FACEBOOK,
         };
       }
 
-      const { navigation } = this.props;
-      navigation.navigate("Signup", {
+      const {navigation} = this.props;
+      navigation.navigate('Signup', {
         isExistingUser: true,
         newLogin: true,
         uid,
         newUser,
-        provider
+        provider,
       });
     }
   };
-  checkForExistingUser = async uid => {
+  checkForExistingUser = async (uid) => {
     let isExistingUser = false;
     await database
       .ref(`users/${uid}`)
-      .once("value")
-      .then(snapshot => {
-        if (snapshot.val()) isExistingUser = true;
+      .once('value')
+      .then((snapshot) => {
+        if (snapshot.val()) {
+          isExistingUser = true;
+        }
       });
     return isExistingUser;
   };
   onLoginSuccess = () => {
-    this.setState({ isLoading: false });
-    this.props.navigation.navigate("HomeScreen");
+    this.setState({isLoading: false});
+    this.props.navigation.navigate('HomeScreen');
   };
   signUpButttonClicked = () => {
-    const { navigate } = this.props.navigation;
-    navigate("SignUp");
+    const {navigate} = this.props.navigation;
+    navigate('SignUp');
   };
   onClickForgotPassword = () => {
-    const { navigate } = this.props.navigation;
-    navigate("ForgotPasswordScreen");
+    const {navigate} = this.props.navigation;
+    navigate('ForgotPasswordScreen');
   };
 
   render() {
@@ -273,15 +278,15 @@ export default class LoginScreen1 extends Component {
       passwordValid,
       emailValid,
       isLoading,
-      secureTextKey
+      secureTextKey,
     } = this.state;
     return (
       <ImageBackground source={GRADIENT_BG_IMAGE} style={commonStyles.bgImage}>
         <View style={styles.container}>
           {isLoading ? (
             <Loading
-              text={"Logging you into Fitrepo..."}
-              animationStr={require("../../assets/jsons/user_animation_4.json")}
+              text={'Logging you into Fitrepo...'}
+              animationStr={require('../../assets/jsons/user_animation_4.json')}
               isTextBold={false}
             />
           ) : (
@@ -309,17 +314,17 @@ export default class LoginScreen1 extends Component {
                   keyboardType="email-address"
                   returnKeyType="done"
                   value={email}
-                  onChangeText={value => this.onEmailChange(value)}
-                  ref={input => (this.emailInput = input)}
+                  onChangeText={(value) => this.onEmailChange(value)}
+                  ref={(input) => (this.emailInput = input)}
                   onSubmitEditing={() => {
-                    this.setState({ emailValid: this.validateEmail });
+                    this.setState({emailValid: this.validateEmail});
                     this.passwordInput.focus();
                   }}
                   errorMessage={
-                    emailValid ? null : "Please enter a valid email address"
+                    emailValid ? null : 'Please enter a valid email address'
                   }
                   style={{
-                    fontSize: fontsCommon.font16
+                    fontSize: fontsCommon.font16,
                   }}
                 />
                 <Input
@@ -339,29 +344,30 @@ export default class LoginScreen1 extends Component {
                   keyboardType="default"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  keyboardType="default"
                   returnKeyType="go"
                   secureTextEntry={secureTextKey}
                   value={password}
-                  onChangeText={password => this.onPasswordChange(password)}
-                  ref={input => (this.passwordInput = input)}
+                  onChangeText={(passwordChg) =>
+                    this.onPasswordChange(passwordChg)
+                  }
+                  ref={(input) => (this.passwordInput = input)}
                   onSubmitEditing={() => {
-                    this.setState({ passwordValid: this.validatePassword });
+                    this.setState({passwordValid: this.validatePassword});
                   }}
                   errorMessage={
-                    passwordValid ? null : "Please enter a valid password"
+                    passwordValid ? null : 'Please enter a valid password'
                   }
                   rightIcon={
                     <Button
                       icon={
                         <Icon
-                          name={secureTextKey ? "eye" : "eye-off"}
+                          name={secureTextKey ? 'eye' : 'eye-off'}
                           size={ICON_SIZE}
-                          style={{ color: styleCommon.textColor1 }}
+                          style={{color: styleCommon.textColor1}}
                         />
                       }
                       buttonStyle={{
-                        backgroundColor: "transparent"
+                        backgroundColor: 'transparent',
                       }}
                       onPress={
                         secureTextKey
@@ -386,8 +392,8 @@ export default class LoginScreen1 extends Component {
                   ViewComponent={LinearGradient}
                   linearGradientProps={{
                     colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
-                    start: { x: 0, y: 0.5 },
-                    end: { x: 1, y: 0.5 }
+                    start: {x: 0, y: 0.5},
+                    end: {x: 1, y: 0.5},
                   }}
                   containerStyle={styles.loginButtonContainerStyle}
                   buttonStyle={styles.loginButtonStyle}
@@ -401,7 +407,7 @@ export default class LoginScreen1 extends Component {
                   onPress={() => this.onClickForgotPassword()}
                 />
               </View>
-              <View style={{ ...styles.buttonContainer, flexDirection: "row" }}>
+              <View style={{...styles.buttonContainer, flexDirection: 'row'}}>
                 <SocialIcon
                   style={styles.socialMediaLoginBtn}
                   title="Facebook"

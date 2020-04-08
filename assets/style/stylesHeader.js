@@ -1,62 +1,66 @@
-import { Platform, StyleSheet } from "react-native";
+import {Platform, StyleSheet} from 'react-native';
 import {
   SCREEN_WIDTH,
   styleCommon,
   fontsCommon,
-  DEVICE_NAME
-} from "./stylesCommonValues";
+  DEVICE_NAME,
+} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   backHeaderContainer: {
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     paddingTop:
-      Platform.OS === "ios" ? (DEVICE_NAME.includes("iPhone X") ? 40 : 20) : 10
+      Platform.OS === 'ios'
+        ? DEVICE_NAME.includes('iPhone 11')
+          ? 40
+          : 20
+        : 10,
     //backgroundColor: "blueviolet"
   },
   buttonContainer: {
     width: SCREEN_WIDTH,
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     //backgroundColor: "chartreuse"
   },
   backButtonContainerStyle: {
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
     width: SCREEN_WIDTH / 2,
-    alignItems: "flex-start"
+    alignItems: 'flex-start',
     //backgroundColor: "burlywood"
   },
   backButtonStyle: {
     borderWidth: 0,
-    borderColor: "transparent",
-    backgroundColor: "transparent"
+    borderColor: 'transparent',
+    backgroundColor: 'transparent',
   },
   cancelButtonContainerStyle: {
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     width: SCREEN_WIDTH / 2,
-    alignItems: "flex-end"
+    alignItems: 'flex-end',
     //backgroundColor: "red"
   },
   cancelButtonStyle: {
     borderWidth: 0,
-    borderColor: "transparent",
-    backgroundColor: "transparent"
+    borderColor: 'transparent',
+    backgroundColor: 'transparent',
   },
   cancelTitleStyle: {
     color: styleCommon.textColor1,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   header: {
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
     //backgroundColor: "firebrick"
   },
   headerTitle: {
     padding: 5,
-    textAlign: "center",
-    fontWeight: "bold",
+    textAlign: 'center',
+    fontWeight: 'bold',
     fontSize: fontsCommon.font30,
-    color: styleCommon.headerTitleColor
+    color: styleCommon.headerTitleColor,
     //backgroundColor: "pink"
-  }
+  },
 });

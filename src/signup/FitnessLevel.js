@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import VerticalSelectView from "./VerticalSelectView";
-import { styles } from "../../assets/style/stylesFitnessLevel";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import VerticalSelectView from './VerticalSelectView';
+import {styles} from '../../assets/style/stylesFitnessLevel';
 
 export default class FitnessLevel extends Component {
   render() {
@@ -11,7 +11,7 @@ export default class FitnessLevel extends Component {
       selectedLevel,
       setFitnessLevel,
       alterDimensions,
-      changeFactor
+      changeFactor,
     } = this.props;
     return (
       <View style={styles.mainContent}>

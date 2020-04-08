@@ -1,16 +1,12 @@
-import React, { Component } from "react";
-import { View, ActivityIndicator } from "react-native";
-import { f, database } from "../common/FirebaseConfig";
-import DietGoalPlan from "./DietGoalPlan";
-import SelectFoodSources from "./SelectFoodSources";
-import { styles } from "../../assets/style/stylesCreateDiet";
-import { designDiet } from "../diet/Algorithm/DietAlgorithm";
-import {
-  FOOD_PREF_VEG,
-  FOOD_PREF_NON_VEG,
-  FOOD_PREF_EGGETARIAN
-} from "../common/SourceUtil";
-import { getCurrentUser } from "../common/Util"
+import React, {Component} from 'react';
+import {View, ActivityIndicator} from 'react-native';
+import {f, database} from '../common/FirebaseConfig';
+import DietGoalPlan from './DietGoalPlan';
+import SelectFoodSources from './SelectFoodSources';
+import {styles} from '../../assets/style/stylesCreateDiet';
+import {designDiet} from '../diet/Algorithm/DietAlgorithm';
+import {FOOD_PREF_NON_VEG} from '../common/SourceUtil';
+import {getCurrentUser} from '../common/Util';
 
 export default class CreateDiet extends Component {
   constructor(props) {
@@ -28,15 +24,15 @@ export default class CreateDiet extends Component {
       targetWeight: 0,
       targetWeightIndex: 0,
       foodPreference: FOOD_PREF_NON_VEG,
-      isLoading: false
+      isLoading: false,
     };
   }
 
-  changeSelectionLevel = progress => {
-    const { selectionLevel, totalLevels } = this.state;
+  changeSelectionLevel = (progress) => {
+    const {selectionLevel, totalLevels} = this.state;
     const nextLevel = progress ? selectionLevel + 1 : selectionLevel - 1;
     if (nextLevel > 0 && nextLevel <= totalLevels) {
-      this.setState({ selectionLevel: nextLevel });
+      this.setState({selectionLevel: nextLevel});
     }
   };
 
@@ -48,7 +44,7 @@ export default class CreateDiet extends Component {
     targetWeightIndex,
     selectedMeals,
     progress,
-    foodPreference
+    foodPreference,
   }) => {
     this.setState({
       selectedGoal,
@@ -57,7 +53,7 @@ export default class CreateDiet extends Component {
       targetWeightIndex,
       targetWeight,
       selectedMeals,
-      foodPreference
+      foodPreference,
     });
     this.changeSelectionLevel(progress);
   };
@@ -70,7 +66,7 @@ export default class CreateDiet extends Component {
     targetWeightIndex,
     selectedMeals,
     progress,
-    foodPreference
+    foodPreference,
   }) => {
     this.setState({
       selectedGoal,
@@ -79,22 +75,22 @@ export default class CreateDiet extends Component {
       targetWeightIndex,
       targetWeight,
       selectedMeals,
-      foodPreference
+      foodPreference,
     });
     this.changeSelectionLevel(progress);
-    this.props.navigation.navigate("Diet");
+    this.props.navigation.navigate('Diet');
   };
 
   setSelectedSources = ({
     selectedProteinSources,
     selectedFatSources,
     selectedCarbSources,
-    progress
+    progress,
   }) => {
     this.setState({
       selectedProteinSources,
       selectedFatSources,
-      selectedCarbSources
+      selectedCarbSources,
     });
     this.changeSelectionLevel(progress);
   };
@@ -102,12 +98,12 @@ export default class CreateDiet extends Component {
   createDiet = async ({
     selectedProteinSources,
     selectedFatSources,
-    selectedCarbSources
+    selectedCarbSources,
   }) => {
     this.setState({
       selectedProteinSources,
       selectedFatSources,
-      selectedCarbSources
+      selectedCarbSources,
     });
     const {
       selectedGoal,
@@ -115,10 +111,10 @@ export default class CreateDiet extends Component {
       selectedMeals,
       currentWeight,
       targetWeight,
-      foodPreference
+      foodPreference,
     } = this.state;
-    this.setState({ isLoading: true });
-    const { uid } = await getCurrentUser();
+    this.setState({isLoading: true});
+    const {uid} = await getCurrentUser();
     const completeDietOptions = {
       selectedProteinSources,
       selectedFatSources,
@@ -129,7 +125,7 @@ export default class CreateDiet extends Component {
       currentWeight,
       targetWeight,
       foodPreference,
-      uid
+      uid,
     };
 
     //create diet using these options
@@ -140,7 +136,7 @@ export default class CreateDiet extends Component {
       calFromCarbs,
       calFromCarbsForRD,
       calFromFats,
-      calFromFatsForRD
+      calFromFatsForRD,
     } = mealDetails;
 
     const traningDayCal = calFromProtein + calFromCarbs + calFromFats;
@@ -156,43 +152,43 @@ export default class CreateDiet extends Component {
       traningDayCal,
       restDayCal,
       foodPreference,
-      userId: uid
+      userId: uid,
     };
 
     //save diet and meals
-    const dietId = await this.saveDietAndMeals({ dietDetails, mealDetails });
+    const dietId = await this.saveDietAndMeals({dietDetails, mealDetails});
 
-    this.setState({ selectionLevel: 1 });
+    this.setState({selectionLevel: 1});
 
-    this.props.navigation.navigate("MyDiet", { dietId });
+    this.props.navigation.navigate('MyDiet', {dietId});
   };
 
-  saveDietAndMeals = async ({ dietDetails, mealDetails }) => {
-    let dietId = "";
+  saveDietAndMeals = async ({dietDetails, mealDetails}) => {
+    let dietId = '';
     await database
-      .ref("diets")
+      .ref('diets')
       .push({
         ...dietDetails,
         createdDate: f.database.ServerValue.TIMESTAMP,
-        likes: 0
+        likes: 0,
       })
-      .then(res => {
+      .then((res) => {
         dietId = res.key;
       })
-      .catch(error => {
-        console.log("error while saving new diet:", error);
-        this.setState({ isLoading: false });
+      .catch((error) => {
+        console.log('error while saving new diet:', error);
+        this.setState({isLoading: false});
       });
     await database
-      .ref("meals")
-      .push({ ...mealDetails, dietId })
-      .then(res => {
-        console.log("Successfully saved diet and meals");
-        this.setState({ isLoading: false });
+      .ref('meals')
+      .push({...mealDetails, dietId})
+      .then((res) => {
+        console.log('Successfully saved diet and meals');
+        this.setState({isLoading: false});
       })
-      .catch(error => {
-        console.log("error while saving meals to the diet:", error);
-        this.setState({ isLoading: false });
+      .catch((error) => {
+        console.log('error while saving meals to the diet:', error);
+        this.setState({isLoading: false});
       });
     return dietId;
   };
@@ -209,9 +205,9 @@ export default class CreateDiet extends Component {
       targetWeight,
       targetWeightIndex,
       selectedMeals,
-      isLoading
+      isLoading,
     } = this.state;
-    const name = this.props.navigation.getParam("screenName");
+    const name = this.props.navigation.getParam('screenName');
     return (
       <View style={styles.container}>
         {isLoading && <ActivityIndicator />}

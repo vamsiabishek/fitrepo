@@ -4,54 +4,54 @@ export const proteinSources = {
     fat: 5.2,
     isVeg: true,
     isVegan: true,
-    name: "Amaranth",
+    name: 'Amaranth',
     protein: 9.3,
   },
-  "basa-fish": {
+  'basa-fish': {
     carbs: 0,
     fat: 2.5,
     isVeg: false,
-    name: "Basa Fish",
-    protein: 18
+    name: 'Basa Fish',
+    protein: 18,
   },
-  "black-beans": {
+  'black-beans': {
     carbs: 40.8,
     fat: 0,
     isVeg: true,
     isVegan: true,
-    name: "Black Beans",
+    name: 'Black Beans',
     isStandardForVeg: true,
     isStandardForVegan: true,
     protein: 15.2,
   },
-  "chicken-breast": {
+  'chicken-breast': {
     carbs: 0,
     fat: 4,
     isStandardForNonVeg: true,
     isVeg: false,
-    name: "Chicken breast",
-    protein: 31
+    name: 'Chicken breast',
+    protein: 31,
   },
   chickpeas: {
     carbs: 61,
     fat: 6,
     isVeg: true,
     isVegan: true,
-    name: "Chickpeas/Channa",
+    name: 'Chickpeas/Channa',
     isStandardForVeg: true,
     isStandardForVegan: true,
-    protein: 19
+    protein: 19,
   },
   quinoa: {
     carbs: 64,
     fat: 6,
-    name: "Quinoa",
+    name: 'Quinoa',
     protein: 14,
     isVeg: true,
     isVegan: true,
     isStandardForEgg: true,
   },
-  "egg-white": {
+  'egg-white': {
     carbs: 0,
     fat: 0,
     isBreakfast: true,
@@ -60,10 +60,10 @@ export const proteinSources = {
     isStandardForEgg: true,
     isVeg: false,
     isEggetarian: true,
-    name: "Egg White",
-    protein: 4
+    name: 'Egg White',
+    protein: 4,
   },
-  "egg-whole": {
+  'egg-whole': {
     carbs: 0,
     fat: 4.5,
     isBreakfast: true,
@@ -72,36 +72,36 @@ export const proteinSources = {
     isStandardForEgg: true,
     isVeg: false,
     isEggetarian: true,
-    name: "Whole Egg",
-    protein: 6
+    name: 'Whole Egg',
+    protein: 6,
   },
-  "feta-cheese": {
+  'feta-cheese': {
     carbs: 1,
     fat: 21.5,
     isVeg: true,
-    name: "Feta Cheese",
-    protein: 16.3
+    name: 'Feta Cheese',
+    protein: 16.3,
   },
-  "greek-yogurt": {
+  'greek-yogurt': {
     carbs: 3.6,
     fat: 0,
     isVeg: true,
-    name: "Greek Yogurt",
-    protein: 10
+    name: 'Greek Yogurt',
+    protein: 10,
   },
   lamb: {
     carbs: 0,
     fat: 21,
     isVeg: false,
-    name: "Lamb",
-    protein: 25
+    name: 'Lamb',
+    protein: 25,
   },
   lentils: {
     carbs: 20,
     fat: 0,
     isVeg: true,
     isVegan: true,
-    name: "Lentils",
+    name: 'Lentils',
     protein: 9,
     isStandardForVegan: true,
   },
@@ -109,7 +109,7 @@ export const proteinSources = {
     carbs: 1,
     fat: 21,
     isVeg: true,
-    name: "Paneer",
+    name: 'Paneer',
     protein: 18,
     isStandardForVeg: true,
   },
@@ -117,15 +117,15 @@ export const proteinSources = {
     carbs: 0,
     fat: 6.4,
     isVeg: false,
-    name: "Pork",
-    protein: 31.6
+    name: 'Pork',
+    protein: 31.6,
   },
   prawns: {
     carbs: 0,
     fat: 0.3,
     isVeg: false,
-    name: "Prawns/Shrimps",
-    protein: 24
+    name: 'Prawns/Shrimps',
+    protein: 24,
   },
   rajma: {
     carbs: 23,
@@ -136,37 +136,37 @@ export const proteinSources = {
     isStandardForEgg: true,
     isVeg: true,
     isVegan: true,
-    name: "Kidney Beans/Rajma",
-    protein: 9
+    name: 'Kidney Beans/Rajma',
+    protein: 9,
   },
-  "salmon-fish": {
+  'salmon-fish': {
     carbs: 0,
     fat: 13,
     isVeg: false,
-    name: "Salmon Fish",
-    protein: 20
+    name: 'Salmon Fish',
+    protein: 20,
   },
-  "tilapia-fish": {
+  'tilapia-fish': {
     carbs: 0,
     fat: 2.8,
     isVeg: false,
-    name: "Tilapia Fish",
-    protein: 26
+    name: 'Tilapia Fish',
+    protein: 26,
   },
   tofu: {
     carbs: 8,
     fat: 8,
     isVeg: true,
-    name: "Tofu",
-    protein: 12
+    name: 'Tofu',
+    protein: 12,
   },
-  "tuna-fish": {
+  'tuna-fish': {
     carbs: 0,
     fat: 0.6,
     isVeg: false,
-    name: "Tuna Fish",
-    protein: 29
-  }
+    name: 'Tuna Fish',
+    protein: 29,
+  },
 };
 
 export const fatSources = {
@@ -174,68 +174,68 @@ export const fatSources = {
     carbs: 22,
     fat: 49,
     isStandard: true,
-    name: "Almonds",
+    name: 'Almonds',
     protein: 21,
     isNuts: true,
   },
   avocados: {
     carbs: 9,
     fat: 15,
-    name: "Avocados",
-    protein: 2
+    name: 'Avocados',
+    protein: 2,
   },
   cashews: {
     carbs: 30,
     fat: 44,
-    name: "Cashews",
+    name: 'Cashews',
     protein: 18,
     isNuts: true,
   },
-  "chia-seeds": {
+  'chia-seeds': {
     beginnerDefault: true,
     beginnerDefaultQuantity: 2,
     carbs: 42,
     fat: 31,
     fiber: 34,
     hasTableSpoon: true,
-    name: "Chia seeds",
-    protein: 17
+    name: 'Chia seeds',
+    protein: 17,
   },
-  "flax-seeds": {
+  'flax-seeds': {
     beginnerDefault: true,
     beginnerDefaultQuantity: 2,
     carbs: 29,
     fat: 42,
     fiber: 27,
     hasTableSpoon: true,
-    name: "Flax seeds",
-    protein: 18
+    name: 'Flax seeds',
+    protein: 18,
   },
   ghee: {
     beginnerDefaultQuantity: 2,
     carbs: 0,
     fat: 26,
     hasTableSpoon: true,
-    name: "Ghee",
-    protein: 0
+    name: 'Ghee',
+    protein: 0,
   },
   olives: {
     carbs: 6.4,
     fat: 10.9,
-    name: "Black/Green Olives",
-    protein: 0
+    name: 'Black/Green Olives',
+    protein: 0,
   },
-  "peanut-butter": {
+  'peanut-butter': {
     carbs: 20,
     fat: 50,
     hasTableSpoon: true,
-    name: "Peanut Butter",
-    protein: 25
+    name: 'Peanut Butter',
+    protein: 25,
   },
-  "pumpkin-seeds": {
+  'pumpkin-seeds': {
     carbs: 11,
     fat: 49,
-    name: "Pumpkin Seeds",
+    name: 'Pumpkin Seeds',
     protein: 30,
     isNuts: true,
   },
@@ -243,128 +243,127 @@ export const fatSources = {
     carbs: 14,
     fat: 65,
     isStandard: true,
-    name: "Walnuts",
+    name: 'Walnuts',
     protein: 15,
     isNuts: true,
   },
-  
 };
 
 export const carbSources = {
-  "brown-rice": {
+  'brown-rice': {
     carbs: 23,
     fat: 2.5,
-    name: "Brown rice",
-    protein: 0
+    name: 'Brown rice',
+    protein: 0,
   },
   chapathi: {
     carbs: 18,
     fat: 0,
     isStandard: true,
-    name: "Chapathi",
-    protein: 3
+    name: 'Chapathi',
+    protein: 3,
   },
   oats: {
     carbs: 66,
     fat: 8,
     fiber: 8,
     isStandard: true,
-    name: "Oats",
-    protein: 11
+    name: 'Oats',
+    protein: 11,
   },
   quinoa: {
     carbs: 64,
     fat: 6,
-    name: "Quinoa",
-    protein: 14
+    name: 'Quinoa',
+    protein: 14,
   },
   ragi: {
     carbs: 75.6,
     fat: 4.3,
-    name: "Ragi",
-    protein: 11
+    name: 'Ragi',
+    protein: 11,
   },
-  "sweet-potatoes": {
+  'sweet-potatoes': {
     carbs: 20,
     fat: 0,
-    name: "Sweet Potatoes",
-    protein: 1.6
+    name: 'Sweet Potatoes',
+    protein: 1.6,
   },
-  "wheat-bread": {
+  'wheat-bread': {
     carbs: 41,
     fat: 3.5,
-    name: "Wheat bread",
-    protein: 13
+    name: 'Wheat bread',
+    protein: 13,
   },
-  "white-bread": {
+  'white-bread': {
     carbs: 49,
     fat: 3,
-    name: "White bread",
-    protein: 9
+    name: 'White bread',
+    protein: 9,
   },
-  "white-potatoes": {
+  'white-potatoes': {
     carbs: 17,
     fat: 0,
-    name: "White Potatoes",
-    protein: 2
+    name: 'White Potatoes',
+    protein: 2,
   },
-  "white-rice": {
+  'white-rice': {
     carbs: 28,
     fat: 2.5,
     isStandard: true,
-    name: "White rice",
-    protein: 0
-  }
+    name: 'White rice',
+    protein: 0,
+  },
 };
 
 export const veggies = {
   spinach: {
-    name: "Spinach",
+    name: 'Spinach',
     isStandardForBeginner: true,
     isStandardForIntermediate: true,
     isStandardForAdvanced: true,
     isVeggies: true,
   },
-  "green-beans": {
-    name: "Green beans",
+  'green-beans': {
+    name: 'Green beans',
     isStandardForBeginner: true,
     isStandardForIntermediate: true,
     isVeggies: true,
   },
   cucumber: {
-    name: "Cucumber",
+    name: 'Cucumber',
     isStandardForBeginner: true,
     isStandardForIntermediate: true,
     isStandardForAdvanced: true,
     isVeggies: true,
   },
   broccoli: {
-    name: "Broccoli",
+    name: 'Broccoli',
     isStandardForAdvanced: true,
     isVeggies: true,
   },
-  "cauliflower": {
-    name: "Cauliflower",
+  cauliflower: {
+    name: 'Cauliflower',
     isStandardForIntermediate: true,
     isVeggies: true,
   },
-}
+};
 
 export const fruits = {
   Orange: {
-    name: "Orange",
+    name: 'Orange',
     isStandardForBeginner: true,
     isStandardForIntermediate: true,
     isStandardForAdvanced: true,
-    defaultQuantity: "1 medium size",
+    defaultQuantity: '1 medium size',
     isFruit: true,
   },
   pomegranate: {
-    name: "Pomegranate",
+    name: 'Pomegranate',
     isStandardForBeginner: true,
     isStandardForIntermediate: true,
     isStandardForAdvanced: true,
-    defaultQuantity: "1/2 cup",
+    defaultQuantity: '1/2 cup',
     isFruit: true,
   },
-}
+};
