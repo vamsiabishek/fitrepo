@@ -10,9 +10,9 @@ module.exports = {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
-        inlineRequires: false
-      }
+        inlineRequires: false,
+      },
     }),
-    assetPlugins: ["react-native-svg-asset-plugin"]
-  }
+    assetPlugins: ['react-native-svg-asset-plugin'],
+  },
 };
