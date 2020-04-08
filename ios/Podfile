@@ -49,6 +49,7 @@ target 'fitlog' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons/RNVectorIcons.podspec'
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native/lottie-react-native.podspec'
   pod 'lottie-ios'
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
   target 'fitlogTests' do
     inherit! :search_paths

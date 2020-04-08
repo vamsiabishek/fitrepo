@@ -1,15 +1,15 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   Text,
   View,
   ScrollView,
   Animated,
   Easing,
-  UIManager
-} from "react-native";
-import Timeline from "react-native-timeline-listview";
-import { styles } from "../../../assets/style/stylesMealContainer";
-import { MEALS_ICON } from "../../common/Common";
+  UIManager,
+} from 'react-native';
+import Timeline from 'react-native-timeline-flatlist';
+import {styles} from '../../../assets/style/stylesMealContainer';
+import {MEALS_ICON} from '../../common/Common';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -20,7 +20,7 @@ export default class MealsContainer extends Component {
     super(props);
     this.state = {
       setIconUp: false,
-      selected: null
+      selected: null,
     };
     this.onLoadAnimatedValue = new Animated.Value(0);
   }
@@ -30,11 +30,11 @@ export default class MealsContainer extends Component {
       toValue: 1,
       duration: 1000,
       easing: Easing.ease,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start(() => (this.onLoadAnimatedValue = new Animated.Value(0)));
   };
 
-  shouldComponentUpdate = nextProps => {
+  shouldComponentUpdate = (nextProps) => {
     return this.props.meals !== nextProps.meals;
   };
 
@@ -43,7 +43,7 @@ export default class MealsContainer extends Component {
       toValue: 1,
       duration: 500,
       easing: Easing.ease,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
   };
   handlePressOut = () => {
@@ -51,7 +51,7 @@ export default class MealsContainer extends Component {
       toValue: 0,
       duration: 500,
       easing: Easing.ease,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
   };
 
@@ -65,21 +65,25 @@ export default class MealsContainer extends Component {
       ); */
   };
 
-  onEventPress = data => {
-    this.setState({ selected: data });
+  onEventPress = (data) => {
+    this.setState({selected: data});
   };
 
   renderDetail = (rowData, sectionID, rowID) => {
-    let title = <View  style={styles.titleContainer}><Text style={[styles.title]}>{rowData.name}</Text></View>;
+    let title = (
+      <View style={styles.titleContainer}>
+        <Text style={[styles.title]}>{rowData.name}</Text>
+      </View>
+    );
     var desc = null;
     const rotateX = this.onLoadAnimatedValue.interpolate({
       inputRange: [0, 0.5, 1],
-      outputRange: ["0deg", "45deg", "0deg"]
+      outputRange: ['0deg', '45deg', '0deg'],
     });
     const onLoadAnimatedStyle = {
-      transform: [{ rotateX }]
+      transform: [{rotateX}],
     };
-    if (rowData.sources)
+    if (rowData.sources) {
       desc = (
         <View style={styles.descriptionContainer}>
           {/* <View style={styles.mealItem}>
@@ -87,12 +91,17 @@ export default class MealsContainer extends Component {
             <Text style={styles.mealItemQuantityLabel}>Quantity</Text>
           </View> */}
           {rowData.sources.map((source, index) => {
-            let metricUnit = "gm";
-            if (source.isPerSingleUnit) metricUnit = "";
-            if (source.hasTableSpoon) metricUnit = "tbsp";
+            let metricUnit = 'gm';
+            if (source.isPerSingleUnit) {
+              metricUnit = '';
+            }
+            if (source.hasTableSpoon) {
+              metricUnit = 'tbsp';
+            }
             let quantity = `${source.macroValue} ${metricUnit}`;
-            if (source.isVeggie || source.isFruit)
+            if (source.isVeggie || source.isFruit) {
               quantity = source.macroValueAlt;
+            }
             return (
               <View style={styles.mealItem} key={index}>
                 <Text style={styles.mealItemName}>{source.name}</Text>
@@ -102,6 +111,7 @@ export default class MealsContainer extends Component {
           })}
         </View>
       );
+    }
 
     return (
       <Animated.View style={[styles.mealContainer, onLoadAnimatedStyle]}>
@@ -116,9 +126,11 @@ export default class MealsContainer extends Component {
       meals,
       dayBarScrollY,
       showDayLabelOnScroll,
-      hideDayLabelOnScroll
+      hideDayLabelOnScroll,
     } = this.props;
-    if (meals.length > 0) meals.map(meal => (meal.icon = MEALS_ICON));
+    if (meals.length > 0) {
+      meals.map((meal) => (meal.icon = MEALS_ICON));
+    }
     return (
       <ScrollView
         removeClippedSubviews={false}
@@ -126,15 +138,14 @@ export default class MealsContainer extends Component {
           {
             nativeEvent: {
               contentOffset: {
-                y: dayBarScrollY
-              }
-            }
-          }
+                y: dayBarScrollY,
+              },
+            },
+          },
         ])}
         scrollEventThrottle={320}
-        onScrollEndDrag={e => showDayLabelOnScroll(e)}
-        onMomentumScrollEnd={e => hideDayLabelOnScroll(e)}
-      >
+        onScrollEndDrag={(e) => showDayLabelOnScroll(e)}
+        onMomentumScrollEnd={(e) => hideDayLabelOnScroll(e)}>
         {/*this.renderSelected()*/}
         <Timeline
           style={styles.list}
@@ -144,17 +155,17 @@ export default class MealsContainer extends Component {
           //circleColor="white"
           lineColor="lightgrey"
           timeStyle={{
-            textAlign: "center",
-            color: "white",
-            borderRadius: 13
+            textAlign: 'center',
+            color: 'white',
+            borderRadius: 13,
           }}
-          descriptionStyle={{ color: "gray" }}
+          descriptionStyle={{color: 'gray'}}
           options={{
-            style: { paddingTop: 5 },
-            enableEmptySections: true
+            style: {paddingTop: 5},
+            enableEmptySections: true,
           }}
           showTime="false"
-          innerCircle={"icon"}
+          innerCircle={'icon'}
           //dotColor="skyblue"
           //onEventPress={this.onEventPress}
           renderDetail={this.renderDetail}

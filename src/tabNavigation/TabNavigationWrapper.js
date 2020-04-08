@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-  createSwitchNavigator,
-  createAppContainer,
-  createBottomTabNavigator,
-  createStackNavigator,
-} from 'react-navigation';
+import {createSwitchNavigator, createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 import StartUpScreen from './../startupscreen/StartUpScreen';
 import LoginScreen from './../login/LoginScreen1';
 import ForgotPasswordScreen from './../login/ForgotPasswordScreen';
