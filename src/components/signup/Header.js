@@ -36,7 +36,7 @@ export default class Header extends React.Component {
               icon={{
                 name: "arrow-left-thick",
                 size: ICON_BACK_SIZE,
-                color: styleCommon.secondaryButtonTextColor,
+                color: styleCommon.headerIconsColor,
                 type: "material-community"
               }}
               containerStyle={styles.backButtonContainerStyle}
@@ -48,7 +48,7 @@ export default class Header extends React.Component {
                 icon={{
                   name: "close",
                   size: ICON_BACK_SIZE,
-                  color: styleCommon.secondaryButtonTextColor,
+                  color: styleCommon.headerIconsColor,
                   type: "material-community"
                 }}
                 containerStyle={styles.cancelButtonContainerStyle}

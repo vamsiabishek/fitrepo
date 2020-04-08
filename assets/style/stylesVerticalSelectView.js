@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     height: SCREEN_HEIGHT * 0.15,
     width: SCREEN_HEIGHT * 0.15, //SCREEN_WIDTH * 0.32,
-    backgroundColor: styleCommon.secondaryButtonColor,
+    backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: (SCREEN_HEIGHT * 0.15) / 2
   },
   iconImageStyle: {
@@ -70,11 +70,11 @@ export const styles = StyleSheet.create({
   levelTitleStyle: {
     fontSize: fontsCommon.font15,
     fontWeight: "bold",
-    color: styleCommon.secondaryButtonTextColor
+    color: styleCommon.textColorDesc
   },
   levelDescriptionStyle: {
     width: SCREEN_WIDTH * 0.48, //180,
     fontSize: fontsCommon.font13,
-    color: styleCommon.secondaryButtonTextColor
+    color: styleCommon.textColorDesc
   }
 });

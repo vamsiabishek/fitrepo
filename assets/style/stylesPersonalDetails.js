@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     width: SCREEN_WIDTH * 0.75,
     height: SCREEN_HEIGHT * 0.097, //65,
-    backgroundColor: styleCommon.secondaryButtonColor,
+    backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 10,
     borderBottomWidth: 0,
     shadowColor: "grey",
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   activeButtonStyle: {
     width: SCREEN_WIDTH * 0.75,
     height: SCREEN_HEIGHT * 0.097, //65,
-    backgroundColor: styleCommon.secondaryButtonColor, //styleCommon.selectedButtonColor,
+    backgroundColor: styleCommon.secondaryColorNew, //styleCommon.selectedButtonColor,
     borderRadius: 10,
     borderBottomWidth: 0,
     shadowColor: "grey",
@@ -45,18 +45,18 @@ export const styles = StyleSheet.create({
   buttonTitle: {
     flex: 1,
     textAlign: "left",
-    color: styleCommon.secondaryButtonTextColor,
-    fontSize: fontsCommon.font15,
-    fontWeight: "300"
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font16,
+    fontWeight: "400"
   },
   activeButtonTitle: {
     flex: 1,
     textAlign: "left",
-    color: styleCommon.secondaryButtonTextColor,
-    fontWeight: "500"
+    color: styleCommon.textColor1,
+    fontWeight: "700"
   },
   buttonIcon: {
-    color: styleCommon.secondaryButtonTextColor
+    color: styleCommon.textColor1
     //backgroundColor: "red",
   },
   activeButtonIcon: {

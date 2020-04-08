@@ -58,7 +58,7 @@ export default class EmailOrMobileSignup extends Component {
           leftIcon={
             <Icon
               name="email"
-              color={styleCommon.textColor1}
+              color={styleCommon.iconColor}
               size={ICON_SIZE_MED}
             />
           }
@@ -88,7 +88,7 @@ export default class EmailOrMobileSignup extends Component {
           leftIcon={
             <Icon
               name="lock"
-              color={styleCommon.textColor1}
+              color={styleCommon.iconColor}
               size={ICON_SIZE_MED}
             />
           }
@@ -123,7 +123,7 @@ export default class EmailOrMobileSignup extends Component {
                 <Icon
                   name={secureTextKeyP ? "eye" : "eye-off"}
                   size={ICON_SIZE}
-                  style={{ color: styleCommon.textColor1 }}
+                  style={{ color: styleCommon.iconColor }}
                 />
               }
               buttonStyle={{
@@ -140,7 +140,7 @@ export default class EmailOrMobileSignup extends Component {
           leftIcon={
             <Icon
               name="asterisk"
-              color={styleCommon.textColor1}
+              color={styleCommon.iconColor}
               size={ICON_SIZE_MED}
             />
           }
@@ -176,7 +176,7 @@ export default class EmailOrMobileSignup extends Component {
                 <Icon
                   name={secureTextKeyCP ? "eye" : "eye-off"}
                   size={ICON_SIZE}
-                  style={{ color: styleCommon.textColor1 }}
+                  style={{ color: styleCommon.iconColor }}
                 />
               }
               buttonStyle={{

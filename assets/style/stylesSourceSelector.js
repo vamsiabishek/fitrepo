@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   sourceSelectorLabel: {
     fontSize: fontsCommon.font22,
     fontWeight: "600",
-    color: styleCommon.textColor1
+    color: styleCommon.textColorDesc
     //backgroundColor: "red"
   },
   selectedSourcesContainer: {
@@ -54,6 +54,6 @@ export const styles = StyleSheet.create({
     color: styleCommon.textColor2
   },
   iconStyle: {
-    color: styleCommon.textColor1
+    color: styleCommon.iconColor
   }
 });

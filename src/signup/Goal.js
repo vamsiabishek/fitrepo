@@ -12,7 +12,7 @@ export default class Goal extends React.Component {
     super(props);
   }
   render() {
-    const buttonIconColor = styleCommon.secondaryButtonTextColor;
+    const buttonIconColor = styleCommon.textColor1;
     const buttonIconActiveColor = styleCommon.textColor2;
     const { goal, setGoal } = this.props;
     return (

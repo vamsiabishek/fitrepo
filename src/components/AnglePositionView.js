@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: styleCommon.secondaryButtonColor
+    backgroundColor: styleCommon.secondaryColorNew
   },
   selectedPicker: {
     backgroundColor: styleCommon.selectedButtonColor
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: fontsCommon.font15,
     textAlign: 'center',
-    color: styleCommon.secondaryButtonTextColor
+    color: styleCommon.textColor1
   },
   selectedText: {
     color: styleCommon.textColor2

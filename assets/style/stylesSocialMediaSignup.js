@@ -41,6 +41,6 @@ export const styles = StyleSheet.create({
     left: -20
   },
   textColor: {
-    color: styleCommon.textColor1
+    color: styleCommon.textColorDesc
   },
 });

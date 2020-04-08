@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: fontsCommon.font30,
-    color: styleCommon.secondaryButtonTextColor
+    color: styleCommon.headerTitleColor
     //backgroundColor: "pink"
   }
 });

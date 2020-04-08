@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     height: DEVICE_NAME.includes("iPhone X")
       ? SCREEN_HEIGHT * 0.17
       : SCREEN_HEIGHT * 0.21, //140,
-    backgroundColor: styleCommon.secondaryColor,
+    backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 20,
     borderBottomWidth: 0,
     shadowColor: "grey",

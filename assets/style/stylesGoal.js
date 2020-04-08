@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     width: SCREEN_WIDTH * 0.75,
     height: SCREEN_HEIGHT * 0.12, //80,
-    backgroundColor: styleCommon.secondaryButtonColor,
+    backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 10,
     borderBottomWidth: 0,
     shadowColor: "grey",
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
   buttonTitle: {
     fontWeight: "600",
     fontSize: fontsCommon.font18,
-    color: styleCommon.secondaryButtonTextColor
+    color: styleCommon.textColor1
     //backgroundColor: "sandybrown"
   },
   activeButtonTitle: {

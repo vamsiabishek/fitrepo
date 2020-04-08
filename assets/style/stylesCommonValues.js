@@ -78,15 +78,20 @@ export const styleCommon = {
   primaryButtonColor: "#2c7873",
   primaryButtonTextColor: "white",
   secondaryColor: "#d1feff", // Box light Blue color
-  secondaryColorNew: "#b0cfb8", //"#a1be95",
+  secondaryColorNew: "#b0cfb8", // bright green color
   secondaryButtonColor: "#d1feff",
   secondaryButtonTextColor: "#004a94", // bottom Dark Blue Color
-  textColor1: "#004445",
+  headerIconsColor: "#b0cfb8", // bright green color
+  headerTitleColor: "#b0cfb8", // bright green color
+  textColor1: "#004445", // dark green for text
   //textColor1: "black",
   textColor2: "white",
   textColor3: "#d1feff", // Box light Blue color
   textColorWhite: 'white',
   textColorTitles: 'white',
+  textColorDesc:  "#b0cfb8", // bright green color
+  iconColor: "#b0cfb8", // bright green color
+  textInputColor: "#b0cfb8", // bright green color
   descTextColor: "#808080", // dark gray
   unSelected: "#d3d3d3",
   disableColor: "#d3d3d3", // Light grey

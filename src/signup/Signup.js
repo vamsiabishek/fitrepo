@@ -168,6 +168,7 @@ export default class Signup extends Component {
           age: mediaUser.age
         });
     }
+    this.scrollToNextScreenForExistingOrNewLoggedInUser(6);
   };
 
   goToNext = () => {
@@ -938,10 +939,7 @@ export default class Signup extends Component {
     return (
       <View style={commonStyles.container}>
         <StatusBar hidden={true} />
-        <ImageBackground
-          source={GRADIENT_BG_IMAGE}
-          style={commonStyles.bgImage}
-        >
+        <View style={commonStyles.bgImage}>
           {isLoadingComponent ? (
             <ActivityIndicator
               color={styleCommon.textColor1}
@@ -1131,7 +1129,7 @@ export default class Signup extends Component {
               </View>
             </ScrollView>
           )}
-        </ImageBackground>
+        </View>
       </View>
     );
   }

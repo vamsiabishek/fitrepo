@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.73,
     marginHorizontal: 10,
     marginBottom: 8,
-    backgroundColor: "transparent"
+    //backgroundColor: "white"
   },
   inputContainer: {
     justifyContent: "center",
@@ -24,16 +24,17 @@ export const styles = StyleSheet.create({
 
     borderWidth: 1,
     borderRadius: 50,
-    borderColor: styleCommon.textColor1,
+    borderColor: styleCommon.textInputColor,
     height: 55,
-    marginTop: 6
+    marginTop: 6,
+    backgroundColor: "white"
   },
   inputStyle: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    color: styleCommon.textColor1,
+    color: styleCommon.textInputColor,
     fontSize: 16
   },
   errorInputStyle: {

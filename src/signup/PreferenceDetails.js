@@ -65,8 +65,8 @@ export default class PreferenceDetails extends Component {
     else if (foodPreference === 1) foodPrefIcon = "green_salad";
     else if (foodPreference === 2) foodPrefIcon = "fried_egg";
 
-    const containerSize = 140;
-    const angleViewSize = 90;
+    const containerSize = 160;
+    const angleViewSize = 100;
 
     return (
       <View style={styles.mainContent}>

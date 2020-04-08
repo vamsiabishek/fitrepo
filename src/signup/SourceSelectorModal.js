@@ -13,6 +13,7 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MyButton from "../components/MyButton";
+import { styleCommon, BG_COLOR } from '../../assets/style/stylesCommonValues'
 
 export default class SourceSelectorModal extends Component {
   render() {
@@ -27,9 +28,9 @@ export default class SourceSelectorModal extends Component {
       searchTerm,
       onSearch
     } = this.props;
-    const searchPlaceholderTextColor = "#999";
+    const searchPlaceholderTextColor = "grey";
     const searchPlaceholderText = "Search sources...";
-    const searchSelectionColor = "rgba(0,0,0,0.2)";
+    const searchSelectionColor = "black"//"rgba(0,0,0,0.2)";
 
     return (
       <View>
@@ -93,11 +94,13 @@ export default class SourceSelectorModal extends Component {
                       {source.selected && (
                         <MaterialIcon
                           name="check-circle"
+                          reversed
+                          raised
                           size={17}
                           style={{
                             position: "absolute",
                             right: 5,
-                            color: "#4286f4"
+                            color: "blue"
                           }}
                         />
                       )}
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: "row",
     paddingVertical: 5,
-    backgroundColor: "#d1feff",
+    backgroundColor: "#6ac8c2",
     borderBottomWidth: 1,
     borderColor: "lightgrey"
   },
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   modalContent: {
-    backgroundColor: "#d1feff",
+    backgroundColor: "#6ac8c2",
     height: SCREEN_HEIGHT - 100,
     marginTop: 20,
     //justifyContent: "center",

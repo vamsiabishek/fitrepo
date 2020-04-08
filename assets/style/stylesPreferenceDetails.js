@@ -49,15 +49,15 @@ export const styles = StyleSheet.create({
     padding: 5,
     textAlign: "left",
     alignItems: "center",
-    color: styleCommon.secondaryButtonTextColor,
-    fontSize: fontsCommon.font15,
+    color: styleCommon.textColorDesc,
+    fontSize: fontsCommon.font16,
     fontWeight: "bold"
   },
   headerIconStyle: {
     paddingRight: 10,
     marginRight: 10,
     height: 40,
-    color: styleCommon.selectedButtonColor
+    color: styleCommon.textColorDesc
   },
   contentBoxMainStyle: {
     width: SCREEN_WIDTH * 0.8,
@@ -91,7 +91,7 @@ export const styles = StyleSheet.create({
   mealsNumber: {
     width: 25,
     height: 25,
-    backgroundColor: styleCommon.selectedButtonColor,
+    backgroundColor: styleCommon.secondaryColorNew,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10

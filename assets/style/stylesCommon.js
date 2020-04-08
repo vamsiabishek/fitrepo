@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from "./stylesCommonValues";
+import { SCREEN_WIDTH, SCREEN_HEIGHT, BG_COLOR } from "./stylesCommonValues";
 
 const commonStyles = StyleSheet.create({
   container: {
@@ -12,7 +12,8 @@ const commonStyles = StyleSheet.create({
     //justifyContent: "center",
     //alignItems: "center",
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT
+    height: SCREEN_HEIGHT,
+    backgroundColor: BG_COLOR
   },
   subContainer: {
     width: SCREEN_WIDTH,

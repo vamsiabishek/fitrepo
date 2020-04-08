@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
   },
   iconTextStyle: {
     fontSize: 11,
-    color: "#494b50"
+    color: styleCommon.textColor1
   },
   labelContainer: {
     width: 32,
@@ -47,6 +47,6 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     alignItems: "center",
     justifyContent: "center",
-    color: styleCommon.textColor1
+    color: "black"
   }
 });
