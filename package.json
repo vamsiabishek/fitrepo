@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "postinstall": "react-native-schemes-manager all",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
-    "build:android": "react-native bundle --entry-file='index.js' --bundle-output='./android/main.jsbundle' --dev=false --platform='ios'"
+    "build:android": "react-native bundle --entry-file='index.android.js' --bundle-output='./android/app/src/main/assets/index.android.bundle' --dev=false --platform='android'"
   },
   "dependencies": {
     "@firebase/app-types": "0.x",

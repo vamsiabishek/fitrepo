@@ -145,7 +145,6 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation project(':@react-native-community_google-signin')
     implementation project(':@react-native-community_masked-view')
     implementation project(':@react-native-community_datetimepicker')
     implementation project(':react-native-safe-area-context')
