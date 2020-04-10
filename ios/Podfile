@@ -51,6 +51,10 @@ target 'fitlog' do
   pod 'lottie-ios'
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
+
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+
   target 'fitlogTests' do
     inherit! :search_paths
     # Pods for testing

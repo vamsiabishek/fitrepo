@@ -143,19 +143,21 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':@react-native-community_google-signin')
+    implementation project(':@react-native-community_masked-view')
+    implementation project(':@react-native-community_datetimepicker')
+    implementation project(':react-native-safe-area-context')
+    implementation project(':react-native-reanimated')
     implementation project(':react-native-purchases')
-    implementation project(':react-native-navigation-bar-color')
     implementation project(':lottie-react-native')
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-device-info')
-    implementation project(':react-native-image-picker')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-screens')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-gesture-handler')
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation "com.facebook.react:react-native:${var}"  // From node_modules
     implementation "com.google.android.gms:play-services-wallet:16.0.1"
     implementation 'com.google.firebase:firebase-core:16.0.1'
 }
