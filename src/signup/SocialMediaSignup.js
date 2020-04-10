@@ -40,6 +40,7 @@ export default class SocialMediaSignup extends Component {
     }
     Animated.spring(animatedValue, {
       toValue: 0.5,
+      useNativeDriver: false,
     }).start();
   };
   handlePressOut = (media) => {
@@ -56,6 +57,7 @@ export default class SocialMediaSignup extends Component {
       toValue: 1,
       friction: 3, //default 7
       tension: 40,
+      useNativeDriver: true,
     }).start();
 
     if (media === 'FB') {

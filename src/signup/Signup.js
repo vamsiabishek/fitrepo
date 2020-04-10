@@ -292,7 +292,7 @@ export default class Signup extends Component {
       this.setState({screen: this.state.screen + 2, navButtonActive: false});
     } else {
       let scrollValue = commonValues.SCREEN_WIDTH * currentScreen;
-      this.scrollRef.scrollTo({x: scrollValue});
+      this.scrollRef.scrollTo({x: scrollValue, animated: true});
       this.setState({screen: this.state.screen + 1, navButtonActive: false});
     }
   };
@@ -985,8 +985,8 @@ export default class Signup extends Component {
             />
           ) : (
             <ScrollView
-              horizontal="true"
-              scrollEnabled={false}
+              horizontal={true}
+              scrollEnabled={true}
               ref={(scrollView) => {
                 this.scrollRef = scrollView;
               }}

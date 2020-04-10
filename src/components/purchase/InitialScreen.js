@@ -2,7 +2,11 @@ import React from 'react';
 import {ActivityIndicator, Alert, View, Text, Image} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Purchases from 'react-native-purchases';
+import {
+  getPurchaserInfoAndActiveEntitlements,
+  getPurchaserInfo,
+  makePurchase,
+} from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
 import {f, database} from '../../common/FirebaseConfig';
 import MyButton from '../MyButton';
@@ -24,10 +28,14 @@ export default class InitialScreen extends React.Component {
   }
 
   componentDidMount = async () => {
+    console.log("component did mount")
     this.setState({isLoading: true});
-    const purchaserInfo = await Purchases.getPurchaserInfo();
+    const {
+      purchaserInfo,
+      activeEntitlements,
+    } = await getPurchaserInfoAndActiveEntitlements();
     console.log('Purchaser Info: ', purchaserInfo);
-    if (purchaserInfo.activeEntitlements.length === 0) {
+    if (activeEntitlements.length === 0) {
       this.setState({isLoading: false});
     } else {
       this.setState({
@@ -39,6 +47,7 @@ export default class InitialScreen extends React.Component {
   };
 
   getPriceObjectOfChosenProgram = (program, fitnessLevel, paymentOptions) => {
+    console.log("program, fitnessLevel, paymentOptions", program, fitnessLevel, paymentOptions)
     switch (program) {
       case 4:
         return fitnessLevel === 1
@@ -71,10 +80,10 @@ export default class InitialScreen extends React.Component {
     this.setState({isLoading: true});
     const {uid, dietId} = this.props;
     try {
-      const purchaseMade = await Purchases.makePurchase(priceIdentifier);
+      const purchaseMade = await makePurchase(priceIdentifier);
       console.log('Purchase Made: ', purchaseMade);
       if (purchaseMade.purchaserInfo.activeEntitlements !== 'undefined') {
-        const purchaseSummary = await Purchases.getPurchaserInfo();
+        const purchaseSummary = await getPurchaserInfo();
         console.log(purchaseSummary);
         const purchaseId = uid + '-' + dietId;
         const purchaseDetails = {
@@ -112,6 +121,7 @@ export default class InitialScreen extends React.Component {
   };
 
   render() {
+    console.log("render")
     const {isLoading, showPurchaseSummary, purchaseSummary} = this.state;
     const {
       isVisible,
@@ -128,6 +138,7 @@ export default class InitialScreen extends React.Component {
       fitnessLevel,
       paymentOptions,
     );
+    console.log("priceObject", priceObject)
     let activeEntitlement = '';
     let donePurchase = '';
     if (purchaseSummary !== undefined) {

@@ -6,9 +6,17 @@ import {withNavigation} from 'react-navigation';
 import {createKeyAndValuesFromResult} from '../common/Util';
 import {styleCommon, fontsCommon} from '../../assets/style/stylesCommonValues';
 import {getCurrentUser} from '../common/Util';
+import Loading from '../components/Loading';
 
 class AddButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+    };
+  }
   addNew = async () => {
+    this.setState({isLoading: true});
     const {uid} = await getCurrentUser();
     let latestDiet = {};
     await database
@@ -19,6 +27,7 @@ class AddButton extends React.Component {
       .then((snap) => {
         const results = snap.val();
         latestDiet = createKeyAndValuesFromResult(results)[0];
+        this.setState({isLoading: false});
       })
       .catch((error) => {
         latestDiet = undefined;
@@ -62,29 +71,37 @@ class AddButton extends React.Component {
   };
   render() {
     const SIZE = fontsCommon.font80;
+    const {isLoading} = this.state;
     return (
       <View
         style={{
           position: 'absolute',
           alignItems: 'center',
         }}>
-        <TouchableHighlight
-          onPress={() => this.addNew()}
-          underlayColor="#2882D8"
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: SIZE,
-            height: SIZE,
-            borderRadius: SIZE / 2,
-            backgroundColor: '#FA8072',
-          }}>
-          <Icon
-            name="plus"
-            size={fontsCommon.font28}
-            color={styleCommon.textColor1}
+        {isLoading ? (
+          <Loading
+            isTextNotAvailable
+            animationStr={require('../../assets/jsons/user_animation_4.json')}
           />
-        </TouchableHighlight>
+        ) : (
+          <TouchableHighlight
+            onPress={() => this.addNew()}
+            underlayColor="#2882D8"
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: SIZE,
+              height: SIZE,
+              borderRadius: SIZE / 2,
+              backgroundColor: '#FA8072',
+            }}>
+            <Icon
+              name="plus"
+              size={fontsCommon.font28}
+              color={styleCommon.textColor1}
+            />
+          </TouchableHighlight>
+        )}
       </View>
     );
   }

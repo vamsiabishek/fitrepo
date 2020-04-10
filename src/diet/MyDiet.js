@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Text, View, TouchableOpacity, Animated, UIManager} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Purchases from 'react-native-purchases';
+import {getEntitlementsByPurchaseId} from '../common/PurchaseUtils';
 import TotalDietMacros from './TotalDietMarcos';
 import MealsContainer from './meals/MealsContainer';
 import {styles} from '../../assets/style/stylesMyDiet';
@@ -132,9 +132,7 @@ export default class MyDiet extends Component {
 
   loadPaymentEntitlements = async (uid, dietId) => {
     const purchaseId = uid + '-' + dietId;
-    Purchases.setDebugLogsEnabled(true);
-    Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseId);
-    const entitlements = await Purchases.getEntitlements();
+    const entitlements = await getEntitlementsByPurchaseId();
     console.log('EntitleMents: ', entitlements);
     this.setState({isLoading: false, paymentOptions: entitlements});
   };
