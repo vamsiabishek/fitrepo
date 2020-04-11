@@ -190,7 +190,7 @@ export default class SocialMediaSignup extends Component {
       data.accessToken,
     );
     console.log('credentials:', credentials);
-    return f.auth().signInAndRetrieveDataWithCredential(credentials);
+    return f.auth().signInWithCredential(credentials);
   };
 
   createUserWithFBDetails = async ({user, additionalUserInfo}) => {

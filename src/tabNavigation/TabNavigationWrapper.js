@@ -25,7 +25,7 @@ const LoginStackNavigator = createStackNavigator(
   {
     initialRouteName: 'LoginScreen',
     defaultNavigationOptions: {
-      header: null,
+      headerShown: false,
     },
   },
 );
@@ -37,7 +37,7 @@ const SignUpStackNavigator = createStackNavigator(
   {
     initialRouteName: 'Signup',
     defaultNavigationOptions: {
-      header: null,
+      headerShown: false,
     },
   },
 );
@@ -51,7 +51,7 @@ const ProfileStackNavigator = createStackNavigator(
   {
     initialRouteName: 'Profile',
     defaultNavigationOptions: {
-      header: null,
+      headerShown: false,
     },
   },
 );
@@ -68,7 +68,7 @@ const DietStackNavigator = createStackNavigator(
   {
     initialRouteName: 'Diet',
     defaultNavigationOptions: {
-      header: null,
+      headerShown: false,
     },
   },
 );
@@ -152,7 +152,7 @@ const HomeStackNavigator = createStackNavigator(
   },
   {
     defaultNavigationOptions: {
-      header: null,
+      headerShown: false,
     },
   },
 );
@@ -167,7 +167,7 @@ const AppSwitchNavigator = createSwitchNavigator(
   {
     initialRouteName: 'StartUp',
     defaultNavigationOptions: {
-      header: null,
+      headerShown: false,
     },
   },
 );
