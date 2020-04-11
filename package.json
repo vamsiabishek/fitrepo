@@ -9,7 +9,8 @@
     "test": "jest",
     "lint": "eslint .",
     "postinstall": "react-native-schemes-manager all",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
+    "build:android": "react-native bundle --entry-file='index.android.js' --bundle-output='./android/app/src/main/assets/index.android.bundle' --dev=false --platform='android'"
   },
   "dependencies": {
     "@firebase/app-types": "0.x",
@@ -35,7 +36,6 @@
     "react-native-material-dropdown": "^0.11.1",
     "react-native-modal": "^11.5.6",
     "react-native-modal-datetime-picker": "^8.5.4",
-    "react-native-navigation-bar-color": "^2.0.1",
     "react-native-progress-bar-animated": "^1.0.6",
     "react-native-progress-circle": "^2.1.0",
     "react-native-purchases": "^3.2.0",

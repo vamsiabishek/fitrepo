@@ -159,13 +159,13 @@ const HomeStackNavigator = createStackNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
-    StartUpScreen: StartUpScreen,
+    StartUp: StartUpScreen,
     Login: LoginStackNavigator,
     SignUp: SignUpStackNavigator,
     HomeScreen: HomeStackNavigator,
   },
   {
-    initialRouteName: 'StartUpScreen',
+    initialRouteName: 'StartUp',
     defaultNavigationOptions: {
       header: null,
     },
