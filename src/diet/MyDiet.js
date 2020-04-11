@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Text, View, TouchableOpacity, Animated, UIManager} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Purchases from 'react-native-purchases';
+import {getEntitlementsByPurchaseId} from '../common/PurchaseUtils';
 import TotalDietMacros from './TotalDietMarcos';
 import MealsContainer from './meals/MealsContainer';
 import {styles} from '../../assets/style/stylesMyDiet';
@@ -16,7 +16,7 @@ import {
 } from '../../assets/style/stylesCommonValues';
 import {database} from '../common/FirebaseConfig';
 import Loading from '../components/Loading';
-import InitialScreen from '../components/purchase/InitialScreen';
+import PurchaseScreen from '../components/purchase/PurchaseScreen';
 import {setFirstTimeUser, getFirstTimeUser, isTrailUser} from '../common/Util';
 import {getProgramEndDate, getSeconds} from '../common/Util';
 
@@ -132,9 +132,7 @@ export default class MyDiet extends Component {
 
   loadPaymentEntitlements = async (uid, dietId) => {
     const purchaseId = uid + '-' + dietId;
-    Purchases.setDebugLogsEnabled(true);
-    Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseId);
-    const entitlements = await Purchases.getEntitlements();
+    const entitlements = await getEntitlementsByPurchaseId();
     console.log('EntitleMents: ', entitlements);
     this.setState({isLoading: false, paymentOptions: entitlements});
   };
@@ -461,14 +459,14 @@ export default class MyDiet extends Component {
               hideDayLabelOnScroll={this.hideDayLabelOnScroll}
             />
             {!showMeals && (
-              <InitialScreen
+              <PurchaseScreen
                 isVisible={showPaymentModal}
                 uid={navigation.getParam('uid')}
                 dietId={dietId}
                 selectedProgram={navigation.getParam('selectedProgram')}
                 selectedGoal={navigation.getParam('selectedGoal')}
                 fitnessLevel={navigation.getParam('fitnessLevel')}
-                paymentOptions={paymentOptions}
+                purchaseOptions={paymentOptions}
                 onClose={this.onClosePaymentModal}
                 dietTrialEndDate={dietTrialEndDate}
                 trialDaysLeft={trialDaysLeft}

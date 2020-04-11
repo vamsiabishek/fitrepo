@@ -2,7 +2,12 @@ import React from 'react';
 import {ActivityIndicator, Alert, View, Text, Image} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Purchases from 'react-native-purchases';
+import {
+  getPurchaserInfo,
+  purchaseOfferings,
+  makePurchase,
+  getPurchasePlanByFitnessLevelAndWeek,
+} from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
 import {f, database} from '../../common/FirebaseConfig';
 import MyButton from '../MyButton';
@@ -25,60 +30,33 @@ export default class InitialScreen extends React.Component {
 
   componentDidMount = async () => {
     this.setState({isLoading: true});
-    const purchaserInfo = await Purchases.getPurchaserInfo();
-    console.log('Purchaser Info: ', purchaserInfo);
-    if (purchaserInfo.activeEntitlements.length === 0) {
-      this.setState({isLoading: false});
-    } else {
+    const purchaserInfo = await getPurchaserInfo();
+    console.log('Purchaser Info: ', purchaserInfo.entitlements.active);
+    if (Object.entries(purchaserInfo.entitlements.active).length) {
       this.setState({
         isLoading: false,
         showPurchaseSummary: true,
         purchaseSummary: purchaserInfo,
       });
+    } else {
+      this.setState({isLoading: false});
     }
   };
 
-  getPriceObjectOfChosenProgram = (program, fitnessLevel, paymentOptions) => {
-    switch (program) {
-      case 4:
-        return fitnessLevel === 1
-          ? paymentOptions.four_week_plans.beginner_diet
-          : fitnessLevel === 2
-          ? paymentOptions.four_week_plans.intermediate_diet
-          : paymentOptions.four_week_plans.advanced_diet;
-      case 8:
-        return fitnessLevel === 1
-          ? paymentOptions.eight_week_plans.beginner_diet
-          : fitnessLevel === 2
-          ? paymentOptions.eight_week_plans.intermediate_diet
-          : paymentOptions.eight_week_plans.advanced_diet;
-      case 12:
-        return fitnessLevel === 1
-          ? paymentOptions.twelve_week_plans.beginner_diet
-          : fitnessLevel === 2
-          ? paymentOptions.twelve_week_plans.intermediate_diet
-          : paymentOptions.twelve_week_plans.advanced_diet;
-      case 16:
-        return fitnessLevel === 1
-          ? paymentOptions.sixteen_week_plans.beginner_diet
-          : fitnessLevel === 2
-          ? paymentOptions.sixteen_week_plans.intermediate_diet
-          : paymentOptions.sixteen_week_plans.advanced_diet;
-    }
-  };
-
-  handlePaymentProcess = async (priceIdentifier) => {
+  handlePaymentProcess = async (purchasePackage) => {
     this.setState({isLoading: true});
     const {uid, dietId} = this.props;
     try {
-      const purchaseMade = await Purchases.makePurchase(priceIdentifier);
-      console.log('Purchase Made: ', purchaseMade);
-      if (purchaseMade.purchaserInfo.activeEntitlements !== 'undefined') {
-        const purchaseSummary = await Purchases.getPurchaserInfo();
-        console.log(purchaseSummary);
+      const {purchaserInfo, productIdentifier} = await makePurchase(
+        purchasePackage,
+      );
+      console.log('Purchase Made: ', productIdentifier);
+      if (purchaserInfo.entitlements.active.productIdentifier !== 'undefined') {
+        //const purchaseSummary = await getPurchaserInfo();
+        console.log(purchaserInfo);
         const purchaseId = uid + '-' + dietId;
         const purchaseDetails = {
-          productIdentifier: purchaseSummary.activeEntitlements[0],
+          productIdentifier: productIdentifier,
           purchaseId,
         };
         await database
@@ -96,7 +74,8 @@ export default class InitialScreen extends React.Component {
         this.setState({
           isLoading: false,
           showPurchaseSummary: true,
-          purchaseSummary,
+          purchaserInfo,
+          productIdentifier,
         });
       }
     } catch (e) {
@@ -112,30 +91,37 @@ export default class InitialScreen extends React.Component {
   };
 
   render() {
-    const {isLoading, showPurchaseSummary, purchaseSummary} = this.state;
+    console.log('render');
+    const {
+      isLoading,
+      showPurchaseSummary,
+      purchaseSummary,
+      productIdentifier,
+    } = this.state;
     const {
       isVisible,
       selectedGoal,
       selectedProgram,
-      paymentOptions,
       fitnessLevel,
       onClose,
       trialDaysLeft,
       dietTrialEndDate,
     } = this.props;
-    const priceObject = this.getPriceObjectOfChosenProgram(
+    const priceObject = getPurchasePlanByFitnessLevelAndWeek(
       selectedProgram,
       fitnessLevel,
-      paymentOptions,
     );
+    console.log('priceObject', priceObject);
     let activeEntitlement = '';
     let donePurchase = '';
-    if (purchaseSummary !== undefined) {
-      activeEntitlement = purchaseSummary.activeEntitlements[0];
-      donePurchase =
-        purchaseSummary.purchaseDatesForActiveEntitlements[activeEntitlement];
+    if (purchaseSummary) {
+      activeEntitlement = purchaseSummary.entitlements.active.productIdentifier;
+      donePurchase = activeEntitlement
+        ? activeEntitlement.latestPurchaseDate
+        : '';
       console.log('Done Purchase: ', donePurchase);
     }
+    console.log("showPurchaseSummary", showPurchaseSummary, "isLoading", isLoading, "purchaseOfferings", purchaseOfferings)
     return (
       <View>
         <Modal
@@ -145,7 +131,7 @@ export default class InitialScreen extends React.Component {
           <View style={styles.modalInsideStyle}>
             {!isLoading ? (
               <React.Fragment>
-                {paymentOptions ? (
+                {purchaseOfferings ? (
                   <React.Fragment>
                     {!showPurchaseSummary ? (
                       <React.Fragment>

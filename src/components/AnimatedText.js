@@ -13,6 +13,7 @@ export default class AnimatedText extends React.Component {
       toValue: 1,
       duration: 2500,
       easing: Easing.linear,
+      useNativeDriver: true,
     }).start(() => this.spin());
   };
 
@@ -30,10 +31,6 @@ export default class AnimatedText extends React.Component {
         textStyle.fontSize,
       ],
     });
-    return (
-      <Animated.Text style={{...textStyle, fontSize: textSize}}>
-        {text}
-      </Animated.Text>
-    );
+    return <Animated.Text style={textStyle}>{text}</Animated.Text>;
   }
 }

@@ -1,4 +1,4 @@
-import { WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY } from "../../common/Common";
+import {WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY} from '../../common/Common';
 export const getCalPerWeek = (totalCalIntake, selectedProgram, goal) => {
   const calPerWeek = [];
   if (selectedProgram === 4) {

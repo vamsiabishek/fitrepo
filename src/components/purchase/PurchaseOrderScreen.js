@@ -7,7 +7,10 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import Purchases from 'react-native-purchases';
+import {
+  getPurchaserInfo,
+  restoreTransactions,
+} from '../../common/PurchaseUtils';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +46,7 @@ export default class PurchaseOrderScreen extends React.Component {
 
   async componentWillMount() {
     try {
-      const info = await Purchases.getPurchaserInfo();
+      const info = await getPurchaserInfo();
       this.handleInfo(info);
     } catch (e) {
       console.log('Error handling');
@@ -82,7 +85,7 @@ export default class PurchaseOrderScreen extends React.Component {
                   <TouchableOpacity
                     onPress={async () => {
                       try {
-                        const info = await Purchases.restoreTransactions();
+                        const info = await restoreTransactions();
                         this.handleInfo(info);
                       } catch (e) {
                         console.log(JSON.stringify(e));

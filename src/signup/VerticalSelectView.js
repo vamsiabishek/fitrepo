@@ -35,6 +35,7 @@ export default class VerticalSelectView extends React.Component {
   handlePressIn = () => {
     Animated.spring(this.animatedValue, {
       toValue: 0.5,
+      useNativeDriver: true,
     }).start();
   };
   handlePressOut = () => {
@@ -42,6 +43,7 @@ export default class VerticalSelectView extends React.Component {
       toValue: 1,
       friction: 3, //default 7
       tension: 40,
+      useNativeDriver: true,
     }).start();
   };
 

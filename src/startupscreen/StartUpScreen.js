@@ -48,7 +48,11 @@ export default class StartUpScreen extends Component {
         scrollValue = 0;
         scrolled = 0;
       }
-      _scrollView.scrollTo({x: scrollValue, animated: true});
+      this.scrollView.scrollTo({
+        x: scrollValue,
+        animated: true,
+        useNativeDriver: true,
+      });
     }, 3000);
   };
   componentWillUnmount = () => {
@@ -62,7 +66,7 @@ export default class StartUpScreen extends Component {
         <StatusBar hidden={true} />
         <ScrollView
           ref={(scrollView) => {
-            _scrollView = scrollView;
+            this.scrollView = scrollView;
           }}
           horizontal={true}
           pagingEnabled={true}
