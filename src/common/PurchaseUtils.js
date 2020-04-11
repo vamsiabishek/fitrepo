@@ -65,19 +65,19 @@ const getPackageByWeek = (week, offering) => {
   if (offering) {
     switch (week) {
       case 4:
-        return offering.availablePackages.filter((product) =>
+        return offering.availablePackages.find((product) =>
           product.identifier.includes('four'),
         );
       case 8:
-        return offering.availablePackages.filter((product) =>
+        return offering.availablePackages.find((product) =>
           product.identifier.includes('eight'),
         );
       case 12:
-        return offering.availablePackages.filter((product) =>
+        return offering.availablePackages.find((product) =>
           product.identifier.includes('twelve'),
         );
       case 16:
-        return offering.availablePackages.filter((product) =>
+        return offering.availablePackages.find((product) =>
           product.identifier.includes('sixteen'),
         );
     }

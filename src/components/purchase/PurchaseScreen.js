@@ -121,7 +121,6 @@ export default class InitialScreen extends React.Component {
         : '';
       console.log('Done Purchase: ', donePurchase);
     }
-    console.log("showPurchaseSummary", showPurchaseSummary, "isLoading", isLoading, "purchaseOfferings", purchaseOfferings)
     return (
       <View>
         <Modal
@@ -168,9 +167,11 @@ export default class InitialScreen extends React.Component {
                           Click below to buy it !
                         </Text>
                         <MyButton
-                          label={'Pay ' + priceObject.price_string}
+                          label={'Pay ' + priceObject.product.price_string}
                           onButtonClick={() =>
-                            this.handlePaymentProcess(priceObject.identifier)
+                            this.handlePaymentProcess(
+                              priceObject.product.identifier,
+                            )
                           }
                           containerStyle={styles.targetButtonContainer}
                         />
