@@ -181,5 +181,6 @@ const getFirstDietOfUser = async (uid) => {
 
 export const isTrailUser = async () => {
   const {uid} = await getCurrentUser();
-  return (await isNewUser()) || uid === 'FOW1bWhyufVcUYeNiVpHGWP4bAe2';
+  return await isNewUser();
+  //return (await isNewUser()) || uid === 'FOW1bWhyufVcUYeNiVpHGWP4bAe2';
 };
