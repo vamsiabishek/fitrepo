@@ -161,7 +161,7 @@ export default class LoginScreen1 extends Component {
       data.accessToken,
     );
     console.log('credentials:', credentials);
-    return f.auth().signInAndRetrieveDataWithCredential(credentials);
+    return f.auth().signInWithCredential(credentials);
   };
   onGoogleLogin = async () => {
     this.setState({isLoading: true});
@@ -186,14 +186,12 @@ export default class LoginScreen1 extends Component {
         data.accessToken,
       );
       // login with credential
-      const currentUser = await f
-        .auth()
-        .signInAndRetrieveDataWithCredential(credential);
+      const currentUser = await f.auth().signInWithCredential(credential);
       setCurrentUser(currentUser.user);
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
       this.onLoginSuccess();
     } catch (error) {
-      Alert.alert('Login failed with error ', error.code);
+      Alert.alert('Login failed with error ', error.message);
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {

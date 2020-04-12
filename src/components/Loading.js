@@ -42,6 +42,7 @@ export default class Loading extends React.Component {
           loop
           resizeMode="cover"
           style={watermelonAnimationStyle}
+          enableMergePathsAndroidForKitKatAndAbove
         />
         {!isTextNotAvailable ? (
           <View style={styles.textViewContainer}>

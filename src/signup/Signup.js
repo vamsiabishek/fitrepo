@@ -1012,7 +1012,7 @@ export default class Signup extends Component {
           ) : (
             <ScrollView
               horizontal={true}
-              scrollEnabled={true}
+              scrollEnabled={false}
               ref={(scrollView) => {
                 this.scrollRef = scrollView;
               }}

@@ -13,6 +13,7 @@ export default class LoadingAnimation extends React.Component {
           autoPlay
           loop
           style={styles.watermelonAnimationStyle}
+          enableMergePathsAndroidForKitKatAndAbove
         />
         <View style={styles.textViewContainer}>
           <AnimatedText

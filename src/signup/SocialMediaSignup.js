@@ -102,9 +102,7 @@ export default class SocialMediaSignup extends Component {
         data.accessToken,
       );
       // login with credential
-      const currentUser = await f
-        .auth()
-        .signInAndRetrieveDataWithCredential(credential);
+      const currentUser = await f.auth().signInWithCredential(credential);
       setCurrentUser(currentUser.user);
 
       const googleUser = await GoogleSignin.getCurrentUser();
