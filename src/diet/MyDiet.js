@@ -132,7 +132,7 @@ export default class MyDiet extends Component {
 
   loadPaymentEntitlements = async (uid, dietId) => {
     const purchaseId = uid + '-' + dietId;
-    const offerings = await getOfferingsByPurchaseId();
+    const offerings = await getOfferingsByPurchaseId(purchaseId);
     console.log('offerings: ', offerings);
     this.setState({isLoading: false, paymentOptions: offerings});
   };

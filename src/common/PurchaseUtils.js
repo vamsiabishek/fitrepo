@@ -11,9 +11,9 @@ export let purchaseOfferings = null;
 
 const currentOffering = 'standard';
 
-export const getEntitlementsByPurchaseId = async () => {
+export const getEntitlementsByPurchaseId = async (purchaseID) => {
   Purchases.setDebugLogsEnabled(true);
-  Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH');
+  Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseID);
   const purchaserOfferings = await Purchases.getOfferings();
   console.log(purchaserOfferings);
   const {current: currentDietPlans} = purchaserOfferings; // current contains standard
@@ -21,9 +21,9 @@ export const getEntitlementsByPurchaseId = async () => {
   return purchaseOfferings;
 };
 
-export const getOfferingsByPurchaseId = async () => {
+export const getOfferingsByPurchaseId = async (purchaseID) => {
   Purchases.setDebugLogsEnabled(true);
-  Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH');
+  Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseID);
   const purchaserOfferings = await Purchases.getOfferings();
   console.log(purchaserOfferings);
   const {current: currentDietPlans} = purchaserOfferings; // current contains standard
@@ -47,38 +47,38 @@ export const getPurchaserInfoAndActiveEntitlements = async () => {
   };
 };
 
-export const makePurchase = async (identifier) =>
-  await makePurchase(identifier);
+export const makePurchase = async (packageToBuy) =>
+  await Purchases.purchasePackage(packageToBuy);
 
 export const restoreTransactions = async () =>
   await Purchases.restoreTransactions();
 
 export const getPurchasePlanByFitnessLevelAndWeek = (week, fitnessLevel) => {
-  const productNames = constructProductNames(week, fitnessLevel);
+  const productName = constructProductName(week, fitnessLevel);
   if (purchaseOfferings) {
-    const {availablePackages} = purchaseOfferings[currentOffering];
-    return availablePackages.find((product) =>
-      productNames.contains(product.identifier),
+    const {availablePackages} = purchaseOfferings;
+    return availablePackages.find(
+      (product) => productName === product.identifier,
     );
   }
   return null;
 };
 
-const constructProductNames = (week, fitnessLevel) => {
-  let fitnessCodes = [1, 'B']; // fitness code for beginner in android is 1 and ios is B
+const constructProductName = (week, fitnessLevel) => {
+  let fitnessCode = 'beginner'; // fitness code for beginner in android is 1 and ios is B
   if (fitnessLevel === 2) {
-    fitnessCodes = [2, 'I'];
+    fitnessCode = 'intermediate';
   } else if (fitnessLevel === 3) {
-    fitnessCodes = [3, 'A'];
+    fitnessCode = 'advanced';
   }
   switch (week) {
     case 4:
-      return fitnessCodes.map((code) => `four_week_${code}`);
+      return `four_week_${fitnessCode}`;
     case 8:
-      return fitnessCodes.map((code) => `eight_week_${code}`);
+      return `eight_week_${fitnessCode}`;
     case 12:
-      return fitnessCodes.map((code) => `twelve_week_${code}`);
+      return `twelve_week_${fitnessCode}`;
     case 16:
-      return fitnessCodes.map((code) => `sixteen_week_${code}`);
+      return `sixteen_week_${fitnessCode}`;
   }
 };
