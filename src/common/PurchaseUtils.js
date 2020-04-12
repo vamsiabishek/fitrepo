@@ -1,19 +1,23 @@
 // So for Purchases we have:
-// Offerings: [advanced_diet, beginner_diet, intermediate_diet]
-// each of these offerings like advanced_diet internally contain 'availablePackages' which is an array
-// inside each of availablePackages we have a package like [four_week_diet, eight_week_diet, ...etc ]
+// Offerings: {all:{standard:{}, diwaliSpecial: {}}, current: {standard: {}}}
+// offerings contain all and current. Current is the standard diet offerings that we provide
+// each of these offerings like standard internally contain 'availablePackages' which is an array
+// inside each of availablePackages we have a package like [four_week_beginner, eight_week_beginner, ...etc ]
+// inide each of four_week_beginner we have two products one for each ios and android i.e., four_week_B_diet_plan(ios) and four_week_1_diet_plan_android(android)
 
 import Purchases from 'react-native-purchases';
 
 export let purchaseOfferings = null;
+
+const currentOffering = 'standard';
 
 export const getEntitlementsByPurchaseId = async () => {
   Purchases.setDebugLogsEnabled(true);
   Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH');
   const purchaserOfferings = await Purchases.getOfferings();
   console.log(purchaserOfferings);
-  const {all: allDietPlans} = purchaserOfferings; // all contains advanced_diet, beginner_diet, intermediate_diet
-  purchaseOfferings = allDietPlans;
+  const {current: currentDietPlans} = purchaserOfferings; // current contains standard
+  purchaseOfferings = currentDietPlans;
   return purchaseOfferings;
 };
 
@@ -22,8 +26,8 @@ export const getOfferingsByPurchaseId = async () => {
   Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH');
   const purchaserOfferings = await Purchases.getOfferings();
   console.log(purchaserOfferings);
-  const {all: allDietPlans} = purchaserOfferings; // all contains advanced_diet, beginner_diet, intermediate_diet
-  purchaseOfferings = allDietPlans;
+  const {current: currentDietPlans} = purchaserOfferings; // current contains standard
+  purchaseOfferings = currentDietPlans;
   return purchaseOfferings;
 };
 
@@ -50,37 +54,31 @@ export const restoreTransactions = async () =>
   await Purchases.restoreTransactions();
 
 export const getPurchasePlanByFitnessLevelAndWeek = (week, fitnessLevel) => {
-  let dietPlanName = 'beginner_diet'; // these are offering names in Revenue cat
-  if (fitnessLevel === 2) {
-    dietPlanName = 'intermediate_diet';
-  } else if (fitnessLevel === 3) {
-    dietPlanName = 'advanced_diet';
-  }
+  const productNames = constructProductNames(week, fitnessLevel);
   if (purchaseOfferings) {
-    return getPackageByWeek(week, purchaseOfferings[dietPlanName]);
-  }
-};
-
-const getPackageByWeek = (week, offering) => {
-  if (offering) {
-    switch (week) {
-      case 4:
-        return offering.availablePackages.find((product) =>
-          product.identifier.includes('four'),
-        );
-      case 8:
-        return offering.availablePackages.find((product) =>
-          product.identifier.includes('eight'),
-        );
-      case 12:
-        return offering.availablePackages.find((product) =>
-          product.identifier.includes('twelve'),
-        );
-      case 16:
-        return offering.availablePackages.find((product) =>
-          product.identifier.includes('sixteen'),
-        );
-    }
+    const {availablePackages} = purchaseOfferings[currentOffering];
+    return availablePackages.find((product) =>
+      productNames.contains(product.identifier),
+    );
   }
   return null;
+};
+
+const constructProductNames = (week, fitnessLevel) => {
+  let fitnessCodes = [1, 'B']; // fitness code for beginner in android is 1 and ios is B
+  if (fitnessLevel === 2) {
+    fitnessCodes = [2, 'I'];
+  } else if (fitnessLevel === 3) {
+    fitnessCodes = [3, 'A'];
+  }
+  switch (week) {
+    case 4:
+      return fitnessCodes.map((code) => `four_week_${code}`);
+    case 8:
+      return fitnessCodes.map((code) => `eight_week_${code}`);
+    case 12:
+      return fitnessCodes.map((code) => `twelve_week_${code}`);
+    case 16:
+      return fitnessCodes.map((code) => `sixteen_week_${code}`);
+  }
 };
