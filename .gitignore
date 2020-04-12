@@ -62,6 +62,7 @@ buck-out/
 android/*.bundle
 .png-cache
 ios/assets
+android/app/src/main/assets
 
 # CocoaPods
 /ios/Pods/

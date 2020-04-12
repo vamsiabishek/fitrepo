@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Text, View, TouchableOpacity, Animated, UIManager} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getEntitlementsByPurchaseId} from '../common/PurchaseUtils';
+import {getOfferingsByPurchaseId} from '../common/PurchaseUtils';
 import TotalDietMacros from './TotalDietMarcos';
 import MealsContainer from './meals/MealsContainer';
 import {styles} from '../../assets/style/stylesMyDiet';
@@ -132,9 +132,9 @@ export default class MyDiet extends Component {
 
   loadPaymentEntitlements = async (uid, dietId) => {
     const purchaseId = uid + '-' + dietId;
-    const entitlements = await getEntitlementsByPurchaseId();
-    console.log('EntitleMents: ', entitlements);
-    this.setState({isLoading: false, paymentOptions: entitlements});
+    const offerings = await getOfferingsByPurchaseId(purchaseId);
+    console.log('offerings: ', offerings);
+    this.setState({isLoading: false, paymentOptions: offerings});
   };
 
   onDayChange = (selectedDay) => {

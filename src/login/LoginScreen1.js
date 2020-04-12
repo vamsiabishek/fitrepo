@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Alert,
   Platform,
   Text,
   View,
@@ -126,12 +127,12 @@ export default class LoginScreen1 extends Component {
       this.onLoginSuccess();
     } catch (error) {
       this.setState({isLoading: false});
-      alert('Invalid username/password');
+      Alert.alert('Invalid username/password');
     }
   };
   onFBLogin = () => {
     this.setState({isLoading: true});
-    LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+    LoginManager.logInWithPermissions(['public_profile', 'email'])
       .then((result) => this.getFBTokenFromResponse(result))
       .then((data) => this.getFBCredentialsUsingToken(data))
       .then((currentUser) => {
@@ -140,7 +141,7 @@ export default class LoginScreen1 extends Component {
         this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
       })
       .catch((error) => {
-        alert('Login fail with error: ' + error);
+        Alert.alert('Login fail with error: ' + error);
       });
   };
   getFBTokenFromResponse = (result) => {
@@ -160,7 +161,7 @@ export default class LoginScreen1 extends Component {
       data.accessToken,
     );
     console.log('credentials:', credentials);
-    return f.auth().signInAndRetrieveDataWithCredential(credentials);
+    return f.auth().signInWithCredential(credentials);
   };
   onGoogleLogin = async () => {
     this.setState({isLoading: true});
@@ -185,14 +186,12 @@ export default class LoginScreen1 extends Component {
         data.accessToken,
       );
       // login with credential
-      const currentUser = await f
-        .auth()
-        .signInAndRetrieveDataWithCredential(credential);
+      const currentUser = await f.auth().signInWithCredential(credential);
       setCurrentUser(currentUser.user);
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
       this.onLoginSuccess();
     } catch (error) {
-      alert('Login failed with error ', error.code);
+      Alert.alert('Login failed with error ', error.message);
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {
@@ -281,7 +280,7 @@ export default class LoginScreen1 extends Component {
       secureTextKey,
     } = this.state;
     return (
-      <ImageBackground source={GRADIENT_BG_IMAGE} style={commonStyles.bgImage}>
+      <View style={commonStyles.bgImage}>
         <View style={styles.container}>
           {isLoading ? (
             <Loading
@@ -439,7 +438,7 @@ export default class LoginScreen1 extends Component {
             </View>
           )}
         </View>
-      </ImageBackground>
+      </View>
     );
   }
 }

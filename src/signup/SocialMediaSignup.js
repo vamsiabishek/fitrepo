@@ -102,9 +102,7 @@ export default class SocialMediaSignup extends Component {
         data.accessToken,
       );
       // login with credential
-      const currentUser = await f
-        .auth()
-        .signInAndRetrieveDataWithCredential(credential);
+      const currentUser = await f.auth().signInWithCredential(credential);
       setCurrentUser(currentUser.user);
 
       const googleUser = await GoogleSignin.getCurrentUser();
@@ -157,7 +155,7 @@ export default class SocialMediaSignup extends Component {
   };
   onPressFBLogin = () => {
     this.setState({isLoading: true});
-    LoginManager.logInWithReadPermissions([
+    LoginManager.logInWithPermissions([
       'public_profile',
       'user_birthday',
       'email',
@@ -190,7 +188,7 @@ export default class SocialMediaSignup extends Component {
       data.accessToken,
     );
     console.log('credentials:', credentials);
-    return f.auth().signInAndRetrieveDataWithCredential(credentials);
+    return f.auth().signInWithCredential(credentials);
   };
 
   createUserWithFBDetails = async ({user, additionalUserInfo}) => {

@@ -36,24 +36,35 @@ target 'fitlog' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info/RNDeviceInfo.podspec'
+  
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient/BVLinearGradient.podspec'
+
   pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec'
+
   pod 'RNGoogleSignin', :path => '../node_modules/@react-native-community/google-signin/RNGoogleSignin.podspec'
   pod 'GoogleSignIn', '~> 5.0.2'
+
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk/react-native-fbsdk.podspec'
   pod 'FacebookSDK'
   pod 'FBSDKCoreKit/Swift'
+
   pod 'RNPurchases', :path => '../node_modules/react-native-purchases/RNPurchases.podspec'
   pod 'Purchases', '3.2.2'
+
   pod 'RNScreens', :path => '../node_modules/react-native-screens/RNScreens.podspec'
+
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons/RNVectorIcons.podspec'
+
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native/lottie-react-native.podspec'
-  pod 'lottie-ios'
+  pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
   pod 'RNCMaskedView', :path => '../node_modules/@react-native-community/masked-view'
 
   pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+
+  pod 'RNCPicker', :path => '../node_modules/@react-native-community/picker'
 
   target 'fitlogTests' do
     inherit! :search_paths
