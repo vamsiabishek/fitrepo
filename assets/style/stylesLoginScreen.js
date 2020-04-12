@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     letterSpacing: fontsCommon.letterSpacingOneFive,
     fontWeight: '700',
     fontSize: fontsCommon.font30,
-    color: styleCommon.textColor1,
+    color: styleCommon.secondaryColorNew,
     //backgroundColor: "firebrick"
   },
   loginInputContainer: {
@@ -54,6 +54,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
     //backgroundColor: "crimson"
+  },
+  inputContainerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: styleCommon.textInputColor,
+    height: 55,
+    marginTop: 6,
+    backgroundColor: 'white',
   },
   inputStyle: {
     marginLeft: 10,

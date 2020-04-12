@@ -299,6 +299,7 @@ export default class LoginScreen1 extends Component {
                   placeholder="Email"
                   placeholderTextColor={styleCommon.textColor1}
                   containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputContainerStyle}
                   inputStyle={styles.inputStyle}
                   errorStyle={styles.errorInputStyle}
                   leftIcon={
@@ -338,6 +339,7 @@ export default class LoginScreen1 extends Component {
                     />
                   }
                   containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputContainerStyle}
                   inputStyle={styles.inputStyle}
                   errorStyle={styles.errorInputStyle}
                   keyboardAppearance="dark"
