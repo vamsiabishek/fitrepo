@@ -51,6 +51,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "784097360045-lpmc82nhkil77sd9gne86ghtf6d81mfe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitness.fitrepo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "784097360045-6433ujc5qlk94sgrq38gc7q32dksajgu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

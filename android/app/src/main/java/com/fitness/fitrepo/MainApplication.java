@@ -8,7 +8,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 // Native dependency packages
-/*import com.oblador.vectoricons.VectorIconsPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -20,21 +20,15 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.airbnb.android.react.lottie.LottiePackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;*/
-// import com.facebook.CallbackManager;
-// import com.facebook.FacebookSdk;
-// import com.facebook.appevents.AppEventsLogger;
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 // Important Packages
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
-
-  /*private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
-
-  protected static CallbackManager getCallbackManager() {
-    return mCallbackManager;
-  }*/
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -48,7 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
-
+          packages.add(new LottiePackage());
           return packages;
         }
 
@@ -67,10 +61,9 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     // FacebookSdk.setApplicationId("790304848006877");
-    // FacebookSdk.sdkInitialize(this);
-    // AppEventsLogger.activateApp(this);
+    FacebookSdk.sdkInitialize(this);
+    AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
-    initializeFlipper(this); // Remove this line if you don't want Flipper enabled
 	}
 	
 	/**
