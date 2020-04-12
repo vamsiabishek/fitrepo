@@ -280,7 +280,7 @@ export default class LoginScreen1 extends Component {
       secureTextKey,
     } = this.state;
     return (
-      <ImageBackground source={GRADIENT_BG_IMAGE} style={commonStyles.bgImage}>
+      <View style={commonStyles.bgImage}>
         <View style={styles.container}>
           {isLoading ? (
             <Loading
@@ -438,7 +438,7 @@ export default class LoginScreen1 extends Component {
             </View>
           )}
         </View>
-      </ImageBackground>
+      </View>
     );
   }
 }

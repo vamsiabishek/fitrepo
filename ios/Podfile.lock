@@ -309,6 +309,8 @@ PODS:
     - ReactCommon/callinvoker (= 0.62.1)
   - RNCMaskedView (0.1.7):
     - React
+  - RNCPicker (1.3.0):
+    - React
   - RNDateTimePicker (2.3.1):
     - React
   - RNDeviceInfo (5.5.4):
@@ -339,7 +341,7 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - GoogleSignIn (~> 5.0.2)
-  - lottie-ios
+  - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native/lottie-react-native.podspec`)
   - Purchases (= 3.2.2)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -367,6 +369,7 @@ DEPENDENCIES:
   - ReactCommon/callinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info/RNDeviceInfo.podspec`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -389,7 +392,6 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
-    - lottie-ios
     - Purchases
 
 EXTERNAL SOURCES:
@@ -405,6 +407,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native/lottie-react-native.podspec"
   RCTRequired:
@@ -451,6 +455,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNCPicker:
+    :path: "../node_modules/@react-native-community/picker"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec"
   RNDeviceInfo:
@@ -512,6 +518,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 072c3b427dd29e730c2ee5bfc509cf5054741a50
   ReactCommon: 3585806280c51d5c2c0d3aa5a99014c3badb629d
   RNCMaskedView: 90dd32f5b786bd562e876e1421ea77c700cbf71e
+  RNCPicker: 7d06ee91dff65b0bcd400ca00039051d5ddcb938
   RNDateTimePicker: f654c60568209005a3d9a5a6c4bff0c7094ec527
   RNDeviceInfo: 82e0a23d22ec73b2f71bd686a95d3dd278f223d7
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
@@ -522,6 +529,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 50fb6eb13d2152e7363293ff603385db380815b1
 
-PODFILE CHECKSUM: 818b02ed7989d667a9fe310b23e84bbdb750fa24
+PODFILE CHECKSUM: 34a60d2b45f8177798d40ccd2edf9f0ef3dbfd17
 
 COCOAPODS: 1.9.0

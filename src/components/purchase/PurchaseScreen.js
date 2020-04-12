@@ -18,7 +18,7 @@ import {
 } from '../../../assets/style/stylesCommonValues';
 import {getGoalString, getFitnessLevelString} from '../../common/Util';
 
-export default class InitialScreen extends React.Component {
+export default class PurchaseScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -169,9 +169,7 @@ export default class InitialScreen extends React.Component {
                         <MyButton
                           label={'Pay ' + priceObject.product.price_string}
                           onButtonClick={() =>
-                            this.handlePaymentProcess(
-                              priceObject.product.identifier,
-                            )
+                            this.handlePaymentProcess(priceObject)
                           }
                           containerStyle={styles.targetButtonContainer}
                         />

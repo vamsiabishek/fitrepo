@@ -6,6 +6,7 @@ import {
   errorTextcolor,
   BUTTON_HEIGHT_GENERAL,
   fontsCommon,
+  BG_COLOR,
 } from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
@@ -15,7 +16,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: SCREEN_WIDTH,
     marginVertical: 20,
-    //backgroundColor: "cadetblue"
+    backgroundColor: BG_COLOR,
   },
   loginView: {
     justifyContent: 'flex-end',

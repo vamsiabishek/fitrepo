@@ -155,7 +155,7 @@ export default class SocialMediaSignup extends Component {
   };
   onPressFBLogin = () => {
     this.setState({isLoading: true});
-    LoginManager.logInWithReadPermissions([
+    LoginManager.logInWithPermissions([
       'public_profile',
       'user_birthday',
       'email',
