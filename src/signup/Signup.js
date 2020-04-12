@@ -184,15 +184,17 @@ export default class Signup extends Component {
     this.goToNext();
   };
   setFBUser = (user) => {
-    this.setState({user, dob: user.dob, age: user.age});
+    this.setState({user, dob: user.dob, age: user.age, isLoading: true});
+    this.saveUserAfterEmailAndPassword(user);
     this.scrollToNextScreen(4);
   };
   setGoogleUser = (user) => {
-    this.setState({user});
+    this.setState({user, isLoading: true});
+    this.saveUserAfterEmailAndPassword(user);
     this.scrollToNextScreen(4);
   };
   setNewUser = async () => {
-    await this.createNewUser();
+    await this.createNewUser(); // saveUserAfterEmailAndPassword(user) is called inside this method
     this.scrollToNextScreen(4);
   };
   setDob = (dob, age) => {
@@ -658,11 +660,8 @@ export default class Signup extends Component {
             uid: userObj.user.uid,
           };
           setCurrentUser(userObj.user);
-          this.setState({
-            user: {...user, ...userNewObj, ...userAddInfo},
-            isLoading: false,
-            userLoginAnimation: false,
-          });
+          const newUser = {...user, ...userNewObj, ...userAddInfo};
+          this.saveUserAfterEmailAndPassword(newUser);
         })
         .catch((error) => {
           this.setState({
@@ -813,6 +812,33 @@ export default class Signup extends Component {
         this.scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
       }
     }
+  };
+
+  saveUserAfterEmailAndPassword = async (newUser) => {
+    const {email, password} = this.state;
+    const {gender, fitnessLevel} = this.state;
+    if (password !== '') {
+      newUser.email = email;
+    }
+    const user = {
+      ...newUser,
+      gender,
+      fitnessLevel,
+    };
+    await database
+      .ref('users')
+      .child(user.uid)
+      .set(user)
+      .then(() => {
+        this.setState({
+          user: newUser,
+          isLoading: false,
+          userLoginAnimation: false,
+        });
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+      });
   };
 
   saveUserDetails = async () => {
