@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 10,
-    color: styleCommon.textInputColor,
+    color: styleCommon.textInputDarkColor,
     fontSize: 16,
   },
   errorInputStyle: {

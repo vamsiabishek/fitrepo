@@ -74,7 +74,7 @@ export default class MyDiet extends Component {
     this.setState({isLoading: true});
     console.log('fetching details for the diet with Id:', dietId);
     const {diet, meals} = await this.fetchDietAndMeals(uid, dietId);
-    console.log('diet and meals:', diet, meals);
+    //console.log('diet and meals:', diet, meals);
     this.setState({diet, meals: meals['0'], allMeals: meals});
   };
 
