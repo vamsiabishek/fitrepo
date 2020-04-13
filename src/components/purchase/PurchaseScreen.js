@@ -6,6 +6,7 @@ import {
   getPurchaserInfo,
   purchaseOfferings,
   makePurchase,
+  getActiveEntitlement,
   getPurchasePlanByFitnessLevelAndWeek,
 } from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
@@ -51,19 +52,24 @@ export default class PurchaseScreen extends React.Component {
         purchasePackage,
       );
       console.log('Purchase Made: ', productIdentifier);
-      if (purchaserInfo.entitlements.active.productIdentifier !== 'undefined') {
-        //const purchaseSummary = await getPurchaserInfo();
-        console.log(purchaserInfo);
-        const purchaseId = uid + '-' + dietId;
+      if (purchaserInfo.entitlements.active.length) {
+        console.log(
+          'Purchased entitlement',
+          purchaserInfo.entitlements.active[0][1],
+        );
+        const {originalPurchaseDate} = await getActiveEntitlement(
+          purchaserInfo,
+        );
+
         const purchaseDetails = {
-          productIdentifier: productIdentifier,
-          purchaseId,
+          productIdentifier,
+          originalPurchaseDate,
         };
         await database
-          .ref(`users/${uid}/purchases/`)
+          .ref(`users/${uid}/purchases/${dietId}`)
           .push({
             ...purchaseDetails,
-            purchaseDate: f.database.ServerValue.TIMESTAMP,
+            createdDate: f.database.ServerValue.TIMESTAMP,
           })
           .then((res) => {
             alert('Purchase Successful !');
@@ -75,7 +81,6 @@ export default class PurchaseScreen extends React.Component {
           isLoading: false,
           showPurchaseSummary: true,
           purchaserInfo,
-          productIdentifier,
         });
       }
     } catch (e) {
@@ -92,12 +97,7 @@ export default class PurchaseScreen extends React.Component {
 
   render() {
     console.log('render');
-    const {
-      isLoading,
-      showPurchaseSummary,
-      purchaseSummary,
-      productIdentifier,
-    } = this.state;
+    const {isLoading, showPurchaseSummary, purchaseSummary} = this.state;
     const {
       isVisible,
       selectedGoal,
@@ -115,9 +115,9 @@ export default class PurchaseScreen extends React.Component {
     let activeEntitlement = '';
     let donePurchase = '';
     if (purchaseSummary) {
-      activeEntitlement = purchaseSummary.entitlements.active.productIdentifier;
+      activeEntitlement = getActiveEntitlement(purchaseSummary);
       donePurchase = activeEntitlement
-        ? activeEntitlement.latestPurchaseDate
+        ? activeEntitlement.originalPurchaseDate
         : '';
       console.log('Done Purchase: ', donePurchase);
     }

@@ -9,17 +9,16 @@ import Purchases from 'react-native-purchases';
 
 export let purchaseOfferings = null;
 
-const currentOffering = 'standard';
-
-export const getEntitlementsByPurchaseId = async (purchaseID) => {
+// This method is deprecated, hence not using
+/*export const getEntitlementsByPurchaseId = async (purchaseID) => {
   Purchases.setDebugLogsEnabled(true);
   Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseID);
   const purchaserOfferings = await Purchases.getOfferings();
-  console.log(purchaserOfferings);
+  //console.log(purchaserOfferings);
   const {current: currentDietPlans} = purchaserOfferings; // current contains standard
   purchaseOfferings = currentDietPlans;
   return purchaseOfferings;
-};
+};*/
 
 export const getOfferingsByPurchaseId = async (purchaseID) => {
   Purchases.setDebugLogsEnabled(true);
@@ -33,9 +32,11 @@ export const getOfferingsByPurchaseId = async (purchaseID) => {
 
 export const getPurchaserInfo = async () => await Purchases.getPurchaserInfo();
 
-export const getActiveEntitlements = async () => {
-  const purchaserInfo = await getPurchaserInfo();
-  return await purchaserInfo.entitlements.active;
+export const getActiveEntitlement = async (purchaserInfo) => {
+  if (!purchaserInfo) {
+    purchaserInfo = await getPurchaserInfo();
+  }
+  return purchaserInfo.entitlements.active[0][1]; // active is an array where 0th element is latest purchase which is again an array active:[['entitlementName',{identifier, latestPurchaseDate,...}]]
 };
 
 export const getPurchaserInfoAndActiveEntitlements = async () => {

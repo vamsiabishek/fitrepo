@@ -194,6 +194,7 @@ export default class Signup extends Component {
     this.scrollToNextScreen(4);
   };
   setNewUser = async () => {
+    console.log("******** creating new user ***************")
     await this.createNewUser(); // saveUserAfterEmailAndPassword(user) is called inside this method
     this.scrollToNextScreen(4);
   };
@@ -643,6 +644,7 @@ export default class Signup extends Component {
 
   createNewUser = async () => {
     const {user, email, password} = this.state;
+    console.log("******** creating new user ***************", email, password)
     const getIndex = email.indexOf('@');
     const name = email.substring(0, getIndex);
     const username = name;

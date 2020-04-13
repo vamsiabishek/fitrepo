@@ -92,6 +92,7 @@ export const styleCommon = {
   textColorDesc: '#b0cfb8', // bright green color
   iconColor: '#b0cfb8', // bright green color
   textInputColor: '#b0cfb8', // bright green color
+  textInputDarkColor: '#004445', // dark green color
   descTextColor: '#808080', // dark gray
   unSelected: '#d3d3d3',
   disableColor: '#d3d3d3', // Light grey
