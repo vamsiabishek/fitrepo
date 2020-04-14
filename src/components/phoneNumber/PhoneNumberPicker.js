@@ -57,7 +57,7 @@ export default class PhoneInput extends Component {
 
   onChangePhoneNumber = (number) => {
     const {countryCode} = this.state;
-    const numberWithCode = `${countryCode}${number}`;
+    const numberWithCode = `+${countryCode}${number}`;
     this.setState({inputValue: number, numberWithCode});
   };
 
@@ -94,7 +94,7 @@ export default class PhoneInput extends Component {
       const countryData = PhoneNumber.getCountryDataByCode(iso2);
       if (countryData) {
         const {dialCode} = countryData;
-        const numberWithCode = `${dialCode}${inputValue}`;
+        const numberWithCode = `+${dialCode}${inputValue}`;
         this.setState({
           iso2,
           countryCode: `+${countryData.dialCode}`,

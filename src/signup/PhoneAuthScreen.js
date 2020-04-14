@@ -28,6 +28,7 @@ class PhoneAuthScreen extends Component {
     // Request to send OTP
 
     const confirmResult = await auth().signInWithPhoneNumber(phoneNumber);
+    this.setState({confirmResult});
   };
 
   handleVerifyCode = () => {
@@ -106,6 +107,7 @@ class PhoneAuthScreen extends Component {
       // </SafeAreaView>
       <View style={styles.container}>
         <PhoneNumberPicker sendCodeToPhone={this.handleSendCode} />
+        {this.state.confirmResult ? this.renderConfirmationCodeView() : null}
       </View>
     );
   }
