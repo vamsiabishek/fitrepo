@@ -12,11 +12,12 @@ import {SocialIcon} from 'react-native-elements';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {f} from '../common/FirebaseConfig';
-import EmailOrMobileSignup from './EmailOrMobileSignup';
+//import EmailOrMobileSignup from './EmailOrMobileSignup';
 import Loading from '../components/Loading';
 import {styles} from '../../assets/style/stylesSocialMediaSignup';
 import {ICON_SELECT_SIGNUP_OPTION} from '../../assets/style/stylesCommonValues';
 import {setCurrentUser} from '../common/Util';
+import PhoneAuth from './PhoneAuthScreen'
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
@@ -287,7 +288,8 @@ export default class SocialMediaSignup extends Component {
               <Text style={styles.textColor}>──────── OR ────────</Text>
             </View>
             <View>
-              <EmailOrMobileSignup signupObject={signupObject} />
+              {/* <EmailOrMobileSignup signupObject={signupObject} /> */}
+              <PhoneAuth />
             </View>
           </React.Fragment>
         )}
