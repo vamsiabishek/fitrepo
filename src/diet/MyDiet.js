@@ -51,7 +51,7 @@ export default class MyDiet extends Component {
     const uid = navigation.getParam('uid');
     //alert(getFirstTimeUser());
     await this.loadDietDetails(uid, dietId);
-    await this.loadPaymentEntitlements(uid, dietId);
+    await this.loadPaymentEntitlements(uid);
     await this.checkDietTrail();
   };
 
@@ -61,7 +61,7 @@ export default class MyDiet extends Component {
     const uid = navigation.getParam('uid');
     if (dietId !== prevProps.navigation.getParam('dietId')) {
       await this.loadDietDetails(uid, dietId);
-      await this.loadPaymentEntitlements(uid, dietId);
+      await this.loadPaymentEntitlements(uid);
     }
   };
 
@@ -130,10 +130,9 @@ export default class MyDiet extends Component {
     return meals;
   };
 
-  loadPaymentEntitlements = async (uid, dietId) => {
-    const purchaseId = uid + '-' + dietId;
-    const offerings = await getOfferingsByPurchaseId(purchaseId);
-    console.log('offerings: ', offerings);
+  loadPaymentEntitlements = async (uid) => {
+    const offerings = await getOfferingsByPurchaseId(uid);
+    console.log('Purchase Offerings Current ? : ', offerings);
     this.setState({isLoading: false, paymentOptions: offerings});
   };
 

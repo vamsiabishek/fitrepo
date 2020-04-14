@@ -111,9 +111,9 @@ export default class SocialMediaSignup extends Component {
 
       const userString = JSON.stringify(currentUser);
       const userObject = JSON.parse(userString);
-      console.log('userString:', userString);
-      console.log('userObject:', userObject);
-      console.log('googleUser:', googleUser);
+      // console.log('userString:', userString);
+      // console.log('userObject:', userObject);
+      // console.log('googleUser:', googleUser);
       this.createUserWithGoogleDetails({userObject, googleUser});
       this.setState({isLoading: false});
     } catch (error) {

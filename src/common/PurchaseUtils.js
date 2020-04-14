@@ -24,7 +24,6 @@ export const getOfferingsByPurchaseId = async (purchaseID) => {
   Purchases.setDebugLogsEnabled(true);
   Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseID);
   const purchaserOfferings = await Purchases.getOfferings();
-  console.log(purchaserOfferings);
   const {current: currentDietPlans} = purchaserOfferings; // current contains standard
   purchaseOfferings = currentDietPlans;
   return purchaseOfferings;
@@ -33,10 +32,11 @@ export const getOfferingsByPurchaseId = async (purchaseID) => {
 export const getPurchaserInfo = async () => await Purchases.getPurchaserInfo();
 
 export const getActiveEntitlement = async (purchaserInfo) => {
+  console.log('Inside getActiveEntitlements.');
   if (!purchaserInfo) {
     purchaserInfo = await getPurchaserInfo();
   }
-  return purchaserInfo.entitlements.active[0][1]; // active is an array where 0th element is latest purchase which is again an array active:[['entitlementName',{identifier, latestPurchaseDate,...}]]
+  return purchaserInfo.entitlements.active; // active is an array where 0th element is latest purchase which is again an array active:[['entitlementName',{identifier, latestPurchaseDate,...}]]
 };
 
 export const getPurchaserInfoAndActiveEntitlements = async () => {
@@ -54,10 +54,14 @@ export const makePurchase = async (packageToBuy) =>
 export const restoreTransactions = async () =>
   await Purchases.restoreTransactions();
 
-export const getPurchasePlanByFitnessLevelAndWeek = (week, fitnessLevel) => {
+export const getPurchasePlanByFitnessLevelAndWeek = (
+  week,
+  fitnessLevel,
+  offerings,
+) => {
   const productName = constructProductName(week, fitnessLevel);
-  if (purchaseOfferings) {
-    const {availablePackages} = purchaseOfferings;
+  if (offerings) {
+    const {availablePackages} = offerings;
     return availablePackages.find(
       (product) => productName === product.identifier,
     );

@@ -51,13 +51,13 @@ UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
 setCurrentUser(true);
-console.log(getFirstTimeUser());
+// console.log(getFirstTimeUser());
 
 export default class Signup extends Component {
   constructor(props) {
     super(props);
     const {navigation} = this.props;
-    console.log(navigation.getParam('isExistingUser'));
+    // console.log(navigation.getParam('isExistingUser'));
     this.state = {
       goal: '',
       gender: '',

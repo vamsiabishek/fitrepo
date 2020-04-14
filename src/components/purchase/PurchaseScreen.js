@@ -8,6 +8,7 @@ import {
   makePurchase,
   getActiveEntitlement,
   getPurchasePlanByFitnessLevelAndWeek,
+  getPurchaserInfoAndActiveEntitlements,
 } from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
 import {f, database} from '../../common/FirebaseConfig';
@@ -26,18 +27,28 @@ export default class PurchaseScreen extends React.Component {
       isLoading: false,
       showPurchaseSummary: false,
       purchaseSummary: undefined,
+      priceObject: undefined,
     };
   }
 
   componentDidMount = async () => {
     this.setState({isLoading: true});
+    const {selectedProgram, fitnessLevel, purchaseOptions} = this.props;
+    const priceObject = getPurchasePlanByFitnessLevelAndWeek(
+      // Change the name of the object to what it acually is
+      selectedProgram,
+      fitnessLevel,
+      purchaseOptions,
+    );
+    this.setState({priceObject: priceObject});
     const purchaserInfo = await getPurchaserInfo();
-    console.log('Purchaser Info: ', purchaserInfo.entitlements.active);
-    if (Object.entries(purchaserInfo.entitlements.active).length) {
+    const activeEntitlements = purchaserInfo.entitlements.active;
+    console.log('Active Entitlements: ', activeEntitlements);
+    if (Object.entries(activeEntitlements).length) {
       this.setState({
         isLoading: false,
         showPurchaseSummary: true,
-        purchaseSummary: purchaserInfo,
+        purchaseSummary: activeEntitlements,
       });
     } else {
       this.setState({isLoading: false});
@@ -46,24 +57,20 @@ export default class PurchaseScreen extends React.Component {
 
   handlePaymentProcess = async (purchasePackage) => {
     this.setState({isLoading: true});
-    const {uid, dietId} = this.props;
+    const {uid, dietId, paymentOptions} = this.props;
     try {
       const {purchaserInfo, productIdentifier} = await makePurchase(
         purchasePackage,
       );
-      console.log('Purchase Made: ', productIdentifier);
-      if (purchaserInfo.entitlements.active.length) {
-        console.log(
-          'Purchased entitlement',
-          purchaserInfo.entitlements.active[0][1],
-        );
-        const {originalPurchaseDate} = await getActiveEntitlement(
-          purchaserInfo,
-        );
-
+      console.log('Purchase Made of product identifier: ', productIdentifier);
+      const activeEntitlements = purchaserInfo.entitlements.active;
+      if (activeEntitlements.standard_role) {
+        const purchaseDate =
+          activeEntitlements.standard_role.originalPurchaseDate;
+        const purchaseDateType = new Date(purchaseDate);
         const purchaseDetails = {
           productIdentifier,
-          originalPurchaseDate,
+          purchaseDate,
         };
         await database
           .ref(`users/${uid}/purchases/${dietId}`)
@@ -72,7 +79,20 @@ export default class PurchaseScreen extends React.Component {
             createdDate: f.database.ServerValue.TIMESTAMP,
           })
           .then((res) => {
-            alert('Purchase Successful !');
+            Alert.alert(
+              'Purchase Successful !',
+              'You have successfully bought your ' +
+                paymentOptions.serverDescription +
+                ' for ' +
+                purchasePackage.product.price_string +
+                ' on ' +
+                purchaseDateType.toDateString() +
+                ' at ' +
+                purchaseDateType.getHours() +
+                ':' +
+                purchaseDateType.getMinutes(),
+              this.props.onClose(true),
+            );
           })
           .catch((error) => {
             console.log('error while saving purchase details:', error);
@@ -89,15 +109,18 @@ export default class PurchaseScreen extends React.Component {
         console.log('Error occurred while handling payment: ', e);
       } else {
         this.setState({isLoading: false});
-        console.log('User cancelled payment: ', e);
         Alert.alert('User cancelled payment !');
       }
     }
   };
 
   render() {
-    console.log('render');
-    const {isLoading, showPurchaseSummary, purchaseSummary} = this.state;
+    const {
+      isLoading,
+      showPurchaseSummary,
+      purchaseSummary,
+      priceObject,
+    } = this.state;
     const {
       isVisible,
       selectedGoal,
@@ -106,20 +129,16 @@ export default class PurchaseScreen extends React.Component {
       onClose,
       trialDaysLeft,
       dietTrialEndDate,
+      purchaseOptions,
     } = this.props;
-    const priceObject = getPurchasePlanByFitnessLevelAndWeek(
-      selectedProgram,
-      fitnessLevel,
-    );
-    console.log('priceObject', priceObject);
-    let activeEntitlement = '';
+    console.log('Package to buy: ', priceObject);
     let donePurchase = '';
     if (purchaseSummary) {
-      activeEntitlement = getActiveEntitlement(purchaseSummary);
-      donePurchase = activeEntitlement
-        ? activeEntitlement.originalPurchaseDate
+      donePurchase = purchaseSummary.entitlements.active.standard_role
+        ? new Date(
+            purchaseSummary.entitlements.active.standard_role.originalPurchaseDate,
+          )
         : '';
-      console.log('Done Purchase: ', donePurchase);
     }
     return (
       <View>
@@ -167,7 +186,10 @@ export default class PurchaseScreen extends React.Component {
                           Click below to buy it !
                         </Text>
                         <MyButton
-                          label={'Pay ' + priceObject.product.price_string}
+                          label={
+                            'Pay ' + priceObject &&
+                            priceObject.product.price_string
+                          }
                           onButtonClick={() =>
                             this.handlePaymentProcess(priceObject)
                           }
@@ -204,7 +226,8 @@ export default class PurchaseScreen extends React.Component {
                           Done with Payment !
                         </Text>
                         <Text style={styles.labelText}>
-                          Payment Date: {donePurchase}
+                          Payment Date:{' '}
+                          {donePurchase !== '' && donePurchase.toDateString()}
                         </Text>
                         <MyButton
                           label={'Done'}

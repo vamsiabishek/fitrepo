@@ -110,7 +110,7 @@ export default class DietGoalPlan extends Component {
     if (!program) {
       program = selectedProgram;
     }
-    console.log(goal, program);
+    // console.log(goal, program);
     if (!targetWeightChanged) {
       if (goal === 0) {
         //fat-loss
@@ -123,8 +123,8 @@ export default class DietGoalPlan extends Component {
           targetWeight = targetWeight - 2;
         }
       } else if (goal === 1) {
-        //weight gain
-        console.log('inside weight gain', targetWeight);
+        // weight gain
+        // console.log('inside weight gain', targetWeight);
         targetWeight = targetWeight + 3;
         if (program === 4) {
           targetWeight = targetWeight - 1;
@@ -135,7 +135,7 @@ export default class DietGoalPlan extends Component {
         }
       }
     }
-    console.log('targetWeight:', targetWeight);
+    // console.log('targetWeight:', targetWeight);
     return targetWeight;
   };
 
@@ -148,7 +148,6 @@ export default class DietGoalPlan extends Component {
       targetWeight,
       targetWeightIndex,
     } = this.state;
-    console.log('state:', this.state);
     this.props.setDietGoals({
       selectedGoal,
       selectedProgram,

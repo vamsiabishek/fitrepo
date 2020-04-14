@@ -1,25 +1,24 @@
 import {
   twoSourcePercent,
   threeSourcePercent,
-  fourSourcePercent
-} from "./SourceQuantityData";
-import { database } from "../../common/FirebaseConfig";
+  fourSourcePercent,
+} from './SourceQuantityData';
+import {database} from '../../common/FirebaseConfig';
 import {
   calculateCalFromProteinOrCarbs,
-  calculateCalFromFats
-} from "../../common/Common";
+  calculateCalFromFats,
+} from '../../common/Common';
 import {
   getStandardSources,
   getSourcesByIdListAndType,
   getStandardForProteinSources,
-  FOOD_PREF_VEG,
   FOOD_PREF_NON_VEG,
-  FOOD_PREF_EGGETARIAN
-} from "../../common/SourceUtil";
+  FOOD_PREF_EGGETARIAN,
+} from '../../common/SourceUtil';
 import {
   createRefBySourceType,
-  createKeyAndValuesFromResult
-} from "../../common/Util";
+  createKeyAndValuesFromResult,
+} from '../../common/Util';
 
 export const sourceQuantities = ({
   selectedSources,
@@ -28,7 +27,7 @@ export const sourceQuantities = ({
   isProtein,
   isCarb,
   isFat,
-  foodPreference
+  foodPreference,
 }) => {
   let totalSourceInGrams = 0;
   let totalSourceInGramsForRD = 0;
@@ -47,72 +46,96 @@ export const sourceQuantities = ({
   let calFromSources = {
     calFromProtein: 0,
     calFromCarbs: 0,
-    calFromFats: 0
+    calFromFats: 0,
   };
   let calFromSourcesForRD = {
     calFromProteinForRD: 0,
     calFromCarbsForRD: 0,
-    calFromFatsForRD: 0
+    calFromFatsForRD: 0,
   };
-  const { sources, selectedCategory } = getSelectedCategoryAndSource({
+  const {sources, selectedCategory} = getSelectedCategoryAndSource({
     selectedSources,
     isProtein,
     isCarb,
-    isFat
+    isFat,
   });
   let sourcePercent = [];
   if (selectedSources.length === 2) {
     sourcePercent = twoSourcePercent[selectedCategory];
     if (isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
-      eggSourceIndex = sources.findIndex(source => source.key.includes("egg"));
-      if (eggSourceIndex === 0) sourcePercent = [70, 30];
+      let eggSourceIndex = sources.findIndex((source) =>
+        source.key.includes('egg'),
+      );
+      if (eggSourceIndex === 0) {
+        sourcePercent = [70, 30];
+      }
       // 70% from egg whites
-      else sourcePercent = [30, 70]; // 70% from egg whites
+      else {
+        sourcePercent = [30, 70];
+      } // 70% from egg whites
     }
   } else if (selectedSources.length === 3) {
     sourcePercent = threeSourcePercent[selectedCategory];
     if (isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
-      eggSourceIndex = sources.findIndex(source => source.key.includes("egg"));
-      if (eggSourceIndex === 0) sourcePercent = [50, 25, 25];
+      let eggSourceIndex = sources.findIndex((source) =>
+        source.key.includes('egg'),
+      );
+      if (eggSourceIndex === 0) {
+        sourcePercent = [50, 25, 25];
+      }
       // 50% from egg whites
-      else if (eggSourceIndex === 1) sourcePercent = [50, 35, 15];
+      else if (eggSourceIndex === 1) {
+        sourcePercent = [50, 35, 15];
+      }
       // 35% from egg whites
-      else sourcePercent = [35, 35, 30]; // 30% from egg whites
+      else {
+        sourcePercent = [35, 35, 30];
+      } // 30% from egg whites
     }
   } else if (selectedSources.length === 4) {
     sourcePercent = fourSourcePercent[selectedCategory];
     if (isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {
-      eggSourceIndex = sources.findIndex(source => source.key.includes("egg"));
-      if (eggSourceIndex === 0) sourcePercent = [40, 20, 20, 20];
+      let eggSourceIndex = sources.findIndex((source) =>
+        source.key.includes('egg'),
+      );
+      if (eggSourceIndex === 0) {
+        sourcePercent = [40, 20, 20, 20];
+      }
       // 40% from egg whites
-      else if (eggSourceIndex === 1) sourcePercent = [40, 30, 15, 15];
+      else if (eggSourceIndex === 1) {
+        sourcePercent = [40, 30, 15, 15];
+      }
       // 30% from egg whites
-      else if (eggSourceIndex === 2) sourcePercent = [30, 30, 30, 10];
+      else if (eggSourceIndex === 2) {
+        sourcePercent = [30, 30, 30, 10];
+      }
       // 30% from egg whites
-      else sourcePercent = [30, 20, 20, 30]; // 30% from egg whites
+      else {
+        sourcePercent = [30, 20, 20, 30];
+      } // 30% from egg whites
     }
   }
   sources.map((source, index) => {
     const macroQuantity = Math.round(
-      (totalSourceInGrams * sourcePercent[index]) / 100
+      (totalSourceInGrams * sourcePercent[index]) / 100,
     );
     const macroQuantityForRD = Math.round(
-      (totalSourceInGramsForRD * sourcePercent[index]) / 100
+      (totalSourceInGramsForRD * sourcePercent[index]) / 100,
     );
-    const { macroValue, macroValueForRD } = calculateMacroValue({
+    const {macroValue, macroValueForRD} = calculateMacroValue({
       macroQuantity,
       macroQuantityForRD,
       source,
       isProtein,
       isCarb,
-      isFat
+      isFat,
     });
     const calories = calculateCaloriesPerMarco({
       macroValue,
       macroValueForRD,
       source,
       calFromSources,
-      calFromSourcesForRD
+      calFromSourcesForRD,
     });
     calFromSources = calories.calFromSources;
     calFromSourcesForRD = calories.calFromSourcesForRD;
@@ -121,17 +144,17 @@ export const sourceQuantities = ({
       macroQuantity,
       macroValue,
       macroQuantityForRD,
-      macroValueForRD
+      macroValueForRD,
     });
   });
-  return { sourceQuantityDistribution, calFromSources, calFromSourcesForRD };
+  return {sourceQuantityDistribution, calFromSources, calFromSourcesForRD};
 };
 
 const getSelectedCategoryAndSource = ({
   selectedSources,
   isProtein,
   isCarb,
-  isFat
+  isFat,
 }) => {
   let highSelected = 0;
   let averageSelected = 0;
@@ -140,15 +163,18 @@ const getSelectedCategoryAndSource = ({
   let highSources = [];
   let averageSources = [];
   let lowSources = [];
-  selectedSources.map(source => {
-    const { minValue, maxValue, averageValue } = getSourceCatgeroryValues({
+  selectedSources.map((source) => {
+    const {minValue, maxValue, averageValue} = getSourceCatgeroryValues({
       isProtein,
       isCarb,
-      isFat
+      isFat,
     });
     let macroValue = source.value.protein;
-    if (isCarb) macroValue = source.value.carbs;
-    else if (isFat) macroValue = source.value.fat;
+    if (isCarb) {
+      macroValue = source.value.carbs;
+    } else if (isFat) {
+      macroValue = source.value.fat;
+    }
 
     if (macroValue > maxValue) {
       highSources.push(source);
@@ -163,41 +189,41 @@ const getSelectedCategoryAndSource = ({
       lowSelected += 1;
     }
   });
-  let selectedCategory = "category";
+  let selectedCategory = 'category';
   const sources = [];
   for (let i = 0; i < highSelected; i++) {
-    selectedCategory = selectedCategory + "One";
+    selectedCategory = selectedCategory + 'One';
     sources.push(highSources[i]);
   }
   for (let i = 0; i < averageSelected; i++) {
-    selectedCategory = selectedCategory + "Two";
+    selectedCategory = selectedCategory + 'Two';
     sources.push(averageSources[i]);
   }
   for (let i = 0; i < lowSelected; i++) {
-    selectedCategory = selectedCategory + "Three";
+    selectedCategory = selectedCategory + 'Three';
     sources.push(lowSources[i]);
   }
-  return { sources, selectedCategory };
+  return {sources, selectedCategory};
 };
 
-const getSourceCatgeroryValues = ({ isProtein, isCarb, isFat }) => {
+const getSourceCatgeroryValues = ({isProtein, isCarb, isFat}) => {
   if (isProtein) {
     return {
       minValue: 0,
       averageValue: 10,
-      maxValue: 20
+      maxValue: 20,
     };
   } else if (isCarb) {
     return {
       minValue: 0,
       averageValue: 15,
-      maxValue: 25
+      maxValue: 25,
     };
   } else if (isFat) {
     return {
       minValue: 0,
       averageValue: 15,
-      maxValue: 30
+      maxValue: 30,
     };
   }
 };
@@ -208,14 +234,18 @@ const calculateMacroValue = ({
   source,
   isProtein,
   isCarb,
-  isFat
+  isFat,
 }) => {
   let macroValue = 0;
   let macroValueForRD = 0;
   let referenceMacroValue = 0;
-  if (isProtein) referenceMacroValue = source.value.protein;
-  else if (isCarb) referenceMacroValue = source.value.carbs;
-  else if (isFat) referenceMacroValue = source.value.fat;
+  if (isProtein) {
+    referenceMacroValue = source.value.protein;
+  } else if (isCarb) {
+    referenceMacroValue = source.value.carbs;
+  } else if (isFat) {
+    referenceMacroValue = source.value.fat;
+  }
 
   if (source.value.isPerSingleUnit) {
     macroValue = Math.round(macroQuantity / referenceMacroValue);
@@ -223,16 +253,16 @@ const calculateMacroValue = ({
   } else if (source.value.hasTableSpoon) {
     macroValue = Math.round((macroQuantity * 100) / referenceMacroValue / 14);
     macroValueForRD = Math.round(
-      (macroQuantityForRD * 100) / referenceMacroValue / 14
+      (macroQuantityForRD * 100) / referenceMacroValue / 14,
     );
   } else {
     macroValue = Math.round((macroQuantity * 100) / referenceMacroValue);
     macroValueForRD = Math.round(
-      (macroQuantityForRD * 100) / referenceMacroValue
+      (macroQuantityForRD * 100) / referenceMacroValue,
     );
   }
 
-  return { macroValue, macroValueForRD };
+  return {macroValue, macroValueForRD};
 };
 
 // for example macroValue here is 300gm of chicken
@@ -241,9 +271,9 @@ const calculateCaloriesPerMarco = ({
   macroValueForRD,
   source,
   calFromSources,
-  calFromSourcesForRD
+  calFromSourcesForRD,
 }) => {
-  const { protein, carbs, fat } = source.value;
+  const {protein, carbs, fat} = source.value;
   let referenceValue = 0;
   let referenceValueForRD = 0;
   if (source.value.hasTableSpoon) {
@@ -280,13 +310,13 @@ const calculateCaloriesPerMarco = ({
     calFromSources: {
       calFromProtein,
       calFromCarbs,
-      calFromFats
+      calFromFats,
     },
     calFromSourcesForRD: {
       calFromProteinForRD,
       calFromCarbsForRD,
-      calFromFatsForRD
-    }
+      calFromFatsForRD,
+    },
   };
 };
 
@@ -294,20 +324,20 @@ export const manageSources = async ({
   selectedProteinSources,
   selectedFatSources,
   selectedCarbSources,
-  foodPreference
+  foodPreference,
 }) => {
   let {
     standardSourcesForProtein: proteinSources,
     standardSourcesForCarbs: carbSources,
-    standardSourcesForFats: fatSources
+    standardSourcesForFats: fatSources,
   } = await standardSourceSelection({
     selectedProteinSources,
     selectedFatSources,
     selectedCarbSources,
-    foodPreference
+    foodPreference,
   });
 
-  console.log(proteinSources, carbSources, fatSources);
+  // console.log(proteinSources, carbSources, fatSources);
 
   let extraProteinSourcesRequired = false;
   let extraCarbSourcesRequired = false;
@@ -315,30 +345,36 @@ export const manageSources = async ({
   if (selectedProteinSources.length > 0) {
     proteinSources = getSourcesByIdListAndType(
       selectedProteinSources,
-      "protein"
+      'protein',
     );
-    if (selectedProteinSources.length <= 2) extraProteinSourcesRequired = true;
+    if (selectedProteinSources.length <= 2) {
+      extraProteinSourcesRequired = true;
+    }
   }
   if (selectedCarbSources.length > 0 && foodPreference === FOOD_PREF_NON_VEG) {
-    carbSources = getSourcesByIdListAndType(selectedCarbSources, "carb");
-    if (selectedCarbSources.length <= 2) extraCarbSourcesRequired = true;
+    carbSources = getSourcesByIdListAndType(selectedCarbSources, 'carb');
+    if (selectedCarbSources.length <= 2) {
+      extraCarbSourcesRequired = true;
+    }
   }
   if (selectedFatSources.length > 0) {
-    fatSources = getSourcesByIdListAndType(selectedFatSources, "fat");
-    if (selectedFatSources.length < 2) extraFatSourcesRequired = true;
+    fatSources = getSourcesByIdListAndType(selectedFatSources, 'fat');
+    if (selectedFatSources.length < 2) {
+      extraFatSourcesRequired = true;
+    }
   }
 
   const {
     extraProteinSources,
     extraCarbSources,
-    extraFatSources
+    extraFatSources,
   } = await getExtraSources({
     selectedProteinSources,
     selectedFatSources,
     selectedCarbSources,
     extraProteinSourcesRequired,
     extraCarbSourcesRequired,
-    extraFatSourcesRequired
+    extraFatSourcesRequired,
   });
   proteinSources = [...proteinSources, ...extraProteinSources];
   carbSources = [...carbSources, ...extraCarbSources];
@@ -346,7 +382,7 @@ export const manageSources = async ({
   return {
     proteinSources,
     carbSources,
-    fatSources
+    fatSources,
   };
 };
 
@@ -354,7 +390,7 @@ const standardSourceSelection = async ({
   selectedProteinSources,
   selectedFatSources,
   selectedCarbSources,
-  foodPreference
+  foodPreference,
 }) => {
   let standardSourcesForProtein = [];
   let standardSourcesForCarbs = [];
@@ -362,12 +398,15 @@ const standardSourceSelection = async ({
   let noProteinSourcesSelected = false;
   let noCarbSourcesSelected = false;
   let noFatSourcesSelected = false;
-  if (!selectedProteinSources || selectedProteinSources.length === 0)
+  if (!selectedProteinSources || selectedProteinSources.length === 0) {
     noProteinSourcesSelected = true;
-  if (!selectedFatSources || selectedFatSources.length === 0)
+  }
+  if (!selectedFatSources || selectedFatSources.length === 0) {
     noFatSourcesSelected = true;
-  if (!selectedCarbSources || selectedCarbSources.length === 0)
+  }
+  if (!selectedCarbSources || selectedCarbSources.length === 0) {
     noCarbSourcesSelected = true;
+  }
   if (
     noProteinSourcesSelected ||
     noCarbSourcesSelected ||
@@ -376,12 +415,12 @@ const standardSourceSelection = async ({
     const {
       standardProteinSources,
       standardCarbSources,
-      standardFatSources
+      standardFatSources,
     } = await getStandardMacroSources(
       noProteinSourcesSelected,
       noCarbSourcesSelected,
       noFatSourcesSelected,
-      foodPreference
+      foodPreference,
     );
     standardSourcesForProtein = standardProteinSources;
     standardSourcesForCarbs = standardCarbSources;
@@ -390,47 +429,49 @@ const standardSourceSelection = async ({
   return {
     standardSourcesForProtein,
     standardSourcesForCarbs,
-    standardSourcesForFats
+    standardSourcesForFats,
   };
 };
 
-getExtraSources = async ({
+const getExtraSources = async ({
   selectedProteinSources,
   selectedFatSources,
   selectedCarbSources,
   extraProteinSourcesRequired,
   extraCarbSourcesRequired,
-  extraFatSourcesRequired
+  extraFatSourcesRequired,
 }) => {
   return {
     extraProteinSources: addExtraSources(
       extraProteinSourcesRequired,
       selectedProteinSources,
-      getStandardSources("protein")
+      getStandardSources('protein'),
     ),
     extraCarbSources: addExtraSources(
       extraCarbSourcesRequired,
       selectedCarbSources,
-      getStandardSources("carb")
+      getStandardSources('carb'),
     ),
     extraFatSources: addExtraSources(
       extraFatSourcesRequired,
       selectedFatSources,
-      getStandardSources("fat")
-    )
+      getStandardSources('fat'),
+    ),
   };
 };
 
-addExtraSources = (extraRequired, currentSources, standardSources) => {
+const addExtraSources = (extraRequired, currentSources, standardSources) => {
   const extraSources = [];
   if (extraRequired && currentSources.length > 0) {
     const numberOfExtra = 4 - currentSources.length;
-    standardSources.map(source => {
+    standardSources.map((source) => {
       if (extraSources.length < numberOfExtra) {
         const extraSource = currentSources.find(
-          currSource => currSource.key === source.key
+          (currSource) => currSource.key === source.key,
         );
-        if (!extraSource) extraSources.push(source);
+        if (!extraSource) {
+          extraSources.push(source);
+        }
       }
     });
   }
@@ -441,7 +482,7 @@ const getStandardMacroSources = async (
   isProteinRequired,
   isCarbsRequired,
   isFatsRequired,
-  foodPreference
+  foodPreference,
 ) => {
   /*const proteinSources = await getStandardProteinSourcesForBeginners();
   const carbSources = await getStandardCarbSourcesForBeginners();
@@ -449,116 +490,119 @@ const getStandardMacroSources = async (
   const [
     standardProteinSources,
     standardCarbSources,
-    standardFatSources
+    standardFatSources,
   ] = await Promise.all([
     getStandardProteinSources(isProteinRequired, foodPreference),
     getStandardCarbSources(isCarbsRequired, foodPreference),
-    getStandardFatSources(isFatsRequired, foodPreference)
+    getStandardFatSources(isFatsRequired, foodPreference),
   ]);
   return {
     standardProteinSources,
     standardCarbSources,
-    standardFatSources
+    standardFatSources,
   };
 };
 
 // ---------FETCH DATA------------
 
-getStandardProteinSources = async (isProteinRequired, foodPreference) => {
+const getStandardProteinSources = async (isProteinRequired, foodPreference) => {
   let standardProteinSources = [];
   if (isProteinRequired) {
     standardProteinSources = getStandardForProteinSources(foodPreference);
-    if (!standardProteinSources)
+    if (!standardProteinSources) {
       await database
-        .ref("protein-sources")
-        .orderByChild("isStandardForBeginner")
+        .ref('protein-sources')
+        .orderByChild('isStandardForBeginner')
         .equalTo(true)
-        .once("value")
-        .then(snapshot => {
+        .once('value')
+        .then((snapshot) => {
           if (snapshot.val()) {
             const result = snapshot.val();
             standardProteinSources = createKeyAndValuesFromResult(result);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(
-            "error while fetching standard protein sources in DietAlgorithm:",
-            error
+            'error while fetching standard protein sources in DietAlgorithm:',
+            error,
           );
         });
+    }
   }
   return standardProteinSources;
 };
 
-getStandardCarbSources = async (isCarbsRequired, foodPreference) => {
+const getStandardCarbSources = async (isCarbsRequired, foodPreference) => {
   let standardCarbSources = [];
   if (isCarbsRequired && foodPreference === FOOD_PREF_NON_VEG) {
-    standardCarbSources = getStandardSources("carb");
-    if (!standardCarbSources)
+    standardCarbSources = getStandardSources('carb');
+    if (!standardCarbSources) {
       await database
-        .ref("carb-sources")
-        .orderByChild("isStandardForBeginner")
+        .ref('carb-sources')
+        .orderByChild('isStandardForBeginner')
         .equalTo(true)
-        .once("value")
-        .then(snapshot => {
+        .once('value')
+        .then((snapshot) => {
           if (snapshot.val()) {
             const result = snapshot.val();
             standardCarbSources = createKeyAndValuesFromResult(result);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(
-            "error while fetching standard carb sources in DietAlgorithm:",
-            error
+            'error while fetching standard carb sources in DietAlgorithm:',
+            error,
           );
         });
+    }
   }
   return standardCarbSources;
 };
 
-getStandardFatSources = async (isFatsRequired, foodPreference) => {
+const getStandardFatSources = async (isFatsRequired, foodPreference) => {
   let standardFatSources = [];
   if (isFatsRequired && foodPreference === FOOD_PREF_NON_VEG) {
-    standardFatSources = getStandardSources("fat");
-    if (!standardFatSources)
+    standardFatSources = getStandardSources('fat');
+    if (!standardFatSources) {
       await database
-        .ref("fat-sources")
-        .orderByChild("isStandardForBeginner")
+        .ref('fat-sources')
+        .orderByChild('isStandardForBeginner')
         .equalTo(true)
-        .once("value")
-        .then(snapshot => {
+        .once('value')
+        .then((snapshot) => {
           if (snapshot.val()) {
             const result = snapshot.val();
             standardFatSources = createKeyAndValuesFromResult(result);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(
-            "error while fetching standard fat sources in DietAlgorithm:",
-            error
+            'error while fetching standard fat sources in DietAlgorithm:',
+            error,
           );
         });
+    }
   }
   return standardFatSources;
 };
 
-getSourceById = async (id, sourceType) => {
+const getSourceById = async (id, sourceType) => {
   let source = {};
   let sourceRef = createRefBySourceType(sourceType);
   await database
     .ref(sourceRef)
     .child(id)
-    .once("value")
-    .then(snapshot => {
+    .once('value')
+    .then((snapshot) => {
       if (snapshot.val()) {
         const result = snapshot.val();
         source = createKeyAndValuesFromResult(result);
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(
-        "error while fetching standard fat sources in DietAlgorithm:",
-        error
+        'error while fetching standard fat sources in DietAlgorithm:',
+        error,
       );
     });
   return source;

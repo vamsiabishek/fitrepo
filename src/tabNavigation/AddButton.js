@@ -31,7 +31,7 @@ class AddButton extends React.Component {
       })
       .catch((error) => {
         latestDiet = undefined;
-        console.log(error);
+        console.log('Error occurred in AddButton Component : ', error);
       });
     if (latestDiet !== undefined) {
       const {createdDate, selectedProgram} = latestDiet.value;

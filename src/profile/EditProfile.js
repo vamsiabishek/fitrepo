@@ -62,7 +62,7 @@ export default class EditProfile extends Component {
       .child(userId)
       .update(setUserPartial)
       .then(() => {
-        console.log('Successfully updated existing user with details');
+        // console.log('Successfully updated existing user with details');
         this.setState({
           user: {...user, ...setUserPartial},
         });
@@ -140,11 +140,11 @@ export default class EditProfile extends Component {
       .on(
         'state_changed',
         (snapshot) => {
-          console.log(
+          /*console.log(
             'Progress: ',
             snapshot.bytesTransferred,
             snapshot.totalBytes,
-          );
+          );*/
         },
         (error) => {},
         () => {
@@ -153,7 +153,7 @@ export default class EditProfile extends Component {
             .child(filePath)
             .getDownloadURL()
             .then((url) => {
-              console.log('download url:', url);
+              // console.log('download url:', url);
               this.setState({
                 avatarSource: url,
               });
@@ -184,7 +184,7 @@ export default class EditProfile extends Component {
   };
 
   forceUpdate = () => {
-    console.log('In force update !');
+    // console.log('In force update !');
     const {userId} = this.state;
     database
       .ref('users')
@@ -200,7 +200,7 @@ export default class EditProfile extends Component {
   };
 
   render() {
-    const {user, avatarChanged, selectedSubScreen} = this.state;
+    const {user, avatarChanged} = this.state;
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
