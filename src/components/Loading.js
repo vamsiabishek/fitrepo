@@ -22,10 +22,12 @@ export default class Loading extends React.Component {
         fontWeight: 'normal',
       };
     }
-    mainContainer = {
-      ...mainContainer,
-      height: takeFullHeight ? SCREEN_HEIGHT : SCREEN_HEIGHT * 0.5,
-    };
+    if (takeFullHeight) {
+      mainContainer = {
+        ...mainContainer,
+        height: SCREEN_HEIGHT,
+      };
+    }
     if (animationHeight !== undefined) {
       watermelonAnimationStyle = {
         ...watermelonAnimationStyle,
