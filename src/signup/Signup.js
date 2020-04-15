@@ -185,17 +185,21 @@ export default class Signup extends Component {
   };
   setFBUser = (user) => {
     this.setState({user, dob: user.dob, age: user.age, isLoading: true});
-    this.saveUserAfterEmailAndPassword(user);
+    this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setGoogleUser = (user) => {
     this.setState({user, isLoading: true});
-    this.saveUserAfterEmailAndPassword(user);
+    this.saveUserAfterAuthentication(user);
+    this.scrollToNextScreen(4);
+  };
+  setPhoneNumberUser = (user) => {
+    this.setState({user, isLoading: true});
+    this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setNewUser = async () => {
-    console.log("******** creating new user ***************")
-    await this.createNewUser(); // saveUserAfterEmailAndPassword(user) is called inside this method
+    await this.createNewUser(); // saveUserAfterAuthentication(user) is called inside this method
     this.scrollToNextScreen(4);
   };
   setDob = (dob, age) => {
@@ -663,7 +667,7 @@ export default class Signup extends Component {
           };
           setCurrentUser(userObj.user);
           const newUser = {...user, ...userNewObj, ...userAddInfo};
-          this.saveUserAfterEmailAndPassword(newUser);
+          this.saveUserAfterAuthentication(newUser);
         })
         .catch((error) => {
           this.setState({
@@ -699,10 +703,10 @@ export default class Signup extends Component {
     } = this.state;
     let isScrollable = false;
     if (!isExistingUser) {
-      if (currentScreen === 1 && goal >= 0 && goal.length !== 0) {
+      if (currentScreen === 1 && gender >= 0 && gender.length !== 0) {
         isScrollable = true;
       }
-      if (currentScreen === 2 && gender >= 0 && gender.length !== 0) {
+      if (currentScreen === 2 && goal >= 0 && goal.length !== 0) {
         isScrollable = true;
       }
       if (
@@ -741,10 +745,10 @@ export default class Signup extends Component {
         this.scrollToNextScreen(currentScreen, isLoggedIn);
       }
     } else if (newLogin) {
-      if (currentScreen === 1 && goal >= 0 && goal.length !== 0) {
+      if (currentScreen === 1 && gender >= 0 && gender.length !== 0) {
         isScrollable = true;
       }
-      if (currentScreen === 2 && gender >= 0 && gender.length !== 0) {
+      if (currentScreen === 2 && goal >= 0 && goal.length !== 0) {
         isScrollable = true;
       }
       if (
@@ -816,7 +820,7 @@ export default class Signup extends Component {
     }
   };
 
-  saveUserAfterEmailAndPassword = async (newUser) => {
+  saveUserAfterAuthentication = async (newUser) => {
     const {email, password} = this.state;
     const {gender, fitnessLevel} = this.state;
     if (password !== '') {
@@ -979,6 +983,7 @@ export default class Signup extends Component {
       userLoginAnimation,
       newLogin,
     } = this.state;
+    const {hasAtleastOneDiet} = this.props;
     const signupObject = {
       email,
       password,
@@ -1021,17 +1026,6 @@ export default class Signup extends Component {
               style={commonStyles.container}
               pagingEnabled={true}
               contentContainerStyle={commonStyles.scrollContentContainer}>
-              <View style={commonStyles.subContainer}>
-                <View style={styles.contentWrapper}>
-                  <Header
-                    title="What is your goal ?"
-                    screen={screen}
-                    onBack={this.onBack}
-                    onCancel={this.onCancelSignup}
-                  />
-                  <Goal goal={goal} setGoal={this.setGoal} />
-                </View>
-              </View>
               {showGender && (
                 <View style={commonStyles.subContainer}>
                   <View style={styles.contentWrapper}>
@@ -1045,6 +1039,17 @@ export default class Signup extends Component {
                   </View>
                 </View>
               )}
+              <View style={commonStyles.subContainer}>
+                <View style={styles.contentWrapper}>
+                  <Header
+                    title="What is your goal ?"
+                    screen={screen}
+                    onBack={this.onBack}
+                    onCancel={this.onCancelSignup}
+                  />
+                  <Goal goal={goal} setGoal={this.setGoal} gender={gender} />
+                </View>
+              </View>
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
@@ -1083,20 +1088,21 @@ export default class Signup extends Component {
                         signupObject={signupObject}
                         setFBUser={this.setFBUser}
                         setGoogleUser={this.setGoogleUser}
+                        setPhoneNumberUser={this.setPhoneNumberUser}
                       />
                     )}
-                    <NavNextButton
+                    {/* <NavNextButton
                       isActive={isLoading ? false : navButtonActive}
                       screen={screen}
                       onNext={this.onNext}
-                    />
+                    /> */}
                   </View>
                 </View>
               )}
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
-                    title={"Let's get to know you Better, " + user.name + ' !'}
+                    title={"Let's get to know you better!"}
                     screen={screen}
                     onBack={this.onBack}
                     onCancel={this.onCancelSignup}
@@ -1111,7 +1117,7 @@ export default class Signup extends Component {
                     height={height}
                     setHeight={this.setHeight}
                     showTargetWeightButton={
-                      isExistingUser ? true : showTargetWeightButton
+                      hasAtleastOneDiet ? true : showTargetWeightButton
                     }
                     programs={[4, 8, 12, 16]}
                     program={program}

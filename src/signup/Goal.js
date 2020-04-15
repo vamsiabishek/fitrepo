@@ -6,6 +6,7 @@ import {
   styleCommon,
   ICON_SIZE_EXTRA_LARGE,
 } from '../../assets/style/stylesCommonValues';
+import {FEMALE_FATLOSS_ICON, FEMALE_GAIN_ICON, MALE_FATLOSS_ICON, MALE_GAIN_ICON, HEALTHY_ICON} from '../common/Common'
 
 export default class Goal extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class Goal extends React.Component {
   render() {
     const buttonIconColor = styleCommon.textColor1;
     const buttonIconActiveColor = styleCommon.textColor2;
-    const {goal, setGoal} = this.props;
+    const {goal, setGoal, gender} = this.props;
     return (
       <View style={styles.mainContent}>
         <SelectButton
@@ -31,6 +32,9 @@ export default class Goal extends React.Component {
           buttonIconColor={goal === 0 ? buttonIconActiveColor : buttonIconColor}
           onPress={setGoal}
           value={0}
+          iconImageStyle={styles.iconImageStyle}
+          shouldUseImage={true}
+          imageUrl={gender ? MALE_FATLOSS_ICON : FEMALE_FATLOSS_ICON}
         />
         <SelectButton
           buttonStyle={
@@ -46,6 +50,9 @@ export default class Goal extends React.Component {
           buttonIconColor={goal === 1 ? buttonIconActiveColor : buttonIconColor}
           onPress={setGoal}
           value={1}
+          iconImageStyle={styles.iconImageStyle}
+          shouldUseImage={true}
+          imageUrl={HEALTHY_ICON}
         />
         <SelectButton
           buttonStyle={
@@ -61,6 +68,9 @@ export default class Goal extends React.Component {
           buttonIconColor={goal === 2 ? buttonIconActiveColor : buttonIconColor}
           onPress={setGoal}
           value={2}
+          iconImageStyle={styles.iconImageStyle}
+          shouldUseImage={true}
+          imageUrl={gender ? MALE_GAIN_ICON : FEMALE_GAIN_ICON}
         />
       </View>
     );

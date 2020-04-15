@@ -1,11 +1,12 @@
 import {StyleSheet} from 'react-native';
-import {styleCommon} from './stylesCommonValues';
+import {styleCommon, SCREEN_HEIGHT} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    marginBottom: SCREEN_HEIGHT * 0.15,
     //backgroundColor: "oldlace"
   },
   iconsWrapper: {

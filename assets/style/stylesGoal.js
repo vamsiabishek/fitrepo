@@ -46,18 +46,27 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: fontsCommon.font18,
     color: styleCommon.textColor1,
+    marginLeft: SCREEN_HEIGHT * 0.06,
     //backgroundColor: "sandybrown"
   },
   activeButtonTitle: {
     fontWeight: '600',
     fontSize: fontsCommon.font18,
     color: styleCommon.textColor2,
+    marginLeft: SCREEN_HEIGHT * 0.06,
     //backgroundColor: "sandybrown"
   },
 
   buttonIcon: {
     position: 'absolute',
-    left: 45,
+    left: 25,
     //backgroundColor: "tomato"
+  },
+  iconImageStyle: {
+    width: SCREEN_HEIGHT * 0.1,
+    height: SCREEN_HEIGHT * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //tintColor: styleCommon.textColor1,
   },
 });

@@ -12,6 +12,7 @@
 #import <React/RCTRootView.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <RNGoogleSignin.h>
+#import <Firebase.h>
 
 @implementation AppDelegate
 
@@ -30,6 +31,9 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
   return YES;
 }
 

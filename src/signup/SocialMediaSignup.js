@@ -12,17 +12,19 @@ import {SocialIcon} from 'react-native-elements';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {f} from '../common/FirebaseConfig';
-import EmailOrMobileSignup from './EmailOrMobileSignup';
+//import EmailOrMobileSignup from './EmailOrMobileSignup';
 import Loading from '../components/Loading';
 import {styles} from '../../assets/style/stylesSocialMediaSignup';
 import {ICON_SELECT_SIGNUP_OPTION} from '../../assets/style/stylesCommonValues';
 import {setCurrentUser} from '../common/Util';
+import PhoneAuth from './PhoneAuthScreen';
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
+      showSocialOptions: true,
     };
     this.animatedFBValue = new Animated.Value(1);
     this.animatedGValue = new Animated.Value(1);
@@ -207,9 +209,23 @@ export default class SocialMediaSignup extends Component {
     };
     setFBUser(newUser);
   };
+
+  createUserWithPhoneNumber = (user) => {
+    const {setPhoneNumberUser} = this.props;
+    const newUser = {
+      phoneNumber: user.phoneNumber,
+      uid: user.uid,
+    };
+    setPhoneNumberUser(newUser);
+  };
+
+  setShowSocialOptions = (show) => {
+    this.setState({showSocialOptions: show});
+  };
+
   render() {
     const {signupObject} = this.props;
-    const {isLoading} = this.state;
+    const {isLoading, showSocialOptions} = this.state;
     const animatedFBStyle = {
       transform: [{scale: this.animatedFBValue}],
     };
@@ -233,61 +249,70 @@ export default class SocialMediaSignup extends Component {
           />
         ) : (
           <React.Fragment>
-            <View style={styles.iconsWrapper}>
-              <Animated.View
-                style={[
-                  styles.iconContainer,
-                  styles.overlapOne,
-                  animatedFBStyle,
-                ]}>
-                <TouchableOpacity
-                  onPressIn={() => this.handlePressIn('FB')}
-                  onPressOut={() => this.handlePressOut('FB')}>
-                  <SocialIcon
-                    iconSize={ICON_SELECT_SIGNUP_OPTION}
-                    style={styles.iconStyle}
-                    type="facebook"
-                  />
-                </TouchableOpacity>
-              </Animated.View>
-              <Animated.View
-                style={[
-                  styles.iconContainer,
-                  styles.overlapTwo,
-                  animatedGStyle,
-                ]}>
-                <TouchableOpacity
-                  onPressIn={() => this.handlePressIn('G')}
-                  onPressOut={() => this.handlePressOut('G')}>
-                  <SocialIcon
-                    iconSize={ICON_SELECT_SIGNUP_OPTION}
-                    style={styles.iconStyle}
-                    type="google-plus-official"
-                  />
-                </TouchableOpacity>
-              </Animated.View>
-              <Animated.View
-                style={[
-                  styles.iconContainer,
-                  styles.overlapThree,
-                  animatedTStyle,
-                ]}>
-                <TouchableOpacity
-                  onPressIn={() => this.handlePressIn('T')}
-                  onPressOut={() => this.handlePressOut('T')}>
-                  <SocialIcon
-                    iconSize={ICON_SELECT_SIGNUP_OPTION}
-                    style={styles.iconStyle}
-                    type="twitter"
-                  />
-                </TouchableOpacity>
-              </Animated.View>
-            </View>
+            {showSocialOptions && (
+              <View style={styles.iconsWrapper}>
+                <Animated.View
+                  style={[
+                    styles.iconContainer,
+                    styles.overlapOne,
+                    animatedFBStyle,
+                  ]}>
+                  <TouchableOpacity
+                    onPressIn={() => this.handlePressIn('FB')}
+                    onPressOut={() => this.handlePressOut('FB')}>
+                    <SocialIcon
+                      iconSize={ICON_SELECT_SIGNUP_OPTION}
+                      style={styles.iconStyle}
+                      type="facebook"
+                    />
+                  </TouchableOpacity>
+                </Animated.View>
+                <Animated.View
+                  style={[
+                    styles.iconContainer,
+                    styles.overlapTwo,
+                    animatedGStyle,
+                  ]}>
+                  <TouchableOpacity
+                    onPressIn={() => this.handlePressIn('G')}
+                    onPressOut={() => this.handlePressOut('G')}>
+                    <SocialIcon
+                      iconSize={ICON_SELECT_SIGNUP_OPTION}
+                      style={styles.iconStyle}
+                      type="google-plus-official"
+                    />
+                  </TouchableOpacity>
+                </Animated.View>
+                <Animated.View
+                  style={[
+                    styles.iconContainer,
+                    styles.overlapThree,
+                    animatedTStyle,
+                  ]}>
+                  <TouchableOpacity
+                    onPressIn={() => this.handlePressIn('T')}
+                    onPressOut={() => this.handlePressOut('T')}>
+                    <SocialIcon
+                      iconSize={ICON_SELECT_SIGNUP_OPTION}
+                      style={styles.iconStyle}
+                      type="twitter"
+                    />
+                  </TouchableOpacity>
+                </Animated.View>
+              </View>
+            )}
+            {showSocialOptions && (
+              <View>
+                <Text style={styles.textColor}>──────── OR ────────</Text>
+              </View>
+            )}
             <View>
-              <Text style={styles.textColor}>──────── OR ────────</Text>
-            </View>
-            <View>
-              <EmailOrMobileSignup signupObject={signupObject} />
+              {/* <EmailOrMobileSignup signupObject={signupObject} /> */}
+              <PhoneAuth
+                setShowSocialOptions={this.setShowSocialOptions}
+                createUserWithPhoneNumber={this.createUserWithPhoneNumber}
+                loadingMessage={'Registering your number...'}
+              />
             </View>
           </React.Fragment>
         )}

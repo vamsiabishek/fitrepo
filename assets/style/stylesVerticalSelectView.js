@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
   iconImageStyle: {
     width: SCREEN_HEIGHT * 0.1 - 19,
     height: SCREEN_HEIGHT * 0.1,
-    tintColor: styleCommon.textColor1,
+    //tintColor: styleCommon.textColor1,
   },
   iconDataStyle: {
     alignItems: 'center',

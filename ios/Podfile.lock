@@ -42,6 +42,46 @@ PODS:
     - FBSDKShareKit/Share (= 5.8.0)
   - FBSDKShareKit/Share (5.8.0):
     - FBSDKCoreKit (~> 5.0)
+  - Firebase/Auth (6.13.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 6.4.0)
+  - Firebase/Core (6.13.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 6.1.6)
+  - Firebase/CoreOnly (6.13.0):
+    - FirebaseCore (= 6.4.0)
+  - FirebaseAnalytics (6.1.6):
+    - FirebaseCore (~> 6.4)
+    - FirebaseInstanceID (~> 4.2)
+    - GoogleAppMeasurement (= 6.1.6)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (= 0.3.9011)
+  - FirebaseAuth (6.4.2):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.2)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseAuthInterop (1.1.0)
+  - FirebaseCore (6.4.0):
+    - FirebaseCoreDiagnostics (~> 1.0)
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnostics (1.2.3):
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleDataTransportCCTSupport (~> 2.0)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+    - nanopb (~> 0.3.901)
+  - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseInstanceID (4.2.7):
+    - FirebaseCore (~> 6.0)
+    - GoogleUtilities/Environment (~> 6.0)
+    - GoogleUtilities/UserDefaults (~> 6.0)
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
@@ -52,10 +92,38 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - GoogleAppMeasurement (6.1.6):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (= 0.3.9011)
+  - GoogleDataTransport (5.1.1)
+  - GoogleDataTransportCCTSupport (2.0.2):
+    - GoogleDataTransport (~> 5.1)
+    - nanopb (~> 0.3.901)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleUtilities/AppDelegateSwizzler (6.5.2):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.5.2)
+  - GoogleUtilities/Logger (6.5.2):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.5.2):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.5.2):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.5.2)"
+  - GoogleUtilities/Reachability (6.5.2):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (6.5.2):
+    - GoogleUtilities/Logger
   - GTMAppAuth (1.0.0):
     - AppAuth/Core (~> 1.0)
     - GTMSessionFetcher (~> 1.1)
@@ -68,6 +136,11 @@ PODS:
   - lottie-react-native (3.3.2):
     - lottie-ios (~> 3.1.3)
     - React
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
   - Purchases (3.2.2)
   - RCTRequired (0.62.1)
   - RCTTypeSafety (0.62.1):
@@ -315,6 +388,14 @@ PODS:
     - React
   - RNDeviceInfo (5.5.4):
     - React
+  - RNFBApp (6.4.0):
+    - Firebase/Core (~> 6.13.0)
+    - React
+  - RNFBAuth (6.4.0):
+    - Firebase/Auth (~> 6.13.0)
+    - Firebase/Core (~> 6.13.0)
+    - React
+    - RNFBApp
   - RNGestureHandler (1.6.1):
     - React
   - RNGoogleSignin (4.0.0):
@@ -372,6 +453,8 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info/RNDeviceInfo.podspec`)
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin/RNGoogleSignin.podspec`)"
   - RNPurchases (from `../node_modules/react-native-purchases/RNPurchases.podspec`)
@@ -389,9 +472,22 @@ SPEC REPOS:
     - FBSDKLoginKit
     - FBSDKMarketingKit
     - FBSDKShareKit
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAuth
+    - FirebaseAuthInterop
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
+    - FirebaseInstanceID
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
     - GoogleSignIn
+    - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - nanopb
     - Purchases
 
 EXTERNAL SOURCES:
@@ -461,6 +557,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info/RNDeviceInfo.podspec"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
+  RNFBAuth:
+    :path: "../node_modules/@react-native-firebase/auth"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
@@ -488,13 +588,26 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 1b0cf04df0370b37404213157b060d6666ede814
   FBSDKMarketingKit: b9dd220b38cc613c71d3eb626cd60bc8e938fbb4
   FBSDKShareKit: abc29e1bb4f9f59f679adf1ae191006d68455f96
+  Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
+  FirebaseAnalytics: 45f36d9c429fc91d206283900ab75390cd05ee8a
+  FirebaseAuth: ce45d7c5d46bed90159f3a73b6efbe8976ed3573
+  FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
+  FirebaseCore: 307ea2508df730c5865334e41965bd9ea344b0e5
+  FirebaseCoreDiagnostics: 13a6564cd6d5375066bbc8940cc1753af24497f3
+  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseInstanceID: ebd2ea79ee38db0cb5f5167b17a0d387e1cc7b6e
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  GoogleAppMeasurement: dfe55efa543e899d906309eaaac6ca26d249862f
+  GoogleDataTransport: 6ffa4dd0b6d547f8d27b91bd92fa9e197a3f5f1f
+  GoogleDataTransportCCTSupport: 12f02e5c8f09c055615de90bcd5ba2c375546051
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
   lottie-react-native: 2a1a82bb326ae51331a5520de0cf706733c6db69
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Purchases: 392c729893c011c7d4d37d7f7c9f863e597d4a9b
   RCTRequired: e291538a455f5ad1afc2139a4288990be0cadd46
   RCTTypeSafety: 8b6237185765dd9a03a3647807e08864105b1f95
@@ -521,6 +634,8 @@ SPEC CHECKSUMS:
   RNCPicker: 7d06ee91dff65b0bcd400ca00039051d5ddcb938
   RNDateTimePicker: f654c60568209005a3d9a5a6c4bff0c7094ec527
   RNDeviceInfo: 82e0a23d22ec73b2f71bd686a95d3dd278f223d7
+  RNFBApp: ae8fe642e3e457a9a417f1cf825a22de6bc5e94d
+  RNFBAuth: 8309add6fb9d1aca22be498fd94184c03e81cd4e
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNGoogleSignin: 068788c1e83e5e05ef0bad090ba67fd8f963a2a3
   RNPurchases: 01c054bf9a16be5269f4656d065661f2f8633f0a
@@ -529,6 +644,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 50fb6eb13d2152e7363293ff603385db380815b1
 
-PODFILE CHECKSUM: 34a60d2b45f8177798d40ccd2edf9f0ef3dbfd17
+PODFILE CHECKSUM: 0e9977649b64b41c796f017eeaaa404eff2ace09
 
-COCOAPODS: 1.9.0
+COCOAPODS: 1.9.1

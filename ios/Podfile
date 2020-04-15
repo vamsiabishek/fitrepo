@@ -1,3 +1,7 @@
+# https://github.com/invertase/react-native-firebase/issues/3253#issuecomment-607782071
+# Allow using RNFirebase as static frameworks
+$RNFirebaseAsStaticFramework = true
+
 target 'fitlog' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
@@ -65,6 +69,11 @@ target 'fitlog' do
   pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
   pod 'RNCPicker', :path => '../node_modules/@react-native-community/picker'
+
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
+
+  pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
 
   target 'fitlogTests' do
     inherit! :search_paths

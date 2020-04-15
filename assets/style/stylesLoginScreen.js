@@ -21,8 +21,8 @@ export const styles = StyleSheet.create({
   loginView: {
     justifyContent: 'flex-end',
     alignItems: 'center',
-    width: SCREEN_WIDTH * 0.89,
-    marginTop: SCREEN_HEIGHT * 0.15,
+   // width: SCREEN_WIDTH * 0.95,
+    marginTop: SCREEN_HEIGHT * 0.01,
     marginBottom: 20,
     //backgroundColor: "pink"
   },
@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
   loginInputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: SCREEN_WIDTH * 0.7,
+    //width: SCREEN_WIDTH * 0.9,
     margin: 5,
     //backgroundColor: "chocolate"
   },
@@ -80,6 +80,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
+    marginBottom: 40,
     shadowOffset: {width: 2, height: 8},
     shadowOpacity: 0.5,
     shadowRadius: 3,
@@ -98,7 +99,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   socialMediaLoginBtn: {
-    width: SCREEN_WIDTH * 0.35,
+    width: SCREEN_WIDTH * 0.38,
   },
   loginButtonText: {
     fontSize: fontsCommon.font16,
