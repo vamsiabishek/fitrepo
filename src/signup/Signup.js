@@ -185,17 +185,21 @@ export default class Signup extends Component {
   };
   setFBUser = (user) => {
     this.setState({user, dob: user.dob, age: user.age, isLoading: true});
-    this.saveUserAfterEmailAndPassword(user);
+    this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setGoogleUser = (user) => {
     this.setState({user, isLoading: true});
-    this.saveUserAfterEmailAndPassword(user);
+    this.saveUserAfterAuthentication(user);
+    this.scrollToNextScreen(4);
+  };
+  setPhoneNumberUser = (user) => {
+    this.setState({user, isLoading: true});
+    this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setNewUser = async () => {
-    console.log("******** creating new user ***************")
-    await this.createNewUser(); // saveUserAfterEmailAndPassword(user) is called inside this method
+    await this.createNewUser(); // saveUserAfterAuthentication(user) is called inside this method
     this.scrollToNextScreen(4);
   };
   setDob = (dob, age) => {
@@ -663,7 +667,7 @@ export default class Signup extends Component {
           };
           setCurrentUser(userObj.user);
           const newUser = {...user, ...userNewObj, ...userAddInfo};
-          this.saveUserAfterEmailAndPassword(newUser);
+          this.saveUserAfterAuthentication(newUser);
         })
         .catch((error) => {
           this.setState({
@@ -816,7 +820,7 @@ export default class Signup extends Component {
     }
   };
 
-  saveUserAfterEmailAndPassword = async (newUser) => {
+  saveUserAfterAuthentication = async (newUser) => {
     const {email, password} = this.state;
     const {gender, fitnessLevel} = this.state;
     if (password !== '') {
@@ -1083,13 +1087,14 @@ export default class Signup extends Component {
                         signupObject={signupObject}
                         setFBUser={this.setFBUser}
                         setGoogleUser={this.setGoogleUser}
+                        setPhoneNumberUser={this.setPhoneNumberUser}
                       />
                     )}
-                    <NavNextButton
+                    {/* <NavNextButton
                       isActive={isLoading ? false : navButtonActive}
                       screen={screen}
                       onNext={this.onNext}
-                    />
+                    /> */}
                   </View>
                 </View>
               )}

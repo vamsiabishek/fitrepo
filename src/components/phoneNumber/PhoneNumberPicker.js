@@ -13,7 +13,7 @@ import Flags from './resources/flags';
 import PhoneNumber from './phoneNumber';
 import styles from './styles';
 import CountryPicker from './CountryPicker';
-import {Input, Button} from 'react-native-elements';
+import {Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   ICON_SIZE_MED,
@@ -55,9 +55,21 @@ export default class PhoneInput extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    let {inputValue} = state;
+    const {phoneNumber, countryCode} = props;
+    if (inputValue === '' && phoneNumber !== '') {
+      return {
+        inputValue: phoneNumber,
+        numberWithCode: `${countryCode}${phoneNumber}`,
+      };
+    }
+    return null;
+  }
+
   onChangePhoneNumber = (number) => {
     const {countryCode} = this.state;
-    const numberWithCode = `+${countryCode}${number}`;
+    const numberWithCode = `${countryCode}${number}`;
     this.setState({inputValue: number, numberWithCode});
   };
 
@@ -128,8 +140,12 @@ export default class PhoneInput extends Component {
   onPhoneNumberEnter = () => {
     if (this.isValidPhoneNumber()) {
       const {sendCodeToPhone} = this.props;
-      const {numberWithCode} = this.state;
-      sendCodeToPhone(numberWithCode);
+      const {numberWithCode, inputValue, countryCode} = this.state;
+      sendCodeToPhone({
+        phoneNumber: numberWithCode,
+        phNumWithoutCountryCode: inputValue,
+        countryCode,
+      });
     }
   };
 
@@ -142,11 +158,11 @@ export default class PhoneInput extends Component {
   render() {
     const {
       iso2,
-      inputValue,
       disabled,
       showCountryPicker,
       countryCode,
       isValidNumber,
+      inputValue,
     } = this.state;
     return (
       <View style={styles.container}>

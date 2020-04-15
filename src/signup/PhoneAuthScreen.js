@@ -8,7 +8,17 @@ import {
   TextInput,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import {Input, Button} from 'react-native-elements';
 import PhoneNumberPicker from '../components/phoneNumber/PhoneNumberPicker';
+import {
+  btnGradientColorLeft,
+  modalBtnGradientColorRight,
+  styleCommon,
+  ICON_SIZE_SMALL,
+} from '../../assets/style/stylesCommonValues';
+import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {styles} from '../../assets/style/stylesPhoneAuthScreen';
 
 class PhoneAuthScreen extends Component {
   state = {
@@ -16,6 +26,8 @@ class PhoneAuthScreen extends Component {
     confirmResult: null,
     verificationCode: '',
     userId: '',
+    phNumWithoutCountryCode: '',
+    countryCode: '',
   };
 
   validatePhoneNumber = () => {
@@ -23,23 +35,36 @@ class PhoneAuthScreen extends Component {
     return regexp.test(this.state.phone);
   };
 
-  handleSendCode = async (phoneNumber) => {
-    console.log("sending verification code to", phoneNumber)
+  handleSendCode = async ({
+    phoneNumber,
+    phNumWithoutCountryCode,
+    countryCode,
+  }) => {
+    console.log('sending verification code to', phoneNumber);
+    const {setShowSocialOptions} = this.props;
     // Request to send OTP
-
     const confirmResult = await auth().signInWithPhoneNumber(phoneNumber);
-    this.setState({confirmResult});
+    this.setState({
+      confirmResult,
+      phoneNumber,
+      phNumWithoutCountryCode,
+      countryCode,
+    });
+    setShowSocialOptions(false);
   };
 
   handleVerifyCode = () => {
     // Request for OTP verification
     const {confirmResult, verificationCode} = this.state;
+    const {createUserWithPhoneNumber} = this.props;
+    console.log('verifying the code', verificationCode);
     if (verificationCode.length === 6) {
       confirmResult
         .confirm(verificationCode)
         .then((user) => {
-          this.setState({userId: user.uid});
-          alert(`Verified! ${user.uid}`);
+          //this.setState({userId: user.uid});
+          //alert(`Verified! ${user.uid}`);
+          createUserWithPhoneNumber(user);
         })
         .catch((error) => {
           alert(error.message);
@@ -50,111 +75,90 @@ class PhoneAuthScreen extends Component {
     }
   };
 
+  reEnterPhoneNumber = () => {
+    const {setShowSocialOptions} = this.props;
+    this.setState({confirmResult: null});
+    setShowSocialOptions(true);
+  };
+
   renderConfirmationCodeView = () => {
+    const {verificationCode, phoneNumber} = this.state;
     return (
-      <View style={styles.verificationView}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Verification code"
-          placeholderTextColor="#eee"
-          value={this.state.verificationCode}
-          keyboardType="numeric"
-          onChangeText={(verificationCode) => {
-            this.setState({verificationCode});
-          }}
-          maxLength={6}
-        />
-        <TouchableOpacity
-          style={[styles.themeButton, {marginTop: 20}]}
-          onPress={this.handleVerifyCode}>
-          <Text style={styles.themeButtonTitle}>Verify Code</Text>
-        </TouchableOpacity>
+      <View style={styles.verificationContainer}>
+        <Text style={styles.verificationTitle}>Verify your phone number</Text>
+        <Text style={styles.verificationDesc}>
+          Enter the 6-digit code we sent to
+        </Text>
+        <View style={styles.verificationPhNumContainer}>
+          <Button
+            title={phoneNumber}
+            titleStyle={styles.verificationPhNum}
+            type="clear"
+            onPress={() => this.reEnterPhoneNumber()}
+          />
+          <Icon
+            name="arrow-left"
+            color={styleCommon.iconColor}
+            size={ICON_SIZE_SMALL}
+            style={styles.iconStyle}
+          />
+          <Text style={styles.clickHere}>click to change</Text>
+        </View>
+        <View style={styles.verificationCodeContainer}>
+          <Input
+            maxLength={6}
+            placeholder="6-digit code"
+            placeholderTextColor="grey"
+            containerStyle={styles.inputViewContainer}
+            inputContainerStyle={styles.inputContainer}
+            inputStyle={styles.inputStyle}
+            errorStyle={styles.errorInputStyle}
+            keyboardAppearance="light"
+            keyboardType="numeric"
+            autoCapitalize="none"
+            autoCorrect={false}
+            blurOnSubmit={true}
+            onChangeText={(verifCode) => {
+              this.setState({verificationCode: verifCode});
+            }}
+            value={verificationCode}
+          />
+          <Button
+            title="VERIFY"
+            iconRight={true}
+            ViewComponent={LinearGradient}
+            linearGradientProps={{
+              colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
+              start: {x: 0, y: 0.5},
+              end: {x: 1, y: 0.5},
+            }}
+            containerStyle={styles.verifyButtonContainerStyle}
+            buttonStyle={styles.verifyButtonStyle}
+            titleStyle={styles.verifyButtonText}
+            onPress={this.handleVerifyCode}
+          />
+        </View>
       </View>
     );
   };
 
   render() {
+    const {confirmResult, phNumWithoutCountryCode, countryCode} = this.state;
     return (
-      // <SafeAreaView style={[styles.container, {backgroundColor: '#333'}]}>
-      //   <View style={styles.page}>
-      //     <TextInput
-      //       style={styles.textInput}
-      //       placeholder="Phone Number with country code"
-      //       placeholderTextColor="#eee"
-      //       keyboardType="phone-pad"
-      //       value={this.state.phone}
-      //       onChangeText={(phone) => {
-      //         this.setState({phone});
-      //       }}
-      //       maxLength={15}
-      //       editable={this.state.confirmResult ? false : true}
-      //     />
-
-      //     <TouchableOpacity
-      //       style={[styles.themeButton, {marginTop: 20}]}
-      //       onPress={
-      //         this.state.confirmResult
-      //           ? this.changePhoneNumber
-      //           : this.handleSendCode
-      //       }>
-      //       <Text style={styles.themeButtonTitle}>
-      //         {this.state.confirmResult ? 'Change Phone Number' : 'Send Code'}
-      //       </Text>
-      //     </TouchableOpacity>
-
-      //     {this.state.confirmResult ? this.renderConfirmationCodeView() : null}
-      //   </View>
-      // </SafeAreaView>
       <View style={styles.container}>
-        <PhoneNumberPicker sendCodeToPhone={this.handleSendCode} />
-        {this.state.confirmResult ? this.renderConfirmationCodeView() : null}
+        {confirmResult ? (
+          this.renderConfirmationCodeView()
+        ) : (
+          <PhoneNumberPicker
+            sendCodeToPhone={this.handleSendCode}
+            phoneNumber={phNumWithoutCountryCode}
+            countryCode={countryCode}
+          />
+        )}
+        {/* {this.renderConfirmationCodeView()} */}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    //flex: 1,
-    //backgroundColor: '#aaa',
-    marginBottom: 40,
-  },
-  page: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textInput: {
-    marginTop: 20,
-    width: '90%',
-    height: 40,
-    borderColor: '#555',
-    borderWidth: 2,
-    borderRadius: 5,
-    paddingLeft: 10,
-    color: '#fff',
-    fontSize: 16,
-  },
-  themeButton: {
-    width: '90%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#888',
-    borderColor: '#555',
-    borderWidth: 2,
-    borderRadius: 5,
-  },
-  themeButtonTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  verificationView: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 50,
-  },
-});
 
 export default PhoneAuthScreen;
