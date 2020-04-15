@@ -1,5 +1,5 @@
 import React from 'react';
-import {Animated} from 'react-native';
+import {Animated, Image} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Emoji from 'react-native-emoji';
@@ -37,9 +37,35 @@ export default class SelectButton extends React.Component {
       iconRight,
       value,
       shouldUseEmoji,
+      shouldUseImage,
+      imageUrl,
+      iconImageStyle,
     } = this.props;
     const animatedStyle = {
       transform: [{scale: this.animatedValue}],
+    };
+     const renderIcon = () => {
+      if (shouldUseEmoji) {
+        return (
+          <Icon style={buttonIcon} size={iconSize}>
+            <Emoji name={iconName} />
+          </Icon>
+        );
+      } else if (shouldUseImage) {
+        return (
+          <Icon style={buttonIcon} size={iconSize}>
+            <Image source={imageUrl} style={iconImageStyle} />
+          </Icon>
+        );
+      }
+      return (
+        <Icon
+          name={iconName}
+          size={iconSize}
+          color={buttonIconColor}
+          style={buttonIcon}
+        />
+      );
     };
     return (
       <Animated.View style={[containerStyle, animatedStyle]}>
@@ -47,20 +73,7 @@ export default class SelectButton extends React.Component {
           buttonStyle={buttonStyle}
           titleStyle={titleStyle}
           title={title}
-          icon={
-            shouldUseEmoji ? (
-              <Icon style={buttonIcon} size={iconSize}>
-                <Emoji name={iconName} />
-              </Icon>
-            ) : (
-              <Icon
-                name={iconName}
-                size={iconSize}
-                color={buttonIconColor}
-                style={buttonIcon}
-              />
-            )
-          }
+          icon={renderIcon()}
           iconRight={iconRight}
           onPressIn={() => this.handlePressIn()}
           onPressOut={() => this.handlePressOut()}

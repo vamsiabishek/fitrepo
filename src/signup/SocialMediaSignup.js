@@ -311,6 +311,7 @@ export default class SocialMediaSignup extends Component {
               <PhoneAuth
                 setShowSocialOptions={this.setShowSocialOptions}
                 createUserWithPhoneNumber={this.createUserWithPhoneNumber}
+                loadingMessage={'Registering your number...'}
               />
             </View>
           </React.Fragment>

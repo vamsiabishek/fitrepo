@@ -16,7 +16,7 @@ export default StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-    paddingBottom: 16,
+    paddingBottom: 25,
     paddingTop: 10,
     color: styleCommon.headerTitleColor,
   },
@@ -26,9 +26,16 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   countryCodeContainer: {
+    height: 55,
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'white',
+    marginLeft: SCREEN_WIDTH * 0.04,
     padding: 8,
+    borderWidth: 1,
+    borderRadius: 25,
+    borderColor: styleCommon.textInputColor,
   },
   basicContainer: {
     flex: 1,

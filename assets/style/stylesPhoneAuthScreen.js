@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
    // alignItems: 'center',
   },
   verificationTitle: {
-    fontSize: fontsCommon.font25,
+    fontSize: fontsCommon.font24,
     fontWeight: 'bold',
     paddingBottom: 45,
     paddingTop: 10,

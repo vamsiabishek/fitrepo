@@ -33,6 +33,20 @@ const styles = StyleSheet.create({
   textContainer: {
     color: 'white',
   },
+  createNewMessageContainer: {
+    paddingTop: DEVICE_NAME.includes('iPhone 11') ? 100 : 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  createNewMessageTitle: {
+    padding: 5,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: fontsCommon.font70,
+    color: styleCommon.headerTitleColor,
+    fontFamily: 'Billabong',
+    //backgroundColor: "pink"
+  },
   buttonHeaderContainer: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

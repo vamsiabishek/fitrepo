@@ -6,7 +6,7 @@ import {
   View,
   LayoutAnimation,
   UIManager,
-  ImageBackground,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
@@ -32,6 +32,7 @@ import {
 import {commonStyles} from '../../assets/style/stylesCommon';
 import Loading from '../components/Loading';
 import LinearGradient from 'react-native-linear-gradient';
+import PhoneAuth from '../signup/PhoneAuthScreen';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -62,6 +63,7 @@ export default class LoginScreen1 extends Component {
       isLoading: false,
       selectedIndex: 0,
       secureTextKey: true,
+      showSocialOptions: true,
     };
     //this.logoutGoogleUser()
   }
@@ -198,7 +200,7 @@ export default class LoginScreen1 extends Component {
     const {
       user: {uid},
     } = currentUser;
-    const isExistingUser = await this.checkForExistingUser(uid);
+    const isExistingUser = await this.checkForExistingUserWithDiets(uid);
     if (isExistingUser) {
       this.onLoginSuccess();
     } else {
@@ -233,11 +235,18 @@ export default class LoginScreen1 extends Component {
           avatar: user.photoURL,
           provider: PROVIDER_FACEBOOK,
         };
+      } else {
+        const {user} = currentUser;
+        newUser = {
+          phoneNumber: user.phoneNumber,
+          uid,
+        };
       }
 
       const {navigation} = this.props;
       navigation.navigate('Signup', {
         isExistingUser: true,
+        hasAtleastOneDiet: isExistingUser,
         newLogin: true,
         uid,
         newUser,
@@ -245,15 +254,18 @@ export default class LoginScreen1 extends Component {
       });
     }
   };
-  checkForExistingUser = async (uid) => {
+  checkForExistingUserWithDiets = async (uid) => {
     let isExistingUser = false;
     await database
-      .ref(`users/${uid}`)
+      .ref(`diets/${uid}`)
       .once('value')
-      .then((snapshot) => {
-        if (snapshot.val()) {
+      .then((snap) => {
+        if (snap.val()) {
           isExistingUser = true;
         }
+      })
+      .catch((error) => {
+        console.log('error while fetching my diets in Diet page', error);
       });
     return isExistingUser;
   };
@@ -270,6 +282,17 @@ export default class LoginScreen1 extends Component {
     navigate('ForgotPasswordScreen');
   };
 
+  loginWithPhoneNumber = async (user) => {
+    setCurrentUser(user);
+    const currentUser = {user};
+    await this.navigateLoggedInUser(currentUser);
+    //this.onLoginSuccess();
+  };
+
+  setShowSocialOptions = (show) => {
+    this.setState({showSocialOptions: show, isLoading: false});
+  };
+
   render() {
     const {
       email,
@@ -278,23 +301,33 @@ export default class LoginScreen1 extends Component {
       emailValid,
       isLoading,
       secureTextKey,
+      showSocialOptions,
     } = this.state;
     return (
       <View style={commonStyles.bgImage}>
-        <View style={styles.container}>
-          {isLoading ? (
+        <KeyboardAvoidingView
+          style={styles.container}
+          contentContainerStyle={styles.container}
+          behavior="padding"
+          enabled>
+          {/* {isLoading ? (
             <Loading
               text={'Logging you into Fitrepo...'}
               animationStr={require('../../assets/jsons/user_animation_4.json')}
               isTextBold={false}
             />
-          ) : (
-            <View style={styles.loginView}>
-              <View style={styles.logoContainer}>
-                <Text style={styles.logoText}>FITREPO</Text>
-              </View>
-              <View style={styles.loginInputContainer}>
-                <Input
+          ) : ( */}
+          <View style={styles.loginView}>
+            <View style={styles.logoContainer}>
+              <Text style={styles.logoText}>FITREPO</Text>
+            </View>
+            <View style={styles.loginInputContainer}>
+              <PhoneAuth
+                setShowSocialOptions={this.setShowSocialOptions}
+                createUserWithPhoneNumber={this.loginWithPhoneNumber}
+                loadingMessage={'Logging you into Fitrepo...'}
+              />
+              {/* <Input
                   placeholder="Email"
                   placeholderTextColor={styleCommon.textColor1}
                   containerStyle={styles.inputContainer}
@@ -377,9 +410,9 @@ export default class LoginScreen1 extends Component {
                       }
                     />
                   }
-                />
-              </View>
-              <View style={styles.buttonContainer}>
+                /> */}
+            </View>
+            {/* <View style={styles.buttonContainer}>
                 <Button
                   title="LOGIN"
                   icon={
@@ -407,37 +440,40 @@ export default class LoginScreen1 extends Component {
                   type="clear"
                   onPress={() => this.onClickForgotPassword()}
                 />
+              </View> */}
+            {showSocialOptions && !isLoading && (
+              <View>
+                <View style={{...styles.buttonContainer, flexDirection: 'row'}}>
+                  <SocialIcon
+                    style={styles.socialMediaLoginBtn}
+                    title="Facebook"
+                    button
+                    type="facebook"
+                    onPress={() => this.onFBLogin()}
+                    iconSize={fontsCommon.font22}
+                  />
+                  <SocialIcon
+                    style={styles.socialMediaLoginBtn}
+                    title="Google"
+                    button
+                    type="google-plus-official"
+                    onPress={() => this.onGoogleLogin()}
+                    iconSize={fontsCommon.font22}
+                  />
+                </View>
+                <View style={styles.signUpHereContainer}>
+                  <Text style={styles.newUserText}>New here ?</Text>
+                  <Button
+                    title="SIGN UP"
+                    titleStyle={styles.signUpButtonTitle}
+                    type="clear"
+                    onPress={() => this.signUpButttonClicked()}
+                  />
+                </View>
               </View>
-              <View style={{...styles.buttonContainer, flexDirection: 'row'}}>
-                <SocialIcon
-                  style={styles.socialMediaLoginBtn}
-                  title="Facebook"
-                  button
-                  type="facebook"
-                  onPress={() => this.onFBLogin()}
-                  iconSize={fontsCommon.font22}
-                />
-                <SocialIcon
-                  style={styles.socialMediaLoginBtn}
-                  title="Google"
-                  button
-                  type="google-plus-official"
-                  onPress={() => this.onGoogleLogin()}
-                  iconSize={fontsCommon.font22}
-                />
-              </View>
-              <View style={styles.signUpHereContainer}>
-                <Text style={styles.newUserText}>New here ?</Text>
-                <Button
-                  title="SIGN UP"
-                  titleStyle={styles.signUpButtonTitle}
-                  type="clear"
-                  onPress={() => this.signUpButttonClicked()}
-                />
-              </View>
-            </View>
-          )}
-        </View>
+            )}
+          </View>
+        </KeyboardAvoidingView>
       </View>
     );
   }

@@ -19,6 +19,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../../assets/style/stylesPhoneAuthScreen';
+import Loading from '../components/Loading';
 
 class PhoneAuthScreen extends Component {
   state = {
@@ -28,6 +29,7 @@ class PhoneAuthScreen extends Component {
     userId: '',
     phNumWithoutCountryCode: '',
     countryCode: '',
+    isLoading: false,
   };
 
   validatePhoneNumber = () => {
@@ -42,6 +44,8 @@ class PhoneAuthScreen extends Component {
   }) => {
     console.log('sending verification code to', phoneNumber);
     const {setShowSocialOptions} = this.props;
+    this.setState({isLoading: true});
+    setShowSocialOptions(false);
     // Request to send OTP
     const confirmResult = await auth().signInWithPhoneNumber(phoneNumber);
     this.setState({
@@ -49,14 +53,15 @@ class PhoneAuthScreen extends Component {
       phoneNumber,
       phNumWithoutCountryCode,
       countryCode,
+      isLoading: false,
     });
-    setShowSocialOptions(false);
   };
 
   handleVerifyCode = () => {
     // Request for OTP verification
     const {confirmResult, verificationCode} = this.state;
     const {createUserWithPhoneNumber} = this.props;
+    this.setState({isLoading: true});
     console.log('verifying the code', verificationCode);
     if (verificationCode.length === 6) {
       confirmResult
@@ -143,19 +148,35 @@ class PhoneAuthScreen extends Component {
   };
 
   render() {
-    const {confirmResult, phNumWithoutCountryCode, countryCode} = this.state;
+    const {
+      confirmResult,
+      phNumWithoutCountryCode,
+      countryCode,
+      isLoading,
+    } = this.state;
+    const {loadingMessage} = this.props;
     return (
       <View style={styles.container}>
-        {confirmResult ? (
-          this.renderConfirmationCodeView()
-        ) : (
-          <PhoneNumberPicker
-            sendCodeToPhone={this.handleSendCode}
-            phoneNumber={phNumWithoutCountryCode}
-            countryCode={countryCode}
+        {isLoading ? (
+          <Loading
+            text={loadingMessage}
+            animationStr={require('../../assets/jsons/user_animation_4.json')}
+            isTextBold={false}
+            takeFullHeight={false}
           />
+        ) : (
+          <View>
+            {confirmResult ? (
+              this.renderConfirmationCodeView()
+            ) : (
+              <PhoneNumberPicker
+                sendCodeToPhone={this.handleSendCode}
+                phoneNumber={phNumWithoutCountryCode}
+                countryCode={countryCode}
+              />
+            )}
+          </View>
         )}
-        {/* {this.renderConfirmationCodeView()} */}
       </View>
     );
   }

@@ -703,10 +703,10 @@ export default class Signup extends Component {
     } = this.state;
     let isScrollable = false;
     if (!isExistingUser) {
-      if (currentScreen === 1 && goal >= 0 && goal.length !== 0) {
+      if (currentScreen === 1 && gender >= 0 && gender.length !== 0) {
         isScrollable = true;
       }
-      if (currentScreen === 2 && gender >= 0 && gender.length !== 0) {
+      if (currentScreen === 2 && goal >= 0 && goal.length !== 0) {
         isScrollable = true;
       }
       if (
@@ -745,10 +745,10 @@ export default class Signup extends Component {
         this.scrollToNextScreen(currentScreen, isLoggedIn);
       }
     } else if (newLogin) {
-      if (currentScreen === 1 && goal >= 0 && goal.length !== 0) {
+      if (currentScreen === 1 && gender >= 0 && gender.length !== 0) {
         isScrollable = true;
       }
-      if (currentScreen === 2 && gender >= 0 && gender.length !== 0) {
+      if (currentScreen === 2 && goal >= 0 && goal.length !== 0) {
         isScrollable = true;
       }
       if (
@@ -983,6 +983,7 @@ export default class Signup extends Component {
       userLoginAnimation,
       newLogin,
     } = this.state;
+    const {hasAtleastOneDiet} = this.props;
     const signupObject = {
       email,
       password,
@@ -1025,17 +1026,6 @@ export default class Signup extends Component {
               style={commonStyles.container}
               pagingEnabled={true}
               contentContainerStyle={commonStyles.scrollContentContainer}>
-              <View style={commonStyles.subContainer}>
-                <View style={styles.contentWrapper}>
-                  <Header
-                    title="What is your goal ?"
-                    screen={screen}
-                    onBack={this.onBack}
-                    onCancel={this.onCancelSignup}
-                  />
-                  <Goal goal={goal} setGoal={this.setGoal} />
-                </View>
-              </View>
               {showGender && (
                 <View style={commonStyles.subContainer}>
                   <View style={styles.contentWrapper}>
@@ -1049,6 +1039,17 @@ export default class Signup extends Component {
                   </View>
                 </View>
               )}
+              <View style={commonStyles.subContainer}>
+                <View style={styles.contentWrapper}>
+                  <Header
+                    title="What is your goal ?"
+                    screen={screen}
+                    onBack={this.onBack}
+                    onCancel={this.onCancelSignup}
+                  />
+                  <Goal goal={goal} setGoal={this.setGoal} gender={gender} />
+                </View>
+              </View>
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
@@ -1101,7 +1102,7 @@ export default class Signup extends Component {
               <View style={commonStyles.subContainer}>
                 <View style={styles.contentWrapper}>
                   <Header
-                    title={"Let's get to know you Better, " + user.name + ' !'}
+                    title={"Let's get to know you better!"}
                     screen={screen}
                     onBack={this.onBack}
                     onCancel={this.onCancelSignup}
@@ -1116,7 +1117,7 @@ export default class Signup extends Component {
                     height={height}
                     setHeight={this.setHeight}
                     showTargetWeightButton={
-                      isExistingUser ? true : showTargetWeightButton
+                      hasAtleastOneDiet ? true : showTargetWeightButton
                     }
                     programs={[4, 8, 12, 16]}
                     program={program}

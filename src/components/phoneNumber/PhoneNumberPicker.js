@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Image,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-  Text,
-} from 'react-native';
+import {Image, TextInput, TouchableOpacity, View, Text} from 'react-native';
 import PropTypes from 'prop-types';
 
 import Country from './country';
@@ -170,22 +164,22 @@ export default class PhoneInput extends Component {
           <Text style={styles.title}>Enter your phone number</Text>
         </View>
         <View style={styles.phoneNumberContainer}>
-          <View style={styles.countryCodeContainer}>
-            <TouchableWithoutFeedback
-              onPress={this.onPressFlag}
-              disabled={disabled}>
-              <Image
-                source={Flags.get(iso2)}
-                style={[styles.flag, this.props.flagStyle]}
-              />
-            </TouchableWithoutFeedback>
+          <TouchableOpacity
+            onPress={this.onPressFlag}
+            disabled={disabled}
+            style={styles.countryCodeContainer}>
+            <Image
+              source={Flags.get(iso2)}
+              style={[styles.flag, this.props.flagStyle]}
+            />
             <Text style={{paddingLeft: 5}}>{countryCode}</Text>
             <Icon
               name="menu-down"
               color={styleCommon.iconColorDark}
               size={ICON_SIZE_SMALL}
             />
-          </View>
+          </TouchableOpacity>
+
           <View>
             <Input
               placeholder="Phone Number"

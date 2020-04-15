@@ -20,6 +20,8 @@ import {
   WEIGHT_GAIN_DESC,
   BE_HEALTHY_DESC,
 } from '../common/Common';
+import Emoji from 'react-native-emoji';
+
 
 export default class Diet extends Component {
   constructor(props) {
@@ -48,7 +50,7 @@ export default class Diet extends Component {
     let {uid} = '';
     const user = await getCurrentUser('user_data');
     if (user) {
-     //console.log('uid:', user.uid);
+      //console.log('uid:', user.uid);
       uid = user.uid;
     }
 
@@ -141,71 +143,87 @@ export default class Diet extends Component {
       uid,
     } = this.state;
     const {navigation} = this.props;
+    const hasDiets = this.currentDietList.length;
     return (
       <View style={styles.mainContainer}>
         {isLoading ? (
           <ActivityIndicator color={styleCommon.textColor1} size="large" />
         ) : (
           <View style={styles.container}>
-            <View style={styles.buttonHeaderContainer}>
-              <View style={styles.buttonContainer} />
-            </View>
+            {hasDiets ? (
+              <View>
+                <View style={styles.buttonHeaderContainer}>
+                  <View style={styles.buttonContainer} />
+                </View>
 
-            <View style={styles.subHeaderContainer}>
-              <TouchableOpacity
-                style={styles.activeSubHeaderComponents}
-                onPress={() => this.setState({currentDietOption: 'myDiets'})}>
-                <Text style={styles.subHeaderMenuItems}>My Diets</Text>
-              </TouchableOpacity>
-              <View style={styles.sortContainerStyle}>
-                <StringPicker
-                  pickerHeading="Pick an option to filter your diets"
-                  stringArray={sortOptionsArray}
-                  isVisible={showSortPicker}
-                  selectedStr={selectedSortOption}
-                  onConfirm={this.onSortChange}
-                  onCancel={this.hideSortPicker}
-                />
-                <Button
-                  title={selectedSortOption}
-                  containerStyle={styles.filterButtonContainerStyle}
-                  buttonStyle={
-                    selectedSortOption === 'Newest first'
-                      ? styles.filterButtonStyle
-                      : styles.activeFilterButtonStyle
-                  }
-                  titleStyle={
-                    selectedSortOption === 'Newest first'
-                      ? styles.filterButtonTitle
-                      : styles.activeFilterButtonTitle
-                  }
-                  icon={
-                    <Icon
-                      name={
-                        selectedSortOption === 'Newest first'
-                          ? 'filter-outline'
-                          : 'filter'
-                      }
-                      size={ICON_SIZE_MED}
-                      style={
-                        selectedSortOption === 'Newest first'
-                          ? styles.filterButtonIcon
-                          : styles.activeFilterButtonIcon
-                      }
+                <View style={styles.subHeaderContainer}>
+                  <TouchableOpacity
+                    style={styles.activeSubHeaderComponents}
+                    onPress={() =>
+                      this.setState({currentDietOption: 'myDiets'})
+                    }>
+                    <Text style={styles.subHeaderMenuItems}>My Diets</Text>
+                  </TouchableOpacity>
+                  <View style={styles.sortContainerStyle}>
+                    <StringPicker
+                      pickerHeading="Pick an option to filter your diets"
+                      stringArray={sortOptionsArray}
+                      isVisible={showSortPicker}
+                      selectedStr={selectedSortOption}
+                      onConfirm={this.onSortChange}
+                      onCancel={this.hideSortPicker}
                     />
-                  }
-                  iconRight
-                  onPress={this.showSortPicker}
-                />
+                    <Button
+                      title={selectedSortOption}
+                      containerStyle={styles.filterButtonContainerStyle}
+                      buttonStyle={
+                        selectedSortOption === 'Newest first'
+                          ? styles.filterButtonStyle
+                          : styles.activeFilterButtonStyle
+                      }
+                      titleStyle={
+                        selectedSortOption === 'Newest first'
+                          ? styles.filterButtonTitle
+                          : styles.activeFilterButtonTitle
+                      }
+                      icon={
+                        <Icon
+                          name={
+                            selectedSortOption === 'Newest first'
+                              ? 'filter-outline'
+                              : 'filter'
+                          }
+                          size={ICON_SIZE_MED}
+                          style={
+                            selectedSortOption === 'Newest first'
+                              ? styles.filterButtonIcon
+                              : styles.activeFilterButtonIcon
+                          }
+                        />
+                      }
+                      iconRight
+                      onPress={this.showSortPicker}
+                    />
+                  </View>
+                </View>
+                <View style={styles.listViewContainer}>
+                  <CustomListView
+                    uid={uid}
+                    diets={this.currentDietList}
+                    navigation={navigation}
+                  />
+                </View>
               </View>
-            </View>
-            <View style={styles.listViewContainer}>
-              <CustomListView
-                uid={uid}
-                diets={this.currentDietList}
-                navigation={navigation}
-              />
-            </View>
+            ) : (
+              <View style={styles.createNewMessageContainer}>
+                <Text style={styles.createNewMessageTitle}>
+                  Get started by clicking on + icon below
+                </Text>
+                <Icon size={150}>
+                  <Emoji name={'female-cook'} />
+                </Icon>
+              </View>
+            )}
           </View>
         )}
       </View>
