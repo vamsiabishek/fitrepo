@@ -11,8 +11,10 @@ import {ImageBackground, StatusBar} from 'react-native';
 import {AppContainer} from './src/tabNavigation/TabNavigationWrapper';
 import {GRADIENT_BG_IMAGE} from './src/common/Common';
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from './assets/style/stylesCommonValues';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
+  SplashScreen.hide();
   return (
     <ImageBackground
       source={GRADIENT_BG_IMAGE}

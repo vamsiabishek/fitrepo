@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* fitlogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* fitlogTests.m */; };
+		0568FA7B24484C3400E212AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0568FA7A24484C3400E212AC /* LaunchScreen.storyboard */; };
 		0574899922919C39007F3902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0574899822919C39007F3902 /* GoogleService-Info.plist */; };
 		12EBAC14C6C842B4A150C16B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52CF1089F11C4309BCA6AA9F /* SimpleLineIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -78,6 +79,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* fitlogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fitlogTests.m; sourceTree = "<group>"; };
 		050DED9F2259263C004C5E40 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		0568FA7A24484C3400E212AC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0574899822919C39007F3902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0DBBC8999C994CF5919F384A /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Fitrepo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fitrepo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +190,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				0568FA7A24484C3400E212AC /* LaunchScreen.storyboard */,
 			);
 			name = fitlog;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				E99662DF11654389A1AE5692 /* Feather.ttf in Resources */,
 				7DC33F2A833448A4811FE2F0 /* FontAwesome.ttf in Resources */,
 				2B19D757225F4C9EABD0AFAE /* FontAwesome5_Brands.ttf in Resources */,
+				0568FA7B24484C3400E212AC /* LaunchScreen.storyboard in Resources */,
 				66EB036ED4904A0EAB943365 /* FontAwesome5_Regular.ttf in Resources */,
 				A26F050960284D25A1259756 /* FontAwesome5_Solid.ttf in Resources */,
 				C08614BFF9504C23B367ED1F /* Foundation.ttf in Resources */,
@@ -657,6 +661,7 @@
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-fbsdk/react_native_fbsdk.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-safe-area-context/react_native_safe_area_context.framework",
+				"${BUILT_PRODUCTS_DIR}/react-native-splash-screen/react_native_splash_screen.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -704,6 +709,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_fbsdk.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_safe_area_context.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_splash_screen.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
