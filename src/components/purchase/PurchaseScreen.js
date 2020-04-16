@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, View, Text, Animated, Easing} from 'react-native';
+import {Alert, View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
@@ -28,7 +28,6 @@ export default class PurchaseScreen extends React.Component {
       isLoading: false,
       showPurchaseSummary: false,
       purchaseSummary: undefined,
-      progress: new Animated.Value(0),
       packageToPurchase: getPurchasePlanByFitnessLevelAndWeek(
         selectedProgram,
         fitnessLevel,
@@ -76,12 +75,6 @@ export default class PurchaseScreen extends React.Component {
         isLoading: false,
       });
     }*/
-    Animated.timing(this.state.progress, {
-      toValue: 1,
-      duration: 3000,
-      easing: Easing.ease,
-      useNativeDriver: true,
-    }).start();
   };
 
   handlePaymentProcess = async (purchasePackage) => {
@@ -152,9 +145,6 @@ export default class PurchaseScreen extends React.Component {
         ? new Date(purchaseSummary.standard_role.originalPurchaseDate)
         : '';
     }
-    const imgStyle = {
-      margin: 10,
-    };
     const doneIconStyle = {
       height: SCREEN_HEIGHT * 0.3,
       justifyContent: 'center',
@@ -184,10 +174,7 @@ export default class PurchaseScreen extends React.Component {
       alignItems: 'center',
       //backgroundColor: 'pink',
     };
-    const headerAnimationViewStyle = {
-      //paddingBottom: 50,
-      //backgroundColor: 'purple',
-    };
+    const modalContentStyle = {flex: 1, justifyContent: 'space-between'};
     const headerAnimationLoadingViewStyle = {
       flex: 1,
       justifyContent: 'space-evenly',
@@ -195,6 +182,7 @@ export default class PurchaseScreen extends React.Component {
     return (
       <View>
         <Modal
+          useNativeDriver={true}
           isVisible={isVisible}
           backdropColor="black"
           backdropOpacity={0.5}>
@@ -204,7 +192,7 @@ export default class PurchaseScreen extends React.Component {
                 {purchaseOfferings ? (
                   <React.Fragment>
                     {!showPurchaseSummary && packageToPurchase ? (
-                      <View style={{flex: 1, justifyContent: 'space-between'}}>
+                      <View style={modalContentStyle}>
                         <View>
                           <Button
                             icon={
@@ -219,7 +207,7 @@ export default class PurchaseScreen extends React.Component {
                             containerStyle={styles.closeButtonContainerStyle}
                           />
                           <View style={styles.textualArea}>
-                            <View style={headerAnimationViewStyle}>
+                            <View>
                               <Text style={styles.headerPurcahseText}>
                                 One Step Away From Viewing Your Meals
                               </Text>
@@ -269,7 +257,7 @@ export default class PurchaseScreen extends React.Component {
                         </View>
                       </View>
                     ) : (
-                      <View style={{flex: 1, justifyContent: 'space-between'}}>
+                      <View style={modalContentStyle}>
                         <View>
                           <Button
                             icon={
@@ -286,7 +274,7 @@ export default class PurchaseScreen extends React.Component {
                             }
                           />
                           <View style={styles.textualArea}>
-                            <View style={headerAnimationViewStyle}>
+                            <View>
                               <Text style={styles.headerPurchaseDoneText}>
                                 Purchase Success
                               </Text>

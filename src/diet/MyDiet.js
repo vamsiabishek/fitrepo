@@ -17,7 +17,7 @@ import {
 import {database} from '../common/FirebaseConfig';
 import Loading from '../components/Loading';
 import PurchaseScreen from '../components/purchase/PurchaseScreen';
-import {getFirstTimeUser, isTrailUser} from '../common/Util';
+import {isTrailUser} from '../common/Util';
 import {getProgramEndDate, getSeconds} from '../common/Util';
 
 // Enable LayoutAnimation for Android Devices
@@ -45,14 +45,13 @@ export default class MyDiet extends Component {
     this.dayBarExpandedHeight = styles.dayBarStyle.height; // calculated by onLayout
     this.dayBarCollapsedHeight = 0;
 
-    console.log('calling constructor')
+    console.log('calling constructor');
   }
 
   componentDidMount = async () => {
     const {navigation} = this.props;
     const dietId = navigation.getParam('dietId');
     const uid = navigation.getParam('uid');
-    //alert(getFirstTimeUser());
     await this.loadDietDetails(uid, dietId);
     await this.loadPaymentEntitlements(uid);
     await this.checkDietTrail(dietId, uid);
@@ -60,7 +59,6 @@ export default class MyDiet extends Component {
 
   componentDidUpdate = async (prevProps) => {
     console.log('in did update.');
-    console.log('showMEals? ', this.state.showMeals);
     const {navigation} = this.props;
     const dietId = navigation.getParam('dietId');
     const uid = navigation.getParam('uid');
@@ -82,7 +80,7 @@ export default class MyDiet extends Component {
     const showMeals = diet.purchaseStatus
       ? true
       : showInitialTrailMeals
-      ? true
+      ? false
       : showAllMealsForSubscribed;
     this.setState({showInitialTrailMeals, showMeals});
   };
@@ -227,10 +225,10 @@ export default class MyDiet extends Component {
   };
 
   changeWeek = ({prev, next}) => {
-    const {diet} = this.state;
-    console.log('getFirstTimeUSer: ', getFirstTimeUser());
+    const {diet, showInitialTrailMeals} = this.state;
+    console.log('showInitialTrailMeals: ', showInitialTrailMeals);
     console.log('diet.paymentStatus: ', diet.paymentStatus);
-    if (!getFirstTimeUser() || diet.paymentStatus) {
+    if (!showInitialTrailMeals || diet.paymentStatus) {
       console.log('Inside paymentStatus true cond.');
       const {currentWeek, allMeals} = this.state;
       if (prev && allMeals[currentWeek - 2]) {
@@ -246,14 +244,33 @@ export default class MyDiet extends Component {
       }
     } else {
       console.log('Inside else paymentStatus false cond.');
-      this.setState({showInitialTrailMeals: false, showPaymentModal: true});
+      this.setState({
+        showPaymentModal: true,
+        showMeals: false,
+      });
+    }
+  };
+
+  onPressSupplementsButton = () => {
+    const {paymentStatus} = this.state.diet;
+    const {navigation} = this.props;
+    const {navigate} = this.props.navigation;
+    const dietId = navigation.getParam('dietId');
+    if (!paymentStatus) {
+      this.setState({
+        showPaymentModal: true,
+        showMeals: false,
+      });
+    } else {
+      navigate('Supplements', {dietId});
     }
   };
 
   onClosePaymentModal = async (paymentDone = false) => {
     console.log('Inside onClodePaymentModal. paymentDone is: ', paymentDone);
     const {navigate} = this.props.navigation;
-    this.setState({showPaymentModal: false, showMeals: true}); // , 
+    const {showInitialTrailMeals} = this.state;
+    this.setState({showPaymentModal: false, showMeals: true}); // ,
     if (paymentDone) {
       console.log('Inside if paymentDone is true.');
       const {navigation} = this.props;
@@ -293,7 +310,7 @@ export default class MyDiet extends Component {
             error,
           );
         });
-    } else if (!paymentDone && getFirstTimeUser()) {
+    } else if (!paymentDone && !showInitialTrailMeals) {
       navigate('Diet');
     }
   };
@@ -327,7 +344,7 @@ export default class MyDiet extends Component {
       extrapolate: 'clamp',
     });
     let dietTrialEndDate;
-    let trialDaysLeft; // getFirstTimeUser() showInitialTrailMeals
+    let trialDaysLeft; // showInitialTrailMeals
     if (showInitialTrailMeals && !diet.purchaseStatus) {
       const trialPeriod = 1;
       dietTrialEndDate = getProgramEndDate(diet.createdDate, trialPeriod);
@@ -343,6 +360,19 @@ export default class MyDiet extends Component {
       : styleCommon.unSelectedButtonColor;
     const nextWeekEnabled = allMeals[currentWeek] ? true : false;
     const prevWeekEnabled = allMeals[currentWeek - 2] ? true : false;
+    const animatedViewStyle = {
+      height: dayBarHeight,
+      backgroundColor: 'transparent',
+    };
+    const weeklyBarInnerStartStyle = {justifyContent: 'flex-start'};
+    const weeklyBarInnerEndStyle = {justifyContent: 'flex-end'};
+    const changeWeekButtonStyle = {paddingHorizontal: 10};
+    const currentWeekStyle = {
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row',
+    };
+    const dayColor = {color: 'lightgrey'};
     return (
       <View style={styles.container}>
         {isLoading ? (
@@ -381,16 +411,12 @@ export default class MyDiet extends Component {
                   containerStyle={styles.backButtonStyle}
                   buttonStyle={styles.backButtonStyle}
                   titleStyle={styles.backButtonTitleStyle}
-                  onPress={() => navigate('Supplements', {dietId})}
+                  onPress={this.onPressSupplementsButton}
                 />
               </View>
             </View>
             <View>
-              <Animated.View
-                style={[
-                  styles.dayBarStyle,
-                  {height: dayBarHeight, backgroundColor: 'transparent'},
-                ]}>
+              <Animated.View style={[styles.dayBarStyle, animatedViewStyle]}>
                 <Button
                   title="Training day"
                   containerStyle={styles.buttonContainer}
@@ -442,9 +468,9 @@ export default class MyDiet extends Component {
               fat={fatsInGm}
             />
             <View style={styles.weeklyBarStyle}>
-              <View style={{justifyContent: 'flex-start'}}>
+              <View style={weeklyBarInnerStartStyle}>
                 <TouchableOpacity
-                  style={{paddingHorizontal: 10}}
+                  style={changeWeekButtonStyle}
                   onPress={() => this.changeWeek({prev: true})}>
                   <Icon
                     name="chevron-left"
@@ -456,22 +482,17 @@ export default class MyDiet extends Component {
                   />
                 </TouchableOpacity>
               </View>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}>
+              <View style={currentWeekStyle}>
                 <Text style={styles.weekText}>
                   Week {this.state.currentWeek}
                 </Text>
                 {this.state.showDayOnScroll && (
-                  <Text style={{color: 'lightgrey'}}>({this.day})</Text>
+                  <Text style={dayColor}>({this.day})</Text>
                 )}
               </View>
-              <View style={{justifyContent: 'flex-end'}}>
+              <View style={weeklyBarInnerEndStyle}>
                 <TouchableOpacity
-                  style={{paddingHorizontal: 10}}
+                  style={changeWeekButtonStyle}
                   onPress={() => this.changeWeek({next: true})}>
                   <Icon
                     name="chevron-right"

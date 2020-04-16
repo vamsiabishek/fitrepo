@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Alert,
   ActivityIndicator,
   LayoutAnimation,
   ScrollView,
@@ -42,16 +43,12 @@ import {
 import {
   setCurrentUser,
   createKeyAndValuesFromResult,
-  getFirstTimeUser,
   setFirstTimeUser,
 } from '../common/Util';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
-
-setCurrentUser(true);
-// console.log(getFirstTimeUser());
 
 export default class Signup extends Component {
   constructor(props) {
@@ -121,12 +118,12 @@ export default class Signup extends Component {
           LayoutAnimation.easeInEaseOut();
           this.setState({
             user: userLoggedIn,
-            age: userLoggedIn.age,
-            dob: userLoggedIn.dob,
-            weight: userLoggedIn.weight,
-            height: userLoggedIn.height,
-            gender: userLoggedIn.gender,
-            fitnessLevel: userLoggedIn.fitnessLevel,
+            age: userLoggedIn.age || 0,
+            dob: userLoggedIn.dob || '',
+            weight: userLoggedIn.weight || 0,
+            height: userLoggedIn.height || 0,
+            gender: userLoggedIn.gender || '',
+            fitnessLevel: userLoggedIn.fitnessLevel || '',
             foodPrefBtn:
               userLoggedIn.foodPreference === FOOD_PREF_NON_VEG
                 ? 3
@@ -135,7 +132,7 @@ export default class Signup extends Component {
                 : userLoggedIn.foodPreference === FOOD_PREF_VEG
                 ? 1
                 : 0,
-            foodPreference: userLoggedIn.foodPreference,
+            foodPreference: userLoggedIn.foodPreference || '',
             proteinSources: getSourcesWithImages(
               'protein',
               userLoggedIn.foodPreference,
@@ -440,7 +437,7 @@ export default class Signup extends Component {
         searchTerm: '',
       });
     } else {
-      alert(
+      Alert.alert(
         'The Protein sources have required carbohydrates, you dont need to select anymore carbs !',
       );
     }
@@ -457,7 +454,7 @@ export default class Signup extends Component {
         searchTerm: '',
       });
     } else {
-      alert(
+      Alert.alert(
         'The Protein sources have required fats, you dont need to select anymore fats !',
       );
     }
@@ -517,7 +514,7 @@ export default class Signup extends Component {
         });
       }
     } else {
-      alert('You can only select 4 ' + modalContains + ' sources');
+      Alert.alert('You can only select 4 ' + modalContains + ' sources');
     }
   };
   changeSourceButtonLabel = () => {
@@ -675,7 +672,7 @@ export default class Signup extends Component {
             isLoggedIn: false,
             userLoginAnimation: false,
           });
-          alert(error.message);
+          Alert.alert(error.message);
         });
     } catch (error) {
       this.setState({
@@ -783,18 +780,31 @@ export default class Signup extends Component {
         this.scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
       }
     } else {
-      if (currentScreen === 1 && goal >= 0 && goal.length !== 0) {
+      const showGender = gender.length === 0;
+      if (
+        showGender &&
+        currentScreen === 1 &&
+        gender >= 0 &&
+        gender.length !== 0
+      ) {
         isScrollable = true;
       }
       if (
-        currentScreen === 2 &&
+        currentScreen === (showGender ? 2 : 1) &&
+        goal >= 0 &&
+        goal.length !== 0
+      ) {
+        isScrollable = true;
+      }
+      if (
+        currentScreen === (showGender ? 3 : 2) &&
         fitnessLevel > 0 &&
         fitnessLevel.length !== 0
       ) {
         isScrollable = true;
       }
       if (
-        currentScreen === 3 &&
+        currentScreen === (showGender ? 4 : 3) &&
         dob.length > 0 &&
         age !== undefined &&
         weight !== undefined &&
@@ -803,14 +813,14 @@ export default class Signup extends Component {
         isScrollable = true;
       }
       if (
-        currentScreen === 4 &&
+        currentScreen === (showGender ? 5 : 4) &&
         foodPrefBtn.length !== 0 &&
         foodPrefBtn >= 0 &&
         numberOfMeals > 0
       ) {
         isScrollable = true;
       }
-      if (currentScreen === 5) {
+      if (currentScreen === (showGender ? 6 : 5)) {
         await this.saveUserDetails();
         await this.createDietAndMeals();
       }
@@ -843,6 +853,10 @@ export default class Signup extends Component {
         });
       })
       .catch((error) => {
+        console.log(
+          'Error occurred in the saveUserAfterAuthentication method: ',
+          error,
+        );
         this.setState({isLoading: false});
       });
   };
@@ -882,6 +896,7 @@ export default class Signup extends Component {
         //this.setState({ isLoading: false });
       })
       .catch((error) => {
+        console.log('Error occurred in the save user details method: ', error);
         this.setState({isLoading: false});
       });
     await database
@@ -946,7 +961,6 @@ export default class Signup extends Component {
 
   render() {
     const {
-      user,
       goal,
       gender,
       fitnessLevel,
@@ -999,13 +1013,14 @@ export default class Signup extends Component {
       validatePassword: this.validatePassword,
       validateConfirmationPassword: this.validateConfirmationPassword,
     };
-    const showGender = isExistingUser === newLogin;
+    const showGender = gender.length === 0 && isExistingUser === newLogin;
     const loadingAnimationText = userLoginAnimation
       ? 'Signing you up with Fitrepo ...'
       : 'Creating your new diet ...';
     const loadingAnimation = userLoginAnimation
       ? require('../../assets/jsons/user_animation_4.json')
       : require('../../assets/jsons/dots_circle_salmon_animation.json');
+    const activityIndicatorStyle = {flex: 1};
     return (
       <View style={commonStyles.container}>
         <StatusBar hidden={true} />
@@ -1013,7 +1028,7 @@ export default class Signup extends Component {
           {isLoadingComponent ? (
             <ActivityIndicator
               color={styleCommon.textColor1}
-              style={{flex: 1}}
+              style={activityIndicatorStyle}
               size="large"
             />
           ) : (

@@ -1,5 +1,6 @@
 package com.fitness.fitrepo;
 
+import android.os.Bundle;
 import android.content.Intent;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;

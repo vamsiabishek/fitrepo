@@ -98,8 +98,9 @@ export const createRefBySourceType = (type) => {
 };
 
 export const setCurrentUser = (user) => {
+  const userObjectString = JSON.stringify(user);
   if (user) {
-    AsyncStorage.setItem('user_data', JSON.stringify(user));
+    AsyncStorage.setItem('user_data', userObjectString);
   }
 };
 
@@ -109,13 +110,18 @@ export const removeCurrentUser = async () => {
 
 export const getCurrentUser = async () => {
   let user = {};
-  /*await AsyncStorage.getItem("user_data", (err, result) => {
-    console.log(result)
-    if(result)
-      user = JSON.parse(result)
-  })*/
+  const result = await AsyncStorage.getItem('user_data');
+  user = JSON.parse(result);
   if (!user.uid) {
-    user = await f.auth().currentUser;
+    try {
+      let defaultAuth = await f.auth();
+      user = defaultAuth.currentUser;
+    } catch (error) {
+      console.log(
+        'Error occurred while trying to get the current user : ',
+        error,
+      );
+    }
   }
   return user;
 };
@@ -209,9 +215,7 @@ const getCurrentUserDiets = async (uid) => {
 };
 
 export const isTrailUser = async (dietId) => {
-  const {uid} = await getCurrentUser();
   return await isNewUser(dietId);
-  //return (await isNewUser()) || uid === 'FOW1bWhyufVcUYeNiVpHGWP4bAe2';
 };
 
 export const hasMoreDiets = async () => {

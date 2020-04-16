@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   Animated,
-  ScrollView,
   Text,
   View,
   ActivityIndicator,
@@ -14,8 +13,6 @@ import ProgressCircle from 'react-native-progress-circle';
 import {styles} from '../../assets/style/stylesProfileScreen';
 import {database} from '../common/FirebaseConfig';
 import {
-  convertLevelToStarRating,
-  convertLevelToLevelColor,
   PROGRESS_CIRCLE_RADIUS,
   PROGRESS_CIRCLE_BORDER_WIDTH,
   VITRUVIAN_MAN,
@@ -131,7 +128,7 @@ export default class Profile extends Component {
         }
       })
       .catch((error) => {
-        console.log('error while fetching my diets in SignUp page', error);
+        console.log('error while fetching my diets in Profile page', error);
       });
   };
   render() {
@@ -166,6 +163,11 @@ export default class Profile extends Component {
             100,
         )
       : undefined;
+    const imageStyle = {
+      width: 30,
+      height: 38,
+      tintColor: styleCommon.selectedButtonColor,
+    };
     return (
       <View style={styles.mainContainer}>
         {isLoading ? (
@@ -201,18 +203,21 @@ export default class Profile extends Component {
                 />
               </View>
             </View>
-            <ScrollView
+            <Animated.ScrollView
               style={styles.scrollViewContainerStyle}
               contentContainerstyle={styles.scrollViewContentContainer}
-              onScroll={Animated.event([
-                {
-                  nativeEvent: {
-                    contentOffset: {
-                      y: this.profileHeaderScrollY,
+              onScroll={Animated.event(
+                [
+                  {
+                    nativeEvent: {
+                      contentOffset: {
+                        y: this.profileHeaderScrollY,
+                      },
                     },
                   },
-                },
-              ])}
+                ],
+                {useNativeDriver: true},
+              )}
               scrollEventThrottle={16}>
               <View style={styles.avatarContainer}>
                 <Avatar
@@ -231,14 +236,7 @@ export default class Profile extends Component {
               </View>
               <View style={styles.profileSubBannerStyle}>
                 <View style={styles.profileSubBannerBoxStyle}>
-                  <Image
-                    source={levelImage}
-                    style={{
-                      width: 30,
-                      height: 38,
-                      tintColor: styleCommon.selectedButtonColor,
-                    }}
-                  />
+                  <Image source={levelImage} style={imageStyle} />
                   <Text style={styles.profileBannerTextStyle}>
                     {levelTitle}
                   </Text>
@@ -313,12 +311,14 @@ export default class Profile extends Component {
                   </View>
                   <View style={styles.boxContentColumnContainerStyle}>
                     <View style={styles.boxContentTextStyle}>
-                      <PurchaseList purchases={user.purchases} />
+                      {/*user.purchases && (
+                        <PurchaseList purchases={user.purchases} />
+                      )*/}
                     </View>
                   </View>
                 </View>
               </View>
-            </ScrollView>
+            </Animated.ScrollView>
           </View>
         )}
       </View>

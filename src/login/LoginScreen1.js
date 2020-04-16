@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {Input, Button, SocialIcon} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Button, SocialIcon} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesLoginScreen';
 import {f, database, auth} from './../common/FirebaseConfig';
 import {
@@ -21,16 +20,8 @@ import {
   PROVIDER_FACEBOOK,
 } from '../common/Common';
 import {setCurrentUser, getCurrentUser} from '../common/Util';
-import {
-  ICON_SIZE,
-  btnGradientColorLeft,
-  modalBtnGradientColorRight,
-  fontsCommon,
-  styleCommon,
-} from '../../assets/style/stylesCommonValues';
+import {fontsCommon} from '../../assets/style/stylesCommonValues';
 import {commonStyles} from '../../assets/style/stylesCommon';
-import Loading from '../components/Loading';
-import LinearGradient from 'react-native-linear-gradient';
 import PhoneAuth from '../signup/PhoneAuthScreen';
 
 // Enable LayoutAnimation for Android Devices
@@ -43,7 +34,7 @@ export default class LoginScreen1 extends Component {
     (async () => {
       // All async code here
       //await removeCurrentUser()
-      const user = await getCurrentUser('user_data');
+      const user = await getCurrentUser();
       if (user) {
         console.log('uid:', user.uid);
         this.onLoginSuccess();
@@ -278,8 +269,10 @@ export default class LoginScreen1 extends Component {
   };
 
   loginWithPhoneNumber = async (user) => {
+    // console.log('the user dets post phone auth log in: ', user);
     setCurrentUser(user);
     const currentUser = {user};
+    // console.log('the currentUser dets post phone auth log in: ', currentUser);
     await this.navigateLoggedInUser(currentUser);
     //this.onLoginSuccess();
   };
@@ -290,18 +283,18 @@ export default class LoginScreen1 extends Component {
 
   render() {
     const {
-      email,
-      password,
-      passwordValid,
-      emailValid,
+      // email,
+      // password,
+      // passwordValid,
+      // emailValid,
       isLoading,
-      secureTextKey,
+      // secureTextKey,
       showSocialOptions,
     } = this.state;
-    const socialLoginContainerStyle = {
-      ...styles.buttonContainer,
-      flexDirection: 'row',
-    };
+    // const socialLoginContainerStyle = {
+    //   ...styles.buttonContainer,
+    //   flexDirection: 'row',
+    // };
     return (
       <View style={commonStyles.bgImage}>
         <KeyboardAvoidingView
