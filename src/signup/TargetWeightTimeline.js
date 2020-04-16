@@ -3,6 +3,7 @@ import {Text, UIManager, View} from 'react-native';
 import {Button, ButtonGroup} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
+import LottieView from 'lottie-react-native';
 import HorizontalSelectView from '../components/HorizontalSelectView';
 import {styles} from '../../assets/style/stylesTargetWeightTimeline';
 import {getPossibleTargetWeights} from '../diet/Algorithm/DietAlgorithm';
@@ -105,6 +106,13 @@ export default class TargetWeightTimeline extends Component {
               type="clear"
               onPress={this._handleClose}
               containerStyle={styles.closeButtonContainerStyle}
+            />
+            <LottieView
+              source={require('../../assets/jsons/target.json')}
+              autoPlay
+              loop
+              style={styles.animationStyle}
+              enableMergePathsAndroidForKitKatAndAbove
             />
             <View style={styles.viewTargetsContainer}>
               <View style={styles.targetContainer}>

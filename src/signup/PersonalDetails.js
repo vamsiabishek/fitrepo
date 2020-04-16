@@ -24,6 +24,12 @@ import {
   ICON_SIZE_LARGE,
 } from '../../assets/style/stylesCommonValues';
 import {styles} from '../../assets/style/stylesPersonalDetails';
+import {
+  BIRTHDAY_ICON,
+  WEIGHT_ICON,
+  HEIGHT_ICON,
+  TARGET_ICON,
+} from '../common/Common';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -128,13 +134,16 @@ export default class PersonalDetails extends Component {
                     : styles.activeButtonTitle
                 }
                 iconSize={dob.length === 0 ? ICON_SIZE : ICON_SIZE_LARGE}
-                iconName={dob.length === 0 ? 'calendar-star' : 'birthday'}
+               // iconName={dob.length === 0 ? 'calendar-star' : 'birthday'}
                 buttonIcon={
                   dob.length === 0 ? styles.buttonIcon : styles.activeButtonIcon
                 }
                 iconRight={true}
-                shouldUseEmoji={dob.length === 0 ? false : true}
+                //shouldUseEmoji={dob.length === 0 ? false : true}
                 onPress={this.showDTPicker}
+                iconImageStyle={styles.iconImageStyle}
+                shouldUseImage={true}
+                imageUrl={BIRTHDAY_ICON}
               />
             </TouchableOpacity>
             <TouchableOpacity>
@@ -168,8 +177,11 @@ export default class PersonalDetails extends Component {
                     : styles.activeButtonIcon
                 }
                 iconRight={true}
-                shouldUseEmoji={weight === undefined ? false : true}
+                //shouldUseEmoji={weight === undefined ? false : true}
                 onPress={this.showWeightNumPicker}
+                iconImageStyle={styles.iconImageStyle}
+                shouldUseImage={true}
+                imageUrl={WEIGHT_ICON}
               />
             </TouchableOpacity>
             <TouchableOpacity>
@@ -203,8 +215,11 @@ export default class PersonalDetails extends Component {
                     : styles.activeButtonIcon
                 }
                 iconRight={true}
-                shouldUseEmoji={height === undefined ? false : true}
+                //shouldUseEmoji={height === undefined ? false : true}
                 onPress={this.showHeightNumPicker}
+                iconImageStyle={styles.iconImageStyle}
+                shouldUseImage={true}
+                imageUrl={HEIGHT_ICON}
               />
             </TouchableOpacity>
             {showTargetWeightButton && (
@@ -246,8 +261,11 @@ export default class PersonalDetails extends Component {
                       : styles.activeButtonIcon
                   }
                   iconRight={true}
-                  shouldUseEmoji={targetWeight === undefined ? false : true}
+                  //shouldUseEmoji={targetWeight === undefined ? false : true}
                   onPress={this.showTargetWeightTimeline}
+                  iconImageStyle={styles.iconImageStyle}
+                  shouldUseImage={true}
+                  imageUrl={TARGET_ICON}
                 />
               </TouchableOpacity>
             )}

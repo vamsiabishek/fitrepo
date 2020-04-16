@@ -6,7 +6,13 @@ import {
   styleCommon,
   ICON_SIZE_EXTRA_LARGE,
 } from '../../assets/style/stylesCommonValues';
-import {FEMALE_FATLOSS_ICON, FEMALE_GAIN_ICON, MALE_FATLOSS_ICON, MALE_GAIN_ICON, HEALTHY_ICON} from '../common/Common'
+import {
+  FEMALE_FATLOSS_ICON,
+  FEMALE_GAIN_ICON,
+  MALE_FATLOSS_ICON,
+  MALE_GAIN_ICON,
+  HEALTHY_ICON,
+} from '../common/Common';
 
 export default class Goal extends React.Component {
   constructor(props) {

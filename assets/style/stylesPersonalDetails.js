@@ -56,11 +56,20 @@ export const styles = StyleSheet.create({
   },
   buttonIcon: {
     color: styleCommon.textColor1,
+    marginRight: 15,
     //backgroundColor: "red",
   },
   activeButtonIcon: {
     color: styleCommon.selectedButtonColor,
     height: 40,
+    marginRight: 15,
     //backgroundColor: "red",
+  },
+  iconImageStyle: {
+    width: SCREEN_HEIGHT * 0.05,
+    height: SCREEN_HEIGHT * 0.05,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //tintColor: styleCommon.textColor1,
   },
 });

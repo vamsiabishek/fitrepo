@@ -648,7 +648,7 @@ export default class Signup extends Component {
 
   createNewUser = async () => {
     const {user, email, password} = this.state;
-    console.log("******** creating new user ***************", email, password)
+    console.log('******** creating new user ***************', email, password);
     const getIndex = email.indexOf('@');
     const name = email.substring(0, getIndex);
     const username = name;
@@ -1158,7 +1158,9 @@ export default class Signup extends Component {
               <View style={commonStyles.subContainer}>
                 <Header
                   title={
-                    isLoading ? 'Hold On ...' : 'Would you like to choose ?'
+                    isLoading
+                      ? 'Hold On ...'
+                      : 'Choose your macros or skip this step...'
                   }
                   screen={screen}
                   onBack={this.onBack}

@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
+import {SCREEN_HEIGHT} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     //backgroundColor: "navajowhite"
   },
@@ -11,5 +12,32 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     //backgroundColor: "white"
+  },
+  imageContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    //backgroundColor: "white"
+  },
+  iconImageStyle: {
+    position: 'absolute',
+    top: 30,
+    width: SCREEN_HEIGHT * 0.1,
+    height: SCREEN_HEIGHT * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //tintColor: styleCommon.textColor1,
+    //marginTop: 50,
+    marginBottom: 50,
+  },
+  iconImageStylePerson: {
+    width: SCREEN_HEIGHT * 0.07,
+    height: SCREEN_HEIGHT * 0.07,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //tintColor: styleCommon.textColor1,
+    marginRight: 8,
+    marginTop: 50,
+    marginBottom: 50,
   },
 });

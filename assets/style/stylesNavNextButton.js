@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     width: SCREEN_WIDTH * 0.8,
     height: SCREEN_HEIGHT * 0.09,
     borderRadius: (SCREEN_HEIGHT * 0.09) / 2,
+    opacity: 1,
   },
   navButtonDisabled: {
     width: SCREEN_WIDTH * 0.8,

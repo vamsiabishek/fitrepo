@@ -57,4 +57,14 @@ export const styles = StyleSheet.create({
     backgroundColor: styleCommon.selectedButtonColor,
     alignItems: 'center',
   },
+  animationStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    //margin: 30, // 20
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT * 0.2,
+    //backgroundColor: "teal"
+    marginBottom: -20,
+    marginTop: -30,
+  },
 });
