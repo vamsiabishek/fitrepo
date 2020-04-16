@@ -13,6 +13,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <RNGoogleSignin.h>
 #import <Firebase.h>
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 
@@ -34,6 +35,7 @@
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
   }
+  [RNSplashScreen show];
   return YES;
 }
 

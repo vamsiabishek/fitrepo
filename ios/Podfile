@@ -75,6 +75,8 @@ target 'fitlog' do
 
   pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'fitlogTests' do
     inherit! :search_paths
     # Pods for testing
