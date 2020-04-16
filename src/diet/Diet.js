@@ -97,10 +97,10 @@ export default class Diet extends Component {
       .catch((error) => {
         console.log('error while fetching my diets in Diet page', error);
       });
-    if (myDiets.length > 1) {
+    /*if (myDiets.length > 1) {
       await setFirstTimeUser();
       //alert(getFirstTimeUser())
-    }
+    }*/
     return myDiets;
   };
 

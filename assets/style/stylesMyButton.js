@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {SCREEN_WIDTH} from './stylesCommonValues';
+import {SCREEN_WIDTH, fontsCommon, styleCommon} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   buttonContainer: {
@@ -16,15 +16,16 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: SCREEN_WIDTH * 0.77,
-    height: 40,
-    borderRadius: 20,
+    // width: 110,
+    height: 40, // 110
+    borderRadius: 20, // 60,
   },
   buttonTitle: {
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'white',
+    color: styleCommon.textColor2,
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: fontsCommon.font20, //  fontsCommon.font16
   },
   navButtonIcon: {
     position: 'absolute',

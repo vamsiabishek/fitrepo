@@ -145,19 +145,31 @@ export const setFirstTimeUser = async () => {
 
 export const getFirstTimeUser = () => IS_FIRST_TIME_USER;
 
-const isNewUser = async () => {
+const isNewUser = async (dietId = undefined) => {
   const {uid} = await getCurrentUser();
   const firstDiet = await getFirstDietOfUser(uid);
+  const {key} = firstDiet;
   const {createdDate} = firstDiet.value;
-  const fromDate = new Date(createdDate);
-  const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
-  const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000), 10);
-  const total_minutes = parseInt(Math.floor(total_seconds / 60), 10);
-  const total_hours = parseInt(Math.floor(total_minutes / 60), 10);
-  const days = parseInt(Math.floor(total_hours / 24), 10);
-  if (days <= 28) {
-    return true;
+  console.log('key: ', key, 'dietID: ', dietId);
+  if (key === dietId || dietId === undefined) {
+    const fromDate = new Date(createdDate);
+    const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
+    const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000), 10);
+    const total_minutes = parseInt(Math.floor(total_seconds / 60), 10);
+    const total_hours = parseInt(Math.floor(total_minutes / 60), 10);
+    const days = parseInt(Math.floor(total_hours / 24), 10);
+    console.log('Days since first diet for trial ? :', days);
+    if (days <= 7) {
+      console.log('returning true.');
+      return true;
+    } else {
+      console.log('returning false.');
+      return false;
+    }
   } else {
+    console.log(
+      'returning false as dietif is not the same as the first creted diet id.',
+    );
     return false;
   }
 };
@@ -179,8 +191,29 @@ const getFirstDietOfUser = async (uid) => {
   return firstDiet;
 };
 
-export const isTrailUser = async () => {
+const getCurrentUserDiets = async (uid) => {
+  await database
+    .ref(`diets/${uid}`)
+    .orderByChild('createdDate')
+    .once('value')
+    .then((res) => {
+      if (res.val()) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((error) => {
+      console.log('Error has occured getting the diets count: ', error);
+    });
+};
+
+export const isTrailUser = async (dietId) => {
   const {uid} = await getCurrentUser();
-  return await isNewUser();
+  return await isNewUser(dietId);
   //return (await isNewUser()) || uid === 'FOW1bWhyufVcUYeNiVpHGWP4bAe2';
+};
+
+export const hasMoreDiets = async () => {
+  return await getCurrentUserDiets();
 };

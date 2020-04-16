@@ -1,26 +1,77 @@
-import {StyleSheet} from 'react-native';
-import {styleCommon, SCREEN_WIDTH, SCREEN_HEIGHT} from './stylesCommonValues';
+import {StyleSheet, Platform} from 'react-native';
+import {
+  styleCommon,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  fontsCommon,
+  DEVICE_NAME,
+} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    margin: 20,
+    marginTop: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.1
+      : SCREEN_WIDTH * 0.05,
+    marginBottom: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.1
+      : SCREEN_WIDTH * 0.05,
   },
   modalInsideStyle: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: styleCommon.textColor2,
+    backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-    padding: SCREEN_WIDTH * 0.06,
+    padding: SCREEN_WIDTH * 0.1,
+    width: SCREEN_WIDTH * 0.95,
+    marginTop: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.1
+      : SCREEN_WIDTH * 0.05,
+    marginBottom: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.1
+      : SCREEN_WIDTH * 0.05,
+  },
+  modalLoadingInsideStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: styleCommon.secondaryColorNew,
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    //padding: DEVICE_NAME.includes('iPhone 11') ? SCREEN_WIDTH * 0.1 : 10,
+    width: SCREEN_WIDTH * 0.9,
+    marginTop: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.3
+      : SCREEN_WIDTH * 0.25,
+    marginBottom: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.2
+      : SCREEN_WIDTH * 0.1,
   },
   closeButtonContainerStyle: {
     position: 'relative',
-    top: -(SCREEN_WIDTH * 0.06),
-    left: SCREEN_WIDTH * 0.4,
+    top: -(SCREEN_WIDTH * 0.1),
+    left: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.72
+      : Platform.OS === 'ios'
+      ? SCREEN_WIDTH * 0.69
+      : SCREEN_WIDTH * 0.75,
+    width: 40,
+    alignItems: 'center',
+    //backgroundColor: 'red',
+  },
+  closeButtonDoneContainerStyle: {
+    position: 'relative',
+    top: -(SCREEN_WIDTH * 0.1),
+    left: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.72
+      : SCREEN_WIDTH * 0.69,
+    width: 40,
+    alignItems: 'center',
+    //backgroundColor: 'red',
   },
   viewTargetsContainer: {
     backgroundColor: 'pink',
@@ -33,29 +84,72 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   targetButtonContainer: {
-    width: SCREEN_WIDTH * 0.8,
-    marginHorizontal: 10,
-    paddingHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: fontsCommon.font80,
+    height: fontsCommon.font80,
+    borderRadius: fontsCommon.font80 / 2,
   },
   headerText: {
     fontWeight: 'bold',
-    fontSize: 22,
+    fontSize: fontsCommon.font32,
     textAlign: 'center',
-    color: styleCommon.secondaryButtonTextColor,
+    color: styleCommon.textColor1,
+  },
+  headerPurchaseDoneText: {
+    fontWeight: 'bold',
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font26
+      : fontsCommon.font30,
+    textAlign: 'center',
+    color: styleCommon.textColor1,
+  },
+  headerPurcahseText: {
+    fontWeight: 'bold',
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font26
+      : fontsCommon.font30,
+    textAlign: 'center',
+    color: styleCommon.textColor1,
+  },
+  priceText: {
+    fontSize: fontsCommon.font40,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: styleCommon.textColor1,
+  },
+  textualArea: {
+    // flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    //backgroundColor: 'cyan',
+  },
+  loadingView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: SCREEN_HEIGHT * 0.7,
+    //backgroundColor: 'purple',
   },
   labelText: {
-    paddingBottom: 15,
+    // paddingBottom: 15,
     textAlign: 'center',
-    fontSize: 17,
+    fontSize: fontsCommon.font20,
+    color: styleCommon.textColor1,
+  },
+  labelTextBold: {
+    // paddingBottom: 15,
+    textAlign: 'center',
+    fontSize: fontsCommon.font22,
+    fontWeight: 'bold',
     color: styleCommon.textColor1,
   },
   smallerLabelText: {
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: fontsCommon.font13,
     color: styleCommon.textColor1,
   },
   selectedOptionLabel: {
-    fontSize: 15,
+    fontSize: fontsCommon.font15,
     color: styleCommon.textColor1,
   },
   buttonGroupStyle: {
