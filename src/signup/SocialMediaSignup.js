@@ -224,7 +224,6 @@ export default class SocialMediaSignup extends Component {
   };
 
   render() {
-    const {signupObject} = this.props;
     const {isLoading, showSocialOptions} = this.state;
     const animatedFBStyle = {
       transform: [{scale: this.animatedFBValue}],

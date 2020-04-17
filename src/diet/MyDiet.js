@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Text, View, TouchableOpacity, Animated, UIManager} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getOfferingsByPurchaseId} from '../common/PurchaseUtils';
+import {
+  getOfferingsByPurchaseId,
+  getPurchasePlanByFitnessLevelAndWeek,
+} from '../common/PurchaseUtils';
 import TotalDietMacros from './TotalDietMarcos';
 import MealsContainer from './meals/MealsContainer';
 import {styles} from '../../assets/style/stylesMyDiet';
@@ -40,12 +43,11 @@ export default class MyDiet extends Component {
       showPaymentModal: false,
       showMeals: true,
       paymentOptions: undefined,
+      packageToPurchase: undefined,
     };
     this.dayBarScrollY = new Animated.Value(1);
     this.dayBarExpandedHeight = styles.dayBarStyle.height; // calculated by onLayout
     this.dayBarCollapsedHeight = 0;
-
-    console.log('calling constructor');
   }
 
   componentDidMount = async () => {
@@ -58,20 +60,14 @@ export default class MyDiet extends Component {
   };
 
   componentDidUpdate = async (prevProps) => {
-    console.log('in did update.');
     const {navigation} = this.props;
     const dietId = navigation.getParam('dietId');
     const uid = navigation.getParam('uid');
     if (dietId !== prevProps.navigation.getParam('dietId')) {
-      console.log('diet id has changed.');
       await this.loadDietDetails(uid, dietId);
       await this.loadPaymentEntitlements(uid);
       await this.checkDietTrail(dietId, uid);
     }
-  };
-
-  componentWillUnmount = () => {
-    console.log('in will unmount of MyDiet.');
   };
 
   checkDietTrail = async (dietId) => {
@@ -87,7 +83,7 @@ export default class MyDiet extends Component {
 
   loadDietDetails = async (uid, dietId) => {
     this.setState({isLoading: true});
-    console.log('fetching details for the diet with Id:', dietId);
+    // console.log('fetching details for the diet with Id:', dietId);
     const {diet, meals} = await this.fetchDietAndMeals(uid, dietId);
     //console.log('diet and meals:', diet, meals);
     this.setState({diet, meals: meals['0'], allMeals: meals});
@@ -143,10 +139,18 @@ export default class MyDiet extends Component {
   };
 
   loadPaymentEntitlements = async (uid) => {
+    const {navigation} = this.props;
     const offerings = await getOfferingsByPurchaseId(uid);
-    // console.log('Purchase Offerings Current ? : ', offerings);
-    this.setState({isLoading: false, paymentOptions: offerings});
-    console.log('paymentOptions: ', this.state.paymentOptions);
+    const purchasePlan = getPurchasePlanByFitnessLevelAndWeek(
+      navigation.getParam('selectedProgram'),
+      navigation.getParam('fitnessLevel'),
+      offerings,
+    );
+    this.setState({
+      isLoading: false,
+      paymentOptions: offerings,
+      packageToPurchase: purchasePlan,
+    });
   };
 
   onDayChange = (selectedDay) => {
@@ -254,7 +258,7 @@ export default class MyDiet extends Component {
   onPressSupplementsButton = () => {
     const {paymentStatus} = this.state.diet;
     const {navigation} = this.props;
-    const {navigate} = this.props.navigation;
+    const {navigate} = navigation;
     const dietId = navigation.getParam('dietId');
     if (!paymentStatus) {
       this.setState({
@@ -267,28 +271,17 @@ export default class MyDiet extends Component {
   };
 
   onClosePaymentModal = async (paymentDone = false) => {
-    console.log('Inside onClodePaymentModal. paymentDone is: ', paymentDone);
     const {navigate} = this.props.navigation;
     const {showInitialTrailMeals} = this.state;
     this.setState({showPaymentModal: false, showMeals: true}); // ,
     if (paymentDone) {
-      console.log('Inside if paymentDone is true.');
       const {navigation} = this.props;
       const {diet} = this.state;
-      console.log('Navigation: ', navigation, 'Diet: ', diet);
       const newDietWithPayment = {
         paymentStatus: true,
       };
       const uid = navigation.getParam('uid');
       const dietId = navigation.getParam('dietId');
-      console.log(
-        'newDietWithPayment: ',
-        newDietWithPayment,
-        'uid: ',
-        uid,
-        'dietId: ',
-        dietId,
-      );
       this.setState({
         showInitialTrailMeals: false,
         showAllMealsForSubscribed: true,
@@ -326,7 +319,7 @@ export default class MyDiet extends Component {
       allMeals,
       currentWeek,
       showMeals,
-      paymentOptions,
+      packageToPurchase,
       showPaymentModal,
       diet,
       showInitialTrailMeals,
@@ -519,7 +512,7 @@ export default class MyDiet extends Component {
                 selectedProgram={navigation.getParam('selectedProgram')}
                 selectedGoal={navigation.getParam('selectedGoal')}
                 fitnessLevel={navigation.getParam('fitnessLevel')}
-                purchaseOptions={paymentOptions}
+                packageToPurchase={packageToPurchase}
                 onClose={this.onClosePaymentModal}
                 dietTrialEndDate={dietTrialEndDate}
                 trialDaysLeft={trialDaysLeft}

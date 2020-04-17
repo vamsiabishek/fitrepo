@@ -98,8 +98,8 @@ export const createRefBySourceType = (type) => {
 };
 
 export const setCurrentUser = (user) => {
-  const userObjectString = JSON.stringify(user);
   if (user) {
+    const userObjectString = JSON.stringify(user);
     AsyncStorage.setItem('user_data', userObjectString);
   }
 };
@@ -156,7 +156,6 @@ const isNewUser = async (dietId = undefined) => {
   const firstDiet = await getFirstDietOfUser(uid);
   const {key} = firstDiet;
   const {createdDate} = firstDiet.value;
-  console.log('key: ', key, 'dietID: ', dietId);
   if (key === dietId || dietId === undefined) {
     const fromDate = new Date(createdDate);
     const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
@@ -164,18 +163,13 @@ const isNewUser = async (dietId = undefined) => {
     const total_minutes = parseInt(Math.floor(total_seconds / 60), 10);
     const total_hours = parseInt(Math.floor(total_minutes / 60), 10);
     const days = parseInt(Math.floor(total_hours / 24), 10);
-    console.log('Days since first diet for trial ? :', days);
+    // console.log('Days since first diet for trial ? :', days);
     if (days <= 7) {
-      console.log('returning true.');
       return true;
     } else {
-      console.log('returning false.');
       return false;
     }
   } else {
-    console.log(
-      'returning false as dietif is not the same as the first creted diet id.',
-    );
     return false;
   }
 };
@@ -203,14 +197,17 @@ const getCurrentUserDiets = async (uid) => {
     .orderByChild('createdDate')
     .once('value')
     .then((res) => {
-      if (res.val()) {
+      if (Object.entries(res.val()).length > 1) {
         return true;
       } else {
         return false;
       }
     })
     .catch((error) => {
-      console.log('Error has occured getting the diets count: ', error);
+      console.log(
+        'Error has occured getting the number of diets assigned to the user: ',
+        error,
+      );
     });
 };
 
@@ -218,6 +215,6 @@ export const isTrailUser = async (dietId) => {
   return await isNewUser(dietId);
 };
 
-export const hasMoreDiets = async () => {
-  return await getCurrentUserDiets();
+export const hasMoreDiets = async (uid) => {
+  return await getCurrentUserDiets(uid);
 };

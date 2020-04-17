@@ -2,11 +2,7 @@ import React from 'react';
 import {Alert, View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  purchaseOfferings,
-  makePurchase,
-  getPurchasePlanByFitnessLevelAndWeek,
-} from '../../common/PurchaseUtils';
+import {purchaseOfferings, makePurchase} from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
 import {f, database} from '../../common/FirebaseConfig';
 import MyButton from '../MyButton';
@@ -23,16 +19,10 @@ import LottieView from 'lottie-react-native';
 export default class PurchaseScreen extends React.Component {
   constructor(props) {
     super(props);
-    const {selectedProgram, fitnessLevel, purchaseOptions} = this.props;
     this.state = {
       isLoading: false,
       showPurchaseSummary: false,
       purchaseSummary: undefined,
-      packageToPurchase: getPurchasePlanByFitnessLevelAndWeek(
-        selectedProgram,
-        fitnessLevel,
-        purchaseOptions,
-      ),
     };
   }
 
@@ -125,12 +115,7 @@ export default class PurchaseScreen extends React.Component {
   };
 
   render() {
-    const {
-      isLoading,
-      showPurchaseSummary,
-      purchaseSummary,
-      packageToPurchase,
-    } = this.state;
+    const {isLoading, showPurchaseSummary, purchaseSummary} = this.state;
     const {
       isVisible,
       selectedGoal,
@@ -138,6 +123,7 @@ export default class PurchaseScreen extends React.Component {
       onClose,
       trialDaysLeft,
       dietTrialEndDate,
+      packageToPurchase,
     } = this.props;
     let donePurchase = '';
     if (purchaseSummary) {

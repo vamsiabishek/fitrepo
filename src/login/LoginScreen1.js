@@ -36,7 +36,7 @@ export default class LoginScreen1 extends Component {
       //await removeCurrentUser()
       const user = await getCurrentUser();
       if (user) {
-        console.log('uid:', user.uid);
+        // console.log('uid:', user.uid);
         this.onLoginSuccess();
       }
     })();
