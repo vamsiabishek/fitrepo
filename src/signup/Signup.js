@@ -972,19 +972,6 @@ export default class Signup extends Component {
       foodPreference,
       user: {uid},
     } = this.state;
-    console.log(
-      ' selectedProteinSources, selectedFatSources,selectedCarbSources,weight,targetWeight,goal,program,numberOfMeals,fitnessLevel,foodPreference',
-      selectedProteinSources,
-      selectedFatSources,
-      selectedCarbSources,
-      weight,
-      targetWeight,
-      goal,
-      program,
-      numberOfMeals,
-      fitnessLevel,
-      foodPreference,
-    );
     const dietInfo = {
       selectedProteinSources,
       selectedFatSources,
@@ -999,7 +986,6 @@ export default class Signup extends Component {
       paymentStatus: false,
       uid,
     };
-    console.log(dietInfo)
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
     navigate('MyDiet', {
