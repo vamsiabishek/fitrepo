@@ -29,15 +29,7 @@ export const BE_HEALTHY_DESC = 'Be-healthy';
 export const PROVIDER_GOOGLE = 'google.com';
 export const PROVIDER_FACEBOOK = 'facebook.com';
 
-export const source1 = require('../../assets/images/SlideShowImages/FoodPage_1_Color.svg');
-export const source2 = require('../../assets/images/SlideShowImages/FoodPage_2_Color.svg');
 export const source3 = require('../../assets/images/SlideShowImages/FoodPage_3_Color.svg');
-export const source4 = require('../../assets/images/SlideShowImages/FoodPage_4_Color.svg');
-export const source5 = require('../../assets/images/SlideShowImages/FoodPage_5_Color.svg');
-export const source6 = require('../../assets/images/SlideShowImages/FoodPage_6_Color.svg');
-export const source7 = require('../../assets/images/SlideShowImages/FoodPage_7_Color.svg');
-export const source8 = require('../../assets/images/SlideShowImages/FoodPage_8_Color.svg');
-export const source9 = require('../../assets/images/SlideShowImages/FoodPage_8_Color.svg');
 
 export const calculateCalFromProteinOrCarbs = (amount) => amount * 4;
 
@@ -120,7 +112,7 @@ export const LEVEL_COLORS = {
   BEG: '#CD7F32',
 };
 export const MEALS_ICON = require('../../assets/images/extras/meals_icon.svg');
-export const VITRUVIAN_MAN = require('../../assets/images/extras/vitruvian_man.svg');
+// export const VITRUVIAN_MAN = require('../../assets/images/extras/vitruvian_man.svg');
 //export const GRADIENT_BG_IMAGE = require('../../assets/images/Gradient_Image.svg');
 //export const GRADIENT_BG_BANNER_IMAGE = require('../../assets/images/gradient_image_banner.png');
 //export const NON_VEG_ICON = require('../../assets/images/non-veg.svg');

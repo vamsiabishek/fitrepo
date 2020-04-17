@@ -10,17 +10,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Button, Overlay} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesStartUpScreen';
-import {
-  source1,
-  source2,
-  source3,
-  source4,
-  source5,
-  source6,
-  source7,
-  source8,
-  source9,
-} from '../common/Common';
+import {source3} from '../common/Common';
 import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
@@ -74,42 +64,7 @@ export default class StartUpScreen extends Component {
           decelerationRate={0.1}
           bounces={false}>
           <ImageBackground
-            source={source1}
-            style={{
-              height: SCREEN_HEIGHT,
-              width: SCREEN_WIDTH,
-            }}
-          />
-          <ImageBackground
-            source={source2}
-            style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}
-          />
-          <ImageBackground
             source={source3}
-            style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}
-          />
-          <ImageBackground
-            source={source4}
-            style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}
-          />
-          <ImageBackground
-            source={source5}
-            style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}
-          />
-          <ImageBackground
-            source={source6}
-            style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}
-          />
-          <ImageBackground
-            source={source7}
-            style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}
-          />
-          <ImageBackground
-            source={source8}
-            style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}
-          />
-          <ImageBackground
-            source={source9}
             style={{height: SCREEN_HEIGHT, width: SCREEN_WIDTH}}
           />
         </ScrollView>
