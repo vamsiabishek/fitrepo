@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   actionsButtonStyle: {
     justifyContent: 'flex-start',
@@ -67,7 +67,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: "firebrick"
+    //backgroundColor: "white"
+  },
+  avatarAnimationStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    //margin: 30, // 20
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT * 0.3,
+    //backgroundColor: "teal"
+    marginBottom: 10,
+    marginTop: 10,
+    //marginLeft: -10,
   },
   avatarOverlayContainerStyle: {
     backgroundColor: styleCommon.unSelected,
@@ -94,9 +105,11 @@ const styles = StyleSheet.create({
     fontSize: fontsCommon.font14,
   },
   profileSubBannerStyle: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignContent: 'space-between',
+    //height: SCREEN_HEIGHT,
+    justifyContent: 'center',
+    alignContent: 'center',
     borderBottomWidth: 1,
     borderBottomColor: 'transparent',
     paddingVertical: 5,
@@ -104,13 +117,14 @@ const styles = StyleSheet.create({
     //backgroundColor: "indigo"
   },
   profileSubBannerBoxStyle: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 15,
   },
   profileBannerTextStyle: {
     fontSize: fontsCommon.font14,
-    color: styleCommon.textColor1,
+    color: styleCommon.secondaryColorNew,
   },
   profileStarColor: {
     color: '#f8bf45',
@@ -137,7 +151,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'space-between',
     margin: 3,
-    backgroundColor: styleCommon.secondaryColorNew,
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderColor: 'grey', //styleCommon.secondaryColorNew,
+    //backgroundColor: styleCommon.secondaryColorNew,
     //backgroundColor: "hotpink"
   },
   boxesStyle: {
@@ -157,12 +174,12 @@ const styles = StyleSheet.create({
   },
   boxHeaderIconStyle: {
     paddingRight: 3,
-    color: styleCommon.textColor1,
+    color: styleCommon.secondaryColorNew,
   },
   boxHeaderTextStyle: {
     fontSize: fontsCommon.font16,
     fontWeight: 'bold',
-    color: styleCommon.textColor1,
+    color: styleCommon.secondaryColorNew,
   },
   boxContentRowContainerStyle: {
     flexDirection: 'row',
@@ -178,7 +195,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "purple"
   },
   boxContentIconStyle: {
-    color: '#53C19A',
+    color: styleCommon.secondaryColorNew,
     //backgroundColor: "indigo"
   },
   boxContentTextStyle: {
@@ -203,7 +220,7 @@ const styles = StyleSheet.create({
     padding: 5,
     fontSize: fontsCommon.font14,
     fontWeight: 'bold',
-    color: styleCommon.textColor1,
+    color: styleCommon.secondaryColorNew,
   },
   avatarHumanOverlayStyle: {
     backgroundColor: 'transparent',
@@ -225,6 +242,165 @@ const styles = StyleSheet.create({
   },
   weightIconStyle: {
     marginTop: 5,
+  },
+  subHeaderButtonContainerStyle: {
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginHorizontal: SCREEN_WIDTH * 0.02,
+  },
+  subHeaderButtonStyle: {
+    flexDirection: 'column',
+    width: SCREEN_WIDTH * 0.28,
+    height: SCREEN_HEIGHT * 0.07, //80,
+    backgroundColor: 'rgba(0, 0, 0, .3)', //styleCommon.panelHeaderBoxColor,
+    borderRadius: SCREEN_HEIGHT * 0.05,
+    // borderWidth: 1,
+    // borderColor: styleCommon.selectedButtonColor,
+    shadowColor: 'grey',
+    shadowOffset: {width: 2, height: 4},
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  subHeaderButtonTitle: {
+    fontWeight: '500',
+    fontSize: fontsCommon.font13,
+    color: styleCommon.secondaryColorNew,
+  },
+  iconImageStyle: {
+    width: SCREEN_HEIGHT * 0.04,
+    height: SCREEN_HEIGHT * 0.04,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: -5,
+    //tintColor: styleCommon.selectedButtonColor,
+  },
+  buttonIcon: {
+    marginTop: 3,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: styleCommon.secondaryColorNew,
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    padding: SCREEN_WIDTH * 0.1,
+    width: SCREEN_WIDTH * 0.95,
+    marginTop: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.1
+      : SCREEN_WIDTH * 0.05,
+    marginBottom: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.2
+      : SCREEN_WIDTH * 0.1,
+  },
+  purchasesModalContainer: {
+    flex: 1,
+    //justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: styleCommon.secondaryColorNew,
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    padding: SCREEN_WIDTH * 0.1,
+    width: SCREEN_WIDTH * 0.95,
+    // marginTop: DEVICE_NAME.includes('iPhone 11')
+    //   ? SCREEN_HEIGHT * 0.1
+    //   : SCREEN_HEIGHT * 0.02,
+    marginTop: 100,
+    marginBottom: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_HEIGHT * 0.1
+      : SCREEN_HEIGHT * 0.05,
+   // marginLeft: SCREEN_WIDTH * 0.1,
+  },
+  modalLoadingInsideStyle: {
+    flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: styleCommon.secondaryColorNew,
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    //padding: DEVICE_NAME.includes('iPhone 11') ? SCREEN_WIDTH * 0.1 : 10,
+    width: SCREEN_WIDTH * 0.9,
+    // marginTop: DEVICE_NAME.includes('iPhone 11')
+    //   ? SCREEN_WIDTH * 0.3
+    //   : SCREEN_WIDTH * 0.25,
+    // marginBottom: DEVICE_NAME.includes('iPhone 11')
+    //   ? SCREEN_WIDTH * 0.2
+    //   : SCREEN_WIDTH * 0.1,
+  },
+  closeButtonContainerStyle: {
+    position: 'relative',
+    top: -(SCREEN_WIDTH * 0.1),
+    left: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.75
+      : Platform.OS === 'ios'
+      ? SCREEN_WIDTH * 0.69
+      : SCREEN_WIDTH * 0.75,
+    width: 40,
+    alignItems: 'center',
+    //backgroundColor: 'red',
+  },
+  purchaseCloseButtonContainerStyle: {
+    position: 'relative',
+    top: -(SCREEN_WIDTH * 0.06),
+    left: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.4
+      : Platform.OS === 'ios'
+      ? SCREEN_WIDTH * 0.38
+      : SCREEN_WIDTH * 0.4,
+    width: 40,
+    alignItems: 'center',
+    //backgroundColor: 'red',
+  },
+  modalTitle: {
+    fontWeight: 'bold',
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font26
+      : fontsCommon.font30,
+    // textAlign: 'center',
+    color: styleCommon.textColor1,
+  },
+  modalSubTitle: {
+    fontWeight: '400',
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font16
+      : fontsCommon.font20,
+    marginTop: 10,
+    color: styleCommon.textColor1,
+  },
+  animationStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    //margin: 30, // 20
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT * 0.3,
+    //backgroundColor: "teal"
+    marginBottom: -10,
+    marginTop: -10,
+    marginLeft: -10,
+  },
+  contactDetailsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: SCREEN_HEIGHT * 0.02,
+  },
+  contactDetailsText: {
+    fontWeight: '600',
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font16
+      : fontsCommon.font20,
+    marginLeft: 10,
+    color: styleCommon.textColor1,
+  },
+  socialIconImageStyle: {
+    width: SCREEN_WIDTH * 0.13,
+    height: SCREEN_HEIGHT * 0.06,
+    borderRadius: SCREEN_HEIGHT * 0.06,
+  },
+  noPurchasesText: {
+    fontWeight: '600',
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font16
+      : fontsCommon.font20,
+    color: styleCommon.textColor1,
   },
 });
 

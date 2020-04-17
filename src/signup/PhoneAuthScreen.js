@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import {Alert, View, Text} from 'react-native';
+import {View, Text, Image, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {Input, Button} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import PhoneNumberPicker from '../components/phoneNumber/PhoneNumberPicker';
 import {
-  btnGradientColorLeft,
-  modalBtnGradientColorRight,
   styleCommon,
   ICON_SIZE_SMALL,
 } from '../../assets/style/stylesCommonValues';
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../../assets/style/stylesPhoneAuthScreen';
 import Loading from '../components/Loading';
+import {SMS_ICON} from '../common/Common';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
+import ResendButton from '../components/ResendButton';
 
 class PhoneAuthScreen extends Component {
   state = {
@@ -50,12 +50,12 @@ class PhoneAuthScreen extends Component {
     });
   };
 
-  handleVerifyCode = () => {
+  handleVerifyCode = (verificationCode) => {
     // Request for OTP verification
-    const {confirmResult, verificationCode} = this.state;
+    const {confirmResult} = this.state;
     const {createUserWithPhoneNumber} = this.props;
-    this.setState({isLoading: true});
-    // console.log('verifying the code ', verificationCode);
+    this.setState({isLoading: true, verificationCode});
+    //console.log('verifying the code', verificationCode);
     if (verificationCode.length === 6) {
       confirmResult
         .confirm(verificationCode)
@@ -65,13 +65,15 @@ class PhoneAuthScreen extends Component {
           createUserWithPhoneNumber(user);
         })
         .catch((error) => {
-          Alert.alert(error.message);
+          this.setState({isLoading: false, verificationCode: ''});
+          Alert.alert('Invalid OTP.');
           console.log(
             'Error while creating the user or logging in the user by phone auth: ',
             error,
           );
         });
     } else {
+      this.setState({isLoading: false, verificationCode: ''});
       Alert.alert('Please enter a 6 digit OTP code.');
     }
   };
@@ -82,63 +84,54 @@ class PhoneAuthScreen extends Component {
     setShowSocialOptions(true);
   };
 
+  resendCode = () => {
+    this.handleSendCode(this.state);
+  };
+
   renderConfirmationCodeView = () => {
-    const {verificationCode, phoneNumber} = this.state;
+    const {phoneNumber} = this.state;
     return (
       <View style={styles.verificationContainer}>
         <Text style={styles.verificationTitle}>Verify your phone number</Text>
-        <Text style={styles.verificationDesc}>
-          Enter the 6-digit code we sent to
-        </Text>
-        <View style={styles.verificationPhNumContainer}>
-          <Button
-            title={phoneNumber}
-            titleStyle={styles.verificationPhNum}
-            type="clear"
-            onPress={() => this.reEnterPhoneNumber()}
-          />
-          <Icon
-            name="arrow-left"
-            color={styleCommon.iconColor}
-            size={ICON_SIZE_SMALL}
-            style={styles.iconStyle}
-          />
-          <Text style={styles.clickHere}>click to change</Text>
+        <View style={styles.verificationSubContainer}>
+          <View style={styles.imageContainer}>
+            <Image source={SMS_ICON} style={styles.iconImageStyle} />
+          </View>
+          <View style={styles.verificationDescContainer}>
+            <Text style={styles.verificationDesc}>
+              Enter the 6-digit code we sent to
+            </Text>
+            <View style={styles.verificationPhNumContainer}>
+              <Button
+                title={phoneNumber}
+                titleStyle={styles.verificationPhNum}
+                type="clear"
+                onPress={() => this.reEnterPhoneNumber()}
+              />
+              <Icon
+                name="arrow-left"
+                color={styleCommon.iconColor}
+                size={ICON_SIZE_SMALL}
+                style={styles.iconStyle}
+              />
+              <Text style={styles.clickHere}>click to change</Text>
+            </View>
+          </View>
         </View>
         <View style={styles.verificationCodeContainer}>
-          <Input
-            maxLength={6}
-            placeholder="6-digit code"
-            placeholderTextColor="grey"
-            containerStyle={styles.inputViewContainer}
-            inputContainerStyle={styles.inputContainer}
-            inputStyle={styles.inputStyle}
-            errorStyle={styles.errorInputStyle}
-            keyboardAppearance="light"
-            keyboardType="numeric"
-            autoCapitalize="none"
-            autoCorrect={false}
-            blurOnSubmit={true}
-            onChangeText={(verifCode) => {
-              this.setState({verificationCode: verifCode});
+          <OTPInputView
+            style={styles.otpInput}
+            pinCount={6}
+            autoFocusOnLoad
+            codeInputFieldStyle={styles.underlineStyleBase}
+            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+            placeholderTextColor={styleCommon.textColor1}
+            onCodeFilled={(code) => {
+              this.handleVerifyCode(code);
             }}
-            value={verificationCode}
-          />
-          <Button
-            title="VERIFY"
-            iconRight={true}
-            ViewComponent={LinearGradient}
-            linearGradientProps={{
-              colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
-              start: {x: 0, y: 0.5},
-              end: {x: 1, y: 0.5},
-            }}
-            containerStyle={styles.verifyButtonContainerStyle}
-            buttonStyle={styles.verifyButtonStyle}
-            titleStyle={styles.verifyButtonText}
-            onPress={this.handleVerifyCode}
           />
         </View>
+        <ResendButton resendCode={this.resendCode} />
       </View>
     );
   };

@@ -94,7 +94,7 @@ export default class VerticalSelectView extends React.Component {
             };
             iconImageStyle = {
               ...iconImageStyle,
-              tintColor: styleCommon.textColor2,
+              //tintColor: styleCommon.textColor2,
             };
             levelTitleStyle = {
               ...levelTitleStyle,

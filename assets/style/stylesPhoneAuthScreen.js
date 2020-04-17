@@ -2,13 +2,14 @@ import {StyleSheet} from 'react-native';
 import {
   styleCommon,
   SCREEN_WIDTH,
+  SCREEN_HEIGHT,
   BUTTON_HEIGHT_GENERAL,
   fontsCommon,
 } from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   container: {
-    marginBottom: 40,
+    marginBottom: 10,
   },
   verifyButtonContainerStyle: {
     justifyContent: 'center',
@@ -56,8 +57,8 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   verificationContainer: {
-   // justifyContent: 'center',
-   // alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   verificationTitle: {
     fontSize: fontsCommon.font24,
@@ -66,8 +67,13 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
     color: styleCommon.headerTitleColor,
   },
+  verificationDescContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginBottom: SCREEN_HEIGHT * 0.05,
+  },
   verificationDesc: {
-    fontSize: fontsCommon.font15,
+    fontSize: fontsCommon.font14,
     fontWeight: 'bold',
     paddingTop: 10,
     color: styleCommon.headerTitleColor,
@@ -93,7 +99,39 @@ export const styles = StyleSheet.create({
   },
   verificationCodeContainer: {
     flexDirection: 'row',
-    marginTop: 15,
-    marginLeft: -10,
+    justifyContent: 'center',
+    //marginTop: 15,
+    //marginLeft: -10,
+  },
+  verificationSubContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  iconImageStyle: {
+    width: SCREEN_HEIGHT * 0.08,
+    height: SCREEN_HEIGHT * 0.08,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginRight: 10,
+  },
+  otpInput: {
+    width: '70%',
+    height: SCREEN_HEIGHT * 0.08,
+  },
+  underlineStyleBase: {
+    width: SCREEN_HEIGHT * 0.04,
+    //height: 45,
+    borderWidth: 1,
+    backgroundColor: 'white',
+    color: styleCommon.textColor1,
+    fontSize: 18,
+    borderRadius: 6,
+    //borderBottomWidth: 1,
+  },
+
+  underlineStyleHighLighted: {
+    borderColor: '#03DAC6',
   },
 });

@@ -7,6 +7,8 @@ import {
   LayoutAnimation,
   UIManager,
   KeyboardAvoidingView,
+  Image,
+  Animated,
 } from 'react-native';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
@@ -18,6 +20,7 @@ import {
   PASSWORD_LENGTH_MINIMUM,
   PROVIDER_GOOGLE,
   PROVIDER_FACEBOOK,
+  LOGIN_ICON,
 } from '../common/Common';
 import {setCurrentUser, getCurrentUser} from '../common/Util';
 import {fontsCommon} from '../../assets/style/stylesCommonValues';
@@ -51,8 +54,46 @@ export default class LoginScreen1 extends Component {
       secureTextKey: true,
       showSocialOptions: true,
     };
-    //this.logoutGoogleUser()
+    this.shakeAnimation = new Animated.Value(0);
   }
+
+  componentDidMount() {
+    this.startShake();
+  }
+
+  shakeInIntervals = () => {
+    this.shakeInterval = setInterval(() => {
+      if (this.shakeInterval) {
+        clearInterval(this.shakeInterval);
+      }
+      this.startShake();
+    }, 3000);
+  };
+
+  startShake = () => {
+    Animated.sequence([
+      Animated.timing(this.shakeAnimation, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.shakeAnimation, {
+        toValue: -10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.shakeAnimation, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.shakeAnimation, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start(() => this.shakeInIntervals());
+  };
 
   /*logoutGoogleUser = async () => {
     const currentUser = await GoogleSignin.getCurrentUser();
@@ -313,6 +354,10 @@ export default class LoginScreen1 extends Component {
             <View style={styles.logoContainer}>
               <Text style={styles.logoText}>FITREPO</Text>
             </View>
+            <Animated.View
+              style={{transform: [{translateX: this.shakeAnimation}]}}>
+              <Image source={LOGIN_ICON} style={styles.iconImageStyle} />
+            </Animated.View>
             <View style={styles.loginInputContainer}>
               <PhoneAuth
                 setShowSocialOptions={this.setShowSocialOptions}
