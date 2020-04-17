@@ -132,4 +132,7 @@ export const styles = StyleSheet.create({
     fontSize: fontsCommon.font15,
     fontWeight: 'bold',
   },
+  seeUnseeButtonStyle: {
+    backgroundColor: 'transparent',
+  },
 });

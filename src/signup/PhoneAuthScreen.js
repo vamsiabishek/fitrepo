@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-  Text,
-  TextInput,
-} from 'react-native';
+import {Alert, View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {Input, Button} from 'react-native-elements';
 import PhoneNumberPicker from '../components/phoneNumber/PhoneNumberPicker';
@@ -62,7 +55,7 @@ class PhoneAuthScreen extends Component {
     const {confirmResult, verificationCode} = this.state;
     const {createUserWithPhoneNumber} = this.props;
     this.setState({isLoading: true});
-    console.log('verifying the code', verificationCode);
+    // console.log('verifying the code ', verificationCode);
     if (verificationCode.length === 6) {
       confirmResult
         .confirm(verificationCode)
@@ -72,11 +65,14 @@ class PhoneAuthScreen extends Component {
           createUserWithPhoneNumber(user);
         })
         .catch((error) => {
-          alert(error.message);
-          console.log(error);
+          Alert.alert(error.message);
+          console.log(
+            'Error while creating the user or logging in the user by phone auth: ',
+            error,
+          );
         });
     } else {
-      alert('Please enter a 6 digit OTP code.');
+      Alert.alert('Please enter a 6 digit OTP code.');
     }
   };
 

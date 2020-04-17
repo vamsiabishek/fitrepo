@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  ScrollView,
-  Animated,
-  Easing,
-  UIManager,
-} from 'react-native';
+import {Text, View, Animated, Easing, UIManager} from 'react-native';
 import Timeline from 'react-native-timeline-flatlist';
 import {styles} from '../../../assets/style/stylesMealContainer';
 import {MEALS_ICON} from '../../common/Common';
@@ -131,18 +124,27 @@ export default class MealsContainer extends Component {
     if (meals.length > 0) {
       meals.map((meal) => (meal.icon = MEALS_ICON));
     }
+    const timeStyle = {
+      textAlign: 'center',
+      color: 'white',
+      borderRadius: 13,
+    };
+    const descriptionStyle = {color: 'gray'};
     return (
-      <ScrollView
+      <Animated.ScrollView
         removeClippedSubviews={false}
-        onScroll={Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: dayBarScrollY,
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: dayBarScrollY,
+                },
               },
             },
-          },
-        ])}
+          ],
+          {useNativeDriver: false},
+        )}
         scrollEventThrottle={320}
         onScrollEndDrag={(e) => showDayLabelOnScroll(e)}
         onMomentumScrollEnd={(e) => hideDayLabelOnScroll(e)}>
@@ -154,12 +156,8 @@ export default class MealsContainer extends Component {
           circleColor="#00DB8D"
           //circleColor="white"
           lineColor="lightgrey"
-          timeStyle={{
-            textAlign: 'center',
-            color: 'white',
-            borderRadius: 13,
-          }}
-          descriptionStyle={{color: 'gray'}}
+          timeStyle={timeStyle}
+          descriptionStyle={descriptionStyle}
           options={{
             style: {paddingTop: 5},
             enableEmptySections: true,
@@ -170,7 +168,7 @@ export default class MealsContainer extends Component {
           //onEventPress={this.onEventPress}
           renderDetail={this.renderDetail}
         />
-      </ScrollView>
+      </Animated.ScrollView>
     );
   }
 }

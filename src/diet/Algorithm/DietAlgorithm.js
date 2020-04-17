@@ -1,23 +1,23 @@
-import { f, auth, database } from "../../common/FirebaseConfig";
+import {database} from '../../common/FirebaseConfig';
 import {
-  convertProgramToWeeks,
   calculateCalFromProteinOrCarbs,
   calculateCalFromFats,
-  MALE, FEMALE
-} from "../../common/Common";
-import { sourceQuantities, manageSources } from "./SourceDistribution";
-import { createMeals } from "./MealsAlgorithm";
-import { convertGoal } from "../../common/Util";
-import { getVeggies, getFruits } from "../../common/SourceUtil";
+  MALE,
+  FEMALE,
+} from '../../common/Common';
+import {sourceQuantities, manageSources} from './SourceDistribution';
+import {createMeals} from './MealsAlgorithm';
+import {convertGoal} from '../../common/Util';
+import {getVeggies, getFruits} from '../../common/SourceUtil';
 import {
   FOOD_PREF_VEG,
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN,
   FOOD_PREF_VEGAN,
-  findNumberOfVegProteinSources
-} from "../../common/SourceUtil";
-import { getCalPerWeek } from "./WeeklyCalories";
-import { WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY } from "../../common/Common";
+  findNumberOfVegProteinSources,
+} from '../../common/SourceUtil';
+import {getCalPerWeek} from './WeeklyCalories';
+import {WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY} from '../../common/Common';
 import {
   LOSS_MACRO_PERCENTS,
   GAIN_MACRO_PERCENTS,
@@ -30,51 +30,51 @@ import {
   LOSS_MACRO_PERCENTS_VEG_ADVANCED,
   GAIN_MACRO_PERCENTS_VEG_ADVANCED,
   LOSS_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED,
-  GAIN_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED
-} from "./SourceQuantityData";
+  GAIN_MACRO_PERCENTS_SEMI_NON_VEG_ADVANCED,
+} from './SourceQuantityData';
 
 let BMR = 0;
 const FITNESS_LEVEL_ONE_ADDITION = 1.2; //1.2 times BMR i.e., (BMR * 1.2)
 const FITNESS_LEVEL_TWO_ADDITION = 1.46; //1.2 times BMR i.e., (BMR * 1.46)
 const FITNESS_LEVEL_THREE_ADDITION = 1.72; //1.2 times BMR i.e., (BMR * 1.72)
 const CALORIE_PERCENTS = [
-  { goal: WEIGHT_LOSS, weight: 0.25, level: 1, percent: 88 },
-  { goal: WEIGHT_LOSS, weight: 0.5, level: 1, percent: 75 },
-  { goal: WEIGHT_LOSS, weight: 1, level: 1, percent: 50 },
-  { goal: WEIGHT_LOSS, weight: 0.25, level: 2, percent: 90 },
-  { goal: WEIGHT_LOSS, weight: 0.5, level: 2, percent: 80 },
-  { goal: WEIGHT_LOSS, weight: 1, level: 2, percent: 59 },
-  { goal: WEIGHT_LOSS, weight: 0.25, level: 3, percent: 91 },
-  { goal: WEIGHT_LOSS, weight: 0.5, level: 3, percent: 83 },
-  { goal: WEIGHT_LOSS, weight: 1, level: 3, percent: 65 },
+  {goal: WEIGHT_LOSS, weight: 0.25, level: 1, percent: 88},
+  {goal: WEIGHT_LOSS, weight: 0.5, level: 1, percent: 75},
+  {goal: WEIGHT_LOSS, weight: 1, level: 1, percent: 50},
+  {goal: WEIGHT_LOSS, weight: 0.25, level: 2, percent: 90},
+  {goal: WEIGHT_LOSS, weight: 0.5, level: 2, percent: 80},
+  {goal: WEIGHT_LOSS, weight: 1, level: 2, percent: 59},
+  {goal: WEIGHT_LOSS, weight: 0.25, level: 3, percent: 91},
+  {goal: WEIGHT_LOSS, weight: 0.5, level: 3, percent: 83},
+  {goal: WEIGHT_LOSS, weight: 1, level: 3, percent: 65},
 
-  { goal: BE_HEALTHY, weight: 0, level: 1, percent: 90 },
-  { goal: BE_HEALTHY, weight: 0.25, level: 1, percent: 84 },
-  { goal: BE_HEALTHY, weight: 0.5, level: 1, percent: 70 },
-  { goal: BE_HEALTHY, weight: 0, level: 2, percent: 92 },
-  { goal: BE_HEALTHY, weight: 0.25, level: 2, percent: 86 },
-  { goal: BE_HEALTHY, weight: 0.5, level: 2, percent: 75 },
-  { goal: BE_HEALTHY, weight: 0, level: 3, percent: 92 },
-  { goal: BE_HEALTHY, weight: 0.25, level: 3, percent: 88 },
-  { goal: BE_HEALTHY, weight: 0.5, level: 3, percent: 80 },
+  {goal: BE_HEALTHY, weight: 0, level: 1, percent: 90},
+  {goal: BE_HEALTHY, weight: 0.25, level: 1, percent: 84},
+  {goal: BE_HEALTHY, weight: 0.5, level: 1, percent: 70},
+  {goal: BE_HEALTHY, weight: 0, level: 2, percent: 92},
+  {goal: BE_HEALTHY, weight: 0.25, level: 2, percent: 86},
+  {goal: BE_HEALTHY, weight: 0.5, level: 2, percent: 75},
+  {goal: BE_HEALTHY, weight: 0, level: 3, percent: 92},
+  {goal: BE_HEALTHY, weight: 0.25, level: 3, percent: 88},
+  {goal: BE_HEALTHY, weight: 0.5, level: 3, percent: 80},
 
-  { goal: WEIGHT_GAIN, weight: 0.25, level: 1, percent: 112 },
-  { goal: WEIGHT_GAIN, weight: 0.5, level: 1, percent: 125 },
-  { goal: WEIGHT_GAIN, weight: 1, level: 1, percent: 150 },
-  { goal: WEIGHT_GAIN, weight: 0.25, level: 2, percent: 110 },
-  { goal: WEIGHT_GAIN, weight: 0.5, level: 2, percent: 120 },
-  { goal: WEIGHT_GAIN, weight: 1, level: 2, percent: 141 },
-  { goal: WEIGHT_GAIN, weight: 0.25, level: 3, percent: 109 },
-  { goal: WEIGHT_GAIN, weight: 0.5, level: 3, percent: 117 },
-  { goal: WEIGHT_GAIN, weight: 1, level: 3, percent: 135 }
+  {goal: WEIGHT_GAIN, weight: 0.25, level: 1, percent: 112},
+  {goal: WEIGHT_GAIN, weight: 0.5, level: 1, percent: 125},
+  {goal: WEIGHT_GAIN, weight: 1, level: 1, percent: 150},
+  {goal: WEIGHT_GAIN, weight: 0.25, level: 2, percent: 110},
+  {goal: WEIGHT_GAIN, weight: 0.5, level: 2, percent: 120},
+  {goal: WEIGHT_GAIN, weight: 1, level: 2, percent: 141},
+  {goal: WEIGHT_GAIN, weight: 0.25, level: 3, percent: 109},
+  {goal: WEIGHT_GAIN, weight: 0.5, level: 3, percent: 117},
+  {goal: WEIGHT_GAIN, weight: 1, level: 3, percent: 135},
 ];
 
-const BEGINNER_LOSS_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
-const BEGINNER_GAIN_MACRO_PERCENTS = { protein: 25, carbs: 40, fat: 35 };
+/*const BEGINNER_LOSS_MACRO_PERCENTS = {protein: 25, carbs: 40, fat: 35};
+const BEGINNER_GAIN_MACRO_PERCENTS = {protein: 25, carbs: 40, fat: 35};
 const MIN_HUMAN_CAL_INTAKE = 1500;
-const BEGINNER_DEFAULT_SOURCES = ["chia-seeds", "flax-seeds"];
+const BEGINNER_DEFAULT_SOURCES = ['chia-seeds', 'flax-seeds'];*/
 
-const getCalPercent = ({ goal, fitnessLevel, weightChangePerWeek }) => {
+const getCalPercent = ({goal, fitnessLevel, weightChangePerWeek}) => {
   for (let i = 0, len = CALORIE_PERCENTS.length; i < len; i += 1) {
     if (
       CALORIE_PERCENTS[i].goal === goal &&
@@ -87,17 +87,17 @@ const getCalPercent = ({ goal, fitnessLevel, weightChangePerWeek }) => {
   return null;
 };
 
-convertMealsPerDay = mealsPerDay => mealsPerDay.charAt(0);
+// const convertMealsPerDay = (mealsPerDay) => mealsPerDay.charAt(0);
 
 export const getPossibleTargetWeights = (
   goal,
   program,
   currentWeight,
-  fitnessLevel
+  fitnessLevel,
 ) => {
   const targetWeights = [];
   goal = convertGoal(goal);
-  CALORIE_PERCENTS.map(data => {
+  CALORIE_PERCENTS.map((data) => {
     if (
       program > 0 &&
       goal.length > 0 &&
@@ -114,7 +114,7 @@ export const getPossibleTargetWeights = (
   return targetWeights;
 };
 
-const calculateBMR = ({ currentWeight, height, age, gender }) => {
+const calculateBMR = ({currentWeight, height, age, gender}) => {
   if (gender === MALE) {
     BMR = 10 * currentWeight + 6.25 * height - 5 * age + 5;
   } else if (gender === FEMALE) {
@@ -143,11 +143,11 @@ const getTotalCalIntake = ({
   age,
   gender,
   targetWeight,
-  selectedProgram
+  selectedProgram,
 }) => {
-  calculateBMR({ currentWeight, height, age, gender });
+  calculateBMR({currentWeight, height, age, gender});
   const maintainanceCal = Math.round(
-    maintainanceCalBasedOnFitness(fitnessLevel, BMR)
+    maintainanceCalBasedOnFitness(fitnessLevel, BMR),
   );
   let weightChangePerWeek = 0;
   if (goal === WEIGHT_LOSS || goal === BE_HEALTHY) {
@@ -156,8 +156,8 @@ const getTotalCalIntake = ({
     weightChangePerWeek = (targetWeight - currentWeight) / selectedProgram;
   }
 
-  console.log("weightChangePerWeek:", weightChangePerWeek);
-  const calPercent = getCalPercent({ goal, fitnessLevel, weightChangePerWeek });
+  // console.log('weightChangePerWeek:', weightChangePerWeek);
+  const calPercent = getCalPercent({goal, fitnessLevel, weightChangePerWeek});
 
   const totalCalIntake = (maintainanceCal * calPercent) / 100;
   return Math.round(totalCalIntake);
@@ -174,10 +174,10 @@ export const designDiet = async ({
   targetWeight,
   fitnessLevel,
   foodPreference,
-  uid
+  uid,
 }) => {
-  console.log(
-    "props",
+  /*console.log(
+    'props',
     fitnessLevel,
     selectedGoal,
     selectedProgram,
@@ -185,24 +185,26 @@ export const designDiet = async ({
     currentWeight,
     targetWeight,
     foodPreference,
-    uid
-  );
+    uid,
+  );*/
 
   let user = {};
   await database
-    .ref("users")
+    .ref('users')
     .child(uid)
-    .once("value")
-    .then(snapshot => {
+    .once('value')
+    .then((snapshot) => {
       user = snapshot.val();
     })
-    .catch(error => {
-      console.log("error while fetching user details in DietAlgorithm:", error);
+    .catch((error) => {
+      console.log('error while fetching user details in DietAlgorithm:', error);
     });
-  console.log("user:", user);
+  // console.log('user:', user);
   const goal = convertGoal(selectedGoal);
   let numberOfMeals = 4;
-  if (selectedMeals) numberOfMeals = selectedMeals;
+  if (selectedMeals) {
+    numberOfMeals = selectedMeals;
+  }
   const totalCalIntake = getTotalCalIntake({
     goal,
     selectedProgram,
@@ -211,19 +213,19 @@ export const designDiet = async ({
     height: user.height,
     age: user.age,
     gender: user.gender,
-    fitnessLevel
+    fitnessLevel,
   });
-  console.log("Total daily calorie Intake is:", totalCalIntake);
+  // console.log('Total daily calorie Intake is:', totalCalIntake);
   if (totalCalIntake <= 0) {
     return;
   }
 
   const defaultSourcesQuantities = await beginnerDefaultSourcesAndCal();
-  const { proteinSources, carbSources, fatSources } = await manageSources({
+  const {proteinSources, carbSources, fatSources} = await manageSources({
     selectedProteinSources,
     selectedFatSources,
     selectedCarbSources,
-    foodPreference
+    foodPreference,
   });
   const veggies = getVeggies(fitnessLevel);
   const fruits = getFruits(fitnessLevel);
@@ -231,36 +233,36 @@ export const designDiet = async ({
   //calorie intake for each week
   const calPerWeek = getCalPerWeek(totalCalIntake, selectedProgram, goal);
 
-  console.log("calPerWeek:", calPerWeek);
+  // console.log('calPerWeek:', calPerWeek);
 
   const numberOfVegProteinSources =
     foodPreference === FOOD_PREF_NON_VEG
       ? findNumberOfVegProteinSources(proteinSources)
       : 0;
 
-  const trainingAndRestdayCals = calPerWeek.map(calories =>
+  const trainingAndRestdayCals = calPerWeek.map((calories) =>
     getCalFromSources(
       goal,
       calories,
       foodPreference,
       numberOfVegProteinSources,
-      fitnessLevel
-    )
+      fitnessLevel,
+    ),
   );
 
-  console.log("trainingAndRestdayCals:", trainingAndRestdayCals);
+  // console.log('trainingAndRestdayCals:', trainingAndRestdayCals);
   const weeklyMeals = [];
-  trainingAndRestdayCals.map(({ trainingDayCal, restDayCal }, index) => {
+  trainingAndRestdayCals.map(({trainingDayCal, restDayCal}, index) => {
     if (
       index === 0 ||
       (index > 0 &&
         trainingDayCal !== trainingAndRestdayCals[index - 1].trainingDayCal)
     ) {
-      let { calFromProtein, calFromCarbs, calFromFats } = trainingDayCal;
+      let {calFromProtein, calFromCarbs, calFromFats} = trainingDayCal;
       let {
         calFromProteinForRD,
         calFromCarbsForRD,
-        calFromFatsForRD
+        calFromFatsForRD,
       } = restDayCal;
       calFromProtein =
         calFromProtein - defaultSourcesQuantities.calFromSources.calFromProtein;
@@ -282,7 +284,7 @@ export const designDiet = async ({
         selectedSources: proteinSources,
         calFromSource: calFromProtein,
         calFromSourceForRD: calFromProteinForRD,
-        isProtein: true
+        isProtein: true,
       });
       calFromFats =
         calFromFats - proteinSourcesAndQuantities.calFromSources.calFromFats;
@@ -302,7 +304,7 @@ export const designDiet = async ({
           selectedSources: fatSources,
           calFromSource: calFromFats,
           calFromSourceForRD: calFromFatsForRD,
-          isFat: true
+          isFat: true,
         });
         calFromCarbs =
           calFromCarbs - fatSourcesAndQuantities.calFromSources.calFromCarbs;
@@ -314,22 +316,22 @@ export const designDiet = async ({
           selectedSources: carbSources,
           calFromSource: calFromCarbs,
           calFromSourceForRD: calFromCarbsForRD,
-          isCarb: true
+          isCarb: true,
         });
       }
       const foodSources = [
         defaultSourcesQuantities,
         proteinSourcesAndQuantities,
         fatSourcesAndQuantities,
-        carbSourcesAndQuantities
+        carbSourcesAndQuantities,
       ];
       const foodSourceCalories = totalCaloriesFromSourceQuantities(foodSources);
 
-      const { trainingDayMeals, restDayMeals } = createMeals({
+      const {trainingDayMeals, restDayMeals} = createMeals({
         foodSources,
         numberOfMeals,
         veggies,
-        fruits
+        fruits,
       });
       const traningDayCalories =
         foodSourceCalories.calFromProtein +
@@ -351,35 +353,35 @@ export const designDiet = async ({
         traningDayCal: traningDayCalories,
         restDayCal: restDayCalories,
         trainingDayMeals,
-        restDayMeals
+        restDayMeals,
       });
     } else {
       weeklyMeals.push({
         ...weeklyMeals[index - 1],
-        week: index
+        week: index,
       });
     }
   });
   return weeklyMeals;
 };
 
-getCalFromSources = (
+const getCalFromSources = (
   goal,
   totalCalIntake,
   foodPreference,
   numberOfVegProteinSources,
-  fitnessLevel
+  fitnessLevel,
 ) => {
   const {
     lossPercent,
     gainPercent,
     excludeProteinCal,
     excludeFatCal,
-    excludeCarbCal
+    excludeCarbCal,
   } = getMacroPercentsAndExcludeCal({
     fitnessLevel,
     foodPreference,
-    numberOfVegProteinSources
+    numberOfVegProteinSources,
   });
 
   let calFromProtein =
@@ -397,7 +399,7 @@ getCalFromSources = (
       ? (totalCalIntake * lossPercent.fat) / 100
       : (totalCalIntake * gainPercent.fat) / 100;
 
-  /* subtract 100 cal from protein and 50 cal from fat 
+  /* subtract 100 cal from protein and 50 cal from fat
     because carb and fat sources contain some protein
     and also carb sources contain fat */
   calFromProtein = calFromProtein - excludeProteinCal;
@@ -406,7 +408,7 @@ getCalFromSources = (
   const trainingDayCal = {
     calFromProtein,
     calFromFats: calFromFats > 0 ? calFromFats : 0,
-    calFromCarbs: calFromCarbs > 0 ? calFromCarbs : 0
+    calFromCarbs: calFromCarbs > 0 ? calFromCarbs : 0,
   };
 
   let calFromProteinForRD =
@@ -424,7 +426,7 @@ getCalFromSources = (
       ? (BMR * lossPercent.fat) / 100
       : (BMR * gainPercent.fat) / 100;
 
-  /* subtract 100 cal from protein and 50 cal from fat 
+  /* subtract 100 cal from protein and 50 cal from fat
     because carb and fat sources contain some protein
     and also carb sources contain fat */
   calFromProteinForRD = calFromProteinForRD - excludeProteinCal;
@@ -433,19 +435,19 @@ getCalFromSources = (
   const restDayCal = {
     calFromProteinForRD,
     calFromFatsForRD: calFromFatsForRD > 0 ? calFromFatsForRD : 0,
-    calFromCarbsForRD: calFromCarbsForRD > 0 ? calFromCarbsForRD : 0
+    calFromCarbsForRD: calFromCarbsForRD > 0 ? calFromCarbsForRD : 0,
   };
 
   return {
     trainingDayCal,
-    restDayCal
+    restDayCal,
   };
 };
 
-getMacroPercentsAndExcludeCal = ({
+const getMacroPercentsAndExcludeCal = ({
   fitnessLevel,
   foodPreference,
-  numberOfVegProteinSources
+  numberOfVegProteinSources,
 }) => {
   let lossPercent = LOSS_MACRO_PERCENTS;
   let gainPercent = GAIN_MACRO_PERCENTS;
@@ -484,7 +486,7 @@ getMacroPercentsAndExcludeCal = ({
     gainPercent,
     excludeProteinCal,
     excludeFatCal,
-    excludeCarbCal
+    excludeCarbCal,
   };
 };
 
@@ -495,63 +497,66 @@ const beginnerDefaultSourcesAndCal = async () => {
   let fatCal = 0;
   const defaultSources = await getBeginnerDefaultSources();
   const defaultSourcesQuantities = [];
-  defaultSources.map(source => {
-    const { protein, carbs, fat, beginnerDefaultQuantity } = source.value;
+  defaultSources.map((source) => {
+    const {protein, carbs, fat, beginnerDefaultQuantity} = source.value;
 
-    if (protein)
+    if (protein) {
       proteinCal =
         proteinCal +
         calculateCalFromProteinOrCarbs(
           calculateMacroPerQuantity({
             macroValue: protein,
-            quantity: beginnerDefaultQuantity * 14 // 14 gm per table spoon
-          })
+            quantity: beginnerDefaultQuantity * 14, // 14 gm per table spoon
+          }),
         );
-    if (carbs)
+    }
+    if (carbs) {
       carbCal =
         carbCal +
         calculateCalFromProteinOrCarbs(
           calculateMacroPerQuantity({
             macroValue: carbs,
-            quantity: beginnerDefaultQuantity * 14
-          })
+            quantity: beginnerDefaultQuantity * 14,
+          }),
         );
-    if (fat)
+    }
+    if (fat) {
       fatCal =
         fatCal +
         calculateCalFromFats(
           calculateMacroPerQuantity({
             macroValue: fat,
-            quantity: beginnerDefaultQuantity * 14
-          })
+            quantity: beginnerDefaultQuantity * 14,
+          }),
         );
+    }
 
     defaultSourcesQuantities.push({
       source,
       macroValue: beginnerDefaultQuantity,
       macroQuantity: beginnerDefaultQuantity * 14, // 14 gm per table spoon
       macroValueForRD: beginnerDefaultQuantity,
-      macroQuantityForRD: beginnerDefaultQuantity * 14
+      macroQuantityForRD: beginnerDefaultQuantity * 14,
     });
   });
   calFromSources = {
     calFromProtein: proteinCal,
     calFromCarbs: carbCal,
-    calFromFats: fatCal
+    calFromFats: fatCal,
   };
 
-  console.log(
-    "default source values: ",
+  /*console.log(
+    'default source values: ',
     defaultSourcesQuantities,
-    calFromSources
-  );
+    calFromSources,
+  );*/
   return {
     defaultSourcesQuantities,
-    calFromSources
+    calFromSources,
   };
 };
 
-totalCaloriesFromSourceQuantities = foodSources => {
+const totalCaloriesFromSourceQuantities = (foodSources) => {
   let calFromProtein = 0;
   let calFromFats = 0;
   let calFromCarbs = 0;
@@ -567,25 +572,25 @@ totalCaloriesFromSourceQuantities = foodSources => {
         calFromSourcesForRD = {
           calFromProteinForRD: sources.calFromSources.calFromProtein,
           calFromFatsForRD: sources.calFromSources.calFromFats,
-          calFromCarbsForRD: sources.calFromSources.calFromCarbs
+          calFromCarbsForRD: sources.calFromSources.calFromCarbs,
         };
       } else {
         calFromSources = sources.calFromSources;
         calFromSourcesForRD = sources.calFromSourcesForRD;
       }
       calFromProtein = Math.round(
-        calFromProtein + calFromSources.calFromProtein
+        calFromProtein + calFromSources.calFromProtein,
       );
       calFromProteinForRD = Math.round(
-        calFromProteinForRD + calFromSourcesForRD.calFromProteinForRD
+        calFromProteinForRD + calFromSourcesForRD.calFromProteinForRD,
       );
       calFromFats = Math.round(calFromFats + calFromSources.calFromFats);
       calFromFatsForRD = Math.round(
-        calFromFatsForRD + calFromSourcesForRD.calFromFatsForRD
+        calFromFatsForRD + calFromSourcesForRD.calFromFatsForRD,
       );
       calFromCarbs = Math.round(calFromCarbs + calFromSources.calFromCarbs);
       calFromCarbsForRD = Math.round(
-        calFromCarbsForRD + calFromSourcesForRD.calFromCarbsForRD
+        calFromCarbsForRD + calFromSourcesForRD.calFromCarbsForRD,
       );
     }
   });
@@ -596,43 +601,49 @@ totalCaloriesFromSourceQuantities = foodSources => {
     calFromFats,
     calFromProteinForRD,
     calFromFatsForRD,
-    calFromCarbsForRD
+    calFromCarbsForRD,
   };
 };
 
 //calculate protein/carbs/fat per quantity
-/*Example 
+/*Example
   chicken 31gm(macroValue) protein for 100gm(TotalMacroQuantity) so calculateMacroPerQuantity gives us protein for 30gm(quantity) of chicken  */
-calculateMacroPerQuantity = ({ TotalMacroQuantity, macroValue, quantity }) => {
+const calculateMacroPerQuantity = ({
+  TotalMacroQuantity,
+  macroValue,
+  quantity,
+}) => {
   //by default we have all macro calculations as per 100gm in database
-  if (!TotalMacroQuantity) TotalMacroQuantity = 100;
+  if (!TotalMacroQuantity) {
+    TotalMacroQuantity = 100;
+  }
   return macroValue / (TotalMacroQuantity / quantity);
 };
 
 // ---------FETCH DATA------------
 
-getBeginnerDefaultSources = async () => {
+const getBeginnerDefaultSources = async () => {
   let defaultSources = [];
   await database
-    .ref("fat-sources")
-    .orderByChild("beginnerDefault")
+    .ref('fat-sources')
+    .orderByChild('beginnerDefault')
     .equalTo(true)
-    .once("value")
-    .then(snapshot => {
-      console.log("beginner default values :", snapshot.val());
+    .once('value')
+    .then((snapshot) => {
+      console.log('beginner default values :', snapshot.val());
       if (snapshot.val()) {
         const result = snapshot.val();
-        defaultSources = Object.keys(result).map(key => ({
+        defaultSources = Object.keys(result).map((key) => ({
           key,
-          value: result[key]
+          value: result[key],
         }));
       }
     })
-    .catch(error =>
+    .catch((error) =>
       console.log(
-        "error while fetching default sources from DietAlgorithm:",
-        error
-      )
+        'error while fetching default sources from DietAlgorithm:',
+        error,
+      ),
     );
   return defaultSources;
 };

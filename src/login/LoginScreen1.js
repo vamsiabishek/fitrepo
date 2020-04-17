@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {Input, Button, SocialIcon} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Button, SocialIcon} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesLoginScreen';
 import {f, database, auth} from './../common/FirebaseConfig';
 import {
@@ -19,19 +18,10 @@ import {
   PASSWORD_LENGTH_MINIMUM,
   PROVIDER_GOOGLE,
   PROVIDER_FACEBOOK,
-  GRADIENT_BG_IMAGE,
 } from '../common/Common';
 import {setCurrentUser, getCurrentUser} from '../common/Util';
-import {
-  ICON_SIZE,
-  btnGradientColorLeft,
-  modalBtnGradientColorRight,
-  fontsCommon,
-  styleCommon,
-} from '../../assets/style/stylesCommonValues';
+import {fontsCommon} from '../../assets/style/stylesCommonValues';
 import {commonStyles} from '../../assets/style/stylesCommon';
-import Loading from '../components/Loading';
-import LinearGradient from 'react-native-linear-gradient';
 import PhoneAuth from '../signup/PhoneAuthScreen';
 
 // Enable LayoutAnimation for Android Devices
@@ -44,19 +34,15 @@ export default class LoginScreen1 extends Component {
     (async () => {
       // All async code here
       //await removeCurrentUser()
-      const user = await getCurrentUser('user_data');
+      const user = await getCurrentUser();
       if (user) {
-        console.log('uid:', user.uid);
+        // console.log('uid:', user.uid);
         this.onLoginSuccess();
       }
     })();
     this.state = {
-      email: 'jake@live.com', //"dhivya@gmail.com", //"dhiv.tester1@gmail.com",
-      password: '12345678', //"Dhivya09", // "dhivya123",
-      //email: "vamsi@gmail.com",
-      //password: "vamsi123",
-      // email: "test123@gmail.com",
-      // password: "test1234",
+      email: 'jake@brooklyn99.com',
+      password: 'jake@1234',
       emailValid: true,
       passwordValid: true,
       login_failed: false,
@@ -151,10 +137,10 @@ export default class LoginScreen1 extends Component {
       this.setState({isLoading: false});
       return Promise.reject(new Error('The user cancelled the request'));
     }
-    console.log(
+    /*console.log(
       'FB login success with permission: ',
       result.grantedPermissions.toString(),
-    );
+    );*/
     //get access token
     return AccessToken.getCurrentAccessToken();
   };
@@ -162,7 +148,7 @@ export default class LoginScreen1 extends Component {
     const credentials = f.auth.FacebookAuthProvider.credential(
       data.accessToken,
     );
-    console.log('credentials:', credentials);
+    // console.log('credentials:', credentials);
     return f.auth().signInWithCredential(credentials);
   };
   onGoogleLogin = async () => {
@@ -283,8 +269,10 @@ export default class LoginScreen1 extends Component {
   };
 
   loginWithPhoneNumber = async (user) => {
+    // console.log('the user dets post phone auth log in: ', user);
     setCurrentUser(user);
     const currentUser = {user};
+    // console.log('the currentUser dets post phone auth log in: ', currentUser);
     await this.navigateLoggedInUser(currentUser);
     //this.onLoginSuccess();
   };
@@ -295,14 +283,18 @@ export default class LoginScreen1 extends Component {
 
   render() {
     const {
-      email,
-      password,
-      passwordValid,
-      emailValid,
+      // email,
+      // password,
+      // passwordValid,
+      // emailValid,
       isLoading,
-      secureTextKey,
+      // secureTextKey,
       showSocialOptions,
     } = this.state;
+    // const socialLoginContainerStyle = {
+    //   ...styles.buttonContainer,
+    //   flexDirection: 'row',
+    // };
     return (
       <View style={commonStyles.bgImage}>
         <KeyboardAvoidingView
@@ -400,9 +392,7 @@ export default class LoginScreen1 extends Component {
                           style={{color: styleCommon.textColor1}}
                         />
                       }
-                      buttonStyle={{
-                        backgroundColor: 'transparent',
-                      }}
+                      buttonStyle={styles.seeUnseeButtonStyle}
                       onPress={
                         secureTextKey
                           ? this.onEyeIconPress

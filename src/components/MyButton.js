@@ -9,8 +9,10 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {
   btnGradientColorLeft,
+  btnGradientColorRight,
   modalBtnGradientColorRight,
   btnGradientColorRightDisabled,
+  styleCommon,
 } from '../../assets/style/stylesCommonValues';
 import {styles} from '../../assets/style/stylesMyButton';
 
@@ -35,7 +37,12 @@ export default class MyButton extends React.Component {
             style={styles.buttonActive}
             onPress={() => this.closeSourceModal()}>
             <LinearGradient
-              colors={[btnGradientColorLeft, gradientColorRight]}
+              colors={[
+                btnGradientColorRight,
+                modalBtnGradientColorRight,
+                //styleCommon.selectedButtonColor,
+                //styleCommon.selectedButtonColor,
+              ]} //{[btnGradientColorLeft, gradientColorRight]}
               style={styles.buttonGradiant}
               start={{x: 0, y: 0.5}}
               end={{x: 1, y: 0.5}}>
@@ -47,7 +54,12 @@ export default class MyButton extends React.Component {
             style={styles.buttonActive}
             onPress={() => this.closeSourceModal()}>
             <LinearGradient
-              colors={[btnGradientColorLeft, gradientColorRight]}
+              colors={[
+                btnGradientColorRight,
+                modalBtnGradientColorRight,
+                //styleCommon.selectedButtonColor,
+                //styleCommon.selectedButtonColor,
+              ]}
               style={styles.buttonGradiant}
               start={{x: 0, y: 0.5}}
               end={{x: 1, y: 0.5}}>

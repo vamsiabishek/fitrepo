@@ -1,14 +1,8 @@
 import React from 'react';
-import {ActivityIndicator, Alert, View, Text, Image} from 'react-native';
+import {Alert, View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  getPurchaserInfo,
-  purchaseOfferings,
-  makePurchase,
-  getActiveEntitlement,
-  getPurchasePlanByFitnessLevelAndWeek,
-} from '../../common/PurchaseUtils';
+import {purchaseOfferings, makePurchase} from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
 import {f, database} from '../../common/FirebaseConfig';
 import MyButton from '../MyButton';
@@ -16,8 +10,11 @@ import {styles} from '../../../assets/style/stylesInitialScreen';
 import {
   styleCommon,
   ICON_SIZE_MED,
+  SCREEN_HEIGHT,
+  DEVICE_NAME,
 } from '../../../assets/style/stylesCommonValues';
-import {getGoalString, getFitnessLevelString} from '../../common/Util';
+import {getGoalString} from '../../common/Util';
+import LottieView from 'lottie-react-native';
 
 export default class PurchaseScreen extends React.Component {
   constructor(props) {
@@ -30,18 +27,44 @@ export default class PurchaseScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    this.setState({isLoading: true});
+    /*this.setState({isLoading: true});
+    const {uid, dietId} = this.props;
+    console.log('dietID: ', dietId);
+    await database
+      .ref(`users/${uid}/purchases/${dietId}`)
+      .once('value')
+      .then((res) => {
+        if (res.val()) {
+          console.log('purchase Exists');
+        }
+      })
+      .catch((error) => {
+        console.log(
+          'error while mounting purchase screen database call:',
+          error,
+        );
+      });
+    const {packageToPurchase} = this.state;
     const purchaserInfo = await getPurchaserInfo();
-    console.log('Purchaser Info: ', purchaserInfo.entitlements.active);
-    if (Object.entries(purchaserInfo.entitlements.active).length) {
+    const activeEntitlements = purchaserInfo.entitlements.active;
+    console.log('packageObject: ', packageToPurchase);
+    console.log('Active Entitlements: ', activeEntitlements);
+    if (Object.entries(activeEntitlements).length) {
+      if (
+        activeEntitlements.standard_role.productIdentifier ===
+        packageToPurchase.product.identifier
+      ) {
+        this.setState({
+          isLoading: false,
+          showPurchaseSummary: true,
+          purchaseSummary: activeEntitlements,
+        });
+      }
+    } else {
       this.setState({
         isLoading: false,
-        showPurchaseSummary: true,
-        purchaseSummary: purchaserInfo,
       });
-    } else {
-      this.setState({isLoading: false});
-    }
+    }*/
   };
 
   handlePaymentProcess = async (purchasePackage) => {
@@ -51,19 +74,14 @@ export default class PurchaseScreen extends React.Component {
       const {purchaserInfo, productIdentifier} = await makePurchase(
         purchasePackage,
       );
-      console.log('Purchase Made: ', productIdentifier);
-      if (purchaserInfo.entitlements.active.length) {
-        console.log(
-          'Purchased entitlement',
-          purchaserInfo.entitlements.active[0][1],
-        );
-        const {originalPurchaseDate} = await getActiveEntitlement(
-          purchaserInfo,
-        );
-
+      console.log('Purchase Made of product identifier: ', productIdentifier);
+      const activeEntitlements = purchaserInfo.entitlements.active;
+      if (activeEntitlements.standard_role) {
+        const purchaseDate =
+          activeEntitlements.standard_role.originalPurchaseDate;
         const purchaseDetails = {
           productIdentifier,
-          originalPurchaseDate,
+          purchaseDate,
         };
         await database
           .ref(`users/${uid}/purchases/${dietId}`)
@@ -72,15 +90,17 @@ export default class PurchaseScreen extends React.Component {
             createdDate: f.database.ServerValue.TIMESTAMP,
           })
           .then((res) => {
-            alert('Purchase Successful !');
+            console.log(
+              'Successfully updated user db with the purchase details of this diet.',
+            );
           })
           .catch((error) => {
-            console.log('error while saving purchase details:', error);
+            console.log('Error while saving purchase details:', error);
           });
         this.setState({
           isLoading: false,
           showPurchaseSummary: true,
-          purchaserInfo,
+          purchaseSummary: activeEntitlements,
         });
       }
     } catch (e) {
@@ -89,128 +109,196 @@ export default class PurchaseScreen extends React.Component {
         console.log('Error occurred while handling payment: ', e);
       } else {
         this.setState({isLoading: false});
-        console.log('User cancelled payment: ', e);
         Alert.alert('User cancelled payment !');
       }
     }
   };
 
   render() {
-    console.log('render');
     const {isLoading, showPurchaseSummary, purchaseSummary} = this.state;
     const {
       isVisible,
       selectedGoal,
       selectedProgram,
-      fitnessLevel,
       onClose,
       trialDaysLeft,
       dietTrialEndDate,
+      packageToPurchase,
     } = this.props;
-    const priceObject = getPurchasePlanByFitnessLevelAndWeek(
-      selectedProgram,
-      fitnessLevel,
-    );
-    console.log('priceObject', priceObject);
-    let activeEntitlement = '';
     let donePurchase = '';
     if (purchaseSummary) {
-      activeEntitlement = getActiveEntitlement(purchaseSummary);
-      donePurchase = activeEntitlement
-        ? activeEntitlement.originalPurchaseDate
+      donePurchase = purchaseSummary.standard_role
+        ? new Date(purchaseSummary.standard_role.originalPurchaseDate)
         : '';
-      console.log('Done Purchase: ', donePurchase);
     }
+    const doneIconStyle = {
+      height: SCREEN_HEIGHT * 0.3,
+      justifyContent: 'center',
+      alignItems: 'center',
+      // backgroundColor: 'pink',
+    };
+    const purchaseIconStyle = {
+      height: SCREEN_HEIGHT * 0.3,
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+      right: DEVICE_NAME.includes('iPhone 11') ? 40 : 30,
+      bottom: DEVICE_NAME.includes('iPhone 11') ? 30 : 0,
+      //backgroundColor: 'pink',
+    };
+    const purchaseLoadingIconStyle = {
+      height: SCREEN_HEIGHT * 0.3,
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative',
+      right: 10,
+      // backgroundColor: 'pink',
+    };
+    const purchaseButtonTrialStyle = {
+      flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      //backgroundColor: 'pink',
+    };
+    const modalContentStyle = {flex: 1, justifyContent: 'space-between'};
+    const headerAnimationLoadingViewStyle = {
+      flex: 1,
+      justifyContent: 'space-evenly',
+    };
     return (
       <View>
         <Modal
+          useNativeDriver={true}
           isVisible={isVisible}
           backdropColor="black"
           backdropOpacity={0.5}>
-          <View style={styles.modalInsideStyle}>
+          <View style={styles.container}>
             {!isLoading ? (
-              <React.Fragment>
+              <View style={styles.modalInsideStyle}>
                 {purchaseOfferings ? (
                   <React.Fragment>
-                    {!showPurchaseSummary ? (
-                      <React.Fragment>
-                        <Button
-                          icon={
-                            <Icon
-                              name="close"
-                              size={ICON_SIZE_MED}
-                              color={styleCommon.secondaryButtonTextColor}
-                            />
-                          }
-                          type="clear"
-                          onPress={() => onClose(false)}
-                          containerStyle={styles.closeButtonContainerStyle}
-                        />
-                        <Text style={styles.headerText}>
-                          One Step Away From Healthy Meals !
-                        </Text>
-                        <Image
-                          source={require('../../../assets/images/healthy_food_3.png')}
-                          style={{
-                            margin: 10,
-                          }}
-                        />
-                        <Text style={styles.labelText}>
-                          To see the rest of the
-                        </Text>
-                        <Text style={styles.labelText}>
-                          {selectedProgram}-Week{' '}
-                          {getFitnessLevelString(fitnessLevel)} Level{' '}
-                          {getGoalString(selectedGoal)} Diet Program
-                        </Text>
-                        <Text style={styles.labelText}>
-                          Click below to buy it !
-                        </Text>
-                        <MyButton
-                          label={'Pay ' + priceObject.product.price_string}
-                          onButtonClick={() =>
-                            this.handlePaymentProcess(priceObject)
-                          }
-                          containerStyle={styles.targetButtonContainer}
-                        />
-                        {trialDaysLeft !== undefined &&
-                          dietTrialEndDate !== undefined && (
-                            <React.Fragment>
-                              <Text style={styles.smallerLabelText}>
-                                You have {trialDaysLeft} days left in your trial
-                                week!
+                    {!showPurchaseSummary && packageToPurchase ? (
+                      <View style={modalContentStyle}>
+                        <View>
+                          <Button
+                            icon={
+                              <Icon
+                                name="close-circle"
+                                size={ICON_SIZE_MED}
+                                color={styleCommon.textColor1}
+                              />
+                            }
+                            type="clear"
+                            onPress={() => onClose(false)}
+                            containerStyle={styles.closeButtonContainerStyle}
+                          />
+                          <View style={styles.textualArea}>
+                            <View>
+                              <Text style={styles.headerPurcahseText}>
+                                One Step Away From Viewing Your Meals
                               </Text>
-                              <Text style={styles.smallerLabelText}>
-                                Trial ends on {dietTrialEndDate.toDateString()}
-                              </Text>
-                            </React.Fragment>
-                          )}
-                      </React.Fragment>
+                              <View style={purchaseIconStyle}>
+                                <LottieView
+                                  source={require('../../../assets/jsons/purchase_animation.json')}
+                                  resizeMode="contain"
+                                  autoPlay
+                                  enableMergePathsAndroidForKitKatAndAbove
+                                />
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={purchaseButtonTrialStyle}>
+                          <View>
+                            <Text style={styles.labelText}>
+                              Click below to buy the
+                            </Text>
+                            <Text style={styles.labelTextBold}>
+                              {selectedProgram}-Week{' '}
+                              {getGoalString(selectedGoal)} Diet Plan
+                            </Text>
+                          </View>
+                          <MyButton
+                            label={
+                              'PAY ' + packageToPurchase.product.price_string
+                            }
+                            onButtonClick={() =>
+                              this.handlePaymentProcess(packageToPurchase)
+                            }
+                            containerStyle={styles.targetButtonContainer}
+                          />
+                          {trialDaysLeft !== undefined &&
+                            dietTrialEndDate !== undefined && (
+                              <View>
+                                <Text style={styles.smallerLabelText}>
+                                  You have {trialDaysLeft} days left in your
+                                  trial week!
+                                </Text>
+                                <Text style={styles.smallerLabelText}>
+                                  Trial ends on{' '}
+                                  {dietTrialEndDate.toDateString()}
+                                </Text>
+                              </View>
+                            )}
+                        </View>
+                      </View>
                     ) : (
-                      <View>
-                        <Button
-                          icon={
-                            <Icon
-                              name="close"
-                              size={ICON_SIZE_MED}
-                              color={styleCommon.secondaryButtonTextColor}
-                            />
-                          }
-                          type="clear"
-                          onPress={() => onClose(true)}
-                          containerStyle={styles.closeButtonContainerStyle}
-                        />
-                        <Text style={styles.headerText}>
-                          Done with Payment !
-                        </Text>
-                        <Text style={styles.labelText}>
-                          Payment Date: {donePurchase}
-                        </Text>
-                        <MyButton
-                          label={'Done'}
-                          onButtonClick={() => onClose(true)}
-                          containerStyle={styles.targetButtonContainer}
-                        />
+                      <View style={modalContentStyle}>
+                        <View>
+                          <Button
+                            icon={
+                              <Icon
+                                name="close-circle"
+                                size={ICON_SIZE_MED}
+                                color={styleCommon.textColor1}
+                              />
+                            }
+                            type="clear"
+                            onPress={() => onClose(true)}
+                            containerStyle={
+                              styles.closeButtonDoneContainerStyle
+                            }
+                          />
+                          <View style={styles.textualArea}>
+                            <View>
+                              <Text style={styles.headerPurchaseDoneText}>
+                                Purchase Success
+                              </Text>
+                              <View style={doneIconStyle}>
+                                <LottieView
+                                  source={require('../../../assets/jsons/done_animation.json')}
+                                  resizeMode="contain"
+                                  autoPlay
+                                  enableMergePathsAndroidForKitKatAndAbove
+                                />
+                              </View>
+                              <Text style={styles.priceText}>
+                                {packageToPurchase.product.price_string}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={purchaseButtonTrialStyle}>
+                          <View>
+                            <Text style={styles.labelText}>
+                              You have successfully bought the
+                            </Text>
+                            <Text style={styles.labelTextBold}>
+                              {selectedProgram}-Week{' '}
+                              {getGoalString(selectedGoal)} Diet
+                            </Text>
+                            <Text style={styles.labelText}>
+                              on {donePurchase.toDateString()} at{' '}
+                              {donePurchase.getHours()}:
+                              {donePurchase.getMinutes()}.
+                            </Text>
+                          </View>
+                          <MyButton
+                            label={'DONE'}
+                            onButtonClick={() => onClose(true)}
+                            containerStyle={styles.targetButtonContainer}
+                          />
+                        </View>
                       </View>
                     )}
                   </React.Fragment>
@@ -222,9 +310,25 @@ export default class PurchaseScreen extends React.Component {
                     </Text>
                   </React.Fragment>
                 )}
-              </React.Fragment>
+              </View>
             ) : (
-              <ActivityIndicator color="black" />
+              <View style={styles.modalLoadingInsideStyle}>
+                <View style={styles.loadingView}>
+                  <View style={headerAnimationLoadingViewStyle}>
+                    <Text style={styles.headerText}>
+                      Processing Your{'\n'} Payment...
+                    </Text>
+                    <View style={purchaseLoadingIconStyle}>
+                      <LottieView
+                        source={require('../../../assets/jsons/purchase_loading_animation.json')}
+                        resizeMode="contain"
+                        autoPlay
+                        enableMergePathsAndroidForKitKatAndAbove
+                      />
+                    </View>
+                  </View>
+                </View>
+              </View>
             )}
           </View>
         </Modal>

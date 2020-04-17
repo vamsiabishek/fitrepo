@@ -2,8 +2,8 @@ import {designDiet} from '../diet/Algorithm/DietAlgorithm';
 import {f, database} from '../common/FirebaseConfig';
 import {getSupplementKeysBasedOnFitnessAndGoal} from '../common/SupplementsUtil';
 
-createSupplements = async ({fitnessLevel, goal, dietId}) => {
-  console.log('creating  supplements for dietId :', dietId);
+const createSupplements = async ({fitnessLevel, goal, dietId}) => {
+  // console.log('creating  supplements for dietId :', dietId);
   const supplementKeys = getSupplementKeysBasedOnFitnessAndGoal({
     fitnessLevel,
     goal,
@@ -49,12 +49,12 @@ export const createDiet = async ({dietInfo, uid}) => {
   };
 
   //save diet and meals
-  const dietId = await this.saveDietAndMeals({dietDetails, mealDetails, uid});
+  const dietId = await saveDietAndMeals({dietDetails, mealDetails, uid});
   await createSupplements({fitnessLevel, goal: selectedGoal, dietId});
   return dietId;
 };
 
-saveDietAndMeals = async ({dietDetails, mealDetails, uid}) => {
+const saveDietAndMeals = async ({dietDetails, mealDetails, uid}) => {
   let dietId = '';
   await database
     .ref(`diets/${uid}`)

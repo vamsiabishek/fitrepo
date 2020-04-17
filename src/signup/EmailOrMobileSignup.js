@@ -72,7 +72,7 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          onChangeText={(email) => onEmailChange(email)}
+          onChangeText={(enteredEmail) => onEmailChange(enteredEmail)}
           value={email}
           ref={(input) => (this.emailInput = input)}
           onSubmitEditing={() => {
@@ -104,7 +104,7 @@ export default class EmailOrMobileSignup extends Component {
           autoCorrect={false}
           blurOnSubmit={true}
           returnKeyType="done"
-          onChangeText={(password) => onPasswordChange(password)}
+          onChangeText={(enteredPwd) => onPasswordChange(enteredPwd)}
           onFocus={() => validateEmail(email, this.emailInput)}
           value={password}
           ref={(input) => (this.passwordInput = input)}
@@ -126,9 +126,7 @@ export default class EmailOrMobileSignup extends Component {
                   style={{color: styleCommon.iconColor}}
                 />
               }
-              buttonStyle={{
-                backgroundColor: 'transparent',
-              }}
+              buttonStyle={styles.seeUnseeButton}
               onPress={
                 secureTextKeyP ? this.onEyeIconPressP : this.onEyeOffIconPressP
               }
@@ -149,9 +147,7 @@ export default class EmailOrMobileSignup extends Component {
           inputStyle={styles.inputStyle}
           placeholderTextColor={placeholderTextColor}
           errorStyle={styles.errorInputStyle}
-          onChangeText={(confirmationPassword) =>
-            onConfirmPasswordChange(confirmationPassword)
-          }
+          onChangeText={(enteredCP) => onConfirmPasswordChange(enteredCP)}
           onFocus={() => validatePassword(password, this.passwordInput)}
           value={confirmationPassword}
           secureTextEntry={secureTextKeyCP}
@@ -179,9 +175,7 @@ export default class EmailOrMobileSignup extends Component {
                   style={{color: styleCommon.iconColor}}
                 />
               }
-              buttonStyle={{
-                backgroundColor: 'transparent',
-              }}
+              buttonStyle={styles.seeUnseeButton}
               onPress={
                 secureTextKeyCP
                   ? this.onEyeIconPressCP

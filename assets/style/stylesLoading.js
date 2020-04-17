@@ -12,13 +12,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     height: SCREEN_HEIGHT * 0.49,
-    //backgroundColor: styleCommon.secondaryColor
+    // backgroundColor: styleCommon.secondaryColor,
   },
   watermelonAnimationStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
     height: SCREEN_HEIGHT * 0.25,
-    //backgroundColor: "teal"
+    // backgroundColor: "teal",
   },
   textViewContainer: {
     flex: 1,

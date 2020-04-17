@@ -37,4 +37,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: errorTextcolor,
   },
+  seeUnseeButton: {
+    backgroundColor: 'transparent',
+  },
 });

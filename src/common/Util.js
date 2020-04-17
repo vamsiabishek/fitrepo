@@ -99,7 +99,8 @@ export const createRefBySourceType = (type) => {
 
 export const setCurrentUser = (user) => {
   if (user) {
-    AsyncStorage.setItem('user_data', JSON.stringify(user));
+    const userObjectString = JSON.stringify(user);
+    AsyncStorage.setItem('user_data', userObjectString);
   }
 };
 
@@ -109,13 +110,18 @@ export const removeCurrentUser = async () => {
 
 export const getCurrentUser = async () => {
   let user = {};
-  /*await AsyncStorage.getItem("user_data", (err, result) => {
-    console.log(result)
-    if(result)
-      user = JSON.parse(result)
-  })*/
+  const result = await AsyncStorage.getItem('user_data');
+  user = JSON.parse(result);
   if (!user.uid) {
-    user = await f.auth().currentUser;
+    try {
+      let defaultAuth = await f.auth();
+      user = defaultAuth.currentUser;
+    } catch (error) {
+      console.log(
+        'Error occurred while trying to get the current user : ',
+        error,
+      );
+    }
   }
   return user;
 };
@@ -145,18 +151,24 @@ export const setFirstTimeUser = async () => {
 
 export const getFirstTimeUser = () => IS_FIRST_TIME_USER;
 
-const isNewUser = async () => {
+const isNewUser = async (dietId = undefined) => {
   const {uid} = await getCurrentUser();
   const firstDiet = await getFirstDietOfUser(uid);
+  const {key} = firstDiet;
   const {createdDate} = firstDiet.value;
-  const fromDate = new Date(createdDate);
-  const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
-  const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000), 10);
-  const total_minutes = parseInt(Math.floor(total_seconds / 60), 10);
-  const total_hours = parseInt(Math.floor(total_minutes / 60), 10);
-  const days = parseInt(Math.floor(total_hours / 24), 10);
-  if (days <= 28) {
-    return true;
+  if (key === dietId || dietId === undefined) {
+    const fromDate = new Date(createdDate);
+    const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
+    const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000), 10);
+    const total_minutes = parseInt(Math.floor(total_seconds / 60), 10);
+    const total_hours = parseInt(Math.floor(total_minutes / 60), 10);
+    const days = parseInt(Math.floor(total_hours / 24), 10);
+    // console.log('Days since first diet for trial ? :', days);
+    if (days <= 7) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
     return false;
   }
@@ -179,8 +191,30 @@ const getFirstDietOfUser = async (uid) => {
   return firstDiet;
 };
 
-export const isTrailUser = async () => {
-  const {uid} = await getCurrentUser();
-  return await isNewUser();
-  //return (await isNewUser()) || uid === 'FOW1bWhyufVcUYeNiVpHGWP4bAe2';
+const getCurrentUserDiets = async (uid) => {
+  await database
+    .ref(`diets/${uid}`)
+    .orderByChild('createdDate')
+    .once('value')
+    .then((res) => {
+      if (Object.entries(res.val()).length > 1) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((error) => {
+      console.log(
+        'Error has occured getting the number of diets assigned to the user: ',
+        error,
+      );
+    });
+};
+
+export const isTrailUser = async (dietId) => {
+  return await isNewUser(dietId);
+};
+
+export const hasMoreDiets = async (uid) => {
+  return await getCurrentUserDiets(uid);
 };

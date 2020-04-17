@@ -28,7 +28,7 @@ export default class SelectFoodSources extends Component {
       this.fetchCarbSources(),
       this.fetchFatSources(),
     ]);
-    console.log(proteinSources, carbSources, fatSources);
+    // console.log(proteinSources, carbSources, fatSources);
     this.setState({
       proteinSources,
       fatSources,

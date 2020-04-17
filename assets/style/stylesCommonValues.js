@@ -45,14 +45,17 @@ export const fontsCommon = {
   font22: normalizeFont(22),
   font24: normalizeFont(24),
   font25: normalizeFont(25),
+  font26: normalizeFont(26),
   font28: normalizeFont(28),
   font30: normalizeFont(30),
   font32: normalizeFont(32),
   font35: normalizeFont(35),
   font40: normalizeFont(40),
   font50: normalizeFont(50),
+  font60: normalizeFont(60),
   font70: normalizeFont(70),
   font80: normalizeFont(80),
+  font150: normalizeFont(150),
   letterSpacingOneFive: 1.5,
 };
 
@@ -67,6 +70,7 @@ export const ICON_BACK_SIZE = fontsCommon.font32;
 export const ICON_SIZE_EXTRA_LARGE = fontsCommon.font35;
 export const ICON_SELECT_SIGNUP_OPTION = fontsCommon.font50;
 export const ICON_SELECT_GENDER = fontsCommon.font80;
+export const ICON_SELECT_VERYBIG = fontsCommon.font150;
 export const AVATAR_SIZE = SCREEN_HEIGHT * 0.12;
 export const BUTTON_HEIGHT_GENERAL = SCREEN_HEIGHT * 0.06;
 
@@ -107,6 +111,7 @@ export const styleCommon = {
   panelSubHeaderBoxColor: '#20948B',
   panelHeaderIconColor: '#4CAF50',
   badgeColor: '#4CAF50',
+  greenTickMark: '#00a63d', // 303A51
 };
 
 export const btnGradientColorLeft = '#66ffff'; // bright blue color
