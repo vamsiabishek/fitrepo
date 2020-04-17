@@ -112,7 +112,7 @@ export const getCurrentUser = async () => {
   let user = {};
   const result = await AsyncStorage.getItem('user_data');
   user = JSON.parse(result);
-  if (!user.uid) {
+  if (user && !user.uid) {
     try {
       let defaultAuth = await f.auth();
       user = defaultAuth.currentUser;

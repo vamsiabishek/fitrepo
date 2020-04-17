@@ -45,6 +45,13 @@ export default class PersonalDetails extends Component {
       isTargetWeightTimelineVisible: false,
     };
   }
+
+  componentDidUpdate() {
+    const {targetWeight, showNavButtonIfTargetWeightAvailable} = this.props;
+    if (targetWeight) {
+      showNavButtonIfTargetWeightAvailable();
+    }
+  }
   showDTPicker = () => {
     this.setState({isDTPickerVisible: true});
   };
@@ -90,6 +97,8 @@ export default class PersonalDetails extends Component {
     this.hideTargetWeightTimeline();
   };
 
+  isValidNumValue = (value) => value !== undefined && value > 0;
+
   render() {
     const {
       goal,
@@ -108,6 +117,8 @@ export default class PersonalDetails extends Component {
       isHeightNumPickerVisible,
       isTargetWeightTimelineVisible,
     } = this.state;
+    const hasWeight = this.isValidNumValue(weight);
+    const hasHeight = this.isValidNumValue(height);
     return (
       <View style={styles.mainContent}>
         <KeyboardAvoidingView behaviour="position">
@@ -134,7 +145,7 @@ export default class PersonalDetails extends Component {
                     : styles.activeButtonTitle
                 }
                 iconSize={dob.length === 0 ? ICON_SIZE : ICON_SIZE_LARGE}
-               // iconName={dob.length === 0 ? 'calendar-star' : 'birthday'}
+                // iconName={dob.length === 0 ? 'calendar-star' : 'birthday'}
                 buttonIcon={
                   dob.length === 0 ? styles.buttonIcon : styles.activeButtonIcon
                 }
@@ -158,23 +169,17 @@ export default class PersonalDetails extends Component {
                 onCancel={this.hideWeightNumPicker}
               />
               <SelectButton
-                title={weight === undefined ? 'Your Weight' : weight + ' kgs'}
+                title={hasWeight ? weight + ' kgs' : 'Your Weight'}
                 buttonStyle={
-                  weight === undefined
-                    ? styles.buttonStyle
-                    : styles.activeButtonStyle
+                  hasWeight ? styles.activeButtonStyle : styles.buttonStyle
                 }
                 titleStyle={
-                  weight === undefined
-                    ? styles.buttonTitle
-                    : styles.activeButtonTitle
+                  hasWeight ? styles.activeButtonTitle : styles.buttonTitle
                 }
-                iconSize={weight === undefined ? ICON_SIZE : ICON_SIZE_LARGE}
-                iconName={weight === undefined ? 'scale-bathroom' : 'scales'}
+                iconSize={hasWeight ? ICON_SIZE_LARGE : ICON_SIZE}
+                iconName={hasWeight ? 'scales' : 'scale-bathroom'}
                 buttonIcon={
-                  weight === undefined
-                    ? styles.buttonIcon
-                    : styles.activeButtonIcon
+                  hasWeight ? styles.activeButtonIcon : styles.buttonIcon
                 }
                 iconRight={true}
                 //shouldUseEmoji={weight === undefined ? false : true}
@@ -196,23 +201,17 @@ export default class PersonalDetails extends Component {
                 onCancel={this.hideHeightNumPicker}
               />
               <SelectButton
-                title={height === undefined ? 'Your Height' : height + ' cms'}
+                title={hasHeight ? height + ' cms' : 'Your Height'}
                 buttonStyle={
-                  height === undefined
-                    ? styles.buttonStyle
-                    : styles.activeButtonStyle
+                  hasHeight ? styles.activeButtonStyle : styles.buttonStyle
                 }
                 titleStyle={
-                  height === undefined
-                    ? styles.buttonTitle
-                    : styles.activeButtonTitle
+                  hasHeight ? styles.activeButtonTitle : styles.buttonTitle
                 }
-                iconSize={height === undefined ? ICON_SIZE : ICON_SIZE_LARGE}
-                iconName={height === undefined ? 'ruler' : 'straight_ruler'}
+                iconSize={hasHeight ? ICON_SIZE_LARGE : ICON_SIZE}
+                iconName={hasHeight ? 'straight_ruler' : 'ruler'}
                 buttonIcon={
-                  height === undefined
-                    ? styles.buttonIcon
-                    : styles.activeButtonIcon
+                  hasHeight ? styles.activeButtonIcon : styles.buttonIcon
                 }
                 iconRight={true}
                 //shouldUseEmoji={height === undefined ? false : true}

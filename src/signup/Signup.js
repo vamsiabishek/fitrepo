@@ -102,6 +102,7 @@ export default class Signup extends Component {
       isLoggedIn: false,
       isExistingUser: navigation.getParam('isExistingUser') ? true : false,
       newLogin: navigation.getParam('newLogin') ? true : false, // if new user chooses to login through FB/Google from the "Log In" page
+      showGender: true,
     };
   }
 
@@ -114,25 +115,32 @@ export default class Signup extends Component {
         .child(uid)
         .once('value')
         .then((snapshot) => {
-          const userLoggedIn = snapshot.val();
+          const userLoggedIn = snapshot.val() || {};
           LayoutAnimation.easeInEaseOut();
+          const foodPreference =
+            userLoggedIn.foodPreference || FOOD_PREF_NON_VEG;
           this.setState({
             user: userLoggedIn,
             age: userLoggedIn.age || 0,
             dob: userLoggedIn.dob || '',
             weight: userLoggedIn.weight || 0,
             height: userLoggedIn.height || 0,
+            showTargetWeightButton: this.changeShowTargetWeightButton(
+              userLoggedIn.dob,
+              userLoggedIn.weight,
+              userLoggedIn.height,
+            ),
             gender: userLoggedIn.gender || '',
             fitnessLevel: userLoggedIn.fitnessLevel || '',
             foodPrefBtn:
-              userLoggedIn.foodPreference === FOOD_PREF_NON_VEG
+              foodPreference === FOOD_PREF_NON_VEG
                 ? 3
-                : userLoggedIn.foodPreference === FOOD_PREF_EGGETARIAN
+                : foodPreference === FOOD_PREF_EGGETARIAN
                 ? 2
-                : userLoggedIn.foodPreference === FOOD_PREF_VEG
+                : foodPreference === FOOD_PREF_VEG
                 ? 1
                 : 0,
-            foodPreference: userLoggedIn.foodPreference || '',
+            foodPreference,
             proteinSources: getSourcesWithImages(
               'protein',
               userLoggedIn.foodPreference,
@@ -140,6 +148,7 @@ export default class Signup extends Component {
             carbSources: getSourcesWithImages('carb'),
             fatSources: getSourcesWithImages('fat'),
             isLoadingComponent: false,
+            showGender: userLoggedIn.gender ? false : true,
           });
         })
         .catch((error) => {
@@ -181,17 +190,23 @@ export default class Signup extends Component {
     this.goToNext();
   };
   setFBUser = (user) => {
-    this.setState({user, dob: user.dob, age: user.age, isLoading: true});
+    this.setState({
+      user,
+      uid: user.uid,
+      dob: user.dob,
+      age: user.age,
+      isLoading: true,
+    });
     this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setGoogleUser = (user) => {
-    this.setState({user, isLoading: true});
+    this.setState({user, uid: user.uid, isLoading: true});
     this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setPhoneNumberUser = (user) => {
-    this.setState({user, isLoading: true});
+    this.setState({user, uid: user.uid, isLoading: true});
     this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
@@ -272,7 +287,7 @@ export default class Signup extends Component {
     });
   };
   changeShowTargetWeightButton = (dob, weight, height) => {
-    if (dob.length > 0 && weight !== undefined && height !== undefined) {
+    if (dob.length > 0 && weight > 0 && height > 0) {
       return true;
     } else {
       return false;
@@ -287,6 +302,13 @@ export default class Signup extends Component {
   };
   setTargetWeightAndProgram = (targetWeight, program) => {
     this.setState({targetWeight, program, navButtonActive: true});
+  };
+
+  showNavButtonIfTargetWeightAvailable = () => {
+    const {navButtonActive} = this.state;
+    if (!navButtonActive) {
+      this.setState({navButtonActive: true});
+    }
   };
 
   scrollToNextScreen = (currentScreen, isLoggedIn = false) => {
@@ -692,11 +714,13 @@ export default class Signup extends Component {
       age,
       weight,
       height,
+      targetWeight,
       foodPrefBtn,
       numberOfMeals,
       isLoggedIn,
       isExistingUser,
       newLogin,
+      showGender,
     } = this.state;
     let isScrollable = false;
     if (!isExistingUser) {
@@ -717,14 +741,18 @@ export default class Signup extends Component {
         await this.setNewUser();
         isScrollable = true;
       }
-      if (
-        currentScreen === 5 &&
-        dob.length > 0 &&
-        age !== undefined &&
-        weight !== undefined &&
-        height !== undefined
-      ) {
-        isScrollable = true;
+      if (currentScreen === 5) {
+        if (
+          dob.length > 0 &&
+          age !== undefined &&
+          weight !== undefined &&
+          height !== undefined &&
+          targetWeight !== undefined
+        ) {
+          isScrollable = true;
+        } else {
+          Alert.alert('Please provide all values');
+        }
       }
       if (
         currentScreen === 6 &&
@@ -755,14 +783,18 @@ export default class Signup extends Component {
       ) {
         isScrollable = true;
       }
-      if (
-        currentScreen === 4 &&
-        dob.length > 0 &&
-        age !== undefined &&
-        weight !== undefined &&
-        height !== undefined
-      ) {
-        isScrollable = true;
+      if (currentScreen === 4) {
+        if (
+          dob.length > 0 &&
+          age !== undefined &&
+          weight !== undefined &&
+          height !== undefined &&
+          targetWeight !== undefined
+        ) {
+          isScrollable = true;
+        } else {
+          Alert.alert('Please provide all values');
+        }
       }
       if (
         currentScreen === 5 &&
@@ -773,14 +805,15 @@ export default class Signup extends Component {
         isScrollable = true;
       }
       if (currentScreen === 6) {
+        console.log('saving user details');
         await this.saveUserDetails();
+        console.log('saving diet details');
         await this.createDietAndMeals();
       }
       if (isScrollable && this.scrollRef) {
         this.scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
       }
     } else {
-      const showGender = gender.length === 0;
       if (
         showGender &&
         currentScreen === 1 &&
@@ -803,14 +836,18 @@ export default class Signup extends Component {
       ) {
         isScrollable = true;
       }
-      if (
-        currentScreen === (showGender ? 4 : 3) &&
-        dob.length > 0 &&
-        age !== undefined &&
-        weight !== undefined &&
-        height !== undefined
-      ) {
-        isScrollable = true;
+      if (currentScreen === (showGender ? 4 : 3)) {
+        if (
+          dob.length > 0 &&
+          age !== undefined &&
+          weight !== undefined &&
+          height !== undefined &&
+          targetWeight !== undefined
+        ) {
+          isScrollable = true;
+        } else {
+          Alert.alert('Please provide all values');
+        }
       }
       if (
         currentScreen === (showGender ? 5 : 4) &&
@@ -872,7 +909,7 @@ export default class Signup extends Component {
       height,
       foodPreference,
     } = this.state;
-    let {user, gender, fitnessLevel} = this.state;
+    let {user, gender, fitnessLevel, uid} = this.state;
     let myDiets = [];
     // gender = gender === 0 ? "Female" : "Male";
     if (password !== '') {
@@ -880,6 +917,7 @@ export default class Signup extends Component {
     }
     user = {
       ...user,
+      uid,
       gender,
       fitnessLevel,
       dob,
@@ -893,7 +931,8 @@ export default class Signup extends Component {
       .child(user.uid)
       .set(user)
       .then(() => {
-        //this.setState({ isLoading: false });
+        this.setState({user});
+        console.log('user saved successfully');
       })
       .catch((error) => {
         console.log('Error occurred in the save user details method: ', error);
@@ -947,7 +986,6 @@ export default class Signup extends Component {
       paymentStatus: false,
       uid,
     };
-    //console.log('dietInfo:', dietInfo)
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
     navigate('MyDiet', {
@@ -996,6 +1034,7 @@ export default class Signup extends Component {
       isExistingUser,
       userLoginAnimation,
       newLogin,
+      showGender,
     } = this.state;
     const {hasAtleastOneDiet} = this.props;
     const signupObject = {
@@ -1013,7 +1052,6 @@ export default class Signup extends Component {
       validatePassword: this.validatePassword,
       validateConfirmationPassword: this.validateConfirmationPassword,
     };
-    const showGender = gender.length === 0 && isExistingUser === newLogin;
     const loadingAnimationText = userLoginAnimation
       ? 'Signing you up with Fitrepo ...'
       : 'Creating your new diet ...';
@@ -1138,6 +1176,9 @@ export default class Signup extends Component {
                     program={program}
                     targetWeight={targetWeight}
                     setTargetWeightAndProgram={this.setTargetWeightAndProgram}
+                    showNavButtonIfTargetWeightAvailable={
+                      this.showNavButtonIfTargetWeightAvailable
+                    }
                   />
                   <NavNextButton
                     isActive={navButtonActive}
