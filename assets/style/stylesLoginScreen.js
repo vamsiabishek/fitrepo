@@ -21,13 +21,13 @@ export const styles = StyleSheet.create({
   loginView: {
     justifyContent: 'flex-end',
     alignItems: 'center',
-   // width: SCREEN_WIDTH * 0.95,
+    // width: SCREEN_WIDTH * 0.95,
     marginTop: SCREEN_HEIGHT * 0.01,
-    marginBottom: 20,
+    //marginBottom: 20,
     //backgroundColor: "pink"
   },
   logoContainer: {
-    marginBottom: SCREEN_HEIGHT * 0.15,
+    marginBottom: SCREEN_HEIGHT * 0.08,
     justifyContent: 'center',
     alignItems: 'center',
     shadowOffset: {width: 2, height: 20},
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     //width: SCREEN_WIDTH * 0.9,
-    margin: 5,
+    //margin: 5,
     //backgroundColor: "chocolate"
   },
   inputContainer: {
@@ -79,7 +79,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 5,
     marginBottom: 40,
     shadowOffset: {width: 2, height: 8},
     shadowOpacity: 0.5,
@@ -134,5 +133,13 @@ export const styles = StyleSheet.create({
   },
   seeUnseeButtonStyle: {
     backgroundColor: 'transparent',
+  },
+  iconImageStyle: {
+    width: SCREEN_HEIGHT * 0.12,
+    height: SCREEN_HEIGHT * 0.12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginTop: 10,
+    marginBottom: SCREEN_HEIGHT * 0.05,
   },
 });
