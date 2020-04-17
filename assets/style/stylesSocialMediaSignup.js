@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    marginBottom: SCREEN_HEIGHT * 0.15,
+    marginBottom: SCREEN_HEIGHT * 0.2,
     //backgroundColor: "oldlace"
   },
   iconsWrapper: {
