@@ -33,7 +33,7 @@ local.properties
 *.aab
 *.apk
 output.json
-!debug.keystore
+debug.keystore
 
 # node.js
 #
@@ -44,7 +44,6 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-*.keystore
 
 # fastlane
 #

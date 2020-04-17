@@ -9,6 +9,13 @@
 
 # Add any project specific keep options here:
 
+# To avoid failing this => :app:transformClassesAndResourcesWithProguardForRelease 
+-ignorewarnings
+
+-keep class * {
+    public private *;
+}
+
 # To remove uneccessary comments while releasing the app
 -assumenosideeffects class android.util.Log {
   public static *** v(...);

@@ -119,7 +119,7 @@ export default class PhoneInput extends Component {
   isValidPhoneNumber = () => {
     let isValid = true;
     const {inputValue, numberWithCode, iso2, isValidNumber} = this.state;
-    console.log(inputValue, numberWithCode, iso2);
+    // console.log(inputValue, numberWithCode, iso2);
     if (inputValue.length < 3) {
       isValid = false;
     } else {

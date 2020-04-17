@@ -35,7 +35,7 @@ class PhoneAuthScreen extends Component {
     phNumWithoutCountryCode,
     countryCode,
   }) => {
-    console.log('sending verification code to', phoneNumber);
+    // console.log('sending verification code to', phoneNumber);
     const {setShowSocialOptions} = this.props;
     this.setState({isLoading: true});
     setShowSocialOptions(false);

@@ -230,10 +230,7 @@ export default class MyDiet extends Component {
 
   changeWeek = ({prev, next}) => {
     const {diet, showInitialTrailMeals} = this.state;
-    console.log('showInitialTrailMeals: ', showInitialTrailMeals);
-    console.log('diet.paymentStatus: ', diet.paymentStatus);
     if (!showInitialTrailMeals || diet.paymentStatus) {
-      console.log('Inside paymentStatus true cond.');
       const {currentWeek, allMeals} = this.state;
       if (prev && allMeals[currentWeek - 2]) {
         this.setState({
@@ -247,7 +244,6 @@ export default class MyDiet extends Component {
         });
       }
     } else {
-      console.log('Inside else paymentStatus false cond.');
       this.setState({
         showPaymentModal: true,
         showMeals: false,
