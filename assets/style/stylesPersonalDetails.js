@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {
   styleCommon,
   SCREEN_HEIGHT,
@@ -56,12 +56,13 @@ export const styles = StyleSheet.create({
   },
   buttonIcon: {
     color: styleCommon.textColor1,
+    height: Platform.OS === 'android' ? 50 : 40,
     marginRight: 15,
     //backgroundColor: "red",
   },
   activeButtonIcon: {
     color: styleCommon.selectedButtonColor,
-    height: 40,
+    height: Platform.OS === 'android' ? 50 : 40,
     marginRight: 15,
     //backgroundColor: "red",
   },

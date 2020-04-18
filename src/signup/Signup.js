@@ -286,7 +286,7 @@ export default class Signup extends Component {
     });
   };
   changeShowTargetWeightButton = (dob, weight, height) => {
-    if (dob.length > 0 && weight > 0 && height > 0) {
+    if (dob && dob.length > 0 && weight > 0 && height > 0) {
       return true;
     } else {
       return false;

@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
   },
   buttonIcon: {
     height:
-      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.15 : SCREEN_HEIGHT * 0.13, // 100,
+      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.15 : SCREEN_HEIGHT * 0.14, // 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
