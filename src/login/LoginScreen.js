@@ -14,7 +14,7 @@ import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {Button, SocialIcon} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesLoginScreen';
-import {f, database, auth} from './../common/FirebaseConfig';
+import {f, database, auth} from '../common/FirebaseConfig';
 import {
   EMAIL_VERIFICATION,
   PASSWORD_LENGTH_MINIMUM,
@@ -31,7 +31,7 @@ import PhoneAuth from '../signup/PhoneAuthScreen';
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-export default class LoginScreen1 extends Component {
+export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
     (async () => {
@@ -332,39 +332,36 @@ export default class LoginScreen1 extends Component {
       // secureTextKey,
       showSocialOptions,
     } = this.state;
-    // const socialLoginContainerStyle = {
-    //   ...styles.buttonContainer,
-    //   flexDirection: 'row',
-    // };
+    const socialLoginContainerStyle = {
+      ...styles.buttonContainer,
+      flexDirection: 'row',
+    };
     return (
       <View style={commonStyles.bgImage}>
         <KeyboardAvoidingView
-          style={styles.container}
-          contentContainerStyle={styles.container}
+          style={!isLoading ? styles.container : styles.containerLoading}
+          contentContainerStyle={
+            !isLoading ? styles.container : styles.containerLoading
+          }
           behavior="padding"
           enabled>
-          {/* {isLoading ? (
-            <Loading
-              text={'Logging you into Fitrepo...'}
-              animationStr={require('../../assets/jsons/user_animation_4.json')}
-              isTextBold={false}
-            />
-          ) : ( */}
-          <View style={styles.loginView}>
-            <View style={styles.logoContainer}>
-              <Text style={styles.logoText}>FITREPO</Text>
-            </View>
+          {/*<View style={styles.loginView}>*/}
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoText}>FITREPO</Text>
+          </View>
+          {!isLoading && (
             <Animated.View
               style={{transform: [{translateX: this.shakeAnimation}]}}>
               <Image source={LOGIN_ICON} style={styles.iconImageStyle} />
             </Animated.View>
-            <View style={styles.loginInputContainer}>
-              <PhoneAuth
-                setShowSocialOptions={this.setShowSocialOptions}
-                createUserWithPhoneNumber={this.loginWithPhoneNumber}
-                loadingMessage={'Logging you into Fitrepo...'}
-              />
-              {/* <Input
+          )}
+          <View style={styles.loginInputContainer}>
+            <PhoneAuth
+              setShowSocialOptions={this.setShowSocialOptions}
+              createUserWithPhoneNumber={this.loginWithPhoneNumber}
+              loadingMessage={'Logging you into Fitrepo...'}
+            />
+            {/* <Input
                   placeholder="Email"
                   placeholderTextColor={styleCommon.textColor1}
                   containerStyle={styles.inputContainer}
@@ -446,8 +443,8 @@ export default class LoginScreen1 extends Component {
                     />
                   }
                 /> */}
-            </View>
-            {/* <View style={styles.buttonContainer}>
+          </View>
+          {/* <View style={styles.buttonContainer}>
                 <Button
                   title="LOGIN"
                   icon={
@@ -476,38 +473,38 @@ export default class LoginScreen1 extends Component {
                   onPress={() => this.onClickForgotPassword()}
                 />
               </View> */}
-            {showSocialOptions && !isLoading && (
-              <View>
-                <View style={{...styles.buttonContainer, flexDirection: 'row'}}>
-                  <SocialIcon
-                    style={styles.socialMediaLoginBtn}
-                    title="Facebook"
-                    button
-                    type="facebook"
-                    onPress={() => this.onFBLogin()}
-                    iconSize={fontsCommon.font22}
-                  />
-                  <SocialIcon
-                    style={styles.socialMediaLoginBtn}
-                    title="Google"
-                    button
-                    type="google-plus-official"
-                    onPress={() => this.onGoogleLogin()}
-                    iconSize={fontsCommon.font22}
-                  />
-                </View>
-                <View style={styles.signUpHereContainer}>
-                  <Text style={styles.newUserText}>New here ?</Text>
-                  <Button
-                    title="SIGN UP"
-                    titleStyle={styles.signUpButtonTitle}
-                    type="clear"
-                    onPress={() => this.signUpButttonClicked()}
-                  />
-                </View>
+          {showSocialOptions && !isLoading && (
+            <View>
+              <View style={socialLoginContainerStyle}>
+                <SocialIcon
+                  style={styles.socialMediaLoginBtn}
+                  title="Facebook"
+                  button
+                  type="facebook"
+                  onPress={() => this.onFBLogin()}
+                  iconSize={fontsCommon.font22}
+                />
+                <SocialIcon
+                  style={styles.socialMediaLoginBtn}
+                  title="Google"
+                  button
+                  type="google-plus-official"
+                  onPress={() => this.onGoogleLogin()}
+                  iconSize={fontsCommon.font22}
+                />
               </View>
-            )}
-          </View>
+              <View style={styles.signUpHereContainer}>
+                <Text style={styles.newUserText}>New here ?</Text>
+                <Button
+                  title="SIGN UP"
+                  titleStyle={styles.signUpButtonTitle}
+                  type="clear"
+                  onPress={() => this.signUpButttonClicked()}
+                />
+              </View>
+            </View>
+          )}
+          {/*</View>*/}
         </KeyboardAvoidingView>
       </View>
     );

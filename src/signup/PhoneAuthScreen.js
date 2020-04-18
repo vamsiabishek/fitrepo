@@ -145,16 +145,16 @@ class PhoneAuthScreen extends Component {
     } = this.state;
     const {loadingMessage} = this.props;
     return (
-      <View style={styles.container}>
+      <React.Fragment>
         {isLoading ? (
           <Loading
             text={loadingMessage}
-            animationStr={require('../../assets/jsons/user_animation_4.json')}
+            animationStr={require('../../assets/jsons/logging_animation.json')}
             isTextBold={false}
             takeFullHeight={false}
           />
         ) : (
-          <View>
+          <React.Fragment>
             {confirmResult ? (
               this.renderConfirmationCodeView()
             ) : (
@@ -164,9 +164,9 @@ class PhoneAuthScreen extends Component {
                 countryCode={countryCode}
               />
             )}
-          </View>
+          </React.Fragment>
         )}
-      </View>
+      </React.Fragment>
     );
   }
 }
