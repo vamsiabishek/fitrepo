@@ -65,6 +65,14 @@ export const styles = StyleSheet.create({
     marginTop: SCREEN_HEIGHT * 0.15,
     //backgroundColor: 'red',
   },
+  verificationSignUpContainer: {
+    width: SCREEN_WIDTH * 0.95,
+    height: SCREEN_HEIGHT * 0.95,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: SCREEN_HEIGHT * 0.5,
+    //backgroundColor: 'red',
+  },
   verificationTitle: {
     fontSize: fontsCommon.font26,
     fontWeight: 'bold',
