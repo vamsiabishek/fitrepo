@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
   flatListContentContainer: {
     justifyContent: 'center',
     alignContent: 'center',
-    margin: 10,
-    // backgroundColor: "purple"
+    //marginTop: 10,
+    //backgroundColor: "purple",
   },
   returnViewContainer: {
     flex: 1,
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     borderRadius: (SCREEN_HEIGHT * 0.15) / 2,
   },
   iconImageStyle: {
-    width: SCREEN_HEIGHT * 0.1 - 19,
+    width: SCREEN_HEIGHT * 0.1,
     height: SCREEN_HEIGHT * 0.1,
     //tintColor: styleCommon.textColor1,
   },

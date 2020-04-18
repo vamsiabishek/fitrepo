@@ -1,4 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
+import {SCREEN_HEIGHT} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   mainContent: {
@@ -6,6 +7,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    //backgroundColor: "oldlace"
+    marginTop: Platform.OS === 'android' ? SCREEN_HEIGHT * 0.045 : 0,
+    // backgroundColor: "oldlace"
   },
 });

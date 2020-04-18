@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   profileSubBannerStyle: {
     flex: 1,
     flexDirection: 'row',
-    //height: SCREEN_HEIGHT,
+    height: SCREEN_HEIGHT * 0.1,
     justifyContent: 'center',
     alignContent: 'center',
     borderBottomWidth: 1,
@@ -251,16 +251,16 @@ const styles = StyleSheet.create({
   subHeaderButtonStyle: {
     flexDirection: 'column',
     width: SCREEN_WIDTH * 0.28,
-    height: SCREEN_HEIGHT * 0.07, //80,
+    height: SCREEN_HEIGHT * 0.08, //80,
     backgroundColor: 'rgba(0, 0, 0, .3)', //styleCommon.panelHeaderBoxColor,
     borderRadius: SCREEN_HEIGHT * 0.05,
     // borderWidth: 1,
     // borderColor: styleCommon.selectedButtonColor,
-    shadowColor: 'grey',
-    shadowOffset: {width: 2, height: 4},
-    shadowOpacity: 0.6,
-    shadowRadius: 2,
-    elevation: 5,
+    // shadowColor: 'grey',
+    // shadowOffset: {width: 2, height: 4},
+    // shadowOpacity: 0.6,
+    // shadowRadius: 2,
+    //elevation: 5,
   },
   subHeaderButtonTitle: {
     fontWeight: '500',
@@ -277,20 +277,24 @@ const styles = StyleSheet.create({
   },
   buttonIcon: {
     marginTop: 3,
+    height:
+      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.05 : SCREEN_HEIGHT * 0.04, //34,
   },
   modalContainer: {
     flex: 1,
+    justifyContent: 'space-evenly',
+    // alignItems: 'center',
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
     padding: SCREEN_WIDTH * 0.1,
-    //width: SCREEN_WIDTH * 0.95,
+    // width: SCREEN_WIDTH * 0.95,
     marginTop: DEVICE_NAME.includes('iPhone 11')
       ? SCREEN_WIDTH * 0.1
-      : SCREEN_WIDTH * 0.05,
+      : SCREEN_WIDTH * 0.01,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
       ? SCREEN_WIDTH * 0.2
-      : SCREEN_WIDTH * 0.1,
+      : SCREEN_WIDTH * 0.05,
   },
   purchasesModalContainer: {
     flex: 1,
@@ -333,9 +337,9 @@ const styles = StyleSheet.create({
     top: -(SCREEN_WIDTH * 0.1),
     left: DEVICE_NAME.includes('iPhone 11')
       ? SCREEN_WIDTH * 0.7
-      : Platform.OS === 'ios'
-      ? SCREEN_WIDTH * 0.63
-      : SCREEN_WIDTH * 0.7,
+      : Platform.OS === 'android'
+      ? SCREEN_WIDTH * 0.7
+      : SCREEN_WIDTH * 0.63,
     width: 40,
     alignItems: 'center',
     //backgroundColor: 'red',
@@ -364,6 +368,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font16
+      : Platform.OS === 'android'
+      ? fontsCommon.font18
       : fontsCommon.font20,
     marginTop: 10,
     color: styleCommon.textColor1,
@@ -385,7 +391,7 @@ const styles = StyleSheet.create({
     marginTop: SCREEN_HEIGHT * 0.02,
   },
   contactDetailsText: {
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font16
       : fontsCommon.font20,
@@ -394,7 +400,7 @@ const styles = StyleSheet.create({
   },
   socialIconImageStyle: {
     width: SCREEN_WIDTH * 0.13,
-    height: SCREEN_HEIGHT * 0.06,
+    height: SCREEN_WIDTH * 0.13, // SCREEN_HEIGHT * 0.06,
     borderRadius: SCREEN_HEIGHT * 0.06,
   },
   noPurchasesText: {
