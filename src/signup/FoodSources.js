@@ -7,6 +7,7 @@ import {
   FOOD_SOURCES_PERSON_ICON,
   FOOD_SOURCES_MARKET_ICON,
 } from '../common/Common';
+import {SCREEN_WIDTH} from '../../assets/style/stylesCommonValues';
 
 export default class FoodSources extends Component {
   constructor() {
@@ -47,7 +48,7 @@ export default class FoodSources extends Component {
     } = this.props;
     const marginLeft = this.animatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [-200, -50],
+      outputRange: [-(SCREEN_WIDTH * 0.5), -50],
     });
     return (
       <View style={styles.mainContent}>
