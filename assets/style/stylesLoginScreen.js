@@ -56,6 +56,7 @@ export const styles = StyleSheet.create({
   loginInputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: SCREEN_HEIGHT * 0.01, // 10
     //width: SCREEN_WIDTH * 0.9,
     //margin: 5,
     //backgroundColor: "chocolate",
@@ -63,7 +64,7 @@ export const styles = StyleSheet.create({
   inputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: SCREEN_HEIGHT * 0.01, // 10
     //backgroundColor: "crimson"
   },
   inputContainerStyle: {

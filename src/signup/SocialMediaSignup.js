@@ -231,9 +231,9 @@ export default class SocialMediaSignup extends Component {
     const animatedGStyle = {
       transform: [{scale: this.animatedGValue}],
     };
-    const animatedTStyle = {
+    /*const animatedTStyle = {
       transform: [{scale: this.animatedTValue}],
-    };
+    };*/
     return (
       <KeyboardAvoidingView
         style={styles.mainContent}
@@ -282,7 +282,7 @@ export default class SocialMediaSignup extends Component {
                     />
                   </TouchableOpacity>
                 </Animated.View>
-                <Animated.View
+                {/*<Animated.View
                   style={[
                     styles.iconContainer,
                     styles.overlapThree,
@@ -297,7 +297,7 @@ export default class SocialMediaSignup extends Component {
                       type="twitter"
                     />
                   </TouchableOpacity>
-                </Animated.View>
+                </Animated.View>*/}
               </View>
             )}
             {showSocialOptions && (

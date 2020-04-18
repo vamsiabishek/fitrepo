@@ -336,32 +336,42 @@ export default class LoginScreen extends Component {
       ...styles.buttonContainer,
       flexDirection: 'row',
     };
+    const signInContainer = {marginBottom: Platform.OS === 'ios' ? 90 : 0};
     return (
       <View style={commonStyles.bgImage}>
         <KeyboardAvoidingView
-          style={!isLoading ? styles.container : styles.containerLoading}
+          style={
+            showSocialOptions && !isLoading
+              ? styles.container
+              : styles.containerLoading
+          }
           contentContainerStyle={
-            !isLoading ? styles.container : styles.containerLoading
+            showSocialOptions && !isLoading
+              ? styles.container
+              : styles.containerLoading
           }
           behavior="padding"
           enabled>
           {/*<View style={styles.loginView}>*/}
-          <View style={styles.logoContainer}>
-            <Text style={styles.logoText}>FITREPO</Text>
-          </View>
-          {!isLoading && (
+          {showSocialOptions && !isLoading && (
+            <View style={styles.logoContainer}>
+              <Text style={styles.logoText}>FITREPO</Text>
+            </View>
+          )}
+          {showSocialOptions && !isLoading && (
             <Animated.View
               style={{transform: [{translateX: this.shakeAnimation}]}}>
               <Image source={LOGIN_ICON} style={styles.iconImageStyle} />
             </Animated.View>
           )}
-          <View style={styles.loginInputContainer}>
-            <PhoneAuth
-              setShowSocialOptions={this.setShowSocialOptions}
-              createUserWithPhoneNumber={this.loginWithPhoneNumber}
-              loadingMessage={'Logging you into Fitrepo...'}
-            />
-            {/* <Input
+          <View style={signInContainer}>
+            <View style={styles.loginInputContainer}>
+              <PhoneAuth
+                setShowSocialOptions={this.setShowSocialOptions}
+                createUserWithPhoneNumber={this.loginWithPhoneNumber}
+                loadingMessage={'Logging you into Fitrepo...'}
+              />
+              {/* <Input
                   placeholder="Email"
                   placeholderTextColor={styleCommon.textColor1}
                   containerStyle={styles.inputContainer}
@@ -443,8 +453,8 @@ export default class LoginScreen extends Component {
                     />
                   }
                 /> */}
-          </View>
-          {/* <View style={styles.buttonContainer}>
+            </View>
+            {/* <View style={styles.buttonContainer}>
                 <Button
                   title="LOGIN"
                   icon={
@@ -473,38 +483,38 @@ export default class LoginScreen extends Component {
                   onPress={() => this.onClickForgotPassword()}
                 />
               </View> */}
-          {showSocialOptions && !isLoading && (
-            <View>
-              <View style={socialLoginContainerStyle}>
-                <SocialIcon
-                  style={styles.socialMediaLoginBtn}
-                  title="Facebook"
-                  button
-                  type="facebook"
-                  onPress={() => this.onFBLogin()}
-                  iconSize={fontsCommon.font22}
-                />
-                <SocialIcon
-                  style={styles.socialMediaLoginBtn}
-                  title="Google"
-                  button
-                  type="google-plus-official"
-                  onPress={() => this.onGoogleLogin()}
-                  iconSize={fontsCommon.font22}
-                />
+            {showSocialOptions && !isLoading && (
+              <View>
+                <View style={socialLoginContainerStyle}>
+                  <SocialIcon
+                    style={styles.socialMediaLoginBtn}
+                    title="Facebook"
+                    button
+                    type="facebook"
+                    onPress={() => this.onFBLogin()}
+                    iconSize={fontsCommon.font22}
+                  />
+                  <SocialIcon
+                    style={styles.socialMediaLoginBtn}
+                    title="Google"
+                    button
+                    type="google-plus-official"
+                    onPress={() => this.onGoogleLogin()}
+                    iconSize={fontsCommon.font22}
+                  />
+                </View>
+                <View style={styles.signUpHereContainer}>
+                  <Text style={styles.newUserText}>New here ?</Text>
+                  <Button
+                    title="SIGN UP"
+                    titleStyle={styles.signUpButtonTitle}
+                    type="clear"
+                    onPress={() => this.signUpButttonClicked()}
+                  />
+                </View>
               </View>
-              <View style={styles.signUpHereContainer}>
-                <Text style={styles.newUserText}>New here ?</Text>
-                <Button
-                  title="SIGN UP"
-                  titleStyle={styles.signUpButtonTitle}
-                  type="clear"
-                  onPress={() => this.signUpButttonClicked()}
-                />
-              </View>
-            </View>
-          )}
-          {/*</View>*/}
+            )}
+          </View>
         </KeyboardAvoidingView>
       </View>
     );

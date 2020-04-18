@@ -1,11 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {
-  styleCommon,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  BUTTON_HEIGHT_GENERAL,
-  fontsCommon,
-} from './stylesCommonValues';
+import {styleCommon, SCREEN_HEIGHT, fontsCommon} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   container: {
@@ -18,6 +12,12 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     //paddingBottom: 16,
     color: styleCommon.headerTitleColor,
+  },
+  resendButtonCountdownStyle: {
+    fontSize: fontsCommon.font15,
+    fontWeight: 'bold',
+    //paddingBottom: 16,
+    color: styleCommon.unSelected,
   },
   clickHere: {
     fontSize: fontsCommon.font13,

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {
   styleCommon,
   SCREEN_HEIGHT,
@@ -60,6 +60,8 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   buttonIcon: {
+    height:
+      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.15 : SCREEN_HEIGHT * 0.13, // 100,
     justifyContent: 'center',
     alignItems: 'center',
   },

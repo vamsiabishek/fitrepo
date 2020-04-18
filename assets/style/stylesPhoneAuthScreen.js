@@ -58,32 +58,39 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   verificationContainer: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    width: SCREEN_WIDTH * 0.95,
+    height: SCREEN_HEIGHT * 0.95,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: SCREEN_HEIGHT * 0.15,
+    //backgroundColor: 'red',
   },
   verificationTitle: {
-    fontSize: fontsCommon.font24,
+    fontSize: fontsCommon.font26,
     fontWeight: 'bold',
-    paddingBottom: 45,
-    paddingTop: 10,
+    paddingBottom: SCREEN_HEIGHT * 0.03, // 45
+    paddingTop: SCREEN_HEIGHT * 0.01, // 10
     color: styleCommon.headerTitleColor,
   },
   verificationDescContainer: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginBottom: SCREEN_HEIGHT * 0.05,
+    //backgroundColor: 'red',
   },
   verificationDesc: {
+    textAlign: 'center',
     fontSize: fontsCommon.font14,
     fontWeight: 'bold',
-    paddingTop: 10,
+    paddingTop: SCREEN_HEIGHT * 0.01, // 10
+    paddingBottom: SCREEN_HEIGHT * 0.02, // 45
     color: styleCommon.headerTitleColor,
   },
   verificationPhNumContainer: {
-    flexDirection: 'row',
-    marginLeft: -10,
+    //flexDirection: 'row',
+    // marginLeft: 10,
   },
   verificationPhNum: {
+    marginTop: -10,
     fontSize: fontsCommon.font15,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
@@ -105,17 +112,16 @@ export const styles = StyleSheet.create({
     //marginLeft: -10,
   },
   verificationSubContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-  iconImageStyle: {
-    width: SCREEN_HEIGHT * 0.08,
-    height: SCREEN_HEIGHT * 0.08,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
-    marginRight: 10,
+    //backgroundColor: 'red',
+  },
+  iconImageStyle: {
+    width: SCREEN_HEIGHT * 0.1,
+    height: SCREEN_HEIGHT * 0.1,
+    marginLeft: SCREEN_HEIGHT * 0.03, // 10,
+    marginVertical: SCREEN_HEIGHT * 0.02,
+    // backgroundColor: 'red',
   },
   otpInput: {
     width: '70%',

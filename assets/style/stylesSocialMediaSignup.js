@@ -20,6 +20,8 @@ export const styles = StyleSheet.create({
     height: 90,
     borderRadius: 50,
     borderColor: 'grey',
+    backgroundColor: styleCommon.primaryColor, // to apply on android
+    overlayColor: styleCommon.primaryColor, // to apply on android
   },
   iconStyle: {
     width: 90,

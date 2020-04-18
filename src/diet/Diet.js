@@ -9,11 +9,7 @@ import {
   styleCommon,
   ICON_SIZE_MED,
 } from '../../assets/style/stylesCommonValues';
-import {
-  createKeyAndValuesFromResult,
-  getCurrentUser,
-  setFirstTimeUser,
-} from '../common/Util';
+import {createKeyAndValuesFromResult, getCurrentUser} from '../common/Util';
 import CustomListView from '../components/CustomListView';
 import {
   WEIGHT_LOSS_DESC,
@@ -21,7 +17,6 @@ import {
   BE_HEALTHY_DESC,
 } from '../common/Common';
 import Emoji from 'react-native-emoji';
-
 
 export default class Diet extends Component {
   constructor(props) {

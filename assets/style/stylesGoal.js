@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {
   SCREEN_WIDTH,
   styleCommon,
@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   },
   buttonStyle: {
     width: SCREEN_WIDTH * 0.75,
-    height: SCREEN_HEIGHT * 0.12, //80,
+    height: SCREEN_HEIGHT * 0.12, //80, SCREEN_HEIGHT * 0.12
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 10,
     borderBottomWidth: 0,
@@ -58,15 +58,17 @@ export const styles = StyleSheet.create({
   },
 
   buttonIcon: {
+    height:
+      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.15 : SCREEN_HEIGHT * 0.11, // 100,
     position: 'absolute',
     left: 25,
-    //backgroundColor: "tomato"
+    bottom: -5,
+    // backgroundColor: 'tomato',
   },
   iconImageStyle: {
     width: SCREEN_HEIGHT * 0.1,
     height: SCREEN_HEIGHT * 0.1,
-    justifyContent: 'center',
     alignItems: 'center',
-    //tintColor: styleCommon.textColor1,
+    //backgroundColor: 'pink',
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesResendButton';
 
@@ -41,7 +41,12 @@ class ResendButton extends React.Component {
     return (
       <View style={styles.container}>
         {resendBtnTime > 0 ? (
-          <Text>Resend OTP in {resendBtnTime}</Text>
+          <Button
+            title={'Resend OTP in ' + resendBtnTime}
+            titleStyle={styles.resendButtonCountdownStyle}
+            type="clear"
+            disabled={true}
+          />
         ) : (
           <Button
             title={'Resend OTP '}
