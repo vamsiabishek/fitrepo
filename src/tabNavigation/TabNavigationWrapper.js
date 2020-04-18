@@ -109,6 +109,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
         } */
         tabBarLabel: () => {},
         tabBarIcon: <AddButton />, // Plus button component
+        tabBarOnPress: () => {}, // double clicking on add button was opening the supplements screen
       },
     },
     Profile: {

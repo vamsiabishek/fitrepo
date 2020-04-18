@@ -8,6 +8,7 @@ import {
   UIManager,
   View,
 } from 'react-native';
+import {debounce} from 'lodash';
 import {
   EMAIL_VERIFICATION,
   PASSWORD_LENGTH_MINIMUM,
@@ -104,6 +105,8 @@ export default class Signup extends Component {
       newLogin: navigation.getParam('newLogin') ? true : false, // if new user chooses to login through FB/Google from the "Log In" page
       showGender: true,
     };
+
+    this.onNextDelayed = debounce((screen) => this.onNext(screen), 600);
   }
 
   componentDidMount = async () => {
@@ -173,21 +176,17 @@ export default class Signup extends Component {
     }
   };
 
-  goToNext = () => {
-    setTimeout(() => this.onNext(this.state.screen), 400);
-  };
-
   setGoal = (goal) => {
     this.setState({goal});
-    this.goToNext();
+    this.onNextDelayed(this.state.screen);
   };
   setGender = (gender) => {
     this.setState({gender});
-    this.goToNext();
+    this.onNextDelayed(this.state.screen);
   };
   setFitnessLevel = (fitnessLevel) => {
     this.setState({fitnessLevel});
-    this.goToNext();
+    this.onNextDelayed(this.state.screen);
   };
   setFBUser = (user) => {
     this.setState({
@@ -1183,7 +1182,7 @@ export default class Signup extends Component {
                   <NavNextButton
                     isActive={navButtonActive}
                     screen={screen}
-                    onNext={this.onNext}
+                    onNext={this.onNextDelayed}
                   />
                 </View>
               </View>
@@ -1207,7 +1206,7 @@ export default class Signup extends Component {
                   <NavNextButton
                     isActive={true}
                     screen={screen}
-                    onNext={this.onNext}
+                    onNext={this.onNextDelayed}
                   />
                 </View>
               </View>
@@ -1251,7 +1250,7 @@ export default class Signup extends Component {
                 <NavNextButton
                   isActive={isLoading ? false : true}
                   screen={screen}
-                  onNext={this.onNext}
+                  onNext={this.onNextDelayed}
                   buttonText={sourcesButtonLabel}
                 />
               </View>
