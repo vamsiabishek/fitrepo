@@ -476,7 +476,7 @@ export default class Profile extends Component {
                     <PurchaseList purchases={purchases} />
                   ) : (
                     <Text style={styles.noPurchasesText}>
-                      No Purchases made so far
+                      *No Purchases made so far*
                     </Text>
                   )}
                 </View>

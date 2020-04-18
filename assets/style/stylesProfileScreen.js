@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
     padding: SCREEN_WIDTH * 0.1,
-    width: SCREEN_WIDTH * 0.95,
+    //width: SCREEN_WIDTH * 0.95,
     marginTop: DEVICE_NAME.includes('iPhone 11')
       ? SCREEN_WIDTH * 0.1
       : SCREEN_WIDTH * 0.05,
@@ -300,15 +300,17 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
     padding: SCREEN_WIDTH * 0.1,
-    width: SCREEN_WIDTH * 0.95,
+    //width: SCREEN_WIDTH * 0.95,
     // marginTop: DEVICE_NAME.includes('iPhone 11')
     //   ? SCREEN_HEIGHT * 0.1
     //   : SCREEN_HEIGHT * 0.02,
-    marginTop: 100,
+    marginTop: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_HEIGHT * 0.05
+      : SCREEN_HEIGHT * 0.02,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
       ? SCREEN_HEIGHT * 0.1
       : SCREEN_HEIGHT * 0.05,
-   // marginLeft: SCREEN_WIDTH * 0.1,
+    // marginLeft: SCREEN_WIDTH * 0.1,
   },
   modalLoadingInsideStyle: {
     flex: 1,
@@ -330,10 +332,10 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: -(SCREEN_WIDTH * 0.1),
     left: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.75
+      ? SCREEN_WIDTH * 0.7
       : Platform.OS === 'ios'
-      ? SCREEN_WIDTH * 0.69
-      : SCREEN_WIDTH * 0.75,
+      ? SCREEN_WIDTH * 0.63
+      : SCREEN_WIDTH * 0.7,
     width: 40,
     alignItems: 'center',
     //backgroundColor: 'red',
@@ -401,6 +403,7 @@ const styles = StyleSheet.create({
       ? fontsCommon.font16
       : fontsCommon.font20,
     color: styleCommon.textColor1,
+    marginTop: SCREEN_HEIGHT * 0.1,
   },
 });
 

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -294,6 +294,51 @@ const styles = StyleSheet.create({
   },
   avatarImagePropsStyle: {
     backgroundColor: '#636568',
+  },
+
+  //gender css
+  mainContent: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonStyle: {
+    width: SCREEN_WIDTH * 0.2, //140,
+    height: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_HEIGHT * 0.1
+      : SCREEN_HEIGHT * 0.12, //140,
+    backgroundColor: styleCommon.secondaryColorNew,
+    borderRadius: 20,
+    borderBottomWidth: 0,
+    shadowColor: 'grey',
+    shadowOffset: {width: 2, height: 4},
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    elevation: 5,
+    marginHorizontal: 5,
+    marginVertical: 5,
+  },
+  activeButtonStyle: {
+    width: SCREEN_WIDTH * 0.2, //140,
+    height: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_HEIGHT * 0.1
+      : SCREEN_HEIGHT * 0.12, //140,
+    backgroundColor: styleCommon.selectedButtonColor,
+    borderRadius: 20,
+    borderBottomWidth: 0,
+    shadowColor: 'grey',
+    shadowOffset: {width: 2, height: 4},
+    shadowOpacity: 0.6,
+    shadowRadius: 2,
+    elevation: 5,
+    marginHorizontal: 5,
+    //marginVertical: 5,
+  },
+  buttonIcon: {
+    height:
+      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.08 : SCREEN_HEIGHT * 0.06, // 100,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

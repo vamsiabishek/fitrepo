@@ -16,10 +16,10 @@ class PurchaseList extends React.Component {
       return (
         <View key={purchase.purchaseDate}>
           <View style={styles.rowContainerHeader}>
-            <View style={styles.rowContainer}>
+            
               <Text style={styles.rowContainerTextHeader}>Plan</Text>
               <Text style={styles.rowContainerTextHeader}>Purchase Date</Text>
-            </View>
+            
           </View>
           <View style={styles.rowContainer}>
             <Text style={styles.rowContainerText}>
@@ -63,7 +63,7 @@ class PurchaseList extends React.Component {
     return (
       <View style={styles.container}>
         {purchaseList.length > 0 ? (
-          <ScrollView style={{height: SCREEN_HEIGHT * 0.2}}>
+          <ScrollView style={styles.table}>
             <FlatList
               data={purchaseList}
               renderItem={({item, index}) =>
