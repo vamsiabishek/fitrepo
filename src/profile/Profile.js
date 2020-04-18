@@ -145,12 +145,13 @@ export default class Profile extends Component {
   render() {
     const {
       isLoading,
-      user,
+      user = {},
       currentDiet,
       showContactUs,
       showPurchases,
     } = this.state;
-    const {gender, fitnessLevel} = user;
+    const {gender, fitnessLevel, name, username, weight, purchases} =
+      user || {};
     let levelImage = gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
     let levelTitle = BEGINNER_LABEL;
     if (fitnessLevel === 2) {
@@ -161,10 +162,11 @@ export default class Profile extends Component {
       levelImage = gender === 1 ? MALE_ADVANCED_ICON : FEMALE_ADVANCED_ICON;
       levelTitle = ADVANCED_LABEL;
     }
-    let profileAvatar = require('../../assets/jsons/male_profile_avatar.json');
-    if (gender === 0) {
-      profileAvatar = require('../../assets/jsons/female_profile_avatar.json');
-    }
+    let profileAvatar =
+      gender === 1
+        ? require('../../assets/jsons/male_profile_avatar.json')
+        : require('../../assets/jsons/female_profile_avatar.json');
+
     const profileHeaderHeight = this.profileHeaderScrollY.interpolate({
       inputRange: [0, this.profileHeaderExpandedHeight - 100],
       outputRange: [
@@ -244,9 +246,9 @@ export default class Profile extends Component {
                 />
               </View>
               <View style={styles.profileBannerStyle}>
-                <Text style={styles.profileBannerTitleStyle}>{user.name}</Text>
+                <Text style={styles.profileBannerTitleStyle}>{name}</Text>
                 <Text style={styles.profileBannerSubTitleStyle}>
-                  {user.username}
+                  {username}
                 </Text>
               </View>
               <View style={styles.profileSubBannerStyle}>
@@ -341,7 +343,7 @@ export default class Profile extends Component {
                           style={styles.weightIconStyle}
                         />
                         <Text style={styles.boxTextStyle}>
-                          Current Weight: {user.weight} kgs
+                          Current Weight: {weight} kgs
                         </Text>
                       </View>
                       <View style={styles.boxTextContainer}>
@@ -470,8 +472,8 @@ export default class Profile extends Component {
                     style={styles.animationStyle}
                     enableMergePathsAndroidForKitKatAndAbove
                   />
-                  {user.purchases ? (
-                    <PurchaseList purchases={user.purchases} />
+                  {purchases !== undefined ? (
+                    <PurchaseList purchases={purchases} />
                   ) : (
                     <Text style={styles.noPurchasesText}>
                       No Purchases made so far
