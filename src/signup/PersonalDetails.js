@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   UIManager,
   View,
+  Alert,
 } from 'react-native';
 import SelectButton from '../components/SelectButton';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -82,8 +83,15 @@ export default class PersonalDetails extends Component {
     let dateFormat = new Date(date);
     let newDate = dateFormat.toDateString().substring(4);
     let ageFromDate = currentDate.getFullYear() - dateFormat.getFullYear();
-    this.props.setDob(newDate, ageFromDate);
-    this.hideDTPicker();
+    if (ageFromDate < 15) {
+      Alert.alert(
+        'Incorrect Date !',
+        'Age must be 15 years & above. Please choose another date.',
+      );
+    } else {
+      this.props.setDob(newDate, ageFromDate);
+      this.hideDTPicker();
+    }
   };
   handleNumPickerForWeight = (number) => {
     this.props.setWeight(number);
@@ -127,6 +135,7 @@ export default class PersonalDetails extends Component {
             <TouchableOpacity>
               <DateTimePickerModal
                 mode="date"
+                display="calendar"
                 isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
                 minimumDate={MIN_DATE}
                 maximumDate={MAX_DATE}

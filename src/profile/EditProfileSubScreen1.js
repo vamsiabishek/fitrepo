@@ -99,8 +99,8 @@ export default class EditProfileSubScreen1 extends Component {
   validateDobAndAge = () => {
     const {dob, age} = this.state.user;
     if (age !== null) {
-      const dobAgeValid = dob.length > 0 && age > 18;
-      const errorMsgWtAge = 'You should be 18 years & above!';
+      const dobAgeValid = dob.length > 0 && age > 15;
+      const errorMsgWtAge = 'You should be 15 years & above!';
       //LayoutAnimation.easeInEaseOut();
       this.setState({dobAgeValid, errorMsgWtAge});
       dobAgeValid || this.dobInput.shake();

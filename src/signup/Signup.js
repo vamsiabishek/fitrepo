@@ -151,7 +151,7 @@ export default class Signup extends Component {
             carbSources: getSourcesWithImages('carb'),
             fatSources: getSourcesWithImages('fat'),
             isLoadingComponent: false,
-            showGender: userLoggedIn.gender ? false : true,
+            showGender: userLoggedIn.gender >= 0 ? false : true,
           });
         })
         .catch((error) => {
