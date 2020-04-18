@@ -3,11 +3,7 @@ import {View, Text, Image, Alert} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {Button} from 'react-native-elements';
 import PhoneNumberPicker from '../components/phoneNumber/PhoneNumberPicker';
-import {
-  styleCommon,
-  ICON_SIZE_SMALL,
-} from '../../assets/style/stylesCommonValues';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {styleCommon} from '../../assets/style/stylesCommonValues';
 import {styles} from '../../assets/style/stylesPhoneAuthScreen';
 import Loading from '../components/Loading';
 import {SMS_ICON} from '../common/Common';
@@ -35,7 +31,7 @@ class PhoneAuthScreen extends Component {
     phNumWithoutCountryCode,
     countryCode,
   }) => {
-    console.log('sending verification code to', phoneNumber);
+    // console.log('sending verification code to', phoneNumber);
     const {setShowSocialOptions} = this.props;
     this.setState({isLoading: true});
     setShowSocialOptions(false);
@@ -90,34 +86,19 @@ class PhoneAuthScreen extends Component {
 
   renderConfirmationCodeView = () => {
     const {phoneNumber} = this.state;
+    const {loadingMessage} = this.props;
     return (
-      <View style={styles.verificationContainer}>
+      <View
+        style={
+          loadingMessage.includes('Registering')
+            ? styles.verificationSignUpContainer
+            : styles.verificationContainer
+        }>
         <Text style={styles.verificationTitle}>Verify your phone number</Text>
-        <View style={styles.verificationSubContainer}>
-          <View style={styles.imageContainer}>
-            <Image source={SMS_ICON} style={styles.iconImageStyle} />
-          </View>
-          <View style={styles.verificationDescContainer}>
-            <Text style={styles.verificationDesc}>
-              Enter the 6-digit code we sent to
-            </Text>
-            <View style={styles.verificationPhNumContainer}>
-              <Button
-                title={phoneNumber}
-                titleStyle={styles.verificationPhNum}
-                type="clear"
-                onPress={() => this.reEnterPhoneNumber()}
-              />
-              <Icon
-                name="arrow-left"
-                color={styleCommon.iconColor}
-                size={ICON_SIZE_SMALL}
-                style={styles.iconStyle}
-              />
-              <Text style={styles.clickHere}>click to change</Text>
-            </View>
-          </View>
-        </View>
+        <Text style={styles.verificationDesc}>
+          Enter the 6-digit code we sent to {phoneNumber}
+        </Text>
+        <Image source={SMS_ICON} style={styles.iconImageStyle} />
         <View style={styles.verificationCodeContainer}>
           <OTPInputView
             style={styles.otpInput}
@@ -132,6 +113,23 @@ class PhoneAuthScreen extends Component {
           />
         </View>
         <ResendButton resendCode={this.resendCode} />
+        <View style={styles.verificationPhNumContainer}>
+          <Text style={styles.clickHere}>
+            Not your number? Click below to change
+          </Text>
+          {/*<Icon
+              name="arrow-right"
+              color={styleCommon.iconColor}
+              size={ICON_SIZE_SMALL}
+              style={styles.iconStyle}
+            />*/}
+          <Button
+            title={phoneNumber}
+            titleStyle={styles.verificationPhNum}
+            type="clear"
+            onPress={() => this.reEnterPhoneNumber()}
+          />
+        </View>
       </View>
     );
   };
@@ -145,16 +143,16 @@ class PhoneAuthScreen extends Component {
     } = this.state;
     const {loadingMessage} = this.props;
     return (
-      <View style={styles.container}>
+      <React.Fragment>
         {isLoading ? (
           <Loading
             text={loadingMessage}
-            animationStr={require('../../assets/jsons/user_animation_4.json')}
+            animationStr={require('../../assets/jsons/logging_animation.json')}
             isTextBold={false}
             takeFullHeight={false}
           />
         ) : (
-          <View>
+          <React.Fragment>
             {confirmResult ? (
               this.renderConfirmationCodeView()
             ) : (
@@ -164,9 +162,9 @@ class PhoneAuthScreen extends Component {
                 countryCode={countryCode}
               />
             )}
-          </View>
+          </React.Fragment>
         )}
-      </View>
+      </React.Fragment>
     );
   }
 }

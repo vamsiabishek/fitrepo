@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {styleCommon} from './stylesCommonValues';
+import {styleCommon, SCREEN_WIDTH} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 3,
+    width: SCREEN_WIDTH * 0.8,
     //backgroundColor: "pink"
   },
   rowContainer: {

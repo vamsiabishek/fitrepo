@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {
+  Appearance,
   KeyboardAvoidingView,
   TouchableOpacity,
   UIManager,
   View,
 } from 'react-native';
 import SelectButton from '../components/SelectButton';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import NumberPicker from '../components/Picker/NumberPicker';
 import TargetWeightTimeline from './TargetWeightTimeline';
 import {
@@ -124,8 +125,9 @@ export default class PersonalDetails extends Component {
         <KeyboardAvoidingView behaviour="position">
           <View style={styles.inputOuterViewContainer}>
             <TouchableOpacity>
-              <DateTimePicker
+              <DateTimePickerModal
                 mode="date"
+                isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
                 minimumDate={MIN_DATE}
                 maximumDate={MAX_DATE}
                 isVisible={isDTPickerVisible}

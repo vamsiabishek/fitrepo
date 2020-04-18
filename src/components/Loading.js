@@ -12,10 +12,10 @@ export default class Loading extends React.Component {
       isTextBold,
       isTextNotAvailable,
       animationStr,
-      animationHeight,
+      // animationHeight,
       takeFullHeight,
     } = this.props;
-    let {mainContainer, watermelonAnimationStyle, textStyle} = styles;
+    let {mainContainer, textStyle} = styles; // watermelonAnimationStyle
     if (isTextBold === false) {
       textStyle = {
         ...textStyle,
@@ -28,26 +28,26 @@ export default class Loading extends React.Component {
         height: SCREEN_HEIGHT,
       };
     }
-    if (animationHeight !== undefined) {
+    /*if (animationHeight !== undefined) {
       watermelonAnimationStyle = {
         ...watermelonAnimationStyle,
         height: animationHeight,
       };
-    }
+    }*/
     return (
-      <View style={mainContainer}>
-        <LottieView
-          source={animationStr}
-          autoPlay
-          loop
-          resizeMode="cover"
-          style={watermelonAnimationStyle}
-          enableMergePathsAndroidForKitKatAndAbove
-        />
+      <View>
+        <View style={mainContainer}>
+          <LottieView
+            source={animationStr}
+            autoPlay
+            loop
+            resizeMode="cover"
+            // style={watermelonAnimationStyle}
+            enableMergePathsAndroidForKitKatAndAbove
+          />
+        </View>
         {!isTextNotAvailable ? (
-          <View style={styles.textViewContainer}>
-            <AnimatedText text={text} textStyle={textStyle} />
-          </View>
+          <AnimatedText text={text} textStyle={textStyle} />
         ) : undefined}
       </View>
     );

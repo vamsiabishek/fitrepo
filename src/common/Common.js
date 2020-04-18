@@ -88,21 +88,6 @@ export const convertProgramToWeeks = (program) => {
   }
 };
 
-export const convertProductIdentifierToPrograms = (productIdentifier) => {
-  switch (productIdentifier) {
-    case 'four_week_plans':
-      return '4 Week Program';
-    case 'eight_week_plans':
-      return '8 Week Program';
-    case 'twelve_week_plans':
-      return '12 Week Program';
-    case 'sixteen_week_plans':
-      return '16 Week Program';
-    default:
-      return 'Invalid String';
-  }
-};
-
 export const GRADIENT_COLORS_ARRAY = ['#00DB8D', '#3B876C', '#28292B'];
 export const GRADIENT_COLORS_ARRAY_INPUT = ['#99ffcc', '#bcc6c3'];
 export const GRADIENT_COLORS_ARRAY_BUTTON = ['#66ff99', '#00DB8D'];
@@ -154,7 +139,7 @@ export const ADVANCED_DESC =
   'Exercises 5 to 6 times a week, highly dedicated towards fitness.';
 export const EMAIL_VERIFICATION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const PASSWORD_LENGTH_MINIMUM = 8;
-export const MIN_DATE = new Date('01/01/1960');
+export const MIN_DATE = new Date('01/01/1900');
 export const MAX_DATE = new Date();
 export const BUTTON_SIZE = 9;
 export const BUTTON_OUTER_SIZE = 18;

@@ -87,3 +87,16 @@ const constructProductName = (week, fitnessLevel) => {
       return `sixteen_week_${fitnessCode}`;
   }
 };
+
+export const convertProductIdentifierToPrograms = (productIdentifier) => {
+  if (productIdentifier.includes('four_week')) {
+    return '4 Week Program';
+  } else if (productIdentifier.includes('eight_week')) {
+    return '8 Week Program';
+  } else if (productIdentifier.includes('twelve_week')) {
+    return '12 Week Program';
+  } else if (productIdentifier.includes('sixteen_week')) {
+    return '16 Week Program';
+  }
+  return 'Random Diet';
+};

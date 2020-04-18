@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, TextInput, TouchableOpacity, View, Text} from 'react-native';
+import {Image, TouchableOpacity, View, Text} from 'react-native';
 import PropTypes from 'prop-types';
 
 import Country from './country';
@@ -11,7 +11,6 @@ import {Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   ICON_SIZE_MED,
-  ICON_SIZE,
   styleCommon,
   ICON_SIZE_SMALL,
 } from '../../../assets/style/stylesCommonValues';
@@ -119,7 +118,7 @@ export default class PhoneInput extends Component {
   isValidPhoneNumber = () => {
     let isValid = true;
     const {inputValue, numberWithCode, iso2, isValidNumber} = this.state;
-    console.log(inputValue, numberWithCode, iso2);
+    // console.log(inputValue, numberWithCode, iso2);
     if (inputValue.length < 3) {
       isValid = false;
     } else {
@@ -158,6 +157,7 @@ export default class PhoneInput extends Component {
       isValidNumber,
       inputValue,
     } = this.state;
+    const countryCodeTextStyle = {paddingLeft: 5};
     return (
       <View style={styles.container}>
         <View>
@@ -172,14 +172,13 @@ export default class PhoneInput extends Component {
               source={Flags.get(iso2)}
               style={[styles.flag, this.props.flagStyle]}
             />
-            <Text style={{paddingLeft: 5}}>{countryCode}</Text>
+            <Text style={countryCodeTextStyle}>{countryCode}</Text>
             <Icon
               name="menu-down"
               color={styleCommon.iconColorDark}
               size={ICON_SIZE_SMALL}
             />
           </TouchableOpacity>
-
           <View>
             <Input
               placeholder="Phone Number"
@@ -211,7 +210,6 @@ export default class PhoneInput extends Component {
             />
           </View>
         </View>
-
         <CountryPicker
           selectedCountry={iso2}
           onSubmit={this.selectCountry}

@@ -16,6 +16,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: SCREEN_WIDTH*/
   },
+  containerLoading: {
+    flex: 1,
+    backgroundColor: BG_COLOR,
+    alignItems: 'center',
+    justifyContent: 'center',
+    /*alignItems: "center",
+    justifyContent: "center",
+    width: SCREEN_WIDTH*/
+  },
   backHeaderContainer: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     borderRadius: 20,
-    backgroundColor: styleCommon.secondaryColor,
+    backgroundColor: styleCommon.secondaryColorNew,
   },
   activeFilterButtonStyle: {
     justifyContent: 'center',

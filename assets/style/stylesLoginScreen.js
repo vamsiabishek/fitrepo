@@ -13,47 +13,58 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     width: SCREEN_WIDTH,
-    marginVertical: 20,
-    backgroundColor: BG_COLOR,
+    height: SCREEN_HEIGHT,
+    marginVertical: SCREEN_HEIGHT * 0.05,
+    backgroundColor: BG_COLOR, //BG_COLOR, orange
+  },
+  containerLoading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+    marginVertical: SCREEN_HEIGHT * 0.1,
+    backgroundColor: BG_COLOR, //BG_COLOR, orange
   },
   loginView: {
     justifyContent: 'flex-end',
     alignItems: 'center',
-    // width: SCREEN_WIDTH * 0.95,
     marginTop: SCREEN_HEIGHT * 0.01,
-    //marginBottom: 20,
     //backgroundColor: "pink"
   },
   logoContainer: {
-    marginBottom: SCREEN_HEIGHT * 0.08,
+    //marginVertical: SCREEN_HEIGHT * 0.08,
+    height: 100,
+    width: SCREEN_WIDTH,
     justifyContent: 'center',
     alignItems: 'center',
     shadowOffset: {width: 2, height: 20},
     shadowOpacity: 0.5,
     shadowRadius: 4.5,
-    //backgroundColor: "brown"
+    //backgroundColor: "brown",
   },
   logoText: {
     padding: 5,
     letterSpacing: fontsCommon.letterSpacingOneFive,
     fontWeight: '700',
-    fontSize: fontsCommon.font30,
+    fontSize: fontsCommon.font50,
     color: styleCommon.secondaryColorNew,
     //backgroundColor: "firebrick"
   },
   loginInputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: SCREEN_HEIGHT * 0.01, // 10
     //width: SCREEN_WIDTH * 0.9,
     //margin: 5,
-    //backgroundColor: "chocolate"
+    //backgroundColor: "chocolate",
   },
   inputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: SCREEN_HEIGHT * 0.01, // 10
     //backgroundColor: "crimson"
   },
   inputContainerStyle: {
@@ -135,11 +146,12 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   iconImageStyle: {
-    width: SCREEN_HEIGHT * 0.12,
-    height: SCREEN_HEIGHT * 0.12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: SCREEN_HEIGHT * 0.15,
+    height: SCREEN_HEIGHT * 0.15,
+    //justifyContent: 'center',
+    //alignItems: 'center',
+    //backgroundColor: 'pink',
     // marginTop: 10,
-    marginBottom: SCREEN_HEIGHT * 0.05,
+    //marginBottom: SCREEN_HEIGHT * 0.05,
   },
 });

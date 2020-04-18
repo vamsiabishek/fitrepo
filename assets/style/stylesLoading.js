@@ -9,25 +9,23 @@ import {
 export const styles = StyleSheet.create({
   mainContainer: {
     //flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    height: SCREEN_HEIGHT * 0.49,
-    // backgroundColor: styleCommon.secondaryColor,
+    height: SCREEN_HEIGHT * 0.4,
+    // backgroundColor: 'grey',
   },
   watermelonAnimationStyle: {
     height: SCREEN_HEIGHT * 0.25,
     // backgroundColor: "teal",
   },
   textViewContainer: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    //justifyContent: 'center',
+    //alignItems: 'center',
     width: SCREEN_WIDTH,
+    //backgroundColor: 'purple',
   },
   textStyle: {
     textAlign: 'center',
     fontSize: fontsCommon.font30,
     fontWeight: '700',
-    color: styleCommon.textColor1,
+    color: styleCommon.textColorDesc,
   },
 });

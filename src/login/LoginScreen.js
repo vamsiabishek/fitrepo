@@ -14,7 +14,7 @@ import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {Button, SocialIcon} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesLoginScreen';
-import {f, database, auth} from './../common/FirebaseConfig';
+import {f, database, auth} from '../common/FirebaseConfig';
 import {
   EMAIL_VERIFICATION,
   PASSWORD_LENGTH_MINIMUM,
@@ -31,7 +31,7 @@ import PhoneAuth from '../signup/PhoneAuthScreen';
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-export default class LoginScreen1 extends Component {
+export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
     (async () => {
@@ -332,32 +332,39 @@ export default class LoginScreen1 extends Component {
       // secureTextKey,
       showSocialOptions,
     } = this.state;
-    // const socialLoginContainerStyle = {
-    //   ...styles.buttonContainer,
-    //   flexDirection: 'row',
-    // };
+    const socialLoginContainerStyle = {
+      ...styles.buttonContainer,
+      flexDirection: 'row',
+    };
+    const signInContainer = {marginBottom: Platform.OS === 'ios' ? 90 : 0};
     return (
       <View style={commonStyles.bgImage}>
         <KeyboardAvoidingView
-          style={styles.container}
-          contentContainerStyle={styles.container}
+          style={
+            showSocialOptions && !isLoading
+              ? styles.container
+              : styles.containerLoading
+          }
+          contentContainerStyle={
+            showSocialOptions && !isLoading
+              ? styles.container
+              : styles.containerLoading
+          }
           behavior="padding"
           enabled>
-          {/* {isLoading ? (
-            <Loading
-              text={'Logging you into Fitrepo...'}
-              animationStr={require('../../assets/jsons/user_animation_4.json')}
-              isTextBold={false}
-            />
-          ) : ( */}
-          <View style={styles.loginView}>
+          {/*<View style={styles.loginView}>*/}
+          {showSocialOptions && !isLoading && (
             <View style={styles.logoContainer}>
               <Text style={styles.logoText}>FITREPO</Text>
             </View>
+          )}
+          {showSocialOptions && !isLoading && (
             <Animated.View
               style={{transform: [{translateX: this.shakeAnimation}]}}>
               <Image source={LOGIN_ICON} style={styles.iconImageStyle} />
             </Animated.View>
+          )}
+          <View style={signInContainer}>
             <View style={styles.loginInputContainer}>
               <PhoneAuth
                 setShowSocialOptions={this.setShowSocialOptions}
@@ -478,7 +485,7 @@ export default class LoginScreen1 extends Component {
               </View> */}
             {showSocialOptions && !isLoading && (
               <View>
-                <View style={{...styles.buttonContainer, flexDirection: 'row'}}>
+                <View style={socialLoginContainerStyle}>
                   <SocialIcon
                     style={styles.socialMediaLoginBtn}
                     title="Facebook"

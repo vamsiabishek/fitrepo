@@ -1,7 +1,12 @@
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
-import {convertProductIdentifierToPrograms} from '../../common/Common';
+import {View, Text, FlatList, ScrollView} from 'react-native';
+import {convertProductIdentifierToPrograms} from '../../common/PurchaseUtils';
 import {styles} from '../../../assets/style/stylesPurchaseList';
+import {
+  styleCommon,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+} from '../../../assets/style/stylesCommonValues';
 
 class PurchaseList extends React.Component {
   _keyExtractor = (item) => item.purchaseDate.toString();
@@ -41,23 +46,32 @@ class PurchaseList extends React.Component {
   };
   render() {
     const {purchases} = this.props;
-    // console.log(purchases);
-    let purchaseList = [];
-    if (purchases) {
-      purchaseList = Object.keys(purchases).map((key) => {
-        return purchases[key];
-      });
-    }
-    // console.log(purchaseList);
+    //console.log(purchases);
+    const purchaseList = [];
 
+    Object.keys(purchases).map((dietId) => {
+      const purchaseDetails = purchases[dietId];
+      Object.keys(purchaseDetails).map((purchaseId) => {
+        purchaseList.push({
+          dietId,
+          purchaseId,
+          ...purchaseDetails[purchaseId],
+        });
+      });
+    });
+    console.log(purchaseList);
     return (
       <View style={styles.container}>
         {purchaseList.length > 0 ? (
-          <FlatList
-            data={purchaseList}
-            renderItem={({item, index}) => this.renderPurchaseItem(item, index)}
-            keyExtractor={this._keyExtractor}
-          />
+          <ScrollView style={{height: SCREEN_HEIGHT * 0.2}}>
+            <FlatList
+              data={purchaseList}
+              renderItem={({item, index}) =>
+                this.renderPurchaseItem(item, index)
+              }
+              keyExtractor={this._keyExtractor}
+            />
+          </ScrollView>
         ) : (
           <View>
             <Text>No Purchases !</Text>

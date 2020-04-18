@@ -44,7 +44,7 @@ export default class SelectButton extends React.Component {
     const animatedStyle = {
       transform: [{scale: this.animatedValue}],
     };
-     const renderIcon = () => {
+    const renderIcon = () => {
       if (shouldUseEmoji) {
         return (
           <Icon style={buttonIcon} size={iconSize}>

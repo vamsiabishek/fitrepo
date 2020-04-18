@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Appearance,
   LayoutAnimation,
   KeyboardAvoidingView,
   TouchableOpacity,
@@ -7,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {Input, Button} from 'react-native-elements';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {styles} from '../../assets/style/stylesEditProfileScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MIN_DATE, MAX_DATE, EMAIL_VERIFICATION} from '../common/Common';
@@ -27,9 +28,10 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 export default class EditProfileSubScreen1 extends Component {
   constructor(props) {
     super(props);
+    const user = props.userDets || {};
     this.state = {
       isLoading: false,
-      user: props.userDets,
+      user,
       usernameValid: true,
       emailValid: true,
       nameValid: true,
@@ -38,7 +40,9 @@ export default class EditProfileSubScreen1 extends Component {
       errorMsgWtAge: '',
       isActive: false,
     };
-    this.selectedDate = new Date(this.state.user.dob);
+    this.selectedDate = this.state.user.dob
+      ? new Date(this.state.user.dob)
+      : new Date();
   }
 
   validateUsername = () => {
@@ -151,7 +155,7 @@ export default class EditProfileSubScreen1 extends Component {
                   rightIcon={
                     <Icon
                       name="account-box"
-                      color={styleCommon.textColor1}
+                      color={styleCommon.iconColor}
                       size={ICON_SIZE}
                     />
                   }
@@ -187,15 +191,15 @@ export default class EditProfileSubScreen1 extends Component {
                   rightIcon={
                     <Icon
                       name="email"
-                      color={styleCommon.darkDisableColor}
+                      color={styleCommon.iconColor}
                       size={ICON_SIZE}
                     />
                   }
                   containerStyle={styles.inputViewContainer}
                   inputContainerStyle={styles.inputContainer}
-                  inputStyle={styles.inputDisableStyle}
+                  inputStyle={styles.inputStyle}
                   errorStyle={styles.errorInputStyle}
-                  editable={false}
+                  editable={true}
                   keyboardAppearance="light"
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -221,7 +225,7 @@ export default class EditProfileSubScreen1 extends Component {
                   rightIcon={
                     <Icon
                       name="alpha-n-box"
-                      color={styleCommon.textColor1}
+                      color={styleCommon.iconColor}
                       size={ICON_SIZE}
                     />
                   }
@@ -247,8 +251,9 @@ export default class EditProfileSubScreen1 extends Component {
                   errorMessage={nameValid ? null : 'Please enter a Name!'}
                 />
                 <TouchableOpacity onPress={this.showDTPicker}>
-                  <DateTimePicker
+                  <DateTimePickerModal
                     mode="date"
+                    isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
                     date={
                       this.selectedDate ? this.selectedDate : dateInDatetime
                     }
@@ -266,7 +271,7 @@ export default class EditProfileSubScreen1 extends Component {
                       rightIcon={
                         <Icon
                           name="calendar"
-                          color={styleCommon.textColor1}
+                          color={styleCommon.iconColor}
                           size={ICON_SIZE}
                         />
                       }
@@ -285,7 +290,7 @@ export default class EditProfileSubScreen1 extends Component {
                       keyboardType="default"
                       autoCorrect={false}
                       blurOnSubmit={true}
-                      editable={true}
+                      editable={false}
                       returnKeyType="done"
                       ref={(input) => (this.dobInput = input)}
                       onSubmitEditing={() => {

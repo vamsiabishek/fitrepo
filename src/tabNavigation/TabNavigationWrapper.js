@@ -3,7 +3,7 @@ import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import StartUpScreen from './../startupscreen/StartUpScreen';
-import LoginScreen from './../login/LoginScreen1';
+import LoginScreen from '../login/LoginScreen';
 import ForgotPasswordScreen from './../login/ForgotPasswordScreen';
 import Supplements from './../supplements/Supplements';
 import Profile from './../profile/Profile';
