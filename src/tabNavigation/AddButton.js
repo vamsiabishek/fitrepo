@@ -1,6 +1,7 @@
 import React from 'react';
 import {TouchableHighlight, View, Alert} from 'react-native';
 import {database} from '../common/FirebaseConfig';
+import {throttle} from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {withNavigation} from 'react-navigation';
 import {createKeyAndValuesFromResult} from '../common/Util';
@@ -14,6 +15,10 @@ class AddButton extends React.Component {
     this.state = {
       isLoading: false,
     };
+    this.addNewHandler = throttle(this.addNew, 1000, {
+      leading: true, // default
+      trailing: true, // default
+    });
   }
   addNew = async () => {
     this.setState({isLoading: true});
@@ -85,7 +90,7 @@ class AddButton extends React.Component {
           />
         ) : (
           <TouchableHighlight
-            onPress={() => this.addNew()}
+            onPress={this.addNewHandler}
             underlayColor="#2882D8"
             style={{
               alignItems: 'center',
