@@ -363,13 +363,11 @@ export default class MyDiet extends Component {
     };
     const dayColor = {color: 'lightgrey'};
     return (
-      <View style={styles.container}>
+      <View style={isLoading ? styles.containerLoading : styles.container}>
         {isLoading ? (
           <Loading
-            takeFullHeight={true}
             text={'We are getting your diet ...'}
             animationStr={require('../../assets/jsons/watermelon.json')}
-            animationHeight={SCREEN_HEIGHT * 0.615}
           />
         ) : (
           <View style={styles.container}>
