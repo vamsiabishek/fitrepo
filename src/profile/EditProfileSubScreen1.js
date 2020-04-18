@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Appearance,
   LayoutAnimation,
   KeyboardAvoidingView,
   TouchableOpacity,
@@ -7,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {Input, Button} from 'react-native-elements';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {styles} from '../../assets/style/stylesEditProfileScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MIN_DATE, MAX_DATE, EMAIL_VERIFICATION} from '../common/Common';
@@ -247,8 +248,9 @@ export default class EditProfileSubScreen1 extends Component {
                   errorMessage={nameValid ? null : 'Please enter a Name!'}
                 />
                 <TouchableOpacity onPress={this.showDTPicker}>
-                  <DateTimePicker
+                  <DateTimePickerModal
                     mode="date"
+                    isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
                     date={
                       this.selectedDate ? this.selectedDate : dateInDatetime
                     }
