@@ -145,7 +145,7 @@ export default class Diet extends Component {
           <ActivityIndicator color={styleCommon.textColor1} size="large" />
         ) : (
           <View style={styles.container}>
-            {!hasDiets ? (
+            {hasDiets ? (
               <View>
                 <View style={styles.buttonHeaderContainer}>
                   <View style={styles.buttonContainer} />
