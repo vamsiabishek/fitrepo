@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
   headerIconStyle: {
     paddingRight: 10,
     marginRight: 10,
-    height: SCREEN_HEIGHT * 0.05,
+    height: SCREEN_HEIGHT * 0.06,
     color: styleCommon.textColorDesc,
   },
   contentBoxMainStyle: {

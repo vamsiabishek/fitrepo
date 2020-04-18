@@ -1,5 +1,11 @@
 import {StyleSheet} from 'react-native';
-import {styleCommon} from './stylesCommonValues';
+import {
+  styleCommon,
+  fontsCommon,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  DEVICE_NAME,
+} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   container: {
@@ -36,17 +42,17 @@ export const styles = StyleSheet.create({
     color: styleCommon.textColor1,
   },
   labelContainer: {
-    width: 32,
-    height: 32,
+    width: DEVICE_NAME.includes('iPhone 11') ? SCREEN_WIDTH * 0.07 : SCREEN_WIDTH * 0.08, //32,
+    height: DEVICE_NAME.includes('iPhone 11') ? SCREEN_HEIGHT * 0.03 : SCREEN_HEIGHT * 0.04, //32,
     marginTop: 3,
     alignItems: 'center',
     justifyContent: 'center',
   },
   labelText: {
-    fontSize: 10,
-    fontWeight: '600',
+    fontSize: fontsCommon.font10,
+    fontWeight: 'bold',
     alignItems: 'center',
     justifyContent: 'center',
-    color: 'black',
+    color: styleCommon.textColorDesc,
   },
 });
