@@ -132,7 +132,7 @@ class PrivacyAndTerms extends Component {
                   style={styles.textLink}
                   onPress={this.onTermsAndConditions}>
                   Terms and conditions
-                </Text>.
+                </Text>
               </Text>
               <Text style={styles.tcP}>
                 In addition, when you create an account, we process your

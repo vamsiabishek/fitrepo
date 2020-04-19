@@ -20,11 +20,15 @@ class MyPurchases extends Component {
     return (
       <Modal
         useNativeDriver={true}
-        hideModalContentWhileAnimating={true}
         isVisible={showPurchases}
         backdropColor="black"
         backdropOpacity={0.5}>
-        <View style={styles.purchasesModalContainer}>
+        <View
+          style={
+            purchases !== undefined
+              ? styles.modalOuterContainer
+              : styles.modalNoPurchasesContainer
+          }>
           <Button
             icon={
               <Icon
@@ -34,24 +38,45 @@ class MyPurchases extends Component {
               />
             }
             type="clear"
-            onPress={onCancel}
-            containerStyle={styles.purchaseCloseButtonContainerStyle}
+            onPress={() => {
+              this.setState({showPurchases: false});
+            }}
+            containerStyle={styles.closeButtonContainerStyle}
           />
-          <Text style={styles.modalTitle}>Your Purchases</Text>
-          <LottieView
-            source={require('../../assets/jsons/purchases.json')}
-            autoPlay
-            loop
-            style={styles.animationStyle}
-            enableMergePathsAndroidForKitKatAndAbove
-          />
-          {purchases !== undefined ? (
-            <PurchaseList purchases={purchases} />
-          ) : (
-            <Text style={styles.noPurchasesText}>
-              *No Purchases made so far*
+          <View
+            style={
+              purchases !== undefined
+                ? styles.modalContainer
+                : styles.modalEmptyContainer
+            }>
+            <Text style={styles.modalPurchasesTitle}>
+              {purchases !== undefined ? 'Purchases History' : 'No Purchases'}
             </Text>
-          )}
+            <View
+              style={
+                purchases !== undefined
+                  ? styles.purchaseHistoryAnimationStyle
+                  : styles.noPurchaseAnimationStyle
+              }>
+              <LottieView
+                source={
+                  purchases !== undefined
+                    ? require('../../assets/jsons/purchases.json')
+                    : require('../../assets/jsons/no_purchases_animation.json')
+                }
+                autoPlay
+                loop
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+            </View>
+            {purchases !== undefined ? (
+              <PurchaseList purchases={purchases} />
+            ) : (
+              <Text style={styles.noPurchasesText}>
+                Looks like you have not made any purchases yet.
+              </Text>
+            )}
+          </View>
         </View>
       </Modal>
     );
@@ -59,92 +84,106 @@ class MyPurchases extends Component {
 }
 
 const styles = StyleSheet.create({
-  purchasesModalContainer: {
+  modalOuterContainer: {
     flex: 1,
-    //justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: '100%',
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-    padding: SCREEN_WIDTH * 0.1,
-    //width: SCREEN_WIDTH * 0.95,
-    // marginTop: DEVICE_NAME.includes('iPhone 11')
-    //   ? SCREEN_HEIGHT * 0.1
-    //   : SCREEN_HEIGHT * 0.02,
     marginTop: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_HEIGHT * 0.05
-      : SCREEN_HEIGHT * 0.02,
+      ? SCREEN_WIDTH * 0.2
+      : SCREEN_WIDTH * 0.01,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_HEIGHT * 0.1
-      : SCREEN_HEIGHT * 0.05,
-    // marginLeft: SCREEN_WIDTH * 0.1,
+      ? SCREEN_WIDTH * 0.2
+      : SCREEN_WIDTH * 0.05,
   },
-  purchaseCloseButtonContainerStyle: {
-    position: 'relative',
-    top: -(SCREEN_WIDTH * 0.06),
-    left: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.4
-      : Platform.OS === 'ios'
-      ? SCREEN_WIDTH * 0.38
-      : SCREEN_WIDTH * 0.4,
-    width: 40,
+  modalNoPurchasesContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    width: '100%',
+    backgroundColor: styleCommon.secondaryColorNew,
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    marginTop: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.5
+      : SCREEN_WIDTH * 0.2,
+    marginBottom: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.5
+      : SCREEN_WIDTH * 0.2,
+  },
+  closeButtonContainerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    //backgroundColor: 'red',
+    height: SCREEN_HEIGHT * 0.05,
+    width: -SCREEN_WIDTH * 0.1,
+    // backgroundColor: 'red',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    paddingHorizontal: SCREEN_WIDTH * 0.07,
+    paddingBottom: SCREEN_WIDTH * 0.07,
+    // backgroundColor: 'cyan',
+  },
+  modalEmptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: SCREEN_WIDTH * 0.07,
+    paddingBottom: SCREEN_WIDTH * 0.07,
+    // backgroundColor: 'cyan',
   },
   modalTitle: {
+    width: '100%',
     fontWeight: 'bold',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font26
       : fontsCommon.font30,
-    // textAlign: 'center',
+    marginBottom: SCREEN_HEIGHT * 0.01,
     color: styleCommon.textColor1,
+    // backgroundColor: 'pink',
   },
-  modalSubTitle: {
-    fontWeight: '400',
-    fontSize: DEVICE_NAME.includes('iPhone 11')
-      ? fontsCommon.font16
-      : Platform.OS === 'android'
-      ? fontsCommon.font18
-      : fontsCommon.font20,
-    marginTop: 10,
-    color: styleCommon.textColor1,
-  },
-  animationStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    //margin: 30, // 20
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.3,
-    //backgroundColor: "teal"
-    marginBottom: -10,
-    marginTop: -10,
-    marginLeft: -10,
-  },
-  contactDetailsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: SCREEN_HEIGHT * 0.02,
-  },
-  contactDetailsText: {
+  modalPurchasesTitle: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    width: '100%',
     fontWeight: 'bold',
     fontSize: DEVICE_NAME.includes('iPhone 11')
-      ? fontsCommon.font16
-      : fontsCommon.font20,
-    marginLeft: 10,
+      ? fontsCommon.font26
+      : fontsCommon.font30,
+    marginBottom: SCREEN_HEIGHT * 0.01,
     color: styleCommon.textColor1,
+    //backgroundColor: 'pink',
   },
-  socialIconImageStyle: {
-    width: SCREEN_WIDTH * 0.13,
-    height: SCREEN_WIDTH * 0.13, // SCREEN_HEIGHT * 0.06,
-    borderRadius: SCREEN_HEIGHT * 0.06,
+  purchaseHistoryAnimationStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SCREEN_HEIGHT * 0.01,
+    width: '100%',
+    height: DEVICE_NAME.includes('iPhone 11') ? '20%' : '100%',
+    // backgroundColor: 'teal',
+  },
+  noPurchaseAnimationStyle: {
+    justifyContent: 'flex-start',
+    alignItems: 'baseline',
+    marginBottom: SCREEN_HEIGHT * 0.02,
+    width: '100%',
+    height: '60%',
+    //backgroundColor: 'teal',
   },
   noPurchasesText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
     fontWeight: '600',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font16
       : fontsCommon.font20,
     color: styleCommon.textColor1,
-    marginTop: SCREEN_HEIGHT * 0.1,
+    //backgroundColor: 'orange',
   },
 });
 
