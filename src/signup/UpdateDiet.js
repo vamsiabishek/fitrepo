@@ -30,12 +30,13 @@ export const createDiet = async ({dietInfo, uid}) => {
     foodPreference,
     paymentStatus,
   } = dietInfo;
+  //console.log("diet info", dietInfo)
   //create diet using these options
   const mealDetails = await designDiet({
     ...dietInfo,
     uid,
   });
-  //console.log(mealDetails);
+  //console.log("meal details ", mealDetails);
 
   const dietDetails = {
     selectedGoal,

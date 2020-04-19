@@ -64,6 +64,7 @@ export const getSourcesWithImages = (sourceType, foodPreference) => {
   } else if (sourceType === 'fat') {
     sources = getFatSourcesWithImages();
   }
+  sources = resetSounceSelections(sources);
   return sources;
 };
 
@@ -203,6 +204,20 @@ export const createKeyAndValuesForStandardProtein = (sources, foodPref) => {
   return standardSources;
 };
 
+export const getFoodPrefByIndex = (index, defaultPref) => {
+  let foodPreference = defaultPref;
+  if (index === 0) {
+    foodPreference = FOOD_PREF_VEGAN;
+  } else if (index === 1) {
+    foodPreference = FOOD_PREF_VEG;
+  } else if (index === 2) {
+    foodPreference = FOOD_PREF_EGGETARIAN;
+  } else if (index === 3) {
+    foodPreference = FOOD_PREF_NON_VEG;
+  }
+  return foodPreference;
+};
+
 const getSourcesByType = (type) => {
   let sources = [];
   if (type === 'protein') {
@@ -218,3 +233,6 @@ const getSourcesByType = (type) => {
 const getAllSources = () => {
   return [...proteinSources, ...carbSources, ...fatSources];
 };
+
+export const resetSounceSelections = (sources) =>
+  sources.map((source) => ({...source, selected: false}));

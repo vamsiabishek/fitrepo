@@ -35,17 +35,13 @@ import {
 import {auth, database} from '../common/FirebaseConfig';
 import {createDiet} from './UpdateDiet';
 import {getSourcesWithImages} from '../common/SourceUtil';
-import {
-  FOOD_PREF_VEGAN,
-  FOOD_PREF_VEG,
-  FOOD_PREF_NON_VEG,
-  FOOD_PREF_EGGETARIAN,
-} from '../common/SourceUtil';
+import {FOOD_PREF_NON_VEG, getFoodPrefByIndex} from '../common/SourceUtil';
 import {
   setCurrentUser,
   createKeyAndValuesFromResult,
   setFirstTimeUser,
 } from '../common/Util';
+import {normalizeUserForSignup} from '../common/Normalize';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -120,38 +116,17 @@ export default class Signup extends Component {
         .then((snapshot) => {
           const userLoggedIn = snapshot.val() || {};
           LayoutAnimation.easeInEaseOut();
-          const foodPreference =
-            userLoggedIn.foodPreference || FOOD_PREF_NON_VEG;
+          const normalizedUser = normalizeUserForSignup(userLoggedIn);
           this.setState({
-            user: userLoggedIn,
-            age: userLoggedIn.age || 0,
-            dob: userLoggedIn.dob || '',
-            weight: userLoggedIn.weight || 0,
-            height: userLoggedIn.height || 0,
+            user: normalizedUser,
+            ...normalizedUser,
             showTargetWeightButton: this.changeShowTargetWeightButton(
-              userLoggedIn.dob,
-              userLoggedIn.weight,
-              userLoggedIn.height,
+              normalizedUser.dob,
+              normalizedUser.weight,
+              normalizedUser.height,
             ),
-            gender: userLoggedIn.gender || '',
-            fitnessLevel: userLoggedIn.fitnessLevel || '',
-            foodPrefBtn:
-              foodPreference === FOOD_PREF_NON_VEG
-                ? 3
-                : foodPreference === FOOD_PREF_EGGETARIAN
-                ? 2
-                : foodPreference === FOOD_PREF_VEG
-                ? 1
-                : 0,
-            foodPreference,
-            proteinSources: getSourcesWithImages(
-              'protein',
-              userLoggedIn.foodPreference,
-            ),
-            carbSources: getSourcesWithImages('carb'),
-            fatSources: getSourcesWithImages('fat'),
             isLoadingComponent: false,
-            showGender: userLoggedIn.gender >= 0 ? false : true,
+            showGender: normalizedUser.hasNoGender,
           });
         })
         .catch((error) => {
@@ -257,15 +232,7 @@ export default class Signup extends Component {
   setFoodPref = (foodPrefBtn) => {
     const {numberOfMeals} = this.state;
     let {proteinSources, carbSources, fatSources, foodPreference} = this.state;
-    if (foodPrefBtn === 0) {
-      foodPreference = FOOD_PREF_VEGAN;
-    } else if (foodPrefBtn === 1) {
-      foodPreference = FOOD_PREF_VEG;
-    } else if (foodPrefBtn === 2) {
-      foodPreference = FOOD_PREF_EGGETARIAN;
-    } else if (foodPrefBtn === 3) {
-      foodPreference = FOOD_PREF_NON_VEG;
-    }
+    foodPreference = getFoodPrefByIndex(foodPrefBtn, foodPreference);
     proteinSources = getSourcesWithImages('protein', foodPreference);
     carbSources = getSourcesWithImages('carb');
     fatSources = getSourcesWithImages('fat');
@@ -356,42 +323,41 @@ export default class Signup extends Component {
 
   // source selection methods
   removeProteinSource = (index) => {
-    if (index > -1) {
-      let {selectedProteinSources} = this.state;
-      const sources = this.unSelectSource(
-        selectedProteinSources[index],
-        'protein',
-      );
-      selectedProteinSources.splice(index, 1);
-      let sourcesButtonLabel = this.changeSourceButtonLabel();
-      this.setState({selectedProteinSources, sources, sourcesButtonLabel});
-    }
+    let {selectedProteinSources} = this.state;
+    const sources = this.unSelectSource(
+      selectedProteinSources[index],
+      'protein',
+    );
+    selectedProteinSources.splice(index, 1);
+    let sourcesButtonLabel = this.changeSourceButtonLabel();
+    this.setState({selectedProteinSources, sources, sourcesButtonLabel});
   };
+
   removeCarbSource = (index) => {
-    if (index > -1) {
-      let {selectedCarbSources} = this.state;
-      const sources = this.unSelectSource(selectedCarbSources[index], 'carbs');
-      selectedCarbSources.splice(index, 1);
-      let sourcesButtonLabel = this.changeSourceButtonLabel();
-      this.setState({selectedCarbSources, sources, sourcesButtonLabel});
-    }
+    let {selectedCarbSources} = this.state;
+    const sources = this.unSelectSource(selectedCarbSources[index], 'carbs');
+    selectedCarbSources.splice(index, 1);
+    let sourcesButtonLabel = this.changeSourceButtonLabel();
+    this.setState({selectedCarbSources, sources, sourcesButtonLabel});
   };
+
   removeFatSource = (index) => {
-    if (index > -1) {
-      let {selectedFatSources} = this.state;
-      const sources = this.unSelectSource(selectedFatSources[index], 'fat');
-      selectedFatSources.splice(index, 1);
-      let sourcesButtonLabel = this.changeSourceButtonLabel();
-      this.setState({selectedFatSources, sources, sourcesButtonLabel});
-    }
+    let {selectedFatSources} = this.state;
+    const sources = this.unSelectSource(selectedFatSources[index], 'fat');
+    selectedFatSources.splice(index, 1);
+    let sourcesButtonLabel = this.changeSourceButtonLabel();
+    this.setState({selectedFatSources, sources, sourcesButtonLabel});
   };
+
   removeSource = (index, sourceType) => {
-    if (sourceType === 'protein') {
-      this.removeProteinSource(index);
-    } else if (sourceType === 'carbs') {
-      this.removeCarbSource(index);
-    } else if (sourceType === 'fat') {
-      this.removeFatSource(index);
+    if (index > -1) {
+      if (sourceType === 'protein') {
+        this.removeProteinSource(index);
+      } else if (sourceType === 'carbs') {
+        this.removeCarbSource(index);
+      } else if (sourceType === 'fat') {
+        this.removeFatSource(index);
+      }
     }
   };
 
@@ -416,25 +382,19 @@ export default class Signup extends Component {
 
   unSelectSource = (selectedSource, sourceType) => {
     let {proteinSources, carbSources, fatSources} = this.state;
+    let selectedSources = [];
     if (sourceType === 'protein') {
-      const selectedIndexFromSources = proteinSources.findIndex(
-        (source) => source.name === selectedSource.name,
-      );
-      proteinSources[selectedIndexFromSources].selected = false;
-      return proteinSources;
+      selectedSources = proteinSources;
     } else if (sourceType === 'carbs') {
-      const selectedIndexFromSources = carbSources.findIndex(
-        (source) => source.name === selectedSource.name,
-      );
-      carbSources[selectedIndexFromSources].selected = false;
-      return carbSources;
+      selectedSources = carbSources;
     } else {
-      const selectedIndexFromSources = fatSources.findIndex(
-        (source) => source.name === selectedSource.name,
-      );
-      fatSources[selectedIndexFromSources].selected = false;
-      return fatSources;
+      selectedSources = fatSources;
     }
+    const selectedIndexFromSources = selectedSources.findIndex(
+      (source) => source.name === selectedSource.name,
+    );
+    selectedSources[selectedIndexFromSources].selected = false;
+    return selectedSources;
   };
   addProtein = () => {
     this.setState({
@@ -1032,7 +992,6 @@ export default class Signup extends Component {
       foodPreference,
       isExistingUser,
       userLoginAnimation,
-      newLogin,
       showGender,
     } = this.state;
     const {hasAtleastOneDiet} = this.props;

@@ -205,6 +205,16 @@ export const designDiet = async ({
   if (selectedMeals) {
     numberOfMeals = selectedMeals;
   }
+  /*console.log({
+    goal,
+    selectedProgram,
+    currentWeight,
+    targetWeight,
+    height: user.height,
+    age: user.age,
+    gender: user.gender,
+    fitnessLevel,
+  });*/
   const totalCalIntake = getTotalCalIntake({
     goal,
     selectedProgram,
@@ -215,7 +225,7 @@ export const designDiet = async ({
     gender: user.gender,
     fitnessLevel,
   });
-  // console.log('Total daily calorie Intake is:', totalCalIntake);
+  console.log('Total daily calorie Intake is:', totalCalIntake);
   if (totalCalIntake <= 0) {
     return;
   }
