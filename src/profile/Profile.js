@@ -35,6 +35,7 @@ import {
   EDIT_PROFILE_ICON,
 } from '../common/Common';
 import {
+  SCREEN_WIDTH,
   styleCommon,
   ICON_SIZE_MED,
   ICON_BACK_SIZE,
@@ -186,8 +187,8 @@ export default class Profile extends Component {
         )
       : undefined;
     const imageStyle = {
-      width: 50,
-      height: 50,
+      width: SCREEN_WIDTH * 0.15,
+      height: SCREEN_WIDTH * 0.15,
       //tintColor: styleCommon.selectedButtonColor,
     };
     return (

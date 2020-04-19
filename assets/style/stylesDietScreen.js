@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {
   styleCommon,
   SCREEN_WIDTH,
@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   createNewMessageContainer: {
-    paddingTop: DEVICE_NAME.includes('iPhone 11') ? 100 : 30,
+    flex: 1,
+    //paddingTop: DEVICE_NAME.includes('iPhone 11') ? 100 : 30,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -42,9 +43,9 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: fontsCommon.font70,
+    fontSize: Platform.OS === 'ios' ? fontsCommon.font70 : fontsCommon.font40,
     color: styleCommon.headerTitleColor,
-    fontFamily: 'Billabong',
+    fontFamily: Platform.OS === 'ios' ? 'Billabong' : 'FontAwesome',
     //backgroundColor: "pink"
   },
   buttonHeaderContainer: {

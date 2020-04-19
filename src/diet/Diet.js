@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  Platform,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import StringPicker from '../components/Picker/StringPicker';
@@ -214,7 +220,7 @@ export default class Diet extends Component {
                 <Text style={styles.createNewMessageTitle}>
                   Get started by clicking on + icon below
                 </Text>
-                <Icon size={150}>
+                <Icon size={Platform.OS === 'android' ? 100 : 150}>
                   <Emoji name={'female-cook'} />
                 </Icon>
               </View>
