@@ -199,22 +199,21 @@ export const designDiet = async ({
     .catch((error) => {
       console.log('error while fetching user details in DietAlgorithm:', error);
     });
-  // console.log('user:', user);
   const goal = convertGoal(selectedGoal);
   let numberOfMeals = 4;
   if (selectedMeals) {
     numberOfMeals = selectedMeals;
   }
-  /*console.log({
-    goal,
-    selectedProgram,
-    currentWeight,
-    targetWeight,
-    height: user.height,
-    age: user.age,
-    gender: user.gender,
-    fitnessLevel,
-  });*/
+  // console.log({
+  //   goal,
+  //   selectedProgram,
+  //   currentWeight,
+  //   targetWeight,
+  //   height: user.height,
+  //   age: user.age,
+  //   gender: user.gender,
+  //   fitnessLevel,
+  // });
   const totalCalIntake = getTotalCalIntake({
     goal,
     selectedProgram,
@@ -243,7 +242,7 @@ export const designDiet = async ({
   //calorie intake for each week
   const calPerWeek = getCalPerWeek(totalCalIntake, selectedProgram, goal);
 
-  // console.log('calPerWeek:', calPerWeek);
+  console.log('calPerWeek:', calPerWeek);
 
   const numberOfVegProteinSources =
     foodPreference === FOOD_PREF_NON_VEG
@@ -260,7 +259,7 @@ export const designDiet = async ({
     ),
   );
 
-  // console.log('trainingAndRestdayCals:', trainingAndRestdayCals);
+  //console.log('trainingAndRestdayCals:', trainingAndRestdayCals);
   const weeklyMeals = [];
   trainingAndRestdayCals.map(({trainingDayCal, restDayCal}, index) => {
     if (
@@ -269,6 +268,8 @@ export const designDiet = async ({
         trainingDayCal !== trainingAndRestdayCals[index - 1].trainingDayCal)
     ) {
       let {calFromProtein, calFromCarbs, calFromFats} = trainingDayCal;
+
+      //console.log("calFromProtein, calFromCarbs,calFromFats",calFromProtein, calFromCarbs,calFromFats)
       let {
         calFromProteinForRD,
         calFromCarbsForRD,
@@ -280,6 +281,7 @@ export const designDiet = async ({
         calFromCarbs - defaultSourcesQuantities.calFromSources.calFromCarbs;
       calFromFats =
         calFromFats - defaultSourcesQuantities.calFromSources.calFromFats;
+      //console.log("calFromProtein, calFromCarbs,calFromFats",calFromProtein, calFromCarbs,calFromFats)
 
       calFromProteinForRD =
         calFromProteinForRD -
@@ -296,6 +298,7 @@ export const designDiet = async ({
         calFromSourceForRD: calFromProteinForRD,
         isProtein: true,
       });
+      //console.log("proteinSourcesAndQuantities",proteinSourcesAndQuantities)
       calFromFats =
         calFromFats - proteinSourcesAndQuantities.calFromSources.calFromFats;
       calFromCarbs =
@@ -306,6 +309,7 @@ export const designDiet = async ({
       calFromFatsForRD =
         calFromFatsForRD -
         proteinSourcesAndQuantities.calFromSourcesForRD.calFromFatsForRD;
+        //console.log("calFromProtein, calFromCarbs,calFromFats",calFromProtein, calFromCarbs,calFromFats)
 
       let fatSourcesAndQuantities = [];
       let carbSourcesAndQuantities = [];
@@ -329,6 +333,8 @@ export const designDiet = async ({
           isCarb: true,
         });
       }
+
+      //console.log("calFromProtein, calFromCarbs,calFromFats",calFromProtein, calFromCarbs,calFromFats)
       const foodSources = [
         defaultSourcesQuantities,
         proteinSourcesAndQuantities,
@@ -337,12 +343,16 @@ export const designDiet = async ({
       ];
       const foodSourceCalories = totalCaloriesFromSourceQuantities(foodSources);
 
+      //console.log("totalCaloriesFromSourceQuantities", foodSourceCalories)
+
       const {trainingDayMeals, restDayMeals} = createMeals({
         foodSources,
         numberOfMeals,
         veggies,
         fruits,
       });
+      //console.log('trainingDayMeals', trainingDayMeals)
+      //console.log('restDayMeals', restDayMeals)
       const traningDayCalories =
         foodSourceCalories.calFromProtein +
         foodSourceCalories.calFromCarbs +

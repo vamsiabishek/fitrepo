@@ -60,6 +60,7 @@ export const sourceQuantities = ({
     isFat,
   });
   let sourcePercent = [];
+  //console.log('selectedSources ', selectedSources.length);
   if (selectedSources.length === 2) {
     sourcePercent = twoSourcePercent[selectedCategory];
     if (isProtein && foodPreference === FOOD_PREF_EGGETARIAN) {

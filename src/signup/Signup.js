@@ -520,8 +520,12 @@ export default class Signup extends Component {
     this.setState({showModal: false});
   };
   onConfirm = () => {
-    //console.log("selectedSources:", this.state.selectedSources);
-    this.setState({showModal: false});
+    const {selectedSources, modalContains} = this.state;
+    if (modalContains === 'protein' && selectedSources.length < 2) {
+      Alert.alert('Select atleast two sources');
+    } else {
+      this.setState({showModal: false});
+    }
   };
   filterSources = (searchTerm) => {
     const {sources} = this.state;

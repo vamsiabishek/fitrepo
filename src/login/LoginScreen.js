@@ -26,6 +26,7 @@ import {setCurrentUser, getCurrentUser} from '../common/Util';
 import {fontsCommon} from '../../assets/style/stylesCommonValues';
 import {commonStyles} from '../../assets/style/stylesCommon';
 import PhoneAuth from '../signup/PhoneAuthScreen';
+import Loading from '../components/Loading';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -170,12 +171,14 @@ export default class LoginScreen extends Component {
         this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
       })
       .catch((error) => {
-        Alert.alert('Login fail with error: ' + error);
+        this.setState({isLoading: false});
+        //Alert.alert('Facebook login cancelled');
       });
   };
   getFBTokenFromResponse = (result) => {
     if (result.isCancelled) {
       this.setState({isLoading: false});
+      Alert.alert('Facebook login cancelled');
       return Promise.reject(new Error('The user cancelled the request'));
     }
     /*console.log(
@@ -220,7 +223,8 @@ export default class LoginScreen extends Component {
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
       this.onLoginSuccess();
     } catch (error) {
-      Alert.alert('Login failed with error ', error.message);
+      this.setState({isLoading: false});
+      Alert.alert('Google login attempt cancelled');
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {
@@ -364,14 +368,22 @@ export default class LoginScreen extends Component {
               <Image source={LOGIN_ICON} style={styles.iconImageStyle} />
             </Animated.View>
           )}
-          <View style={signInContainer}>
-            <View style={styles.loginInputContainer}>
-              <PhoneAuth
-                setShowSocialOptions={this.setShowSocialOptions}
-                createUserWithPhoneNumber={this.loginWithPhoneNumber}
-                loadingMessage={'Logging you into Fitrepo...'}
-              />
-              {/* <Input
+          {isLoading ? (
+            <Loading
+              text={'Logging you into Fitrepo...'}
+              animationStr={require('../../assets/jsons/logging_animation.json')}
+              isTextBold={false}
+              takeFullHeight={false}
+            />
+          ) : (
+            <View style={signInContainer}>
+              <View style={styles.loginInputContainer}>
+                <PhoneAuth
+                  setShowSocialOptions={this.setShowSocialOptions}
+                  createUserWithPhoneNumber={this.loginWithPhoneNumber}
+                  loadingMessage={'Logging you into Fitrepo...'}
+                />
+                {/* <Input
                   placeholder="Email"
                   placeholderTextColor={styleCommon.textColor1}
                   containerStyle={styles.inputContainer}
@@ -453,8 +465,8 @@ export default class LoginScreen extends Component {
                     />
                   }
                 /> */}
-            </View>
-            {/* <View style={styles.buttonContainer}>
+              </View>
+              {/* <View style={styles.buttonContainer}>
                 <Button
                   title="LOGIN"
                   icon={
@@ -483,38 +495,39 @@ export default class LoginScreen extends Component {
                   onPress={() => this.onClickForgotPassword()}
                 />
               </View> */}
-            {showSocialOptions && !isLoading && (
-              <View>
-                <View style={socialLoginContainerStyle}>
-                  <SocialIcon
-                    style={styles.socialMediaLoginBtn}
-                    title="Facebook"
-                    button
-                    type="facebook"
-                    onPress={() => this.onFBLogin()}
-                    iconSize={fontsCommon.font22}
-                  />
-                  <SocialIcon
-                    style={styles.socialMediaLoginBtn}
-                    title="Google"
-                    button
-                    type="google-plus-official"
-                    onPress={() => this.onGoogleLogin()}
-                    iconSize={fontsCommon.font22}
-                  />
+              {showSocialOptions && !isLoading && (
+                <View>
+                  <View style={socialLoginContainerStyle}>
+                    <SocialIcon
+                      style={styles.socialMediaLoginBtn}
+                      title="Facebook"
+                      button
+                      type="facebook"
+                      onPress={() => this.onFBLogin()}
+                      iconSize={fontsCommon.font22}
+                    />
+                    <SocialIcon
+                      style={styles.socialMediaLoginBtn}
+                      title="Google"
+                      button
+                      type="google-plus-official"
+                      onPress={() => this.onGoogleLogin()}
+                      iconSize={fontsCommon.font22}
+                    />
+                  </View>
+                  <View style={styles.signUpHereContainer}>
+                    <Text style={styles.newUserText}>New here ?</Text>
+                    <Button
+                      title="SIGN UP"
+                      titleStyle={styles.signUpButtonTitle}
+                      type="clear"
+                      onPress={() => this.signUpButttonClicked()}
+                    />
+                  </View>
                 </View>
-                <View style={styles.signUpHereContainer}>
-                  <Text style={styles.newUserText}>New here ?</Text>
-                  <Button
-                    title="SIGN UP"
-                    titleStyle={styles.signUpButtonTitle}
-                    type="clear"
-                    onPress={() => this.signUpButttonClicked()}
-                  />
-                </View>
-              </View>
-            )}
-          </View>
+              )}
+            </View>
+          )}
         </KeyboardAvoidingView>
       </View>
     );
