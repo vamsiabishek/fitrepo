@@ -42,6 +42,8 @@ PODS:
     - FBSDKShareKit/Share (= 5.8.0)
   - FBSDKShareKit/Share (5.8.0):
     - FBSDKCoreKit (~> 5.0)
+  - Firebase/Analytics (6.13.0):
+    - Firebase/Core
   - Firebase/Auth (6.13.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.4.0)
@@ -390,6 +392,11 @@ PODS:
     - React
   - RNDeviceInfo (5.5.4):
     - React
+  - RNFBAnalytics (6.4.0):
+    - Firebase/Analytics (~> 6.13.0)
+    - Firebase/Core (~> 6.13.0)
+    - React
+    - RNFBApp
   - RNFBApp (6.4.0):
     - Firebase/Core (~> 6.13.0)
     - React
@@ -456,6 +463,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info/RNDeviceInfo.podspec`)
+  - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -562,6 +570,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info/RNDeviceInfo.podspec"
+  RNFBAnalytics:
+    :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -640,6 +650,7 @@ SPEC CHECKSUMS:
   RNCPicker: 7d06ee91dff65b0bcd400ca00039051d5ddcb938
   RNDateTimePicker: f654c60568209005a3d9a5a6c4bff0c7094ec527
   RNDeviceInfo: 82e0a23d22ec73b2f71bd686a95d3dd278f223d7
+  RNFBAnalytics: 197567b75dab41ed36dde10678aa1b54b8cf4db4
   RNFBApp: ae8fe642e3e457a9a417f1cf825a22de6bc5e94d
   RNFBAuth: 8309add6fb9d1aca22be498fd94184c03e81cd4e
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
@@ -650,6 +661,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 50fb6eb13d2152e7363293ff603385db380815b1
 
-PODFILE CHECKSUM: d26fd1b1901e6eb649fb6052d60acf155e00e20a
+PODFILE CHECKSUM: 564329cc9ce5245b52d79b69ab75bf19ad934680
 
 COCOAPODS: 1.9.1

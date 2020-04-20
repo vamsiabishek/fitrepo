@@ -27,6 +27,7 @@ import {fontsCommon} from '../../assets/style/stylesCommonValues';
 import {commonStyles} from '../../assets/style/stylesCommon';
 import PhoneAuth from '../signup/PhoneAuthScreen';
 import Loading from '../components/Loading';
+import analytics from '@react-native-firebase/analytics';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -234,6 +235,10 @@ export default class LoginScreen extends Component {
     const isExistingUser = await this.checkForExistingUserWithDiets(uid);
     if (isExistingUser) {
       this.onLoginSuccess();
+      analytics().logEvent('Login', {
+        uid,
+        provider: provider || 'Phone Number',
+      });
     } else {
       let newUser = {};
       if (provider === PROVIDER_GOOGLE) {
@@ -273,6 +278,11 @@ export default class LoginScreen extends Component {
           uid,
         };
       }
+
+      analytics().logEvent('Login without signup', {
+        ...newUser,
+        provider: provider || 'Phome Number',
+      });
 
       const {navigation} = this.props;
       navigation.navigate('Signup', {
