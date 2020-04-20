@@ -131,7 +131,7 @@ const AppBottomTabNavigator = createBottomTabNavigator(
     },
   },
   {
-    initialRouteName: 'Profile',
+    initialRouteName: 'Diet',
     defaultNavigationOptions: {
       tabBarOptions: {
         activeTintColor: styles.activeTintColor.color,
@@ -166,7 +166,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator,
   },
   {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'StartUp',
     defaultNavigationOptions: {
       headerShown: false,
     },
