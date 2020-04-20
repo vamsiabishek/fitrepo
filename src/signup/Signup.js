@@ -42,6 +42,7 @@ import {
   setFirstTimeUser,
 } from '../common/Util';
 import {normalizeUserForSignup} from '../common/Normalize';
+import analytics from '@react-native-firebase/analytics';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -525,6 +526,10 @@ export default class Signup extends Component {
       Alert.alert('Select atleast two sources');
     } else {
       this.setState({showModal: false});
+      analytics().logEvent('Selected sources', {
+        sources: selectedSources.map((source) => source.key),
+        sourceType: modalContains,
+      });
     }
   };
   filterSources = (searchTerm) => {
@@ -851,6 +856,7 @@ export default class Signup extends Component {
           isLoading: false,
           userLoginAnimation: false,
         });
+        analytics().logEvent('signup', user);
       })
       .catch((error) => {
         console.log(
@@ -933,7 +939,7 @@ export default class Signup extends Component {
       numberOfMeals,
       fitnessLevel,
       foodPreference,
-      user: {uid},
+      user: {uid, gender},
     } = this.state;
     const dietInfo = {
       selectedProteinSources,
@@ -949,6 +955,7 @@ export default class Signup extends Component {
       paymentStatus: false,
       uid,
     };
+    analytics().logEvent('Diet creation started', {...dietInfo, gender});
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
     navigate('MyDiet', {
