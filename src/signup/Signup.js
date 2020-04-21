@@ -1037,7 +1037,7 @@ export default class Signup extends Component {
       validateConfirmationPassword: this.validateConfirmationPassword,
     };
     const loadingAnimationText = userLoginAnimation
-      ? 'Signing you up with Fitrepo ...'
+      ? 'Signing you up with DietRepo ...'
       : 'Creating your new diet ...';
     const loadingAnimation = userLoginAnimation
       ? require('../../assets/jsons/user_animation_4.json')

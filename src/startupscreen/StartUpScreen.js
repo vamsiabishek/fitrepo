@@ -78,7 +78,7 @@ export default class StartUpScreen extends Component {
             <View style={styles.overlaySubContainerstyle}>
               <View style={styles.headerViewContainer}>
                 <Text style={styles.textStyle}>WELCOME TO</Text>
-                <Text style={styles.logoText}>FITREPO</Text>
+                <Text style={styles.logoText}>DIETREPO</Text>
               </View>
               <View style={styles.buttonContainer}>
                 <Button

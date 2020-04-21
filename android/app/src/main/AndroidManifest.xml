@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.fitness.fitrepo"
-    android:versionCode="12"
+    android:versionCode="15"
     android:versionName="1.5.3"
   xmlns:tools="http://schemas.android.com/tools"
   >
@@ -15,7 +15,6 @@
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
-      android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true"

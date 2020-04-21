@@ -242,7 +242,7 @@ export default class SocialMediaSignup extends Component {
         enabled>
         {isLoading ? (
           <Loading
-            text={'Signing you up with Fitrepo ...'}
+            text={'Signing you up with DietRepo ...'}
             isTextBold={false}
             animationStr={require('../../assets/jsons/user_animation_4.json')}
           />
