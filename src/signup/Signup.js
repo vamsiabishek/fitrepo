@@ -889,6 +889,7 @@ export default class Signup extends Component {
       weight,
       height,
       foodPreference,
+      privacyTermsAccepted,
     } = this.state;
     let {user, gender, fitnessLevel, uid} = this.state;
     let myDiets = [];
@@ -906,6 +907,7 @@ export default class Signup extends Component {
       weight,
       height,
       foodPreference,
+      privacyTermsAccepted,
     };
     await database
       .ref('users')
