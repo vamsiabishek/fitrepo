@@ -269,8 +269,7 @@ export default class PurchaseScreen extends React.Component {
     };
     return (
       <React.Fragment>
-        <View style={}>
-        <View>
+        <View style={styles.modalOuterContainer}>
           <Button
             icon={
               <Icon
@@ -283,45 +282,44 @@ export default class PurchaseScreen extends React.Component {
             onPress={() => onClose(false)}
             containerStyle={styles.closeButtonContainerStyle}
           />
-          <View style={styles.textualArea}>
-            <View>
-              <Text style={styles.headerPurcahseText}>
-                One Step Away From Viewing Your Meals
-              </Text>
-              <View style={purchaseIconStyle}>
-                <LottieView
-                  source={require('../../../assets/jsons/purchase_animation.json')}
-                  resizeMode="contain"
-                  autoPlay
-                  enableMergePathsAndroidForKitKatAndAbove
-                />
+          <View style={styles.modalContainer}>
+            <View style={styles.textualArea}>
+              <View>
+                <Text style={styles.headerPurcahseText}>
+                  One Step Away From Viewing Your Meals
+                </Text>
+                <View style={purchaseIconStyle}>
+                  <LottieView
+                    source={require('../../../assets/jsons/purchase_animation.json')}
+                    resizeMode="contain"
+                    autoPlay
+                    enableMergePathsAndroidForKitKatAndAbove
+                  />
+                </View>
               </View>
             </View>
-          </View>
-        </View>
-        <View style={purchaseButtonTrialStyle}>
-          <View>
-            <Text style={styles.labelText}>Click below to buy the</Text>
-            <Text style={styles.labelTextBold}>
-              {selectedProgram}-Week {getGoalString(selectedGoal)} Diet Plan
-            </Text>
-          </View>
-          <MyButton
-            label={'PAY ' + packageToPurchase.product.price_string}
-            onButtonClick={() => this.handlePaymentProcess(packageToPurchase)}
-            containerStyle={styles.targetButtonContainer}
-          />
-          {trialDaysLeft !== undefined && dietTrialEndDate !== undefined && (
             <View>
-              <Text style={styles.smallerLabelText}>
-                You have {trialDaysLeft} days left in your trial week!
-              </Text>
-              <Text style={styles.smallerLabelText}>
-                Trial ends on {dietTrialEndDate.toDateString()}
+              <Text style={styles.labelText}>Click below to buy the</Text>
+              <Text style={styles.labelTextBold}>
+                {selectedProgram}-Week {getGoalString(selectedGoal)} Diet Plan
               </Text>
             </View>
-          )}
-        </View>
+            <MyButton
+              label={'PAY ' + packageToPurchase.product.price_string}
+              onButtonClick={() => this.handlePaymentProcess(packageToPurchase)}
+              containerStyle={styles.targetButtonContainer}
+            />
+            {trialDaysLeft !== undefined && dietTrialEndDate !== undefined && (
+              <View>
+                <Text style={styles.smallerLabelText}>
+                  You have {trialDaysLeft} days left in your trial week!
+                </Text>
+                <Text style={styles.smallerLabelText}>
+                  Trial ends on {dietTrialEndDate.toDateString()}
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
       </React.Fragment>
     );

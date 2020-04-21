@@ -22,6 +22,14 @@ export const styles = StyleSheet.create({
       ? SCREEN_WIDTH * 0.2
       : SCREEN_WIDTH * 0.05,
   },
+  closeButtonContainerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: SCREEN_HEIGHT * 0.05,
+    width: -SCREEN_WIDTH * 0.1,
+    backgroundColor: 'red',
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'space-evenly',
@@ -45,14 +53,6 @@ export const styles = StyleSheet.create({
     marginBottom: DEVICE_NAME.includes('iPhone 11')
       ? SCREEN_WIDTH * 0.2
       : SCREEN_WIDTH * 0.1,
-  },
-  closeButtonContainerStyle: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    height: SCREEN_HEIGHT * 0.05,
-    width: -SCREEN_WIDTH * 0.1,
-    backgroundColor: 'red',
   },
   closeButtonDoneContainerStyle: {
     position: 'relative',
