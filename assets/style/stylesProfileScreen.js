@@ -280,136 +280,153 @@ const styles = StyleSheet.create({
     height:
       Platform.OS === 'android' ? SCREEN_HEIGHT * 0.05 : SCREEN_HEIGHT * 0.04, //34,
   },
-  modalContainer: {
+  modalOuterContainer: {
     flex: 1,
-    justifyContent: 'space-evenly',
-    // alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: '100%',
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-    padding: SCREEN_WIDTH * 0.1,
-    // width: SCREEN_WIDTH * 0.95,
     marginTop: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.1
+      ? SCREEN_WIDTH * 0.2
       : SCREEN_WIDTH * 0.01,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
       ? SCREEN_WIDTH * 0.2
       : SCREEN_WIDTH * 0.05,
   },
-  purchasesModalContainer: {
+  modalNoPurchasesContainer: {
     flex: 1,
-    //justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: '100%',
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-    padding: SCREEN_WIDTH * 0.1,
-    //width: SCREEN_WIDTH * 0.95,
-    // marginTop: DEVICE_NAME.includes('iPhone 11')
-    //   ? SCREEN_HEIGHT * 0.1
-    //   : SCREEN_HEIGHT * 0.02,
     marginTop: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_HEIGHT * 0.05
-      : SCREEN_HEIGHT * 0.02,
+      ? SCREEN_WIDTH * 0.5
+      : SCREEN_WIDTH * 0.2,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_HEIGHT * 0.1
-      : SCREEN_HEIGHT * 0.05,
-    // marginLeft: SCREEN_WIDTH * 0.1,
-  },
-  modalLoadingInsideStyle: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: styleCommon.secondaryColorNew,
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    //padding: DEVICE_NAME.includes('iPhone 11') ? SCREEN_WIDTH * 0.1 : 10,
-    width: SCREEN_WIDTH * 0.9,
-    // marginTop: DEVICE_NAME.includes('iPhone 11')
-    //   ? SCREEN_WIDTH * 0.3
-    //   : SCREEN_WIDTH * 0.25,
-    // marginBottom: DEVICE_NAME.includes('iPhone 11')
-    //   ? SCREEN_WIDTH * 0.2
-    //   : SCREEN_WIDTH * 0.1,
+      ? SCREEN_WIDTH * 0.5
+      : SCREEN_WIDTH * 0.2,
   },
   closeButtonContainerStyle: {
-    position: 'relative',
-    top: -(SCREEN_WIDTH * 0.1),
-    left: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.7
-      : Platform.OS === 'android'
-      ? SCREEN_WIDTH * 0.7
-      : SCREEN_WIDTH * 0.63,
-    width: 40,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    //backgroundColor: 'red',
+    height: SCREEN_HEIGHT * 0.05,
+    width: -SCREEN_WIDTH * 0.1,
+    // backgroundColor: 'red',
   },
-  purchaseCloseButtonContainerStyle: {
-    position: 'relative',
-    top: -(SCREEN_WIDTH * 0.06),
-    left: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.4
-      : Platform.OS === 'ios'
-      ? SCREEN_WIDTH * 0.38
-      : SCREEN_WIDTH * 0.4,
-    width: 40,
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    //backgroundColor: 'red',
+    paddingHorizontal: SCREEN_WIDTH * 0.07,
+    paddingBottom: SCREEN_WIDTH * 0.07,
+    // backgroundColor: 'cyan',
+  },
+  modalEmptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: SCREEN_WIDTH * 0.07,
+    paddingBottom: SCREEN_WIDTH * 0.07,
+    // backgroundColor: 'cyan',
   },
   modalTitle: {
+    width: '100%',
     fontWeight: 'bold',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font26
       : fontsCommon.font30,
-    // textAlign: 'center',
+    marginBottom: SCREEN_HEIGHT * 0.01,
     color: styleCommon.textColor1,
+    // backgroundColor: 'pink',
+  },
+  contactUsAnimationContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '110%',
+    height: '100%',
+    marginBottom: SCREEN_HEIGHT * 0.01,
+    // backgroundColor: 'blue',
   },
   modalSubTitle: {
+    width: '100%',
     fontWeight: '400',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font16
       : Platform.OS === 'android'
       ? fontsCommon.font18
       : fontsCommon.font20,
-    marginTop: 10,
+    marginBottom: SCREEN_HEIGHT * 0.02,
     color: styleCommon.textColor1,
+    // backgroundColor: 'lightgrey',
   },
-  animationStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    //margin: 30, // 20
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.3,
-    //backgroundColor: "teal"
-    marginBottom: -10,
-    marginTop: -10,
-    marginLeft: -10,
+  contactDetailsWrapper: {
+    width: '100%',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'flex-start',
+    // backgroundColor: 'orange',
   },
   contactDetailsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: SCREEN_HEIGHT * 0.02,
+    marginBottom: SCREEN_HEIGHT * 0.02,
+    // backgroundColor: 'green',
   },
   contactDetailsText: {
     fontWeight: 'bold',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font16
       : fontsCommon.font20,
-    marginLeft: 10,
+    marginLeft: SCREEN_HEIGHT * 0.01,
     color: styleCommon.textColor1,
   },
   socialIconImageStyle: {
     width: SCREEN_WIDTH * 0.13,
-    height: SCREEN_WIDTH * 0.13, // SCREEN_HEIGHT * 0.06,
+    height: SCREEN_WIDTH * 0.13,
     borderRadius: SCREEN_HEIGHT * 0.06,
   },
+  modalPurchasesTitle: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    width: '100%',
+    fontWeight: 'bold',
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font26
+      : fontsCommon.font30,
+    marginBottom: SCREEN_HEIGHT * 0.01,
+    color: styleCommon.textColor1,
+    //backgroundColor: 'pink',
+  },
+  purchaseHistoryAnimationStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SCREEN_HEIGHT * 0.01,
+    width: '100%',
+    height: DEVICE_NAME.includes('iPhone 11') ? '20%' : '100%',
+    // backgroundColor: 'teal',
+  },
+  noPurchaseAnimationStyle: {
+    justifyContent: 'flex-start',
+    alignItems: 'baseline',
+    marginBottom: SCREEN_HEIGHT * 0.02,
+    width: '100%',
+    height: '60%',
+    //backgroundColor: 'teal',
+  },
   noPurchasesText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
     fontWeight: '600',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font16
       : fontsCommon.font20,
     color: styleCommon.textColor1,
-    marginTop: SCREEN_HEIGHT * 0.1,
+    //backgroundColor: 'orange',
   },
 });
 

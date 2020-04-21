@@ -233,6 +233,7 @@ export default class LoginScreen extends Component {
       user: {uid},
     } = currentUser;
     const isExistingUser = await this.checkForExistingUserWithDiets(uid);
+    console.log('isExistingUser: ', isExistingUser);
     if (isExistingUser) {
       this.onLoginSuccess();
       analytics().logEvent('Login', {
@@ -279,7 +280,7 @@ export default class LoginScreen extends Component {
         };
       }
 
-      analytics().logEvent('Login without signup', {
+      analytics().logEvent('Login_without_signup', {
         ...newUser,
         provider: provider || 'Phome Number',
       });
@@ -369,7 +370,7 @@ export default class LoginScreen extends Component {
           {/*<View style={styles.loginView}>*/}
           {showSocialOptions && !isLoading && (
             <View style={styles.logoContainer}>
-              <Text style={styles.logoText}>FITREPO</Text>
+              <Text style={styles.logoText}>DIETREPO</Text>
             </View>
           )}
           {showSocialOptions && !isLoading && (
@@ -380,7 +381,7 @@ export default class LoginScreen extends Component {
           )}
           {isLoading ? (
             <Loading
-              text={'Logging you into Fitrepo...'}
+              text={'Logging you into DietRepo...'}
               animationStr={require('../../assets/jsons/logging_animation.json')}
               isTextBold={false}
               takeFullHeight={false}
@@ -391,7 +392,7 @@ export default class LoginScreen extends Component {
                 <PhoneAuth
                   setShowSocialOptions={this.setShowSocialOptions}
                   createUserWithPhoneNumber={this.loginWithPhoneNumber}
-                  loadingMessage={'Logging you into Fitrepo...'}
+                  loadingMessage={'Logging you into DietRepo...'}
                 />
                 {/* <Input
                   placeholder="Email"

@@ -526,7 +526,7 @@ export default class Signup extends Component {
       Alert.alert('Select atleast two sources');
     } else {
       this.setState({showModal: false});
-      analytics().logEvent('Selected sources', {
+      analytics().logEvent('Selected_sources', {
         sources: selectedSources.map((source) => source.key),
         sourceType: modalContains,
       });
@@ -955,7 +955,7 @@ export default class Signup extends Component {
       paymentStatus: false,
       uid,
     };
-    analytics().logEvent('Diet creation started', {...dietInfo, gender});
+    analytics().logEvent('Diet_creation_started', {...dietInfo, gender});
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
     navigate('MyDiet', {
@@ -1022,7 +1022,7 @@ export default class Signup extends Component {
       validateConfirmationPassword: this.validateConfirmationPassword,
     };
     const loadingAnimationText = userLoginAnimation
-      ? 'Signing you up with Fitrepo ...'
+      ? 'Signing you up with DietRepo ...'
       : 'Creating your new diet ...';
     const loadingAnimation = userLoginAnimation
       ? require('../../assets/jsons/user_animation_4.json')

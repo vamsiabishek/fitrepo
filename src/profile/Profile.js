@@ -9,15 +9,11 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
-import {Avatar as ProgressAvatar, Button} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ProgressCircle from 'react-native-progress-circle';
 import {styles} from '../../assets/style/stylesProfileScreen';
 import {database} from '../common/FirebaseConfig';
 import {
-  PROGRESS_CIRCLE_RADIUS,
-  PROGRESS_CIRCLE_BORDER_WIDTH,
-  VITRUVIAN_MAN,
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,
   MALE_ADVANCED_ICON,
@@ -39,7 +35,6 @@ import {
   styleCommon,
   ICON_SIZE_MED,
   ICON_BACK_SIZE,
-  AVATAR_SIZE,
   ICON_SIZE_SMALL,
 } from '../../assets/style/stylesCommonValues';
 import {
@@ -49,7 +44,6 @@ import {
   getDifferenceInSeconds,
 } from '../common/Util';
 import PurchaseList from '../components/purchase/PurchaseList';
-import Avatar from '../components/Avatar';
 import SelectButton from '../components/SelectButton';
 
 // Enable LayoutAnimation for Android Devices
@@ -389,7 +383,7 @@ export default class Profile extends Component {
                 isVisible={showContactUs}
                 backdropColor="black"
                 backdropOpacity={0.5}>
-                <View style={styles.modalContainer}>
+                <View style={styles.modalOuterContainer}>
                   <Button
                     icon={
                       <Icon
@@ -404,42 +398,49 @@ export default class Profile extends Component {
                     }}
                     containerStyle={styles.closeButtonContainerStyle}
                   />
-                  <Text style={styles.modalTitle}>
-                    Thankyou for reaching out to us.
-                  </Text>
-                  <LottieView
-                    source={require('../../assets/jsons/contact_us.json')}
-                    autoPlay
-                    loop
-                    style={styles.animationStyle}
-                    enableMergePathsAndroidForKitKatAndAbove
-                  />
-                  <Text style={styles.modalSubTitle}>
-                    Please leave your queries/feedback through the below
-                    sources...
-                  </Text>
-                  <View style={styles.contactDetailsContainer}>
-                    <Image
-                      source={GMAIL_ICON}
-                      style={styles.socialIconImageStyle}
-                    />
-                    <Text style={styles.contactDetailsText}>
-                      fitrepo@gmail.com
+                  <View style={styles.modalContainer}>
+                    <Text style={styles.modalTitle}>
+                      Thank you for reaching out to us.
                     </Text>
-                  </View>
-                  <View style={styles.contactDetailsContainer}>
-                    <Image
-                      source={FACEBOOK_ICON}
-                      style={styles.socialIconImageStyle}
-                    />
-                    <Text style={styles.contactDetailsText}>FitRepo</Text>
-                  </View>
-                  <View style={styles.contactDetailsContainer}>
-                    <Image
-                      source={INSTAGRAM_ICON}
-                      style={styles.socialIconImageStyle}
-                    />
-                    <Text style={styles.contactDetailsText}>fitrepository</Text>
+                    <View style={styles.contactUsAnimationContainer}>
+                      <LottieView
+                        source={require('../../assets/jsons/contact_us.json')}
+                        autoPlay
+                        loop
+                        enableMergePathsAndroidForKitKatAndAbove
+                      />
+                    </View>
+                    <Text style={styles.modalSubTitle}>
+                      Please leave your queries/feedback through the below
+                      sources...
+                    </Text>
+                    <View style={styles.contactDetailsWrapper}>
+                      <View style={styles.contactDetailsContainer}>
+                        <Image
+                          source={GMAIL_ICON}
+                          style={styles.socialIconImageStyle}
+                        />
+                        <Text style={styles.contactDetailsText}>
+                          fitrepo@gmail.com
+                        </Text>
+                      </View>
+                      <View style={styles.contactDetailsContainer}>
+                        <Image
+                          source={FACEBOOK_ICON}
+                          style={styles.socialIconImageStyle}
+                        />
+                        <Text style={styles.contactDetailsText}>FitRepo</Text>
+                      </View>
+                      <View style={styles.contactDetailsContainer}>
+                        <Image
+                          source={INSTAGRAM_ICON}
+                          style={styles.socialIconImageStyle}
+                        />
+                        <Text style={styles.contactDetailsText}>
+                          fitrepository
+                        </Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
               </Modal>
@@ -450,7 +451,12 @@ export default class Profile extends Component {
                 isVisible={showPurchases}
                 backdropColor="black"
                 backdropOpacity={0.5}>
-                <View style={styles.purchasesModalContainer}>
+                <View
+                  style={
+                    purchases !== undefined
+                      ? styles.modalOuterContainer
+                      : styles.modalNoPurchasesContainer
+                  }>
                   <Button
                     icon={
                       <Icon
@@ -463,23 +469,44 @@ export default class Profile extends Component {
                     onPress={() => {
                       this.setState({showPurchases: false});
                     }}
-                    containerStyle={styles.purchaseCloseButtonContainerStyle}
+                    containerStyle={styles.closeButtonContainerStyle}
                   />
-                  <Text style={styles.modalTitle}>Your Purchases</Text>
-                  <LottieView
-                    source={require('../../assets/jsons/purchases.json')}
-                    autoPlay
-                    loop
-                    style={styles.animationStyle}
-                    enableMergePathsAndroidForKitKatAndAbove
-                  />
-                  {purchases !== undefined ? (
-                    <PurchaseList purchases={purchases} />
-                  ) : (
-                    <Text style={styles.noPurchasesText}>
-                      *No Purchases made so far*
+                  <View
+                    style={
+                      purchases !== undefined
+                        ? styles.modalContainer
+                        : styles.modalEmptyContainer
+                    }>
+                    <Text style={styles.modalPurchasesTitle}>
+                      {purchases !== undefined
+                        ? 'Purchases History'
+                        : 'No Purchases'}
                     </Text>
-                  )}
+                    <View
+                      style={
+                        purchases !== undefined
+                          ? styles.purchaseHistoryAnimationStyle
+                          : styles.noPurchaseAnimationStyle
+                      }>
+                      <LottieView
+                        source={
+                          purchases !== undefined
+                            ? require('../../assets/jsons/purchases.json')
+                            : require('../../assets/jsons/no_purchases_animation.json')
+                        }
+                        autoPlay
+                        loop
+                        enableMergePathsAndroidForKitKatAndAbove
+                      />
+                    </View>
+                    {purchases !== undefined ? (
+                      <PurchaseList purchases={purchases} />
+                    ) : (
+                      <Text style={styles.noPurchasesText}>
+                        Looks like you have not made any purchases yet.
+                      </Text>
+                    )}
+                  </View>
                 </View>
               </Modal>
             </View>

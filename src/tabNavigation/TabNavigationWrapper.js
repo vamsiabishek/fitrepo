@@ -166,7 +166,7 @@ const AppSwitchNavigator = createSwitchNavigator(
     HomeScreen: HomeStackNavigator,
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'StartUp',
     defaultNavigationOptions: {
       headerShown: false,
     },

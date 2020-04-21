@@ -2,11 +2,6 @@ import React from 'react';
 import {View, Text, FlatList, ScrollView} from 'react-native';
 import {convertProductIdentifierToPrograms} from '../../common/PurchaseUtils';
 import {styles} from '../../../assets/style/stylesPurchaseList';
-import {
-  styleCommon,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-} from '../../../assets/style/stylesCommonValues';
 
 class PurchaseList extends React.Component {
   _keyExtractor = (item) => item.purchaseDate.toString();
@@ -16,10 +11,8 @@ class PurchaseList extends React.Component {
       return (
         <View key={purchase.purchaseDate}>
           <View style={styles.rowContainerHeader}>
-            
-              <Text style={styles.rowContainerTextHeader}>Plan</Text>
-              <Text style={styles.rowContainerTextHeader}>Purchase Date</Text>
-            
+            <Text style={styles.rowContainerTextHeader}>Plan</Text>
+            <Text style={styles.rowContainerTextHeader}>Purchase Date</Text>
           </View>
           <View style={styles.rowContainer}>
             <Text style={styles.rowContainerText}>

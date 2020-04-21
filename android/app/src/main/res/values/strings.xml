@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fitrepo</string>
+    <string name="app_name">DietRepo</string>
     <string name="facebook_app_id">790304848006877</string>
     <string name="fb_login_protocol_scheme">fb790304848006877</string>
 </resources>
