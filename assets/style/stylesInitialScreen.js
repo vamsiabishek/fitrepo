@@ -8,32 +8,27 @@ import {
 } from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
-  container: {
+  modalOuterContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.1
-      : SCREEN_WIDTH * 0.05,
-    marginBottom: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.1
-      : SCREEN_WIDTH * 0.05,
-  },
-  modalInsideStyle: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: '100%',
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-    padding: SCREEN_WIDTH * 0.1,
-    width: SCREEN_WIDTH * 0.95,
     marginTop: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.1
-      : SCREEN_WIDTH * 0.05,
+      ? SCREEN_WIDTH * 0.2
+      : SCREEN_WIDTH * 0.01,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.1
+      ? SCREEN_WIDTH * 0.2
       : SCREEN_WIDTH * 0.05,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    paddingHorizontal: SCREEN_WIDTH * 0.07,
+    paddingBottom: SCREEN_WIDTH * 0.07,
+    // backgroundColor: 'cyan',
   },
   modalLoadingInsideStyle: {
     flex: 1,
@@ -52,16 +47,12 @@ export const styles = StyleSheet.create({
       : SCREEN_WIDTH * 0.1,
   },
   closeButtonContainerStyle: {
-    position: 'relative',
-    top: -(SCREEN_WIDTH * 0.1),
-    left: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.72
-      : Platform.OS === 'ios'
-      ? SCREEN_WIDTH * 0.69
-      : SCREEN_WIDTH * 0.75,
-    width: 40,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    //backgroundColor: 'red',
+    height: SCREEN_HEIGHT * 0.05,
+    width: -SCREEN_WIDTH * 0.1,
+    backgroundColor: 'red',
   },
   closeButtonDoneContainerStyle: {
     position: 'relative',

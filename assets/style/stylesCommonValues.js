@@ -31,10 +31,6 @@ export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const DEVICE_ID = DeviceInfo.getDeviceId();
 export const DEVICE_NAME = DeviceInfo.getDeviceNameSync();
-console.log('SCREEN_WIDTH', SCREEN_WIDTH);
-console.log('SCREEN_HEIGHT', SCREEN_HEIGHT);
-console.log('DEVICE_ID', DEVICE_ID);
-console.log('DEVICE_NAME', DEVICE_NAME);
 
 export const fontsCommon = {
   font10: normalizeFont(10),
