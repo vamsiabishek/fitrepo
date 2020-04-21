@@ -14,7 +14,9 @@ import {
   SCREEN_WIDTH,
   styleCommon,
   fontsCommon,
+  ICON_SIZE,
 } from '../../assets/style/stylesCommonValues';
+import {Button} from 'react-native-elements';
 import TermsAndConditions from '../documents/TermsAndConditions';
 import PrivacyPolicy from '../documents/PrivacyPolicy';
 import PrivacyAndTerms from '../documents/PrivacyAndTerms';
@@ -96,9 +98,20 @@ class Settings extends Component {
       showPrivacyPolicy,
       showPrivacyTerms,
     } = this.state;
-    console.log(this.state);
+    const {navigation} = this.props;
     return (
       <SafeAreaView style={styles.container}>
+        <Button
+          icon={{
+            name: 'arrow-left-thick',
+            size: ICON_SIZE,
+            color: styleCommon.headerIconsColor,
+            type: 'material-community',
+          }}
+          containerStyle={styles.backButtonStyle}
+          buttonStyle={styles.backButtonStyle}
+          onPress={() => navigation.navigate('Profile')}
+        />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Settings</Text>
         </View>
@@ -132,8 +145,6 @@ class Settings extends Component {
         </Modal>
         <PrivacyAndTerms
           showPrivacyTerms={showPrivacyTerms}
-          setShowTermsAndConditions={this.setShowTermsAndConditions}
-          setShowPrivacyPolicy={this.setShowPrivacyPolicy}
           onCancel={this.closePrivacyTerms}
           onBack={this.closePrivacyTerms}
         />
@@ -152,10 +163,16 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     margin: 0,
   },
+  backButtonStyle: {
+    justifyContent: 'flex-start',
+    backgroundColor: 'transparent',
+    marginBottom: 0,
+  },
   titleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: SCREEN_HEIGHT * 0.1,
+    marginBottom: SCREEN_HEIGHT * 0.05,
+    //height: SCREEN_HEIGHT * 0.1,
   },
   title: {
     fontSize: fontsCommon.font30,

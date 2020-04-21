@@ -28,6 +28,7 @@ import {commonStyles} from '../../assets/style/stylesCommon';
 import PhoneAuth from '../signup/PhoneAuthScreen';
 import Loading from '../components/Loading';
 import analytics from '@react-native-firebase/analytics';
+import PrivacyAndTerms from '../documents/PrivacyAndTerms';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -55,6 +56,8 @@ export default class LoginScreen extends Component {
       selectedIndex: 0,
       secureTextKey: true,
       showSocialOptions: true,
+      showPrivacyTerms: false,
+      user: null,
     };
     this.shakeAnimation = new Animated.Value(0);
   }
@@ -279,20 +282,21 @@ export default class LoginScreen extends Component {
         };
       }
 
-      analytics().logEvent('Login without signup', {
+      analytics().logEvent('Login_without_signup', {
         ...newUser,
-        provider: provider || 'Phome Number',
+        provider: provider || 'Phone Number',
       });
 
-      const {navigation} = this.props;
-      navigation.navigate('Signup', {
+      const user = {
         isExistingUser: true,
         hasAtleastOneDiet: isExistingUser,
         newLogin: true,
         uid,
         newUser,
         provider,
-      });
+      };
+
+      this.setState({showPrivacyTerms: true, user});
     }
   };
   checkForExistingUserWithDiets = async (uid) => {
@@ -336,6 +340,29 @@ export default class LoginScreen extends Component {
     this.setState({showSocialOptions: show, isLoading: false});
   };
 
+  saveUserPrivacyTerms = async () => {
+    const {user} = this.state;
+    const newUser = {
+      uid: user.uid,
+      privacyTermsAccepted: true,
+    };
+    const {navigation} = this.props;
+    await database
+      .ref('users')
+      .child(newUser.uid)
+      .set(newUser)
+      .then(() => {
+        navigation.navigate('Signup', user);
+      })
+      .catch((error) => {
+        console.log(
+          'Error occurred in the saveUserPrivacyTerms method: ',
+          error,
+        );
+        this.setState({isLoading: false});
+      });
+  };
+
   render() {
     const {
       // email,
@@ -345,6 +372,7 @@ export default class LoginScreen extends Component {
       isLoading,
       // secureTextKey,
       showSocialOptions,
+      showPrivacyTerms,
     } = this.state;
     const socialLoginContainerStyle = {
       ...styles.buttonContainer,
@@ -539,6 +567,11 @@ export default class LoginScreen extends Component {
             </View>
           )}
         </KeyboardAvoidingView>
+        <PrivacyAndTerms
+          showPrivacyTerms={showPrivacyTerms}
+          onAccept={this.saveUserPrivacyTerms}
+          showCloseBtn={false}
+        />
       </View>
     );
   }

@@ -43,6 +43,7 @@ import {
 } from '../common/Util';
 import {normalizeUserForSignup} from '../common/Normalize';
 import analytics from '@react-native-firebase/analytics';
+import PrivacyAndTerms from '../documents/PrivacyAndTerms';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -101,6 +102,8 @@ export default class Signup extends Component {
       isExistingUser: navigation.getParam('isExistingUser') ? true : false,
       newLogin: navigation.getParam('newLogin') ? true : false, // if new user chooses to login through FB/Google from the "Log In" page
       showGender: true,
+      showPrivacyTerms: false,
+      privacyTermsAccepted: false,
     };
 
     this.onNextDelayed = debounce((screen) => this.onNext(screen), 600);
@@ -150,6 +153,14 @@ export default class Signup extends Component {
         });
       }
     }
+  };
+
+  setShowPrivacyTerms = () => {
+    this.setState({showPrivacyTerms: true});
+  };
+
+  onPrivacyTermsAccept = () => {
+    this.setState({showPrivacyTerms: false, privacyTermsAccepted: true});
   };
 
   setGoal = (goal) => {
@@ -526,7 +537,7 @@ export default class Signup extends Component {
       Alert.alert('Select atleast two sources');
     } else {
       this.setState({showModal: false});
-      analytics().logEvent('Selected sources', {
+      analytics().logEvent('Selected_sources', {
         sources: selectedSources.map((source) => source.key),
         sourceType: modalContains,
       });
@@ -857,6 +868,7 @@ export default class Signup extends Component {
           userLoginAnimation: false,
         });
         analytics().logEvent('signup', user);
+        this.setShowPrivacyTerms();
       })
       .catch((error) => {
         console.log(
@@ -955,7 +967,7 @@ export default class Signup extends Component {
       paymentStatus: false,
       uid,
     };
-    analytics().logEvent('Diet creation started', {...dietInfo, gender});
+    analytics().logEvent('Diet_creation_started', {...dietInfo, gender});
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
     navigate('MyDiet', {
@@ -1004,6 +1016,7 @@ export default class Signup extends Component {
       isExistingUser,
       userLoginAnimation,
       showGender,
+      showPrivacyTerms,
     } = this.state;
     const {hasAtleastOneDiet} = this.props;
     const signupObject = {
@@ -1226,6 +1239,11 @@ export default class Signup extends Component {
               </View>
             </ScrollView>
           )}
+          <PrivacyAndTerms
+            showPrivacyTerms={showPrivacyTerms}
+            onAccept={this.onPrivacyTermsAccept}
+            showCloseBtn={false}
+          />
         </View>
       </View>
     );
