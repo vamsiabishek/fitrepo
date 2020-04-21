@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../../assets/style/stylesNavTheme';
 import {ICON_SIZE_NAV} from '../../assets/style/stylesCommonValues';
 import AddButton from './AddButton';
+import Settings from '../profile/Settings';
 
 const LoginStackNavigator = createStackNavigator(
   {
@@ -47,6 +48,7 @@ const ProfileStackNavigator = createStackNavigator(
     Profile,
     EditProfile,
     EditProfileSubScreen1,
+    Settings,
   },
   {
     initialRouteName: 'Profile',

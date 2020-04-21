@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
   actionsButtonStyle: {
     justifyContent: 'flex-start',

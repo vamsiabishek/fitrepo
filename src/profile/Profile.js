@@ -106,6 +106,15 @@ export default class Profile extends Component {
     }
   };
 
+  showSettings = () => {
+    const {navigate} = this.props.navigation;
+    const {user, uid} = this.state;
+    navigate('Settings', {
+      userLoggedIn: user,
+      userId: uid,
+    });
+  };
+
   componentDidMount = async () => {
     const currentUser = await getCurrentUser();
     this.setState({
@@ -199,6 +208,19 @@ export default class Profile extends Component {
           <View style={styles.innerContainer}>
             <View style={styles.actionsHeaderContainer}>
               <View style={styles.actionsButtonContainerStyle}>
+                <Button
+                  icon={{
+                    name: 'settings',
+                    size: ICON_BACK_SIZE,
+                    color: styleCommon.panelHeaderIconColor,
+                    type: 'material-community',
+                  }}
+                  iconRight={true}
+                  containerStyle={styles.actionsButtonStyle}
+                  buttonStyle={styles.actionsButtonStyle}
+                  titleStyle={styles.actionsButtonTitleStyle}
+                  onPress={this.showSettings}
+                />
                 <Button
                   icon={{
                     name: 'logout',
