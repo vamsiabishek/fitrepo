@@ -193,6 +193,7 @@ export default class Profile extends Component {
       height: SCREEN_WIDTH * 0.15,
       //tintColor: styleCommon.selectedButtonColor,
     };
+    console.log(purchases);
     return (
       <View style={styles.mainContainer}>
         {isLoading ? (

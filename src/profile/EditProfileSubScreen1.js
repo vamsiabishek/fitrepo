@@ -3,6 +3,7 @@ import {
   Appearance,
   LayoutAnimation,
   KeyboardAvoidingView,
+  Platform,
   TouchableOpacity,
   UIManager,
   View,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DatePicker from 'react-native-date-picker';
 import SelectButton from '../components/SelectButton';
 import {styles} from '../../assets/style/stylesEditProfileScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -317,17 +319,31 @@ export default class EditProfileSubScreen1 extends Component {
               errorMessage={nameValid ? null : 'Please enter a Name!'}
             />
             <TouchableOpacity onPress={this.showDTPicker}>
-              <DateTimePickerModal
-                mode="date"
-                isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
-                date={this.selectedDate ? this.selectedDate : dateInDatetime}
-                minimumDate={MIN_DATE}
-                maximumDate={MAX_DATE}
-                isVisible={isDTPickerVisible}
-                onDateChange={this.onDateChangePicker}
-                onConfirm={this.handleDTPicker}
-                onCancel={this.hideDTPicker}
-              />
+              {Platform.OS === 'ios' ? (
+                <DateTimePickerModal
+                  mode="date"
+                  isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
+                  date={this.selectedDate ? this.selectedDate : dateInDatetime}
+                  minimumDate={MIN_DATE}
+                  maximumDate={MAX_DATE}
+                  isVisible={isDTPickerVisible}
+                  onDateChange={this.onDateChangePicker}
+                  onConfirm={this.handleDTPicker}
+                  onCancel={this.hideDTPicker}
+                />
+              ) : (
+                isDTPickerVisible && (
+                  <DatePicker
+                    mode="date"
+                    minimumDate={MIN_DATE}
+                    maximumDate={MAX_DATE}
+                    date={
+                      this.selectedDate ? this.selectedDate : dateInDatetime
+                    }
+                    onDateChange={this.onDateChangePicker}
+                  />
+                )
+              )}
               <View pointerEvents="none">
                 <Input
                   placeholder="Date of Birth"

@@ -252,21 +252,6 @@ export default class PurchaseScreen extends React.Component {
       trialDaysLeft,
       dietTrialEndDate,
     } = this.props;
-    const purchaseIconStyle = {
-      height: SCREEN_HEIGHT * 0.3,
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'relative',
-      right: DEVICE_NAME.includes('iPhone 11') ? 40 : 30,
-      bottom: DEVICE_NAME.includes('iPhone 11') ? 30 : 0,
-      //backgroundColor: 'pink',
-    };
-    const purchaseButtonTrialStyle = {
-      flex: 1,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-      //backgroundColor: 'pink',
-    };
     return (
       <React.Fragment>
         <View style={styles.modalOuterContainer}>
@@ -283,20 +268,16 @@ export default class PurchaseScreen extends React.Component {
             containerStyle={styles.closeButtonContainerStyle}
           />
           <View style={styles.modalContainer}>
-            <View style={styles.textualArea}>
-              <View>
-                <Text style={styles.headerPurcahseText}>
-                  One Step Away From Viewing Your Meals
-                </Text>
-                <View style={purchaseIconStyle}>
-                  <LottieView
-                    source={require('../../../assets/jsons/purchase_animation.json')}
-                    resizeMode="contain"
-                    autoPlay
-                    enableMergePathsAndroidForKitKatAndAbove
-                  />
-                </View>
-              </View>
+            <Text style={styles.headerPurcahseText}>
+              One Step Away From Viewing Your Meals
+            </Text>
+            <View style={styles.purchaseAnimationContainer}>
+              <LottieView
+                source={require('../../../assets/jsons/purchase_animation.json')}
+                loop
+                autoPlay
+                enableMergePathsAndroidForKitKatAndAbove
+              />
             </View>
             <View>
               <Text style={styles.labelText}>Click below to buy the</Text>
@@ -335,19 +316,13 @@ export default class PurchaseScreen extends React.Component {
           isVisible={isVisible}
           backdropColor="black"
           backdropOpacity={0.5}>
-          {!isLoading ? (
-            <View style={styles.modalOuterContainer}>
-              <View style={styles.modalContainer}>
-                {purchaseOfferings
-                  ? !showPurchaseSummary && packageToPurchase
-                    ? this.renderDetailsPaymentElement()
-                    : this.renderSuccessElement()
-                  : this.renderFailureElement()}
-              </View>
-            </View>
-          ) : (
-            this.renderLoadingElement()
-          )}
+          {!isLoading
+            ? purchaseOfferings
+              ? !showPurchaseSummary && packageToPurchase
+                ? this.renderDetailsPaymentElement()
+                : this.renderSuccessElement()
+              : this.renderFailureElement()
+            : this.renderLoadingElement()}
         </Modal>
       </View>
     );

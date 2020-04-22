@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: SCREEN_HEIGHT * 0.05,
     width: -SCREEN_WIDTH * 0.1,
-    backgroundColor: 'red',
+    //backgroundColor: 'red',
   },
   modalContainer: {
     flex: 1,
@@ -37,6 +37,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: SCREEN_WIDTH * 0.07,
     paddingBottom: SCREEN_WIDTH * 0.07,
     // backgroundColor: 'cyan',
+  },
+  purchaseAnimationContainer: {
+    width: '110%',
+    height: '50%',
+    marginBottom: SCREEN_HEIGHT * 0.01,
+    // backgroundColor: 'blue',
   },
   modalLoadingInsideStyle: {
     flex: 1,
