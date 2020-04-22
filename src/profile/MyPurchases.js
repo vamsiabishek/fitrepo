@@ -20,6 +20,7 @@ class MyPurchases extends Component {
     return (
       <Modal
         useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
         isVisible={showPurchases}
         backdropColor="black"
         backdropOpacity={0.5}>
@@ -38,9 +39,7 @@ class MyPurchases extends Component {
               />
             }
             type="clear"
-            onPress={() => {
-              this.setState({showPurchases: false});
-            }}
+            onPress={onCancel}
             containerStyle={styles.closeButtonContainerStyle}
           />
           <View

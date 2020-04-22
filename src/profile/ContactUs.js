@@ -20,6 +20,7 @@ class ContactUs extends Component {
     return (
       <Modal
         useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
         isVisible={showContactUs}
         backdropColor="black"
         backdropOpacity={0.5}>
@@ -33,9 +34,7 @@ class ContactUs extends Component {
               />
             }
             type="clear"
-            onPress={() => {
-              this.setState({showContactUs: false});
-            }}
+            onPress={onCancel}
             containerStyle={styles.closeButtonContainerStyle}
           />
           <View style={styles.modalContainer}>
