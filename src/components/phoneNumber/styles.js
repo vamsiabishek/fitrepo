@@ -1,10 +1,11 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import {
   SCREEN_WIDTH,
   styleCommon,
   fontsCommon,
   DEVICE_NAME,
   errorTextcolor,
+  SCREEN_HEIGHT,
 } from '../../../assets/style/stylesCommonValues';
 
 export default StyleSheet.create({
@@ -38,22 +39,31 @@ export default StyleSheet.create({
     borderColor: styleCommon.textInputColor,
   },
   basicContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    //flex: 1,
+    //justifyContent: 'flex-end',
     alignItems: 'center',
   },
   modalContainer: {
-    width: SCREEN_WIDTH,
+    width: SCREEN_WIDTH * 0.9,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 0,
   },
+  countryPickerModal: {
+    flex: 1,
+    marginTop: SCREEN_HEIGHT * 0.1,
+    marginBottom: SCREEN_HEIGHT * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: styleCommon.secondaryColorNew,
+  },
   buttonView: {
-    width: SCREEN_WIDTH,
+    flex: 1,
+    width: SCREEN_WIDTH * 0.9,
     padding: 8,
-    borderTopWidth: 0.5,
     borderTopColor: 'lightgrey',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     flexDirection: 'row',
   },
   bottomPicker: {
@@ -78,7 +88,7 @@ export default StyleSheet.create({
   inputViewContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: SCREEN_WIDTH * 0.60,
+    width: SCREEN_WIDTH * 0.6,
     marginBottom: 8,
   },
   inputContainer: {
@@ -104,5 +114,30 @@ export default StyleSheet.create({
     marginTop: 0,
     textAlign: 'center',
     color: 'white',
+  },
+  mainBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    height: SCREEN_HEIGHT * 0.7,
+  },
+  listContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  countryCodeListContainer: {
+    width: SCREEN_WIDTH * 0.9,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: SCREEN_WIDTH * 0.03,
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'grey',
+    paddingVertical: SCREEN_WIDTH * 0.05,
+  },
+  countryName: {
+    fontSize: fontsCommon.font18,
+  },
+  headerButtons: {
+    fontSize: fontsCommon.font15,
   },
 });

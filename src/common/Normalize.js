@@ -31,5 +31,6 @@ export const normalizeUserForSignup = (user) => {
     fatSources: getSourcesWithImages('fat'),
     isLoadingComponent: false,
     showGender: hasNoGender,
+    privacyTermsAccepted: user.privacyTermsAccepted || false,
   };
 };

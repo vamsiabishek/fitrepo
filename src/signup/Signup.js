@@ -43,6 +43,7 @@ import {
 } from '../common/Util';
 import {normalizeUserForSignup} from '../common/Normalize';
 import analytics from '@react-native-firebase/analytics';
+import PrivacyAndTerms from '../documents/PrivacyAndTerms';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -101,6 +102,8 @@ export default class Signup extends Component {
       isExistingUser: navigation.getParam('isExistingUser') ? true : false,
       newLogin: navigation.getParam('newLogin') ? true : false, // if new user chooses to login through FB/Google from the "Log In" page
       showGender: true,
+      showPrivacyTerms: false,
+      privacyTermsAccepted: false,
     };
 
     this.onNextDelayed = debounce((screen) => this.onNext(screen), 600);
@@ -150,6 +153,14 @@ export default class Signup extends Component {
         });
       }
     }
+  };
+
+  setShowPrivacyTerms = () => {
+    this.setState({showPrivacyTerms: true});
+  };
+
+  onPrivacyTermsAccept = () => {
+    this.setState({showPrivacyTerms: false, privacyTermsAccepted: true});
   };
 
   setGoal = (goal) => {
@@ -857,6 +868,7 @@ export default class Signup extends Component {
           userLoginAnimation: false,
         });
         analytics().logEvent('signup', user);
+        this.setShowPrivacyTerms();
       })
       .catch((error) => {
         console.log(
@@ -877,6 +889,7 @@ export default class Signup extends Component {
       weight,
       height,
       foodPreference,
+      privacyTermsAccepted,
     } = this.state;
     let {user, gender, fitnessLevel, uid} = this.state;
     let myDiets = [];
@@ -894,6 +907,7 @@ export default class Signup extends Component {
       weight,
       height,
       foodPreference,
+      privacyTermsAccepted,
     };
     await database
       .ref('users')
@@ -1004,6 +1018,7 @@ export default class Signup extends Component {
       isExistingUser,
       userLoginAnimation,
       showGender,
+      showPrivacyTerms,
     } = this.state;
     const {hasAtleastOneDiet} = this.props;
     const signupObject = {
@@ -1226,6 +1241,11 @@ export default class Signup extends Component {
               </View>
             </ScrollView>
           )}
+          <PrivacyAndTerms
+            showPrivacyTerms={showPrivacyTerms}
+            onAccept={this.onPrivacyTermsAccept}
+            showCloseBtn={false}
+          />
         </View>
       </View>
     );
