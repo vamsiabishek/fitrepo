@@ -7,17 +7,12 @@ import {
   UIManager,
   Image,
 } from 'react-native';
-import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
-import {Avatar as ProgressAvatar, Button} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ProgressCircle from 'react-native-progress-circle';
 import {styles} from '../../assets/style/stylesProfileScreen';
 import {database} from '../common/FirebaseConfig';
 import {
-  PROGRESS_CIRCLE_RADIUS,
-  PROGRESS_CIRCLE_BORDER_WIDTH,
-  VITRUVIAN_MAN,
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,
   MALE_ADVANCED_ICON,
@@ -28,9 +23,6 @@ import {
   INTERMEDIATE_LABEL,
   ADVANCED_LABEL,
   CONTACT_US_ICON,
-  GMAIL_ICON,
-  FACEBOOK_ICON,
-  INSTAGRAM_ICON,
   PURCHASES_ICON,
   EDIT_PROFILE_ICON,
 } from '../common/Common';
@@ -39,7 +31,6 @@ import {
   styleCommon,
   ICON_SIZE_MED,
   ICON_BACK_SIZE,
-  AVATAR_SIZE,
   ICON_SIZE_SMALL,
 } from '../../assets/style/stylesCommonValues';
 import {
@@ -48,9 +39,9 @@ import {
   createKeyAndValuesFromResult,
   getDifferenceInSeconds,
 } from '../common/Util';
-import PurchaseList from '../components/purchase/PurchaseList';
-import Avatar from '../components/Avatar';
 import SelectButton from '../components/SelectButton';
+import ContactUs from './ContactUs';
+import MyPurchases from './MyPurchases';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -152,6 +143,8 @@ export default class Profile extends Component {
         console.log('error while fetching my diets in Profile page', error);
       });
   };
+  closeContactUs = () => this.setState({showContactUs: false});
+  closeMyPurchases = () => this.setState({showPurchases: false});
   render() {
     const {
       isLoading,
@@ -253,13 +246,6 @@ export default class Profile extends Component {
               )}
               scrollEventThrottle={16}>
               <View style={styles.avatarContainer}>
-                {/* <Avatar
-                  size={120}
-                  iconSize={80}
-                  gender={gender}
-                  //source={{ uri: user.avatarSource }}
-                  //imageProps={styles.avatarImagePropsStyle}
-                /> */}
                 <LottieView
                   source={profileAvatar}
                   autoPlay
@@ -339,24 +325,6 @@ export default class Profile extends Component {
                         {levelTitle}
                       </Text>
                     </View>
-                    {/* <ProgressCircle
-                      percent={getPercent ? getPercent : 0}
-                      radius={PROGRESS_CIRCLE_RADIUS}
-                      borderWidth={PROGRESS_CIRCLE_BORDER_WIDTH}
-                      color={styles.progressCircleColor.color}
-                      shadowColor={styles.progressCircleShadowColor.color}
-                      bgColor={styles.progressCircleBgColor.color}>
-                      <ProgressAvatar
-                        rounded
-                        size={AVATAR_SIZE}
-                        source={VITRUVIAN_MAN}
-                        imageProps={{
-                          resizeMode: 'contain',
-                          tintColor: styleCommon.textColor1,
-                        }}
-                        overlayContainerStyle={styles.avatarHumanOverlayStyle}
-                      />
-                    </ProgressCircle> */}
                     <View style={styles.boxContentTextStyle}>
                       <View style={styles.boxTextContainer}>
                         <Icon
@@ -385,126 +353,16 @@ export default class Profile extends Component {
                   </View>
                 </View>
               </View>
-              {/* <View style={styles.boxesContainer}>
-                <View style={styles.boxesStyle}>
-                  <View style={styles.boxHeaderContainerView}>
-                    <Icon
-                      name="cards"
-                      size={ICON_SIZE_MED}
-                      style={styles.boxHeaderIconStyle}
-                    />
-                    <Text style={styles.boxHeaderTextStyle}>Payments</Text>
-                  </View>
-                  <View style={styles.boxContentColumnContainerStyle}>
-                    <View style={styles.boxContentTextStyle}>
-                      {/*user.purchases && (
-                        <PurchaseList purchases={user.purchases} />
-                      )
-                    </View>
-                  </View>
-                </View>
-              </View> */}
             </Animated.ScrollView>
-            <View>
-              <Modal
-                useNativeDriver={true}
-                isVisible={showContactUs}
-                backdropColor="black"
-                backdropOpacity={0.5}>
-                <View style={styles.modalContainer}>
-                  <Button
-                    icon={
-                      <Icon
-                        name="close-circle"
-                        size={ICON_SIZE_MED}
-                        color={styleCommon.textColor1}
-                      />
-                    }
-                    type="clear"
-                    onPress={() => {
-                      this.setState({showContactUs: false});
-                    }}
-                    containerStyle={styles.closeButtonContainerStyle}
-                  />
-                  <Text style={styles.modalTitle}>
-                    Thankyou for reaching out to us.
-                  </Text>
-                  <LottieView
-                    source={require('../../assets/jsons/contact_us.json')}
-                    autoPlay
-                    loop
-                    style={styles.animationStyle}
-                    enableMergePathsAndroidForKitKatAndAbove
-                  />
-                  <Text style={styles.modalSubTitle}>
-                    Please leave your queries/feedback through the below
-                    sources...
-                  </Text>
-                  <View style={styles.contactDetailsContainer}>
-                    <Image
-                      source={GMAIL_ICON}
-                      style={styles.socialIconImageStyle}
-                    />
-                    <Text style={styles.contactDetailsText}>
-                      fitrepo@gmail.com
-                    </Text>
-                  </View>
-                  <View style={styles.contactDetailsContainer}>
-                    <Image
-                      source={FACEBOOK_ICON}
-                      style={styles.socialIconImageStyle}
-                    />
-                    <Text style={styles.contactDetailsText}>FitRepo</Text>
-                  </View>
-                  <View style={styles.contactDetailsContainer}>
-                    <Image
-                      source={INSTAGRAM_ICON}
-                      style={styles.socialIconImageStyle}
-                    />
-                    <Text style={styles.contactDetailsText}>fitrepository</Text>
-                  </View>
-                </View>
-              </Modal>
-            </View>
-            <View>
-              <Modal
-                useNativeDriver={true}
-                isVisible={showPurchases}
-                backdropColor="black"
-                backdropOpacity={0.5}>
-                <View style={styles.purchasesModalContainer}>
-                  <Button
-                    icon={
-                      <Icon
-                        name="close-circle"
-                        size={ICON_SIZE_MED}
-                        color={styleCommon.textColor1}
-                      />
-                    }
-                    type="clear"
-                    onPress={() => {
-                      this.setState({showPurchases: false});
-                    }}
-                    containerStyle={styles.purchaseCloseButtonContainerStyle}
-                  />
-                  <Text style={styles.modalTitle}>Your Purchases</Text>
-                  <LottieView
-                    source={require('../../assets/jsons/purchases.json')}
-                    autoPlay
-                    loop
-                    style={styles.animationStyle}
-                    enableMergePathsAndroidForKitKatAndAbove
-                  />
-                  {purchases !== undefined ? (
-                    <PurchaseList purchases={purchases} />
-                  ) : (
-                    <Text style={styles.noPurchasesText}>
-                      *No Purchases made so far*
-                    </Text>
-                  )}
-                </View>
-              </Modal>
-            </View>
+            <ContactUs
+              showContactUs={showContactUs}
+              onCancel={this.closeContactUs}
+            />
+            <MyPurchases
+              showPurchases={showPurchases}
+              onCancel={this.closeMyPurchases}
+              purchases={purchases}
+            />
           </View>
         )}
       </View>

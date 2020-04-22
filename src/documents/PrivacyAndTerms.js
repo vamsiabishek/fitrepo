@@ -88,6 +88,7 @@ class PrivacyAndTerms extends Component {
     return (
       <Modal
         useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
         isVisible={showPrivacyTerms}
         backdropColor="black"
         backdropOpacity={0.5}

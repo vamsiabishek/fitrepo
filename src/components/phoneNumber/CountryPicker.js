@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View, Modal, Picker} from 'react-native';
+import {Text, TouchableOpacity, View, FlatList, Image} from 'react-native';
 import PropTypes from 'prop-types';
-
+import Modal from 'react-native-modal';
+import {Button} from 'react-native-elements';
 import Country from './country';
+import Flags from './resources/flags';
 import styles from './styles';
-
-const PickerItem = Picker.Item;
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {
+  styleCommon,
+  ICON_SIZE_MED,
+} from '../../../assets/style/stylesCommonValues';
 
 const propTypes = {
   buttonColor: PropTypes.string,
@@ -27,31 +32,16 @@ export default class CountryPicker extends Component {
       modalVisible: false,
       selectedCountry: this.props.selectedCountry || Country.getAll()[0],
     };
-
-    this.onPressCancel = this.onPressCancel.bind(this);
-    this.onPressSubmit = this.onPressSubmit.bind(this);
-    this.onValueChange = this.onValueChange.bind(this);
+    this.countryList = Country.getAll();
   }
 
-  componentDidUpdate() {
-    // this.setState({
-    //   selectedCountry: this.props.selectedCountry,
-    // });
-  }
-
-  selectCountry(selectedCountry) {
-    // this.setState({
-    //   selectedCountry,
-    // });
-  }
-
-  onPressCancel() {
+  onPressCancel = () => {
     if (this.props.onPressCancel) {
       this.props.onPressCancel();
     }
-  }
+  };
 
-  onPressSubmit() {
+  onPressSubmit = () => {
     if (this.props.onPressConfirm) {
       this.props.onPressConfirm();
     }
@@ -59,60 +49,54 @@ export default class CountryPicker extends Component {
     if (this.props.onSubmit) {
       this.props.onSubmit(this.state.selectedCountry);
     }
-  }
+  };
 
-  onValueChange(selectedCountry) {
-    this.setState({
-      selectedCountry,
-    });
-  }
+  onValueChange = (selectedCountry) => {
+    this.props.onSubmit(selectedCountry.iso2);
+  };
 
-  renderItem(country, index) {
+  renderItem = ({item}) => {
     return (
-      <PickerItem
-        key={country.iso2}
-        value={country.iso2}
-        label={country.name}
-      />
+      <View>
+        <TouchableOpacity
+          onPress={() => this.onValueChange(item)}
+          style={styles.countryCodeListContainer}>
+          <Text style={styles.countryName}>{item.name}</Text>
+          <Image source={Flags.get(item.iso2)} style={styles.flag} />
+        </TouchableOpacity>
+      </View>
     );
-  }
+  };
 
   render() {
-    const {buttonColor} = this.state;
     const {showCountryPicker} = this.props;
-    const itemStyle = this.props.itemStyle || {};
     return (
       <Modal
-        animationType="slide"
-        transparent
-        visible={showCountryPicker}
-        onRequestClose={() => {
-          console.log('Country picker has been closed.');
-        }}>
+        useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
+        isVisible={showCountryPicker}
+        backdropColor="black"
+        backdropOpacity={0.5}
+        style={styles.countryPickerModal}>
         <View style={styles.basicContainer}>
-          <View
-            style={[
-              styles.modalContainer,
-              {backgroundColor: this.props.pickerBackgroundColor || 'white'},
-            ]}>
+          <View style={styles.modalContainer}>
             <View style={styles.buttonView}>
-              <TouchableOpacity onPress={this.onPressCancel}>
-                <Text
-                  style={[{color: buttonColor}, this.props.buttonTextStyle]}>
-                  {this.props.cancelText || 'Cancel'}
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={this.onPressSubmit}>
-                <Text
-                  style={[{color: buttonColor}, this.props.buttonTextStyle]}>
-                  {this.props.confirmText || 'Confirm'}
-                </Text>
-              </TouchableOpacity>
+              <Button
+                icon={
+                  <Icon
+                    name="close-circle"
+                    size={ICON_SIZE_MED}
+                    color={styleCommon.textColor1}
+                  />
+                }
+                type="clear"
+                onPress={this.onPressCancel}
+                containerStyle={styles.closeBtnStyle}
+              />
             </View>
 
             <View style={styles.mainBox}>
-              <Picker
+              {/* <Picker
                 style={styles.bottomPicker}
                 selectedValue={this.state.selectedCountry}
                 onValueChange={country => this.onValueChange(country)}
@@ -121,7 +105,12 @@ export default class CountryPicker extends Component {
                 {Country.getAll().map((country, index) =>
                   this.renderItem(country, index),
                 )}
-              </Picker>
+              </Picker> */}
+              <FlatList
+                data={this.countryList}
+                renderItem={this.renderItem}
+                keyExtractor={(item) => item.iso2}
+              />
             </View>
           </View>
         </View>

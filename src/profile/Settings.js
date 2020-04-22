@@ -21,6 +21,7 @@ import TermsAndConditions from '../documents/TermsAndConditions';
 import PrivacyPolicy from '../documents/PrivacyPolicy';
 import PrivacyAndTerms from '../documents/PrivacyAndTerms';
 import Modal from 'react-native-modal';
+import ContactUs from '../profile/ContactUs';
 
 const options = [
   {
@@ -35,6 +36,10 @@ const options = [
     id: 'termsAndConditions',
     name: 'Terms & Conditions',
   },
+  {
+    id: 'contactUs',
+    name: 'Contact Us',
+  },
 ];
 
 class Settings extends Component {
@@ -42,19 +47,18 @@ class Settings extends Component {
     showTermsAndConditions: false,
     showPrivacyPolicy: false,
     showPrivacyTerms: false,
+    showContactUs: false,
   };
   showOptionPage = (id) => {
-    const {navigate} = this.props.navigation;
     if (id === 'privacyAndTerms') {
-      this.setShowPrivacyTerms();
+      this.setState({showPrivacyTerms: true});
     }
     if (id === 'termsAndConditions') {
-      this.setShowTermsAndConditions();
-      // navigate('TermsAndConditions', {
-      //   showAcceptButton: false,
-      // });
+      this.setState({showTermsAndConditions: true});
     } else if (id === 'privacyPolicy') {
-      this.setShowPrivacyPolicy();
+      this.setState({showPrivacyPolicy: true});
+    } else if (id === 'contactUs') {
+      this.setState({showContactUs: true});
     }
   };
   renderOptions = ({item}) => {
@@ -68,35 +72,26 @@ class Settings extends Component {
     );
   };
 
-  setShowPrivacyPolicy = () => {
-    this.setState({showPrivacyPolicy: true});
-  };
-
   closePrivacyPolicy = () => {
     this.setState({showPrivacyPolicy: false});
-  };
-
-  setShowTermsAndConditions = () => {
-    this.setState({showTermsAndConditions: true});
   };
 
   closeTermsAndConditions = () => {
     this.setState({showTermsAndConditions: false});
   };
 
-  setShowPrivacyTerms = () => {
-    this.setState({showPrivacyTerms: true});
-  };
-
   closePrivacyTerms = () => {
     this.setState({showPrivacyTerms: false});
   };
+
+  closeContactUs = () => this.setState({showContactUs: false});
 
   render() {
     const {
       showTermsAndConditions,
       showPrivacyPolicy,
       showPrivacyTerms,
+      showContactUs,
     } = this.state;
     const {navigation} = this.props;
     return (
@@ -123,6 +118,7 @@ class Settings extends Component {
         />
         <Modal
           useNativeDriver={true}
+          hideModalContentWhileAnimating={true}
           isVisible={showTermsAndConditions}
           backdropColor="black"
           backdropOpacity={0.5}
@@ -134,6 +130,7 @@ class Settings extends Component {
         </Modal>
         <Modal
           useNativeDriver={true}
+          hideModalContentWhileAnimating={true}
           isVisible={showPrivacyPolicy}
           backdropColor="black"
           backdropOpacity={0.5}
@@ -147,6 +144,10 @@ class Settings extends Component {
           showPrivacyTerms={showPrivacyTerms}
           onCancel={this.closePrivacyTerms}
           onBack={this.closePrivacyTerms}
+        />
+        <ContactUs
+          showContactUs={showContactUs}
+          onCancel={this.closeContactUs}
         />
       </SafeAreaView>
     );
