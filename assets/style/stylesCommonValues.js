@@ -50,6 +50,7 @@ export const fontsCommon = {
   font30: normalizeFont(30),
   font32: normalizeFont(32),
   font35: normalizeFont(35),
+  font36: normalizeFont(36),
   font40: normalizeFont(40),
   font50: normalizeFont(50),
   font60: normalizeFont(60),

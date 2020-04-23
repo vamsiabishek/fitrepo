@@ -1,28 +1,33 @@
 import React, {Component} from 'react';
 import {
+  Alert,
   Appearance,
   LayoutAnimation,
   KeyboardAvoidingView,
   Platform,
+  Text,
   TouchableOpacity,
   UIManager,
   View,
-  Alert,
 } from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import DatePicker from 'react-native-date-picker';
+import DatetimeAndroidPicker from '../components/Picker/DatetimeAndroidPicker';
 import SelectButton from '../components/SelectButton';
-import {styles} from '../../assets/style/stylesEditProfileScreen';
+import {
+  styles,
+  stylesDerived,
+} from '../../assets/style/stylesEditProfileScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {MIN_DATE, MAX_DATE, EMAIL_VERIFICATION} from '../common/Common';
 import {
   styleCommon,
-  ICON_SIZE,
   btnGradientColorLeft,
   btnGradientColorRight,
   btnGradientColorRightDisabled,
-  ICON_SELECT_GENDER_MED,
+  DEVICE_NAME,
+  fontsCommon,
+  SCREEN_HEIGHT,
 } from '../../assets/style/stylesCommonValues';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -80,12 +85,18 @@ export default class EditProfileSubScreen1 extends Component {
     let dateFormat = new Date(date);
     let newDate = dateFormat.toDateString().substring(4);
     let ageFromDate = currentDate.getFullYear() - dateFormat.getFullYear();
-    //LayoutAnimation.easeInEaseOut();
-    this.setState({
-      user: {...user, dob: newDate, age: ageFromDate},
-      isActive: true,
-    });
-    this.hideDTPicker();
+    if (ageFromDate < 15) {
+      Alert.alert(
+        'Incorrect Date !',
+        'Age must be 15 years & above. Please choose another date.',
+      );
+    } else {
+      this.setState({
+        user: {...user, dob: newDate, age: ageFromDate},
+        isActive: true,
+      });
+      this.hideDTPicker();
+    }
   };
   onDateChangePicker = (date) => {
     this.selectedDate = date;
@@ -99,22 +110,13 @@ export default class EditProfileSubScreen1 extends Component {
     return nameValid;
   };
   validateDobAndAge = () => {
-    const {dob, age} = this.state.user;
-    if (age !== null) {
-      const dobAgeValid = dob.length > 0 && age > 15;
-      const errorMsgWtAge = 'You should be 15 years & above!';
-      //LayoutAnimation.easeInEaseOut();
-      this.setState({dobAgeValid, errorMsgWtAge});
-      dobAgeValid || this.dobInput.shake();
-      return dobAgeValid;
-    } else {
-      const dobAgeValid = dob.length > 0;
-      const errorMsgWtAge = 'Please select a Date!';
-      //LayoutAnimation.easeInEaseOut();
-      this.setState({dobAgeValid, errorMsgWtAge});
-      dobAgeValid || this.dobInput.shake();
-      return dobAgeValid;
-    }
+    const {dob} = this.state.user;
+    const dobAgeValid = dob.length > 0;
+    const errorMsgWtAge = 'Please select a Date!';
+    //LayoutAnimation.easeInEaseOut();
+    this.setState({dobAgeValid, errorMsgWtAge});
+    dobAgeValid || this.dobInput.shake();
+    return dobAgeValid;
   };
   validateGender = () => {
     const {gender} = this.state.user;
@@ -174,11 +176,16 @@ export default class EditProfileSubScreen1 extends Component {
     const {gender} = user || {};
     const buttonIconColor = styleCommon.secondaryButtonTextColor;
     const buttonIconActiveColor = styleCommon.textColor2;
+    //console.log('user: ', user);
     return (
-      <View>
+      <React.Fragment>
         <KeyboardAvoidingView
           behaviour="position"
+          style={styles.formContainer}
           contentContainerStyle={styles.formContainer}>
+          <View style={styles.headerTextContainer}>
+            <Text style={styles.headerText}>EDIT PROFILE</Text>
+          </View>
           <View style={styles.inputOuterViewContainer}>
             {showGender && (
               <View style={styles.mainContent}>
@@ -186,7 +193,13 @@ export default class EditProfileSubScreen1 extends Component {
                   buttonStyle={
                     gender === 1 ? styles.activeButtonStyle : styles.buttonStyle
                   }
-                  iconSize={ICON_SELECT_GENDER_MED}
+                  iconSize={
+                    DEVICE_NAME.includes('iPhone 11')
+                      ? SCREEN_HEIGHT * 0.06
+                      : Platform.OS === 'ios'
+                      ? SCREEN_HEIGHT * 0.08
+                      : SCREEN_HEIGHT * 0.075
+                  } //{ICON_SELECT_GENDER_MED}
                   iconName={gender === 1 ? 'man-raising-hand' : 'man'}
                   buttonIcon={styles.buttonIcon}
                   buttonIconColor={
@@ -204,7 +217,13 @@ export default class EditProfileSubScreen1 extends Component {
                   titleStyle={
                     gender === 0 ? styles.activeButtonTitle : styles.buttonTitle
                   }
-                  iconSize={ICON_SELECT_GENDER_MED}
+                  iconSize={
+                    DEVICE_NAME.includes('iPhone 11')
+                      ? SCREEN_HEIGHT * 0.06
+                      : Platform.OS === 'ios'
+                      ? SCREEN_HEIGHT * 0.08
+                      : SCREEN_HEIGHT * 0.075
+                  } //{ICON_SELECT_GENDER_MED}
                   iconName={gender === 0 ? 'woman-raising-hand' : 'woman'}
                   buttonIcon={styles.buttonIcon}
                   buttonIconColor={
@@ -223,8 +242,9 @@ export default class EditProfileSubScreen1 extends Component {
               rightIcon={
                 <Icon
                   name="account-box"
-                  color={styleCommon.iconColor}
-                  size={ICON_SIZE}
+                  color={styleCommon.textColor1}
+                  size={fontsCommon.font36}
+                  //style={{backgroundColor: 'pink'}}
                 />
               }
               containerStyle={styles.inputViewContainer}
@@ -259,8 +279,9 @@ export default class EditProfileSubScreen1 extends Component {
               rightIcon={
                 <Icon
                   name="email"
-                  color={styleCommon.iconColor}
-                  size={ICON_SIZE}
+                  color={styleCommon.textColor1}
+                  size={fontsCommon.font36}
+                  //style={{backgroundColor: 'pink'}}
                 />
               }
               containerStyle={styles.inputViewContainer}
@@ -281,7 +302,7 @@ export default class EditProfileSubScreen1 extends Component {
               ref={(input) => (this.emailInput = input)}
               onSubmitEditing={() => {
                 this.setState({emailValid: this.validateEmail});
-                this.passwordInput.focus();
+                this.nameInput.focus();
               }}
               errorMessage={
                 emailValid ? null : 'Please enter a valid email address!'
@@ -293,8 +314,9 @@ export default class EditProfileSubScreen1 extends Component {
               rightIcon={
                 <Icon
                   name="alpha-n-box"
-                  color={styleCommon.iconColor}
-                  size={ICON_SIZE}
+                  color={styleCommon.textColor1}
+                  size={fontsCommon.font36}
+                  //style={{backgroundColor: 'pink'}}
                 />
               }
               containerStyle={styles.inputViewContainer}
@@ -318,7 +340,9 @@ export default class EditProfileSubScreen1 extends Component {
               }}
               errorMessage={nameValid ? null : 'Please enter a Name!'}
             />
-            <TouchableOpacity onPress={this.showDTPicker}>
+            <TouchableOpacity
+              style={stylesDerived.inputTouchOpaContainer}
+              onPress={this.showDTPicker}>
               {Platform.OS === 'ios' ? (
                 <DateTimePickerModal
                   mode="date"
@@ -332,17 +356,14 @@ export default class EditProfileSubScreen1 extends Component {
                   onCancel={this.hideDTPicker}
                 />
               ) : (
-                isDTPickerVisible && (
-                  <DatePicker
-                    mode="date"
-                    minimumDate={MIN_DATE}
-                    maximumDate={MAX_DATE}
-                    date={
-                      this.selectedDate ? this.selectedDate : dateInDatetime
-                    }
-                    onDateChange={this.onDateChangePicker}
-                  />
-                )
+                <DatetimeAndroidPicker
+                  isVisible={isDTPickerVisible}
+                  minDate={MIN_DATE}
+                  maxDate={MAX_DATE}
+                  date={this.selectedDate ? this.selectedDate : dateInDatetime}
+                  onConfirm={this.handleDTPicker}
+                  onCancel={this.hideDTPicker}
+                />
               )}
               <View pointerEvents="none">
                 <Input
@@ -351,11 +372,12 @@ export default class EditProfileSubScreen1 extends Component {
                   rightIcon={
                     <Icon
                       name="calendar"
-                      color={styleCommon.iconColor}
-                      size={ICON_SIZE}
+                      color={styleCommon.textColor1}
+                      size={fontsCommon.font36}
+                      //style={{backgroundColor: 'pink'}}
                     />
                   }
-                  containerStyle={styles.inputViewContainer}
+                  containerStyle={styles.inputDateContainer}
                   inputContainerStyle={styles.inputContainer}
                   inputStyle={styles.inputStyle}
                   errorStyle={styles.errorInputStyle}
@@ -381,32 +403,32 @@ export default class EditProfileSubScreen1 extends Component {
               </View>
             </TouchableOpacity>
           </View>
-          <Button
-            title="SAVE & GO BACK"
-            ViewComponent={LinearGradient}
-            linearGradientProps={{
-              colors: [
-                btnGradientColorLeft,
-                isActive
-                  ? btnGradientColorRight
-                  : btnGradientColorRightDisabled,
-              ],
-              start: {x: 0, y: 0.5},
-              end: {x: 1, y: 0.5},
-            }}
-            containerStyle={styles.btsButtonContainer}
-            buttonStyle={
-              isActive ? styles.btsButtonStyle : styles.btsButtonDisableStyle
-            }
-            titleStyle={
-              isActive ? styles.btsButtonText : styles.btsButtonDisableText
-            }
-            loading={isLoading}
-            onPress={this.goToNextSubSection}
-            disabled={!isActive}
-          />
         </KeyboardAvoidingView>
-      </View>
+        <Button
+          title="SAVE & GO BACK"
+          ViewComponent={LinearGradient}
+          linearGradientProps={{
+            colors: [
+              btnGradientColorLeft,
+              isActive ? btnGradientColorRight : btnGradientColorRightDisabled,
+            ],
+            start: {x: 0, y: 0.5},
+            end: {x: 1, y: 0.5},
+          }}
+          containerStyle={styles.btsButtonContainer}
+          buttonStyle={
+            isActive
+              ? styles.btsButtonStyle
+              : stylesDerived.btsButtonDisableStyle
+          }
+          titleStyle={
+            isActive ? styles.btsButtonText : stylesDerived.btsButtonDisableText
+          }
+          loading={isLoading}
+          onPress={this.goToNextSubSection}
+          disabled={!isActive}
+        />
+      </React.Fragment>
     );
   }
 }

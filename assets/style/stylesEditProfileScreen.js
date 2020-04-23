@@ -1,4 +1,4 @@
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
@@ -12,9 +12,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
+    justifyContent: 'flex-start',
     backgroundColor: BG_COLOR,
   },
   innerContainer: {
@@ -44,48 +42,46 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: 'purple',
   },
-  inputOuterViewContainer: {
+  headerTextContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: SCREEN_WIDTH - 10,
-    marginHorizontal: 5,
-    paddingVertical: 10,
-    //backgroundColor: "red"
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    //backgroundColor: 'grey',
+  },
+  headerText: {
+    color: styleCommon.headerTitleColor,
+    fontSize: fontsCommon.font30,
+    letterSpacing: fontsCommon.letterSpacingOneFive,
+  },
+  inputOuterViewContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: SCREEN_WIDTH,
+    paddingHorizontal: 20,
+    // backgroundColor: 'orange',
   },
   inputViewContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: SCREEN_WIDTH - 50,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
+    borderRadius: 100,
     marginBottom: 10,
-    backgroundColor: 'transparent',
+    borderColor: styleCommon.secondaryColorNew,
+    backgroundColor: styleCommon.secondaryColorNew,
   },
   inputContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: SCREEN_WIDTH - 120,
-    height: 40,
-    borderBottomWidth: 1,
-    marginVertical: 10,
-    //backgroundColor: "purple"
+    width: '90%',
+    height: SCREEN_HEIGHT * 0.07,
+    borderBottomWidth: 0,
+    //backgroundColor: 'yellow',
   },
   inputStyle: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 10,
-    color: styleCommon.textColorWhite,
-    fontSize: fontsCommon.font15,
-  },
-  inputDisableStyle: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 10,
-    color: styleCommon.darkDisableColor,
-    fontSize: fontsCommon.font15,
+    color: styleCommon.textColor1,
+    fontSize: fontsCommon.font18,
+    //backgroundColor: 'purple',
   },
   errorInputStyle: {
     marginTop: 0,
@@ -222,31 +218,20 @@ const styles = StyleSheet.create({
   btsButtonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    width: SCREEN_WIDTH,
+    marginBottom: 20,
+    //backgroundColor: 'red',
   },
   btsButtonStyle: {
-    width: SCREEN_WIDTH * 0.81,
-    height: 50,
+    width: SCREEN_WIDTH * 0.85,
+    height: SCREEN_HEIGHT * 0.07,
     borderColor: 'transparent',
-    borderRadius: 30,
+    borderRadius: 80,
     backgroundColor: styleCommon.secondaryButtonColor,
-  },
-  btsButtonDisableStyle: {
-    width: SCREEN_WIDTH * 0.81,
-    height: 50,
-    borderColor: 'transparent',
-    borderRadius: 30,
-    backgroundColor: styleCommon.secondaryButtonColor,
-    opacity: 0.6,
   },
   btsButtonText: {
-    fontSize: fontsCommon.font15,
+    fontSize: fontsCommon.font18,
     fontWeight: 'bold',
-    letterSpacing: fontsCommon.letterSpacingOneFive,
-    color: styleCommon.textColor2,
-  },
-  btsButtonDisableText: {
-    fontSize: fontsCommon.font15,
-    fontWeight: '700',
     letterSpacing: fontsCommon.letterSpacingOneFive,
     color: styleCommon.textColor2,
   },
@@ -258,24 +243,25 @@ const styles = StyleSheet.create({
   profileButtonHeaderContainer: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    paddingTop: DEVICE_NAME.includes('iPhone X') ? 40 : 20,
-    //backgroundColor: "blueviolet"
+    paddingTop: 20,
+    //backgroundColor: 'blueviolet',
   },
   profileButtonContainer: {
     width: SCREEN_WIDTH,
     height: 80,
-    //backgroundColor: "pink"
+    //backgroundColor: 'pink',
   },
   profileButtonContainerStyle: {
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingTop: DEVICE_NAME.includes('iPhone 11') ? 20 : 0,
+    //backgroundColor: 'cyan',
   },
   profileButtonStyle: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    //backgroundColor: "burlywood"
     borderWidth: 0,
     borderColor: 'transparent',
     backgroundColor: 'transparent',
@@ -301,6 +287,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10,
   },
   buttonStyle: {
     width: SCREEN_WIDTH * 0.2, //140,
@@ -317,6 +304,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginHorizontal: 5,
     marginVertical: 5,
+    padding: 0,
   },
   activeButtonStyle: {
     width: SCREEN_WIDTH * 0.2, //140,
@@ -332,14 +320,37 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
     marginHorizontal: 5,
-    //marginVertical: 5,
+    marginVertical: 5,
+    padding: 0,
   },
   buttonIcon: {
-    height:
-      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.08 : SCREEN_HEIGHT * 0.06, // 100,
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_HEIGHT * 0.08
+      : SCREEN_HEIGHT * 0.1, // 100,
+    //backgroundColor: 'red',
   },
 });
 
-export {styles};
+const stylesDerived = StyleSheet.create({
+  inputTouchOpaContainer: {
+    ...styles.inputViewContainer,
+    width: '100%',
+  },
+  inputDateContainer: {
+    ...styles.inputViewContainer,
+    marginBottom: 0,
+  },
+  btsButtonDisableStyle: {
+    ...styles.btsButtonStyle,
+    opacity: 0.6,
+  },
+  btsButtonDisableText: {
+    ...styles.btsButtonText,
+    color: styleCommon.descTextColor,
+    fontWeight: 'normal',
+  },
+});
+
+console.log(styles.buttonStyle);
+
+export {styles, stylesDerived};

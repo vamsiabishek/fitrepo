@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
-import {
-  ActivityIndicator,
-  UIManager,
-  View,
-  KeyboardAvoidingView,
-} from 'react-native';
-import {Button, Avatar} from 'react-native-elements';
+import {KeyboardAvoidingView, UIManager, View} from 'react-native';
+import {Button} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesEditProfileScreen';
 import EditProfileSubScreen1 from './EditProfileSubScreen1';
-import {ICON_SIZE} from '../common/Common';
-import {database, storage} from '../common/FirebaseConfig';
+import {database} from '../common/FirebaseConfig';
 import {
   styleCommon,
   ICON_BACK_SIZE,
@@ -76,131 +70,8 @@ export default class EditProfile extends Component {
       });
   };
 
-  // randomNumberGenerator
-  RNG = () =>
-    Math.floor((1 + Math.random()) * 0x1000)
-      .toString(16)
-      .substring(1);
-  uniqueImageId = () => {
-    return (
-      this.RNG() +
-      this.RNG() +
-      '-' +
-      this.RNG() +
-      '-' +
-      this.RNG() +
-      '-' +
-      this.RNG() +
-      '-' +
-      this.RNG() +
-      '-' +
-      this.RNG()
-    );
-  };
-
-  uploadImageClicked = () => {
-    const uploadOptions = {
-      title: 'Select Photo',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    /*ImagePicker.showImagePicker(uploadOptions, (response) => {
-      console.log('Response = ', response);
-      if (response.didCancel) {
-        console.log('User cancelled Image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custon button: ', response.customButton);
-      } else {
-        const source = {uri: response.uri};
-        this.uploadImage(response.uri, response.data);
-        this.setState({
-          avatarSource: source.uri,
-        });
-        console.log(this.state.avatarSource);
-      }
-    });*/
-  };
-
-  uploadImage = async (uri, base64) => {
-    let that = this;
-    const fileExtension = uri.slice(uri.lastIndexOf('.') + 1);
-    const imageId = that.uniqueImageId();
-    const filePath = imageId + '.' + fileExtension;
-    const {userId} = this.state;
-    storage
-      .ref('users/' + userId + '/img')
-      .child(filePath)
-      .putString(base64, 'base64', {
-        contentType: 'image/jpeg',
-      })
-      .on(
-        'state_changed',
-        (snapshot) => {
-          /*console.log(
-            'Progress: ',
-            snapshot.bytesTransferred,
-            snapshot.totalBytes,
-          );*/
-        },
-        (error) => {},
-        () => {
-          storage
-            .ref('users/' + userId + '/img')
-            .child(filePath)
-            .getDownloadURL()
-            .then((url) => {
-              // console.log('download url:', url);
-              this.setState({
-                avatarSource: url,
-              });
-              this.updateImageInDatabase();
-              this.forceUpdate();
-            });
-        },
-      );
-  };
-
-  updateImageInDatabase = () => {
-    const {avatarSource, userId} = this.state;
-    const extraProfilePic = {
-      avatarSource,
-    };
-    database
-      .ref('users')
-      .child(userId)
-      .update(extraProfilePic)
-      .then(() => {
-        this.setState({
-          avatarChanged: true,
-        });
-      })
-      .catch((error) => {
-        console.log('error while updating with profile pic url: ', error);
-      });
-  };
-
-  forceUpdate = () => {
-    // console.log('In force update !');
-    const {userId} = this.state;
-    database
-      .ref('users')
-      .child(userId)
-      .once('value')
-      .then((snapshot) => {
-        const userLoggedIn = snapshot.val();
-        this.setState({
-          user: userLoggedIn,
-          avatarChanged: false,
-        });
-      });
-  };
-
   render() {
-    const {user, avatarChanged} = this.state;
+    const {user} = this.state;
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -214,62 +85,13 @@ export default class EditProfile extends Component {
                 size: ICON_BACK_SIZE,
                 type: 'material-community',
                 name: 'arrow-left-thick',
-                color: styleCommon.textColor1,
+                color: styleCommon.headerTitleColor,
               }}
               containerStyle={styles.profileButtonContainerStyle}
               buttonStyle={styles.profileButtonStyle}
               titleStyle={styles.profileButtonTitleStyle}
               onPress={() => navigate('Profile')}
             />
-          </View>
-          <View style={styles.avatarContainer}>
-            {avatarChanged && (
-              <Avatar
-                size={120}
-                rounded
-                showEditButton
-                overlayContainerStyle={{backgroundColor: '#636568'}}
-                icon={{
-                  type: 'material-community',
-                  name: 'chess-bishop',
-                  color: styleCommon.textColor2,
-                }}
-                //source={{ uri: user.avatarSource }}
-                imageProps={styles.avatarImagePropsStyle}
-                renderPlaceholderContent={<ActivityIndicator color="white" />}
-                editButton={{
-                  type: 'material-community',
-                  name: 'pencil',
-                  color: styleCommon.textColor2,
-                  style: {backgroundColor: '#636568'},
-                  size: ICON_SIZE,
-                }}
-                onEditPress={this.uploadImageClicked}
-              />
-            )}
-            {!avatarChanged && (
-              <Avatar
-                size={120}
-                rounded
-                showEditButton
-                overlayContainerStyle={{backgroundColor: '#636568'}}
-                icon={{
-                  type: 'material-community',
-                  name: 'chess-bishop',
-                  color: styleCommon.textColor2,
-                }}
-                //source={{ uri: user.avatarSource }}
-                //imageProps={styles.avatarImagePropsStyle}
-                editButton={{
-                  type: 'material-community',
-                  name: 'pencil',
-                  color: styleCommon.textColor2,
-                  style: {backgroundColor: '#636568'},
-                  size: ICON_SIZE,
-                }}
-                // onEditPress={this.uploadImageClicked}
-              />
-            )}
           </View>
           <View style={styles.subScreenContainer}>
             <EditProfileSubScreen1

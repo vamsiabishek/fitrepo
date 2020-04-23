@@ -93,16 +93,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     //backgroundColor: "green"
   },
-  profileBannerTitleStyle: {
+  profileBannerHeaderTitleStyle: {
     textAlign: 'center',
-    color: styleCommon.textColor1,
+    color: styleCommon.headerTitleColor,
     fontSize: fontsCommon.font28,
     fontWeight: 'bold',
   },
   profileBannerSubTitleStyle: {
     textAlign: 'center',
-    color: styleCommon.textColor1,
+    color: styleCommon.headerTitleColor,
     fontSize: fontsCommon.font14,
+  },
+  profileBannerTitleStyle: {
+    textAlign: 'center',
+    color: styleCommon.headerTitleColor,
+    fontSize: fontsCommon.font16,
   },
   profileSubBannerStyle: {
     flex: 1,
