@@ -22,7 +22,7 @@ export default class FoodSources extends Component {
     this.animatedValue.setValue(0);
     Animated.timing(this.animatedValue, {
       toValue: 1,
-      duration: 4000,
+      duration: 5000,
       easing: Easing.linear,
       useNativeDriver: false,
     }).start(() => this.animate());

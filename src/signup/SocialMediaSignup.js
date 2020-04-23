@@ -42,6 +42,8 @@ export default class SocialMediaSignup extends Component {
     }
     Animated.spring(animatedValue, {
       toValue: 0.5,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 0.01,
       useNativeDriver: false,
     }).start();
   };

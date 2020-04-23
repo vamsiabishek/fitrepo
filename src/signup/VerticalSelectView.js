@@ -35,6 +35,8 @@ export default class VerticalSelectView extends React.Component {
   handlePressIn = () => {
     Animated.spring(this.animatedValue, {
       toValue: 0.5,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 0.01,
       useNativeDriver: true,
     }).start();
   };

@@ -1,4 +1,4 @@
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   styleCommon,
   SCREEN_WIDTH,
@@ -16,10 +16,10 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
     marginTop: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.2
+      ? SCREEN_WIDTH * 0.08
       : SCREEN_WIDTH * 0.01,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.2
+      ? SCREEN_WIDTH * 0.08
       : SCREEN_WIDTH * 0.05,
   },
   closeButtonContainerStyle: {
@@ -34,44 +34,46 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    paddingHorizontal: SCREEN_WIDTH * 0.07,
+    paddingHorizontal: SCREEN_WIDTH * 0.05,
     paddingBottom: SCREEN_WIDTH * 0.07,
-    // backgroundColor: 'cyan',
+    //backgroundColor: 'cyan',
+  },
+  modalLoadingContiner: {
+    flex: 1,
+    width: '80%',
+    justifyContent: 'space-evenly',
+    // backgroundColor: 'yellow',
   },
   purchaseAnimationContainer: {
     width: '110%',
-    height: '50%',
-    marginBottom: SCREEN_HEIGHT * 0.01,
-    // backgroundColor: 'blue',
+    height: '60%',
+    marginBottom: SCREEN_HEIGHT * 0.02,
+    //backgroundColor: 'blue',
   },
-  modalLoadingInsideStyle: {
+  doneAnimationContainer: {
+    width: '110%',
+    height: '60%',
+    marginBottom: SCREEN_HEIGHT * 0.02,
+    //backgroundColor: 'blue',
+  },
+  loadingAnimationContainer: {
+    height: '50%',
+    //backgroundColor: 'pink',
+  },
+  modalLoadingOuterContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-    //padding: DEVICE_NAME.includes('iPhone 11') ? SCREEN_WIDTH * 0.1 : 10,
-    width: SCREEN_WIDTH * 0.9,
     marginTop: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.3
-      : SCREEN_WIDTH * 0.25,
+      ? SCREEN_WIDTH * 0.08
+      : SCREEN_WIDTH * 0.01,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.2
-      : SCREEN_WIDTH * 0.1,
-  },
-  closeButtonDoneContainerStyle: {
-    position: 'relative',
-    top: -(SCREEN_WIDTH * 0.1),
-    left: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.72
-      : SCREEN_WIDTH * 0.69,
-    width: 40,
-    alignItems: 'center',
-    //backgroundColor: 'red',
-  },
-  viewTargetsContainer: {
-    backgroundColor: 'pink',
+      ? SCREEN_WIDTH * 0.08
+      : SCREEN_WIDTH * 0.05,
   },
   targetContainer: {
     width: SCREEN_WIDTH * 0.8,
@@ -100,12 +102,13 @@ export const styles = StyleSheet.create({
       : fontsCommon.font30,
     textAlign: 'center',
     color: styleCommon.textColor1,
+    marginBottom: SCREEN_HEIGHT * 0.02,
   },
   headerPurcahseText: {
     fontWeight: 'bold',
     fontSize: DEVICE_NAME.includes('iPhone 11')
       ? fontsCommon.font26
-      : fontsCommon.font30,
+      : fontsCommon.font28,
     textAlign: 'center',
     color: styleCommon.textColor1,
   },
@@ -114,6 +117,13 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: styleCommon.textColor1,
+    marginBottom: SCREEN_HEIGHT * 0.02,
+  },
+  donePurchaseText: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    width: '100%',
+    // backgroundColor: 'pink',
   },
   textualArea: {
     // flex: 1,
@@ -130,13 +140,13 @@ export const styles = StyleSheet.create({
   labelText: {
     // paddingBottom: 15,
     textAlign: 'center',
-    fontSize: fontsCommon.font20,
+    fontSize: fontsCommon.font18,
     color: styleCommon.textColor1,
   },
   labelTextBold: {
     // paddingBottom: 15,
     textAlign: 'center',
-    fontSize: fontsCommon.font22,
+    fontSize: fontsCommon.font20,
     fontWeight: 'bold',
     color: styleCommon.textColor1,
   },
