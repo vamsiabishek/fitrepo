@@ -351,6 +351,4 @@ const stylesDerived = StyleSheet.create({
   },
 });
 
-console.log(styles.buttonStyle);
-
 export {styles, stylesDerived};
