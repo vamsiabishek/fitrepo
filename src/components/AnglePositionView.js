@@ -13,27 +13,11 @@ class AnglePositionView extends React.Component {
     };
     this.animatedValue = new Animated.Value();
   }
-  componentDidMount = () => {
-    /*const { containerSize, viewSize, angle, label } = this.props;
-    const angleRad = this.degToRad(angle);
-    const radius = containerSize / 2;
-    const center = radius;
-    // Calculate symbol position
-    // Subtract half of symbol size to center it on the circle
-    this.state.viewPosition.x =
-      radius * Math.cos(angleRad) + center - viewSize / 2;
-    this.state.viewPosition.y =
-      radius * Math.sin(angleRad) + center - viewSize / 2;
-    Animated.spring(
-      this.animatedValue, // Auto-multiplexed
-      {
-        toValue: { x: this.state.viewPosition.x, y: this.state.viewPosition.y }
-      }
-    ).start(); */
-  };
+
   degToRad = (deg) => {
     return (deg * Math.PI) / 180;
   };
+
   render() {
     const {
       containerSize,

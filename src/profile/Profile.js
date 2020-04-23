@@ -37,7 +37,6 @@ import {
   getCurrentUser,
   signOutUser,
   createKeyAndValuesFromResult,
-  getDifferenceInSeconds,
 } from '../common/Util';
 import SelectButton from '../components/SelectButton';
 import ContactUs from './ContactUs';
@@ -153,8 +152,17 @@ export default class Profile extends Component {
       showContactUs,
       showPurchases,
     } = this.state;
-    const {gender, fitnessLevel, name, username, weight, purchases} =
-      user || {};
+    const {
+      gender,
+      fitnessLevel,
+      name,
+      username,
+      weight,
+      purchases,
+      phoneNumber,
+      provider,
+      email,
+    } = user || {};
     let levelImage = gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
     let levelTitle = BEGINNER_LABEL;
     if (fitnessLevel === 2) {
@@ -169,30 +177,12 @@ export default class Profile extends Component {
       gender === 1
         ? require('../../assets/jsons/male_profile_avatar.json')
         : require('../../assets/jsons/female_profile_avatar.json');
-
-    const profileHeaderHeight = this.profileHeaderScrollY.interpolate({
-      inputRange: [0, this.profileHeaderExpandedHeight - 100],
-      outputRange: [
-        this.profileHeaderExpandedHeight,
-        this.profileHeaderCollapsedHeight,
-      ],
-      extrapolate: 'clamp',
-    });
-    const noOfSecondsGoneInProgram = currentDiet
-      ? getDifferenceInSeconds(currentDiet.value.createdDate)
-      : undefined;
-    const getPercent = currentDiet
-      ? Math.floor(
-          (noOfSecondsGoneInProgram /
-            (currentDiet.value.selectedProgram * 7 * 24 * 3600)) *
-            100,
-        )
-      : undefined;
     const imageStyle = {
       width: SCREEN_WIDTH * 0.15,
       height: SCREEN_WIDTH * 0.15,
       //tintColor: styleCommon.selectedButtonColor,
     };
+    // console.log('user: ', user);
     return (
       <View style={styles.mainContainer}>
         {isLoading ? (
@@ -205,7 +195,7 @@ export default class Profile extends Component {
                   icon={{
                     name: 'settings',
                     size: ICON_BACK_SIZE,
-                    color: styleCommon.panelHeaderIconColor,
+                    color: styleCommon.headerTitleColor,
                     type: 'material-community',
                   }}
                   iconRight={true}
@@ -218,7 +208,7 @@ export default class Profile extends Component {
                   icon={{
                     name: 'logout',
                     size: ICON_BACK_SIZE,
-                    color: styleCommon.panelHeaderIconColor,
+                    color: styleCommon.headerTitleColor,
                     type: 'material-community',
                   }}
                   iconRight={true}
@@ -245,6 +235,7 @@ export default class Profile extends Component {
                 {useNativeDriver: true},
               )}
               scrollEventThrottle={16}>
+              <Text style={styles.profileBannerHeaderTitleStyle}>{name}</Text>
               <View style={styles.avatarContainer}>
                 <LottieView
                   source={profileAvatar}
@@ -255,10 +246,15 @@ export default class Profile extends Component {
                 />
               </View>
               <View style={styles.profileBannerStyle}>
-                <Text style={styles.profileBannerTitleStyle}>{name}</Text>
-                <Text style={styles.profileBannerSubTitleStyle}>
-                  {username}
-                </Text>
+                <Text style={styles.profileBannerTitleStyle}>{username}</Text>
+                {phoneNumber && (
+                  <Text style={styles.profileBannerSubTitleStyle}>
+                    {phoneNumber}
+                  </Text>
+                )}
+                {provider && email && (
+                  <Text style={styles.profileBannerSubTitleStyle}>{email}</Text>
+                )}
               </View>
               <View style={styles.profileSubBannerStyle}>
                 <SelectButton

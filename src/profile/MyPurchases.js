@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Platform} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
@@ -91,11 +91,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
     marginTop: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.2
-      : SCREEN_WIDTH * 0.01,
+      ? SCREEN_WIDTH * 0.35
+      : SCREEN_WIDTH * 0.2,
     marginBottom: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_WIDTH * 0.2
-      : SCREEN_WIDTH * 0.05,
+      ? SCREEN_WIDTH * 0.35
+      : SCREEN_WIDTH * 0.2,
   },
   modalNoPurchasesContainer: {
     flex: 1,

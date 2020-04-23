@@ -225,7 +225,6 @@ export default class LoginScreen extends Component {
       const currentUser = await f.auth().signInWithCredential(credential);
       setCurrentUser(currentUser.user);
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
-      this.onLoginSuccess();
     } catch (error) {
       this.setState({isLoading: false});
       Alert.alert('Google login attempt cancelled');

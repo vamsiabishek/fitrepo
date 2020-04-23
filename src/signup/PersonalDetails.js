@@ -6,9 +6,11 @@ import {
   UIManager,
   View,
   Alert,
+  Platform,
 } from 'react-native';
 import SelectButton from '../components/SelectButton';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DatetimeAndroidPicker from '../components/Picker/DatetimeAndroidPicker';
 import NumberPicker from '../components/Picker/NumberPicker';
 import TargetWeightTimeline from './TargetWeightTimeline';
 import {
@@ -128,21 +130,36 @@ export default class PersonalDetails extends Component {
     } = this.state;
     const hasWeight = this.isValidNumValue(weight);
     const hasHeight = this.isValidNumValue(height);
+    const currentDate = new Date();
+    const birthDate = dob && new Date(dob);
+    const dateValue = birthDate ? birthDate : currentDate;
+    // console.log('props personal details : ', this.props);
     return (
       <View style={styles.mainContent}>
         <KeyboardAvoidingView behaviour="position">
           <View style={styles.inputOuterViewContainer}>
             <TouchableOpacity>
-              <DateTimePickerModal
-                mode="date"
-                display="calendar"
-                isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
-                minimumDate={MIN_DATE}
-                maximumDate={MAX_DATE}
-                isVisible={isDTPickerVisible}
-                onConfirm={this.handleDTPicker}
-                onCancel={this.hideDTPicker}
-              />
+              {Platform.OS === 'ios' ? (
+                <DateTimePickerModal
+                  mode="date"
+                  isDarkModeEnabled={Appearance.getColorScheme() === 'dark'}
+                  date={dateValue}
+                  minimumDate={MIN_DATE}
+                  maximumDate={MAX_DATE}
+                  isVisible={isDTPickerVisible}
+                  onConfirm={this.handleDTPicker}
+                  onCancel={this.hideDTPicker}
+                />
+              ) : (
+                <DatetimeAndroidPicker
+                  isVisible={isDTPickerVisible}
+                  minDate={MIN_DATE}
+                  maxDate={MAX_DATE}
+                  date={dateValue}
+                  onConfirm={this.handleDTPicker}
+                  onCancel={this.hideDTPicker}
+                />
+              )}
               <SelectButton
                 title={dob.length === 0 ? 'Your Birthday' : dob}
                 buttonStyle={

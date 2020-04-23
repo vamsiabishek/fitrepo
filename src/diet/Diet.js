@@ -54,15 +54,7 @@ export default class Diet extends Component {
       //console.log('uid:', user.uid);
       uid = user.uid;
     }
-
-    const [myDiets] = await Promise.all([this.fetchMyDiets(uid)]);
-    //console.log('myDiets:', myDiets, 'uid: ', uid);
-    this.currentDietList = myDiets;
-    this.setState({
-      uid,
-      myDiets,
-      isLoading: false,
-    });
+    await Promise.all([this.fetchMyDiets(uid)]);
   };
 
   fetchPopularDiets = async () => {
@@ -84,6 +76,11 @@ export default class Diet extends Component {
   };
 
   fetchMyDiets = async (userId) => {
+    if (!userId) {
+      const {uid} = await getCurrentUser('user_data');
+      userId = uid;
+    }
+    console.log('refetching', userId);
     let myDiets = [];
     await database
       .ref(`diets/${userId}`)
@@ -93,6 +90,13 @@ export default class Diet extends Component {
         if (snap.val()) {
           const results = snap.val();
           myDiets = createKeyAndValuesFromResult(results).reverse();
+          this.currentDietList = myDiets;
+          this.setState({
+            userId,
+            myDiets,
+            isLoading: false,
+          });
+          console.log(myDiets);
         }
       })
       .catch((error) => {
@@ -212,6 +216,7 @@ export default class Diet extends Component {
                     uid={uid}
                     diets={this.currentDietList}
                     navigation={navigation}
+                    onRefresh={this.fetchMyDiets}
                   />
                 </View>
               </View>

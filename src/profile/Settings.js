@@ -29,14 +29,6 @@ const options = [
     name: 'Privacy & Terms',
   },
   {
-    id: 'privacyPolicy',
-    name: 'Privacy Policy',
-  },
-  {
-    id: 'termsAndConditions',
-    name: 'Terms & Conditions',
-  },
-  {
     id: 'contactUs',
     name: 'Contact Us',
   },
