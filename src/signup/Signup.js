@@ -391,7 +391,8 @@ export default class Signup extends Component {
       });
     } else {
       Alert.alert(
-        'The Protein sources have required carbohydrates, you dont need to select anymore carbs !',
+        'Threshold Reached',
+        'The protein sources so far selected have the required carbohydrates, you do not need to select anymore carbohydrate sources.',
       );
     }
   };
@@ -408,7 +409,8 @@ export default class Signup extends Component {
       });
     } else {
       Alert.alert(
-        'The Protein sources have required fats, you dont need to select anymore fats !',
+        'Threshold Reached',
+        'The protein sources so far selected have the required fats, you do not need to select anymore fat sources.',
       );
     }
   };
@@ -467,7 +469,14 @@ export default class Signup extends Component {
         });
       }
     } else {
-      Alert.alert('You can only select 4 ' + modalContains + ' sources');
+      Alert.alert(
+        'Limit Reached !',
+        'You can only select ' +
+          maxSourcesAllowed +
+          ' ' +
+          modalContains +
+          ' sources.',
+      );
     }
   };
   changeSourceButtonLabel = () => {
@@ -494,7 +503,7 @@ export default class Signup extends Component {
   onConfirm = () => {
     const {selectedSources, modalContains} = this.state;
     if (modalContains === 'protein' && selectedSources.length < 2) {
-      Alert.alert('Select atleast two sources');
+      Alert.alert('Incomplete', 'Select atleast two sources');
     } else {
       this.setState({showModal: false});
       analytics().logEvent('Selected_sources', {
@@ -584,7 +593,7 @@ export default class Signup extends Component {
         ) {
           isScrollable = true;
         } else {
-          Alert.alert('Please provide all values');
+          Alert.alert('Incomplete', 'Please ensure to provide all values.');
         }
       }
       if (
@@ -613,7 +622,7 @@ export default class Signup extends Component {
         ) {
           isScrollable = true;
         } else {
-          Alert.alert('Please provide all values');
+          Alert.alert('Incomplete', 'Please ensure to provide all values.');
         }
       }
       if (

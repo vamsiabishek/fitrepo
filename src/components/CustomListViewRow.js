@@ -34,7 +34,7 @@ const CustomListViewRow = ({
       })
     }>
     <View style={styles.rowContainer}>
-      <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={styles.anotherContainer}>
         <View style={styles.badgeContainer}>
           <Icon
             name="calendar-range"
@@ -66,18 +66,7 @@ const CustomListViewRow = ({
             </Text>
           </View>
         </View>
-
-        {/*<View style={styles.likesContainer}>
-        <Icon
-          name="star"
-          size={ICON_SIZE_MED}
-          color="gold"
-          style={styles.nextButtonIconStyle}
-        />
-        <Text style={styles.likesLabel}>{likes} Likes</Text>
-        </View>*/}
       </View>
-
       <View style={styles.rightIcon}>
         <Icon
           name="chevron-right"

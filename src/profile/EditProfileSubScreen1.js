@@ -123,7 +123,10 @@ export default class EditProfileSubScreen1 extends Component {
     if (gender === 0 || gender === 1) {
       return true;
     } else {
-      Alert.alert('*Select gender*');
+      Alert.alert(
+        'Incomplete !',
+        'Please select a gender to complete your profile.',
+      );
     }
     return false;
   };

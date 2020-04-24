@@ -163,7 +163,10 @@ export default class LoginScreen extends Component {
       this.onLoginSuccess();
     } catch (error) {
       this.setState({isLoading: false});
-      Alert.alert('Invalid username/password');
+      Alert.alert(
+        'Login Failed',
+        'Seems like you have entered an invalid email/password. Please check and try again.',
+      );
     }
   };
   onFBLogin = () => {
@@ -178,13 +181,16 @@ export default class LoginScreen extends Component {
       })
       .catch((error) => {
         this.setState({isLoading: false});
-        //Alert.alert('Facebook login cancelled');
+        Alert.alert(
+          'Error',
+          'An error occurred while trying to login with Facebook. Please try again later.',
+        );
       });
   };
   getFBTokenFromResponse = (result) => {
     if (result.isCancelled) {
       this.setState({isLoading: false});
-      Alert.alert('Facebook login cancelled');
+      Alert.alert('Cancelled', 'Facebook login was cancelled by the user.');
       return Promise.reject(new Error('The user cancelled the request'));
     }
     /*console.log(
@@ -227,7 +233,10 @@ export default class LoginScreen extends Component {
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
     } catch (error) {
       this.setState({isLoading: false});
-      Alert.alert('Google login attempt cancelled');
+      Alert.alert(
+        'Error/Cancelled',
+        'Either Google login attempt was cancelled or an error occurred.',
+      );
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {
