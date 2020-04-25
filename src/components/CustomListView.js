@@ -23,7 +23,7 @@ class CustomListview extends React.Component {
     onRefresh(uid); // this uid can be some times null
     this.setState({refreshing: true});
   };
-  _keyExtractor = (item) => item.key;
+  _keyExtractor = (item) => item.id;
 
   render() {
     const {diets, navigation, uid} = this.props;

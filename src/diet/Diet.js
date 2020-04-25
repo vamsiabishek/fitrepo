@@ -15,7 +15,6 @@ import {
   styleCommon,
   ICON_SIZE_MED,
 } from '../../assets/style/stylesCommonValues';
-import {createKeyAndValuesFromResult, getCurrentUser} from '../common/Util';
 import CustomListView from '../components/CustomListView';
 import {
   WEIGHT_LOSS_DESC,
@@ -23,6 +22,7 @@ import {
   BE_HEALTHY_DESC,
 } from '../common/Common';
 import Emoji from 'react-native-emoji';
+import api from '../common/Api';
 
 export default class Diet extends Component {
   constructor(props) {
@@ -48,65 +48,18 @@ export default class Diet extends Component {
   }
   componentDidMount = async () => {
     this.setState({isLoading: true});
-    let {uid} = '';
-    const user = await getCurrentUser('user_data');
-    if (user) {
-      //console.log('uid:', user.uid);
-      uid = user.uid;
-    }
-    await Promise.all([this.fetchMyDiets(uid)]);
+    await this.fetchMyDiets();
   };
 
-  fetchPopularDiets = async () => {
-    let popularDiets = [];
-    await database
-      .ref('diets')
-      .orderByChild('createdDate')
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          const results = snap.val();
-          popularDiets = createKeyAndValuesFromResult(results);
-        }
-      })
-      .catch((error) => {
-        console.log('error while fetching popular diets in Diet page', error);
-      });
-    return popularDiets;
-  };
-
-  fetchMyDiets = async (userId) => {
-    if (!userId) {
-      const {uid} = await getCurrentUser('user_data');
-      userId = uid;
-    }
-    console.log('refetching', userId);
-    let myDiets = [];
-    await database
-      .ref(`diets/${userId}`)
-      .orderByChild('createdDate')
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          const results = snap.val();
-          myDiets = createKeyAndValuesFromResult(results).reverse();
-          this.currentDietList = myDiets;
-          this.setState({
-            userId,
-            myDiets,
-            isLoading: false,
-          });
-          console.log(myDiets);
-        }
-      })
-      .catch((error) => {
-        console.log('error while fetching my diets in Diet page', error);
-      });
-    /*if (myDiets.length > 1) {
-      await setFirstTimeUser();
-      //alert(getFirstTimeUser())
-    }*/
-    return myDiets;
+  fetchMyDiets = async () => {
+    console.log('fetching user diets');
+    const {diets} = await api.get('/userDiets');
+    console.log("user diets are ", diets)
+    this.currentDietList = diets;
+    this.setState({
+      myDiets: diets,
+      isLoading: false,
+    });
   };
 
   onSortChange = (selectedSort) => {

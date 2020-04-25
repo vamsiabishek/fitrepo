@@ -14,7 +14,8 @@ import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {Button, SocialIcon} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesLoginScreen';
-import {f, database, auth} from '../common/FirebaseConfig';
+import {f, database} from '../common/FirebaseConfig';
+import auth from '@react-native-firebase/auth';
 import {
   EMAIL_VERIFICATION,
   PASSWORD_LENGTH_MINIMUM,
@@ -29,6 +30,7 @@ import PhoneAuth from '../signup/PhoneAuthScreen';
 import Loading from '../components/Loading';
 import analytics from '@react-native-firebase/analytics';
 import PrivacyAndTerms from '../documents/PrivacyAndTerms';
+import api from '../common/Api';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -193,11 +195,9 @@ export default class LoginScreen extends Component {
     return AccessToken.getCurrentAccessToken();
   };
   getFBCredentialsUsingToken = (data) => {
-    const credentials = f.auth.FacebookAuthProvider.credential(
-      data.accessToken,
-    );
+    const credentials = auth.FacebookAuthProvider.credential(data.accessToken);
     // console.log('credentials:', credentials);
-    return f.auth().signInWithCredential(credentials);
+    return auth().signInWithCredential(credentials);
   };
   onGoogleLogin = async () => {
     this.setState({isLoading: true});
@@ -234,7 +234,7 @@ export default class LoginScreen extends Component {
     const {
       user: {uid},
     } = currentUser;
-    const isExistingUser = await this.checkForExistingUserWithDiets(uid);
+    const isExistingUser = await this.checkForExistingUserWithDiets();
     console.log('isExistingUser: ', isExistingUser);
     if (isExistingUser) {
       this.onLoginSuccess();
@@ -299,19 +299,16 @@ export default class LoginScreen extends Component {
       this.setState({showPrivacyTerms: true, user});
     }
   };
-  checkForExistingUserWithDiets = async (uid) => {
+  checkForExistingUserWithDiets = async () => {
     let isExistingUser = false;
-    await database
-      .ref(`diets/${uid}`)
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          isExistingUser = true;
-        }
-      })
-      .catch((error) => {
-        console.log('error while fetching my diets in Diet page', error);
-      });
+    try {
+      const {diets} = await api.get('/userDiets');
+      if (diets.length > 0) {
+        isExistingUser = true;
+      }
+    } catch (err) {
+      console.log('error while fetching my diets in SignUp page', err);
+    }
     return isExistingUser;
   };
   onLoginSuccess = () => {
@@ -342,25 +339,30 @@ export default class LoginScreen extends Component {
 
   saveUserPrivacyTerms = async () => {
     const {user} = this.state;
-    const newUser = {
-      uid: user.uid,
-      privacyTermsAccepted: true,
-    };
+    user.newUser.privacyTermsAccepted = true;
     const {navigation} = this.props;
-    await database
-      .ref('users')
-      .child(newUser.uid)
-      .set(newUser)
-      .then(() => {
-        navigation.navigate('Signup', user);
-      })
-      .catch((error) => {
-        console.log(
-          'Error occurred in the saveUserPrivacyTerms method: ',
-          error,
-        );
-        this.setState({isLoading: false});
-      });
+    try {
+      const savedUser = await api.post('/saveUser', user.newUser);
+      this.setState({showPrivacyTerms: false});
+      navigation.navigate('Signup', {fromLogin: true});
+    } catch (err) {
+      this.setState({isLoading: false});
+    }
+
+    // await database
+    //   .ref('users')
+    //   .child(newUser.uid)
+    //   .set(newUser)
+    //   .then(() => {
+    //     navigation.navigate('Signup', user);
+    //   })
+    //   .catch((error) => {
+    //     console.log(
+    //       'Error occurred in the saveUserPrivacyTerms method: ',
+    //       error,
+    //     );
+    //     this.setState({isLoading: false});
+    //   });
   };
 
   render() {

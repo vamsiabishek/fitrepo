@@ -9,12 +9,6 @@ import {
   View,
 } from 'react-native';
 import {debounce} from 'lodash';
-import {
-  EMAIL_VERIFICATION,
-  PASSWORD_LENGTH_MINIMUM,
-  PROVIDER_FACEBOOK,
-  PROVIDER_GOOGLE,
-} from '../common/Common';
 import {commonStyles} from '../../assets/style/stylesCommon';
 import Header from '../components/signup/Header';
 import NavNextButton from '../components/signup/NavNextButton';
@@ -32,15 +26,10 @@ import {
   SCREEN_WIDTH,
   commonValues,
 } from '../../assets/style/stylesCommonValues';
-import {auth, database} from '../common/FirebaseConfig';
 import {createDiet} from './UpdateDiet';
 import {getSourcesWithImages} from '../common/SourceUtil';
 import {FOOD_PREF_NON_VEG, getFoodPrefByIndex} from '../common/SourceUtil';
-import {
-  setCurrentUser,
-  createKeyAndValuesFromResult,
-  setFirstTimeUser,
-} from '../common/Util';
+import {setFirstTimeUser} from '../common/Util';
 import {normalizeUserForSignup} from '../common/Normalize';
 import analytics from '@react-native-firebase/analytics';
 import PrivacyAndTerms from '../documents/PrivacyAndTerms';
@@ -85,23 +74,11 @@ export default class Signup extends Component {
       sources: [],
       filteredSources: [],
       sourcesButtonLabel: 'SKIP',
-      email: '',
-      password: '',
-      confirmationPassword: '',
-      emailValid: true,
-      passwordValid: true,
-      confirmationPasswordValid: true,
-      uid:
-        navigation.getParam('uid') !== undefined
-          ? navigation.getParam('uid')
-          : '',
       user: {},
       isLoading: false,
       isLoadingComponent: false,
       userLoginAnimation: false,
       isLoggedIn: false,
-      isExistingUser: navigation.getParam('isExistingUser') ? true : false,
-      newLogin: navigation.getParam('newLogin') ? true : false, // if new user chooses to login through FB/Google from the "Log In" page
       showGender: true,
       showPrivacyTerms: false,
       privacyTermsAccepted: false,
@@ -111,47 +88,28 @@ export default class Signup extends Component {
   }
 
   componentDidMount = async () => {
-    const {isExistingUser, uid, newLogin} = this.state;
-    if (isExistingUser && !newLogin) {
-      this.setState({isLoadingComponent: true});
-      await database
-        .ref('users')
-        .child(uid)
-        .once('value')
-        .then((snapshot) => {
-          const userLoggedIn = snapshot.val() || {};
-          LayoutAnimation.easeInEaseOut();
-          const normalizedUser = normalizeUserForSignup(userLoggedIn);
-          this.setState({
-            user: normalizedUser,
-            ...normalizedUser,
-            showTargetWeightButton: this.changeShowTargetWeightButton(
-              normalizedUser.dob,
-              normalizedUser.weight,
-              normalizedUser.height,
-            ),
-            isLoadingComponent: false,
-            showGender: normalizedUser.hasNoGender,
-          });
-        })
-        .catch((error) => {
-          console.log(
-            'error while fetching user details in componentDidMount of Diet:',
-            error,
-          );
-        });
-    } else if (newLogin) {
-      const {navigation} = this.props;
-      const provider = navigation.getParam('provider');
-      const mediaUser = navigation.getParam('newUser');
-      if (provider === PROVIDER_GOOGLE) {
-        this.setState({user: mediaUser});
-      } else if (provider === PROVIDER_FACEBOOK) {
+    const {navigation} = this.props;
+    const fromLoginScreen = navigation.getParam('fromLogin');
+    if (fromLoginScreen) {
+      try {
+        this.setState({isLoadingComponent: true});
+        const userLoggedIn = await api.get('/getLoggedInUser');
+        LayoutAnimation.easeInEaseOut();
+        const normalizedUser = normalizeUserForSignup(userLoggedIn);
         this.setState({
-          user: mediaUser,
-          dob: mediaUser.dob,
-          age: mediaUser.age,
+          user: normalizedUser,
+          ...normalizedUser,
+          showTargetWeightButton: this.changeShowTargetWeightButton(
+            normalizedUser.dob,
+            normalizedUser.weight,
+            normalizedUser.height,
+          ),
+          isLoadingComponent: false,
+          showGender: normalizedUser.hasNoGender,
+          isExistingUser: true,
         });
+      } catch (err) {
+        this.setState({isLoadingComponent: false});
       }
     }
   };
@@ -179,7 +137,6 @@ export default class Signup extends Component {
   setFBUser = async (user) => {
     this.setState({
       user,
-      uid: user.uid,
       dob: user.dob,
       age: user.age,
       isLoading: true,
@@ -188,12 +145,12 @@ export default class Signup extends Component {
     this.scrollToNextScreen(4);
   };
   setGoogleUser = async (user) => {
-    this.setState({user, uid: user.uid, isLoading: true});
+    this.setState({user, isLoading: true});
     await this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setPhoneNumberUser = async (user) => {
-    this.setState({user, uid: user.uid, isLoading: true});
+    this.setState({user, isLoading: true});
     await this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
@@ -568,123 +525,6 @@ export default class Signup extends Component {
     this.setState({searchTerm, filteredSources});
   };
 
-  // signup methods
-  validateEmail = (email, emailRef) => {
-    //const { email } = this.state;
-    const emailValid = EMAIL_VERIFICATION.test(email);
-    LayoutAnimation.easeInEaseOut();
-    this.setState({emailValid});
-    if (!emailValid) {
-      emailRef.focus();
-      emailRef.shake();
-    }
-    return emailValid;
-  };
-  validatePassword = (password, passwordRef) => {
-    // const { password } = this.state;
-    const passwordValid = password.length >= PASSWORD_LENGTH_MINIMUM;
-    LayoutAnimation.easeInEaseOut();
-    this.setState({passwordValid});
-    if (!passwordValid) {
-      passwordRef.focus();
-      passwordRef.shake();
-    }
-    return passwordValid;
-  };
-  validateConfirmationPassword = (confirmationPassword, confirmPasswordRef) => {
-    const {password} = this.state;
-    const confirmationPasswordValid = password === confirmationPassword;
-    LayoutAnimation.easeInEaseOut();
-    this.setState({confirmationPasswordValid});
-    if (confirmPasswordRef) {
-      confirmationPasswordValid || confirmPasswordRef.shake();
-    }
-    return confirmationPasswordValid;
-  };
-  onEmailChange = (email) => {
-    const {password, confirmationPassword} = this.state;
-    const navButtonActive = this.validateCredentials({
-      email,
-      password,
-      confirmationPassword,
-    });
-    this.setState({email, navButtonActive});
-  };
-  onPasswordChange = (password) => {
-    const {email, confirmationPassword} = this.state;
-    const navButtonActive = this.validateCredentials({
-      email,
-      password,
-      confirmationPassword,
-    });
-    this.setState({password, navButtonActive});
-  };
-  onConfirmPasswordChange = (confirmationPassword) => {
-    const {password, email} = this.state;
-    const navButtonActive = this.validateCredentials({
-      email,
-      password,
-      confirmationPassword,
-    });
-    this.validateConfirmationPassword(confirmationPassword);
-    this.setState({confirmationPassword, navButtonActive});
-  };
-
-  validateCredentials = ({email, password, confirmationPassword}) => {
-    const {emailValid, passwordValid} = this.state;
-    if (
-      email !== '' &&
-      password !== '' &&
-      confirmationPassword !== '' &&
-      password === confirmationPassword &&
-      emailValid &&
-      passwordValid
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  createNewUser = async () => {
-    const {user, email, password} = this.state;
-    console.log('******** creating new user ***************', email, password);
-    const getIndex = email.indexOf('@');
-    const name = email.substring(0, getIndex);
-    const username = name;
-    const userAddInfo = {...user, name, username, email};
-    this.setState({
-      isLoading: true,
-      isLoggedIn: true,
-      userLoginAnimation: true,
-    });
-    try {
-      await auth
-        .createUserWithEmailAndPassword(email, password)
-        .then((userObj) => {
-          const userNewObj = {
-            uid: userObj.user.uid,
-          };
-          setCurrentUser(userObj.user);
-          const newUser = {...user, ...userNewObj, ...userAddInfo};
-          this.saveUserAfterAuthentication(newUser);
-        })
-        .catch((error) => {
-          this.setState({
-            isLoading: false,
-            isLoggedIn: false,
-            userLoginAnimation: false,
-          });
-          Alert.alert(error.message);
-        });
-    } catch (error) {
-      this.setState({
-        isLoading: false,
-        isLoggedIn: false,
-        userLoginAnimation: false,
-      });
-    }
-  };
-
   onNext = async (currentScreen) => {
     const {
       goal,
@@ -699,24 +539,35 @@ export default class Signup extends Component {
       numberOfMeals,
       isLoggedIn,
       isExistingUser,
-      newLogin,
       showGender,
     } = this.state;
     let isScrollable = false;
+
+    const comparableScreen = (num) => (showGender ? num : num - 1);
+
+    if (
+      showGender &&
+      currentScreen === 1 &&
+      gender >= 0 &&
+      gender.length !== 0
+    ) {
+      isScrollable = true;
+    }
+    if (
+      currentScreen === comparableScreen(2) &&
+      goal >= 0 &&
+      goal.length !== 0
+    ) {
+      isScrollable = true;
+    }
+    if (
+      currentScreen === comparableScreen(3) &&
+      fitnessLevel > 0 &&
+      fitnessLevel.length !== 0
+    ) {
+      isScrollable = true;
+    }
     if (!isExistingUser) {
-      if (currentScreen === 1 && gender >= 0 && gender.length !== 0) {
-        isScrollable = true;
-      }
-      if (currentScreen === 2 && goal >= 0 && goal.length !== 0) {
-        isScrollable = true;
-      }
-      if (
-        currentScreen === 3 &&
-        fitnessLevel > 0 &&
-        fitnessLevel.length !== 0
-      ) {
-        isScrollable = true;
-      }
       if (currentScreen === 4) {
         await this.setNewUser();
         isScrollable = true;
@@ -749,21 +600,8 @@ export default class Signup extends Component {
       if (isScrollable && this.scrollRef && currentScreen !== 4) {
         this.scrollToNextScreen(currentScreen, isLoggedIn);
       }
-    } else if (newLogin) {
-      if (currentScreen === 1 && gender >= 0 && gender.length !== 0) {
-        isScrollable = true;
-      }
-      if (currentScreen === 2 && goal >= 0 && goal.length !== 0) {
-        isScrollable = true;
-      }
-      if (
-        currentScreen === 3 &&
-        fitnessLevel > 0 &&
-        fitnessLevel.length !== 0
-      ) {
-        isScrollable = true;
-      }
-      if (currentScreen === 4) {
+    } else {
+      if (currentScreen === comparableScreen(4)) {
         if (
           dob.length > 0 &&
           age !== undefined &&
@@ -777,68 +615,17 @@ export default class Signup extends Component {
         }
       }
       if (
-        currentScreen === 5 &&
+        currentScreen === comparableScreen(5) &&
         foodPrefBtn.length !== 0 &&
         foodPrefBtn >= 0 &&
         numberOfMeals > 0
       ) {
         isScrollable = true;
       }
-      if (currentScreen === 6) {
+      if (currentScreen === comparableScreen(6)) {
         console.log('saving user details');
         await this.saveUserDetails();
         console.log('saving diet details');
-        await this.createDietAndMeals();
-      }
-      if (isScrollable && this.scrollRef) {
-        this.scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
-      }
-    } else {
-      if (
-        showGender &&
-        currentScreen === 1 &&
-        gender >= 0 &&
-        gender.length !== 0
-      ) {
-        isScrollable = true;
-      }
-      if (
-        currentScreen === (showGender ? 2 : 1) &&
-        goal >= 0 &&
-        goal.length !== 0
-      ) {
-        isScrollable = true;
-      }
-      if (
-        currentScreen === (showGender ? 3 : 2) &&
-        fitnessLevel > 0 &&
-        fitnessLevel.length !== 0
-      ) {
-        isScrollable = true;
-      }
-      if (currentScreen === (showGender ? 4 : 3)) {
-        if (
-          dob.length > 0 &&
-          age !== undefined &&
-          weight !== undefined &&
-          height !== undefined &&
-          targetWeight !== undefined
-        ) {
-          isScrollable = true;
-        } else {
-          Alert.alert('Please provide all values');
-        }
-      }
-      if (
-        currentScreen === (showGender ? 5 : 4) &&
-        foodPrefBtn.length !== 0 &&
-        foodPrefBtn >= 0 &&
-        numberOfMeals > 0
-      ) {
-        isScrollable = true;
-      }
-      if (currentScreen === (showGender ? 6 : 5)) {
-        await this.saveUserDetails();
         await this.createDietAndMeals();
       }
       if (isScrollable && this.scrollRef) {
@@ -866,27 +653,6 @@ export default class Signup extends Component {
     });
     analytics().logEvent('signup', user);
     this.setShowPrivacyTerms();
-
-    // await database
-    //   .ref('users')
-    //   .child(user.uid)
-    //   .set(user)
-    //   .then(() => {
-    //     this.setState({
-    //       user: newUser,
-    //       isLoading: false,
-    //       userLoginAnimation: false,
-    //     });
-    //     analytics().logEvent('signup', user);
-    //     this.setShowPrivacyTerms();
-    //   })
-    //   .catch((error) => {
-    //     console.log(
-    //       'Error occurred in the saveUserAfterAuthentication method: ',
-    //       error,
-    //     );
-    //     this.setState({isLoading: false});
-    //   });
   };
 
   saveUserDetails = async () => {
@@ -919,7 +685,7 @@ export default class Signup extends Component {
       privacyTermsAccepted,
     };
     try {
-      console.log("updating user", user)
+      console.log('updating user', user);
       await api.post('/updateUser', user);
       this.setState({user});
       console.log('user saved successfully');
@@ -975,7 +741,7 @@ export default class Signup extends Component {
     analytics().logEvent('Diet_creation_started', {...dietInfo, gender});
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
-    console.log("navigating to mydiet")
+    console.log('navigating to mydiet');
     navigate('MyDiet', {
       uid,
       dietId,
