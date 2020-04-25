@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Image, TouchableOpacity, View, Text} from 'react-native';
 import PropTypes from 'prop-types';
-
 import Country from './country';
 import Flags from './resources/flags';
 import PhoneNumber from './phoneNumber';

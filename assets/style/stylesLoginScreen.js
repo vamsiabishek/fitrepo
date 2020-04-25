@@ -28,6 +28,11 @@ export const styles = StyleSheet.create({
     marginVertical: SCREEN_HEIGHT * 0.1,
     backgroundColor: BG_COLOR, //BG_COLOR, orange
   },
+  loginAnimationView: {
+    height: '30%',
+    width: '50%',
+    //backgroundColor: 'blue',
+  },
   loginView: {
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -37,21 +42,17 @@ export const styles = StyleSheet.create({
   logoContainer: {
     //marginVertical: SCREEN_HEIGHT * 0.08,
     height: 100,
-    width: SCREEN_WIDTH,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowOffset: {width: 2, height: 20},
-    shadowOpacity: 0.5,
-    shadowRadius: 4.5,
-    //backgroundColor: "brown",
+    //backgroundColor: 'yellow',
   },
   logoText: {
     padding: 5,
     letterSpacing: fontsCommon.letterSpacingOneFive,
-    fontWeight: '700',
-    fontSize: fontsCommon.font50,
+    fontSize: fontsCommon.font40,
+    fontWeight: 'bold',
     color: styleCommon.secondaryColorNew,
-    //backgroundColor: "firebrick"
+    //backgroundColor: 'firebrick',
   },
   loginInputContainer: {
     justifyContent: 'center',
