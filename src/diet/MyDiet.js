@@ -88,16 +88,7 @@ export default class MyDiet extends Component {
     const diet = await api.get(`/getDietById/${dietId}`);
     console.log('diet and meals:', diet);
     const {meals} = diet;
-    console.log('diet and meals:', diet);
     this.setState({diet, meals: meals[0], allMeals: meals});
-  };
-
-  fetchDietAndMeals = async (uid, dietId) => {
-    const [diet, meals] = await Promise.all([
-      this.fetchDiet(uid, dietId),
-      this.fetchMeals(dietId),
-    ]);
-    return {diet, meals};
   };
 
   loadPaymentEntitlements = async (uid) => {

@@ -90,12 +90,14 @@ export default class Signup extends Component {
   componentDidMount = async () => {
     const {navigation} = this.props;
     const fromLoginScreen = navigation.getParam('fromLogin');
-    if (fromLoginScreen) {
+    const fromAddNew = navigation.getParam('fromAddNew');
+    if (fromLoginScreen || fromAddNew) {
       try {
         this.setState({isLoadingComponent: true});
         const userLoggedIn = await api.get('/getLoggedInUser');
         LayoutAnimation.easeInEaseOut();
         const normalizedUser = normalizeUserForSignup(userLoggedIn);
+        console.log("normalizedUser", normalizedUser)
         this.setState({
           user: normalizedUser,
           ...normalizedUser,
