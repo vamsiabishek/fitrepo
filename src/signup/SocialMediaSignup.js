@@ -12,6 +12,7 @@ import {SocialIcon} from 'react-native-elements';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {f} from '../common/FirebaseConfig';
+import auth from '@react-native-firebase/auth';
 //import EmailOrMobileSignup from './EmailOrMobileSignup';
 import Loading from '../components/Loading';
 import {styles} from '../../assets/style/stylesSocialMediaSignup';
@@ -187,12 +188,30 @@ export default class SocialMediaSignup extends Component {
     //get access token
     return AccessToken.getCurrentAccessToken();
   };
-  getFBCredentialsUsingToken = (data) => {
-    const credentials = f.auth.FacebookAuthProvider.credential(
-      data.accessToken,
-    );
+  getFBCredentialsUsingToken = async (data) => {
+    // console.log('sending token', token);
+    // //const url = 'https://asia-east2-dietrepo-develop.cloudfunctions.net/api/createFacebookUser'
+    // //const url = 'http://localhost:5000/dietrepo-develop/asia-east2/api/createFacebookUser'
+    // const url =
+    //   'http://localhost:5000/dietrepo-develop/asia-east2/api/createFacebookUser';
+    // fetch(url, {
+    //   method: 'POST',
+    //   header: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(token),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     return data;
+    //   });
+    // console.log(JSON.stringify(response));
+    // return response.json();
+
+    const credentials = auth.FacebookAuthProvider.credential(data.accessToken);
     console.log('credentials:', credentials);
-    return f.auth().signInWithCredential(credentials);
+    return auth().signInWithCredential(credentials);
   };
 
   createUserWithFBDetails = async ({user, additionalUserInfo}) => {

@@ -30,7 +30,7 @@ export const normalizeUserForSignup = (user) => {
     carbSources: getSourcesWithImages('carb'),
     fatSources: getSourcesWithImages('fat'),
     isLoadingComponent: false,
-    showGender: hasNoGender,
+    hasNoGender,
     privacyTermsAccepted: user.privacyTermsAccepted || false,
   };
 };

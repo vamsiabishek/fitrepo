@@ -1,6 +1,7 @@
 import {designDiet} from '../diet/Algorithm/DietAlgorithm';
 import {f, database} from '../common/FirebaseConfig';
 import {getSupplementKeysBasedOnFitnessAndGoal} from '../common/SupplementsUtil';
+import api from '../common/Api';
 
 const createSupplements = async ({fitnessLevel, goal, dietId}) => {
   // console.log('creating  supplements for dietId :', dietId);
@@ -30,55 +31,11 @@ export const createDiet = async ({dietInfo, uid}) => {
     foodPreference,
     paymentStatus,
   } = dietInfo;
-  //console.log("diet info", dietInfo)
-  //create diet using these options
-  const mealDetails = await designDiet({
-    ...dietInfo,
-    uid,
-  });
-  //console.log("meal details ", mealDetails);
-
-  const dietDetails = {
-    selectedGoal,
-    selectedProgram,
-    selectedMeals,
-    currentWeight,
-    targetWeight,
-    fitnessLevel,
-    foodPreference,
-    paymentStatus,
-  };
 
   //save diet and meals
-  const dietId = await saveDietAndMeals({dietDetails, mealDetails, uid});
-  await createSupplements({fitnessLevel, goal: selectedGoal, dietId});
-  return dietId;
-};
-
-const saveDietAndMeals = async ({dietDetails, mealDetails, uid}) => {
-  let dietId = '';
-  await database
-    .ref(`diets/${uid}`)
-    .push({
-      ...dietDetails,
-      createdDate: f.database.ServerValue.TIMESTAMP,
-      likes: 0,
-    })
-    .then((res) => {
-      dietId = res.key;
-    })
-    .catch((error) => {
-      console.log('error while saving new diet:', error);
-    });
-  await database
-    .ref('meals')
-    .push({...mealDetails, dietId})
-    .then((res) => {
-      console.log('Successfully saved diet and meals');
-    })
-    .catch((error) => {
-      console.log('error while saving meals to the diet:', error);
-    });
-
+  console.log('before creating diet')
+  const {dietId} = await api.post('/createDiet', dietInfo);
+  console.log('diet created successfully with diet id', dietId)
+  //await createSupplements({fitnessLevel, goal: selectedGoal, dietId});
   return dietId;
 };

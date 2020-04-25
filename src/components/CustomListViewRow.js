@@ -12,26 +12,22 @@ import {
 import {getGoalString} from '../common/Util';
 
 const CustomListViewRow = ({
-  uid,
   item: {
-    key,
-    value: {
-      selectedGoal,
-      selectedProgram,
-      isVeg,
-      selectedMeals,
-      likes,
-      createdDate,
-      fitnessLevel,
-    },
+    selectedGoal,
+    selectedProgram,
+    isVeg,
+    selectedMeals,
+    likes,
+    createdDate,
+    fitnessLevel,
+    id,
   },
   navigation,
 }) => (
   <TouchableOpacity
     onPress={() =>
       navigation.navigate('MyDiet', {
-        uid,
-        dietId: key,
+        dietId: id,
         selectedProgram,
         selectedGoal,
         fitnessLevel,

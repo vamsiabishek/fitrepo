@@ -22,6 +22,7 @@ import Loading from '../components/Loading';
 import PurchaseScreen from '../components/purchase/PurchaseScreen';
 import {isTrailUser} from '../common/Util';
 import {getProgramEndDate, getSeconds} from '../common/Util';
+import api from '../common/Api';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -84,9 +85,11 @@ export default class MyDiet extends Component {
   loadDietDetails = async (uid, dietId) => {
     this.setState({isLoading: true});
     // console.log('fetching details for the diet with Id:', dietId);
-    const {diet, meals} = await this.fetchDietAndMeals(uid, dietId);
-    //console.log('diet and meals:', diet, meals);
-    this.setState({diet, meals: meals['0'], allMeals: meals});
+    const diet = await api.get(`/getDietById/${dietId}`);
+    console.log('diet and meals:', diet);
+    const {meals} = diet;
+    console.log('diet and meals:', diet);
+    this.setState({diet, meals: meals[0], allMeals: meals});
   };
 
   fetchDietAndMeals = async (uid, dietId) => {
@@ -95,47 +98,6 @@ export default class MyDiet extends Component {
       this.fetchMeals(dietId),
     ]);
     return {diet, meals};
-  };
-
-  fetchDiet = async (uid, dietId) => {
-    let diet = {};
-    await database
-      .ref(`diets/${uid}`)
-      .child(dietId)
-      .once('value')
-      .then(async (snap) => {
-        if (snap.val()) {
-          diet = snap.val();
-        }
-        if (!diet.paymentStatus) {
-          this.setState({
-            showAllMealsForSubscribed: false,
-            showPaymentModal: true,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log('error while fetching diets from MyDiet page: ', error);
-      });
-    return diet;
-  };
-
-  fetchMeals = async (dietId) => {
-    let meals = {};
-    await database
-      .ref('meals')
-      .orderByChild('dietId')
-      .equalTo(dietId)
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          meals = snap.val()[Object.keys(snap.val())[0]];
-        }
-      })
-      .catch((error) => {
-        console.log('error while fetching meals from MyDiet page: ', error);
-      });
-    return meals;
   };
 
   loadPaymentEntitlements = async (uid) => {
@@ -252,7 +214,7 @@ export default class MyDiet extends Component {
   };
 
   onPressSupplementsButton = () => {
-    const {paymentStatus} = this.state.diet;
+    const {paymentStatus, supplements} = this.state.diet;
     const {navigation} = this.props;
     const {navigate} = navigation;
     const dietId = navigation.getParam('dietId');
@@ -262,7 +224,7 @@ export default class MyDiet extends Component {
         showMeals: false,
       });
     } else {
-      navigate('Supplements', {dietId});
+      navigate('Supplements', {dietId, supplements});
     }
   };
 
