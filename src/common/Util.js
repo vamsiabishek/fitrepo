@@ -52,6 +52,15 @@ export const timeConverter = (timeStamp) => {
   return seconds + ' sec' + pluralCheck(seconds);
 };
 
+export const sortByDate = (list, dateProperty) => {
+  return list.sort((a, b) => {
+    if (b[dateProperty] && a[dateProperty]) {
+      return new Date(b[dateProperty]) - new Date(a[dateProperty]);
+    }
+    return 0;
+  });
+};
+
 export const convertGoal = (goal) =>
   goal === 0 ? WEIGHT_LOSS : goal === 1 ? BE_HEALTHY : WEIGHT_GAIN;
 

@@ -1,13 +1,12 @@
 import React from 'react';
 import {TouchableHighlight, View, Alert} from 'react-native';
-import {database} from '../common/FirebaseConfig';
 import {throttle} from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {withNavigation} from 'react-navigation';
-import {createKeyAndValuesFromResult} from '../common/Util';
 import {styleCommon, fontsCommon} from '../../assets/style/stylesCommonValues';
-import {getCurrentUser} from '../common/Util';
+import {sortByDate} from '../common/Util';
 import Loading from '../components/Loading';
+import api from '../common/Api';
 
 class AddButton extends React.Component {
   constructor(props) {
@@ -22,25 +21,13 @@ class AddButton extends React.Component {
   }
   addNew = async () => {
     this.setState({isLoading: true});
-    const {uid} = await getCurrentUser();
-    let latestDiet = {};
-    await database
-      .ref(`diets/${uid}`)
-      .orderByChild('createdDate')
-      .limitToLast(1)
-      .once('value')
-      .then((snap) => {
-        const results = snap.val();
-        latestDiet = createKeyAndValuesFromResult(results)[0];
-        this.setState({isLoading: false});
-      })
-      .catch((error) => {
-        latestDiet = undefined;
-        console.log('Error occurred in AddButton Component : ', error);
-      });
+    let {diets} = await api.get('/userDiets');
+    diets = sortByDate(diets, 'createdDate');
+    const latestDiet = diets[0];
+    this.setState({isLoading: false});
     if (latestDiet !== undefined) {
-      const {createdDate, selectedProgram} = latestDiet.value;
-      const fromDate = new Date(createdDate);
+      const {createdDate, selectedProgram} = latestDiet;
+      const fromDate = createdDate ? new Date(createdDate) : new Date();
       const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
       const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000), 10);
       const total_minutes = parseInt(Math.floor(total_seconds / 60), 10);
@@ -56,22 +43,21 @@ class AddButton extends React.Component {
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            {text: 'Continue', onPress: () => this.navigateToCreateDiet(uid)},
+            {text: 'Continue', onPress: () => this.navigateToCreateDiet()},
           ],
           {cancelable: false},
         );
       } else {
-        this.navigateToCreateDiet(uid);
+        this.navigateToCreateDiet();
       }
     } else {
-      this.navigateToCreateDiet(uid);
+      this.navigateToCreateDiet();
     }
   };
   navigateToCreateDiet = (uid) => {
     const {navigation} = this.props;
     navigation.navigate('Signup', {
-      isExistingUser: true,
-      uid,
+      fromAddNew: true,
     });
   };
   render() {

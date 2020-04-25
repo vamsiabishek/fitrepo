@@ -348,34 +348,10 @@ export default class LoginScreen extends Component {
     } catch (err) {
       this.setState({isLoading: false});
     }
-
-    // await database
-    //   .ref('users')
-    //   .child(newUser.uid)
-    //   .set(newUser)
-    //   .then(() => {
-    //     navigation.navigate('Signup', user);
-    //   })
-    //   .catch((error) => {
-    //     console.log(
-    //       'Error occurred in the saveUserPrivacyTerms method: ',
-    //       error,
-    //     );
-    //     this.setState({isLoading: false});
-    //   });
   };
 
   render() {
-    const {
-      // email,
-      // password,
-      // passwordValid,
-      // emailValid,
-      isLoading,
-      // secureTextKey,
-      showSocialOptions,
-      showPrivacyTerms,
-    } = this.state;
+    const {isLoading, showSocialOptions, showPrivacyTerms} = this.state;
     const socialLoginContainerStyle = {
       ...styles.buttonContainer,
       flexDirection: 'row',
