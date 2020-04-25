@@ -3,7 +3,6 @@ import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../../assets/style/stylesSupplementsScreen';
-import {database} from '../common/FirebaseConfig';
 import {getSupplementsByKeyList} from '../common/SupplementsUtil';
 import {
   styleCommon,
@@ -24,25 +23,28 @@ export default class Supplements extends Component {
     this.setState({isLoading: true});
     const {navigation} = this.props;
     const dietId = navigation.getParam('dietId');
-    //const currentUser = await f.auth().currentUser;
-    await database
-      .ref(`/supplements/${dietId}`)
-      .once('value')
-      .then((snap) => {
-        let supplements = [];
-        if (snap.val()) {
-          supplements = snap.val()[Object.keys(snap.val())[0]];
-          supplements = getSupplementsByKeyList(supplements);
-        }
-        //supplements = getSupplementsByKeyList(['wheyConcentrate', 'multivitamin', 'lGlutamine', 'glucosamine', 'ashwagandha']);
-        this.setState({supplements});
-      })
-      .catch((error) => {
-        console.log(
-          'error while fetching user details in componentDidMount of Supplements:',
-          error,
-        );
-      });
+    const supplementKeys = navigation.getParam('supplements');
+    const supplements = getSupplementsByKeyList(supplementKeys);
+    this.setState({supplements});
+    // const currentUser = await f.auth().currentUser;
+    // await database
+    //   .ref(`/supplements/${dietId}`)
+    //   .once('value')
+    //   .then((snap) => {
+    //     let supplements = [];
+    //     if (snap.val()) {
+    //       supplements = snap.val()[Object.keys(snap.val())[0]];
+    //       supplements = getSupplementsByKeyList(supplements);
+    //     }
+    //     //supplements = getSupplementsByKeyList(['wheyConcentrate', 'multivitamin', 'lGlutamine', 'glucosamine', 'ashwagandha']);
+    //     this.setState({supplements});
+    //   })
+    //   .catch((error) => {
+    //     console.log(
+    //       'error while fetching user details in componentDidMount of Supplements:',
+    //       error,
+    //     );
+    //   });
   };
   render() {
     const {supplements} = this.state;

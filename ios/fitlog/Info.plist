@@ -25,7 +25,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb790304848006877</string>
+				<string>fb244558420001556</string>
 			</array>
 		</dict>
 		<dict>
@@ -40,9 +40,9 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
-	<string>790304848006877</string>
+	<string>244558420001556</string>
 	<key>FacebookDisplayName</key>
-	<string>fitrepo</string>
+	<string>DietRepo</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

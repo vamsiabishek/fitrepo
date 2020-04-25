@@ -44,6 +44,7 @@ import {
 import {normalizeUserForSignup} from '../common/Normalize';
 import analytics from '@react-native-firebase/analytics';
 import PrivacyAndTerms from '../documents/PrivacyAndTerms';
+import api from '../common/Api';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -175,7 +176,7 @@ export default class Signup extends Component {
     this.setState({fitnessLevel});
     this.onNextDelayed(this.state.screen);
   };
-  setFBUser = (user) => {
+  setFBUser = async (user) => {
     this.setState({
       user,
       uid: user.uid,
@@ -183,17 +184,17 @@ export default class Signup extends Component {
       age: user.age,
       isLoading: true,
     });
-    this.saveUserAfterAuthentication(user);
+    await this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
-  setGoogleUser = (user) => {
+  setGoogleUser = async (user) => {
     this.setState({user, uid: user.uid, isLoading: true});
-    this.saveUserAfterAuthentication(user);
+    await this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
-  setPhoneNumberUser = (user) => {
+  setPhoneNumberUser = async (user) => {
     this.setState({user, uid: user.uid, isLoading: true});
-    this.saveUserAfterAuthentication(user);
+    await this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setNewUser = async () => {
@@ -857,26 +858,35 @@ export default class Signup extends Component {
       gender,
       fitnessLevel,
     };
-    await database
-      .ref('users')
-      .child(user.uid)
-      .set(user)
-      .then(() => {
-        this.setState({
-          user: newUser,
-          isLoading: false,
-          userLoginAnimation: false,
-        });
-        analytics().logEvent('signup', user);
-        this.setShowPrivacyTerms();
-      })
-      .catch((error) => {
-        console.log(
-          'Error occurred in the saveUserAfterAuthentication method: ',
-          error,
-        );
-        this.setState({isLoading: false});
-      });
+    const savedUser = await api.post('/saveUser', user);
+    this.setState({
+      user: savedUser,
+      isLoading: false,
+      userLoginAnimation: false,
+    });
+    analytics().logEvent('signup', user);
+    this.setShowPrivacyTerms();
+
+    // await database
+    //   .ref('users')
+    //   .child(user.uid)
+    //   .set(user)
+    //   .then(() => {
+    //     this.setState({
+    //       user: newUser,
+    //       isLoading: false,
+    //       userLoginAnimation: false,
+    //     });
+    //     analytics().logEvent('signup', user);
+    //     this.setShowPrivacyTerms();
+    //   })
+    //   .catch((error) => {
+    //     console.log(
+    //       'Error occurred in the saveUserAfterAuthentication method: ',
+    //       error,
+    //     );
+    //     this.setState({isLoading: false});
+    //   });
   };
 
   saveUserDetails = async () => {
@@ -892,7 +902,6 @@ export default class Signup extends Component {
       privacyTermsAccepted,
     } = this.state;
     let {user, gender, fitnessLevel, uid} = this.state;
-    let myDiets = [];
     // gender = gender === 0 ? "Female" : "Male";
     if (password !== '') {
       user.email = email;
@@ -909,33 +918,27 @@ export default class Signup extends Component {
       foodPreference,
       privacyTermsAccepted,
     };
-    await database
-      .ref('users')
-      .child(user.uid)
-      .set(user)
-      .then(() => {
-        this.setState({user});
-        console.log('user saved successfully');
-      })
-      .catch((error) => {
-        console.log('Error occurred in the save user details method: ', error);
-        this.setState({isLoading: false});
-      });
-    await database
-      .ref(`diets/${user.uid}`)
-      .orderByChild('createdDate')
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          const results = snap.val();
-          myDiets = createKeyAndValuesFromResult(results).reverse();
-        }
-      })
-      .catch((error) => {
-        console.log('error while fetching my diets in SignUp page', error);
-      });
-    if (myDiets.length !== 0) {
-      setFirstTimeUser();
+    try {
+      console.log("updating user", user)
+      await api.post('/updateUser', user);
+      this.setState({user});
+      console.log('user saved successfully');
+      const {diets} = await this.fetchUserDiets();
+      console.log('mydiets ', diets);
+      if (diets.length !== 0) {
+        setFirstTimeUser();
+      }
+    } catch (err) {
+      console.error('Error occurred in the save user details method: ', err);
+      this.setState({isLoading: false});
+    }
+  };
+
+  fetchUserDiets = async () => {
+    try {
+      return await api.get('/userDiets');
+    } catch (err) {
+      console.log('error while fetching my diets in SignUp page', err);
     }
   };
 
@@ -972,6 +975,7 @@ export default class Signup extends Component {
     analytics().logEvent('Diet_creation_started', {...dietInfo, gender});
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
+    console.log("navigating to mydiet")
     navigate('MyDiet', {
       uid,
       dietId,

@@ -5,6 +5,7 @@ import {
   MALE,
   FEMALE,
 } from '../../common/Common';
+import api from '../../common/Api';
 import {sourceQuantities, manageSources} from './SourceDistribution';
 import {createMeals} from './MealsAlgorithm';
 import {convertGoal} from '../../common/Util';
@@ -188,17 +189,8 @@ export const designDiet = async ({
     uid,
   );*/
 
-  let user = {};
-  await database
-    .ref('users')
-    .child(uid)
-    .once('value')
-    .then((snapshot) => {
-      user = snapshot.val();
-    })
-    .catch((error) => {
-      console.log('error while fetching user details in DietAlgorithm:', error);
-    });
+  const user = await api.get('/getLoggedInUser');
+
   const goal = convertGoal(selectedGoal);
   let numberOfMeals = 4;
   if (selectedMeals) {
