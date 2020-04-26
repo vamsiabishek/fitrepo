@@ -10,22 +10,29 @@ import {
   carbSourcesWithImages,
   fatSourcesWithImages,
 } from './SourcesWithImages';
+import {createKeyAndNameFromResult} from './Util';
 
 export const FOOD_PREF_VEGAN = 'VEGAN';
 export const FOOD_PREF_VEG = 'VEG';
 export const FOOD_PREF_NON_VEG = 'NON_VEG';
 export const FOOD_PREF_EGGETARIAN = 'EGGETARIAN';
 
-export const getProteinSources = () => {
-  return createKeyAndValues(proteinSources);
+export const getProteinSources = ({onlyNames}) => {
+  return onlyNames
+    ? createKeyAndNameFromResult(proteinSources)
+    : createKeyAndValues(proteinSources);
 };
 
-export const getCarbSources = () => {
-  return createKeyAndValues(carbSources);
+export const getCarbSources = ({onlyNames}) => {
+  return onlyNames
+    ? createKeyAndNameFromResult(carbSources)
+    : createKeyAndValues(carbSources);
 };
 
-export const getFatSources = () => {
-  return createKeyAndValues(fatSources);
+export const getFatSources = ({onlyNames}) => {
+  return onlyNames
+    ? createKeyAndNameFromResult(fatSources)
+    : createKeyAndValues(fatSources);
 };
 
 export const getProteinSourcesWithImages = (foodPreference) => {

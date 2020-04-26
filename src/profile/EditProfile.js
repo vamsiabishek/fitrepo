@@ -3,11 +3,11 @@ import {KeyboardAvoidingView, UIManager, View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesEditProfileScreen';
 import EditProfileSubScreen1 from './EditProfileSubScreen1';
-import {database} from '../common/FirebaseConfig';
 import {
   styleCommon,
   ICON_BACK_SIZE,
 } from '../../assets/style/stylesCommonValues';
+import api from '../common/Api';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -45,29 +45,17 @@ export default class EditProfile extends Component {
     this.updateUserProfile(setUserPartial);
   };
   updateUserProfile = async (setUserPartial) => {
-    // subScreen2 = true
-    const {userId, user} = this.state;
+    const {user} = this.state;
     const {navigation} = this.props;
-    const {navigate} = this.props.navigation;
+    const {navigate} = navigation;
     const haveNavigated = true;
     const updateUserOnProfile = navigation.getParam('updateProfileCall');
-    database
-      .ref('users')
-      .child(userId)
-      .update(setUserPartial)
-      .then(() => {
-        // console.log('Successfully updated existing user with details');
-        this.setState({
-          user: {...user, ...setUserPartial},
-        });
-        updateUserOnProfile(setUserPartial, haveNavigated);
-        // if (subScreen2 === true) {
-        navigate('Profile');
-        // }
-      })
-      .catch((error) => {
-        console.log('Error while updating new user with details:', error);
-      });
+    await api.post('/updateUser', setUserPartial);
+    this.setState({
+      user: {...user, ...setUserPartial},
+    });
+    updateUserOnProfile(setUserPartial, haveNavigated);
+    navigate('Profile');
   };
 
   render() {

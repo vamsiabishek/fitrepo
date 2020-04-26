@@ -4,7 +4,7 @@ import {convertProductIdentifierToPrograms} from '../../common/PurchaseUtils';
 import {styles} from '../../../assets/style/stylesPurchaseList';
 
 class PurchaseList extends React.Component {
-  _keyExtractor = (item) => item.purchaseDate.toString();
+  _keyExtractor = (item) => item.id;
   renderPurchaseItem = (purchase, index) => {
     const purchaseDateTime = new Date(purchase.purchaseDate);
     if (index === 0) {
@@ -39,26 +39,12 @@ class PurchaseList extends React.Component {
   };
   render() {
     const {purchases} = this.props;
-    //console.log(purchases);
-    const purchaseList = [];
-
-    Object.keys(purchases).map((dietId) => {
-      const purchaseDetails = purchases[dietId];
-      Object.keys(purchaseDetails).map((purchaseId) => {
-        purchaseList.push({
-          dietId,
-          purchaseId,
-          ...purchaseDetails[purchaseId],
-        });
-      });
-    });
-    console.log(purchaseList);
     return (
       <View style={styles.container}>
-        {purchaseList.length > 0 ? (
+        {purchases.length > 0 ? (
           <ScrollView style={styles.table}>
             <FlatList
-              data={purchaseList}
+              data={purchases}
               renderItem={({item, index}) =>
                 this.renderPurchaseItem(item, index)
               }
