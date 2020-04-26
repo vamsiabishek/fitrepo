@@ -97,7 +97,7 @@ export default class Signup extends Component {
         const userLoggedIn = await api.get('/getLoggedInUser');
         LayoutAnimation.easeInEaseOut();
         const normalizedUser = normalizeUserForSignup(userLoggedIn);
-        console.log("normalizedUser", normalizedUser)
+        console.log('normalizedUser', normalizedUser);
         this.setState({
           user: normalizedUser,
           ...normalizedUser,
@@ -680,7 +680,7 @@ export default class Signup extends Component {
     } = this.state;
     let {user, gender, fitnessLevel, uid} = this.state;
     // gender = gender === 0 ? "Female" : "Male";
-    if (password !== '') {
+    if (password && password !== '') {
       user.email = email;
     }
     user = {

@@ -211,7 +211,7 @@ export default class LoginScreen extends Component {
       if (Platform.OS === 'android') {
         await GoogleSignin.configure({
           webClientId:
-            '784097360045-qjliaef9a4kphpdlcoo1v6ff2jj4oaum.apps.googleusercontent.com',
+            '916988589640-enad9fvkikhvroaeqo1m441f7mdghgqo.apps.googleusercontent.com',
         });
       } else {
         await GoogleSignin.configure();
@@ -219,15 +219,20 @@ export default class LoginScreen extends Component {
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
-      const data = await GoogleSignin.signIn();
 
-      // create a new firebase credential with the token
-      const credential = f.auth.GoogleAuthProvider.credential(
-        data.idToken,
-        data.accessToken,
-      );
-      // login with credential
-      const currentUser = await f.auth().signInWithCredential(credential);
+      // Get the users ID token
+      const {idToken} = await GoogleSignin.signIn();
+      console.log(idToken);
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      console.log(googleCredential);
+
+      // Sign-in the user with the credential
+      const currentUser = await auth().signInWithCredential(googleCredential);
+      console.log(currentUser);
+
+      // Setting current user
       setCurrentUser(currentUser.user);
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
     } catch (error) {
@@ -291,7 +296,6 @@ export default class LoginScreen extends Component {
       }
 
       analytics().logEvent('Login_without_signup', {
-        ...newUser,
         provider: provider || 'Phone Number',
       });
 
