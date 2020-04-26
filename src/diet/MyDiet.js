@@ -224,34 +224,11 @@ export default class MyDiet extends Component {
     const {showInitialTrailMeals} = this.state;
     this.setState({showPaymentModal: false, showMeals: true}); // ,
     if (paymentDone) {
-      const {navigation} = this.props;
-      const {diet} = this.state;
-      const newDietWithPayment = {
-        paymentStatus: true,
-      };
-      const uid = navigation.getParam('uid');
-      const dietId = navigation.getParam('dietId');
+      this.loadDietDetails();
       this.setState({
         showInitialTrailMeals: false,
         showAllMealsForSubscribed: true,
       });
-      await database
-        .ref(`diets/${uid}`)
-        .child(dietId)
-        .update(newDietWithPayment)
-        .then(() => {
-          console.log('Successfully updated the diet with payment details.');
-          this.setState(
-            {diet: {...diet, ...newDietWithPayment}},
-            console.log('new diet: ', this.state.diet),
-          );
-        })
-        .catch((error) => {
-          console.log(
-            'Error while closing the payment modal and saving new diet details: ',
-            error,
-          );
-        });
     } else if (!paymentDone && !showInitialTrailMeals) {
       navigate('Diet');
     }
