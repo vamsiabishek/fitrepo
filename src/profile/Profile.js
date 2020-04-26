@@ -11,7 +11,6 @@ import LottieView from 'lottie-react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../../assets/style/stylesProfileScreen';
-import {database} from '../common/FirebaseConfig';
 import {
   MALE_BEGINNER_ICON,
   MALE_INTERMEDIATE_ICON,
@@ -33,14 +32,11 @@ import {
   ICON_BACK_SIZE,
   ICON_SIZE_SMALL,
 } from '../../assets/style/stylesCommonValues';
-import {
-  getCurrentUser,
-  signOutUser,
-  createKeyAndValuesFromResult,
-} from '../common/Util';
+import {signOutUser, sortByDate} from '../common/Util';
 import SelectButton from '../components/SelectButton';
 import ContactUs from './ContactUs';
 import MyPurchases from './MyPurchases';
+import api from '../common/Api';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -57,6 +53,7 @@ export default class Profile extends Component {
       avatarChanged: false,
       entitlements: undefined,
       currentDiet: undefined,
+      myDiets: [],
       showContactUs: false,
       showPurchases: false,
     };
@@ -106,41 +103,21 @@ export default class Profile extends Component {
   };
 
   componentDidMount = async () => {
-    const currentUser = await getCurrentUser();
     this.setState({
       isLoading: true,
-      uid: currentUser.uid,
     });
-    database
-      .ref('users')
-      .child(currentUser.uid)
-      .once('value')
-      .then((snapshot) => {
-        const userLoggedIn = snapshot.val();
-        this.updateProfileCall(userLoggedIn);
-      })
-      .catch((error) => {
-        console.log(
-          'error while fetching user details in componentDidMount of Profile:',
-          error,
-        );
-      });
-    let myDiets = [];
-    await database
-      .ref(`diets/${currentUser.uid}`)
-      .orderByChild('createdDate')
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          const results = snap.val();
-          myDiets = createKeyAndValuesFromResult(results).reverse();
-          let currentDiet = myDiets[0];
-          this.setState({currentDiet});
-        }
-      })
-      .catch((error) => {
-        console.log('error while fetching my diets in Profile page', error);
-      });
+    const userLoggedIn = await api.get('/getLoggedInUser');
+    console.log('logged in user', userLoggedIn);
+    let myDiets = userLoggedIn.diets || [];
+    console.log('before sorting', myDiets)
+    myDiets = sortByDate(myDiets, 'createdDate');
+    console.log('after sorting', myDiets)
+    this.updateProfileCall(userLoggedIn);
+
+    // let myDiets = userLoggedIn.diets || [];
+    // myDiets = sortByDate(myDiets, 'createdDate');
+    let currentDiet = myDiets[0];
+    this.setState({currentDiet, myDiets});
   };
   closeContactUs = () => this.setState({showContactUs: false});
   closeMyPurchases = () => this.setState({showPurchases: false});
@@ -151,6 +128,7 @@ export default class Profile extends Component {
       currentDiet,
       showContactUs,
       showPurchases,
+      myDiets,
     } = this.state;
     const {
       gender,
@@ -158,7 +136,6 @@ export default class Profile extends Component {
       name,
       username,
       weight,
-      purchases,
       phoneNumber,
       provider,
       email,
@@ -342,7 +319,7 @@ export default class Profile extends Component {
                         />
                         <Text style={styles.boxTextStyle}>
                           Target Weight:{' '}
-                          {currentDiet && currentDiet.value.targetWeight} kgs
+                          {currentDiet && currentDiet.targetWeight} kgs
                         </Text>
                       </View>
                     </View>
@@ -357,7 +334,7 @@ export default class Profile extends Component {
             <MyPurchases
               showPurchases={showPurchases}
               onCancel={this.closeMyPurchases}
-              purchases={purchases}
+              diets={myDiets}
             />
           </View>
         )}

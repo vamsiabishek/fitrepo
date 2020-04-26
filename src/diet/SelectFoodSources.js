@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import {Text, View, ScrollView, Switch} from 'react-native';
 import {Button} from 'react-native-elements';
-import {database} from '../common/FirebaseConfig';
-import {createKeyAndNameFromResult} from '../common/Util';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import {styles} from '../../assets/style/stylesSelectFoodSources';
+import {
+  getProteinSources,
+  getCarbSources,
+  getFatSources,
+} from '../common/SourceUtil';
 
 export default class SelectFoodSources extends Component {
   constructor(props) {
@@ -37,80 +40,35 @@ export default class SelectFoodSources extends Component {
   };
 
   fetchProteinSources = async () => {
-    let proteinSources = [];
-    await database
-      .ref('protein-sources')
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          const results = snap.val();
-          proteinSources = [
-            {
-              name: 'Protein Sources',
-              key: 'protein',
-              sources: createKeyAndNameFromResult(results),
-            },
-          ];
-        }
-      })
-      .catch((error) => {
-        console.log(
-          'error while fetching protein sources in select food sources page',
-          error,
-        );
-      });
+    const proteinSources = [
+      {
+        name: 'Protein Sources',
+        key: 'protein',
+        sources: getProteinSources({onlyNames: true}),
+      },
+    ];
     return proteinSources;
   };
 
   fetchCarbSources = async () => {
-    let carbSources = [];
-    await database
-      .ref('carb-sources')
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          const results = snap.val();
-          carbSources = [
-            {
-              name: 'Carbs',
-              key: 'carbs',
-              sources: createKeyAndNameFromResult(results),
-            },
-          ];
-        }
-      })
-      .catch((error) => {
-        console.log(
-          'error while fetching carb sources in select food sources page',
-          error,
-        );
-      });
+    const carbSources = [
+      {
+        name: 'Carbs',
+        key: 'carbs',
+        sources: getCarbSources({onlyNames: true}),
+      },
+    ];
     return carbSources;
   };
 
   fetchFatSources = async () => {
-    let fatSources = [];
-    await database
-      .ref('fat-sources')
-      .once('value')
-      .then((snap) => {
-        if (snap.val()) {
-          const results = snap.val();
-          fatSources = [
-            {
-              name: 'Fats',
-              key: 'fats',
-              sources: createKeyAndNameFromResult(results),
-            },
-          ];
-        }
-      })
-      .catch((error) => {
-        console.log(
-          'error while fetching fat sources in select food sources page',
-          error,
-        );
-      });
+    const fatSources = [
+      {
+        name: 'Fats',
+        key: 'fats',
+        sources: getFatSources({onlyNames: true}),
+      },
+    ];
     return fatSources;
   };
 

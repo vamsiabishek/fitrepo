@@ -10,7 +10,6 @@ import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import StringPicker from '../components/Picker/StringPicker';
 import {styles} from '../../assets/style/stylesDietScreen';
-import {database} from '../common/FirebaseConfig';
 import {
   styleCommon,
   ICON_SIZE_MED,

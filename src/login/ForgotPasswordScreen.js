@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesForgotPasswordScreen';
-import {auth} from './../common/FirebaseConfig';
+import auth from '@react-native-firebase/auth';
 import {EMAIL_VERIFICATION, GRADIENT_BG_IMAGE} from '../common/Common';
 import {
   btnGradientColorLeft,

@@ -1,6 +1,7 @@
 import {AsyncStorage} from 'react-native';
-import {f, database} from './FirebaseConfig';
+import auth from '@react-native-firebase/auth';
 import {WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY} from './Common';
+import api from '../common/Api';
 
 export const pluralCheck = (s) => {
   return s === 1 ? ' ago' : 's ago';
@@ -107,47 +108,41 @@ export const createRefBySourceType = (type) => {
 };
 
 export const setCurrentUser = (user) => {
-  if (user) {
-    const userObjectString = JSON.stringify(user);
-    AsyncStorage.setItem('user_data', userObjectString);
-  }
+  // if (user) {
+  //   const userObjectString = JSON.stringify(user);
+  //   AsyncStorage.setItem('user_data', userObjectString);
+  // }
 };
 
 export const removeCurrentUser = async () => {
-  await AsyncStorage.removeItem('user_data');
+  //await AsyncStorage.removeItem('user_data');
 };
 
 export const getCurrentUser = async () => {
-  let user = {};
-  const result = await AsyncStorage.getItem('user_data');
-  user = JSON.parse(result);
-  if (user && !user.uid) {
-    try {
-      let defaultAuth = await f.auth();
-      user = defaultAuth.currentUser;
-    } catch (error) {
-      console.log(
-        'Error occurred while trying to get the current user : ',
-        error,
-      );
-    }
-  }
-  return user;
+  // let user = {};
+  // const result = await AsyncStorage.getItem('user_data');
+  // user = JSON.parse(result);
+  // if (user && !user.uid) {
+  //   try {
+  //     let defaultAuth = await f.auth();
+  //     user = defaultAuth.currentUser;
+  //   } catch (error) {
+  //     console.log(
+  //       'Error occurred while trying to get the current user : ',
+  //       error,
+  //     );
+  //   }
+  // }
+  // return user;
 };
 
 export const signOutUser = async () => {
-  const user = await f.auth().currentUser;
-  await removeCurrentUser();
-  if (user) {
-    await f
-      .auth()
-      .signOut()
-      .then(() => {
-        return true;
-      });
-  }
-
-  return true;
+  auth()
+    .signOut()
+    .then(() => {
+      console.log('User signed out!');
+      return true;
+    });
 };
 
 let IS_FIRST_TIME_USER = true;
@@ -161,8 +156,7 @@ export const setFirstTimeUser = async () => {
 export const getFirstTimeUser = () => IS_FIRST_TIME_USER;
 
 const isNewUser = async (dietId = undefined) => {
-  const {uid} = await getCurrentUser();
-  const firstDiet = await getFirstDietOfUser(uid);
+  const firstDiet = await getFirstDietOfUser();
   const {key} = firstDiet;
   const {createdDate} = firstDiet.value;
   if (key === dietId || dietId === undefined) {
@@ -183,47 +177,21 @@ const isNewUser = async (dietId = undefined) => {
   }
 };
 
-const getFirstDietOfUser = async (uid) => {
-  let firstDiet = {};
-  await database
-    .ref(`diets/${uid}`)
-    .orderByChild('createdDate')
-    .limitToFirst(1)
-    .once('value')
-    .then((snap) => {
-      const results = snap.val();
-      firstDiet = createKeyAndValuesFromResult(results)[0];
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  return firstDiet;
+const getFirstDietOfUser = async () => {
+  const diets = await getCurrentUserDiets();
+  sortByDate(diets, 'createdDate');
+  return diets.length ? diets[0] : {};
 };
 
-const getCurrentUserDiets = async (uid) => {
-  await database
-    .ref(`diets/${uid}`)
-    .orderByChild('createdDate')
-    .once('value')
-    .then((res) => {
-      if (Object.entries(res.val()).length > 1) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-    .catch((error) => {
-      console.log(
-        'Error has occured getting the number of diets assigned to the user: ',
-        error,
-      );
-    });
+const getCurrentUserDiets = async () => {
+  const {diets} = await api.get('/userDiets');
+  return diets;
 };
 
 export const isTrailUser = async (dietId) => {
   return await isNewUser(dietId);
 };
 
-export const hasMoreDiets = async (uid) => {
-  return await getCurrentUserDiets(uid);
+export const hasMoreDiets = async () => {
+  return await getCurrentUserDiets();
 };

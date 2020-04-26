@@ -13,10 +13,51 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LottieView from 'lottie-react-native';
 import PurchaseList from '../components/purchase/PurchaseList';
+import api from '../common/Api';
 
 class MyPurchases extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      purchases: [],
+    };
+  }
+  componentDidMount = async () => {
+    await this.fetchDietPurchases();
+  };
+
+  componentDidUpdate = async (prevProps) => {
+    const {diets} = this.props;
+    const {diets: prevDiets} = prevProps;
+    let refetch = false;
+    if (diets.length !== prevDiets.length) {
+      refetch = true;
+    } else {
+      prevDiets.map((diet) => {
+        const newPropDiet = diets.find(({id}) => id === diet.id);
+        if (newPropDiet && newPropDiet.paymentStatus !== diet.paymentStatus) {
+          refetch = true;
+        }
+      });
+    }
+    if (refetch) {
+      await this.fetchDietPurchases();
+    }
+  };
+
+  fetchDietPurchases = async () => {
+    const {diets} = this.props;
+    console.log('user diets', diets);
+    const dietIds = diets
+      .filter((diet) => diet.paymentStatus)
+      .map((diet) => diet.id);
+    const purchases = await api.post('/getPurchases', dietIds);
+    this.setState({purchases});
+  };
   render() {
-    const {showPurchases, onCancel, purchases} = this.props;
+    const {showPurchases, onCancel} = this.props;
+    const {purchases} = this.state;
+    const hasPurchases = purchases.length;
     return (
       <Modal
         useNativeDriver={true}
@@ -26,7 +67,7 @@ class MyPurchases extends Component {
         backdropOpacity={0.5}>
         <View
           style={
-            purchases !== undefined
+            hasPurchases
               ? styles.modalOuterContainer
               : styles.modalNoPurchasesContainer
           }>
@@ -44,22 +85,20 @@ class MyPurchases extends Component {
           />
           <View
             style={
-              purchases !== undefined
-                ? styles.modalContainer
-                : styles.modalEmptyContainer
+              hasPurchases ? styles.modalContainer : styles.modalEmptyContainer
             }>
             <Text style={styles.modalPurchasesTitle}>
-              {purchases !== undefined ? 'Purchases History' : 'No Purchases'}
+              {purchases.length ? 'Purchases History' : 'No Purchases'}
             </Text>
             <View
               style={
-                purchases !== undefined
+                hasPurchases
                   ? styles.purchaseHistoryAnimationStyle
                   : styles.noPurchaseAnimationStyle
               }>
               <LottieView
                 source={
-                  purchases !== undefined
+                  hasPurchases
                     ? require('../../assets/jsons/purchases.json')
                     : require('../../assets/jsons/no_purchases_animation.json')
                 }
@@ -68,7 +107,7 @@ class MyPurchases extends Component {
                 enableMergePathsAndroidForKitKatAndAbove
               />
             </View>
-            {purchases !== undefined ? (
+            {hasPurchases ? (
               <PurchaseList purchases={purchases} />
             ) : (
               <Text style={styles.noPurchasesText}>

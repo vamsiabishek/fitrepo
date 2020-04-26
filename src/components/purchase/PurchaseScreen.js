@@ -4,7 +4,6 @@ import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {purchaseOfferings, makePurchase} from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
-import {f, database} from '../../common/FirebaseConfig';
 import MyButton from '../MyButton';
 import {styles} from '../../../assets/style/stylesInitialScreen';
 import {
@@ -13,6 +12,7 @@ import {
 } from '../../../assets/style/stylesCommonValues';
 import {getGoalString} from '../../common/Util';
 import LottieView from 'lottie-react-native';
+import api from '../../common/Api';
 
 export default class PurchaseScreen extends React.Component {
   constructor(props) {
@@ -67,7 +67,6 @@ export default class PurchaseScreen extends React.Component {
 
   handlePaymentProcess = async (purchasePackage) => {
     this.setState({isLoading: true});
-    const {uid, dietId} = this.props;
     try {
       const {purchaserInfo, productIdentifier} = await makePurchase(
         purchasePackage,
@@ -81,20 +80,7 @@ export default class PurchaseScreen extends React.Component {
           productIdentifier,
           purchaseDate,
         };
-        await database
-          .ref(`users/${uid}/purchases/${dietId}`)
-          .push({
-            ...purchaseDetails,
-            createdDate: f.database.ServerValue.TIMESTAMP,
-          })
-          .then((res) => {
-            console.log(
-              'Successfully updated user db with the purchase details of this diet.',
-            );
-          })
-          .catch((error) => {
-            console.log('Error while saving purchase details:', error);
-          });
+        await api.post('/savePurchase', purchaseDetails);
         this.setState({
           isLoading: false,
           showPurchaseSummary: true,
