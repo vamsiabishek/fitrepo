@@ -14,7 +14,6 @@ import {GoogleSignin} from '@react-native-community/google-signin';
 import LottieView from 'lottie-react-native';
 import {Button, SocialIcon} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesLoginScreen';
-import {f, database} from '../common/FirebaseConfig';
 import auth from '@react-native-firebase/auth';
 import {
   EMAIL_VERIFICATION,
@@ -211,7 +210,7 @@ export default class LoginScreen extends Component {
       if (Platform.OS === 'android') {
         await GoogleSignin.configure({
           webClientId:
-            '916988589640-enad9fvkikhvroaeqo1m441f7mdghgqo.apps.googleusercontent.com',
+            '916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com',
         });
       } else {
         await GoogleSignin.configure();

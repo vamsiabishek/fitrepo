@@ -51,14 +51,21 @@ export default class Diet extends Component {
   };
 
   fetchMyDiets = async () => {
+    const {navigate} = this.props.navigation;
     console.log('fetching user diets');
-    const {diets} = await api.get('/userDiets');
-    console.log('user diets are ', diets);
-    this.currentDietList = diets;
-    this.setState({
-      myDiets: diets,
-      isLoading: false,
-    });
+    const response = await api.get('/userDiets');
+    if (response.isUserLoggedIn !== undefined && !response.isUserLoggedIn) {
+      console.log('User not logged in - navigating to login page.');
+      navigate('Login');
+    } else {
+      const {diets} = response;
+      console.log('user diets are ', diets);
+      this.currentDietList = diets;
+      this.setState({
+        myDiets: diets,
+        isLoading: false,
+      });
+    }
   };
 
   onSortChange = (selectedSort) => {

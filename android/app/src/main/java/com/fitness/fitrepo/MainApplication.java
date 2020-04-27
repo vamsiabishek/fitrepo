@@ -66,8 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    // FacebookSdk.setApplicationId("790304848006877");
-    FacebookSdk.sdkInitialize(this);
+    FacebookSdk.sdkInitialize(getApplicationContext());
     AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
 	}

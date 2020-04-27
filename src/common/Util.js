@@ -1,4 +1,4 @@
-import {AsyncStorage} from 'react-native';
+// import {AsyncStorage} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {WEIGHT_LOSS, WEIGHT_GAIN, BE_HEALTHY} from './Common';
 import api from '../common/Api';
@@ -14,7 +14,9 @@ export const getSeconds = (timeStamp) => {
 
 export const getProgramEndDate = (createdTimestamp, programDuration) => {
   const programDurationInMS = programDuration * 7 * 24 * 3600000;
-  const programEndDate = new Date(createdTimestamp + programDurationInMS);
+  const programEndDate = new Date(
+    createdTimestamp.getTime() + programDurationInMS, // getTime() givesyou themillisecs since jan 1 1970.
+  );
   return programEndDate;
 };
 
@@ -53,6 +55,7 @@ export const timeConverter = (timeStamp) => {
   return seconds + ' sec' + pluralCheck(seconds);
 };
 
+// Sorting is done latest -> oldest.
 export const sortByDate = (list, dateProperty) => {
   return list.sort((a, b) => {
     if (b[dateProperty] && a[dateProperty]) {
@@ -137,11 +140,10 @@ export const getCurrentUser = async () => {
 };
 
 export const signOutUser = async () => {
-  auth()
+  await auth()
     .signOut()
     .then(() => {
       console.log('User signed out!');
-      return true;
     });
 };
 
@@ -157,9 +159,9 @@ export const getFirstTimeUser = () => IS_FIRST_TIME_USER;
 
 const isNewUser = async (dietId = undefined) => {
   const firstDiet = await getFirstDietOfUser();
-  const {key} = firstDiet;
-  const {createdDate} = firstDiet.value;
-  if (key === dietId || dietId === undefined) {
+  const {id} = firstDiet;
+  const {createdDate} = firstDiet;
+  if (id === dietId || dietId === undefined) {
     const fromDate = new Date(createdDate);
     const diffInMilliSecs = new Date().getTime() - fromDate.getTime();
     const total_seconds = parseInt(Math.floor(diffInMilliSecs / 1000), 10);
@@ -180,7 +182,7 @@ const isNewUser = async (dietId = undefined) => {
 const getFirstDietOfUser = async () => {
   const diets = await getCurrentUserDiets();
   sortByDate(diets, 'createdDate');
-  return diets.length ? diets[0] : {};
+  return diets.length ? diets[diets.length - 1] : {};
 };
 
 const getCurrentUserDiets = async () => {

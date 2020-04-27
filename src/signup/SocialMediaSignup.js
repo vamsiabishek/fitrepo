@@ -75,11 +75,10 @@ export default class SocialMediaSignup extends Component {
     this.setState({isLoading: true});
     try {
       // Add any configuration settings here:
-      //await GoogleSignin.configure();
       if (Platform.OS === 'android') {
         await GoogleSignin.configure({
           webClientId:
-            '916988589640-enad9fvkikhvroaeqo1m441f7mdghgqo.apps.googleusercontent.com',
+            '916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com',
           scopes: [
             'https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/userinfo.email',

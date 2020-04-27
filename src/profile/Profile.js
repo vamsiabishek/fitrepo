@@ -85,8 +85,9 @@ export default class Profile extends Component {
     }
   };
 
-  logoutUser = async () => {
-    const logoutSuccessful = await signOutUser();
+  logoutUser = () => {
+    this.setState({isLoading: true});
+    const logoutSuccessful = signOutUser();
     if (logoutSuccessful) {
       const {navigate} = this.props.navigation;
       navigate('Login');
@@ -109,9 +110,7 @@ export default class Profile extends Component {
     const userLoggedIn = await api.get('/getLoggedInUser');
     console.log('logged in user', userLoggedIn);
     let myDiets = userLoggedIn.diets || [];
-    console.log('before sorting', myDiets)
     myDiets = sortByDate(myDiets, 'createdDate');
-    console.log('after sorting', myDiets)
     this.updateProfileCall(userLoggedIn);
 
     // let myDiets = userLoggedIn.diets || [];
@@ -137,8 +136,9 @@ export default class Profile extends Component {
       username,
       weight,
       phoneNumber,
-      provider,
+      firebase,
       email,
+      provider,
     } = user || {};
     let levelImage = gender === 1 ? MALE_BEGINNER_ICON : FEMALE_BEGINNER_ICON;
     let levelTitle = BEGINNER_LABEL;
@@ -223,14 +223,19 @@ export default class Profile extends Component {
                 />
               </View>
               <View style={styles.profileBannerStyle}>
-                <Text style={styles.profileBannerTitleStyle}>{username}</Text>
                 {phoneNumber && (
                   <Text style={styles.profileBannerSubTitleStyle}>
                     {phoneNumber}
                   </Text>
                 )}
-                {provider && email && (
-                  <Text style={styles.profileBannerSubTitleStyle}>{email}</Text>
+                {(firebase && firebase.sign_in_provider && email) ||
+                  (provider && email && (
+                    <Text style={styles.profileBannerSubTitleStyle}>
+                      {email}
+                    </Text>
+                  ))}
+                {username && (
+                  <Text style={styles.profileBannerTitleStyle}>{username}</Text>
                 )}
               </View>
               <View style={styles.profileSubBannerStyle}>

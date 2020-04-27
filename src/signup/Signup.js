@@ -646,11 +646,7 @@ export default class Signup extends Component {
   };
 
   saveUserAfterAuthentication = async (newUser) => {
-    const {email, password} = this.state;
     const {gender, fitnessLevel} = this.state;
-    if (password !== '') {
-      newUser.email = email;
-    }
     const user = {
       ...newUser,
       gender,

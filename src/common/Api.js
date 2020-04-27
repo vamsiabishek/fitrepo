@@ -1,6 +1,13 @@
 import auth from '@react-native-firebase/auth';
 
+// Vamsi Original URL
 const apiUrl = 'http://localhost:5000/dietrepo-develop/asia-east2/api';
+
+// Dhivya URL
+//const apiUrl = 'http://localhost:5001/dietrepo-develop/asia-east2/api';
+
+// Deployment to make Android real device Simulation work.
+//const apiUrl = 'https://asia-east2-dietrepo-develop.cloudfunctions.net/api';
 
 const getIdToken = async () => {
   if (auth().currentUser) {
@@ -27,6 +34,8 @@ const get = async (path) => {
     } catch (err) {
       console.error(err);
     }
+  } else {
+    return {isUserLoggedIn: false};
   }
 };
 
