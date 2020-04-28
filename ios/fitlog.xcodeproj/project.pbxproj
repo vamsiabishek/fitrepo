@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* fitlogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* fitlogTests.m */; };
 		0568FA7B24484C3400E212AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0568FA7A24484C3400E212AC /* LaunchScreen.storyboard */; };
-		0574899922919C39007F3902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0574899822919C39007F3902 /* GoogleService-Info.plist */; };
 		12EBAC14C6C842B4A150C16B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52CF1089F11C4309BCA6AA9F /* SimpleLineIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -36,6 +35,7 @@
 		A26F050960284D25A1259756 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22A50D018EC54DBDB6C999D7 /* FontAwesome5_Solid.ttf */; };
 		C08614BFF9504C23B367ED1F /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25636826A0C14155BC3CD39A /* Foundation.ttf */; };
 		C864CE66243DB3070059CB88 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		C8E85BA724573DDE00F57581 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8E85BA624573DDE00F57581 /* GoogleService-Info.plist */; };
 		CE2C670F771749EF978B3452 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1A4C6AB0EFD4C5EBA03065E /* Fontisto.ttf */; };
 		DD2CEA72CEFA476DBAC6F0D6 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0DBBC8999C994CF5919F384A /* MaterialIcons.ttf */; };
 		E99662DF11654389A1AE5692 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 434F4019EC054068993119F7 /* Feather.ttf */; };
@@ -79,10 +79,8 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* fitlogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fitlogTests.m; sourceTree = "<group>"; };
 		050DED9F2259263C004C5E40 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		054105432456A431001EE199 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		054105452456A431001EE199 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0568FA7A24484C3400E212AC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		0574899822919C39007F3902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0DBBC8999C994CF5919F384A /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DietRepo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DietRepo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = fitlog/AppDelegate.h; sourceTree = "<group>"; };
@@ -118,6 +116,7 @@
 		C3DF29B214B91B3DF64B2689 /* libPods-fitlog-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fitlog-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F91B3C0A14CD664B31D2F4 /* Pods-fitlog-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitlog-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-fitlog-tvOSTests/Pods-fitlog-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		C803499F2291474F00587247 /* fitlog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = fitlog.entitlements; path = fitlog/fitlog.entitlements; sourceTree = "<group>"; };
+		C8E85BA624573DDE00F57581 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "Prod/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C937BF1D16F749BD9F18CE04 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		D1E3876F713BC5E57A2D8CE0 /* Pods_fitlogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fitlogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB43E341D6444948AA4B74E9 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -192,7 +191,7 @@
 		054105422456A431001EE199 /* Prod */ = {
 			isa = PBXGroup;
 			children = (
-				054105432456A431001EE199 /* GoogleService-Info.plist */,
+				C8E85BA624573DDE00F57581 /* GoogleService-Info.plist */,
 			);
 			path = Prod;
 			sourceTree = "<group>";
@@ -208,7 +207,6 @@
 		13B07FAE1A68108700A75B9A /* fitlog */ = {
 			isa = PBXGroup;
 			children = (
-				0574899822919C39007F3902 /* GoogleService-Info.plist */,
 				C803499F2291474F00587247 /* fitlog.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -480,8 +478,8 @@
 				DD2CEA72CEFA476DBAC6F0D6 /* MaterialIcons.ttf in Resources */,
 				1F70B95755324E678691EFA6 /* Octicons.ttf in Resources */,
 				12EBAC14C6C842B4A150C16B /* SimpleLineIcons.ttf in Resources */,
-				0574899922919C39007F3902 /* GoogleService-Info.plist in Resources */,
 				6225A434CEA84823969B3EBE /* Zocial.ttf in Resources */,
+				C8E85BA724573DDE00F57581 /* GoogleService-Info.plist in Resources */,
 				EE63DC9473E64CD7AB94EFE2 /* Billabong.ttf in Resources */,
 				CE2C670F771749EF978B3452 /* Fontisto.ttf in Resources */,
 			);
@@ -1377,7 +1375,7 @@
 				00E356F71AD99517003FC87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "fitlog" */ = {
 			isa = XCConfigurationList;
@@ -1386,7 +1384,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "fitlog-tvOS" */ = {
 			isa = XCConfigurationList;
@@ -1395,7 +1393,7 @@
 				2D02E4981E0B4A5E006451C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "fitlog-tvOSTests" */ = {
 			isa = XCConfigurationList;
@@ -1404,7 +1402,7 @@
 				2D02E49A1E0B4A5E006451C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "fitlog" */ = {
 			isa = XCConfigurationList;
@@ -1413,7 +1411,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

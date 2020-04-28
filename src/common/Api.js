@@ -7,8 +7,10 @@ import auth from '@react-native-firebase/auth';
 // const apiUrl = 'http://localhost:5001/dietrepo-develop/asia-east2/api';
 
 // Deployment to make Android real device Simulation work.
-const apiUrl = 'https://asia-east2-dietrepo-develop.cloudfunctions.net/api';
+//const apiUrl = 'https://asia-east2-dietrepo-develop.cloudfunctions.net/api';
 
+// const apiUrl = 'http://localhost:5000/dietrepo-develop/asia-east2/api';
+const apiUrl = 'https://asia-east2-dietrepo-prod.cloudfunctions.net/api';
 const getIdToken = async () => {
   if (auth().currentUser) {
     return await auth()
