@@ -131,8 +131,9 @@ export default class PersonalDetails extends Component {
     const hasWeight = this.isValidNumValue(weight);
     const hasHeight = this.isValidNumValue(height);
     const currentDate = new Date();
-    const birthDate = dob && new Date(dob);
-    const dateValue = birthDate ? birthDate : currentDate;
+    const dateValue =
+      dob && !dob.includes('Date') ? new Date(dob) : currentDate;
+    // const dateValue = birthDate ? birthDate : currentDate;
     // console.log('props personal details : ', this.props);
     return (
       <View style={styles.mainContent}>

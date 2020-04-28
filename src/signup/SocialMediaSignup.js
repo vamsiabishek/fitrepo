@@ -11,7 +11,6 @@ import {
 import {SocialIcon} from 'react-native-elements';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
-import {f} from '../common/FirebaseConfig';
 import auth from '@react-native-firebase/auth';
 //import EmailOrMobileSignup from './EmailOrMobileSignup';
 import Loading from '../components/Loading';
@@ -76,11 +75,10 @@ export default class SocialMediaSignup extends Component {
     this.setState({isLoading: true});
     try {
       // Add any configuration settings here:
-      //await GoogleSignin.configure();
       if (Platform.OS === 'android') {
         await GoogleSignin.configure({
           webClientId:
-            '784097360045-qjliaef9a4kphpdlcoo1v6ff2jj4oaum.apps.googleusercontent.com',
+            '916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com',
           scopes: [
             'https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/userinfo.email',
@@ -99,15 +97,20 @@ export default class SocialMediaSignup extends Component {
       await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
-      const data = await GoogleSignin.signIn();
 
-      // create a new firebase credential with the token
-      const credential = f.auth.GoogleAuthProvider.credential(
-        data.idToken,
-        data.accessToken,
-      );
-      // login with credential
-      const currentUser = await f.auth().signInWithCredential(credential);
+      // Get the users ID token
+      const {idToken} = await GoogleSignin.signIn();
+      console.log(idToken);
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      console.log(googleCredential);
+
+      // Sign-in the user with the credential
+      const currentUser = await auth().signInWithCredential(googleCredential);
+      console.log(currentUser);
+
+      // Setting current user
       setCurrentUser(currentUser.user);
 
       const googleUser = await GoogleSignin.getCurrentUser();

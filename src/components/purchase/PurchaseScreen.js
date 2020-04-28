@@ -66,6 +66,7 @@ export default class PurchaseScreen extends React.Component {
   };
 
   handlePaymentProcess = async (purchasePackage) => {
+    const {dietId} = this.props;
     this.setState({isLoading: true});
     try {
       const {purchaserInfo, productIdentifier} = await makePurchase(
@@ -77,6 +78,7 @@ export default class PurchaseScreen extends React.Component {
         const purchaseDate =
           activeEntitlements.standard_role.originalPurchaseDate;
         const purchaseDetails = {
+          dietId,
           productIdentifier,
           purchaseDate,
         };

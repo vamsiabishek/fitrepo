@@ -16,7 +16,6 @@ import {
   ICON_SIZE,
   ICON_SIZE_LARGE,
 } from '../../assets/style/stylesCommonValues';
-import {database} from '../common/FirebaseConfig';
 import Loading from '../components/Loading';
 import PurchaseScreen from '../components/purchase/PurchaseScreen';
 import {isTrailUser} from '../common/Util';
@@ -54,7 +53,7 @@ export default class MyDiet extends Component {
     const {navigation} = this.props;
     const dietId = navigation.getParam('dietId');
     const uid = navigation.getParam('uid');
-    await this.loadDietDetails(uid, dietId);
+    await this.loadDietDetails(dietId);
     await this.loadPaymentEntitlements(uid);
     await this.checkDietTrail(dietId, uid);
   };
@@ -64,7 +63,7 @@ export default class MyDiet extends Component {
     const dietId = navigation.getParam('dietId');
     const uid = navigation.getParam('uid');
     if (dietId !== prevProps.navigation.getParam('dietId')) {
-      await this.loadDietDetails(uid, dietId);
+      await this.loadDietDetails(dietId);
       await this.loadPaymentEntitlements(uid);
       await this.checkDietTrail(dietId, uid);
     }
@@ -73,15 +72,20 @@ export default class MyDiet extends Component {
   checkDietTrail = async (dietId) => {
     const {showAllMealsForSubscribed, diet} = this.state;
     const showInitialTrailMeals = await isTrailUser(dietId);
-    const showMeals = diet.purchaseStatus
+    const showMeals = diet.paymentStatus
       ? true
       : showInitialTrailMeals
       ? false
       : showAllMealsForSubscribed;
-    this.setState({showInitialTrailMeals, showMeals});
+    const showPaymentModal = !diet.paymentStatus;
+    this.setState({
+      showInitialTrailMeals,
+      showMeals,
+      showPaymentModal,
+    });
   };
 
-  loadDietDetails = async (uid, dietId) => {
+  loadDietDetails = async (dietId) => {
     this.setState({isLoading: true});
     // console.log('fetching details for the diet with Id:', dietId);
     const diet = await api.get(`/getDietById/${dietId}`);
@@ -220,13 +224,14 @@ export default class MyDiet extends Component {
 
   onClosePaymentModal = async (paymentDone = false) => {
     const {navigate} = this.props.navigation;
-    const {showInitialTrailMeals} = this.state;
+    const {showInitialTrailMeals, diet} = this.state;
     this.setState({showPaymentModal: false, showMeals: true}); // ,
     if (paymentDone) {
-      this.loadDietDetails();
+      const newDiet = {...diet, paymentStatus: paymentDone};
       this.setState({
         showInitialTrailMeals: false,
         showAllMealsForSubscribed: true,
+        diet: newDiet,
       });
     } else if (!paymentDone && !showInitialTrailMeals) {
       navigate('Diet');
@@ -263,9 +268,12 @@ export default class MyDiet extends Component {
     });
     let dietTrialEndDate;
     let trialDaysLeft; // showInitialTrailMeals
-    if (showInitialTrailMeals && !diet.purchaseStatus) {
+    if (showInitialTrailMeals && !diet.paymentStatus) {
       const trialPeriod = 1;
-      dietTrialEndDate = getProgramEndDate(diet.createdDate, trialPeriod);
+      dietTrialEndDate = getProgramEndDate(
+        new Date(diet.createdDate),
+        trialPeriod,
+      );
       const trialDaysLeftSeconds =
         getSeconds(dietTrialEndDate) - getSeconds(new Date());
       trialDaysLeft = Math.floor(trialDaysLeftSeconds / (24 * 3600));
