@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Picker, View, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import Modal from 'react-native-modal';
+import {Picker} from '@react-native-community/picker';
 import {styles} from '../../../assets/style/stylesNumberPicker';
 
 export default class NumberPicker extends Component {

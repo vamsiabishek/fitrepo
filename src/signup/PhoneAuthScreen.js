@@ -62,7 +62,10 @@ class PhoneAuthScreen extends Component {
         })
         .catch((error) => {
           this.setState({isLoading: false, verificationCode: ''});
-          Alert.alert('Invalid OTP.');
+          Alert.alert(
+            'Invalid OTP.',
+            'Looks like you have entered the wrong OTP. Please re-check and try again later.',
+          );
           console.log(
             'Error while creating the user or logging in the user by phone auth: ',
             error,
@@ -70,7 +73,7 @@ class PhoneAuthScreen extends Component {
         });
     } else {
       this.setState({isLoading: false, verificationCode: ''});
-      Alert.alert('Please enter a 6 digit OTP code.');
+      Alert.alert('Incorrect', 'Please enter a 6 digit OTP code.');
     }
   };
 

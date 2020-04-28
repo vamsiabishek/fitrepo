@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {
+  Alert,
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Platform,
 } from 'react-native';
 import {
   BG_COLOR,
@@ -17,7 +17,6 @@ import {
   ICON_SIZE_MED,
 } from '../../assets/style/stylesCommonValues';
 import {Button} from 'react-native-elements';
-import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
@@ -159,7 +158,12 @@ class TermsAndConditions extends Component {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               disabled={!this.state.accepted}
-              onPress={() => alert('Terms and conditions accepted')}
+              onPress={() =>
+                Alert.alert(
+                  'Success',
+                  'You have accepted the Terms & Conditions.',
+                )
+              }
               style={
                 this.state.accepted ? styles.button : styles.buttonDisabled
               }>

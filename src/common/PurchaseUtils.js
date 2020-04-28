@@ -21,12 +21,20 @@ export let purchaseOfferings = null;
 };*/
 
 export const getOfferingsByPurchaseId = async (purchaseID) => {
-  Purchases.setDebugLogsEnabled(true);
-  Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseID);
-  const purchaserOfferings = await Purchases.getOfferings();
-  const {current: currentDietPlans} = purchaserOfferings; // current contains standard
-  purchaseOfferings = currentDietPlans;
-  return purchaseOfferings;
+  try {
+    Purchases.setDebugLogsEnabled(true);
+    Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseID);
+    const purchaserOfferings = await Purchases.getOfferings();
+    const {current: currentDietPlans} = purchaserOfferings; // current contains standard
+    purchaseOfferings = currentDietPlans;
+    return purchaseOfferings;
+  } catch (error) {
+    console.log(
+      'An error occurred while getting the Purchase offerings : ',
+      error,
+    );
+    return null;
+  }
 };
 
 export const getPurchaserInfo = async () => await Purchases.getPurchaserInfo();

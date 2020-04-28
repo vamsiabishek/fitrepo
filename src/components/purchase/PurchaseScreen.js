@@ -93,7 +93,7 @@ export default class PurchaseScreen extends React.Component {
         console.log('Error occurred while handling payment: ', e);
       } else {
         this.setState({isLoading: false});
-        Alert.alert('User cancelled payment !');
+        Alert.alert('Payment Cancelled', 'The user cancelled this payment.');
       }
     }
   };
@@ -119,11 +119,38 @@ export default class PurchaseScreen extends React.Component {
   };
 
   renderFailureElement = () => {
+    const {onClose} = this.props;
     return (
-      <React.Fragment>
-        <Text style={styles.headerText}>Oopps !</Text>
-        <Text style={styles.headerText}>Something went wrong !</Text>
-      </React.Fragment>
+      <View style={styles.modalOuterContainer}>
+        <Button
+          icon={
+            <Icon
+              name="close-circle"
+              size={ICON_SIZE_MED}
+              color={styleCommon.textColor1}
+            />
+          }
+          type="clear"
+          onPress={() => onClose(false)}
+          containerStyle={styles.closeButtonContainerStyle}
+        />
+        <View style={styles.modalContainer}>
+          <Text style={styles.headerText}>Oops !</Text>
+          <View style={styles.doneAnimationContainer}>
+            <LottieView
+              source={require('../../../assets/jsons/fail_animation.json')}
+              resizeMode={'cover'}
+              autoPlay
+              enableMergePathsAndroidForKitKatAndAbove
+            />
+          </View>
+          <Text style={styles.labelTextBold}>Something went wrong !</Text>
+          <Text style={styles.labelText}>
+            Looks like something went wrong while fetching our details, kindly
+            try after sometime.
+          </Text>
+        </View>
+      </View>
     );
   };
 

@@ -15,6 +15,10 @@ export const styles = StyleSheet.create({
   contentContainer: {
     paddingBottom: 20,
   },
+  anotherContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   rowContainer: {
     flex: 1,
     flexDirection: 'row',

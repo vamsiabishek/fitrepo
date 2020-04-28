@@ -35,8 +35,8 @@ class AddButton extends React.Component {
       const days = parseInt(Math.floor(total_hours / 24), 10);
       if (days <= selectedProgram * 7) {
         Alert.alert(
-          'Create diet confirmation !',
-          `You are curently active on ${selectedProgram} Week diet, are you sure about creating new diet ?`,
+          'Are you sure ?',
+          `You are curently active on the ${selectedProgram} Week diet program, are you sure about creating a new program?`,
           [
             {
               text: 'Cancel',

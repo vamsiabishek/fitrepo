@@ -7,11 +7,11 @@ import {
   LayoutAnimation,
   UIManager,
   KeyboardAvoidingView,
-  Image,
   Animated,
 } from 'react-native';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
+import LottieView from 'lottie-react-native';
 import {Button, SocialIcon} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesLoginScreen';
 import {f, database} from '../common/FirebaseConfig';
@@ -21,7 +21,6 @@ import {
   PASSWORD_LENGTH_MINIMUM,
   PROVIDER_GOOGLE,
   PROVIDER_FACEBOOK,
-  LOGIN_ICON,
 } from '../common/Common';
 import {setCurrentUser, getCurrentUser} from '../common/Util';
 import {fontsCommon} from '../../assets/style/stylesCommonValues';
@@ -163,7 +162,10 @@ export default class LoginScreen extends Component {
       this.onLoginSuccess();
     } catch (error) {
       this.setState({isLoading: false});
-      Alert.alert('Invalid username/password');
+      Alert.alert(
+        'Login Failed',
+        'Seems like you have entered an invalid email/password. Please check and try again.',
+      );
     }
   };
   onFBLogin = () => {
@@ -178,13 +180,16 @@ export default class LoginScreen extends Component {
       })
       .catch((error) => {
         this.setState({isLoading: false});
-        //Alert.alert('Facebook login cancelled');
+        Alert.alert(
+          'Error',
+          'An error occurred while trying to login with Facebook. Please try again later.',
+        );
       });
   };
   getFBTokenFromResponse = (result) => {
     if (result.isCancelled) {
       this.setState({isLoading: false});
-      Alert.alert('Facebook login cancelled');
+      Alert.alert('Cancelled', 'Facebook login was cancelled by the user.');
       return Promise.reject(new Error('The user cancelled the request'));
     }
     /*console.log(
@@ -227,7 +232,10 @@ export default class LoginScreen extends Component {
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
     } catch (error) {
       this.setState({isLoading: false});
-      Alert.alert('Google login attempt cancelled');
+      Alert.alert(
+        'Error/Cancelled',
+        'Either Google login attempt was cancelled or an error occurred.',
+      );
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {
@@ -356,7 +364,10 @@ export default class LoginScreen extends Component {
       ...styles.buttonContainer,
       flexDirection: 'row',
     };
-    const signInContainer = {marginBottom: Platform.OS === 'ios' ? 90 : 0};
+    const signInContainer = {
+      //marginBottom: 90,
+      //backgroundColor: 'yellow',
+    };
     return (
       <View style={commonStyles.bgImage}>
         <KeyboardAvoidingView
@@ -365,24 +376,22 @@ export default class LoginScreen extends Component {
               ? styles.container
               : styles.containerLoading
           }
-          contentContainerStyle={
-            showSocialOptions && !isLoading
-              ? styles.container
-              : styles.containerLoading
-          }
           behavior="padding"
           enabled>
-          {/*<View style={styles.loginView}>*/}
           {showSocialOptions && !isLoading && (
             <View style={styles.logoContainer}>
-              <Text style={styles.logoText}>DIETREPO</Text>
+              <Text style={styles.logoText}>LOGIN</Text>
             </View>
           )}
           {showSocialOptions && !isLoading && (
-            <Animated.View
-              style={{transform: [{translateX: this.shakeAnimation}]}}>
-              <Image source={LOGIN_ICON} style={styles.iconImageStyle} />
-            </Animated.View>
+            <View style={styles.loginAnimationView}>
+              <LottieView
+                source={require('../../assets/jsons/login_animation.json')}
+                resizeMode={'cover'}
+                autoPlay
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+            </View>
           )}
           {isLoading ? (
             <Loading

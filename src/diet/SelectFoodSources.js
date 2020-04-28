@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, ScrollView, Switch} from 'react-native';
+import {Alert, Text, View, ScrollView, Switch} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
@@ -128,7 +128,7 @@ export default class SelectFoodSources extends Component {
 
   validateSelectedSources = (selectedSources) => {
     if (selectedSources.length > 4) {
-      alert('You can only select 4 sources!');
+      Alert.alert('You can only select 4 sources!');
       return false;
     }
     return true;

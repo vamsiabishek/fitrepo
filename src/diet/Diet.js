@@ -53,7 +53,7 @@ export default class Diet extends Component {
   fetchMyDiets = async () => {
     console.log('fetching user diets');
     const {diets} = await api.get('/userDiets');
-    console.log("user diets are ", diets)
+    console.log('user diets are ', diets);
     this.currentDietList = diets;
     this.setState({
       myDiets: diets,

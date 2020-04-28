@@ -15,7 +15,6 @@ import {
   ICON_SIZE_22,
   ICON_SIZE,
   ICON_SIZE_LARGE,
-  SCREEN_HEIGHT,
 } from '../../assets/style/stylesCommonValues';
 import {database} from '../common/FirebaseConfig';
 import Loading from '../components/Loading';

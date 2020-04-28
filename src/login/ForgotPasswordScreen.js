@@ -56,7 +56,7 @@ export default class ForgotPasswordScreen extends Component {
       .then((user) => {
         this.setState({isLoading: false});
         navigate('LoginScreen');
-        alert('Please check your email to change your password !');
+        Alert.alert('Done', 'Please check your email to change your password.');
       })
       .catch((e) => {
         this.setState({isLoading: false});

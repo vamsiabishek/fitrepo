@@ -1,6 +1,6 @@
-/* eslint-disable no-alert */
 import React, {Component} from 'react';
 import {
+  Alert,
   View,
   Text,
   TouchableOpacity,
@@ -120,7 +120,15 @@ export default class SocialMediaSignup extends Component {
       this.createUserWithGoogleDetails({userObject, googleUser});
       this.setState({isLoading: false});
     } catch (error) {
-      alert('Login failed with error ', error.code);
+      Alert.alert(
+        'Failed !',
+        'Looks like an error occurred while trying to sign you up. Please try again later.',
+      );
+      console.log(
+        'Error occured while signing up user through google sign up: ',
+        error.code,
+      );
+      this.setState({isLoading: false});
     }
   };
   createUserWithGoogleDetails = async ({userObject: {user}, googleUser}) => {
@@ -173,7 +181,14 @@ export default class SocialMediaSignup extends Component {
         this.createUserWithFBDetails(currentUser);
       })
       .catch((error) => {
-        alert('Login fail with error: ' + error);
+        Alert.alert(
+          'Failed !',
+          'Looks like an error occurred while trying to sign you up. Please try again later.',
+        );
+        console.log(
+          'Error occured while signing up user through facebook sign up: ',
+          error,
+        );
       });
   };
   getFBTokenFromResponse = (result) => {
