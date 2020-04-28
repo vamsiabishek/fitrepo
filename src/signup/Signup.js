@@ -42,7 +42,6 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 export default class Signup extends Component {
   constructor(props) {
     super(props);
-    const {navigation} = this.props;
     // console.log(navigation.getParam('isExistingUser'));
     this.state = {
       goal: '',
@@ -665,8 +664,6 @@ export default class Signup extends Component {
   saveUserDetails = async () => {
     this.setState({isLoading: true});
     const {
-      email,
-      password,
       dob,
       age,
       weight,
@@ -676,9 +673,6 @@ export default class Signup extends Component {
     } = this.state;
     let {user, gender, fitnessLevel, uid} = this.state;
     // gender = gender === 0 ? "Female" : "Male";
-    if (password && password !== '') {
-      user.email = email;
-    }
     user = {
       ...user,
       uid,
