@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* fitlogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* fitlogTests.m */; };
 		0568FA7B24484C3400E212AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0568FA7A24484C3400E212AC /* LaunchScreen.storyboard */; };
-		0574899922919C39007F3902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0574899822919C39007F3902 /* GoogleService-Info.plist */; };
 		12EBAC14C6C842B4A150C16B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52CF1089F11C4309BCA6AA9F /* SimpleLineIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -80,14 +79,16 @@
 		00E356F21AD99517003FC87E /* fitlogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fitlogTests.m; sourceTree = "<group>"; };
 		050DED9F2259263C004C5E40 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		0568FA7A24484C3400E212AC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		0574899822919C39007F3902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0592359F24580AF7009DA492 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "fitlog/Firebase/Prod/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		059235A024580B2A009DA492 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "fitlog/Firebase/Dev/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		05B0EA4C24588CC500ADC0EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = fitlog/Firebase/Prod/Info.plist; sourceTree = SOURCE_ROOT; };
+		05B0EA4D24588CD500ADC0EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = fitlog/Firebase/Dev/Info.plist; sourceTree = SOURCE_ROOT; };
 		0DBBC8999C994CF5919F384A /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DietRepo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DietRepo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = fitlog/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = fitlog/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = fitlog/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = fitlog/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = fitlog/main.m; sourceTree = "<group>"; };
 		15BBA73B8483D200CB22BAAA /* Pods-fitlogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fitlogTests.debug.xcconfig"; path = "Target Support Files/Pods-fitlogTests/Pods-fitlogTests.debug.xcconfig"; sourceTree = "<group>"; };
 		17B393AE0C6D4D0AB4BFD7D1 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -178,19 +179,45 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		054105412456A431001EE199 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				054105422456A431001EE199 /* Prod */,
+				054105442456A431001EE199 /* Dev */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		054105422456A431001EE199 /* Prod */ = {
+			isa = PBXGroup;
+			children = (
+				05B0EA4C24588CC500ADC0EC /* Info.plist */,
+				0592359F24580AF7009DA492 /* GoogleService-Info.plist */,
+			);
+			path = Prod;
+			sourceTree = "<group>";
+		};
+		054105442456A431001EE199 /* Dev */ = {
+			isa = PBXGroup;
+			children = (
+				05B0EA4D24588CD500ADC0EC /* Info.plist */,
+				059235A024580B2A009DA492 /* GoogleService-Info.plist */,
+			);
+			path = Dev;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* fitlog */ = {
 			isa = PBXGroup;
 			children = (
-				0574899822919C39007F3902 /* GoogleService-Info.plist */,
 				C803499F2291474F00587247 /* fitlog.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				0568FA7A24484C3400E212AC /* LaunchScreen.storyboard */,
+				054105412456A431001EE199 /* Firebase */,
 			);
 			name = fitlog;
 			sourceTree = "<group>";
@@ -308,9 +335,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "fitlog" */;
 			buildPhases = (
+				05B0EA4B2458823800ADC0EC /* Setup environment Info.plist */,
 				59ADC161BA92AA3F10D1291C /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
+				054105462456A520001EE199 /* Setup Firebase Environment GoogleService-Info.plist */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				C84E85D8225F5CEB00E358E7 /* Embed Frameworks */,
@@ -451,7 +480,6 @@
 				DD2CEA72CEFA476DBAC6F0D6 /* MaterialIcons.ttf in Resources */,
 				1F70B95755324E678691EFA6 /* Octicons.ttf in Resources */,
 				12EBAC14C6C842B4A150C16B /* SimpleLineIcons.ttf in Resources */,
-				0574899922919C39007F3902 /* GoogleService-Info.plist in Resources */,
 				6225A434CEA84823969B3EBE /* Zocial.ttf in Resources */,
 				EE63DC9473E64CD7AB94EFE2 /* Billabong.ttf in Resources */,
 				CE2C670F771749EF978B3452 /* Fontisto.ttf in Resources */,
@@ -489,6 +517,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export DEVELOPMENT_BUILD_CONFIGURATIONS=\"+(Alpha|Debug)\"\nexport NODE_BINARY=node\n../node_modules/react-native-schemes-manager/lib/react-native-xcode.sh";
+		};
+		054105462456A520001EE199 /* Setup Firebase Environment GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Setup Firebase Environment GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Name of the resource we're selectively copying\n\necho \"setting up info plist file\"\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to dev and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Dev/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Prod/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the dev version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_DEV}\"\nif [ ! -f $GOOGLESERVICE_INFO_DEV ]\nthen\n    echo \"No Development GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_PROD}\"\nif [ ! -f $GOOGLESERVICE_INFO_PROD ]\nthen\n    echo \"No Production GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\necho \"current build is ${CONFIGURATION}\"\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_PROD}\"\n    cp \"${GOOGLESERVICE_INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${GOOGLESERVICE_INFO_DEV}\"\n    cp \"${GOOGLESERVICE_INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n";
+		};
+		05B0EA4B2458823800ADC0EC /* Setup environment Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Setup environment Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Name of the resource we're selectively copying\n\necho \"setting up info plist file\"\nINFO_PLIST=Info.plist\n\n# Get references to dev and prod versions of the Info.plist\nINFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Dev/${INFO_PLIST}\nINFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Prod/${INFO_PLIST}\n\n# Make sure the dev version of Info.plist exists\necho \"Looking for ${INFO_PLIST} in ${INFO_DEV}\"\nif [ ! -f $INFO_DEV ]\nthen\n    echo \"No Development Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${INFO_PLIST} in ${INFO_PROD}\"\nif [ ! -f $INFO_PROD ]\nthen\n    echo \"No Production Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${PROJECT_DIR}/${TARGET_NAME}\necho \"Will copy ${INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\necho \"current build is ${CONFIGURATION}\"\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\n    echo \"Using ${INFO_PROD}\"\n    cp \"${INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${INFO_DEV}\"\n    cp \"${INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n";
 		};
 		1AFFA9AE4630C70B913F77F7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1330,7 +1394,7 @@
 				00E356F71AD99517003FC87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "fitlog" */ = {
 			isa = XCConfigurationList;
@@ -1339,7 +1403,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "fitlog-tvOS" */ = {
 			isa = XCConfigurationList;
@@ -1348,7 +1412,7 @@
 				2D02E4981E0B4A5E006451C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "fitlog-tvOSTests" */ = {
 			isa = XCConfigurationList;
@@ -1357,7 +1421,7 @@
 				2D02E49A1E0B4A5E006451C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "fitlog" */ = {
 			isa = XCConfigurationList;
@@ -1366,7 +1430,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
