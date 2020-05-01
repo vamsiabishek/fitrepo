@@ -18,6 +18,7 @@ import {styles} from '../../assets/style/stylesSocialMediaSignup';
 import {ICON_SELECT_SIGNUP_OPTION} from '../../assets/style/stylesCommonValues';
 import {setCurrentUser} from '../common/Util';
 import PhoneAuth from './PhoneAuthScreen';
+import api from '../common/Api';
 
 export default class SocialMediaSignup extends Component {
   constructor(props) {
@@ -77,8 +78,7 @@ export default class SocialMediaSignup extends Component {
       // Add any configuration settings here:
       if (Platform.OS === 'android') {
         await GoogleSignin.configure({
-          webClientId:
-            '916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com',
+          webClientId: api.clientIdGoogleSignIn,
           scopes: [
             'https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/userinfo.email',

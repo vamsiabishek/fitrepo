@@ -209,8 +209,7 @@ export default class LoginScreen extends Component {
       // Add any configuration settings here:
       if (Platform.OS === 'android') {
         await GoogleSignin.configure({
-          webClientId:
-            '916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com',
+          webClientId: api.clientIdGoogleSignIn,
         });
       } else {
         await GoogleSignin.configure();

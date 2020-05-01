@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, Animated, UIManager} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Animated,
+  UIManager,
+  Alert,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
@@ -296,7 +303,7 @@ export default class MyDiet extends Component {
     const currentWeekStyle = {
       justifyContent: 'center',
       alignItems: 'center',
-      flexDirection: 'row',
+      flexDirection: 'column',
     };
     const dayColor = {color: 'lightgrey'};
     return (
@@ -410,6 +417,9 @@ export default class MyDiet extends Component {
                 <Text style={styles.weekText}>
                   Week {this.state.currentWeek}
                 </Text>
+                {!this.state.showDayOnScroll && (
+                  <Text style={dayColor}>(everyday meals)</Text>
+                )}
                 {this.state.showDayOnScroll && (
                   <Text style={dayColor}>({this.day})</Text>
                 )}

@@ -12,7 +12,7 @@ export default class Loading extends React.Component {
       isTextBold,
       isTextNotAvailable,
       animationStr,
-      // animationHeight,
+      resizeMode,
       takeFullHeight,
     } = this.props;
     let {mainContainer, textStyle} = styles; // watermelonAnimationStyle
@@ -28,12 +28,6 @@ export default class Loading extends React.Component {
         height: SCREEN_HEIGHT,
       };
     }
-    /*if (animationHeight !== undefined) {
-      watermelonAnimationStyle = {
-        ...watermelonAnimationStyle,
-        height: animationHeight,
-      };
-    }*/
     return (
       <View>
         <View style={mainContainer}>
@@ -41,8 +35,7 @@ export default class Loading extends React.Component {
             source={animationStr}
             autoPlay
             loop
-            resizeMode="cover"
-            // style={watermelonAnimationStyle}
+            resizeMode={resizeMode ? resizeMode : 'cover'}
             enableMergePathsAndroidForKitKatAndAbove
           />
         </View>

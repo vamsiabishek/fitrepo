@@ -133,29 +133,29 @@ export default class EditProfileSubScreen1 extends Component {
   goToNextSubSection = () => {
     LayoutAnimation.easeInEaseOut();
     const {name, username, dob, age, email, gender} = this.state.user;
-    const usernameValid = this.validateUsername();
-    const emailValid = this.validateEmail();
-    const nameValid = this.validateName();
-    const dobageValid = this.validateDobAndAge();
-    const validGender = this.validateGender();
+    // const usernameValid = this.validateUsername();
+    // const emailValid = this.validateEmail();
+    // const nameValid = this.validateName();
+    // const dobageValid = this.validateDobAndAge();
+    // const validGender = this.validateGender();
     // const progress = true;
-    if (
-      usernameValid &&
-      emailValid &&
-      dobageValid &&
-      nameValid &&
-      validGender
-    ) {
-      const setUserPartial = {
-        name,
-        username,
-        dob,
-        age,
-        email,
-        gender,
-      };
-      this.props.setSubScreenUserVals(setUserPartial); // progress
-    }
+    // if (
+    //   usernameValid &&
+    //   emailValid &&
+    //   dobageValid &&
+    //   nameValid &&
+    //   validGender
+    // ) {
+    const setUserPartial = {
+      name,
+      username,
+      dob,
+      age,
+      email,
+      gender,
+    };
+    this.props.setSubScreenUserVals(setUserPartial); // progress
+    // }
   };
 
   setGender = (gender) => {
