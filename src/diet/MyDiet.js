@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Animated,
-  UIManager,
-  Alert,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Animated, UIManager} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
