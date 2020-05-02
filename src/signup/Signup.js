@@ -141,17 +141,18 @@ export default class Signup extends Component {
       dob: user.dob,
       age: user.age,
       isLoading: true,
+      userLoginAnimation: true,
     });
     await this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setGoogleUser = async (user) => {
-    this.setState({user, isLoading: true});
+    this.setState({user, isLoading: true, userLoginAnimation: true});
     await this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
   setPhoneNumberUser = async (user) => {
-    this.setState({user, isLoading: true});
+    this.setState({user, isLoading: true, userLoginAnimation: true});
     await this.saveUserAfterAuthentication(user);
     this.scrollToNextScreen(4);
   };
@@ -812,7 +813,7 @@ export default class Signup extends Component {
       : 'Creating your new diet ...';
     const loadingAnimation = userLoginAnimation
       ? require('../../assets/jsons/user_animation_4.json')
-      : require('../../assets/jsons/dots_circle_salmon_animation.json');
+      : require('../../assets/jsons/creating_diet_animation.json');
     const activityIndicatorStyle = {flex: 1};
     return (
       <View style={commonStyles.container}>
@@ -980,7 +981,8 @@ export default class Signup extends Component {
                 {isLoading ? (
                   <View style={styles.contentWrapper}>
                     <Loading
-                      isTextBold={false}
+                      resizeMode={'contain'}
+                      isTextBold={true}
                       text={loadingAnimationText}
                       animationStr={loadingAnimation}
                     />

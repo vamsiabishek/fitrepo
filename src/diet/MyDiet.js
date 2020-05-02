@@ -296,7 +296,7 @@ export default class MyDiet extends Component {
     const currentWeekStyle = {
       justifyContent: 'center',
       alignItems: 'center',
-      flexDirection: 'row',
+      flexDirection: 'column',
     };
     const dayColor = {color: 'lightgrey'};
     return (
@@ -410,6 +410,9 @@ export default class MyDiet extends Component {
                 <Text style={styles.weekText}>
                   Week {this.state.currentWeek}
                 </Text>
+                {!this.state.showDayOnScroll && (
+                  <Text style={dayColor}>(everyday meals)</Text>
+                )}
                 {this.state.showDayOnScroll && (
                   <Text style={dayColor}>({this.day})</Text>
                 )}

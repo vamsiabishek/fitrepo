@@ -1,56 +1,56 @@
 {
-  "project_info": {
-    "project_number": "916988589640",
-    "firebase_url": "https://dietrepo-develop.firebaseio.com",
-    "project_id": "dietrepo-develop",
-    "storage_bucket": "dietrepo-develop.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:916988589640:android:b34d8c71bb986ec135ca7d",
-        "android_client_info": {
-          "package_name": "com.fitness.fitrepo"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "916988589640-312dfttc9hbc1ntr8i6e1jtecbrrr7q8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.fitness.fitrepo",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+    "project_info": {
+      "project_number": "916988589640",
+      "firebase_url": "https://dietrepo-develop.firebaseio.com",
+      "project_id": "dietrepo-develop",
+      "storage_bucket": "dietrepo-develop.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:916988589640:android:b34d8c71bb986ec135ca7d",
+          "android_client_info": {
+            "package_name": "com.fitness.fitrepo"
           }
         },
-        {
-          "client_id": "916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAdAlR_rJP1YRI9tCaXRuN_tWBkqEbNXRw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "916988589640-enad9fvkikhvroaeqo1m441f7mdghgqo.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.fitness.fitrepo",
-                "app_store_id": "1462567212"
-              }
+        "oauth_client": [
+          {
+            "client_id": "916988589640-312dfttc9hbc1ntr8i6e1jtecbrrr7q8.apps.googleusercontent.com",
+            "client_type": 1,
+            "android_info": {
+              "package_name": "com.fitness.fitrepo",
+              "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
             }
-          ]
+          },
+          {
+            "client_id": "916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyAdAlR_rJP1YRI9tCaXRuN_tWBkqEbNXRw"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "916988589640-tdg7sc9ilil84u1lctp9p5me4h4qb2qi.apps.googleusercontent.com",
+                "client_type": 3
+              },
+              {
+                "client_id": "916988589640-enad9fvkikhvroaeqo1m441f7mdghgqo.apps.googleusercontent.com",
+                "client_type": 2,
+                "ios_info": {
+                  "bundle_id": "com.fitness.fitrepo",
+                  "app_store_id": "1462567212"
+                }
+              }
+            ]
+          }
         }
       }
-    }
-  ],
-  "configuration_version": "1"
-}
+    ],
+    "configuration_version": "1"
+  }
