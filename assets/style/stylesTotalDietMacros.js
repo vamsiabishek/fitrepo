@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     marginRight: 2,
     fontSize: fontsCommon.font16,
-    color: styleCommon.secondaryColor,
+    color: styleCommon.textColor2,
   },
   totalCaloriesBadge: {
     borderRadius: 10,
@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
     borderColor: 'lightgrey',
     paddingHorizontal: 6,
     paddingVertical: 2,
-    backgroundColor: 'rgba(153, 255, 102, .4)',
+    backgroundColor: styleCommon.badgeColor, // 'rgba(153, 255, 102, .4)',
   },
   totalCaloriesValue: {
-    color: 'white',
+    color: styleCommon.textColor2,
     fontSize: fontsCommon.font15,
     fontWeight: '600',
   },

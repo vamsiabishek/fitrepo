@@ -114,6 +114,7 @@ export const styleCommon = {
   panelHeaderIconColor: '#4CAF50',
   badgeColor: '#4CAF50',
   greenTickMark: '#00a63d', // 303A51
+  iconYellow: '#F7D147',
 };
 
 export const btnGradientColorLeft = '#66ffff'; // bright blue color

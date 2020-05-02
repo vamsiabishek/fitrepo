@@ -1,11 +1,32 @@
 import {StyleSheet} from 'react-native';
-import {styleCommon, fontsCommon} from './stylesCommonValues';
+import {
+  styleCommon,
+  fontsCommon,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  DEVICE_NAME,
+} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   mealItemHeaderView: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonRowContainer: {
+    height: DEVICE_NAME.includes('iPhone 11') ? 70 : 60,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    // backgroundColor: 'blue',
+  },
+  bottomButtonContainerStyle: {
+    // height: SCREEN_HEIGHT * 0.08,
+    // width: SCREEN_WIDTH * 0.1,
+    borderRadius: 100,
+    marginTop: 5,
+    marginHorizontal: 50,
+    backgroundColor: styleCommon.iconColor,
   },
   titleContainer: {
     textAlign: 'left',
@@ -31,6 +52,7 @@ export const styles = StyleSheet.create({
     marginTop: 0,
     marginLeft: -15,
     marginRight: 40,
+    // backgroundColor: 'purple',
   },
   descriptionContainer: {
     flexDirection: 'column',
@@ -77,5 +99,12 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     textDecorationLine: 'underline',
     color: styleCommon.textColor1,
+  },
+});
+
+export const stylesExtended = StyleSheet.create({
+  bottomHeartButtonContainerStyle: {
+    ...styles.bottomButtonContainerStyle,
+    backgroundColor: styleCommon.iconColor,
   },
 });

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {KeyboardAvoidingView, UIManager, View} from 'react-native';
+import {KeyboardAvoidingView, Platform, UIManager, View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesEditProfileScreen';
 import EditProfileSubScreen1 from './EditProfileSubScreen1';
@@ -65,7 +65,7 @@ export default class EditProfile extends Component {
       <View style={styles.container}>
         <KeyboardAvoidingView
           style={styles.innerContainer}
-          behavior="padding"
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           enabled>
           <View style={styles.profileButtonHeaderContainer}>
             <Button

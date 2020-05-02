@@ -58,10 +58,13 @@ export default class Diet extends Component {
       console.log('User not logged in - navigating to login page.');
       navigate('Login');
     } else {
+      const {uid} = await api.get('/getLoggedInUser');
+      console.log('uid: ', uid);
       const {diets} = response;
       console.log('user diets are ', diets);
       this.currentDietList = diets;
       this.setState({
+        uid,
         myDiets: diets,
         isLoading: false,
       });
@@ -72,17 +75,12 @@ export default class Diet extends Component {
     const {myDiets} = this.state;
     this.currentDietList = [];
     myDiets.map((diet) => {
-      if (selectedSort === WEIGHT_LOSS_DESC && diet.value.selectedGoal === 0) {
+      console.log('diet: ', diet);
+      if (selectedSort === WEIGHT_LOSS_DESC && diet.selectedGoal === 0) {
         this.currentDietList.push(diet);
-      } else if (
-        selectedSort === WEIGHT_GAIN_DESC &&
-        diet.value.selectedGoal === 2
-      ) {
+      } else if (selectedSort === WEIGHT_GAIN_DESC && diet.selectedGoal === 2) {
         this.currentDietList.push(diet);
-      } else if (
-        selectedSort === BE_HEALTHY_DESC &&
-        diet.value.selectedGoal === 1
-      ) {
+      } else if (selectedSort === BE_HEALTHY_DESC && diet.selectedGoal === 1) {
         this.currentDietList.push(diet);
       } else if (selectedSort === 'Newest first') {
         this.currentDietList = myDiets;

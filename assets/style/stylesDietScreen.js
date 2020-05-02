@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   subHeaderMenuItems: {
     fontSize: fontsCommon.font18,
     fontWeight: 'bold',
-    color: styleCommon.secondaryColorNew,
+    color: styleCommon.textColor2,
     shadowColor: 'black',
     shadowOffset: {width: 2, height: 4},
     shadowOpacity: 0.6,

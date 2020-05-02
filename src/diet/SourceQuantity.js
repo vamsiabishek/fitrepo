@@ -8,7 +8,7 @@ export default class SourceQuantity extends Component {
     const {source, sourceLabel, metric} = this.props;
     return (
       <View style={styles.sourceContainer}>
-        <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+        <View style={styles.sourceSubContainer}>
           <AnimateNumber
             countBy={2}
             style={styles.sourceValue}
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     backgroundColor: 'rgba(0, 0, 0, .3)',
   },
+  sourceSubContainer: {flexDirection: 'row', alignItems: 'flex-end'},
   sourceLabel: {
     fontSize: 14,
     marginTop: 1,
