@@ -41,15 +41,12 @@ class Feedback extends Component {
   onClickSend = async () => {
     const {details} = this.props;
     const {value} = this.state;
-    // console.log('details: ', details);
     const newDetails = {
       ...details,
       message: value,
     };
-    console.log('new details: ', newDetails);
     this.setState({isLoading: true});
     const messageSent = await api.post('/sendMail', newDetails);
-    console.log('messageSent: ', messageSent);
     if (messageSent.message !== 'success') {
       this.setState({isLoading: false, messageSent});
       messageSent.error &&
@@ -57,10 +54,8 @@ class Feedback extends Component {
           'Ooops!',
           'Looks like something went wrong while trying to send your feedback!. Please try again after sometime.',
         );
-      console.log('failed to sent the feedback, try again later !');
     } else {
       this.setState({isLoading: false, showDetails: false, messageSent});
-      console.log('Feedback sent !');
     }
   };
 

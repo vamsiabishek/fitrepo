@@ -124,7 +124,7 @@ export default class MealsContainer extends Component {
     );
   };
 
-  onPressClicked = () => {
+  onPressFeedback = () => {
     const {onClickFeedback} = this.props;
     onClickFeedback();
   };
@@ -205,7 +205,7 @@ export default class MealsContainer extends Component {
             }
             iconRight
             type="clear"
-            onPress={this.onPressClicked}
+            onPress={this.onPressFeedback}
             containerStyle={styles.bottomButtonContainerStyle}
           />
           <Button
