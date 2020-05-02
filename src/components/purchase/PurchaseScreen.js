@@ -287,6 +287,7 @@ export default class PurchaseScreen extends React.Component {
       <View>
         <Modal
           useNativeDriver={true}
+          hideModalContentWhileAnimating={true}
           isVisible={isVisible}
           backdropColor="black"
           backdropOpacity={0.5}>

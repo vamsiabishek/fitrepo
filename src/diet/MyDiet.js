@@ -11,6 +11,7 @@ import MealsContainer from './meals/MealsContainer';
 import {styles} from '../../assets/style/stylesMyDiet';
 import {
   styleCommon,
+  ICON_SIZE_MED,
   ICON_SIZE_24,
   ICON_SIZE_22,
   ICON_SIZE,
@@ -18,6 +19,7 @@ import {
 } from '../../assets/style/stylesCommonValues';
 import Loading from '../components/Loading';
 import PurchaseScreen from '../components/purchase/PurchaseScreen';
+import Feedback from '../feedback/Feedback';
 import {isTrailUser} from '../common/Util';
 import {getProgramEndDate, getSeconds} from '../common/Util';
 import api from '../common/Api';
@@ -43,6 +45,7 @@ export default class MyDiet extends Component {
       showMeals: true,
       paymentOptions: undefined,
       packageToPurchase: undefined,
+      showFeedbackModal: false,
     };
     this.dayBarScrollY = new Animated.Value(1);
     this.dayBarExpandedHeight = styles.dayBarStyle.height; // calculated by onLayout
@@ -238,10 +241,19 @@ export default class MyDiet extends Component {
     }
   };
 
+  onCloseFeedbackModal = () => {
+    this.setState({showFeedbackModal: false});
+  };
+
+  onClickFeedback = () => {
+    this.setState({showFeedbackModal: true});
+  };
+
   render() {
     const {navigate} = this.props.navigation;
     const {navigation} = this.props;
     const dietId = navigation.getParam('dietId');
+    const uid = navigation.getParam('uid');
     const {
       isLoading,
       activeDay,
@@ -253,7 +265,9 @@ export default class MyDiet extends Component {
       showPaymentModal,
       diet,
       showInitialTrailMeals,
+      showFeedbackModal,
     } = this.state;
+    const {id, createdDate, selectedProgram, selectedGoal, fitnessLevel} = diet;
     const {
       totalCalories,
       proteinInGm,
@@ -261,6 +275,18 @@ export default class MyDiet extends Component {
       fatsInGm,
       mealList,
     } = this.caloriesMacrosAndMeals(meals);
+    const feedbackDiet = {
+      uid,
+      id,
+      createdDate,
+      selectedProgram,
+      selectedGoal,
+      fitnessLevel,
+    };
+    const details = {
+      uid,
+      feedbackDiet,
+    };
     const dayBarHeight = this.dayBarScrollY.interpolate({
       inputRange: [0, this.dayBarExpandedHeight - 20],
       outputRange: [this.dayBarExpandedHeight, this.dayBarCollapsedHeight],
@@ -315,7 +341,7 @@ export default class MyDiet extends Component {
                   icon={{
                     name: 'arrow-left-thick',
                     size: ICON_SIZE,
-                    color: styleCommon.panelHeaderIconColor,
+                    color: styleCommon.iconYellow,
                     type: 'material-community',
                   }}
                   containerStyle={styles.backButtonStyle}
@@ -328,7 +354,7 @@ export default class MyDiet extends Component {
                   icon={{
                     name: 'medical-bag',
                     size: ICON_SIZE,
-                    color: styleCommon.panelHeaderIconColor,
+                    color: styleCommon.iconYellow,
                     type: 'material-community',
                   }}
                   iconRight={true}
@@ -437,6 +463,7 @@ export default class MyDiet extends Component {
               dayBarScrollY={this.dayBarScrollY}
               showDayLabelOnScroll={this.showDayLabelOnScroll}
               hideDayLabelOnScroll={this.hideDayLabelOnScroll}
+              onClickFeedback={this.onClickFeedback}
             />
             {!showMeals && (
               <PurchaseScreen
@@ -450,6 +477,13 @@ export default class MyDiet extends Component {
                 onClose={this.onClosePaymentModal}
                 dietTrialEndDate={dietTrialEndDate}
                 trialDaysLeft={trialDaysLeft}
+              />
+            )}
+            {diet.paymentStatus && (
+              <Feedback
+                isVisible={showFeedbackModal}
+                onClose={this.onCloseFeedbackModal}
+                details={details}
               />
             )}
           </View>

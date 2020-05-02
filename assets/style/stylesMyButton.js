@@ -25,7 +25,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     color: styleCommon.textColor2,
     fontWeight: '700',
-    fontSize: fontsCommon.font20, //  fontsCommon.font16
+    fontSize: fontsCommon.font16, //  fontsCommon.font16
+    letterSpacing: fontsCommon.letterSpacingOneFive,
   },
   navButtonIcon: {
     position: 'absolute',

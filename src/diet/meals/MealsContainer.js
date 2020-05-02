@@ -1,8 +1,17 @@
 import React, {Component} from 'react';
-import {Text, View, Animated, Easing, UIManager} from 'react-native';
+import {Text, View, Animated, Easing, UIManager, Platform} from 'react-native';
+import {Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Timeline from 'react-native-timeline-flatlist';
-import {styles} from '../../../assets/style/stylesMealContainer';
+import {
+  styles,
+  stylesExtended,
+} from '../../../assets/style/stylesMealContainer';
 import {MEALS_ICON} from '../../common/Common';
+import {
+  styleCommon,
+  fontsCommon,
+} from '../../../assets/style/stylesCommonValues';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -14,6 +23,7 @@ export default class MealsContainer extends Component {
     this.state = {
       setIconUp: false,
       selected: null,
+      heartClicked: false,
     };
     this.onLoadAnimatedValue = new Animated.Value(0);
   }
@@ -114,7 +124,19 @@ export default class MealsContainer extends Component {
     );
   };
 
+  onPressFeedback = () => {
+    const {onClickFeedback} = this.props;
+    onClickFeedback();
+  };
+
+  onHeartClicked = () => {
+    console.log('heart clicked !');
+    this.setState({heartClicked: true});
+  };
+
   render() {
+    const {heartClicked} = this.state;
+    console.log('heart status: ', heartClicked);
     const {
       meals,
       dayBarScrollY,
@@ -132,6 +154,7 @@ export default class MealsContainer extends Component {
     const descriptionStyle = {color: 'gray'};
     return (
       <Animated.ScrollView
+        style={{flex: 1}}
         removeClippedSubviews={false}
         onScroll={Animated.event(
           [
@@ -152,7 +175,7 @@ export default class MealsContainer extends Component {
         <Timeline
           style={styles.list}
           data={meals}
-          circleSize={35}
+          circleSize={fontsCommon.font35}
           circleColor="#00DB8D"
           //circleColor="white"
           lineColor="lightgrey"
@@ -168,6 +191,40 @@ export default class MealsContainer extends Component {
           //onEventPress={this.onEventPress}
           renderDetail={this.renderDetail}
         />
+        <View style={styles.buttonRowContainer}>
+          <Button
+            icon={
+              <Icon
+                name="comment-text"
+                size={fontsCommon.font30}
+                color={styleCommon.textInputDarkColor}
+                style={{
+                  marginRight: Platform.OS === 'ios' ? 2 : 0,
+                }}
+              />
+            }
+            iconRight
+            type="clear"
+            onPress={this.onPressFeedback}
+            containerStyle={styles.bottomButtonContainerStyle}
+          />
+          <Button
+            icon={
+              <Icon
+                name={heartClicked ? 'heart' : 'heart-outline'}
+                size={fontsCommon.font30}
+                color={'#d32724'}
+                style={{
+                  marginRight: Platform.OS === 'ios' ? 2 : 0,
+                }}
+              />
+            }
+            iconRight
+            type="clear"
+            onPress={this.onHeartClicked}
+            containerStyle={stylesExtended.bottomHeartButtonContainerStyle}
+          />
+        </View>
       </Animated.ScrollView>
     );
   }
