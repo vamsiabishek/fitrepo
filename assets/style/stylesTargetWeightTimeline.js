@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   modalInsideStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: styleCommon.secondaryButtonColor,
+    backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 4,
     borderColor: 'rgba(0, 0, 0, 0.1)',
     padding: SCREEN_WIDTH * 0.06,
@@ -21,13 +21,17 @@ export const styles = StyleSheet.create({
   },
   targetContainer: {
     width: SCREEN_WIDTH * 0.8,
+    marginTop: 15,
     marginHorizontal: 10,
     marginBottom: 10,
     paddingHorizontal: 10,
     paddingBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   targetButtonContainer: {
     width: SCREEN_WIDTH * 0.8,
+    marginTop: 10,
     marginHorizontal: 10,
     paddingHorizontal: 10,
   },
@@ -35,7 +39,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     textAlign: 'center',
-    color: styleCommon.secondaryButtonTextColor,
+    color: styleCommon.textColor1,
   },
   labelText: {
     paddingBottom: 15,
