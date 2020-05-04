@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
   },
   contentBoxStyle: {
     padding: 10,
+    marginTop: 20,
     backgroundColor: 'transparent',
     /*shadowColor: "grey",
     shadowOffset: { width: 2, height: 4 },
@@ -62,7 +63,15 @@ export const styles = StyleSheet.create({
   contentBoxMainStyle: {
     width: SCREEN_WIDTH * 0.8,
     marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
     //backgroundColor: "purple"
+  },
+  mealsPerday: {
+    marginTop: 10,
+    color: styleCommon.textColorDesc,
+    fontSize: fontsCommon.font13,
+    fontWeight: 'bold',
   },
   buttonGroupTextStyle: {
     textAlign: 'center',

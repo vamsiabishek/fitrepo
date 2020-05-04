@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 import {KeyboardAvoidingView, Text, UIManager, View} from 'react-native';
-import HorizontalSelectView from '../components/HorizontalSelectView';
+import NumberSlider from '../components/NumberSlider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ICON_SIZE_EXTRA_LARGE} from '../../assets/style/stylesCommonValues';
+import {
+  ICON_SIZE_EXTRA_LARGE,
+  SCREEN_WIDTH,
+  styleCommon,
+} from '../../assets/style/stylesCommonValues';
 import {styles} from '../../assets/style/stylesPreferenceDetails';
 import AnglePositionView from '../components/AnglePositionView';
 import Emoji from 'react-native-emoji';
@@ -68,7 +72,9 @@ export default class PreferenceDetails extends Component {
           <View style={styles.contentContainer}>
             <View style={styles.contentBoxStyle}>
               <View style={styles.contentBoxHeaderStyle}>
-                <Text style={styles.headerTextStyle}>Your Food Preference</Text>
+                <Text style={styles.headerTextStyle}>
+                  Select your Food Preference:
+                </Text>
                 <Icon
                   style={styles.headerIconStyle}
                   size={ICON_SIZE_EXTRA_LARGE}>
@@ -140,17 +146,28 @@ export default class PreferenceDetails extends Component {
             <View style={styles.contentBoxStyle}>
               <View style={styles.contentBoxHeaderStyle}>
                 <Text style={styles.headerTextStyle}>
-                  Number of Meals You Eat in a Day
+                  Select meals you eat in a day:
                 </Text>
               </View>
               <View style={styles.contentBoxMainStyle}>
-                <HorizontalSelectView
+                {/* <HorizontalSelectView
                   items={numberOfMealsOptions}
                   selectedItem={numberOfMeals}
                   onSelectionChange={this.onMealsChange}
                   showSelectedLabel={true}
                   label="meals/day"
+                /> */}
+                <NumberSlider
+                  displayValues={numberOfMealsOptions}
+                  value={numberOfMeals}
+                  onValueChange={this.onMealsChange}
+                  width={SCREEN_WIDTH * 0.8}
+                  fontSize={18}
+                  containerBackground={styleCommon.secondaryColorNew}
                 />
+                <Text style={styles.mealsPerday}>
+                  {numberOfMeals} meals/day*
+                </Text>
               </View>
             </View>
           </View>

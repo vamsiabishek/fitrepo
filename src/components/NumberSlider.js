@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import {View, Animated, StyleSheet, TouchableOpacity} from 'react-native';
 
-const createStyles = ({totalWidth, eachCountWidth, height}) => {
+const createStyles = ({
+  totalWidth,
+  eachCountWidth,
+  height,
+  containerBackground,
+}) => {
   return StyleSheet.create({
     container: {
       width: totalWidth,
       height,
       borderRadius: height / 2,
-      backgroundColor: '#f1f2f6',
+      backgroundColor: containerBackground, //'#f1f2f6',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -57,6 +62,7 @@ class Slider extends Component {
     this.totalWidth = props.width;
     this.eachCountWidth = this.totalWidth / this.count;
     this.height = this.eachCountWidth;
+    this.containerBackground = props.containerBackground;
     const selectedIndex = props.displayValues.findIndex(
       (value) => value === props.value,
     );
@@ -73,6 +79,7 @@ class Slider extends Component {
     this.totalWidth = this.props.width;
     this.eachCountWidth = this.totalWidth / this.count;
     this.height = this.eachCountWidth;
+    this.containerBackground = this.props.containerBackground;
     if (this.props.value !== this.state.value) {
       const selectedIndex = this.props.displayValues.findIndex(
         (value) => value === this.props.value,
@@ -152,6 +159,7 @@ Slider.defaultProps = {
   displayValues: [4, 8, 12, 16], // [1, 2, 3, 4, 5],
   value: 8, // 4
   fontSize: 15,
+  containerBackground: '#f1f2f6',
 };
 
 export default Slider;
