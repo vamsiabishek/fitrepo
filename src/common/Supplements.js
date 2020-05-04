@@ -1,21 +1,5 @@
 const supplements = {
   beginner: {
-    wheyConcentrate: {
-      name: 'Whey',
-      desc: 'Protein supplement',
-      detailedDesc: 'Completely safe as it is made out of milk',
-      brands: [
-        {
-          brandName: 'ON(Optimum Nutrition)',
-          name: 'ON Gold Standard whey',
-        },
-      ],
-      image: require('../../assets/images/supplements/on-whey-small.jpg'),
-      bestConsume: [],
-      fatLoss: true,
-      weightGain: true,
-      healthy: true,
-    },
     multivitamin: {
       name: 'Multi-Vitamin',
       desc: 'Vitamins & Minerals supplement',
@@ -31,6 +15,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
+      bestConsume: ['Morning after breakfast'],
     },
     vitaminD: {
       name: 'Vit D',
@@ -47,6 +32,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
+      bestConsume: ['Night before bed'],
     },
     vitaminC: {
       name: 'Vit C',
@@ -63,9 +49,27 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
+      bestConsume: ['Anytime'],
     },
   },
   intermediate: {
+    wheyConcentrate: {
+      name: 'Whey',
+      desc: 'Protein supplement',
+      detailedDesc: 'Completely safe as it is made out of milk',
+      brands: [
+        {
+          brandName: 'ON(Optimum Nutrition)',
+          name: 'ON Gold Standard whey',
+        },
+      ],
+      image: require('../../assets/images/supplements/whey_protein.png'),
+      bestConsume: ['Post workout'],
+      fatLoss: true,
+      weightGain: true,
+      healthy: true,
+      fitnessLevel: [2, 3],
+    },
     fishOil: {
       name: 'Fish Oil',
       desc: 'Omega 3 supplement',
@@ -86,6 +90,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
+      bestConsume: ['Pre workout', 'Night before bed'],
     },
     lCarnitine: {
       name: 'L-carnitine',
@@ -94,6 +99,7 @@ const supplements = {
       brands: [],
       image: require('../../assets/images/supplements/l-carnitine-small.jpg'),
       fatLoss: true,
+      bestConsume: ['Before morning cardio', 'Pre workout'],
     },
     cla: {
       name: 'CLA',
@@ -102,6 +108,7 @@ const supplements = {
       brands: [],
       image: require('../../assets/images/supplements/cla-small.jpg'),
       fatLoss: true,
+      bestConsume: ['Before morning cardio', 'Pre workout'],
     },
     bcaa: {
       name: 'BCAA',
@@ -111,6 +118,7 @@ const supplements = {
       image: require('../../assets/images/supplements/BCAA-small.jpg'),
       fatLoss: true,
       weightGain: true,
+      bestConsume: ['During morning cardio', 'Intra workout'],
     },
     creatine: {
       name: 'Creatine',
@@ -119,6 +127,7 @@ const supplements = {
       brands: [],
       image: require('../../assets/images/supplements/creatine-small.jpg'),
       weightGain: true,
+      bestConsume: ['Pre workout'],
     },
     fatBurner: {
       name: 'Fat Burner',
@@ -127,6 +136,7 @@ const supplements = {
       brands: [],
       image: require('../../assets/images/supplements/hydroxy-fat-burner-small.jpg'),
       weightGain: true,
+      bestConsume: ['Before morning cardio', 'Pre workout'],
     },
     biotin: {
       name: 'Biotin',
@@ -137,6 +147,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
+      bestConsume: ['Anytime'],
     },
     casein: {
       name: 'Casein',
@@ -145,6 +156,7 @@ const supplements = {
       brands: [],
       image: require('../../assets/images/supplements/glutamine-small.jpg'),
       weightGain: true,
+      bestConsume: ['Night before bed'],
     },
   },
   advanced: {
@@ -158,6 +170,7 @@ const supplements = {
       weightGain: true,
       healthy: true,
       optional: true,
+      bestConsume: ['Follow instructions on bottle'],
     },
     lGlutamine: {
       name: 'L-Glutamine',
@@ -167,6 +180,7 @@ const supplements = {
       image: require('../../assets/images/supplements/glutamine-small.jpg'),
       fatLoss: true,
       weightGain: true,
+      bestConsume: ['Post workout'],
     },
     glucosamine: {
       name: 'Glucosamine',
@@ -178,6 +192,7 @@ const supplements = {
       weightGain: true,
       healthy: true,
       optional: true,
+      bestConsume: ['Anytime'],
     },
     ashwagandha: {
       name: 'Ashwagandha',
@@ -189,6 +204,7 @@ const supplements = {
       weightGain: true,
       healthy: true,
       optional: true,
+      bestConsume: ['Night before bed'],
     },
     tribulus: {
       name: 'Tribulus gokshura',
@@ -200,6 +216,7 @@ const supplements = {
       weightGain: true,
       healthy: true,
       optional: true,
+      bestConsume: ['Night before bed'],
     },
     coq10: {
       name: 'CoQ10',
@@ -210,6 +227,7 @@ const supplements = {
       fatLoss: true,
       weightGain: true,
       healthy: true,
+      bestConsume: ['Morning after breakfast'],
     },
     ubiquinol: {
       name: 'Ubiquinol',
@@ -221,6 +239,7 @@ const supplements = {
       weightGain: true,
       optional: true,
       alternativeTo: 'coq10',
+      bestConsume: ['Morning after breakfast'],
     },
     zma: {
       name: 'ZMA',
@@ -230,6 +249,7 @@ const supplements = {
       image: require('../../assets/images/supplements/zma-small.jpg'),
       fatLoss: true,
       weightGain: true,
+      bestConsume: ['Night before bed'],
     },
     betaAlanine: {
       name: 'Beta Alanine',
@@ -238,6 +258,7 @@ const supplements = {
       brands: [],
       image: require('../../assets/images/supplements/beta-alanine-small.jpg'),
       weightGain: true,
+      bestConsume: ['Pre workout'],
     },
     lArginine: {
       name: 'L-Arginine',
@@ -246,6 +267,7 @@ const supplements = {
       brands: [],
       image: require('../../assets/images/supplements/l-arginine-small.jpg'),
       weightGain: true,
+      bestConsume: ['Pre workout'],
     },
   },
 };

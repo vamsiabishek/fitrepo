@@ -113,6 +113,7 @@ export const styleCommon = {
   panelSubHeaderBoxColor: '#20948B',
   panelHeaderIconColor: '#4CAF50',
   badgeColor: '#4CAF50',
+  badgeDarkGreen: 'rgba(0, 0, 0, .3)',
   greenTickMark: '#00a63d', // 303A51
   iconYellow: '#F7D147',
 };

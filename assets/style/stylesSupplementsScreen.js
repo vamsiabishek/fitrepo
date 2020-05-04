@@ -51,9 +51,9 @@ export const styles = StyleSheet.create({
     marginRight: 30,
   },
   pageTitle: {
-    fontSize: fontsCommon.font20,
+    fontSize: fontsCommon.font22,
     fontWeight: 'bold',
-    color: styleCommon.textColorTitles,
+    color: styleCommon.textColorDesc,
   },
   flatListContainer: {
     flex: 1,
@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
     borderRadius: (SCREEN_HEIGHT * 0.1) / 4,
     marginTop: 8,
     elevation: 2,
-    backgroundColor: styleCommon.secondaryColorNew,
+    backgroundColor: styleCommon.badgeDarkGreen,
     shadowColor: 'black',
     shadowOffset: {width: 2, height: 4},
     shadowOpacity: 0.6,
@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
   },
   badgeContainer: {
     flexDirection: 'column',
-    backgroundColor: styleCommon.badgeColor,
+    backgroundColor: 'white',
     width: SCREEN_WIDTH * 0.28, //180,
     justifyContent: 'center',
     alignItems: 'center',
@@ -132,20 +132,20 @@ export const styles = StyleSheet.create({
   supplementName: {
     fontSize: fontsCommon.font18,
     fontWeight: '700',
-    color: styleCommon.textColor1,
+    color: '#f2921d',
   },
   supplementDesc: {
     width: SCREEN_WIDTH * 0.6, //180,
     fontSize: fontsCommon.font14,
     paddingRight: 5,
-    color: styleCommon.secondaryButtonTextColor,
+    color: '#c5d92b',
   },
   supplementDetailedDesc: {
     width: SCREEN_WIDTH * 0.65, //180,
     fontSize: fontsCommon.font14,
     fontWeight: '500',
     marginTop: 5,
-    color: '#004d4d',
+    color: styleCommon.textColor2,
   },
   consumeDesc: {
     width: SCREEN_WIDTH * 0.4, //180,
@@ -163,14 +163,15 @@ export const styles = StyleSheet.create({
     fontSize: fontsCommon.font14,
     padding: 5,
     fontWeight: '600',
-    color: styleCommon.textColor1,
+    color: styleCommon.textColor2,
   },
   timingsOptions: {
     padding: 3,
     paddingLeft: 4,
     fontWeight: '400',
+    fontStyle: 'italic',
     fontSize: fontsCommon.font13,
-    color: styleCommon.textColor1,
+    color: styleCommon.textColor2,
   },
   timingIconStyle: {
     marginTop: 5,
