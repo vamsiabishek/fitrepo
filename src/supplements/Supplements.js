@@ -58,7 +58,7 @@ export default class Supplements extends Component {
                 icon={{
                   name: 'arrow-left-thick',
                   size: ICON_SIZE,
-                  color: styleCommon.panelHeaderIconColor,
+                  color: styleCommon.iconColor,
                   type: 'material-community',
                 }}
                 containerStyle={styles.backButtonStyle}
@@ -76,7 +76,7 @@ export default class Supplements extends Component {
             contentContainerStyle={styles.flatListContentContainer}
             data={supplements}
             renderItem={({item, index}) => {
-              const {name, desc, detailedDesc, image} = item.value;
+              const {name, desc, detailedDesc, image, bestConsume} = item.value;
               return (
                 <View style={styles.listItemContainer}>
                   <View style={styles.badgeContainer}>
@@ -98,16 +98,18 @@ export default class Supplements extends Component {
                           <Icon
                             name="calendar-clock"
                             size={ICON_SIZE_SMALL}
-                            color="#4CAF50"
+                            color="#c5d92b"
                             style={styles.timingIconStyle}
                           />
                           <Text style={styles.timingsLabelText}>
                             Best timings to consume:
                           </Text>
                         </View>
-                        <Text style={styles.timingsOptions}>
-                          -Morning after breakfast
-                        </Text>
+                        {bestConsume.map((time, i) => (
+                          <Text key={i} style={styles.timingsOptions}>
+                            -{time}
+                          </Text>
+                        ))}
                       </TouchableOpacity>
                     </View>
                   </View>
