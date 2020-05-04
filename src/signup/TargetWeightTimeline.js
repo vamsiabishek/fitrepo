@@ -11,7 +11,9 @@ import MyButton from '../components/MyButton';
 import {
   styleCommon,
   ICON_SIZE_MED,
+  SCREEN_WIDTH,
 } from '../../assets/style/stylesCommonValues';
+import NumberSlider from '../components/NumberSlider';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -120,12 +122,19 @@ export default class TargetWeightTimeline extends Component {
               </View>
               <View style={styles.targetContainer}>
                 <Text style={styles.labelText}>
-                  Choosen Program: {selectedProgram} Weeks
+                  Chosen Program: {selectedProgram} Weeks
                 </Text>
-                <HorizontalSelectView
+                {/* <HorizontalSelectView
                   items={programs}
                   selectedItem={selectedProgram}
                   onSelectionChange={this._onProgramChange}
+                /> */}
+                <NumberSlider
+                  displayValues={programs}
+                  value={selectedProgram}
+                  onValueChange={this._onProgramChange}
+                  width={SCREEN_WIDTH * 0.7}
+                  fontSize={14}
                 />
               </View>
               <View style={styles.targetContainer}>
