@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, Animated, StyleSheet, TouchableOpacity} from 'react-native';
 
 const createStyles = ({totalWidth, eachCountWidth, height}) => {
-  console.log('', totalWidth, eachCountWidth, height);
   return StyleSheet.create({
     container: {
       width: totalWidth,
@@ -69,27 +68,7 @@ class Slider extends Component {
     this.styles = createStyles(this);
   }
 
-  componentDidMount = () => {
-    console.log('mounted')
-    this.count = this.props.displayValues.length;
-    this.totalWidth = this.props.width;
-    this.eachCountWidth = this.totalWidth / this.count;
-    this.height = this.eachCountWidth;
-   
-      const selectedIndex = this.props.displayValues.findIndex(
-        (value) => value === this.props.value,
-      );
-      this.setState({
-        animationValue: new Animated.Value(-100),
-        value: this.props.value,
-        selectedIndex,
-      });
-      this.styles = createStyles(this);
-    
-  }
-
   componentDidUpdate = () => {
-    console.log("updated", this.props)
     this.count = this.props.displayValues.length;
     this.totalWidth = this.props.width;
     this.eachCountWidth = this.totalWidth / this.count;
@@ -105,7 +84,7 @@ class Slider extends Component {
       });
       this.styles = createStyles(this);
     }
-  }
+  };
 
   slide = () => {
     Animated.timing(this.state.animationValue, {
@@ -128,7 +107,7 @@ class Slider extends Component {
   };
 
   render() {
-    const {value, selectedIndex} = this.state;
+    const {selectedIndex} = this.state;
     const {displayValues, fontSize} = this.props;
     const {container, numberContainer, selectedNumber, number} = this.styles;
     let {slideView} = this.styles;
@@ -140,24 +119,23 @@ class Slider extends Component {
       ...slideView,
       width: this.eachCountWidth * (selectedIndex + 1),
     };
-    console.log('width', this.eachCountWidth * value, slideView.width);
     return (
       <View style={container}>
         <Animated.View style={[animatedtyle, slideView]} />
         <View style={numberContainer}>
-          {displayValues.map((e, i) => {
+          {displayValues.map((num, i) => {
             const {value} = this.state;
-            console.log(value);
-            const color = e === value ? 'black' : e < value ? 'white' : 'grey';
+            const color =
+              num === value ? 'black' : num < value ? 'white' : 'grey';
             return (
               <View
                 key={i}
-                style={[{flex: 1}, e === value ? selectedNumber : {}]}>
+                style={[{flex: 1}, num === value ? selectedNumber : {}]}>
                 <TouchableOpacity
                   style={number}
-                  onPress={() => this.selectValue(e, i)}>
+                  onPress={() => this.selectValue(num, i)}>
                   <Animated.Text style={{color, textAlign: 'center', fontSize}}>
-                    {`${e}`}
+                    {`${num}`}
                   </Animated.Text>
                 </TouchableOpacity>
               </View>
