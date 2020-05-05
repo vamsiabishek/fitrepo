@@ -1,100 +1,158 @@
-import { Dimensions, StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
+import {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  styleCommon,
+  errorTextcolor,
+  BUTTON_HEIGHT_GENERAL,
+  fontsCommon,
+  BG_COLOR,
+} from './stylesCommonValues';
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#28292B"
-  },
-  viewContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  bgImage: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: 'center',
+    justifyContent: 'space-between',
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT
+    height: SCREEN_HEIGHT,
+    marginVertical: SCREEN_HEIGHT * 0.05,
+    backgroundColor: BG_COLOR, //BG_COLOR, orange
+  },
+  containerLoading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+    marginVertical: SCREEN_HEIGHT * 0.1,
+    backgroundColor: BG_COLOR, //BG_COLOR, orange
+  },
+  loginAnimationView: {
+    height: '30%',
+    width: '50%',
+    //backgroundColor: 'blue',
   },
   loginView: {
-    width: 250,
-    height: 400,
-    marginTop: 150,
-    backgroundColor: "transparent"
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: SCREEN_HEIGHT * 0.01,
+    //backgroundColor: "pink"
   },
-  loginTitle: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+  logoContainer: {
+    //marginVertical: SCREEN_HEIGHT * 0.08,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //backgroundColor: 'yellow',
   },
   logoText: {
-    color: "white",
-    fontSize: 30,
-    fontWeight: "bold"
+    padding: 5,
+    letterSpacing: fontsCommon.letterSpacingOneFive,
+    fontSize: fontsCommon.font40,
+    fontWeight: 'bold',
+    color: styleCommon.secondaryColorNew,
+    //backgroundColor: 'firebrick',
   },
-  plusText: {
-    color: "white",
-    fontSize: 30,
-    fontWeight: "normal"
-  },
-  loginInput: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+  loginInputContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SCREEN_HEIGHT * 0.01, // 10
+    //width: SCREEN_WIDTH * 0.9,
+    //margin: 5,
+    //backgroundColor: "chocolate",
   },
   inputContainer: {
-    marginVertical: 10
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: SCREEN_HEIGHT * 0.01, // 10
+    //backgroundColor: "crimson"
+  },
+  inputContainerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: styleCommon.textInputColor,
+    height: 55,
+    marginTop: 6,
+    backgroundColor: 'white',
   },
   inputStyle: {
     marginLeft: 10,
-    color: "white"
+    color: styleCommon.textColor1,
   },
   errorInputStyle: {
-    textAlign: "center",
-    fontSize: 12,
-    color: "#F44336"
+    textAlign: 'center',
+    fontSize: fontsCommon.font12,
+    color: errorTextcolor,
   },
-  loginButtonContainer: {
-    marginTop: 10
+  buttonContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 40,
+    shadowOffset: {width: 2, height: 8},
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    //backgroundColor: "orange"
+  },
+  loginButtonContainerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    //backgroundColor: "gold"
   },
   loginButtonStyle: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50,
-    width: 250,
-    borderWidth: 2,
-    borderColor: "#00DB8D",
+    width: SCREEN_WIDTH * 0.73,
+    height: BUTTON_HEIGHT_GENERAL,
+    borderColor: 'transparent',
     borderRadius: 30,
-    backgroundColor: "#00DB8D"
+    backgroundColor: 'transparent',
+  },
+  socialMediaLoginBtn: {
+    width: SCREEN_WIDTH * 0.38,
   },
   loginButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "white"
+    fontSize: fontsCommon.font16,
+    fontWeight: 'bold',
+    color: styleCommon.textColor2,
+  },
+  loginButtonIcon: {
+    paddingLeft: 5,
+    color: styleCommon.textColor2,
+  },
+  loginButtonDes: {
+    color: styleCommon.textColor1,
   },
   signUpHereContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    // shadowOffset: { width: 2, height: 8 },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 3
+    //backgroundColor: "coral"
   },
   newUserText: {
-    fontSize: 15,
-    color: "white"
-  },
-  signUpButtonStyle: {
-    paddingHorizontal: 2
+    fontSize: fontsCommon.font16,
+    color: styleCommon.textColor2,
   },
   signUpButtonTitle: {
-    color: "#00DB8D",
-    fontSize: 14,
-    fontWeight: "bold"
-  }
+    color: styleCommon.secondaryColor,
+    fontSize: fontsCommon.font15,
+    fontWeight: 'bold',
+  },
+  seeUnseeButtonStyle: {
+    backgroundColor: 'transparent',
+  },
+  iconImageStyle: {
+    width: SCREEN_HEIGHT * 0.15,
+    height: SCREEN_HEIGHT * 0.15,
+    //justifyContent: 'center',
+    //alignItems: 'center',
+    //backgroundColor: 'pink',
+    // marginTop: 10,
+    //marginBottom: SCREEN_HEIGHT * 0.05,
+  },
 });
-
-export { styles };

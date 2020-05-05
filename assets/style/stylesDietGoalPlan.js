@@ -1,97 +1,177 @@
-import { StyleSheet, Dimensions } from "react-native";
+import {StyleSheet, Dimensions} from 'react-native';
+import {styleCommon} from './stylesCommonValues';
 
-const SCREE_WIDTH = Dimensions.get("window").width;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#28292B"
+    justifyContent: 'center',
+    alignItems: 'center',
+    //backgroundColor: "#28292B"
+    //backgroundColor: "#0a1915"
+  },
+  bgImage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
   },
   viewContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-    marginBottom: 20
+    justifyContent: 'center',
+    alignItems: 'center',
+    //marginTop: 40,
+    marginBottom: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   titleContainer: {
-    color: "white", //"#717173",
-    fontFamily: "Billabong",
-    fontSize: 60
-    //fontWeight: "bold",
-    //fontStyle: "italic"
+    color: styleCommon.textColor1, // "white", //"#717173",
+    fontFamily: 'Billabong',
+    fontSize: 60,
   },
   textContainer: {
-    color: "white"
+    color: styleCommon.textColor1,
+    //color: "white"
+    //color: "#15211d"
   },
   viewDDContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: SCREE_WIDTH - 60,
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "white",
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: SCREEN_WIDTH - 60,
+    //backgroundColor: "#494b50",
+    //backgroundColor: "#0d241f",
+    //backgroundColor: "#24443d",
+    backgroundColor: styleCommon.secondaryColor,
+    //borderWidth: 1,
+    //borderColor: "white",
     borderRadius: 30,
     paddingTop: 10,
-    paddingBottom: 20
+    paddingBottom: 10,
+  },
+  vegButtonGroup: {
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 0,
+    backgroundColor: styleCommon.disableColor, // "#494b50"
+  },
+  goalButtonGroup: {
+    height: 70,
+    borderRadius: 10,
+    borderWidth: 0,
+    backgroundColor: styleCommon.disableColor, //"#494b50"
+  },
+  buttonGroupStyle: {
+    height: 40,
+    borderRadius: 10,
+    borderWidth: 0,
+    backgroundColor: styleCommon.disableColor,
   },
   dropdownContainer: {
     width: 300,
-    padding: 10
+    marginTop: 15,
+  },
+  weightContainer: {
+    flexDirection: 'row',
+    width: 300,
+    marginTop: 20,
+  },
+
+  labelContainer: {
+    flexDirection: 'row',
+    paddingBottom: 15,
+  },
+  labelText: {
+    fontSize: 15,
+    color: styleCommon.textColor1,
+  },
+  selectedOptionLabel: {
+    fontSize: 15,
+    color: styleCommon.textColor1,
+  },
+  selectedButtonStyle: {
+    backgroundColor: styleCommon.selectedButtonColor,
+    alignItems: 'center',
   },
   dropdownBaseColor: {
-    color: "black"
+    color: 'black',
   },
   dropdownOffset: {
     top: 20,
-    left: 0
+    left: 0,
   },
   dropdownPickerStyle: {
-    backgroundColor: "white"
+    backgroundColor: 'white',
   },
   inputContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginVertical: 15,
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   inputLabel: {
     marginVertical: 15,
     marginHorizontal: 30,
-    fontSize: 16
+    fontSize: 16,
+  },
+  numericInputContainer: {
+    marginLeft: 10,
   },
   numberPickerContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 30
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 30,
   },
   inputStyle: {
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
   },
   nextButtonContainerStyle: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
     marginHorizontal: 20,
-    height: 40
+    height: 40,
   },
   nextButtonStyle: {
     borderWidth: 0,
-    borderColor: "transparent",
+    borderColor: 'transparent',
     borderRadius: 20,
     paddingHorizontal: 10,
-    backgroundColor: "#00DB8D"
+    backgroundColor: styleCommon.secondaryButtonColor, //"#00EF9A"
   },
   nextButtonTitleStyle: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: "white"
-  }
+    fontWeight: 'bold',
+    //color: "white"
+    color: styleCommon.secondaryButtonTextColor, //"#414c47"
+    // color: "#0A1915"
+  },
+  veg: {
+    backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A",
+    borderRadius: 25,
+    width: '110%',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  nonVeg: {
+    backgroundColor: styleCommon.selectedButtonColor, //"#00EF9A",
+    borderRadius: 25,
+    width: '110%',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
 });
 
-export { styles };
+export {styles};

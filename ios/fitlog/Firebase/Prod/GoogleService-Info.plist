@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>68334156939-24cgcjf9tip72f7q0h65cib50qqkoj00.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.68334156939-24cgcjf9tip72f7q0h65cib50qqkoj00</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDDkzae5V1M74wsCo0ZyV21YPq_FHTk1IE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>68334156939</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.fitness.fitrepo</string>
+	<key>PROJECT_ID</key>
+	<string>dietrepo-prod</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dietrepo-prod.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:68334156939:ios:f2811e54bc74de1cbb288e</string>
+	<key>DATABASE_URL</key>
+	<string>https://dietrepo-prod.firebaseio.com</string>
+</dict>
+</plist>
