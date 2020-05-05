@@ -13,7 +13,7 @@ import {
   ICON_SIZE_MED,
   SCREEN_WIDTH,
 } from '../../assets/style/stylesCommonValues';
-import NumberSlider from '../components/NumberSlider';
+import NumberSlider from 'react-native-number-slider';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&

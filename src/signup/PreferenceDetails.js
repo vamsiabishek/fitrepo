@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {KeyboardAvoidingView, Text, UIManager, View} from 'react-native';
-import NumberSlider from '../components/NumberSlider';
+import NumberSlider from 'react-native-number-slider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   ICON_SIZE_EXTRA_LARGE,

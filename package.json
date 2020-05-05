@@ -45,6 +45,7 @@
     "react-native-material-dropdown": "^0.11.1",
     "react-native-modal": "^11.5.6",
     "react-native-modal-datetime-picker": "^8.5.4",
+    "react-native-number-slider": "1.0.0",
     "react-native-progress-bar-animated": "^1.0.6",
     "react-native-progress-circle": "^2.1.0",
     "react-native-purchases": "^3.2.0",
