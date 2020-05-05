@@ -1,35 +1,41 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
+import {styleCommon, fontsCommon} from './stylesCommonValues';
 
 const styles = StyleSheet.create({
   bottomNavBar: {
     paddingVertical: 2,
-    backgroundColor: "#28292B",
-    color: "#44484E"
+    backgroundColor: styleCommon.primaryButtonColor,
+    color: styleCommon.textColor1,
+    tintColor: styleCommon.textColor1, //styleCommon.unSelected
   },
-  iconSize: 28,
   activeTintColor: {
-    color: "white"
+    color: styleCommon.unSelected,
+  },
+  tintColor: {
+    color: styleCommon.unSelected, //styleCommon.unSelected
   },
   labelStyle: {
-    paddingVertical: 4
+    fontSize: fontsCommon.font12,
+    fontWeight: 'bold',
+    //backgroundColor: "red"
   },
   headerStyle: {
-    borderBottomWidth: 0,
-    borderColor: "#28292B",
-    backgroundColor: "#28292B"
+    height: 35,
+    backgroundColor: styleCommon.primaryColor,
+    color: styleCommon.secondaryButtonTextColor,
   },
   headerTitleStyle: {
-    color: "white",
+    color: styleCommon.textColor1,
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   headerTextStyle: {
-    color: "#00DB8D",
-    fontSize: 18
+    color: styleCommon.textColor1,
+    fontSize: 18,
   },
   headerTIcolor: {
-    color: "#00DB8D"
-  }
+    color: styleCommon.textColor1,
+  },
 });
 
-export { styles };
+export {styles};

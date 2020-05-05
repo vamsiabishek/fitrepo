@@ -9,9 +9,18 @@
 
 # Add any project specific keep options here:
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# To avoid failing this => :app:transformClassesAndResourcesWithProguardForRelease 
+-ignorewarnings
+
+-keep class * {
+    public private *;
+}
+
+# To remove uneccessary comments while releasing the app
+-assumenosideeffects class android.util.Log {
+  public static *** v(...);
+  public static *** d(...);
+  public static *** i(...);
+  public static *** w(...);
+  public static *** e(...);
+}

@@ -1,0 +1,567 @@
+import React, {Component} from 'react';
+import {
+  Alert,
+  Platform,
+  Text,
+  View,
+  LayoutAnimation,
+  UIManager,
+  KeyboardAvoidingView,
+  Animated,
+} from 'react-native';
+import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import {GoogleSignin} from '@react-native-community/google-signin';
+import LottieView from 'lottie-react-native';
+import {Button, SocialIcon} from 'react-native-elements';
+import {styles} from '../../assets/style/stylesLoginScreen';
+import auth from '@react-native-firebase/auth';
+import {
+  EMAIL_VERIFICATION,
+  PASSWORD_LENGTH_MINIMUM,
+  PROVIDER_GOOGLE,
+  PROVIDER_FACEBOOK,
+} from '../common/Common';
+import {setCurrentUser, getCurrentUser} from '../common/Util';
+import {fontsCommon} from '../../assets/style/stylesCommonValues';
+import {commonStyles} from '../../assets/style/stylesCommon';
+import PhoneAuth from '../signup/PhoneAuthScreen';
+import Loading from '../components/Loading';
+import analytics from '@react-native-firebase/analytics';
+import PrivacyAndTerms from '../documents/PrivacyAndTerms';
+import api from '../common/Api';
+
+// Enable LayoutAnimation for Android Devices
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+
+export default class LoginScreen extends Component {
+  constructor(props) {
+    super(props);
+    (async () => {
+      // All async code here
+      //await removeCurrentUser()
+      const user = await getCurrentUser();
+      if (user) {
+        // console.log('uid:', user.uid);
+        this.onLoginSuccess();
+      }
+    })();
+    this.state = {
+      email: 'jake@brooklyn99.com',
+      password: 'jake@1234',
+      emailValid: true,
+      passwordValid: true,
+      login_failed: false,
+      isLoading: false,
+      selectedIndex: 0,
+      secureTextKey: true,
+      showSocialOptions: true,
+      showPrivacyTerms: false,
+      user: null,
+    };
+    this.shakeAnimation = new Animated.Value(0);
+  }
+
+  componentDidMount() {
+    this.startShake();
+  }
+
+  shakeInIntervals = () => {
+    this.shakeInterval = setInterval(() => {
+      if (this.shakeInterval) {
+        clearInterval(this.shakeInterval);
+      }
+      this.startShake();
+    }, 3000);
+  };
+
+  startShake = () => {
+    Animated.sequence([
+      Animated.timing(this.shakeAnimation, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.shakeAnimation, {
+        toValue: -10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.shakeAnimation, {
+        toValue: 10,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.shakeAnimation, {
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start(() => this.shakeInIntervals());
+  };
+
+  /*logoutGoogleUser = async () => {
+    const currentUser = await GoogleSignin.getCurrentUser();
+    //this.setState({ currentUser });
+    if (currentUser) {
+      try {
+        await GoogleSignin.revokeAccess();
+        await GoogleSignin.signOut();
+        //this.setState({ user: null }); // Remember to remove the user from your app's state as well
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }*/
+  onEyeIconPress = () => {
+    this.setState({secureTextKey: false});
+  };
+  onEyeOffIconPress = () => {
+    this.setState({secureTextKey: true});
+  };
+  onEmailChange = (email) => {
+    this.setState({email});
+  };
+  validateEmail = () => {
+    const {email} = this.state;
+    const emailValid = EMAIL_VERIFICATION.test(email);
+    LayoutAnimation.easeInEaseOut();
+    emailValid || this.emailInput.shake();
+    return emailValid;
+  };
+  onPasswordChange = (password) => {
+    this.setState({password});
+  };
+  validatePassword = () => {
+    const {password} = this.state;
+    const passwordValid = password.length >= PASSWORD_LENGTH_MINIMUM;
+    LayoutAnimation.easeInEaseOut();
+    this.setState({passwordValid});
+    passwordValid || this.passwordInput.shake();
+    return passwordValid;
+  };
+  submitLoginCredentials = () => {
+    const {email, password} = this.state;
+    const emailValid = this.validateEmail(email);
+    const passwordValid = this.validatePassword(password);
+    this.setState({emailValid, passwordValid});
+    if (emailValid && passwordValid) {
+      this.setState({isLoading: true});
+      this.login();
+    }
+  };
+  login = async () => {
+    const {email, password} = this.state;
+    try {
+      const credentials = await auth.signInWithEmailAndPassword(
+        email,
+        password,
+      );
+      setCurrentUser(credentials.user);
+      this.onLoginSuccess();
+    } catch (error) {
+      this.setState({isLoading: false});
+      Alert.alert(
+        'Login Failed',
+        'Seems like you have entered an invalid email/password. Please check and try again.',
+      );
+    }
+  };
+  onFBLogin = () => {
+    this.setState({isLoading: true});
+    LoginManager.logInWithPermissions(['public_profile', 'email'])
+      .then((result) => this.getFBTokenFromResponse(result))
+      .then((data) => this.getFBCredentialsUsingToken(data))
+      .then((currentUser) => {
+        //console.log("current FB User:", currentUser);
+        setCurrentUser(currentUser.user);
+        this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
+      })
+      .catch((error) => {
+        this.setState({isLoading: false});
+        Alert.alert(
+          'Error',
+          'An error occurred while trying to login with Facebook. Please try again later.',
+        );
+      });
+  };
+  getFBTokenFromResponse = (result) => {
+    if (result.isCancelled) {
+      this.setState({isLoading: false});
+      Alert.alert('Cancelled', 'Facebook login was cancelled by the user.');
+      return Promise.reject(new Error('The user cancelled the request'));
+    }
+    /*console.log(
+      'FB login success with permission: ',
+      result.grantedPermissions.toString(),
+    );*/
+    //get access token
+    return AccessToken.getCurrentAccessToken();
+  };
+  getFBCredentialsUsingToken = (data) => {
+    const credentials = auth.FacebookAuthProvider.credential(data.accessToken);
+    // console.log('credentials:', credentials);
+    return auth().signInWithCredential(credentials);
+  };
+  onGoogleLogin = async () => {
+    this.setState({isLoading: true});
+    try {
+      // Add any configuration settings here:
+      if (Platform.OS === 'android') {
+        await GoogleSignin.configure({
+          webClientId: api.clientIdGoogleSignIn,
+        });
+      } else {
+        await GoogleSignin.configure();
+      }
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+
+      // Get the users ID token
+      const {idToken} = await GoogleSignin.signIn();
+      console.log(idToken);
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      console.log(googleCredential);
+
+      // Sign-in the user with the credential
+      const currentUser = await auth().signInWithCredential(googleCredential);
+      console.log(currentUser);
+
+      // Setting current user
+      setCurrentUser(currentUser.user);
+      this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
+    } catch (error) {
+      this.setState({isLoading: false});
+      Alert.alert(
+        'Error/Cancelled',
+        'Either Google login attempt was cancelled or an error occurred.',
+      );
+    }
+  };
+  navigateLoggedInUser = async (currentUser, provider) => {
+    const {
+      user: {uid},
+    } = currentUser;
+    const isExistingUser = await this.checkForExistingUserWithDiets();
+    console.log('isExistingUser: ', isExistingUser);
+    if (isExistingUser) {
+      this.onLoginSuccess();
+      analytics().logEvent('Login', {
+        uid,
+        provider: provider || 'Phone Number',
+      });
+    } else {
+      let newUser = {};
+      if (provider === PROVIDER_GOOGLE) {
+        const googleUser = await GoogleSignin.getCurrentUser();
+        const {
+          user: {id, name, photo, email},
+        } = googleUser;
+        newUser = {
+          uid,
+          email,
+          //dob,
+          //age,
+          name,
+          avatar: photo,
+          provider: PROVIDER_GOOGLE,
+          providerId: id,
+        };
+      } else if (provider === PROVIDER_FACEBOOK) {
+        const {user, additionalUserInfo} = currentUser;
+        const {birthday} = additionalUserInfo.profile;
+        const dob = new Date(birthday).toDateString().substring(4);
+        const age = new Date().getFullYear() - new Date(birthday).getFullYear();
+        // user object also contains phone number
+        newUser = {
+          uid,
+          email: user.email,
+          dob,
+          age,
+          name: user.displayName,
+          avatar: user.photoURL,
+          provider: PROVIDER_FACEBOOK,
+        };
+      } else {
+        const {user} = currentUser;
+        newUser = {
+          phoneNumber: user.phoneNumber,
+          uid,
+        };
+      }
+
+      analytics().logEvent('Login_without_signup', {
+        provider: provider || 'Phone Number',
+      });
+
+      const user = {
+        isExistingUser: true,
+        hasAtleastOneDiet: isExistingUser,
+        newLogin: true,
+        uid,
+        newUser,
+        provider,
+      };
+
+      this.setState({showPrivacyTerms: true, user});
+    }
+  };
+  checkForExistingUserWithDiets = async () => {
+    let isExistingUser = false;
+    try {
+      const {diets} = await api.get('/userDiets');
+      if (diets.length > 0) {
+        isExistingUser = true;
+      }
+    } catch (err) {
+      console.log('error while fetching my diets in SignUp page', err);
+    }
+    return isExistingUser;
+  };
+  onLoginSuccess = () => {
+    this.setState({isLoading: false});
+    this.props.navigation.navigate('HomeScreen');
+  };
+  signUpButttonClicked = () => {
+    const {navigate} = this.props.navigation;
+    navigate('SignUp');
+  };
+  onClickForgotPassword = () => {
+    const {navigate} = this.props.navigation;
+    navigate('ForgotPasswordScreen');
+  };
+
+  loginWithPhoneNumber = async (user) => {
+    // console.log('the user dets post phone auth log in: ', user);
+    setCurrentUser(user);
+    const currentUser = {user};
+    // console.log('the currentUser dets post phone auth log in: ', currentUser);
+    await this.navigateLoggedInUser(currentUser);
+    //this.onLoginSuccess();
+  };
+
+  setShowSocialOptions = (show) => {
+    this.setState({showSocialOptions: show, isLoading: false});
+  };
+
+  saveUserPrivacyTerms = async () => {
+    const {user} = this.state;
+    user.newUser.privacyTermsAccepted = true;
+    const {navigation} = this.props;
+    try {
+      const savedUser = await api.post('/saveUser', user.newUser);
+      this.setState({showPrivacyTerms: false});
+      navigation.navigate('Signup', {fromLogin: true});
+    } catch (err) {
+      this.setState({isLoading: false});
+    }
+  };
+
+  render() {
+    const {isLoading, showSocialOptions, showPrivacyTerms} = this.state;
+    const socialLoginContainerStyle = {
+      ...styles.buttonContainer,
+      flexDirection: 'row',
+    };
+    const signInContainer = {
+      //marginBottom: 90,
+      //backgroundColor: 'yellow',
+    };
+    return (
+      <View style={commonStyles.bgImage}>
+        <KeyboardAvoidingView
+          style={
+            showSocialOptions && !isLoading
+              ? styles.container
+              : styles.containerLoading
+          }
+          behavior="padding"
+          enabled>
+          {showSocialOptions && !isLoading && (
+            <View style={styles.logoContainer}>
+              <Text style={styles.logoText}>LOGIN</Text>
+            </View>
+          )}
+          {showSocialOptions && !isLoading && (
+            <View style={styles.loginAnimationView}>
+              <LottieView
+                source={require('../../assets/jsons/login_animation.json')}
+                resizeMode={'cover'}
+                autoPlay
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+            </View>
+          )}
+          {isLoading ? (
+            <Loading
+              text={'Logging you into DietRepo...'}
+              animationStr={require('../../assets/jsons/logging_animation.json')}
+              isTextBold={false}
+              takeFullHeight={false}
+            />
+          ) : (
+            <View style={signInContainer}>
+              <View style={styles.loginInputContainer}>
+                <PhoneAuth
+                  setShowSocialOptions={this.setShowSocialOptions}
+                  createUserWithPhoneNumber={this.loginWithPhoneNumber}
+                  loadingMessage={'Logging you into DietRepo...'}
+                />
+                {/* <Input
+                  placeholder="Email"
+                  placeholderTextColor={styleCommon.textColor1}
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputContainerStyle}
+                  inputStyle={styles.inputStyle}
+                  errorStyle={styles.errorInputStyle}
+                  leftIcon={
+                    <Icon
+                      name="account"
+                      color={styles.loginButtonDes.color}
+                      size={ICON_SIZE}
+                    />
+                  }
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardAppearance="dark"
+                  keyboardType="email-address"
+                  returnKeyType="done"
+                  value={email}
+                  onChangeText={(value) => this.onEmailChange(value)}
+                  ref={(input) => (this.emailInput = input)}
+                  onSubmitEditing={() => {
+                    this.setState({emailValid: this.validateEmail});
+                    this.passwordInput.focus();
+                  }}
+                  errorMessage={
+                    emailValid ? null : 'Please enter a valid email address'
+                  }
+                  style={{
+                    fontSize: fontsCommon.font16,
+                  }}
+                />
+                <Input
+                  placeholder="Password"
+                  placeholderTextColor={styleCommon.textColor1}
+                  leftIcon={
+                    <Icon
+                      name="key-variant"
+                      color={styles.loginButtonDes.color}
+                      size={ICON_SIZE}
+                    />
+                  }
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.inputContainerStyle}
+                  inputStyle={styles.inputStyle}
+                  errorStyle={styles.errorInputStyle}
+                  keyboardAppearance="dark"
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType="go"
+                  secureTextEntry={secureTextKey}
+                  value={password}
+                  onChangeText={(passwordChg) =>
+                    this.onPasswordChange(passwordChg)
+                  }
+                  ref={(input) => (this.passwordInput = input)}
+                  onSubmitEditing={() => {
+                    this.setState({passwordValid: this.validatePassword});
+                  }}
+                  errorMessage={
+                    passwordValid ? null : 'Please enter a valid password'
+                  }
+                  rightIcon={
+                    <Button
+                      icon={
+                        <Icon
+                          name={secureTextKey ? 'eye' : 'eye-off'}
+                          size={ICON_SIZE}
+                          style={{color: styleCommon.textColor1}}
+                        />
+                      }
+                      buttonStyle={styles.seeUnseeButtonStyle}
+                      onPress={
+                        secureTextKey
+                          ? this.onEyeIconPress
+                          : this.onEyeOffIconPress
+                      }
+                    />
+                  }
+                /> */}
+              </View>
+              {/* <View style={styles.buttonContainer}>
+                <Button
+                  title="LOGIN"
+                  icon={
+                    <Icon
+                      name="login"
+                      size={ICON_SIZE}
+                      style={styles.loginButtonIcon}
+                    />
+                  }
+                  iconRight={true}
+                  ViewComponent={LinearGradient}
+                  linearGradientProps={{
+                    colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
+                    start: {x: 0, y: 0.5},
+                    end: {x: 1, y: 0.5},
+                  }}
+                  containerStyle={styles.loginButtonContainerStyle}
+                  buttonStyle={styles.loginButtonStyle}
+                  titleStyle={styles.loginButtonText}
+                  onPress={() => this.submitLoginCredentials()}
+                />
+                <Button
+                  title="Forgot Password ?"
+                  titleStyle={styles.signUpButtonTitle}
+                  type="clear"
+                  onPress={() => this.onClickForgotPassword()}
+                />
+              </View> */}
+              {showSocialOptions && !isLoading && (
+                <View>
+                  <View style={socialLoginContainerStyle}>
+                    <SocialIcon
+                      style={styles.socialMediaLoginBtn}
+                      title="Facebook"
+                      button
+                      type="facebook"
+                      onPress={() => this.onFBLogin()}
+                      iconSize={fontsCommon.font22}
+                    />
+                    <SocialIcon
+                      style={styles.socialMediaLoginBtn}
+                      title="Google"
+                      button
+                      type="google-plus-official"
+                      onPress={() => this.onGoogleLogin()}
+                      iconSize={fontsCommon.font22}
+                    />
+                  </View>
+                  <View style={styles.signUpHereContainer}>
+                    <Text style={styles.newUserText}>New here ?</Text>
+                    <Button
+                      title="SIGN UP"
+                      titleStyle={styles.signUpButtonTitle}
+                      type="clear"
+                      onPress={() => this.signUpButttonClicked()}
+                    />
+                  </View>
+                </View>
+              )}
+            </View>
+          )}
+        </KeyboardAvoidingView>
+        <PrivacyAndTerms
+          showPrivacyTerms={showPrivacyTerms}
+          onAccept={this.saveUserPrivacyTerms}
+          showCloseBtn={false}
+        />
+      </View>
+    );
+  }
+}
