@@ -245,6 +245,7 @@ export default class LoginScreen extends Component {
     const {
       user: {uid},
     } = currentUser;
+    const {navigation} = this.props;
     const isExistingUser = await this.checkForExistingUserWithDiets();
     console.log('isExistingUser: ', isExistingUser);
     if (isExistingUser) {
@@ -306,9 +307,16 @@ export default class LoginScreen extends Component {
         provider,
       };
 
-      this.setState({showPrivacyTerms: true, user});
+      const userInDB = await api.get('/getLoggedInUser');
+      if (userInDB && !userInDB.privacyTermsAccepted) {
+        this.setState({showPrivacyTerms: true, user});
+      } else {
+        this.setState({user});
+        navigation.navigate('Signup', {fromLogin: true});
+      }
     }
   };
+
   checkForExistingUserWithDiets = async () => {
     let isExistingUser = false;
     try {
@@ -347,21 +355,40 @@ export default class LoginScreen extends Component {
     this.setState({showSocialOptions: show, isLoading: false});
   };
 
+  disableShowPrivacy = () => {
+    this.setState({showPrivacyTerms: false});
+  };
+
   saveUserPrivacyTerms = async () => {
     const {user} = this.state;
     user.newUser.privacyTermsAccepted = true;
-    const {navigation} = this.props;
     try {
-      const savedUser = await api.post('/saveUser', user.newUser);
-      this.setState({showPrivacyTerms: false});
-      navigation.navigate('Signup', {fromLogin: true});
+      const saveUser = this.saveLatestUserDetails(user);
+      if (saveUser) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (err) {
-      this.setState({isLoading: false});
+      Alert.alert(
+        'Oops!',
+        'Something went wrong while saving your user details. Please try again after sometime.',
+      );
+      console.log(
+        'Error has occurred while saving user with privacy settings changes: ',
+        err,
+      );
+      return false;
     }
+  };
+
+  saveLatestUserDetails = async (user) => {
+    return await api.post('/saveUser', user.newUser);
   };
 
   render() {
     const {isLoading, showSocialOptions, showPrivacyTerms} = this.state;
+    const {navigation} = this.props;
     const socialLoginContainerStyle = {
       ...styles.buttonContainer,
       flexDirection: 'row',
@@ -399,7 +426,7 @@ export default class LoginScreen extends Component {
             <Loading
               text={'Logging you into DietRepo...'}
               animationStr={require('../../assets/jsons/logging_animation.json')}
-              isTextBold={false}
+              isTextBold={true}
               takeFullHeight={false}
             />
           ) : (
@@ -556,11 +583,15 @@ export default class LoginScreen extends Component {
             </View>
           )}
         </KeyboardAvoidingView>
-        <PrivacyAndTerms
-          showPrivacyTerms={showPrivacyTerms}
-          onAccept={this.saveUserPrivacyTerms}
-          showCloseBtn={false}
-        />
+        {showPrivacyTerms && (
+          <PrivacyAndTerms
+            showPrivacyTerms={showPrivacyTerms}
+            onAccept={this.saveUserPrivacyTerms}
+            showCloseBtn={false}
+            navigation={navigation}
+            disableShowPrivacy={this.disableShowPrivacy}
+          />
+        )}
       </View>
     );
   }

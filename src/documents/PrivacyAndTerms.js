@@ -25,6 +25,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TermsAndConditions from './TermsAndConditions';
 import PrivacyPolicy from './PrivacyPolicy';
 import LottieView from 'lottie-react-native';
+import Loading from '../components/Loading';
 
 const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
   const paddingToBottom = 20;
@@ -40,6 +41,7 @@ class PrivacyAndTerms extends Component {
     showBothTermsAndPolicy: true,
     showTermsAndConditions: false,
     showPrivacyPolicy: false,
+    isLoading: false,
   };
 
   onTermsAndConditions = () => {
@@ -73,6 +75,21 @@ class PrivacyAndTerms extends Component {
     });
   };
 
+  onAcceptPolicy = async () => {
+    console.log('inside onAcceptPolict method');
+    const {onAccept, navigation, disableShowPrivacy} = this.props;
+    this.setState({isLoading: true, showCloseBtn: false});
+    const acceptedAndSaved = await onAccept();
+    console.log('acceptedAndSaved: ', acceptedAndSaved);
+    if (acceptedAndSaved) {
+      this.setState({isLoading: false});
+      navigation.navigate('Signup', {fromLogin: true});
+    } else {
+      this.setState({isLoading: false});
+      disableShowPrivacy();
+    }
+  };
+
   render() {
     const {
       showPrivacyTerms,
@@ -84,7 +101,9 @@ class PrivacyAndTerms extends Component {
       showBothTermsAndPolicy,
       showTermsAndConditions,
       showPrivacyPolicy,
+      isLoading,
     } = this.state;
+    console.log('state in policy: ', this.state);
     return (
       <Modal
         useNativeDriver={true}
@@ -109,58 +128,69 @@ class PrivacyAndTerms extends Component {
                 containerStyle={styles.closeBtnStyle}
               />
             )}
-            <Text style={styles.title}>Privacy & Terms</Text>
-            <LottieView
-              source={require('../../assets/jsons/terms_and_conditions.json')}
-              autoPlay
-              loop
-              style={styles.animationStyle}
-              enableMergePathsAndroidForKitKatAndAbove
-            />
-            <ScrollView
-              style={styles.tcContainer}
-              onScroll={({nativeEvent}) => {
-                if (isCloseToBottom(nativeEvent)) {
-                  this.setState({
-                    accepted: true,
-                  });
-                }
-              }}>
-              <Text style={styles.tcP}>
-                To create DietRepo account you need to agree the{' '}
-                <Text
-                  style={styles.textLink}
-                  onPress={this.onTermsAndConditions}>
-                  Terms and conditions
-                </Text>
-              </Text>
-              <Text style={styles.tcP}>
-                In addition, when you create an account, we process your
-                information safe and secure as described in our{' '}
-                <Text style={styles.textLink} onPress={this.onPrivacyPolicy}>
-                  Privacy Policy
-                </Text>
-                .
-              </Text>
-            </ScrollView>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={() => (onAccept ? onAccept() : {})}>
-                <LinearGradient
-                  colors={[
-                    btnGradientColorRight,
-                    modalBtnGradientColorRight,
-                    //styleCommon.selectedButtonColor,
-                    //styleCommon.selectedButtonColor,
-                  ]} //{[btnGradientColorLeft, gradientColorRight]}
-                  style={styles.buttonGradiant}
-                  start={{x: 0, y: 0.5}}
-                  end={{x: 1, y: 0.5}}>
-                  <Text style={styles.buttonTitle}>I ACCEPT THE TERMS</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            </View>
+            {isLoading ? (
+              <Loading
+                text={'Signing you up with DietRepo...'}
+                animationStr={require('../../assets/jsons/user_animation_4.json')}
+                isTextBold={true}
+                takeFullHeight={false}
+              />
+            ) : (
+              <React.Fragment>
+                <Text style={styles.title}>Privacy & Terms</Text>
+                <LottieView
+                  source={require('../../assets/jsons/terms_and_conditions.json')}
+                  autoPlay
+                  loop
+                  style={styles.animationStyle}
+                  enableMergePathsAndroidForKitKatAndAbove
+                />
+                <ScrollView
+                  style={styles.tcContainer}
+                  onScroll={({nativeEvent}) => {
+                    if (isCloseToBottom(nativeEvent)) {
+                      this.setState({
+                        accepted: true,
+                      });
+                    }
+                  }}>
+                  <Text style={styles.tcP}>
+                    To create DietRepo account you need to agree the{' '}
+                    <Text
+                      style={styles.textLink}
+                      onPress={this.onTermsAndConditions}>
+                      Terms and conditions
+                    </Text>
+                  </Text>
+                  <Text style={styles.tcP}>
+                    In addition, when you create an account, we process your
+                    information safe and secure as described in our{' '}
+                    <Text
+                      style={styles.textLink}
+                      onPress={this.onPrivacyPolicy}>
+                      Privacy Policy
+                    </Text>
+                    .
+                  </Text>
+                </ScrollView>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.buttonStyle}
+                    onPress={() => (onAccept ? this.onAcceptPolicy() : {})}>
+                    <LinearGradient
+                      colors={[
+                        btnGradientColorRight,
+                        modalBtnGradientColorRight,
+                      ]}
+                      style={styles.buttonGradiant}
+                      start={{x: 0, y: 0.5}}
+                      end={{x: 1, y: 0.5}}>
+                      <Text style={styles.buttonTitle}>I ACCEPT</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+                </View>
+              </React.Fragment>
+            )}
           </View>
         )}
         {showTermsAndConditions && (
