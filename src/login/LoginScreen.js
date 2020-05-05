@@ -311,7 +311,6 @@ export default class LoginScreen extends Component {
       if (userInDB && !userInDB.privacyTermsAccepted) {
         this.setState({showPrivacyTerms: true, user});
       } else {
-        this.setState({user});
         navigation.navigate('Signup', {fromLogin: true});
       }
     }
@@ -355,20 +354,14 @@ export default class LoginScreen extends Component {
     this.setState({showSocialOptions: show, isLoading: false});
   };
 
-  disableShowPrivacy = () => {
-    this.setState({showPrivacyTerms: false});
-  };
-
   saveUserPrivacyTerms = async () => {
     const {user} = this.state;
+    const {navigation} = this.props;
     user.newUser.privacyTermsAccepted = true;
+    this.setState({showPrivacyTerms: false, isLoading: true});
     try {
-      const saveUser = this.saveLatestUserDetails(user);
-      if (saveUser) {
-        return true;
-      } else {
-        return false;
-      }
+      await api.post('/saveUser', user.newUser);
+      navigation.navigate('Signup', {fromLogin: true});
     } catch (err) {
       Alert.alert(
         'Oops!',
@@ -380,10 +373,6 @@ export default class LoginScreen extends Component {
       );
       return false;
     }
-  };
-
-  saveLatestUserDetails = async (user) => {
-    return await api.post('/saveUser', user.newUser);
   };
 
   render() {
@@ -589,7 +578,6 @@ export default class LoginScreen extends Component {
             onAccept={this.saveUserPrivacyTerms}
             showCloseBtn={false}
             navigation={navigation}
-            disableShowPrivacy={this.disableShowPrivacy}
           />
         )}
       </View>
