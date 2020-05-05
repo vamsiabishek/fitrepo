@@ -24,7 +24,9 @@ export const getOfferingsByPurchaseId = async (purchaseID) => {
   try {
     Purchases.setDebugLogsEnabled(true);
     Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseID);
+    console.log('Purchases setup ! ');
     const purchaserOfferings = await Purchases.getOfferings();
+    console.log('purchaseOfferings: ', purchaseOfferings);
     const {current: currentDietPlans} = purchaserOfferings; // current contains standard
     purchaseOfferings = currentDietPlans;
     return purchaseOfferings;

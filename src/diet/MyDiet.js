@@ -341,7 +341,7 @@ export default class MyDiet extends Component {
                   icon={{
                     name: 'arrow-left-thick',
                     size: ICON_SIZE,
-                    color: styleCommon.iconYellow,
+                    color: styleCommon.iconColor,
                     type: 'material-community',
                   }}
                   containerStyle={styles.backButtonStyle}
@@ -354,7 +354,7 @@ export default class MyDiet extends Component {
                   icon={{
                     name: 'medical-bag',
                     size: ICON_SIZE,
-                    color: styleCommon.iconYellow,
+                    color: styleCommon.iconColor,
                     type: 'material-community',
                   }}
                   iconRight={true}

@@ -109,6 +109,7 @@ class PrivacyAndTerms extends Component {
                 containerStyle={styles.closeBtnStyle}
               />
             )}
+
             <Text style={styles.title}>Privacy & Terms</Text>
             <LottieView
               source={require('../../assets/jsons/terms_and_conditions.json')}
@@ -148,16 +149,11 @@ class PrivacyAndTerms extends Component {
                 style={styles.buttonStyle}
                 onPress={() => (onAccept ? onAccept() : {})}>
                 <LinearGradient
-                  colors={[
-                    btnGradientColorRight,
-                    modalBtnGradientColorRight,
-                    //styleCommon.selectedButtonColor,
-                    //styleCommon.selectedButtonColor,
-                  ]} //{[btnGradientColorLeft, gradientColorRight]}
+                  colors={[btnGradientColorRight, modalBtnGradientColorRight]}
                   style={styles.buttonGradiant}
                   start={{x: 0, y: 0.5}}
                   end={{x: 1, y: 0.5}}>
-                  <Text style={styles.buttonTitle}>I ACCEPT THE TERMS</Text>
+                  <Text style={styles.buttonTitle}>I ACCEPT</Text>
                 </LinearGradient>
               </TouchableOpacity>
             </View>
