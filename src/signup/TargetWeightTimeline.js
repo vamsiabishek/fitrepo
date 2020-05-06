@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {Text, UIManager, View} from 'react-native';
+import {Text, UIManager, View, Alert} from 'react-native';
 import {Button, ButtonGroup} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
-import HorizontalSelectView from '../components/HorizontalSelectView';
 import {styles} from '../../assets/style/stylesTargetWeightTimeline';
 import {getPossibleTargetWeights} from '../diet/Algorithm/DietAlgorithm';
 import MyButton from '../components/MyButton';
@@ -13,6 +12,8 @@ import {
   ICON_SIZE_MED,
   SCREEN_WIDTH,
 } from '../../assets/style/stylesCommonValues';
+import {WEIGHT_LOSS, WEIGHT_GAIN} from '../common/Common';
+import {convertGoal} from '../common/Util';
 import NumberSlider from 'react-native-number-slider';
 
 // Enable LayoutAnimation for Android Devices
@@ -59,6 +60,40 @@ export default class TargetWeightTimeline extends Component {
   };
 
   _updateTargetWeight = (targetWeightIndex) => {
+    let {goal} = this.props;
+    goal = convertGoal(goal);
+    if (
+      targetWeightIndex === 2 &&
+      (goal === WEIGHT_LOSS || goal === WEIGHT_GAIN)
+    ) {
+      let msg =
+        'By chosing this option you might have to consume very less calories';
+      if (goal === WEIGHT_GAIN) {
+        msg =
+          'By chosing this option you might have to consume very high calories and you might gain little fat';
+      }
+      Alert.alert(
+        'Are you sure ?',
+        msg,
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'Continue',
+            onPress: () => this.setTargetWeight(targetWeightIndex),
+          },
+        ],
+        {cancelable: false},
+      );
+    } else {
+      this.setTargetWeight(targetWeightIndex);
+    }
+  };
+
+  setTargetWeight = (targetWeightIndex) => {
     this.setState({
       targetWeightIndex,
       selectedTargetWeight: this.targetWeightOptions[targetWeightIndex],
