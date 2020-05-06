@@ -1,5 +1,10 @@
 import {StyleSheet} from 'react-native';
-import {styleCommon, SCREEN_WIDTH, SCREEN_HEIGHT} from './stylesCommonValues';
+import {
+  styleCommon,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  fontsCommon,
+} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   modalInsideStyle: {
@@ -37,7 +42,7 @@ export const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: fontsCommon.font22,
     textAlign: 'center',
     color: styleCommon.textColor1,
   },
@@ -62,13 +67,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   animationStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
     //margin: 30, // 20
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT * 0.2,
-    //backgroundColor: "teal"
-    marginBottom: -20,
-    marginTop: -30,
+    //backgroundColor: 'teal',
   },
 });

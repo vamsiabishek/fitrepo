@@ -137,24 +137,25 @@ export default class TargetWeightTimeline extends Component {
                 <Icon
                   name="close"
                   size={ICON_SIZE_MED}
-                  color={styleCommon.secondaryButtonTextColor}
+                  color={styleCommon.textColor1}
                 />
               }
               type="clear"
               onPress={this._handleClose}
               containerStyle={styles.closeButtonContainerStyle}
             />
+            <View style={styles.targetContainer}>
+              <Text style={styles.headerText}>What can you Target ?</Text>
+            </View>
             <LottieView
               source={require('../../assets/jsons/target.json')}
+              resizeMode="cover"
               autoPlay
               loop
               style={styles.animationStyle}
               enableMergePathsAndroidForKitKatAndAbove
             />
             <View style={styles.viewTargetsContainer}>
-              <View style={styles.targetContainer}>
-                <Text style={styles.headerText}>What can you Target ?</Text>
-              </View>
               <View style={styles.targetContainer}>
                 <Text style={styles.labelText}>
                   Chosen Program: {selectedProgram} Weeks

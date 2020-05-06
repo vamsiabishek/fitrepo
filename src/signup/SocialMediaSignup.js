@@ -349,7 +349,7 @@ export default class SocialMediaSignup extends Component {
               <PhoneAuth
                 setShowSocialOptions={this.setShowSocialOptions}
                 createUserWithPhoneNumber={this.createUserWithPhoneNumber}
-                loadingMessage={'Registering your number...'}
+                loadingMessage={'Signing you up with DietRepo...'}
               />
             </View>
           </React.Fragment>
