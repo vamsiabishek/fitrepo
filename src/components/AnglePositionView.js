@@ -10,8 +10,9 @@ class AnglePositionView extends React.Component {
         x: 0,
         y: 0,
       }, // inits to zero
+      animatedValue: new Animated.ValueXY({x: 0, y: 0}),
     };
-    this.animatedValue = new Animated.Value();
+    //this.animatedValue = new Animated.Value();
   }
 
   degToRad = (deg) => {
@@ -20,21 +21,21 @@ class AnglePositionView extends React.Component {
 
   render() {
     const {
-      containerSize,
       viewSize,
-      angle,
       label,
       isSelected,
       onSelect,
       value,
+      positionX,
+      positionY,
     } = this.props;
-    const angleRad = this.degToRad(angle);
-    const radius = containerSize / 2;
-    const center = radius;
-    // Calculate symbol position
-    // Subtract half of symbol size to center it on the circle
-    const x = radius * Math.cos(angleRad) + center - viewSize / 2;
-    const y = radius * Math.sin(angleRad) + center - viewSize / 2;
+    // const angleRad = this.degToRad(angle);
+    // const radius = containerSize / 2;
+    // const center = radius;
+    // // Calculate symbol position
+    // // Subtract half of symbol size to center it on the circle
+    // const x = radius * Math.cos(angleRad) + center - viewSize / 2;
+    // const y = radius * Math.sin(angleRad) + center - viewSize / 2;
     /* const animatedStyle = {
       transform: [
         {
@@ -57,18 +58,28 @@ class AnglePositionView extends React.Component {
         }
       ]
     };*/
+    Animated.timing(this.state.animatedValue, {
+      toValue: {x: positionX, y: positionY},
+      timing: 1000,
+      useNativeDriver: true,
+    }).start();
+    const animatedStyle = {
+      transform: [
+        {translateX: this.state.animatedValue.x},
+        {translateY: this.state.animatedValue.y},
+      ],
+    };
     return (
-      <View
+      <Animated.View
         style={[
           {
             width: viewSize,
             height: viewSize,
             borderRadius: viewSize / 2,
-            left: x,
-            top: y,
           },
           styles.picker,
           isSelected ? styles.selectedPicker : {},
+          animatedStyle,
         ]}>
         <TouchableOpacity
           style={[
@@ -85,7 +96,7 @@ class AnglePositionView extends React.Component {
             {label}
           </Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
     );
   }
 }
