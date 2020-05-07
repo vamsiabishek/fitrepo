@@ -58,7 +58,8 @@ export default class PreferenceDetails extends Component {
     setNoOfMeals(numberOfMeals);
   };
   updatePositions = (selectedIndex) => {
-    return this.boxPositions.map(({x, y}) => {
+    const topItemActualPosition = {};
+    const newBox = this.boxPositions.map(({x, y}, i) => {
       let newX = x;
       let newY = y;
       let a = this.boxPositions.length;
@@ -86,11 +87,30 @@ export default class PreferenceDetails extends Component {
         y = newY;
         a--;
       }
+      // setting the selected item position to top and storing its actual position in topItemActualPosition
+      if (i === selectedIndex) {
+        topItemActualPosition.x = newX;
+        topItemActualPosition.y = newY;
+        return {x: 0, y: -80};
+      }
+      // setting the actual top item position with one placed on the top
+      if (newX === 0 && newY === -80) {
+        newX = topItemActualPosition.x;
+        newY = topItemActualPosition.y;
+      }
       return {
         x: newX,
         y: newY,
       };
     });
+    // if the selected item is after the actual item which is supposed to be on top(x = 0, y = -80)then its value will become undefined as the topItemActualPosition is not yet set
+    const emptyBoxPosition = newBox.findIndex(
+      (item) => typeof item.x === 'undefined',
+    );
+    if (emptyBoxPosition !== -1) {
+      newBox[emptyBoxPosition] = topItemActualPosition;
+    }
+    return newBox;
   };
 
   render() {
