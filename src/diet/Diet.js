@@ -1,19 +1,10 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Platform,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Platform} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import StringPicker from '../components/Picker/StringPicker';
 import {styles} from '../../assets/style/stylesDietScreen';
-import {
-  styleCommon,
-  ICON_SIZE_MED,
-} from '../../assets/style/stylesCommonValues';
+import {ICON_SIZE_MED} from '../../assets/style/stylesCommonValues';
 import CustomListView from '../components/CustomListView';
 import {
   WEIGHT_LOSS_DESC,
@@ -21,6 +12,7 @@ import {
   BE_HEALTHY_DESC,
 } from '../common/Common';
 import Emoji from 'react-native-emoji';
+import LottieView from 'lottie-react-native';
 import api from '../common/Api';
 
 export default class Diet extends Component {
@@ -109,7 +101,22 @@ export default class Diet extends Component {
     return (
       <View style={styles.mainContainer}>
         {isLoading ? (
-          <ActivityIndicator color={styleCommon.textColor1} size="large" />
+          <React.Fragment>
+            <View style={styles.contactUsAnimationContainer}>
+              <LottieView
+                resizeMode="contain"
+                source={require('../../assets/jsons/diet_list_animation.json')}
+                autoPlay
+                loop
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+            </View>
+            {/* <View style={styles.textViewContainer}>
+              <Text style={styles.textStyle}>
+                Fetching your list of Diets...
+              </Text>
+            </View> */}
+          </React.Fragment>
         ) : (
           <View style={styles.container}>
             {hasDiets ? (
@@ -180,8 +187,9 @@ export default class Diet extends Component {
             ) : (
               <View style={styles.createNewMessageContainer}>
                 <Text style={styles.createNewMessageTitle}>
-                  Get started by clicking on + icon below
+                  Get started by clicking on the
                 </Text>
+                <Text style={styles.createNewMessageTitle}>+ icon below</Text>
                 <Icon size={Platform.OS === 'android' ? 100 : 150}>
                   <Emoji name={'female-cook'} />
                 </Icon>

@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Animated,
-  Text,
-  View,
-  ActivityIndicator,
-  UIManager,
-  Image,
-} from 'react-native';
+import {Animated, Text, View, UIManager, Image} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -56,6 +49,7 @@ export default class Profile extends Component {
       myDiets: [],
       showContactUs: false,
       showPurchases: false,
+      purchases: [],
     };
     this.profileHeaderScrollY = new Animated.Value(1);
     this.profileHeaderExpandedHeight = styles.bannerContainer.height; // calculated by onLayout
@@ -78,11 +72,15 @@ export default class Profile extends Component {
         user: {...user, ...recievedData},
       });
     } else {
-      this.setState({
-        user: recievedData,
-        isLoading: false,
-      });
+      this.setState({user: recievedData});
     }
+  };
+  fetchDietPurchases = async (myDiets) => {
+    const paidDietIds = myDiets
+      .filter((diet) => diet.paymentStatus)
+      .map((diet) => diet.id);
+    const purchases = await api.post('/getPurchases', paidDietIds);
+    return purchases;
   };
 
   logoutUser = () => {
@@ -104,30 +102,35 @@ export default class Profile extends Component {
   };
 
   componentDidMount = async () => {
-    this.setState({
-      isLoading: true,
-    });
+    this.setState({isLoading: true});
     const userLoggedIn = await api.get('/getLoggedInUser');
-    console.log('logged in user', userLoggedIn);
+    //console.log('logged in user', userLoggedIn);
     let myDiets = userLoggedIn.diets || [];
     myDiets = sortByDate(myDiets, 'createdDate');
     this.updateProfileCall(userLoggedIn);
-
-    // let myDiets = userLoggedIn.diets || [];
-    // myDiets = sortByDate(myDiets, 'createdDate');
     let currentDiet = myDiets[0];
-    this.setState({currentDiet, myDiets});
+    const purchases = await this.fetchDietPurchases(myDiets);
+    //console.log('purchases: ', purchases);
+    this.setState({
+      currentDiet,
+      myDiets,
+      uid: userLoggedIn.uid,
+      purchases,
+      isLoading: false,
+    });
   };
   closeContactUs = () => this.setState({showContactUs: false});
   closeMyPurchases = () => this.setState({showPurchases: false});
   render() {
     const {
+      uid,
       isLoading,
       user = {},
       currentDiet,
       showContactUs,
       showPurchases,
       myDiets,
+      purchases,
     } = this.state;
     const {
       gender,
@@ -157,13 +160,22 @@ export default class Profile extends Component {
     const imageStyle = {
       width: SCREEN_WIDTH * 0.15,
       height: SCREEN_WIDTH * 0.15,
-      //tintColor: styleCommon.selectedButtonColor,
     };
-    // console.log('user: ', user);
+    const details = {
+      uid: uid,
+    };
     return (
       <View style={styles.mainContainer}>
         {isLoading ? (
-          <ActivityIndicator color={styleCommon.textColor1} size="large" />
+          <View style={styles.contactUsAnimationContainer}>
+            <LottieView
+              resizeMode="cover"
+              source={require('../../assets/jsons/loading_profile_animation.json')}
+              autoPlay
+              loop
+              enableMergePathsAndroidForKitKatAndAbove
+            />
+          </View>
         ) : (
           <View style={styles.innerContainer}>
             <View style={styles.actionsHeaderContainer}>
@@ -223,6 +235,9 @@ export default class Profile extends Component {
                 />
               </View>
               <View style={styles.profileBannerStyle}>
+                {username && (
+                  <Text style={styles.profileBannerTitleStyle}>{username}</Text>
+                )}
                 {phoneNumber && (
                   <Text style={styles.profileBannerSubTitleStyle}>
                     {phoneNumber}
@@ -234,9 +249,6 @@ export default class Profile extends Component {
                       {email}
                     </Text>
                   ))}
-                {username && (
-                  <Text style={styles.profileBannerTitleStyle}>{username}</Text>
-                )}
               </View>
               <View style={styles.profileSubBannerStyle}>
                 <SelectButton
@@ -334,12 +346,15 @@ export default class Profile extends Component {
             </Animated.ScrollView>
             <ContactUs
               showContactUs={showContactUs}
+              details={details}
               onCancel={this.closeContactUs}
             />
             <MyPurchases
               showPurchases={showPurchases}
               onCancel={this.closeMyPurchases}
+              fetchDietPurchases={this.fetchDietPurchases}
               diets={myDiets}
+              purchases={purchases}
             />
           </View>
         )}

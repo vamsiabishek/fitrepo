@@ -53,6 +53,7 @@ export default class LoginScreen extends Component {
       passwordValid: true,
       login_failed: false,
       isLoading: false,
+      isLoadingPostPrivacy: false,
       selectedIndex: 0,
       secureTextKey: true,
       showSocialOptions: true,
@@ -358,7 +359,11 @@ export default class LoginScreen extends Component {
     const {user} = this.state;
     const {navigation} = this.props;
     user.newUser.privacyTermsAccepted = true;
-    this.setState({showPrivacyTerms: false, isLoading: true});
+    this.setState({
+      showPrivacyTerms: false,
+      isLoading: true,
+      isLoadingPostPrivacy: true,
+    });
     try {
       await api.post('/saveUser', user.newUser);
       navigation.navigate('Signup', {fromLogin: true});
@@ -376,8 +381,12 @@ export default class LoginScreen extends Component {
   };
 
   render() {
-    const {isLoading, showSocialOptions, showPrivacyTerms} = this.state;
-    const {navigation} = this.props;
+    const {
+      isLoading,
+      isLoadingPostPrivacy,
+      showSocialOptions,
+      showPrivacyTerms,
+    } = this.state;
     const socialLoginContainerStyle = {
       ...styles.buttonContainer,
       flexDirection: 'row',
@@ -413,8 +422,16 @@ export default class LoginScreen extends Component {
           )}
           {isLoading ? (
             <Loading
-              text={'Logging you into DietRepo...'}
-              animationStr={require('../../assets/jsons/logging_animation.json')}
+              text={
+                isLoadingPostPrivacy
+                  ? 'Signing you up with DietRepo...'
+                  : 'Logging you into DietRepo...'
+              }
+              animationStr={
+                isLoadingPostPrivacy
+                  ? require('../../assets/jsons/user_animation_4.json')
+                  : require('../../assets/jsons/logging_animation.json')
+              }
               isTextBold={true}
               takeFullHeight={false}
             />
@@ -424,7 +441,11 @@ export default class LoginScreen extends Component {
                 <PhoneAuth
                   setShowSocialOptions={this.setShowSocialOptions}
                   createUserWithPhoneNumber={this.loginWithPhoneNumber}
-                  loadingMessage={'Logging you into DietRepo...'}
+                  loadingMessage={
+                    isLoadingPostPrivacy
+                      ? 'Signing you up with DietRepo...'
+                      : 'Logging you into DietRepo...'
+                  }
                 />
                 {/* <Input
                   placeholder="Email"
@@ -577,7 +598,6 @@ export default class LoginScreen extends Component {
             showPrivacyTerms={showPrivacyTerms}
             onAccept={this.saveUserPrivacyTerms}
             showCloseBtn={false}
-            navigation={navigation}
           />
         )}
       </View>

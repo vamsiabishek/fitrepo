@@ -93,7 +93,7 @@ class PhoneAuthScreen extends Component {
     return (
       <View
         style={
-          loadingMessage.includes('Registering')
+          loadingMessage.includes('Signing')
             ? styles.verificationSignUpContainer
             : styles.verificationContainer
         }>
@@ -150,8 +150,12 @@ class PhoneAuthScreen extends Component {
         {isLoading ? (
           <Loading
             text={loadingMessage}
-            animationStr={require('../../assets/jsons/logging_animation.json')}
-            isTextBold={false}
+            animationStr={
+              loadingMessage.includes('Signing')
+                ? require('../../assets/jsons/user_animation_4.json')
+                : require('../../assets/jsons/logging_animation.json')
+            }
+            isTextBold={true}
             takeFullHeight={false}
           />
         ) : (
