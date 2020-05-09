@@ -221,15 +221,15 @@ export default class LoginScreen extends Component {
 
       // Get the users ID token
       const {idToken} = await GoogleSignin.signIn();
-      console.log(idToken);
+      //console.log(idToken);
 
       // Create a Google credential with the token
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      console.log(googleCredential);
+      //console.log(googleCredential);
 
       // Sign-in the user with the credential
       const currentUser = await auth().signInWithCredential(googleCredential);
-      console.log(currentUser);
+      //console.log(currentUser);
 
       // Setting current user
       setCurrentUser(currentUser.user);
@@ -248,7 +248,7 @@ export default class LoginScreen extends Component {
     } = currentUser;
     const {navigation} = this.props;
     const isExistingUser = await this.checkForExistingUserWithDiets();
-    console.log('isExistingUser: ', isExistingUser);
+    //console.log('isExistingUser: ', isExistingUser);
     if (isExistingUser) {
       this.onLoginSuccess();
       analytics().logEvent('Login', {

@@ -48,7 +48,7 @@ class PrivacyAndTerms extends Component {
       showBothTermsAndPolicy: false,
     });
     //setShowTermsAndConditions();
-    console.log('terms and conditions pressed');
+    //console.log('terms and conditions pressed');
   };
 
   closeTermsAndConditions = () => {
@@ -63,7 +63,7 @@ class PrivacyAndTerms extends Component {
       showPrivacyPolicy: true,
       showBothTermsAndPolicy: false,
     });
-    console.log('Privacy Policy pressed');
+    //console.log('Privacy Policy pressed');
   };
 
   closePrivacyPolicy = () => {

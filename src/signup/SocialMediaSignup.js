@@ -100,15 +100,15 @@ export default class SocialMediaSignup extends Component {
 
       // Get the users ID token
       const {idToken} = await GoogleSignin.signIn();
-      console.log(idToken);
+      //(idToken);
 
       // Create a Google credential with the token
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      console.log(googleCredential);
+      //console.log(googleCredential);
 
       // Sign-in the user with the credential
       const currentUser = await auth().signInWithCredential(googleCredential);
-      console.log(currentUser);
+      //console.log(currentUser);
 
       // Setting current user
       setCurrentUser(currentUser.user);
@@ -179,7 +179,7 @@ export default class SocialMediaSignup extends Component {
       .then((result) => this.getFBTokenFromResponse(result))
       .then((data) => this.getFBCredentialsUsingToken(data))
       .then((currentUser) => {
-        console.log('current FB User:', currentUser);
+        //console.log('current FB User:', currentUser);
         setCurrentUser(currentUser.user);
         this.createUserWithFBDetails(currentUser);
       })
@@ -199,36 +199,12 @@ export default class SocialMediaSignup extends Component {
       this.setState({isLoading: false});
       return Promise.reject(new Error('The user cancelled the request'));
     }
-    console.log(
-      'FB login success with permission: ',
-      result.grantedPermissions.toString(),
-    );
     //get access token
     return AccessToken.getCurrentAccessToken();
   };
   getFBCredentialsUsingToken = async (data) => {
-    // console.log('sending token', token);
-    // //const url = 'https://asia-east2-dietrepo-develop.cloudfunctions.net/api/createFacebookUser'
-    // //const url = 'http://localhost:5000/dietrepo-develop/asia-east2/api/createFacebookUser'
-    // const url =
-    //   'http://localhost:5000/dietrepo-develop/asia-east2/api/createFacebookUser';
-    // fetch(url, {
-    //   method: 'POST',
-    //   header: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(token),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     return data;
-    //   });
-    // console.log(JSON.stringify(response));
-    // return response.json();
-
     const credentials = auth.FacebookAuthProvider.credential(data.accessToken);
-    console.log('credentials:', credentials);
+    //console.log('credentials:', credentials);
     return auth().signInWithCredential(credentials);
   };
 

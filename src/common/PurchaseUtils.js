@@ -24,9 +24,9 @@ export const getOfferingsByPurchaseId = async (purchaseID) => {
   try {
     Purchases.setDebugLogsEnabled(true);
     Purchases.setup('jQPiwHOTRHEdxnhBjjUsqYtOHRBnjSOH', purchaseID);
-    console.log('Purchases setup ! ');
+    //console.log('Purchases setup ! ');
     const purchaserOfferings = await Purchases.getOfferings();
-    console.log('purchaseOfferings: ', purchaseOfferings);
+    //console.log('purchaseOfferings: ', purchaseOfferings);
     const {current: currentDietPlans} = purchaserOfferings; // current contains standard
     purchaseOfferings = currentDietPlans;
     return purchaseOfferings;
@@ -42,7 +42,7 @@ export const getOfferingsByPurchaseId = async (purchaseID) => {
 export const getPurchaserInfo = async () => await Purchases.getPurchaserInfo();
 
 export const getActiveEntitlement = async (purchaserInfo) => {
-  console.log('Inside getActiveEntitlements.');
+  //console.log('Inside getActiveEntitlements.');
   if (!purchaserInfo) {
     purchaserInfo = await getPurchaserInfo();
   }
