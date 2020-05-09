@@ -1,19 +1,10 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Platform,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Platform} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import StringPicker from '../components/Picker/StringPicker';
 import {styles} from '../../assets/style/stylesDietScreen';
-import {
-  styleCommon,
-  ICON_SIZE_MED,
-} from '../../assets/style/stylesCommonValues';
+import {ICON_SIZE_MED} from '../../assets/style/stylesCommonValues';
 import CustomListView from '../components/CustomListView';
 import {
   WEIGHT_LOSS_DESC,
