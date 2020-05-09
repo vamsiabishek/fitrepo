@@ -13,7 +13,6 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LottieView from 'lottie-react-native';
 import PurchaseList from '../components/purchase/PurchaseList';
-import api from '../common/Api';
 
 class MyPurchases extends Component {
   constructor(props) {
@@ -22,12 +21,13 @@ class MyPurchases extends Component {
       purchases: [],
     };
   }
-  componentDidMount = async () => {
-    await this.fetchDietPurchases();
+
+  componentDidMount = () => {
+    this.setState({purchases: this.props.purchases});
   };
 
   componentDidUpdate = async (prevProps) => {
-    const {diets} = this.props;
+    const {diets, fetchDietPurchases} = this.props;
     const {diets: prevDiets} = prevProps;
     let refetch = false;
     if (diets.length !== prevDiets.length) {
@@ -41,19 +41,20 @@ class MyPurchases extends Component {
       });
     }
     if (refetch) {
-      await this.fetchDietPurchases();
+      const purchases = await fetchDietPurchases(diets);
+      this.setState({purchases});
     }
   };
 
-  fetchDietPurchases = async () => {
-    const {diets} = this.props;
-    console.log('user diets', diets);
-    const dietIds = diets
-      .filter((diet) => diet.paymentStatus)
-      .map((diet) => diet.id);
-    const purchases = await api.post('/getPurchases', dietIds);
-    this.setState({purchases});
-  };
+  // fetchDietPurchases = async () => {
+  //   const {diets} = this.props;
+  //   console.log('user diets', diets);
+  //   const dietIds = diets
+  //     .filter((diet) => diet.paymentStatus)
+  //     .map((diet) => diet.id);
+  //   const purchases = await api.post('/getPurchases', dietIds);
+  //   this.setState({purchases});
+  // };
   render() {
     const {showPurchases, onCancel} = this.props;
     const {purchases} = this.state;

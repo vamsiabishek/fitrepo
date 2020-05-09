@@ -5,7 +5,8 @@ const commonStyles = StyleSheet.create({
   container: {
     flex: 1,
     //alignItems: "center",
-    //justifyContent: "center"
+    //justifyContent: "center",
+    //backgroundColor: 'cyan',
   },
   bgImage: {
     //flex: 1,

@@ -5,7 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {withNavigation} from 'react-navigation';
 import {styleCommon, fontsCommon} from '../../assets/style/stylesCommonValues';
 import {sortByDate} from '../common/Util';
-import Loading from '../components/Loading';
+import {styles} from '../../assets/style/stylesAddButton.js';
+import LottieView from 'lottie-react-native';
 import api from '../common/Api';
 
 class AddButton extends React.Component {
@@ -19,12 +20,12 @@ class AddButton extends React.Component {
       trailing: true, // default
     });
   }
+
   addNew = async () => {
     this.setState({isLoading: true});
     let {diets} = await api.get('/userDiets');
     diets = sortByDate(diets, 'createdDate');
     const latestDiet = diets[0];
-    this.setState({isLoading: false});
     if (latestDiet !== undefined) {
       const {createdDate, selectedProgram} = latestDiet;
       const fromDate = createdDate ? new Date(createdDate) : new Date();
@@ -40,7 +41,10 @@ class AddButton extends React.Component {
           [
             {
               text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
+              onPress: () => {
+                this.setState({isLoading: false});
+                console.log('Cancel Pressed');
+              },
               style: 'cancel',
             },
             {text: 'Continue', onPress: () => this.navigateToCreateDiet()},
@@ -54,38 +58,34 @@ class AddButton extends React.Component {
       this.navigateToCreateDiet();
     }
   };
-  navigateToCreateDiet = (uid) => {
+
+  navigateToCreateDiet = () => {
     const {navigation} = this.props;
+    this.setState({isLoading: false});
     navigation.navigate('Signup', {
       fromAddNew: true,
     });
   };
+
   render() {
-    const SIZE = fontsCommon.font80;
     const {isLoading} = this.state;
     return (
-      <View
-        style={{
-          position: 'absolute',
-          alignItems: 'center',
-        }}>
+      <View style={styles.mainContainer}>
         {isLoading ? (
-          <Loading
-            isTextNotAvailable
-            animationStr={require('../../assets/jsons/user_animation_4.json')}
-          />
+          <View style={styles.loadingContainer}>
+            <LottieView
+              resizeMode="cover"
+              source={require('../../assets/jsons/circle_salmon_animation.json')}
+              autoPlay
+              loop
+              enableMergePathsAndroidForKitKatAndAbove
+            />
+          </View>
         ) : (
           <TouchableHighlight
             onPress={this.addNewHandler}
-            underlayColor="#2882D8"
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: SIZE,
-              height: SIZE,
-              borderRadius: SIZE / 2,
-              backgroundColor: '#FA8072',
-            }}>
+            underlayColor={styleCommon.selectedButtonColor}
+            style={styles.addButtonHighlight}>
             <Icon
               name="plus"
               size={fontsCommon.font28}

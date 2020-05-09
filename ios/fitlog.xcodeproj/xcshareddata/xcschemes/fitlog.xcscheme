@@ -120,7 +120,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
-      customArchiveName = "Fitrepo"
+      customArchiveName = "DietRepo"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

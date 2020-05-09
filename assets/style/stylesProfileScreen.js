@@ -22,6 +22,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     //backgroundColor: styleCommon.secondaryColor //"pink"
   },
+  contactUsAnimationContainer: {
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'blue',
+  },
   actionsHeaderContainer: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -155,18 +160,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'space-between',
-    margin: 3,
-    marginTop: 10,
-    borderBottomWidth: 1,
-    borderColor: 'grey', //styleCommon.secondaryColorNew,
-    //backgroundColor: styleCommon.secondaryColorNew,
+    marginVertical: SCREEN_HEIGHT * 0.01,
     //backgroundColor: "hotpink"
   },
   boxesStyle: {
     width: '98%',
     height: SCREEN_HEIGHT * 0.21,
-    borderWidth: 1,
-    borderColor: 'transparent',
     //marginVertical: 3,
     //marginHorizontal: 3
     // backgroundColor: styleCommon.secondaryColor //"transparent"
@@ -220,6 +219,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 2,
     padding: 3,
+    marginVertical: SCREEN_HEIGHT * 0.005,
   },
   boxTextStyle: {
     padding: 5,

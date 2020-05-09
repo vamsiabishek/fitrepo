@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {
   Alert,
-  ActivityIndicator,
   LayoutAnimation,
   ScrollView,
   StatusBar,
   UIManager,
   View,
+  Text,
 } from 'react-native';
 import {debounce} from 'lodash';
 import {commonStyles} from '../../assets/style/stylesCommon';
@@ -19,10 +19,10 @@ import PreferenceDetails from './PreferenceDetails';
 import FitnessLevel from './FitnessLevel';
 import FoodSources from './FoodSources';
 import SocialMediaSignup from './SocialMediaSignup';
+import LottieView from 'lottie-react-native';
 import Loading from '../components/Loading';
 import {styles} from '../../assets/style/stylesSignup';
 import {
-  styleCommon,
   SCREEN_WIDTH,
   commonValues,
 } from '../../assets/style/stylesCommonValues';
@@ -814,17 +814,27 @@ export default class Signup extends Component {
     const loadingAnimation = userLoginAnimation
       ? require('../../assets/jsons/user_animation_4.json')
       : require('../../assets/jsons/creating_diet_animation.json');
-    const activityIndicatorStyle = {flex: 1};
     return (
       <View style={commonStyles.container}>
         <StatusBar hidden={true} />
         <View style={commonStyles.bgImage}>
           {isLoadingComponent ? (
-            <ActivityIndicator
-              color={styleCommon.textColor1}
-              style={activityIndicatorStyle}
-              size="large"
-            />
+            <View style={styles.activityIndicatorStyle}>
+              <View style={styles.contactUsAnimationContainer}>
+                <LottieView
+                  resizeMode="contain"
+                  source={require('../../assets/jsons/loading_2_animation.json')}
+                  autoPlay
+                  loop
+                  enableMergePathsAndroidForKitKatAndAbove
+                />
+              </View>
+              <View style={styles.textViewContainer}>
+                <Text style={styles.textStyle}>
+                  Getting everything ready...
+                </Text>
+              </View>
+            </View>
           ) : (
             <ScrollView
               horizontal={true}
