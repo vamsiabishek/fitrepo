@@ -130,13 +130,13 @@ export default class MealsContainer extends Component {
   };
 
   onHeartClicked = () => {
-    console.log('heart clicked !');
+    //console.log('heart clicked !');
     this.setState({heartClicked: true});
   };
 
   render() {
     const {heartClicked} = this.state;
-    console.log('heart status: ', heartClicked);
+    //console.log('heart status: ', heartClicked);
     const {
       meals,
       dayBarScrollY,

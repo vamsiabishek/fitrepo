@@ -43,7 +43,6 @@ class AddButton extends React.Component {
               text: 'Cancel',
               onPress: () => {
                 this.setState({isLoading: false});
-                console.log('Cancel Pressed');
               },
               style: 'cancel',
             },

@@ -91,7 +91,7 @@ export default class MyDiet extends Component {
     this.setState({isLoading: true});
     // console.log('fetching details for the diet with Id:', dietId);
     const diet = await api.get(`/getDietById/${dietId}`);
-    console.log('diet and meals:', diet);
+    // console.log('diet and meals:', diet);
     const {meals} = diet;
     this.setState({diet, meals: meals[0], allMeals: meals});
   };

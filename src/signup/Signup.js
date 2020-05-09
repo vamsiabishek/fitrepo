@@ -96,7 +96,7 @@ export default class Signup extends Component {
         const userLoggedIn = await api.get('/getLoggedInUser');
         LayoutAnimation.easeInEaseOut();
         const normalizedUser = normalizeUserForSignup(userLoggedIn);
-        console.log('normalizedUser', normalizedUser);
+        //console.log('normalizedUser', normalizedUser);
         this.setState({
           user: normalizedUser,
           ...normalizedUser,
@@ -634,9 +634,9 @@ export default class Signup extends Component {
         isScrollable = true;
       }
       if (currentScreen === comparableScreen(6)) {
-        console.log('saving user details');
+        //console.log('saving user details');
         await this.saveUserDetails();
-        console.log('saving diet details');
+        // console.log('saving diet details');
         await this.createDietAndMeals();
       }
       if (isScrollable && this.scrollRef) {
@@ -687,12 +687,12 @@ export default class Signup extends Component {
       privacyTermsAccepted,
     };
     try {
-      console.log('updating user', user);
+      //console.log('updating user', user);
       await api.post('/updateUser', user);
       this.setState({user});
-      console.log('user saved successfully');
+      //console.log('user saved successfully');
       const {diets} = await this.fetchUserDiets();
-      console.log('mydiets ', diets);
+      //console.log('mydiets ', diets);
       if (diets.length !== 0) {
         setFirstTimeUser();
       }
@@ -743,7 +743,7 @@ export default class Signup extends Component {
     analytics().logEvent('Diet_creation_started', {...dietInfo, gender});
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
-    console.log('navigating to mydiet');
+    //console.log('navigating to mydiet');
     navigate('MyDiet', {
       uid,
       dietId,

@@ -14,6 +14,7 @@ import {
 import Emoji from 'react-native-emoji';
 import LottieView from 'lottie-react-native';
 import api from '../common/Api';
+import {sortByDate} from '../common/Util';
 
 export default class Diet extends Component {
   constructor(props) {
@@ -44,16 +45,17 @@ export default class Diet extends Component {
 
   fetchMyDiets = async () => {
     const {navigate} = this.props.navigation;
-    console.log('fetching user diets');
+    //console.log('fetching user diets');
     const response = await api.get('/userDiets');
     if (response.isUserLoggedIn !== undefined && !response.isUserLoggedIn) {
-      console.log('User not logged in - navigating to login page.');
+      //console.log('User not logged in - navigating to login page.');
       navigate('Login');
     } else {
       const {uid} = await api.get('/getLoggedInUser');
-      console.log('uid: ', uid);
-      const {diets} = response;
-      console.log('user diets are ', diets);
+      //('uid: ', uid);
+      let {diets} = response;
+      diets = sortByDate(diets, 'createdDate');
+      //console.log('user diets are ', diets);
       this.currentDietList = diets;
       this.setState({
         uid,
@@ -67,7 +69,7 @@ export default class Diet extends Component {
     const {myDiets} = this.state;
     this.currentDietList = [];
     myDiets.map((diet) => {
-      console.log('diet: ', diet);
+      //console.log('diet: ', diet);
       if (selectedSort === WEIGHT_LOSS_DESC && diet.selectedGoal === 0) {
         this.currentDietList.push(diet);
       } else if (selectedSort === WEIGHT_GAIN_DESC && diet.selectedGoal === 2) {
