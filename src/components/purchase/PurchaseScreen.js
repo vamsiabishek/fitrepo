@@ -267,12 +267,25 @@ export default class PurchaseScreen extends React.Component {
           />
           {trialDaysLeft !== undefined && dietTrialEndDate !== undefined && (
             <View>
-              <Text style={styles.smallerLabelText}>
-                You have {trialDaysLeft} days left in your trial week!
-              </Text>
-              <Text style={styles.smallerLabelText}>
-                Trial ends on {dietTrialEndDate.toDateString()}
-              </Text>
+              {trialDaysLeft > 0 ? (
+                <React.Fragment>
+                  <Text style={styles.smallerLabelText}>
+                    You have {trialDaysLeft} days left in your trial week!
+                  </Text>
+                  <Text style={styles.smallerLabelText}>
+                    Trial ends on {dietTrialEndDate.toDateString()}
+                  </Text>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Text style={styles.smallerLabelText}>
+                    Looks like your trial week has expired !
+                  </Text>
+                  <Text style={styles.smallerLabelText}>
+                    Please pay to see the rest of the program's diet.
+                  </Text>
+                </React.Fragment>
+              )}
             </View>
           )}
         </View>

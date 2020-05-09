@@ -11,7 +11,6 @@ import MealsContainer from './meals/MealsContainer';
 import {styles} from '../../assets/style/stylesMyDiet';
 import {
   styleCommon,
-  ICON_SIZE_MED,
   ICON_SIZE_24,
   ICON_SIZE_22,
   ICON_SIZE,
