@@ -9,6 +9,7 @@ import Loading from '../components/Loading';
 import {SMS_ICON} from '../common/Common';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import ResendButton from '../components/ResendButton';
+// import analytics from '@react-native-firebase/analytics';
 
 class PhoneAuthScreen extends Component {
   state = {
@@ -31,19 +32,37 @@ class PhoneAuthScreen extends Component {
     phNumWithoutCountryCode,
     countryCode,
   }) => {
-    // console.log('sending verification code to', phoneNumber);
     const {setShowSocialOptions} = this.props;
     this.setState({isLoading: true});
-    setShowSocialOptions(false);
+    setShowSocialOptions(false, true);
     // Request to send OTP
-    const confirmResult = await auth().signInWithPhoneNumber(phoneNumber);
-    this.setState({
-      confirmResult,
-      phoneNumber,
-      phNumWithoutCountryCode,
-      countryCode,
-      isLoading: false,
-    });
+    try {
+      const confirmResult = await auth().signInWithPhoneNumber(phoneNumber);
+      setShowSocialOptions(undefined, undefined);
+      this.setState({
+        confirmResult,
+        phoneNumber,
+        phNumWithoutCountryCode,
+        countryCode,
+        isLoading: false,
+      });
+      // Alert.alert('code sent to phone');
+    } catch (err) {
+      Alert.alert(
+        err.toString().includes('popup-closed-by-user')
+          ? 'Cancelled!'
+          : 'Oops!',
+        err.toString().includes('popup-closed-by-user')
+          ? 'Looks like you cancelled the login process. Do choose your sign up method from the given options.'
+          : 'Some error occurred. Please try again after sometime.',
+      ); // err.message);
+      // console.log(
+      //   'Error Occured while in the try catch of signinwithPhonenumber: ',
+      //   err,
+      // );
+      this.setState({isLoading: false});
+      setShowSocialOptions(true, undefined);
+    }
   };
 
   handleVerifyCode = (verificationCode) => {
@@ -61,26 +80,26 @@ class PhoneAuthScreen extends Component {
           createUserWithPhoneNumber(user);
         })
         .catch((error) => {
-          this.setState({isLoading: false, verificationCode: ''});
           Alert.alert(
             'Invalid OTP.',
             'Looks like you have entered the wrong OTP. Please re-check and try again later.',
           );
-          console.log(
-            'Error while creating the user or logging in the user by phone auth: ',
-            error,
-          );
+          // console.log(
+          //   'Error while creating the user or logging in the user by phone auth: ',
+          //   error,
+          // );
+          this.setState({isLoading: false, verificationCode: ''});
         });
     } else {
-      this.setState({isLoading: false, verificationCode: ''});
       Alert.alert('Incorrect', 'Please enter a 6 digit OTP code.');
+      this.setState({isLoading: false, verificationCode: ''});
     }
   };
 
   reEnterPhoneNumber = () => {
     const {setShowSocialOptions} = this.props;
-    this.setState({confirmResult: null});
-    setShowSocialOptions(true);
+    this.setState({confirmResult: null, phNumWithoutCountryCode: ''});
+    setShowSocialOptions(true, false);
   };
 
   resendCode = () => {
@@ -120,12 +139,6 @@ class PhoneAuthScreen extends Component {
           <Text style={styles.clickHere}>
             Not your number? Click below to change
           </Text>
-          {/*<Icon
-              name="arrow-right"
-              color={styleCommon.iconColor}
-              size={ICON_SIZE_SMALL}
-              style={styles.iconStyle}
-            />*/}
           <Button
             title={phoneNumber}
             titleStyle={styles.verificationPhNum}

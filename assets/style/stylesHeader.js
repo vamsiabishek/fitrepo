@@ -32,6 +32,7 @@ export const styles = StyleSheet.create({
   },
   backButtonStyle: {
     borderWidth: 0,
+    marginLeft: 10,
     borderColor: 'transparent',
     backgroundColor: 'transparent',
   },
@@ -43,6 +44,7 @@ export const styles = StyleSheet.create({
   },
   cancelButtonStyle: {
     borderWidth: 0,
+    marginRight: 10,
     borderColor: 'transparent',
     backgroundColor: 'transparent',
   },

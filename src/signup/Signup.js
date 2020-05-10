@@ -81,6 +81,7 @@ export default class Signup extends Component {
       showGender: true,
       showPrivacyTerms: false,
       privacyTermsAccepted: false,
+      disableBackAndClose: false,
     };
 
     this.onNextDelayed = debounce((screen) => this.onNext(screen), 600);
@@ -753,6 +754,10 @@ export default class Signup extends Component {
     });
   };
 
+  setdisableBackAndClose = (value) => {
+    this.setState({disableBackAndClose: value});
+  };
+
   render() {
     const {
       goal,
@@ -791,6 +796,7 @@ export default class Signup extends Component {
       userLoginAnimation,
       showGender,
       showPrivacyTerms,
+      disableBackAndClose,
     } = this.state;
     const {hasAtleastOneDiet} = this.props;
     const signupObject = {
@@ -889,7 +895,9 @@ export default class Signup extends Component {
                 <View style={commonStyles.subContainer}>
                   <View style={styles.contentWrapper}>
                     <Header
-                      title={isLoading ? 'Hold on ...' : 'SIGN UP !'}
+                      title={isLoading ? 'Hold on ...' : 'SIGN UP'}
+                      showOnBack={!(isLoading || disableBackAndClose)}
+                      showOnCancel={!(isLoading || disableBackAndClose)}
                       screen={screen}
                       onBack={this.onBack}
                       onCancel={this.onCancelSignup}
@@ -897,13 +905,15 @@ export default class Signup extends Component {
                     {isLoading ? (
                       <View style={styles.contentWrapper}>
                         <Loading
+                          resizeMode="contain"
                           text={loadingAnimationText}
-                          isTextBold={false}
+                          isTextBold={true}
                           animationStr={loadingAnimation}
                         />
                       </View>
                     ) : (
                       <SocialMediaSignup
+                        setdisableBackAndClose={this.setdisableBackAndClose}
                         signupObject={signupObject}
                         setFBUser={this.setFBUser}
                         setGoogleUser={this.setGoogleUser}
@@ -984,6 +994,8 @@ export default class Signup extends Component {
                       ? 'Hold On ...'
                       : 'Choose your macros or skip this step...'
                   }
+                  showOnBack={!isLoading}
+                  showOnCancel={!isLoading}
                   screen={screen}
                   onBack={this.onBack}
                   onCancel={this.onCancelSignup}
