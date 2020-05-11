@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, Platform} from 'react-native';
+import {Text, View, TouchableOpacity, Platform, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import StringPicker from '../components/Picker/StringPicker';
@@ -15,6 +15,29 @@ import Emoji from 'react-native-emoji';
 import LottieView from 'lottie-react-native';
 import api from '../common/Api';
 import {sortByDate} from '../common/Util';
+import messaging from '@react-native-firebase/messaging';
+
+async function requestUserPermission() {
+  const settings = await messaging().requestPermission();
+
+  if (settings) {
+    //console.log('Permission settings:', settings);
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      //console.log(fcmToken);
+      api.post('/saveUser', {notificationToken: fcmToken});
+    }
+  }
+}
+
+// Register background handler
+// messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+//   console.log('Message handled in the background!', remoteMessage);
+// });
+// messaging().onMessage(async (remoteMessage) => {
+//   console.log('message received');
+//   Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+// });
 
 export default class Diet extends Component {
   constructor(props) {
@@ -41,6 +64,7 @@ export default class Diet extends Component {
   componentDidMount = async () => {
     this.setState({isLoading: true});
     await this.fetchMyDiets();
+    await requestUserPermission();
   };
 
   fetchMyDiets = async () => {
