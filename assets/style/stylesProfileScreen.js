@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
   profileBannerTextStyle: {
     fontSize: fontsCommon.font14,
     color: styleCommon.secondaryColorNew,
+    fontWeight: 'bold',
   },
   profileBannerSubTextStyle: {
     fontSize: fontsCommon.font12,

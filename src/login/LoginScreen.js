@@ -59,6 +59,7 @@ export default class LoginScreen extends Component {
       showSocialOptions: true,
       showPrivacyTerms: false,
       user: null,
+      media: '',
     };
     this.shakeAnimation = new Animated.Value(0);
   }
@@ -170,7 +171,7 @@ export default class LoginScreen extends Component {
     }
   };
   onFBLogin = () => {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, media: 'Facebook'});
     LoginManager.logInWithPermissions(['public_profile', 'email'])
       .then((result) => this.getFBTokenFromResponse(result))
       .then((data) => this.getFBCredentialsUsingToken(data))
@@ -213,7 +214,7 @@ export default class LoginScreen extends Component {
     return auth().signInWithCredential(credentials);
   };
   onGoogleLogin = async () => {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, media: 'Google'});
     try {
       // Add any configuration settings here:
       if (Platform.OS === 'android') {
@@ -257,6 +258,7 @@ export default class LoginScreen extends Component {
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {
+    this.setState({media: ''});
     const {
       user: {uid},
     } = currentUser;
@@ -400,6 +402,7 @@ export default class LoginScreen extends Component {
       isLoadingPostPrivacy,
       showSocialOptions,
       showPrivacyTerms,
+      media,
     } = this.state;
     const socialLoginContainerStyle = {
       ...styles.buttonContainer,
@@ -436,14 +439,21 @@ export default class LoginScreen extends Component {
           )}
           {isLoading ? (
             <Loading
+              resizeMode={isLoadingPostPrivacy && 'contain'}
               text={
                 isLoadingPostPrivacy
                   ? 'Signing you up with DietRepo...'
+                  : media.length !== 0
+                  ? 'Redirecting you to ' + media + ' Login...'
                   : 'Logging you into DietRepo...'
               }
               animationStr={
                 isLoadingPostPrivacy
                   ? require('../../assets/jsons/user_animation_4.json')
+                  : media.length !== 0
+                  ? media.includes('Facebook')
+                    ? require('../../assets/jsons/facebook_loading_animation.json')
+                    : require('../../assets/jsons/google_loading_animation.json')
                   : require('../../assets/jsons/logging_animation.json')
               }
               isTextBold={true}

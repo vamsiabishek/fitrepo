@@ -20,6 +20,7 @@ class PhoneAuthScreen extends Component {
     phNumWithoutCountryCode: '',
     countryCode: '',
     isLoading: false,
+    sentSms: false,
   };
 
   validatePhoneNumber = () => {
@@ -33,7 +34,7 @@ class PhoneAuthScreen extends Component {
     countryCode,
   }) => {
     const {setShowSocialOptions} = this.props;
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, sentSms: true});
     setShowSocialOptions(false, true);
     // Request to send OTP
     try {
@@ -69,7 +70,7 @@ class PhoneAuthScreen extends Component {
     // Request for OTP verification
     const {confirmResult} = this.state;
     const {createUserWithPhoneNumber} = this.props;
-    this.setState({isLoading: true, verificationCode});
+    this.setState({isLoading: true, verificationCode, sentSms: false});
     //console.log('verifying the code', verificationCode);
     if (verificationCode.length === 6) {
       confirmResult
@@ -156,15 +157,21 @@ class PhoneAuthScreen extends Component {
       phNumWithoutCountryCode,
       countryCode,
       isLoading,
+      sentSms,
     } = this.state;
     const {loadingMessage} = this.props;
     return (
       <React.Fragment>
         {isLoading ? (
           <Loading
-            text={loadingMessage}
+            resizeMode={
+              (sentSms || loadingMessage.includes('Signing')) && 'contain'
+            }
+            text={sentSms ? 'Sending the verification code...' : loadingMessage}
             animationStr={
-              loadingMessage.includes('Signing')
+              sentSms
+                ? require('../../assets/jsons/phone_sms_code_animation.json')
+                : loadingMessage.includes('Signing')
                 ? require('../../assets/jsons/user_animation_4.json')
                 : require('../../assets/jsons/logging_animation.json')
             }
