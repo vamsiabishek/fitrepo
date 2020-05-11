@@ -22,6 +22,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     //backgroundColor: styleCommon.secondaryColor //"pink"
   },
+  contactUsAnimationContainer: {
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'blue',
+  },
   actionsHeaderContainer: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -74,7 +79,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //margin: 30, // 20
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT * 0.3,
+    height: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_HEIGHT * 0.35
+      : SCREEN_HEIGHT * 0.3,
     //backgroundColor: "teal"
     marginBottom: 10,
     marginTop: 10,
@@ -125,10 +132,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 15,
+    margin: 10,
+    // backgroundColor: 'orange',
+  },
+  profileBannerTextContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   profileBannerTextStyle: {
     fontSize: fontsCommon.font14,
+    color: styleCommon.secondaryColorNew,
+    fontWeight: 'bold',
+  },
+  profileBannerSubTextStyle: {
+    fontSize: fontsCommon.font12,
     color: styleCommon.secondaryColorNew,
   },
   profileStarColor: {
@@ -155,27 +172,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'space-between',
-    margin: 3,
-    marginTop: 10,
-    borderBottomWidth: 1,
-    borderColor: 'grey', //styleCommon.secondaryColorNew,
-    //backgroundColor: styleCommon.secondaryColorNew,
-    //backgroundColor: "hotpink"
+    marginVertical: SCREEN_HEIGHT * 0.01,
+    padding: SCREEN_HEIGHT * 0.01,
+    //backgroundColor: 'hotpink',
   },
   boxesStyle: {
-    width: '98%',
-    height: SCREEN_HEIGHT * 0.21,
-    borderWidth: 1,
-    borderColor: 'transparent',
-    //marginVertical: 3,
-    //marginHorizontal: 3
-    // backgroundColor: styleCommon.secondaryColor //"transparent"
+    width: '100%',
   },
   boxHeaderContainerView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     padding: 3,
-    //backgroundColor: "green"
+    marginBottom: 3,
+    //backgroundColor: 'green',
   },
   boxHeaderIconStyle: {
     paddingRight: 3,
@@ -190,14 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignContent: 'stretch',
-    padding: 3,
-    //backgroundColor: "yellow"
-  },
-  boxContentColumnContainerStyle: {
-    justifyContent: 'space-evenly',
-    alignContent: 'stretch',
-    padding: 3,
-    //backgroundColor: "purple"
+    //backgroundColor: 'purple',
   },
   boxContentIconStyle: {
     color: styleCommon.secondaryColorNew,
@@ -217,14 +219,20 @@ const styles = StyleSheet.create({
   },
   boxTextContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 0.5,
     borderRadius: 2,
-    padding: 3,
+    marginVertical: SCREEN_HEIGHT * 0.005,
+    paddingHorizontal: 5,
+    //backgroundColor: 'grey',
   },
   boxTextStyle: {
-    padding: 5,
+    textAlign: 'center',
+    textAlignVertical: 'center',
     fontSize: fontsCommon.font14,
     fontWeight: 'bold',
+    marginLeft: 5,
     color: styleCommon.secondaryColorNew,
   },
   avatarHumanOverlayStyle: {
@@ -295,6 +303,17 @@ const styles = StyleSheet.create({
     marginBottom: -10,
     marginTop: -10,
     marginLeft: -10,
+  },
+  iconStyle: {
+    color: styleCommon.textColor1,
+    marginTop: 6,
+    height:
+      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.03 : SCREEN_HEIGHT * 0.03,
+    //backgroundColor: "red",
+  },
+  smallIconImageStyle: {
+    width: SCREEN_HEIGHT * 0.03,
+    height: SCREEN_HEIGHT * 0.03,
   },
 });
 

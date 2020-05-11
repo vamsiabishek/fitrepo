@@ -1,19 +1,10 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  Platform,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Platform, Alert} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import StringPicker from '../components/Picker/StringPicker';
 import {styles} from '../../assets/style/stylesDietScreen';
-import {
-  styleCommon,
-  ICON_SIZE_MED,
-} from '../../assets/style/stylesCommonValues';
+import {ICON_SIZE_MED} from '../../assets/style/stylesCommonValues';
 import CustomListView from '../components/CustomListView';
 import {
   WEIGHT_LOSS_DESC,
@@ -21,7 +12,32 @@ import {
   BE_HEALTHY_DESC,
 } from '../common/Common';
 import Emoji from 'react-native-emoji';
+import LottieView from 'lottie-react-native';
 import api from '../common/Api';
+import {sortByDate} from '../common/Util';
+import messaging from '@react-native-firebase/messaging';
+
+async function requestUserPermission() {
+  const settings = await messaging().requestPermission();
+
+  if (settings) {
+    //console.log('Permission settings:', settings);
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      //console.log(fcmToken);
+      api.post('/saveUser', {notificationToken: fcmToken});
+    }
+  }
+}
+
+// Register background handler
+// messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+//   console.log('Message handled in the background!', remoteMessage);
+// });
+// messaging().onMessage(async (remoteMessage) => {
+//   console.log('message received');
+//   Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+// });
 
 export default class Diet extends Component {
   constructor(props) {
@@ -48,20 +64,22 @@ export default class Diet extends Component {
   componentDidMount = async () => {
     this.setState({isLoading: true});
     await this.fetchMyDiets();
+    await requestUserPermission();
   };
 
   fetchMyDiets = async () => {
     const {navigate} = this.props.navigation;
-    console.log('fetching user diets');
+    //console.log('fetching user diets');
     const response = await api.get('/userDiets');
     if (response.isUserLoggedIn !== undefined && !response.isUserLoggedIn) {
-      console.log('User not logged in - navigating to login page.');
+      //console.log('User not logged in - navigating to login page.');
       navigate('Login');
     } else {
       const {uid} = await api.get('/getLoggedInUser');
-      console.log('uid: ', uid);
-      const {diets} = response;
-      console.log('user diets are ', diets);
+      //('uid: ', uid);
+      let {diets} = response;
+      diets = sortByDate(diets, 'createdDate');
+      //console.log('user diets are ', diets);
       this.currentDietList = diets;
       this.setState({
         uid,
@@ -75,7 +93,7 @@ export default class Diet extends Component {
     const {myDiets} = this.state;
     this.currentDietList = [];
     myDiets.map((diet) => {
-      console.log('diet: ', diet);
+      //console.log('diet: ', diet);
       if (selectedSort === WEIGHT_LOSS_DESC && diet.selectedGoal === 0) {
         this.currentDietList.push(diet);
       } else if (selectedSort === WEIGHT_GAIN_DESC && diet.selectedGoal === 2) {
@@ -109,7 +127,22 @@ export default class Diet extends Component {
     return (
       <View style={styles.mainContainer}>
         {isLoading ? (
-          <ActivityIndicator color={styleCommon.textColor1} size="large" />
+          <React.Fragment>
+            <View style={styles.contactUsAnimationContainer}>
+              <LottieView
+                resizeMode="contain"
+                source={require('../../assets/jsons/diet_list_animation.json')}
+                autoPlay
+                loop
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+            </View>
+            {/* <View style={styles.textViewContainer}>
+              <Text style={styles.textStyle}>
+                Fetching your list of Diets...
+              </Text>
+            </View> */}
+          </React.Fragment>
         ) : (
           <View style={styles.container}>
             {hasDiets ? (
@@ -180,8 +213,9 @@ export default class Diet extends Component {
             ) : (
               <View style={styles.createNewMessageContainer}>
                 <Text style={styles.createNewMessageTitle}>
-                  Get started by clicking on + icon below
+                  Get started by clicking on the
                 </Text>
+                <Text style={styles.createNewMessageTitle}>+ icon below</Text>
                 <Icon size={Platform.OS === 'android' ? 100 : 150}>
                   <Emoji name={'female-cook'} />
                 </Icon>

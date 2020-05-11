@@ -88,6 +88,7 @@ export const styles = StyleSheet.create({
     width: fontsCommon.font80,
     height: fontsCommon.font80,
     borderRadius: fontsCommon.font80 / 2,
+    marginBottom: 5,
   },
   headerText: {
     fontWeight: 'bold',

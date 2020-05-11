@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Animated,
-  Text,
-  View,
-  ActivityIndicator,
-  UIManager,
-  Image,
-} from 'react-native';
+import {Animated, Text, View, UIManager, Image} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,13 +17,14 @@ import {
   CONTACT_US_ICON,
   PURCHASES_ICON,
   EDIT_PROFILE_ICON,
+  WEIGHT_ICON,
+  TARGET_ICON,
 } from '../common/Common';
 import {
   SCREEN_WIDTH,
   styleCommon,
   ICON_SIZE_MED,
   ICON_BACK_SIZE,
-  ICON_SIZE_SMALL,
 } from '../../assets/style/stylesCommonValues';
 import {signOutUser, sortByDate} from '../common/Util';
 import SelectButton from '../components/SelectButton';
@@ -56,6 +50,7 @@ export default class Profile extends Component {
       myDiets: [],
       showContactUs: false,
       showPurchases: false,
+      purchases: [],
     };
     this.profileHeaderScrollY = new Animated.Value(1);
     this.profileHeaderExpandedHeight = styles.bannerContainer.height; // calculated by onLayout
@@ -78,11 +73,15 @@ export default class Profile extends Component {
         user: {...user, ...recievedData},
       });
     } else {
-      this.setState({
-        user: recievedData,
-        isLoading: false,
-      });
+      this.setState({user: recievedData});
     }
+  };
+  fetchDietPurchases = async (myDiets) => {
+    const paidDietIds = myDiets
+      .filter((diet) => diet.paymentStatus)
+      .map((diet) => diet.id);
+    const purchases = await api.post('/getPurchases', paidDietIds);
+    return purchases;
   };
 
   logoutUser = () => {
@@ -104,30 +103,35 @@ export default class Profile extends Component {
   };
 
   componentDidMount = async () => {
-    this.setState({
-      isLoading: true,
-    });
+    this.setState({isLoading: true});
     const userLoggedIn = await api.get('/getLoggedInUser');
-    console.log('logged in user', userLoggedIn);
+    //console.log('logged in user', userLoggedIn);
     let myDiets = userLoggedIn.diets || [];
     myDiets = sortByDate(myDiets, 'createdDate');
     this.updateProfileCall(userLoggedIn);
-
-    // let myDiets = userLoggedIn.diets || [];
-    // myDiets = sortByDate(myDiets, 'createdDate');
     let currentDiet = myDiets[0];
-    this.setState({currentDiet, myDiets});
+    const purchases = await this.fetchDietPurchases(myDiets);
+    //console.log('purchases: ', purchases);
+    this.setState({
+      currentDiet,
+      myDiets,
+      uid: userLoggedIn.uid,
+      purchases,
+      isLoading: false,
+    });
   };
   closeContactUs = () => this.setState({showContactUs: false});
   closeMyPurchases = () => this.setState({showPurchases: false});
   render() {
     const {
+      uid,
       isLoading,
       user = {},
       currentDiet,
       showContactUs,
       showPurchases,
       myDiets,
+      purchases,
     } = this.state;
     const {
       gender,
@@ -157,13 +161,22 @@ export default class Profile extends Component {
     const imageStyle = {
       width: SCREEN_WIDTH * 0.15,
       height: SCREEN_WIDTH * 0.15,
-      //tintColor: styleCommon.selectedButtonColor,
     };
-    // console.log('user: ', user);
+    const details = {
+      uid: uid,
+    };
     return (
       <View style={styles.mainContainer}>
         {isLoading ? (
-          <ActivityIndicator color={styleCommon.textColor1} size="large" />
+          <View style={styles.contactUsAnimationContainer}>
+            <LottieView
+              resizeMode="cover"
+              source={require('../../assets/jsons/loading_profile_animation.json')}
+              autoPlay
+              loop
+              enableMergePathsAndroidForKitKatAndAbove
+            />
+          </View>
         ) : (
           <View style={styles.innerContainer}>
             <View style={styles.actionsHeaderContainer}>
@@ -223,6 +236,9 @@ export default class Profile extends Component {
                 />
               </View>
               <View style={styles.profileBannerStyle}>
+                {username && (
+                  <Text style={styles.profileBannerTitleStyle}>{username}</Text>
+                )}
                 {phoneNumber && (
                   <Text style={styles.profileBannerSubTitleStyle}>
                     {phoneNumber}
@@ -234,9 +250,6 @@ export default class Profile extends Component {
                       {email}
                     </Text>
                   ))}
-                {username && (
-                  <Text style={styles.profileBannerTitleStyle}>{username}</Text>
-                )}
               </View>
               <View style={styles.profileSubBannerStyle}>
                 <SelectButton
@@ -245,7 +258,7 @@ export default class Profile extends Component {
                   titleStyle={styles.subHeaderButtonTitle}
                   title="Edit"
                   iconSize={ICON_SIZE_MED}
-                  iconName="scale-bathroom"
+                  iconName="account-edit"
                   buttonIcon={styles.buttonIcon}
                   //iconRight={true}
                   onPress={this.goToEditProfile}
@@ -259,7 +272,7 @@ export default class Profile extends Component {
                   titleStyle={styles.subHeaderButtonTitle}
                   title="Purchases"
                   iconSize={ICON_SIZE_MED}
-                  iconName="scale-bathroom"
+                  iconName="cart"
                   buttonIcon={styles.buttonIcon}
                   //iconRight={true}
                   onPress={() => {
@@ -275,7 +288,7 @@ export default class Profile extends Component {
                   titleStyle={styles.subHeaderButtonTitle}
                   title="Contact Us"
                   iconSize={ICON_SIZE_MED}
-                  iconName="scale-bathroom"
+                  iconName="contact-mail"
                   buttonIcon={styles.buttonIcon}
                   //iconRight={true}
                   onPress={() => {
@@ -290,41 +303,43 @@ export default class Profile extends Component {
                 <View style={styles.boxesStyle}>
                   <View style={styles.boxHeaderContainerView}>
                     <Icon
-                      name="progress-check"
+                      name="clipboard-text"
                       size={ICON_SIZE_MED}
                       style={styles.boxHeaderIconStyle}
                     />
-                    <Text style={styles.boxHeaderTextStyle}>Progress</Text>
+                    <Text style={styles.boxHeaderTextStyle}>Details</Text>
                   </View>
                   <View style={styles.boxContentRowContainerStyle}>
                     <View style={styles.profileSubBannerBoxStyle}>
                       <Image source={levelImage} style={imageStyle} />
-                      <Text style={styles.profileBannerTextStyle}>
-                        {levelTitle}
-                      </Text>
-                    </View>
-                    <View style={styles.boxContentTextStyle}>
-                      <View style={styles.boxTextContainer}>
-                        <Icon
-                          name="weight-kilogram"
-                          size={ICON_SIZE_SMALL}
-                          color="#4CAF50"
-                          style={styles.weightIconStyle}
-                        />
-                        <Text style={styles.boxTextStyle}>
-                          Current Weight: {weight} kgs
+                      <View style={styles.profileBannerTextContainer}>
+                        <Text style={styles.profileBannerTextStyle}>
+                          {levelTitle}
+                        </Text>
+                        <Text style={styles.profileBannerSubTextStyle}>
+                          (Level)
                         </Text>
                       </View>
-                      <View style={styles.boxTextContainer}>
-                        <Icon
-                          name="bullseye-arrow"
-                          size={ICON_SIZE_SMALL}
-                          color="#4CAF50"
-                          style={styles.weightIconStyle}
-                        />
-                        <Text style={styles.boxTextStyle}>
-                          Target Weight:{' '}
+                    </View>
+                    <View style={styles.profileSubBannerBoxStyle}>
+                      <Image source={WEIGHT_ICON} style={imageStyle} />
+                      <View style={styles.profileBannerTextContainer}>
+                        <Text style={styles.profileBannerTextStyle}>
+                          {weight} kgs
+                        </Text>
+                        <Text style={styles.profileBannerSubTextStyle}>
+                          (Current)
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.profileSubBannerBoxStyle}>
+                      <Image source={TARGET_ICON} style={imageStyle} />
+                      <View style={styles.profileBannerTextContainer}>
+                        <Text style={styles.profileBannerTextStyle}>
                           {currentDiet && currentDiet.targetWeight} kgs
+                        </Text>
+                        <Text style={styles.profileBannerSubTextStyle}>
+                          (Target)
                         </Text>
                       </View>
                     </View>
@@ -334,12 +349,15 @@ export default class Profile extends Component {
             </Animated.ScrollView>
             <ContactUs
               showContactUs={showContactUs}
+              details={details}
               onCancel={this.closeContactUs}
             />
             <MyPurchases
               showPurchases={showPurchases}
               onCancel={this.closeMyPurchases}
+              fetchDietPurchases={this.fetchDietPurchases}
               diets={myDiets}
+              purchases={purchases}
             />
           </View>
         )}

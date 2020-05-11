@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Text, View, TouchableOpacity} from 'react-native';
+import {Icon} from 'react-native-elements';
 import {
   styleCommon,
   ICON_BACK_SIZE,
@@ -17,7 +17,8 @@ export default class Header extends React.Component {
       screen,
       onBack,
       onCancel,
-      showOnCancel,
+      showOnCancel = true,
+      showOnBack = true,
     } = this.props;
     let {header} = styles;
     if (marginTop || height || flex) {
@@ -32,30 +33,38 @@ export default class Header extends React.Component {
       <View>
         <View style={styles.backHeaderContainer}>
           <View style={styles.buttonContainer}>
-            <Button
-              icon={{
-                name: 'arrow-left-thick',
-                size: ICON_BACK_SIZE,
-                color: styleCommon.headerIconsColor,
-                type: 'material-community',
-              }}
-              containerStyle={styles.backButtonContainerStyle}
-              buttonStyle={styles.backButtonStyle}
-              onPress={() => onBack(screen)}
-            />
-            {showOnCancel && (
-              <Button
-                icon={{
-                  name: 'close',
-                  size: ICON_BACK_SIZE,
-                  color: styleCommon.headerIconsColor,
-                  type: 'material-community',
-                }}
-                containerStyle={styles.cancelButtonContainerStyle}
-                buttonStyle={styles.cancelButtonStyle}
-                onPress={() => onCancel()}
-              />
-            )}
+            <View style={styles.backButtonContainerStyle}>
+              <View style={styles.backButtonStyle}>
+                <TouchableOpacity onPress={() => onBack(screen)}>
+                  <Icon
+                    name="arrow-left-thick"
+                    size={ICON_BACK_SIZE}
+                    color={
+                      showOnBack
+                        ? styleCommon.headerIconsColor
+                        : styleCommon.bgColor
+                    }
+                    type="material-community"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.cancelButtonContainerStyle}>
+              <View style={styles.cancelButtonStyle}>
+                <TouchableOpacity onPress={() => onCancel()}>
+                  <Icon
+                    name="close"
+                    size={ICON_BACK_SIZE}
+                    color={
+                      showOnCancel
+                        ? styleCommon.headerIconsColor
+                        : styleCommon.bgColor
+                    }
+                    type="material-community"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         </View>
         <View style={header}>

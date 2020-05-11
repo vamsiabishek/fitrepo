@@ -81,6 +81,8 @@ target 'fitlog' do
 
   pod 'react-native-date-picker', :path => '../node_modules/react-native-date-picker'
 
+  pod 'RNFBMessaging', :path => '../node_modules/@react-native-firebase/messaging'
+
   target 'fitlogTests' do
     inherit! :search_paths
     # Pods for testing
