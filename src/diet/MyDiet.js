@@ -478,7 +478,7 @@ export default class MyDiet extends Component {
                 trialDaysLeft={trialDaysLeft}
               />
             )}
-            {diet.paymentStatus && (
+            {(diet.paymentStatus || showInitialTrailMeals) && (
               <Feedback
                 isVisible={showFeedbackModal}
                 onClose={this.onCloseFeedbackModal}

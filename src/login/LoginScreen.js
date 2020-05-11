@@ -59,12 +59,14 @@ export default class LoginScreen extends Component {
       showSocialOptions: true,
       showPrivacyTerms: false,
       user: null,
+      media: '',
     };
     this.shakeAnimation = new Animated.Value(0);
   }
 
   componentDidMount() {
     this.startShake();
+    // Alert.alert('__DEV__', __DEV__);
   }
 
   shakeInIntervals = () => {
@@ -169,7 +171,7 @@ export default class LoginScreen extends Component {
     }
   };
   onFBLogin = () => {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, media: 'Facebook'});
     LoginManager.logInWithPermissions(['public_profile', 'email'])
       .then((result) => this.getFBTokenFromResponse(result))
       .then((data) => this.getFBCredentialsUsingToken(data))
@@ -179,17 +181,24 @@ export default class LoginScreen extends Component {
         this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
       })
       .catch((error) => {
-        this.setState({isLoading: false});
         Alert.alert(
-          'Error',
-          'An error occurred while trying to login with Facebook. Please try again later.',
+          error.toString().includes('user cancelled')
+            ? 'Cancelled!'
+            : 'Failed!',
+          error.toString().includes('user cancelled')
+            ? 'Looks like you cancelled the login process. Do choose your login method from the given options.'
+            : 'Looks like an error occurred while trying to sign you up. Please try again later.',
         );
+        // analytics().logEvent('Facebook log in failure', {
+        //   error: error,
+        // });
+        // console.log('Error occurred in the FB login: ', error);
+        this.setState({isLoading: false});
       });
   };
   getFBTokenFromResponse = (result) => {
     if (result.isCancelled) {
       this.setState({isLoading: false});
-      Alert.alert('Cancelled', 'Facebook login was cancelled by the user.');
       return Promise.reject(new Error('The user cancelled the request'));
     }
     /*console.log(
@@ -205,7 +214,7 @@ export default class LoginScreen extends Component {
     return auth().signInWithCredential(credentials);
   };
   onGoogleLogin = async () => {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, media: 'Google'});
     try {
       // Add any configuration settings here:
       if (Platform.OS === 'android') {
@@ -235,14 +244,21 @@ export default class LoginScreen extends Component {
       setCurrentUser(currentUser.user);
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
     } catch (error) {
-      this.setState({isLoading: false});
       Alert.alert(
-        'Error/Cancelled',
-        'Either Google login attempt was cancelled or an error occurred.',
+        error.code.toString() === '-5' ? 'Cancelled!' : 'Failed !',
+        error.code.toString() === '-5'
+          ? 'Looks like you cancelled the login process. Do choose your login method from the given options.'
+          : 'Looks like an error occurred while trying to sign you up. Please try again later.',
       );
+      // console.log('google log in failed/cancelled: ', error.code);
+      // analytics().logEvent('Google Log in Error/Cancelled', {
+      //   error: error,
+      // });
+      this.setState({isLoading: false});
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {
+    this.setState({media: ''});
     const {
       user: {uid},
     } = currentUser;
@@ -386,6 +402,7 @@ export default class LoginScreen extends Component {
       isLoadingPostPrivacy,
       showSocialOptions,
       showPrivacyTerms,
+      media,
     } = this.state;
     const socialLoginContainerStyle = {
       ...styles.buttonContainer,
@@ -422,14 +439,21 @@ export default class LoginScreen extends Component {
           )}
           {isLoading ? (
             <Loading
+              resizeMode={isLoadingPostPrivacy && 'contain'}
               text={
                 isLoadingPostPrivacy
                   ? 'Signing you up with DietRepo...'
+                  : media.length !== 0
+                  ? 'Redirecting you to ' + media + ' Login...'
                   : 'Logging you into DietRepo...'
               }
               animationStr={
                 isLoadingPostPrivacy
                   ? require('../../assets/jsons/user_animation_4.json')
+                  : media.length !== 0
+                  ? media.includes('Facebook')
+                    ? require('../../assets/jsons/facebook_loading_animation.json')
+                    : require('../../assets/jsons/google_loading_animation.json')
                   : require('../../assets/jsons/logging_animation.json')
               }
               isTextBold={true}

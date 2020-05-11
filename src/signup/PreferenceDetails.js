@@ -3,9 +3,11 @@ import {KeyboardAvoidingView, Text, UIManager, View} from 'react-native';
 import NumberSlider from 'react-native-number-slider';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
+  DEVICE_NAME,
   ICON_SIZE_EXTRA_LARGE,
   SCREEN_WIDTH,
   styleCommon,
+  fontsCommon,
 } from '../../assets/style/stylesCommonValues';
 import {styles} from '../../assets/style/stylesPreferenceDetails';
 import AnglePositionView from '../components/AnglePositionView';
@@ -235,8 +237,12 @@ export default class PreferenceDetails extends Component {
                   displayValues={numberOfMealsOptions}
                   value={numberOfMeals}
                   onValueChange={this.onMealsChange}
-                  width={SCREEN_WIDTH * 0.8}
-                  fontSize={18}
+                  width={
+                    DEVICE_NAME.includes('iPhone 11')
+                      ? SCREEN_WIDTH * 0.65
+                      : SCREEN_WIDTH * 0.6
+                  }
+                  fontSize={fontsCommon.font16}
                   containerBackground={styleCommon.secondaryColorNew}
                 />
                 <Text style={styles.mealsPerday}>

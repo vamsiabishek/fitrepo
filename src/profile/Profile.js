@@ -17,13 +17,14 @@ import {
   CONTACT_US_ICON,
   PURCHASES_ICON,
   EDIT_PROFILE_ICON,
+  WEIGHT_ICON,
+  TARGET_ICON,
 } from '../common/Common';
 import {
   SCREEN_WIDTH,
   styleCommon,
   ICON_SIZE_MED,
   ICON_BACK_SIZE,
-  ICON_SIZE_SMALL,
 } from '../../assets/style/stylesCommonValues';
 import {signOutUser, sortByDate} from '../common/Util';
 import SelectButton from '../components/SelectButton';
@@ -257,7 +258,7 @@ export default class Profile extends Component {
                   titleStyle={styles.subHeaderButtonTitle}
                   title="Edit"
                   iconSize={ICON_SIZE_MED}
-                  iconName="scale-bathroom"
+                  iconName="account-edit"
                   buttonIcon={styles.buttonIcon}
                   //iconRight={true}
                   onPress={this.goToEditProfile}
@@ -271,7 +272,7 @@ export default class Profile extends Component {
                   titleStyle={styles.subHeaderButtonTitle}
                   title="Purchases"
                   iconSize={ICON_SIZE_MED}
-                  iconName="scale-bathroom"
+                  iconName="cart"
                   buttonIcon={styles.buttonIcon}
                   //iconRight={true}
                   onPress={() => {
@@ -287,7 +288,7 @@ export default class Profile extends Component {
                   titleStyle={styles.subHeaderButtonTitle}
                   title="Contact Us"
                   iconSize={ICON_SIZE_MED}
-                  iconName="scale-bathroom"
+                  iconName="contact-mail"
                   buttonIcon={styles.buttonIcon}
                   //iconRight={true}
                   onPress={() => {
@@ -302,41 +303,43 @@ export default class Profile extends Component {
                 <View style={styles.boxesStyle}>
                   <View style={styles.boxHeaderContainerView}>
                     <Icon
-                      name="progress-check"
+                      name="clipboard-text"
                       size={ICON_SIZE_MED}
                       style={styles.boxHeaderIconStyle}
                     />
-                    <Text style={styles.boxHeaderTextStyle}>Progress</Text>
+                    <Text style={styles.boxHeaderTextStyle}>Details</Text>
                   </View>
                   <View style={styles.boxContentRowContainerStyle}>
                     <View style={styles.profileSubBannerBoxStyle}>
                       <Image source={levelImage} style={imageStyle} />
-                      <Text style={styles.profileBannerTextStyle}>
-                        {levelTitle}
-                      </Text>
-                    </View>
-                    <View style={styles.boxContentTextStyle}>
-                      <View style={styles.boxTextContainer}>
-                        <Icon
-                          name="weight-kilogram"
-                          size={ICON_SIZE_SMALL}
-                          color="#4CAF50"
-                          style={styles.weightIconStyle}
-                        />
-                        <Text style={styles.boxTextStyle}>
-                          Current Weight: {weight} kgs
+                      <View style={styles.profileBannerTextContainer}>
+                        <Text style={styles.profileBannerTextStyle}>
+                          {levelTitle}
+                        </Text>
+                        <Text style={styles.profileBannerSubTextStyle}>
+                          (Level)
                         </Text>
                       </View>
-                      <View style={styles.boxTextContainer}>
-                        <Icon
-                          name="bullseye-arrow"
-                          size={ICON_SIZE_SMALL}
-                          color="#4CAF50"
-                          style={styles.weightIconStyle}
-                        />
-                        <Text style={styles.boxTextStyle}>
-                          Target Weight:{' '}
+                    </View>
+                    <View style={styles.profileSubBannerBoxStyle}>
+                      <Image source={WEIGHT_ICON} style={imageStyle} />
+                      <View style={styles.profileBannerTextContainer}>
+                        <Text style={styles.profileBannerTextStyle}>
+                          {weight} kgs
+                        </Text>
+                        <Text style={styles.profileBannerSubTextStyle}>
+                          (Current)
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.profileSubBannerBoxStyle}>
+                      <Image source={TARGET_ICON} style={imageStyle} />
+                      <View style={styles.profileBannerTextContainer}>
+                        <Text style={styles.profileBannerTextStyle}>
                           {currentDiet && currentDiet.targetWeight} kgs
+                        </Text>
+                        <Text style={styles.profileBannerSubTextStyle}>
+                          (Target)
                         </Text>
                       </View>
                     </View>

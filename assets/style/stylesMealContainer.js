@@ -1,11 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {
-  styleCommon,
-  fontsCommon,
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-  DEVICE_NAME,
-} from './stylesCommonValues';
+import {styleCommon, fontsCommon, DEVICE_NAME} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   mealItemHeaderView: {
@@ -14,7 +8,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonRowContainer: {
-    height: DEVICE_NAME.includes('iPhone 11') ? 70 : 60,
+    height: DEVICE_NAME.includes('iPhone 11') ? 80 : 70,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -27,6 +21,13 @@ export const styles = StyleSheet.create({
     marginTop: 5,
     marginHorizontal: 50,
     backgroundColor: styleCommon.iconColor,
+  },
+  bottomTitleStyle: {
+    color: styleCommon.textColor1,
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font18
+      : fontsCommon.font16,
+    fontWeight: '600',
   },
   titleContainer: {
     textAlign: 'left',

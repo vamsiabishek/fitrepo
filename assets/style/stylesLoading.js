@@ -27,5 +27,6 @@ export const styles = StyleSheet.create({
     fontSize: fontsCommon.font30,
     fontWeight: '700',
     color: styleCommon.textColorDesc,
+    padding: 5,
   },
 });

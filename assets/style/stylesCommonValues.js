@@ -117,6 +117,7 @@ export const styleCommon = {
   badgeDarkGreen: 'rgba(0, 0, 0, .3)',
   greenTickMark: '#00a63d', // 303A51
   iconYellow: '#F7D147',
+  bgColor: '#2C7873',
 };
 
 export const btnGradientColorLeft = '#66ffff'; // bright blue color
