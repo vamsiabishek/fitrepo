@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
-import {Text, View, Animated, Easing, UIManager, Platform} from 'react-native';
+import {Text, View, Animated, Easing, UIManager} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Timeline from 'react-native-timeline-flatlist';
-import {
-  styles,
-  stylesExtended,
-} from '../../../assets/style/stylesMealContainer';
+import {styles} from '../../../assets/style/stylesMealContainer';
 import {MEALS_ICON} from '../../common/Common';
 import {
   styleCommon,
@@ -135,7 +132,7 @@ export default class MealsContainer extends Component {
   };
 
   render() {
-    const {heartClicked} = this.state;
+    //const {heartClicked} = this.state;
     //console.log('heart status: ', heartClicked);
     const {
       meals,
@@ -196,19 +193,21 @@ export default class MealsContainer extends Component {
             icon={
               <Icon
                 name="comment-text"
-                size={fontsCommon.font30}
+                size={fontsCommon.font22}
                 color={styleCommon.textInputDarkColor}
                 style={{
-                  marginRight: Platform.OS === 'ios' ? 2 : 0,
+                  paddingTop: 3,
+                  // marginRight: Platform.OS === 'ios' ? 2 : 0,
                 }}
               />
             }
-            iconRight
             type="clear"
             onPress={this.onPressFeedback}
             containerStyle={styles.bottomButtonContainerStyle}
+            titleStyle={styles.bottomTitleStyle}
+            title={' Feedback'}
           />
-          <Button
+          {/* <Button
             icon={
               <Icon
                 name={heartClicked ? 'heart' : 'heart-outline'}
@@ -223,7 +222,7 @@ export default class MealsContainer extends Component {
             type="clear"
             onPress={this.onHeartClicked}
             containerStyle={stylesExtended.bottomHeartButtonContainerStyle}
-          />
+          /> */}
         </View>
       </Animated.ScrollView>
     );

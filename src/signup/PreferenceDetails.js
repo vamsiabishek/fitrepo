@@ -239,14 +239,10 @@ export default class PreferenceDetails extends Component {
                   onValueChange={this.onMealsChange}
                   width={
                     DEVICE_NAME.includes('iPhone 11')
-                      ? SCREEN_WIDTH * 0.8
+                      ? SCREEN_WIDTH * 0.65
                       : SCREEN_WIDTH * 0.6
                   }
-                  fontSize={
-                    DEVICE_NAME.includes('iPhone 11')
-                      ? fontsCommon.font18
-                      : fontsCommon.font16
-                  }
+                  fontSize={fontsCommon.font16}
                   containerBackground={styleCommon.secondaryColorNew}
                 />
                 <Text style={styles.mealsPerday}>
