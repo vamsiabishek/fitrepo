@@ -20,7 +20,7 @@ class PhoneAuthScreen extends Component {
     phNumWithoutCountryCode: '',
     countryCode: '',
     isLoading: false,
-    sentSms: false,
+    sendingSms: false,
   };
 
   validatePhoneNumber = () => {
@@ -34,12 +34,11 @@ class PhoneAuthScreen extends Component {
     countryCode,
   }) => {
     const {setShowSocialOptions} = this.props;
-    this.setState({isLoading: true, sentSms: true});
+    this.setState({isLoading: true, sendingSms: true});
     setShowSocialOptions(false, true);
     // Request to send OTP
     try {
       const confirmResult = await auth().signInWithPhoneNumber(phoneNumber);
-      setShowSocialOptions(undefined, undefined);
       this.setState({
         confirmResult,
         phoneNumber,
@@ -70,7 +69,7 @@ class PhoneAuthScreen extends Component {
     // Request for OTP verification
     const {confirmResult} = this.state;
     const {createUserWithPhoneNumber} = this.props;
-    this.setState({isLoading: true, verificationCode, sentSms: false});
+    this.setState({isLoading: true, verificationCode, sendingSms: false});
     //console.log('verifying the code', verificationCode);
     if (verificationCode.length === 6) {
       confirmResult
@@ -157,7 +156,7 @@ class PhoneAuthScreen extends Component {
       phNumWithoutCountryCode,
       countryCode,
       isLoading,
-      sentSms,
+      sendingSms,
     } = this.state;
     const {loadingMessage} = this.props;
     return (
@@ -165,11 +164,13 @@ class PhoneAuthScreen extends Component {
         {isLoading ? (
           <Loading
             resizeMode={
-              (sentSms || loadingMessage.includes('Signing')) && 'contain'
+              (sendingSms || loadingMessage.includes('Signing')) && 'contain'
             }
-            text={sentSms ? 'Sending the verification code...' : loadingMessage}
+            text={
+              sendingSms ? 'Sending the verification code...' : loadingMessage
+            }
             animationStr={
-              sentSms
+              sendingSms
                 ? require('../../assets/jsons/phone_sms_code_animation.json')
                 : loadingMessage.includes('Signing')
                 ? require('../../assets/jsons/user_animation_4.json')
