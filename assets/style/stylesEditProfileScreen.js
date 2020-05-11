@@ -15,6 +15,23 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: BG_COLOR,
   },
+  contactUsAnimationContainer: {
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'blue',
+  },
+  textViewContainer: {
+    width: SCREEN_WIDTH,
+    height: '30%',
+    paddingHorizontal: 10,
+    //backgroundColor: 'purple',
+  },
+  textStyle: {
+    textAlign: 'center',
+    fontSize: fontsCommon.font30,
+    fontWeight: '700',
+    color: styleCommon.textColorDesc,
+  },
   innerContainer: {
     alignItems: 'center',
     justifyContent: 'center',

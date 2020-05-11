@@ -6,27 +6,28 @@
  * @flow
  */
 
-import React from 'react';
-import {ImageBackground, StatusBar} from 'react-native';
+import React, {Component} from 'react';
+import {StatusBar} from 'react-native';
 import {AppContainer} from './src/tabNavigation/TabNavigationWrapper';
-import {GRADIENT_BG_IMAGE} from './src/common/Common';
-import {SCREEN_HEIGHT, SCREEN_WIDTH} from './assets/style/stylesCommonValues';
 import SplashScreen from 'react-native-splash-screen';
 
-const App = () => {
-  SplashScreen.hide();
-  return (
-    <ImageBackground
-      source={GRADIENT_BG_IMAGE}
-      style={{width: SCREEN_WIDTH, height: SCREEN_HEIGHT}}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent" //{styleCommon.primaryColor}
-        translucent={true}
-      />
-      <AppContainer />
-    </ImageBackground>
-  );
-};
+class App extends Component {
+  componentDidMount = () => {
+    SplashScreen.hide();
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent={true}
+        />
+        <AppContainer />
+      </React.Fragment>
+    );
+  }
+}
 
 export default App;

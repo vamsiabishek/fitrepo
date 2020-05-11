@@ -53,17 +53,20 @@ export default class LoginScreen extends Component {
       passwordValid: true,
       login_failed: false,
       isLoading: false,
+      isLoadingPostPrivacy: false,
       selectedIndex: 0,
       secureTextKey: true,
       showSocialOptions: true,
       showPrivacyTerms: false,
       user: null,
+      media: '',
     };
     this.shakeAnimation = new Animated.Value(0);
   }
 
   componentDidMount() {
     this.startShake();
+    // Alert.alert('__DEV__', __DEV__);
   }
 
   shakeInIntervals = () => {
@@ -168,7 +171,7 @@ export default class LoginScreen extends Component {
     }
   };
   onFBLogin = () => {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, media: 'Facebook'});
     LoginManager.logInWithPermissions(['public_profile', 'email'])
       .then((result) => this.getFBTokenFromResponse(result))
       .then((data) => this.getFBCredentialsUsingToken(data))
@@ -178,17 +181,24 @@ export default class LoginScreen extends Component {
         this.navigateLoggedInUser(currentUser, PROVIDER_FACEBOOK);
       })
       .catch((error) => {
-        this.setState({isLoading: false});
         Alert.alert(
-          'Error',
-          'An error occurred while trying to login with Facebook. Please try again later.',
+          error.toString().includes('user cancelled')
+            ? 'Cancelled!'
+            : 'Failed!',
+          error.toString().includes('user cancelled')
+            ? 'Looks like you cancelled the login process. Do choose your login method from the given options.'
+            : 'Looks like an error occurred while trying to sign you up. Please try again later.',
         );
+        // analytics().logEvent('Facebook log in failure', {
+        //   error: error,
+        // });
+        // console.log('Error occurred in the FB login: ', error);
+        this.setState({isLoading: false});
       });
   };
   getFBTokenFromResponse = (result) => {
     if (result.isCancelled) {
       this.setState({isLoading: false});
-      Alert.alert('Cancelled', 'Facebook login was cancelled by the user.');
       return Promise.reject(new Error('The user cancelled the request'));
     }
     /*console.log(
@@ -204,7 +214,7 @@ export default class LoginScreen extends Component {
     return auth().signInWithCredential(credentials);
   };
   onGoogleLogin = async () => {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true, media: 'Google'});
     try {
       // Add any configuration settings here:
       if (Platform.OS === 'android') {
@@ -220,33 +230,41 @@ export default class LoginScreen extends Component {
 
       // Get the users ID token
       const {idToken} = await GoogleSignin.signIn();
-      console.log(idToken);
+      //console.log(idToken);
 
       // Create a Google credential with the token
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      console.log(googleCredential);
+      //console.log(googleCredential);
 
       // Sign-in the user with the credential
       const currentUser = await auth().signInWithCredential(googleCredential);
-      console.log(currentUser);
+      //console.log(currentUser);
 
       // Setting current user
       setCurrentUser(currentUser.user);
       this.navigateLoggedInUser(currentUser, PROVIDER_GOOGLE);
     } catch (error) {
-      this.setState({isLoading: false});
       Alert.alert(
-        'Error/Cancelled',
-        'Either Google login attempt was cancelled or an error occurred.',
+        error.code.toString() === '-5' ? 'Cancelled!' : 'Failed !',
+        error.code.toString() === '-5'
+          ? 'Looks like you cancelled the login process. Do choose your login method from the given options.'
+          : 'Looks like an error occurred while trying to sign you up. Please try again later.',
       );
+      // console.log('google log in failed/cancelled: ', error.code);
+      // analytics().logEvent('Google Log in Error/Cancelled', {
+      //   error: error,
+      // });
+      this.setState({isLoading: false});
     }
   };
   navigateLoggedInUser = async (currentUser, provider) => {
+    this.setState({media: ''});
     const {
       user: {uid},
     } = currentUser;
+    const {navigation} = this.props;
     const isExistingUser = await this.checkForExistingUserWithDiets();
-    console.log('isExistingUser: ', isExistingUser);
+    //console.log('isExistingUser: ', isExistingUser);
     if (isExistingUser) {
       this.onLoginSuccess();
       analytics().logEvent('Login', {
@@ -306,9 +324,15 @@ export default class LoginScreen extends Component {
         provider,
       };
 
-      this.setState({showPrivacyTerms: true, user});
+      const userInDB = await api.get('/getLoggedInUser');
+      if (userInDB && !userInDB.privacyTermsAccepted) {
+        this.setState({showPrivacyTerms: true, user});
+      } else {
+        navigation.navigate('Signup', {fromLogin: true});
+      }
     }
   };
+
   checkForExistingUserWithDiets = async () => {
     let isExistingUser = false;
     try {
@@ -349,19 +373,37 @@ export default class LoginScreen extends Component {
 
   saveUserPrivacyTerms = async () => {
     const {user} = this.state;
-    user.newUser.privacyTermsAccepted = true;
     const {navigation} = this.props;
+    user.newUser.privacyTermsAccepted = true;
+    this.setState({
+      showPrivacyTerms: false,
+      isLoading: true,
+      isLoadingPostPrivacy: true,
+    });
     try {
-      const savedUser = await api.post('/saveUser', user.newUser);
-      this.setState({showPrivacyTerms: false});
+      await api.post('/saveUser', user.newUser);
       navigation.navigate('Signup', {fromLogin: true});
     } catch (err) {
-      this.setState({isLoading: false});
+      Alert.alert(
+        'Oops!',
+        'Something went wrong while saving your user details. Please try again after sometime.',
+      );
+      console.log(
+        'Error has occurred while saving user with privacy settings changes: ',
+        err,
+      );
+      return false;
     }
   };
 
   render() {
-    const {isLoading, showSocialOptions, showPrivacyTerms} = this.state;
+    const {
+      isLoading,
+      isLoadingPostPrivacy,
+      showSocialOptions,
+      showPrivacyTerms,
+      media,
+    } = this.state;
     const socialLoginContainerStyle = {
       ...styles.buttonContainer,
       flexDirection: 'row',
@@ -397,9 +439,24 @@ export default class LoginScreen extends Component {
           )}
           {isLoading ? (
             <Loading
-              text={'Logging you into DietRepo...'}
-              animationStr={require('../../assets/jsons/logging_animation.json')}
-              isTextBold={false}
+              resizeMode={isLoadingPostPrivacy && 'contain'}
+              text={
+                isLoadingPostPrivacy
+                  ? 'Signing you up with DietRepo...'
+                  : media.length !== 0
+                  ? 'Redirecting you to ' + media + ' Login...'
+                  : 'Logging you into DietRepo...'
+              }
+              animationStr={
+                isLoadingPostPrivacy
+                  ? require('../../assets/jsons/user_animation_4.json')
+                  : media.length !== 0
+                  ? media.includes('Facebook')
+                    ? require('../../assets/jsons/facebook_loading_animation.json')
+                    : require('../../assets/jsons/google_loading_animation.json')
+                  : require('../../assets/jsons/logging_animation.json')
+              }
+              isTextBold={true}
               takeFullHeight={false}
             />
           ) : (
@@ -408,7 +465,11 @@ export default class LoginScreen extends Component {
                 <PhoneAuth
                   setShowSocialOptions={this.setShowSocialOptions}
                   createUserWithPhoneNumber={this.loginWithPhoneNumber}
-                  loadingMessage={'Logging you into DietRepo...'}
+                  loadingMessage={
+                    isLoadingPostPrivacy
+                      ? 'Signing you up with DietRepo...'
+                      : 'Logging you into DietRepo...'
+                  }
                 />
                 {/* <Input
                   placeholder="Email"
@@ -556,11 +617,13 @@ export default class LoginScreen extends Component {
             </View>
           )}
         </KeyboardAvoidingView>
-        <PrivacyAndTerms
-          showPrivacyTerms={showPrivacyTerms}
-          onAccept={this.saveUserPrivacyTerms}
-          showCloseBtn={false}
-        />
+        {showPrivacyTerms && (
+          <PrivacyAndTerms
+            showPrivacyTerms={showPrivacyTerms}
+            onAccept={this.saveUserPrivacyTerms}
+            showCloseBtn={false}
+          />
+        )}
       </View>
     );
   }

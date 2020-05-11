@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {
   Alert,
-  ActivityIndicator,
   LayoutAnimation,
   ScrollView,
   StatusBar,
   UIManager,
   View,
+  Text,
 } from 'react-native';
 import {debounce} from 'lodash';
 import {commonStyles} from '../../assets/style/stylesCommon';
@@ -19,10 +19,10 @@ import PreferenceDetails from './PreferenceDetails';
 import FitnessLevel from './FitnessLevel';
 import FoodSources from './FoodSources';
 import SocialMediaSignup from './SocialMediaSignup';
+import LottieView from 'lottie-react-native';
 import Loading from '../components/Loading';
 import {styles} from '../../assets/style/stylesSignup';
 import {
-  styleCommon,
   SCREEN_WIDTH,
   commonValues,
 } from '../../assets/style/stylesCommonValues';
@@ -81,6 +81,7 @@ export default class Signup extends Component {
       showGender: true,
       showPrivacyTerms: false,
       privacyTermsAccepted: false,
+      disableBackAndClose: false,
     };
 
     this.onNextDelayed = debounce((screen) => this.onNext(screen), 600);
@@ -96,7 +97,7 @@ export default class Signup extends Component {
         const userLoggedIn = await api.get('/getLoggedInUser');
         LayoutAnimation.easeInEaseOut();
         const normalizedUser = normalizeUserForSignup(userLoggedIn);
-        console.log('normalizedUser', normalizedUser);
+        //console.log('normalizedUser', normalizedUser);
         this.setState({
           user: normalizedUser,
           ...normalizedUser,
@@ -634,9 +635,9 @@ export default class Signup extends Component {
         isScrollable = true;
       }
       if (currentScreen === comparableScreen(6)) {
-        console.log('saving user details');
+        //console.log('saving user details');
         await this.saveUserDetails();
-        console.log('saving diet details');
+        // console.log('saving diet details');
         await this.createDietAndMeals();
       }
       if (isScrollable && this.scrollRef) {
@@ -687,12 +688,12 @@ export default class Signup extends Component {
       privacyTermsAccepted,
     };
     try {
-      console.log('updating user', user);
+      //console.log('updating user', user);
       await api.post('/updateUser', user);
       this.setState({user});
-      console.log('user saved successfully');
+      //console.log('user saved successfully');
       const {diets} = await this.fetchUserDiets();
-      console.log('mydiets ', diets);
+      //console.log('mydiets ', diets);
       if (diets.length !== 0) {
         setFirstTimeUser();
       }
@@ -743,7 +744,7 @@ export default class Signup extends Component {
     analytics().logEvent('Diet_creation_started', {...dietInfo, gender});
     const dietId = await createDiet({uid, dietInfo});
     this.setState({isLoading: false});
-    console.log('navigating to mydiet');
+    //console.log('navigating to mydiet');
     navigate('MyDiet', {
       uid,
       dietId,
@@ -751,6 +752,10 @@ export default class Signup extends Component {
       selectedGoal: goal,
       fitnessLevel,
     });
+  };
+
+  setdisableBackAndClose = (value) => {
+    this.setState({disableBackAndClose: value});
   };
 
   render() {
@@ -791,6 +796,7 @@ export default class Signup extends Component {
       userLoginAnimation,
       showGender,
       showPrivacyTerms,
+      disableBackAndClose,
     } = this.state;
     const {hasAtleastOneDiet} = this.props;
     const signupObject = {
@@ -814,17 +820,27 @@ export default class Signup extends Component {
     const loadingAnimation = userLoginAnimation
       ? require('../../assets/jsons/user_animation_4.json')
       : require('../../assets/jsons/creating_diet_animation.json');
-    const activityIndicatorStyle = {flex: 1};
     return (
       <View style={commonStyles.container}>
         <StatusBar hidden={true} />
         <View style={commonStyles.bgImage}>
           {isLoadingComponent ? (
-            <ActivityIndicator
-              color={styleCommon.textColor1}
-              style={activityIndicatorStyle}
-              size="large"
-            />
+            <View style={styles.activityIndicatorStyle}>
+              <View style={styles.contactUsAnimationContainer}>
+                <LottieView
+                  resizeMode="contain"
+                  source={require('../../assets/jsons/loading_2_animation.json')}
+                  autoPlay
+                  loop
+                  enableMergePathsAndroidForKitKatAndAbove
+                />
+              </View>
+              <View style={styles.textViewContainer}>
+                <Text style={styles.textStyle}>
+                  Getting everything ready...
+                </Text>
+              </View>
+            </View>
           ) : (
             <ScrollView
               horizontal={true}
@@ -879,7 +895,9 @@ export default class Signup extends Component {
                 <View style={commonStyles.subContainer}>
                   <View style={styles.contentWrapper}>
                     <Header
-                      title={isLoading ? 'Hold on ...' : 'SIGN UP !'}
+                      title={isLoading ? 'Hold on ...' : 'SIGN UP'}
+                      showOnBack={!(isLoading || disableBackAndClose)}
+                      showOnCancel={!(isLoading || disableBackAndClose)}
                       screen={screen}
                       onBack={this.onBack}
                       onCancel={this.onCancelSignup}
@@ -887,13 +905,15 @@ export default class Signup extends Component {
                     {isLoading ? (
                       <View style={styles.contentWrapper}>
                         <Loading
+                          resizeMode="contain"
                           text={loadingAnimationText}
-                          isTextBold={false}
+                          isTextBold={true}
                           animationStr={loadingAnimation}
                         />
                       </View>
                     ) : (
                       <SocialMediaSignup
+                        setdisableBackAndClose={this.setdisableBackAndClose}
                         signupObject={signupObject}
                         setFBUser={this.setFBUser}
                         setGoogleUser={this.setGoogleUser}
@@ -974,6 +994,8 @@ export default class Signup extends Component {
                       ? 'Hold On ...'
                       : 'Choose your macros or skip this step...'
                   }
+                  showOnBack={!isLoading}
+                  showOnCancel={!isLoading}
                   screen={screen}
                   onBack={this.onBack}
                   onCancel={this.onCancelSignup}

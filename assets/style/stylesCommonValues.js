@@ -31,6 +31,7 @@ export const SCREEN_WIDTH = Dimensions.get('window').width;
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const DEVICE_ID = DeviceInfo.getDeviceId();
 export const DEVICE_NAME = DeviceInfo.getDeviceNameSync();
+console.log(DEVICE_NAME, '--', SCREEN_WIDTH, 'x', SCREEN_HEIGHT);
 
 export const fontsCommon = {
   font10: normalizeFont(10),
@@ -116,6 +117,7 @@ export const styleCommon = {
   badgeDarkGreen: 'rgba(0, 0, 0, .3)',
   greenTickMark: '#00a63d', // 303A51
   iconYellow: '#F7D147',
+  bgColor: '#2C7873',
 };
 
 export const btnGradientColorLeft = '#66ffff'; // bright blue color

@@ -24,46 +24,6 @@ export default class PurchaseScreen extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
-    /*this.setState({isLoading: true});
-    const {uid, dietId} = this.props;
-    console.log('dietID: ', dietId);
-    await database
-      .ref(`users/${uid}/purchases/${dietId}`)
-      .once('value')
-      .then((res) => {
-        if (res.val()) {
-          console.log('purchase Exists');
-        }
-      })
-      .catch((error) => {
-        console.log(
-          'error while mounting purchase screen database call:',
-          error,
-        );
-      });
-    const {packageToPurchase} = this.state;
-    const purchaserInfo = await getPurchaserInfo();
-    const activeEntitlements = purchaserInfo.entitlements.active;
-    console.log('packageObject: ', packageToPurchase);
-    console.log('Active Entitlements: ', activeEntitlements);
-    if (Object.entries(activeEntitlements).length) {
-      if (
-        activeEntitlements.standard_role.productIdentifier ===
-        packageToPurchase.product.identifier
-      ) {
-        this.setState({
-          isLoading: false,
-          showPurchaseSummary: true,
-          purchaseSummary: activeEntitlements,
-        });
-      }
-    } else {
-      this.setState({
-        isLoading: false,
-      });
-    }*/
-  };
 
   handlePaymentProcess = async (purchasePackage) => {
     const {dietId} = this.props;
@@ -72,7 +32,7 @@ export default class PurchaseScreen extends React.Component {
       const {purchaserInfo, productIdentifier} = await makePurchase(
         purchasePackage,
       );
-      console.log('Purchase Made of product identifier: ', productIdentifier);
+      //console.log('Purchase Made of product identifier: ', productIdentifier);
       const activeEntitlements = purchaserInfo.entitlements.active;
       if (activeEntitlements.standard_role) {
         const purchaseDate =
@@ -267,12 +227,25 @@ export default class PurchaseScreen extends React.Component {
           />
           {trialDaysLeft !== undefined && dietTrialEndDate !== undefined && (
             <View>
-              <Text style={styles.smallerLabelText}>
-                You have {trialDaysLeft} days left in your trial week!
-              </Text>
-              <Text style={styles.smallerLabelText}>
-                Trial ends on {dietTrialEndDate.toDateString()}
-              </Text>
+              {trialDaysLeft > 0 ? (
+                <React.Fragment>
+                  <Text style={styles.smallerLabelText}>
+                    You have {trialDaysLeft} days left in your trial week!
+                  </Text>
+                  <Text style={styles.smallerLabelText}>
+                    Trial ends on {dietTrialEndDate.toDateString()}
+                  </Text>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Text style={styles.smallerLabelText}>
+                    Looks like your trial week has expired !
+                  </Text>
+                  <Text style={styles.smallerLabelText}>
+                    Please pay to see the rest of the program's diet.
+                  </Text>
+                </React.Fragment>
+              )}
             </View>
           )}
         </View>

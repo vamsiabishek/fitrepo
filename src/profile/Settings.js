@@ -14,7 +14,7 @@ import {
   SCREEN_WIDTH,
   styleCommon,
   fontsCommon,
-  ICON_SIZE,
+  ICON_BACK_SIZE,
 } from '../../assets/style/stylesCommonValues';
 import {Button} from 'react-native-elements';
 import TermsAndConditions from '../documents/TermsAndConditions';
@@ -91,7 +91,7 @@ class Settings extends Component {
         <Button
           icon={{
             name: 'arrow-left-thick',
-            size: ICON_SIZE,
+            size: ICON_BACK_SIZE,
             color: styleCommon.headerIconsColor,
             type: 'material-community',
           }}

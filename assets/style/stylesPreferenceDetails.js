@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
     //backgroundColor: "purple"
   },
   mealsPerday: {
-    marginTop: 10,
+    marginVertical: 10,
     color: styleCommon.textColorDesc,
     fontSize: fontsCommon.font13,
     fontWeight: 'bold',

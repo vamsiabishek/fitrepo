@@ -25,6 +25,7 @@ export default class SocialMediaSignup extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      media: '',
       showSocialOptions: true,
     };
     this.animatedFBValue = new Animated.Value(1);
@@ -73,7 +74,9 @@ export default class SocialMediaSignup extends Component {
   };
   // Calling this function will open Google for login.
   googleLogin = async () => {
-    this.setState({isLoading: true});
+    const {setdisableBackAndClose} = this.props;
+    setdisableBackAndClose(true);
+    this.setState({isLoading: true, media: 'Google'});
     try {
       // Add any configuration settings here:
       if (Platform.OS === 'android') {
@@ -100,15 +103,15 @@ export default class SocialMediaSignup extends Component {
 
       // Get the users ID token
       const {idToken} = await GoogleSignin.signIn();
-      console.log(idToken);
+      //(idToken);
 
       // Create a Google credential with the token
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      console.log(googleCredential);
+      //console.log(googleCredential);
 
       // Sign-in the user with the credential
       const currentUser = await auth().signInWithCredential(googleCredential);
-      console.log(currentUser);
+      //console.log(currentUser);
 
       // Setting current user
       setCurrentUser(currentUser.user);
@@ -122,16 +125,21 @@ export default class SocialMediaSignup extends Component {
       // console.log('googleUser:', googleUser);
       this.createUserWithGoogleDetails({userObject, googleUser});
       this.setState({isLoading: false});
+      setdisableBackAndClose(false);
     } catch (error) {
+      console.log('error: ', error);
       Alert.alert(
-        'Failed !',
-        'Looks like an error occurred while trying to sign you up. Please try again later.',
+        error.code === -5 ? 'Cancelled!' : 'Failed !',
+        error.code === -5
+          ? 'Looks like you cancelled the login process. Do choose your sign up method from the given options.'
+          : 'Looks like an error occurred while trying to sign you up. Please try again later.',
       );
       console.log(
         'Error occured while signing up user through google sign up: ',
         error.code,
       );
       this.setState({isLoading: false});
+      setdisableBackAndClose(false);
     }
   };
   createUserWithGoogleDetails = async ({userObject: {user}, googleUser}) => {
@@ -140,23 +148,6 @@ export default class SocialMediaSignup extends Component {
     const {
       user: {id, name, photo, email},
     } = googleUser;
-    /* const { accessToken, apiKey } = user.stsTokenManager
-    fetch(`https://people.googleapis.com/v1/people/${uid}/?key=${apiKey}&personFields=names,birthdays`, {
-         method: 'GET',
-         headers: {
-           Authorisation: `Bearer ${accessToken}`
-         }
-      })
-      .then((response) => {
-        console.log("response: ", response)
-        response.json()
-      })
-      .then((responseJson) => {
-         console.log("responseJson", responseJson);
-      })
-      .catch((error) => {
-         console.error(error);
-      }); */
     const newUser = {
       uid: user.uid,
       email,
@@ -170,7 +161,9 @@ export default class SocialMediaSignup extends Component {
     setGoogleUser(newUser);
   };
   onPressFBLogin = () => {
-    this.setState({isLoading: true});
+    const {setdisableBackAndClose} = this.props;
+    this.setState({isLoading: true, media: 'Facebook'});
+    setdisableBackAndClose(true);
     LoginManager.logInWithPermissions([
       'public_profile',
       'user_birthday',
@@ -179,19 +172,28 @@ export default class SocialMediaSignup extends Component {
       .then((result) => this.getFBTokenFromResponse(result))
       .then((data) => this.getFBCredentialsUsingToken(data))
       .then((currentUser) => {
-        console.log('current FB User:', currentUser);
+        //console.log('current FB User:', currentUser);
         setCurrentUser(currentUser.user);
         this.createUserWithFBDetails(currentUser);
+        this.setState({isLoading: false});
+        setdisableBackAndClose(false);
       })
       .catch((error) => {
+        console.log('error: ', error);
         Alert.alert(
-          'Failed !',
-          'Looks like an error occurred while trying to sign you up. Please try again later.',
+          error.toString().includes('user cancelled')
+            ? 'Cancelled!'
+            : 'Failed!',
+          error.toString().includes('user cancelled')
+            ? 'Looks like you cancelled the login process. Do choose your sign up method from the given options.'
+            : 'Looks like an error occurred while trying to sign you up. Please try again later.',
         );
         console.log(
           'Error occured while signing up user through facebook sign up: ',
           error,
         );
+        this.setState({isLoading: false});
+        setdisableBackAndClose(false);
       });
   };
   getFBTokenFromResponse = (result) => {
@@ -199,36 +201,12 @@ export default class SocialMediaSignup extends Component {
       this.setState({isLoading: false});
       return Promise.reject(new Error('The user cancelled the request'));
     }
-    console.log(
-      'FB login success with permission: ',
-      result.grantedPermissions.toString(),
-    );
     //get access token
     return AccessToken.getCurrentAccessToken();
   };
   getFBCredentialsUsingToken = async (data) => {
-    // console.log('sending token', token);
-    // //const url = 'https://asia-east2-dietrepo-develop.cloudfunctions.net/api/createFacebookUser'
-    // //const url = 'http://localhost:5000/dietrepo-develop/asia-east2/api/createFacebookUser'
-    // const url =
-    //   'http://localhost:5000/dietrepo-develop/asia-east2/api/createFacebookUser';
-    // fetch(url, {
-    //   method: 'POST',
-    //   header: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(token),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     return data;
-    //   });
-    // console.log(JSON.stringify(response));
-    // return response.json();
-
     const credentials = auth.FacebookAuthProvider.credential(data.accessToken);
-    console.log('credentials:', credentials);
+    //console.log('credentials:', credentials);
     return auth().signInWithCredential(credentials);
   };
 
@@ -250,20 +228,23 @@ export default class SocialMediaSignup extends Component {
   };
 
   createUserWithPhoneNumber = (user) => {
-    const {setPhoneNumberUser} = this.props;
+    const {setPhoneNumberUser, setdisableBackAndClose} = this.props;
     const newUser = {
       phoneNumber: user.phoneNumber,
       uid: user.uid,
     };
+    setdisableBackAndClose(false);
     setPhoneNumberUser(newUser);
   };
 
-  setShowSocialOptions = (show) => {
-    this.setState({showSocialOptions: show});
+  setShowSocialOptions = (show = undefined, disableButtons = undefined) => {
+    const {setdisableBackAndClose} = this.props;
+    show !== undefined && this.setState({showSocialOptions: show});
+    disableButtons !== undefined && setdisableBackAndClose(disableButtons);
   };
 
   render() {
-    const {isLoading, showSocialOptions} = this.state;
+    const {isLoading, showSocialOptions, media} = this.state;
     const animatedFBStyle = {
       transform: [{scale: this.animatedFBValue}],
     };
@@ -281,9 +262,13 @@ export default class SocialMediaSignup extends Component {
         enabled>
         {isLoading ? (
           <Loading
-            text={'Signing you up with DietRepo ...'}
-            isTextBold={false}
-            animationStr={require('../../assets/jsons/user_animation_4.json')}
+            text={'Opening ' + media + ' Login...'}
+            isTextBold={true}
+            animationStr={
+              media === 'Facebook'
+                ? require('../../assets/jsons/facebook_loading_animation.json')
+                : require('../../assets/jsons/google_loading_animation.json')
+            }
           />
         ) : (
           <React.Fragment>
@@ -349,7 +334,7 @@ export default class SocialMediaSignup extends Component {
               <PhoneAuth
                 setShowSocialOptions={this.setShowSocialOptions}
                 createUserWithPhoneNumber={this.createUserWithPhoneNumber}
-                loadingMessage={'Registering your number...'}
+                loadingMessage={'Signing you up with DietRepo'}
               />
             </View>
           </React.Fragment>

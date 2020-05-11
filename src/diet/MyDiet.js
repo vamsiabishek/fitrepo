@@ -11,7 +11,6 @@ import MealsContainer from './meals/MealsContainer';
 import {styles} from '../../assets/style/stylesMyDiet';
 import {
   styleCommon,
-  ICON_SIZE_MED,
   ICON_SIZE_24,
   ICON_SIZE_22,
   ICON_SIZE,
@@ -92,7 +91,7 @@ export default class MyDiet extends Component {
     this.setState({isLoading: true});
     // console.log('fetching details for the diet with Id:', dietId);
     const diet = await api.get(`/getDietById/${dietId}`);
-    console.log('diet and meals:', diet);
+    // console.log('diet and meals:', diet);
     const {meals} = diet;
     this.setState({diet, meals: meals[0], allMeals: meals});
   };
@@ -341,7 +340,7 @@ export default class MyDiet extends Component {
                   icon={{
                     name: 'arrow-left-thick',
                     size: ICON_SIZE,
-                    color: styleCommon.iconYellow,
+                    color: styleCommon.iconColor,
                     type: 'material-community',
                   }}
                   containerStyle={styles.backButtonStyle}
@@ -354,7 +353,7 @@ export default class MyDiet extends Component {
                   icon={{
                     name: 'medical-bag',
                     size: ICON_SIZE,
-                    color: styleCommon.iconYellow,
+                    color: styleCommon.iconColor,
                     type: 'material-community',
                   }}
                   iconRight={true}
@@ -479,7 +478,7 @@ export default class MyDiet extends Component {
                 trialDaysLeft={trialDaysLeft}
               />
             )}
-            {diet.paymentStatus && (
+            {(diet.paymentStatus || showInitialTrailMeals) && (
               <Feedback
                 isVisible={showFeedbackModal}
                 onClose={this.onCloseFeedbackModal}
