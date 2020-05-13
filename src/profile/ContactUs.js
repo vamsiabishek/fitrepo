@@ -97,7 +97,7 @@ class ContactUs extends Component {
                   source={INSTAGRAM_ICON}
                   style={styles.socialIconImageStyle}
                 />
-                <Text style={styles.contactDetailsText}>dietrepository</Text>
+                <Text style={styles.contactDetailsText}>dietrepo</Text>
               </TouchableOpacity>
             </View>
             <Feedback
