@@ -27,8 +27,11 @@ import {
   commonValues,
 } from '../../assets/style/stylesCommonValues';
 import {createDiet} from './UpdateDiet';
-import {getSourcesWithImages} from '../common/SourceUtil';
-import {FOOD_PREF_NON_VEG, getFoodPrefByIndex} from '../common/SourceUtil';
+import {
+  getSourcesWithImages,
+  FOOD_PREF_NON_VEG,
+  getFoodPrefByIndex,
+} from '../common/SourceUtil';
 import {setFirstTimeUser} from '../common/Util';
 import {normalizeUserForSignup} from '../common/Normalize';
 import analytics from '@react-native-firebase/analytics';

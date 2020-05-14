@@ -7,6 +7,11 @@ import {
   FOOD_SOURCES_PERSON_ICON,
   FOOD_SOURCES_MARKET_ICON,
 } from '../common/Common';
+import {
+  FOOD_PREF_VEG,
+  FOOD_PREF_VEGAN,
+  FOOD_PREF_EGGETARIAN,
+} from '../common/SourceUtil';
 import {SCREEN_WIDTH} from '../../assets/style/stylesCommonValues';
 
 export default class FoodSources extends Component {
@@ -45,11 +50,22 @@ export default class FoodSources extends Component {
       onCancel,
       onConfirm,
       filterSources,
+      foodPreference,
     } = this.props;
     const marginLeft = this.animatedValue.interpolate({
       inputRange: [0, 1],
       outputRange: [-(SCREEN_WIDTH * 0.5), -50],
     });
+    let carbSelectable = true;
+    let fatSelectable = true;
+    if (
+      foodPreference === FOOD_PREF_EGGETARIAN ||
+      foodPreference === FOOD_PREF_VEG ||
+      foodPreference === FOOD_PREF_VEGAN
+    ) {
+      carbSelectable = false;
+      fatSelectable = false;
+    }
     return (
       <View style={styles.mainContent}>
         <View style={styles.imageContainer}>
@@ -78,6 +94,8 @@ export default class FoodSources extends Component {
             selectText="Carbs"
             sourceType="carbs"
             addSource={addSource}
+            selectable={carbSelectable}
+            foodPreference={foodPreference}
           />
           <SourceSelector
             selectedSources={selectedFatSources}
@@ -85,6 +103,8 @@ export default class FoodSources extends Component {
             selectText="Fat"
             sourceType="fat"
             addSource={addSource}
+            selectable={fatSelectable}
+            foodPreference={foodPreference}
           />
           <SourceSelectorModal
             showModal={showModal}

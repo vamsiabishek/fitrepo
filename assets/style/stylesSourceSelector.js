@@ -56,4 +56,12 @@ export const styles = StyleSheet.create({
   iconStyle: {
     color: styleCommon.iconColor,
   },
+  warningContainer: {
+    marginHorizontal: 5,
+    marginBottom: 5,
+  },
+  warningText: {
+    fontWeight: '500',
+    color: styleCommon.textColorDesc,
+  },
 });
