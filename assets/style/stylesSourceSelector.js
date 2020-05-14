@@ -4,6 +4,7 @@ import {
   styleCommon,
   fontsCommon,
   SCREEN_HEIGHT,
+  DEVICE_NAME,
 } from '../../assets/style/stylesCommonValues';
 
 export const styles = StyleSheet.create({
@@ -22,7 +23,9 @@ export const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   sourceSelectorLabel: {
-    fontSize: fontsCommon.font22,
+    fontSize: DEVICE_NAME.includes('iPhone 11')
+      ? fontsCommon.font22
+      : fontsCommon.font20,
     fontWeight: '600',
     color: styleCommon.textColorDesc,
     //backgroundColor: "red"
@@ -55,5 +58,13 @@ export const styles = StyleSheet.create({
   },
   iconStyle: {
     color: styleCommon.iconColor,
+  },
+  warningContainer: {
+    marginHorizontal: 5,
+    marginBottom: 5,
+  },
+  warningText: {
+    fontWeight: '500',
+    color: styleCommon.textColorDesc,
   },
 });

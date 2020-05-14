@@ -71,7 +71,7 @@ export const getSourcesWithImages = (sourceType, foodPreference) => {
   } else if (sourceType === 'fat') {
     sources = getFatSourcesWithImages();
   }
-  sources = resetSounceSelections(sources);
+  sources = resetSourceSelections(sources);
   return sources;
 };
 
@@ -241,5 +241,5 @@ const getAllSources = () => {
   return [...proteinSources, ...carbSources, ...fatSources];
 };
 
-export const resetSounceSelections = (sources) =>
+export const resetSourceSelections = (sources) =>
   sources.map((source) => ({...source, selected: false}));

@@ -27,8 +27,11 @@ import {
   commonValues,
 } from '../../assets/style/stylesCommonValues';
 import {createDiet} from './UpdateDiet';
-import {getSourcesWithImages} from '../common/SourceUtil';
-import {FOOD_PREF_NON_VEG, getFoodPrefByIndex} from '../common/SourceUtil';
+import {
+  getSourcesWithImages,
+  FOOD_PREF_NON_VEG,
+  getFoodPrefByIndex,
+} from '../common/SourceUtil';
 import {setFirstTimeUser} from '../common/Util';
 import {normalizeUserForSignup} from '../common/Normalize';
 import analytics from '@react-native-firebase/analytics';
@@ -920,11 +923,6 @@ export default class Signup extends Component {
                         setPhoneNumberUser={this.setPhoneNumberUser}
                       />
                     )}
-                    {/* <NavNextButton
-                      isActive={isLoading ? false : navButtonActive}
-                      screen={screen}
-                      onNext={this.onNext}
-                    /> */}
                   </View>
                 </View>
               )}
