@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Image, Animated, Easing} from 'react-native';
+import {View} from 'react-native';
 import LottieView from 'lottie-react-native';
 import SourceSelector from './SourceSelector';
 import SourceSelectorModal from './SourceSelectorModal';
@@ -18,23 +18,6 @@ import {SCREEN_WIDTH} from '../../assets/style/stylesCommonValues';
 export default class FoodSources extends Component {
   constructor() {
     super();
-    this.animatedValue = new Animated.Value(0);
-  }
-  componentDidMount() {
-    this.animate();
-  }
-  animate() {
-    //console.log("animation started")
-    this.animatedValue.setValue(0);
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 5000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start(() => this.animate());
-  }
-  componentWillUnmount() {
-    this.animatedValue.stopAnimation();
   }
   render() {
     const {
@@ -53,10 +36,6 @@ export default class FoodSources extends Component {
       filterSources,
       foodPreference,
     } = this.props;
-    const marginLeft = this.animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [-(SCREEN_WIDTH * 0.5), -50],
-    });
     let carbSelectable = true;
     let fatSelectable = true;
     if (
@@ -72,20 +51,10 @@ export default class FoodSources extends Component {
         <View style={styles.imageContainer}>
           <LottieView
             source={require('../../assets/jsons/choose_sources_animation.json')}
-            resizeMode={'cover'}
+            resizeMode={'contain'}
             autoPlay
             enableMergePathsAndroidForKitKatAndAbove
           />
-          {/* <Animated.View style={{marginLeft}}>
-            <Image
-              source={FOOD_SOURCES_PERSON_ICON}
-              style={styles.iconImageStylePerson}
-            />
-          </Animated.View>
-          <Image
-            source={FOOD_SOURCES_MARKET_ICON}
-            style={styles.iconImageStyle}
-          /> */}
         </View>
         <View style={styles.subContainer}>
           <SourceSelector

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {SCREEN_HEIGHT} from './stylesCommonValues';
+import {SCREEN_HEIGHT, DEVICE_NAME} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   mainContent: {
@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
     //backgroundColor: "white"
   },
   imageContainer: {
-    height: '50%',
-    width: '50%',
+    height: DEVICE_NAME.includes('iPhone 11') ? '30%' : '25%',
+    width: '100%',
     //backgroundColor: 'white',
   },
   iconImageStyle: {
