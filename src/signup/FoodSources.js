@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Image, Animated, Easing} from 'react-native';
+import LottieView from 'lottie-react-native';
 import SourceSelector from './SourceSelector';
 import SourceSelectorModal from './SourceSelectorModal';
 import {styles} from '../../assets/style/stylesFoodSources';
@@ -69,7 +70,13 @@ export default class FoodSources extends Component {
     return (
       <View style={styles.mainContent}>
         <View style={styles.imageContainer}>
-          <Animated.View style={{marginLeft}}>
+          <LottieView
+            source={require('../../assets/jsons/choose_sources_animation.json')}
+            resizeMode={'cover'}
+            autoPlay
+            enableMergePathsAndroidForKitKatAndAbove
+          />
+          {/* <Animated.View style={{marginLeft}}>
             <Image
               source={FOOD_SOURCES_PERSON_ICON}
               style={styles.iconImageStylePerson}
@@ -78,7 +85,7 @@ export default class FoodSources extends Component {
           <Image
             source={FOOD_SOURCES_MARKET_ICON}
             style={styles.iconImageStyle}
-          />
+          /> */}
         </View>
         <View style={styles.subContainer}>
           <SourceSelector

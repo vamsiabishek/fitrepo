@@ -14,10 +14,9 @@ export const styles = StyleSheet.create({
     //backgroundColor: "white"
   },
   imageContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    //backgroundColor: "white"
+    height: '50%',
+    width: '50%',
+    //backgroundColor: 'white',
   },
   iconImageStyle: {
     position: 'absolute',
