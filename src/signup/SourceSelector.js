@@ -15,12 +15,15 @@ export default class SourceSelector extends Component {
       selectText,
       addSource,
       sourceType,
+      foodPreference,
+      selectable = true,
     } = this.props;
     return (
       <View style={styles.sourceContainer}>
         <View style={styles.sourceSelectorContainer}>
           <Text style={styles.sourceSelectorLabel}>{selectText}</Text>
-          <TouchableOpacity onPress={() => addSource(sourceType)}>
+          <TouchableOpacity
+            onPress={() => (selectable ? addSource(sourceType) : {})}>
             <Icon
               name="plus-circle-outline"
               size={ICON_SIZE_LARGE}
@@ -40,6 +43,14 @@ export default class SourceSelector extends Component {
             </View>
           ))}
         </View>
+        {!selectable && (
+          <View style={styles.warningContainer}>
+            <Text style={styles.warningText}>
+              Protein sources will have enough {selectText} for {foodPreference}
+              , so you don't need to select any sources *
+            </Text>
+          </View>
+        )}
       </View>
     );
   }
