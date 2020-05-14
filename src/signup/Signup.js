@@ -923,11 +923,6 @@ export default class Signup extends Component {
                         setPhoneNumberUser={this.setPhoneNumberUser}
                       />
                     )}
-                    {/* <NavNextButton
-                      isActive={isLoading ? false : navButtonActive}
-                      screen={screen}
-                      onNext={this.onNext}
-                    /> */}
                   </View>
                 </View>
               )}
