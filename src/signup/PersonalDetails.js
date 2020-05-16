@@ -232,7 +232,7 @@ export default class PersonalDetails extends Component {
               <NumberPicker
                 minNumber={MIN_HEIGHT}
                 maxNumber={MAX_HEIGHT}
-                unit="centimeters / feet inch"
+                unit="centimeters | feet inch"
                 selectedNum={selectedHeight}
                 numberArray={HEIGHT_RANGE_FINAL}
                 isVisible={isHeightNumPickerVisible}

@@ -31,7 +31,6 @@ export default class TargetWeightTimeline extends Component {
     this.targetWeightLabelsInKg = [];
     this.targetWeightLabelsInPounds = [];
     this.targetWeightOptions = [];
-    this.targetButtons = [];
   }
 
   _getTargetWeightOptions = () => {
