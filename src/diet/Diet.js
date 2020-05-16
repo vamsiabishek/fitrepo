@@ -131,97 +131,96 @@ export default class Diet extends Component {
             <View style={styles.contactUsAnimationContainer}>
               <LottieView
                 resizeMode="contain"
-                source={require('../../assets/jsons/diet_list_animation.json')}
+                source={require('../../assets/jsons/diet_list_animation_2.json')}
                 autoPlay
                 loop
                 enableMergePathsAndroidForKitKatAndAbove
               />
             </View>
-            {/* <View style={styles.textViewContainer}>
-              <Text style={styles.textStyle}>
-                Fetching your list of Diets...
-              </Text>
-            </View> */}
+            <View style={styles.textViewContainer}>
+              <Text style={styles.textStyle}>Loading...</Text>
+            </View>
           </React.Fragment>
-        ) : (
+        ) : hasDiets ? (
           <View style={styles.container}>
-            {hasDiets ? (
-              <View>
-                <View style={styles.buttonHeaderContainer}>
-                  <View style={styles.buttonContainer} />
-                </View>
+            <View style={styles.buttonHeaderContainer}>
+              <View style={styles.buttonContainer} />
+            </View>
 
-                <View style={styles.subHeaderContainer}>
-                  <TouchableOpacity
-                    style={styles.activeSubHeaderComponents}
-                    onPress={() =>
-                      this.setState({currentDietOption: 'myDiets'})
-                    }>
-                    <Text style={styles.subHeaderMenuItems}>My Diets</Text>
-                  </TouchableOpacity>
-                  <View style={styles.sortContainerStyle}>
-                    <StringPicker
-                      pickerHeading="Pick an option to filter your diets"
-                      stringArray={sortOptionsArray}
-                      isVisible={showSortPicker}
-                      selectedStr={selectedSortOption}
-                      onConfirm={this.onSortChange}
-                      onCancel={this.hideSortPicker}
-                    />
-                    <Button
-                      title={selectedSortOption}
-                      containerStyle={styles.filterButtonContainerStyle}
-                      buttonStyle={
+            <View style={styles.subHeaderContainer}>
+              <TouchableOpacity
+                style={styles.activeSubHeaderComponents}
+                onPress={() => this.setState({currentDietOption: 'myDiets'})}>
+                <Text style={styles.subHeaderMenuItems}>My Diets</Text>
+              </TouchableOpacity>
+              <View style={styles.sortContainerStyle}>
+                <StringPicker
+                  pickerHeading="Pick an option to filter your diets"
+                  stringArray={sortOptionsArray}
+                  isVisible={showSortPicker}
+                  selectedStr={selectedSortOption}
+                  onConfirm={this.onSortChange}
+                  onCancel={this.hideSortPicker}
+                />
+                <Button
+                  title={selectedSortOption}
+                  containerStyle={styles.filterButtonContainerStyle}
+                  buttonStyle={
+                    selectedSortOption === 'Newest first'
+                      ? styles.filterButtonStyle
+                      : styles.activeFilterButtonStyle
+                  }
+                  titleStyle={
+                    selectedSortOption === 'Newest first'
+                      ? styles.filterButtonTitle
+                      : styles.activeFilterButtonTitle
+                  }
+                  icon={
+                    <Icon
+                      name={
                         selectedSortOption === 'Newest first'
-                          ? styles.filterButtonStyle
-                          : styles.activeFilterButtonStyle
+                          ? 'filter-outline'
+                          : 'filter'
                       }
-                      titleStyle={
+                      size={ICON_SIZE_MED}
+                      style={
                         selectedSortOption === 'Newest first'
-                          ? styles.filterButtonTitle
-                          : styles.activeFilterButtonTitle
+                          ? styles.filterButtonIcon
+                          : styles.activeFilterButtonIcon
                       }
-                      icon={
-                        <Icon
-                          name={
-                            selectedSortOption === 'Newest first'
-                              ? 'filter-outline'
-                              : 'filter'
-                          }
-                          size={ICON_SIZE_MED}
-                          style={
-                            selectedSortOption === 'Newest first'
-                              ? styles.filterButtonIcon
-                              : styles.activeFilterButtonIcon
-                          }
-                        />
-                      }
-                      iconRight
-                      onPress={this.showSortPicker}
                     />
-                  </View>
-                </View>
-                <View style={styles.listViewContainer}>
-                  <CustomListView
-                    uid={uid}
-                    diets={this.currentDietList}
-                    navigation={navigation}
-                    onRefresh={this.fetchMyDiets}
-                  />
-                </View>
+                  }
+                  iconRight
+                  onPress={this.showSortPicker}
+                />
               </View>
-            ) : (
-              <View style={styles.createNewMessageContainer}>
-                <Text style={styles.createNewMessageTitle}>
-                  Get started by clicking on the
-                </Text>
-                <Text style={styles.createNewMessageTitle}>+ icon below</Text>
-                <Icon size={Platform.OS === 'android' ? 100 : 150}>
-                  <Emoji name={'female-cook'} />
-                </Icon>
-              </View>
-            )}
+            </View>
+            <View style={styles.listViewContainer}>
+              <CustomListView
+                uid={uid}
+                diets={this.currentDietList}
+                navigation={navigation}
+                onRefresh={this.fetchMyDiets}
+              />
+            </View>
           </View>
+        ) : (
+          <React.Fragment>
+            <View>
+              <Text style={styles.createNewMessageTitle}>Get started</Text>
+              <Text style={styles.createNewMessageTitle}>by clicking on</Text>
+              <Text style={styles.createNewMessageTitle}>the + icon below</Text>
+            </View>
+            <View style={styles.addDietAnimationContainer}>
+              <LottieView
+                resizeMode="contain"
+                source={require('../../assets/jsons/add_diet_animation.json')}
+                autoPlay
+                loop
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+            </View>
+          </React.Fragment>
         )}
       </View>
     );

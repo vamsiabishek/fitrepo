@@ -16,9 +16,15 @@ const styles = StyleSheet.create({
     backgroundColor: BG_COLOR,
   },
   contactUsAnimationContainer: {
+    marginTop: SCREEN_HEIGHT * 0.3,
     width: '100%',
-    height: '100%',
-    // backgroundColor: 'blue',
+    height: '60%',
+    //backgroundColor: 'blue',
+  },
+  addDietAnimationContainer: {
+    width: '100%',
+    height: '50%',
+    //backgroundColor: 'red',
   },
   textViewContainer: {
     width: SCREEN_WIDTH,
@@ -28,8 +34,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     textAlign: 'center',
-    fontSize: fontsCommon.font30,
-    fontWeight: '700',
+    fontSize: fontsCommon.font28,
     color: styleCommon.textColorDesc,
   },
   container: {
@@ -50,17 +55,11 @@ const styles = StyleSheet.create({
   textContainer: {
     color: 'white',
   },
-  createNewMessageContainer: {
-    flex: 1,
-    //paddingTop: DEVICE_NAME.includes('iPhone 11') ? 100 : 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   createNewMessageTitle: {
     padding: 5,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: Platform.OS === 'ios' ? fontsCommon.font70 : fontsCommon.font40,
+    fontSize: Platform.OS === 'ios' ? fontsCommon.font50 : fontsCommon.font20,
     color: styleCommon.headerTitleColor,
     fontFamily: Platform.OS === 'ios' ? 'Billabong' : 'FontAwesome',
     //backgroundColor: "pink"
