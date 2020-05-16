@@ -12,7 +12,7 @@ import {
   ICON_SIZE_MED,
   SCREEN_WIDTH,
 } from '../../assets/style/stylesCommonValues';
-import {WEIGHT_LOSS, WEIGHT_GAIN} from '../common/Common';
+import {WEIGHT_LOSS, WEIGHT_GAIN, getWeightInPounds} from '../common/Common';
 import {convertGoal} from '../common/Util';
 import NumberSlider from 'react-native-number-slider';
 
@@ -28,18 +28,24 @@ export default class TargetWeightTimeline extends Component {
       targetWeightIndex: 1,
       selectedTargetWeight: undefined,
     };
-    this.targetWeightLabels = [];
+    this.targetWeightLabelsInKg = [];
+    this.targetWeightLabelsInPounds = [];
     this.targetWeightOptions = [];
   }
 
   _getTargetWeightOptions = () => {
     this.targetWeightOptions = [];
-    this.targetWeightLabels = [];
+    this.targetWeightLabelsInKg = [];
+    this.targetWeightLabelsInPounds = [];
     const {goal, weight, fitnessLevel} = this.props;
     const {selectedProgram} = this.state;
     getPossibleTargetWeights(goal, selectedProgram, weight, fitnessLevel).map(
       (targetWeight) => {
-        this.targetWeightLabels.push(`${targetWeight} kg`);
+        const targetInPounds = getWeightInPounds(targetWeight);
+        this.targetWeightLabelsInKg.push(`${targetWeight} kg`);
+        this.targetWeightLabelsInPounds.push(
+          `${targetWeight} kg \n(${targetInPounds})`,
+        );
         this.targetWeightOptions.push(targetWeight);
       },
     );
@@ -180,10 +186,11 @@ export default class TargetWeightTimeline extends Component {
                 <ButtonGroup
                   onPress={this._updateTargetWeight}
                   selectedIndex={targetWeightIndex}
-                  buttons={this.targetWeightLabels}
+                  buttons={this.targetWeightLabelsInPounds}
                   containerStyle={styles.buttonGroupStyle}
                   innerBorderStyle={{width: 0}}
                   selectedButtonStyle={styles.selectedButtonStyle}
+                  textStyle={styles.buttonGroupTextStyle}
                 />
               </View>
               <MyButton

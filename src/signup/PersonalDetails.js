@@ -33,7 +33,11 @@ import {
   WEIGHT_ICON,
   HEIGHT_ICON,
   TARGET_ICON,
+  getHeightLabel,
+  getWeightLabel,
 } from '../common/Common';
+import Heights from '../common/HeightValues';
+import Weights from '../common/WeightValues';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -96,11 +100,13 @@ export default class PersonalDetails extends Component {
     }
   };
   handleNumPickerForWeight = (number) => {
-    this.props.setWeight(number);
+    const weight = parseFloat(number.split('kg')[0]);
+    this.props.setWeight(weight);
     this.hideWeightNumPicker();
   };
   handleNumPickerForHeight = (number) => {
-    this.props.setHeight(number);
+    const height = parseInt(number.split('cm')[0]);
+    this.props.setHeight(height);
     this.hideHeightNumPicker();
   };
   handleTargetWeightAndProgram = (targetWeight, program) => {
@@ -131,6 +137,10 @@ export default class PersonalDetails extends Component {
     const hasWeight = this.isValidNumValue(weight);
     const hasHeight = this.isValidNumValue(height);
     const currentDate = new Date();
+    const selectedHeight = Heights.find((hght) =>
+      hght.startsWith(`${height}cm`),
+    );
+    const selectedWeight = Weights.find((wgt) => wgt.startsWith(`${weight}kg`));
     const dateValue =
       dob && !dob.includes('Date') ? new Date(dob) : currentDate;
     // const dateValue = birthDate ? birthDate : currentDate;
@@ -190,15 +200,15 @@ export default class PersonalDetails extends Component {
               <NumberPicker
                 minNumber={MIN_WEIGHT}
                 maxNumber={MAX_WEIGHT}
-                unit="kilograms"
-                selectedNum={weight}
+                unit="kilograms | pounds"
+                selectedNum={selectedWeight}
                 numberArray={WEIGHT_RANGE_FINAL}
                 isVisible={isWeightNumPickerVisible}
                 onConfirm={this.handleNumPickerForWeight}
                 onCancel={this.hideWeightNumPicker}
               />
               <SelectButton
-                title={hasWeight ? weight + ' kgs' : 'Your Weight'}
+                title={hasWeight ? getWeightLabel(weight) : 'Your Weight'}
                 buttonStyle={
                   hasWeight ? styles.activeButtonStyle : styles.buttonStyle
                 }
@@ -222,15 +232,15 @@ export default class PersonalDetails extends Component {
               <NumberPicker
                 minNumber={MIN_HEIGHT}
                 maxNumber={MAX_HEIGHT}
-                unit="centimeters"
-                selectedNum={height}
+                unit="centimeters | feet inch"
+                selectedNum={selectedHeight}
                 numberArray={HEIGHT_RANGE_FINAL}
                 isVisible={isHeightNumPickerVisible}
                 onConfirm={this.handleNumPickerForHeight}
                 onCancel={this.hideHeightNumPicker}
               />
               <SelectButton
-                title={hasHeight ? height + ' cms' : 'Your Height'}
+                title={hasHeight ? getHeightLabel(height) : 'Your Height'}
                 buttonStyle={
                   hasHeight ? styles.activeButtonStyle : styles.buttonStyle
                 }

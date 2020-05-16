@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     color: styleCommon.textColor1,
   },
   buttonGroupStyle: {
-    height: SCREEN_HEIGHT * 0.05, //40,
+    height: SCREEN_HEIGHT * 0.07, //40,
     borderRadius: 10,
     borderWidth: 0,
     backgroundColor: styleCommon.disableColor,
@@ -71,5 +71,10 @@ export const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT * 0.2,
     //backgroundColor: 'teal',
+  },
+  buttonGroupTextStyle: {
+    alignItems: 'center',
+    textAlign: 'center',
+    textAlignVertical: 'center',
   },
 });
