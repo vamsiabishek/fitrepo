@@ -146,8 +146,8 @@ android {
         applicationId "com.fitness.fitrepo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 22
-        versionName "1.5.7"
+        versionCode 30
+        versionName "2.0.5"
     }
     dexOptions {
         javaMaxHeapSize "4g"

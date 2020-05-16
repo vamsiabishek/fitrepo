@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.fitness.fitrepo"
-    android:versionCode="22"
+    android:versionCode="30"
     android:versionName="1.5.7"
   xmlns:tools="http://schemas.android.com/tools"
   >
@@ -51,7 +51,6 @@
       
       <activity
           android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
-          android:screenOrientation="portrait"
           android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
