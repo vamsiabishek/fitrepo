@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableOpacity, Platform, Alert} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import StringPicker from '../components/Picker/StringPicker';
@@ -11,7 +11,6 @@ import {
   WEIGHT_GAIN_DESC,
   BE_HEALTHY_DESC,
 } from '../common/Common';
-import Emoji from 'react-native-emoji';
 import LottieView from 'lottie-react-native';
 import api from '../common/Api';
 import {sortByDate} from '../common/Util';

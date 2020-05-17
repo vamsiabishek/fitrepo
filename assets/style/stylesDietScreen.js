@@ -59,9 +59,8 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: Platform.OS === 'ios' ? fontsCommon.font50 : fontsCommon.font20,
+    fontSize: fontsCommon.font30,
     color: styleCommon.headerTitleColor,
-    fontFamily: Platform.OS === 'ios' ? 'Billabong' : 'FontAwesome',
     //backgroundColor: "pink"
   },
   buttonHeaderContainer: {
