@@ -3,6 +3,8 @@ import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
 } from '../../assets/style/stylesCommonValues';
+import HeightRange from './HeightValues';
+import WeightRange from './WeightValues';
 
 export const LEVELS_OPTIONS = [
   {label: 'Beginner', value: 'Beginner'},
@@ -154,13 +156,40 @@ for (let x = MIN_WEIGHT; x <= MAX_WEIGHT; x++) {
   WEIGHT_RANGE.push(x);
   WEIGHT_RANGE.push(x + 0.5);
 }
-export const WEIGHT_RANGE_FINAL = [...WEIGHT_RANGE];
+export const WEIGHT_RANGE_FINAL = [...WeightRange];
 let HEIGHT_RANGE = [];
 for (let x = MIN_HEIGHT; x <= MAX_HEIGHT; x++) {
   HEIGHT_RANGE.push(x);
 }
-export const HEIGHT_RANGE_FINAL = [...HEIGHT_RANGE];
+export const HEIGHT_RANGE_FINAL = [...HeightRange];
 export const STAR_RATING_MAX = 5;
 export const PROGRESS_BAR_WIDTH = SCREEN_WIDTH * 0.8;
 export const PROGRESS_CIRCLE_RADIUS = SCREEN_HEIGHT * 0.08;
 export const PROGRESS_CIRCLE_BORDER_WIDTH = 6;
+
+export const getHeightLabel = (ht) => {
+  const height = HeightRange.find((hght) => hght.startsWith(`${ht}cm`));
+  if (height) {
+    const feet = height.substring(height.lastIndexOf('  ')).trim();
+    return `${ht} cm  (${feet})`;
+  }
+  return null;
+};
+
+export const getWeightLabel = (wt) => {
+  const weight = WeightRange.find((wgt) => wgt.startsWith(`${wt}kg`));
+  if (weight) {
+    const pounds = weight.substring(weight.lastIndexOf('  ')).trim();
+    return `${wt} kgs  (${pounds})`;
+  }
+  return null;
+};
+
+export const getWeightInPounds = (wt) => {
+  const weight = WeightRange.find((wgt) => wgt.startsWith(`${wt}kg`));
+  if (weight) {
+    const pounds = weight.substring(weight.lastIndexOf('  ')).trim();
+    return pounds;
+  }
+  return null;
+};
