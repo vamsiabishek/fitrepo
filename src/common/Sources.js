@@ -6,6 +6,12 @@ export const proteinSources = {
     isVegan: true,
     name: 'Amaranth',
     protein: 9.3,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed Raw (before cooking)',
+      },
+    ],
   },
   'basa-fish': {
     carbs: 0,
@@ -13,6 +19,12 @@ export const proteinSources = {
     isVeg: false,
     name: 'Basa Fish',
     protein: 18,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   'black-beans': {
     carbs: 40.8,
@@ -23,6 +35,12 @@ export const proteinSources = {
     isStandardForVeg: true,
     isStandardForVegan: true,
     protein: 15.2,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   'chicken-breast': {
     carbs: 0,
@@ -31,6 +49,12 @@ export const proteinSources = {
     isVeg: false,
     name: 'Chicken breast',
     protein: 31,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   chickpeas: {
     carbs: 61,
@@ -41,6 +65,12 @@ export const proteinSources = {
     isStandardForVeg: true,
     isStandardForVegan: true,
     protein: 19,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed Raw (before cooking)',
+      },
+    ],
   },
   quinoa: {
     carbs: 64,
@@ -50,6 +80,12 @@ export const proteinSources = {
     isVeg: true,
     isVegan: true,
     isStandardForEgg: true,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed Raw (before cooking)',
+      },
+    ],
   },
   'egg-white': {
     carbs: 0,
@@ -95,6 +131,12 @@ export const proteinSources = {
     isVeg: false,
     name: 'Lamb',
     protein: 25,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   lentils: {
     carbs: 20,
@@ -104,6 +146,12 @@ export const proteinSources = {
     name: 'Lentils',
     protein: 9,
     isStandardForVegan: true,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   paneer: {
     carbs: 1,
@@ -112,13 +160,25 @@ export const proteinSources = {
     name: 'Paneer',
     protein: 18,
     isStandardForVeg: true,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   pork: {
     carbs: 0,
-    fat: 6.4,
+    fat: 33,
     isVeg: false,
     name: 'Pork',
-    protein: 31.6,
+    protein: 23,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   prawns: {
     carbs: 0,
@@ -126,6 +186,12 @@ export const proteinSources = {
     isVeg: false,
     name: 'Prawns/Shrimps',
     protein: 24,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   rajma: {
     carbs: 23,
@@ -138,34 +204,64 @@ export const proteinSources = {
     isVegan: true,
     name: 'Kidney Beans/Rajma',
     protein: 9,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   'salmon-fish': {
     carbs: 0,
-    fat: 13,
+    fat: 8,
     isVeg: false,
     name: 'Salmon Fish',
-    protein: 20,
+    protein: 24,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   'tilapia-fish': {
     carbs: 0,
-    fat: 2.8,
+    fat: 2.7,
     isVeg: false,
     name: 'Tilapia Fish',
     protein: 26,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   tofu: {
-    carbs: 8,
-    fat: 8,
+    carbs: 10,
+    fat: 20,
     isVeg: true,
     name: 'Tofu',
-    protein: 12,
+    protein: 17,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   'tuna-fish': {
     carbs: 0,
-    fat: 0.6,
+    fat: 5,
     isVeg: false,
     name: 'Tuna Fish',
     protein: 29,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
 };
 
@@ -200,6 +296,13 @@ export const fatSources = {
     hasTableSpoon: true,
     name: 'Chia seeds',
     protein: 17,
+    info: [
+      {
+        label: 'Tip:',
+        value:
+          'Mix the mentioned tablespoons of Chia seeds in glass of water and leave it overnight',
+      },
+    ],
   },
   'flax-seeds': {
     beginnerDefault: true,
@@ -210,6 +313,13 @@ export const fatSources = {
     hasTableSpoon: true,
     name: 'Flax seeds',
     protein: 18,
+    info: [
+      {
+        label: 'Tip:',
+        value:
+          'For easy consumption, prepare a grinded powder of Flax seeds and store it',
+      },
+    ],
   },
   ghee: {
     beginnerDefaultQuantity: 2,
@@ -252,16 +362,29 @@ export const fatSources = {
 export const carbSources = {
   'brown-rice': {
     carbs: 23,
-    fat: 2.5,
+    fat: 0,
     name: 'Brown rice',
-    protein: 0,
+    protein: 2.5,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   chapathi: {
-    carbs: 18,
+    carbs: 20,
     fat: 0,
     isStandard: true,
-    name: 'Chapathi',
-    protein: 3,
+    name: 'Chapathi/Roti(Wheat)',
+    protein: 4.5,
+    isPerSingleUnit: true,
+    info: [
+      {
+        label: 'Size:',
+        value: 'Medium sized Chapathi weighs 65-75gm(approx.)',
+      },
+    ],
   },
   oats: {
     carbs: 66,
@@ -270,24 +393,48 @@ export const carbSources = {
     isStandard: true,
     name: 'Oats',
     protein: 11,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed Raw (before cooking)',
+      },
+    ],
   },
   quinoa: {
     carbs: 64,
     fat: 6,
     name: 'Quinoa',
     protein: 14,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed Raw (before cooking)',
+      },
+    ],
   },
   ragi: {
     carbs: 75.6,
     fat: 4.3,
     name: 'Ragi',
     protein: 11,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed Raw (before cooking)',
+      },
+    ],
   },
   'sweet-potatoes': {
-    carbs: 20,
+    carbs: 18,
     fat: 0,
     name: 'Sweet Potatoes',
-    protein: 1.6,
+    protein: 1.4,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   'wheat-bread': {
     carbs: 41,
@@ -302,10 +449,16 @@ export const carbSources = {
     protein: 9,
   },
   'white-potatoes': {
-    carbs: 17,
+    carbs: 20,
     fat: 0,
     name: 'White Potatoes',
     protein: 2,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
   'white-rice': {
     carbs: 28,
@@ -313,6 +466,12 @@ export const carbSources = {
     isStandard: true,
     name: 'White rice',
     protein: 0,
+    info: [
+      {
+        label: 'Weigh:',
+        value: 'Must be weighed after Cooking',
+      },
+    ],
   },
 };
 
