@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    marginTop: Platform.OS === 'android' ? SCREEN_HEIGHT * 0.045 : 0,
+    marginTop:
+      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.055 : SCREEN_HEIGHT * 0.02,
     // backgroundColor: "oldlace"
   },
 });
