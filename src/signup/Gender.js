@@ -6,6 +6,12 @@ import {
   styleCommon,
   ICON_SELECT_GENDER,
 } from '../../assets/style/stylesCommonValues';
+import {
+  GENDER_FEMALE_SELECTED,
+  GENDER_FEMALE_UNSELECTED,
+  GENDER_MALE_SELECTED,
+  GENDER_MALE_UNSELECTED,
+} from '../common/Common';
 
 export default class Gender extends Component {
   render() {
@@ -29,9 +35,12 @@ export default class Gender extends Component {
               gender === 1 ? buttonIconActiveColor : buttonIconColor
             }
             iconLeft
-            shouldUseEmoji={true}
             onPress={setGender}
             value={1}
+            shouldUseImage={true}
+            imageUrl={
+              gender === 1 ? GENDER_MALE_SELECTED : GENDER_MALE_UNSELECTED
+            }
           />
           <SelectButton
             buttonStyle={
@@ -47,9 +56,12 @@ export default class Gender extends Component {
               gender === 0 ? buttonIconActiveColor : buttonIconColor
             }
             iconLeft
-            shouldUseEmoji={true}
             onPress={setGender}
             value={0}
+            shouldUseImage={true}
+            imageUrl={
+              gender === 0 ? GENDER_FEMALE_SELECTED : GENDER_FEMALE_UNSELECTED
+            }
           />
         </View>
       </View>
