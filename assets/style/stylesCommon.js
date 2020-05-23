@@ -9,9 +9,9 @@ const commonStyles = StyleSheet.create({
     //backgroundColor: 'cyan',
   },
   bgImage: {
-    //flex: 1,
-    //justifyContent: "center",
-    //alignItems: "center",
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
     backgroundColor: BG_COLOR,

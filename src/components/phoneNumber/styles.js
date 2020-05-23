@@ -140,4 +140,29 @@ export default StyleSheet.create({
   headerButtons: {
     fontSize: fontsCommon.font15,
   },
+  buttonContainer: {
+    marginTop: SCREEN_HEIGHT * 0.01,
+    marginBottom: SCREEN_HEIGHT * 0.03,
+  },
+
+  buttonStyle: {
+    height: SCREEN_HEIGHT * 0.07,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  buttonGradiant: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: SCREEN_WIDTH * 0.82,
+    height: SCREEN_HEIGHT * 0.06, // 110
+    borderRadius: SCREEN_HEIGHT * 0.07, // 60,
+  },
+
+  buttonTitle: {
+    fontSize: fontsCommon.font16,
+    fontWeight: 'bold',
+    color: styleCommon.textColorWhite,
+    alignSelf: 'center',
+  },
 });

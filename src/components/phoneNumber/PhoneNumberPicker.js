@@ -5,6 +5,7 @@ import Country from './country';
 import Flags from './resources/flags';
 import PhoneNumber from './phoneNumber';
 import styles from './styles';
+import LinearGradient from 'react-native-linear-gradient';
 import CountryPicker from './CountryPicker';
 import {Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,6 +13,8 @@ import {
   ICON_SIZE_MED,
   styleCommon,
   ICON_SIZE_SMALL,
+  btnGradientColorRight,
+  modalBtnGradientColorRight,
 } from '../../../assets/style/stylesCommonValues';
 
 export default class PhoneInput extends Component {
@@ -44,6 +47,7 @@ export default class PhoneInput extends Component {
       countryCode: countryData ? `+${countryData.dialCode}` : '',
       showCountryPicker: false,
       isValidNumber: true,
+      showPhoneSubmit: false,
     };
   }
 
@@ -62,7 +66,11 @@ export default class PhoneInput extends Component {
   onChangePhoneNumber = (number) => {
     const {countryCode} = this.state;
     const numberWithCode = `${countryCode}${number}`;
-    this.setState({inputValue: number, numberWithCode});
+    this.setState({
+      inputValue: number,
+      numberWithCode,
+      showPhoneSubmit: number.length > 5 ? true : false,
+    });
   };
 
   onPressFlag = () => {
@@ -155,6 +163,7 @@ export default class PhoneInput extends Component {
       countryCode,
       isValidNumber,
       inputValue,
+      showPhoneSubmit,
     } = this.state;
     const countryCodeTextStyle = {paddingLeft: 5};
     return (
@@ -209,6 +218,21 @@ export default class PhoneInput extends Component {
             />
           </View>
         </View>
+        {showPhoneSubmit && (
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => this.onPhoneNumberEnter()}>
+              <LinearGradient
+                colors={[btnGradientColorRight, modalBtnGradientColorRight]}
+                style={styles.buttonGradiant}
+                start={{x: 0, y: 0.5}}
+                end={{x: 1, y: 0.5}}>
+                <Text style={styles.buttonTitle}>SUBMIT</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        )}
         <CountryPicker
           selectedCountry={iso2}
           onSubmit={this.selectCountry}
