@@ -8,7 +8,7 @@ export const proteinSources = {
     protein: 9.3,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed Raw (before cooking)',
       },
     ],
@@ -21,7 +21,7 @@ export const proteinSources = {
     protein: 18,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -37,7 +37,7 @@ export const proteinSources = {
     protein: 15.2,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -51,7 +51,7 @@ export const proteinSources = {
     protein: 31,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -67,7 +67,7 @@ export const proteinSources = {
     protein: 19,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed Raw (before cooking)',
       },
     ],
@@ -82,7 +82,7 @@ export const proteinSources = {
     isStandardForEgg: true,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed Raw (before cooking)',
       },
     ],
@@ -133,7 +133,7 @@ export const proteinSources = {
     protein: 25,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -148,7 +148,7 @@ export const proteinSources = {
     isStandardForVegan: true,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -162,7 +162,7 @@ export const proteinSources = {
     isStandardForVeg: true,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -175,7 +175,7 @@ export const proteinSources = {
     protein: 23,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -188,7 +188,7 @@ export const proteinSources = {
     protein: 24,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -206,7 +206,7 @@ export const proteinSources = {
     protein: 9,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -219,7 +219,7 @@ export const proteinSources = {
     protein: 24,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -232,7 +232,7 @@ export const proteinSources = {
     protein: 26,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -245,7 +245,7 @@ export const proteinSources = {
     protein: 17,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -258,7 +258,7 @@ export const proteinSources = {
     protein: 29,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -367,7 +367,7 @@ export const carbSources = {
     protein: 2.5,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -395,7 +395,7 @@ export const carbSources = {
     protein: 11,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed Raw (before cooking)',
       },
     ],
@@ -407,7 +407,7 @@ export const carbSources = {
     protein: 14,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed Raw (before cooking)',
       },
     ],
@@ -419,7 +419,7 @@ export const carbSources = {
     protein: 11,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed Raw (before cooking)',
       },
     ],
@@ -431,7 +431,7 @@ export const carbSources = {
     protein: 1.4,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -455,7 +455,7 @@ export const carbSources = {
     protein: 2,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
@@ -468,7 +468,7 @@ export const carbSources = {
     protein: 0,
     info: [
       {
-        label: 'Weigh:',
+        label: 'Measurement:',
         value: 'Must be weighed after Cooking',
       },
     ],
