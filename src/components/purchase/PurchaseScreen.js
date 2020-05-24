@@ -2,7 +2,11 @@ import React from 'react';
 import {Alert, View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {purchaseOfferings, makePurchase} from '../../common/PurchaseUtils';
+import {
+  purchaseOfferings,
+  makePurchase,
+  getPurchaserInfoAndActiveEntitlements,
+} from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
 import MyButton from '../MyButton';
 import {styles} from '../../../assets/style/stylesInitialScreen';
@@ -24,6 +28,14 @@ export default class PurchaseScreen extends React.Component {
     };
   }
 
+  savePurchase = async (purchaserInfo) => {
+    const {
+      purchaserInfo,
+      activeEntitlements,
+    } = await getPurchaserInfoAndActiveEntitlements();
+    console.log('purchaserInfo', purchaserInfo);
+    console.log('activeEntitlements', activeEntitlements);
+  };
 
   handlePaymentProcess = async (purchasePackage) => {
     const {dietId} = this.props;
@@ -32,6 +44,7 @@ export default class PurchaseScreen extends React.Component {
       const {purchaserInfo, productIdentifier} = await makePurchase(
         purchasePackage,
       );
+      this.savePurchase();
       //console.log('Purchase Made of product identifier: ', productIdentifier);
       const activeEntitlements = purchaserInfo.entitlements.active;
       if (activeEntitlements.standard_role) {
@@ -52,7 +65,14 @@ export default class PurchaseScreen extends React.Component {
     } catch (e) {
       if (!e.userCancelled) {
         this.setState({isLoading: false});
-        console.log('Error occurred while handling payment: ', e);
+        console.error('Error occurred while handling payment: ', e);
+        api.post('/printClientLogs', {
+          type: 'error',
+          logObject: {
+            message: 'Error occurred while handling payment: ',
+            error: e,
+          },
+        });
       } else {
         this.setState({isLoading: false});
         Alert.alert('Payment Cancelled', 'The user cancelled this payment.');
