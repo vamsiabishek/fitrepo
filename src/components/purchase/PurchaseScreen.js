@@ -25,6 +25,7 @@ export default class PurchaseScreen extends React.Component {
       isLoading: false,
       showPurchaseSummary: false,
       purchaseSummary: undefined,
+      unsuccessfulPurchase: false,
     };
   }
 
@@ -51,6 +52,9 @@ export default class PurchaseScreen extends React.Component {
         showPurchaseSummary: true,
         purchaseSummary: activeEntitlements,
       });
+    } else {
+      // show something went wrong during the purchase
+      this.setState({unsuccessfulPurchase: true, isLoading: false});
     }
   };
 
@@ -66,7 +70,7 @@ export default class PurchaseScreen extends React.Component {
       await this.savePurchase({activeEntitlements, dietId});
     } catch (e) {
       if (!e.userCancelled) {
-        console.error('Error occurred while handling payment: ', e);
+        console.log('Error occurred while handling payment: ', e);
         api.post('/printClientLogs', {
           type: 'error',
           logObject: {
@@ -278,9 +282,19 @@ export default class PurchaseScreen extends React.Component {
     );
   };
 
+  renderPurchaseDetails = () => {
+    const {isLoading, showPurchaseSummary, unsuccessfulPurchase} = this.state;
+    const {packageToPurchase} = this.props;
+    if (isLoading) return this.renderLoadingElement();
+    if (!purchaseOfferings || unsuccessfulPurchase)
+      return this.renderFailureElement();
+    if (!showPurchaseSummary && packageToPurchase) {
+      return this.renderDetailsPaymentElement();
+    } else return this.renderSuccessElement();
+  };
+
   render() {
-    const {isLoading, showPurchaseSummary} = this.state;
-    const {isVisible, packageToPurchase} = this.props;
+    const {isVisible} = this.props;
     return (
       <View>
         <Modal
@@ -289,13 +303,7 @@ export default class PurchaseScreen extends React.Component {
           isVisible={isVisible}
           backdropColor="black"
           backdropOpacity={0.5}>
-          {!isLoading
-            ? purchaseOfferings
-              ? !showPurchaseSummary && packageToPurchase
-                ? this.renderDetailsPaymentElement()
-                : this.renderSuccessElement()
-              : this.renderFailureElement()
-            : this.renderLoadingElement()}
+          {this.renderPurchaseDetails()}
         </Modal>
       </View>
     );
