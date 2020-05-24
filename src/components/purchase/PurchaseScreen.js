@@ -2,7 +2,11 @@ import React from 'react';
 import {Alert, View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {purchaseOfferings, makePurchase} from '../../common/PurchaseUtils';
+import {
+  purchaseOfferings,
+  makePurchase,
+  getPurchaserInfoAndActiveEntitlements,
+} from '../../common/PurchaseUtils';
 import Modal from 'react-native-modal';
 import MyButton from '../MyButton';
 import {styles} from '../../../assets/style/stylesInitialScreen';
@@ -21,38 +25,63 @@ export default class PurchaseScreen extends React.Component {
       isLoading: false,
       showPurchaseSummary: false,
       purchaseSummary: undefined,
+      unsuccessfulPurchase: false,
     };
   }
 
+  savePurchase = async ({activeEntitlements, dietId}) => {
+    if (!activeEntitlements?.standard_role) {
+      const purchaserInfoAndActiveEntitlements = await getPurchaserInfoAndActiveEntitlements();
+      activeEntitlements =
+        purchaserInfoAndActiveEntitlements.activeEntitlements;
+    }
+    const {standard_role} = activeEntitlements;
+    if (standard_role) {
+      const {
+        originalPurchaseDate: purchaseDate,
+        productIdentifier,
+      } = standard_role;
+      const purchaseDetails = {
+        dietId,
+        productIdentifier,
+        purchaseDate,
+      };
+      await api.post('/savePurchase', purchaseDetails);
+      this.setState({
+        isLoading: false,
+        showPurchaseSummary: true,
+        purchaseSummary: activeEntitlements,
+      });
+    } else {
+      // show something went wrong during the purchase
+      this.setState({unsuccessfulPurchase: true, isLoading: false});
+    }
+  };
 
   handlePaymentProcess = async (purchasePackage) => {
     const {dietId} = this.props;
     this.setState({isLoading: true});
     try {
-      const {purchaserInfo, productIdentifier} = await makePurchase(
-        purchasePackage,
-      );
-      //console.log('Purchase Made of product identifier: ', productIdentifier);
+      const {purchaserInfo} = await makePurchase(purchasePackage);
+      //save purchases if everything went smoothly with payment process
       const activeEntitlements = purchaserInfo.entitlements.active;
-      if (activeEntitlements.standard_role) {
-        const purchaseDate =
-          activeEntitlements.standard_role.originalPurchaseDate;
-        const purchaseDetails = {
-          dietId,
-          productIdentifier,
-          purchaseDate,
-        };
-        await api.post('/savePurchase', purchaseDetails);
-        this.setState({
-          isLoading: false,
-          showPurchaseSummary: true,
-          purchaseSummary: activeEntitlements,
-        });
-      }
+      await this.savePurchase({activeEntitlements, dietId});
     } catch (e) {
       if (!e.userCancelled) {
-        this.setState({isLoading: false});
         console.log('Error occurred while handling payment: ', e);
+        api.post('/printClientLogs', {
+          type: 'error',
+          logObject: {
+            message: 'Error occurred while handling payment: ',
+            error: e,
+          },
+        });
+        // checking if the purchase was successful but error at our app end
+        await this.savePurchase({dietId});
+        const {isLoading} = this.state;
+        if (isLoading) {
+          this.setState({isLoading: false});
+        }
       } else {
         this.setState({isLoading: false});
         Alert.alert('Payment Cancelled', 'The user cancelled this payment.');
@@ -253,9 +282,24 @@ export default class PurchaseScreen extends React.Component {
     );
   };
 
+  renderPurchaseDetails = () => {
+    const {isLoading, showPurchaseSummary, unsuccessfulPurchase} = this.state;
+    const {packageToPurchase} = this.props;
+    if (isLoading) {
+      return this.renderLoadingElement();
+    }
+    if (!purchaseOfferings || unsuccessfulPurchase) {
+      return this.renderFailureElement();
+    }
+    if (!showPurchaseSummary && packageToPurchase) {
+      return this.renderDetailsPaymentElement();
+    } else {
+      return this.renderSuccessElement();
+    }
+  };
+
   render() {
-    const {isLoading, showPurchaseSummary} = this.state;
-    const {isVisible, packageToPurchase} = this.props;
+    const {isVisible} = this.props;
     return (
       <View>
         <Modal
@@ -264,13 +308,7 @@ export default class PurchaseScreen extends React.Component {
           isVisible={isVisible}
           backdropColor="black"
           backdropOpacity={0.5}>
-          {!isLoading
-            ? purchaseOfferings
-              ? !showPurchaseSummary && packageToPurchase
-                ? this.renderDetailsPaymentElement()
-                : this.renderSuccessElement()
-              : this.renderFailureElement()
-            : this.renderLoadingElement()}
+          {this.renderPurchaseDetails()}
         </Modal>
       </View>
     );

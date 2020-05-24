@@ -56,7 +56,7 @@ export default class MyDiet extends Component {
     const dietId = navigation.getParam('dietId');
     const uid = navigation.getParam('uid');
     await this.loadDietDetails(dietId);
-    await this.loadPaymentEntitlements(uid);
+    await this.loadPaymentEntitlements(uid, dietId);
     await this.checkDietTrail(dietId, uid);
   };
 
@@ -66,7 +66,7 @@ export default class MyDiet extends Component {
     const uid = navigation.getParam('uid');
     if (dietId !== prevProps.navigation.getParam('dietId')) {
       await this.loadDietDetails(dietId);
-      await this.loadPaymentEntitlements(uid);
+      await this.loadPaymentEntitlements(uid, dietId);
       await this.checkDietTrail(dietId, uid);
     }
   };
@@ -96,9 +96,14 @@ export default class MyDiet extends Component {
     this.setState({diet, meals: meals[0], allMeals: meals});
   };
 
-  loadPaymentEntitlements = async (uid) => {
+  loadPaymentEntitlements = async (uid, dietId) => {
     const {navigation} = this.props;
-    const offerings = await getOfferingsByPurchaseId(uid);
+    if (!uid) {
+      const {uid: userId} = await api.get('/getLoggedInUser');
+      uid = userId;
+    }
+    const purchaseId = `${uid}:${dietId}`;
+    const offerings = await getOfferingsByPurchaseId(purchaseId);
     const purchasePlan = getPurchasePlanByFitnessLevelAndWeek(
       navigation.getParam('selectedProgram'),
       navigation.getParam('fitnessLevel'),
