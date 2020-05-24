@@ -409,98 +409,90 @@ export default class LoginScreen extends Component {
       ...styles.buttonContainer,
       flexDirection: 'row',
     };
-    const signInContainer = {
-      //marginBottom: 90,
-      //backgroundColor: 'yellow',
-    };
     return (
       <View style={commonStyles.container}>
-        <ImageBackground source={LOGIN_BG_IMAGE} style={commonStyles.bgImage}>
-          <KeyboardAvoidingView
-            style={
-              showSocialOptions && !isLoading
-                ? styles.container
-                : styles.containerLoading
-            }
-            behavior="padding"
-            enabled>
-            {isLoading ? (
-              <Loading
-                resizeMode={isLoadingPostPrivacy && 'contain'}
-                text={
+        <View
+          style={
+            showSocialOptions && !isLoading
+              ? styles.container
+              : styles.containerLoading
+          }>
+          {isLoading ? (
+            <Loading
+              resizeMode={isLoadingPostPrivacy && 'contain'}
+              text={
+                isLoadingPostPrivacy
+                  ? 'Signing you up with DietRepo...'
+                  : media.length !== 0
+                  ? 'Redirecting you to ' + media + ' Login...'
+                  : 'Logging you into DietRepo...'
+              }
+              animationStr={
+                isLoadingPostPrivacy
+                  ? require('../../assets/jsons/user_animation_4.json')
+                  : media.length !== 0
+                  ? media.includes('Facebook')
+                    ? require('../../assets/jsons/facebook_loading_animation.json')
+                    : require('../../assets/jsons/google_loading_animation.json')
+                  : require('../../assets/jsons/logging_animation.json')
+              }
+              isTextBold={true}
+              takeFullHeight={false}
+            />
+          ) : (
+            <ImageBackground
+              source={showSocialOptions && LOGIN_BG_IMAGE}
+              style={commonStyles.bgImage}>
+              <PhoneAuth
+                setShowSocialOptions={this.setShowSocialOptions}
+                createUserWithPhoneNumber={this.loginWithPhoneNumber}
+                loadingMessage={
                   isLoadingPostPrivacy
                     ? 'Signing you up with DietRepo...'
-                    : media.length !== 0
-                    ? 'Redirecting you to ' + media + ' Login...'
                     : 'Logging you into DietRepo...'
                 }
-                animationStr={
-                  isLoadingPostPrivacy
-                    ? require('../../assets/jsons/user_animation_4.json')
-                    : media.length !== 0
-                    ? media.includes('Facebook')
-                      ? require('../../assets/jsons/facebook_loading_animation.json')
-                      : require('../../assets/jsons/google_loading_animation.json')
-                    : require('../../assets/jsons/logging_animation.json')
-                }
-                isTextBold={true}
-                takeFullHeight={false}
               />
-            ) : (
-              <View style={signInContainer}>
-                <View style={styles.loginInputContainer}>
-                  <PhoneAuth
-                    setShowSocialOptions={this.setShowSocialOptions}
-                    createUserWithPhoneNumber={this.loginWithPhoneNumber}
-                    loadingMessage={
-                      isLoadingPostPrivacy
-                        ? 'Signing you up with DietRepo...'
-                        : 'Logging you into DietRepo...'
-                    }
-                  />
-                </View>
-                {showSocialOptions && !isLoading && (
-                  <View>
-                    <View style={socialLoginContainerStyle}>
-                      <SocialIcon
-                        style={styles.socialMediaLoginBtn}
-                        title="Facebook"
-                        button
-                        type="facebook"
-                        onPress={() => this.onFBLogin()}
-                        iconSize={fontsCommon.font22}
-                      />
-                      <SocialIcon
-                        style={styles.socialMediaLoginBtn}
-                        title="Google"
-                        button
-                        type="google-plus-official"
-                        onPress={() => this.onGoogleLogin()}
-                        iconSize={fontsCommon.font22}
-                      />
-                    </View>
-                    <View style={styles.signUpHereContainer}>
-                      <Text style={styles.newUserText}>New here ?</Text>
-                      <Button
-                        title="SIGN UP"
-                        titleStyle={styles.signUpButtonTitle}
-                        type="clear"
-                        onPress={() => this.signUpButttonClicked()}
-                      />
-                    </View>
+              {showSocialOptions && !isLoading && (
+                <View>
+                  <View style={socialLoginContainerStyle}>
+                    <SocialIcon
+                      style={styles.socialMediaLoginBtn}
+                      title="Facebook"
+                      button
+                      type="facebook"
+                      onPress={() => this.onFBLogin()}
+                      iconSize={fontsCommon.font22}
+                    />
+                    <SocialIcon
+                      style={styles.socialMediaLoginBtn}
+                      title="Google"
+                      button
+                      type="google-plus-official"
+                      onPress={() => this.onGoogleLogin()}
+                      iconSize={fontsCommon.font22}
+                    />
                   </View>
-                )}
-              </View>
-            )}
-          </KeyboardAvoidingView>
-          {showPrivacyTerms && (
-            <PrivacyAndTerms
-              showPrivacyTerms={showPrivacyTerms}
-              onAccept={this.saveUserPrivacyTerms}
-              showCloseBtn={false}
-            />
+                  <View style={styles.signUpHereContainer}>
+                    <Text style={styles.newUserText}>New here ?</Text>
+                    <Button
+                      title="SIGN UP"
+                      titleStyle={styles.signUpButtonTitle}
+                      type="clear"
+                      onPress={() => this.signUpButttonClicked()}
+                    />
+                  </View>
+                </View>
+              )}
+            </ImageBackground>
           )}
-        </ImageBackground>
+        </View>
+        {showPrivacyTerms && (
+          <PrivacyAndTerms
+            showPrivacyTerms={showPrivacyTerms}
+            onAccept={this.saveUserPrivacyTerms}
+            showCloseBtn={false}
+          />
+        )}
       </View>
     );
   }

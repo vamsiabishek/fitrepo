@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
-import {Image, TouchableOpacity, View, Text} from 'react-native';
+import {
+  Image,
+  TouchableOpacity,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Country from './country';
 import Flags from './resources/flags';
@@ -16,6 +25,12 @@ import {
   btnGradientColorRight,
   modalBtnGradientColorRight,
 } from '../../../assets/style/stylesCommonValues';
+
+const DismissKeyboard = ({children}) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 export default class PhoneInput extends Component {
   static setCustomCountriesData(json) {
@@ -168,71 +183,78 @@ export default class PhoneInput extends Component {
     const countryCodeTextStyle = {paddingLeft: 5};
     return (
       <View style={styles.container}>
-        <View>
+        {/* <View>
           <Text style={styles.title}>Enter your phone number</Text>
-        </View>
-        <View style={styles.phoneNumberContainer}>
-          <TouchableOpacity
-            onPress={this.onPressFlag}
-            disabled={disabled}
-            style={styles.countryCodeContainer}>
-            <Image
-              source={Flags.get(iso2)}
-              style={[styles.flag, this.props.flagStyle]}
-            />
-            <Text style={countryCodeTextStyle}>{countryCode}</Text>
-            <Icon
-              name="menu-down"
-              color={styleCommon.iconColorDark}
-              size={ICON_SIZE_SMALL}
-            />
-          </TouchableOpacity>
-          <View>
-            <Input
-              placeholder="Phone Number"
-              placeholderTextColor={styleCommon.textColor1}
-              leftIcon={
-                <Icon
-                  name="phone"
-                  color={styleCommon.iconColor}
-                  size={ICON_SIZE_MED}
+        </View> style={styles.modalContainer}
+            contentContainerStyle={styles.modalContainer}*/}
+        <DismissKeyboard>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={Platform.OS === 'android' && -500}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <View style={styles.phoneNumberContainer}>
+              <TouchableOpacity
+                onPress={this.onPressFlag}
+                disabled={disabled}
+                style={styles.countryCodeContainer}>
+                <Image
+                  source={Flags.get(iso2)}
+                  style={[styles.flag, this.props.flagStyle]}
                 />
-              }
-              containerStyle={styles.inputViewContainer}
-              inputContainerStyle={styles.inputContainer}
-              inputStyle={styles.inputStyle}
-              errorStyle={styles.errorInputStyle}
-              keyboardAppearance="light"
-              keyboardType="phone-pad"
-              autoCapitalize="none"
-              autoCorrect={false}
-              blurOnSubmit={true}
-              returnKeyType="done"
-              onChangeText={(text) => this.onChangePhoneNumber(text)}
-              value={inputValue}
-              ref={(input) => (this.inputPhone = input)}
-              onSubmitEditing={() => {
-                this.onPhoneNumberEnter();
-              }}
-              errorMessage={isValidNumber ? null : 'Invalid phone number!'}
-            />
-          </View>
-        </View>
-        {showPhoneSubmit && (
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              onPress={() => this.onPhoneNumberEnter()}>
-              <LinearGradient
-                colors={[btnGradientColorRight, modalBtnGradientColorRight]}
-                style={styles.buttonGradiant}
-                start={{x: 0, y: 0.5}}
-                end={{x: 1, y: 0.5}}>
-                <Text style={styles.buttonTitle}>SUBMIT</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-        )}
+                <Text style={countryCodeTextStyle}>{countryCode}</Text>
+                <Icon
+                  name="menu-down"
+                  color={styleCommon.iconColorDark}
+                  size={ICON_SIZE_SMALL}
+                />
+              </TouchableOpacity>
+              <View>
+                <Input
+                  placeholder="Phone Number"
+                  placeholderTextColor={styleCommon.textColor1}
+                  leftIcon={
+                    <Icon
+                      name="phone"
+                      color={styleCommon.iconColor}
+                      size={ICON_SIZE_MED}
+                    />
+                  }
+                  containerStyle={styles.inputViewContainer}
+                  inputContainerStyle={styles.inputContainer}
+                  inputStyle={styles.inputStyle}
+                  errorStyle={styles.errorInputStyle}
+                  keyboardAppearance="light"
+                  keyboardType="phone-pad"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  blurOnSubmit={true}
+                  returnKeyType="done"
+                  onChangeText={(text) => this.onChangePhoneNumber(text)}
+                  value={inputValue}
+                  ref={(input) => (this.inputPhone = input)}
+                  onSubmitEditing={() => {
+                    this.onPhoneNumberEnter();
+                  }}
+                  errorMessage={isValidNumber ? null : 'Invalid phone number!'}
+                />
+              </View>
+            </View>
+            {showPhoneSubmit && (
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.buttonStyle}
+                  onPress={() => this.onPhoneNumberEnter()}>
+                  <LinearGradient
+                    colors={[btnGradientColorRight, modalBtnGradientColorRight]}
+                    style={styles.buttonGradiant}
+                    start={{x: 0, y: 0.5}}
+                    end={{x: 1, y: 0.5}}>
+                    <Text style={styles.buttonTitle}>SUBMIT</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            )}
+          </KeyboardAvoidingView>
+        </DismissKeyboard>
         <CountryPicker
           selectedCountry={iso2}
           onSubmit={this.selectCountry}

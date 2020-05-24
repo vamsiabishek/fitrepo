@@ -12,6 +12,7 @@ export default StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: SCREEN_HEIGHT * 0.3,
     // borderWidth:1,
   },
   title: {
