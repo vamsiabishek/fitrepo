@@ -28,7 +28,7 @@ export default class PurchaseScreen extends React.Component {
     };
   }
 
-  savePurchase = async (purchaserInfo) => {
+  savePurchase = async () => {
     const {
       purchaserInfo,
       activeEntitlements,
