@@ -62,9 +62,7 @@ export default class PurchaseScreen extends React.Component {
     const {dietId} = this.props;
     this.setState({isLoading: true});
     try {
-      const {purchaserInfo, productIdentifier} = await makePurchase(
-        purchasePackage,
-      );
+      const {purchaserInfo} = await makePurchase(purchasePackage);
       //save purchases if everything went smoothly with payment process
       const activeEntitlements = purchaserInfo.entitlements.active;
       await this.savePurchase({activeEntitlements, dietId});
@@ -81,7 +79,9 @@ export default class PurchaseScreen extends React.Component {
         // checking if the purchase was successful but error at our app end
         await this.savePurchase({dietId});
         const {isLoading} = this.state;
-        if (isLoading) this.setState({isLoading: false});
+        if (isLoading) {
+          this.setState({isLoading: false});
+        }
       } else {
         this.setState({isLoading: false});
         Alert.alert('Payment Cancelled', 'The user cancelled this payment.');
@@ -285,12 +285,17 @@ export default class PurchaseScreen extends React.Component {
   renderPurchaseDetails = () => {
     const {isLoading, showPurchaseSummary, unsuccessfulPurchase} = this.state;
     const {packageToPurchase} = this.props;
-    if (isLoading) return this.renderLoadingElement();
-    if (!purchaseOfferings || unsuccessfulPurchase)
+    if (isLoading) {
+      return this.renderLoadingElement();
+    }
+    if (!purchaseOfferings || unsuccessfulPurchase) {
       return this.renderFailureElement();
+    }
     if (!showPurchaseSummary && packageToPurchase) {
       return this.renderDetailsPaymentElement();
-    } else return this.renderSuccessElement();
+    } else {
+      return this.renderSuccessElement();
+    }
   };
 
   render() {
