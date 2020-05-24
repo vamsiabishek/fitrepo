@@ -28,13 +28,30 @@ export default class PurchaseScreen extends React.Component {
     };
   }
 
-  savePurchase = async () => {
-    const {
-      purchaserInfo,
-      activeEntitlements,
-    } = await getPurchaserInfoAndActiveEntitlements();
-    console.log('purchaserInfo', purchaserInfo);
-    console.log('activeEntitlements', activeEntitlements);
+  savePurchase = async ({activeEntitlements, dietId}) => {
+    if (!activeEntitlements?.standard_role) {
+      const purchaserInfoAndActiveEntitlements = await getPurchaserInfoAndActiveEntitlements();
+      activeEntitlements =
+        purchaserInfoAndActiveEntitlements.activeEntitlements;
+    }
+    const {standard_role} = activeEntitlements;
+    if (standard_role) {
+      const {
+        originalPurchaseDate: purchaseDate,
+        productIdentifier,
+      } = standard_role;
+      const purchaseDetails = {
+        dietId,
+        productIdentifier,
+        purchaseDate,
+      };
+      await api.post('/savePurchase', purchaseDetails);
+      this.setState({
+        isLoading: false,
+        showPurchaseSummary: true,
+        purchaseSummary: activeEntitlements,
+      });
+    }
   };
 
   handlePaymentProcess = async (purchasePackage) => {
@@ -44,27 +61,11 @@ export default class PurchaseScreen extends React.Component {
       const {purchaserInfo, productIdentifier} = await makePurchase(
         purchasePackage,
       );
-      this.savePurchase();
-      //console.log('Purchase Made of product identifier: ', productIdentifier);
+      //save purchases if everything went smoothly with payment process
       const activeEntitlements = purchaserInfo.entitlements.active;
-      if (activeEntitlements.standard_role) {
-        const purchaseDate =
-          activeEntitlements.standard_role.originalPurchaseDate;
-        const purchaseDetails = {
-          dietId,
-          productIdentifier,
-          purchaseDate,
-        };
-        await api.post('/savePurchase', purchaseDetails);
-        this.setState({
-          isLoading: false,
-          showPurchaseSummary: true,
-          purchaseSummary: activeEntitlements,
-        });
-      }
+      await this.savePurchase({activeEntitlements, dietId});
     } catch (e) {
       if (!e.userCancelled) {
-        this.setState({isLoading: false});
         console.error('Error occurred while handling payment: ', e);
         api.post('/printClientLogs', {
           type: 'error',
@@ -73,6 +74,10 @@ export default class PurchaseScreen extends React.Component {
             error: e,
           },
         });
+        // checking if the purchase was successful but error at our app end
+        await this.savePurchase({dietId});
+        const {isLoading} = this.state;
+        if (isLoading) this.setState({isLoading: false});
       } else {
         this.setState({isLoading: false});
         Alert.alert('Payment Cancelled', 'The user cancelled this payment.');
