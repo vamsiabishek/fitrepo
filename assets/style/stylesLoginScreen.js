@@ -14,17 +14,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-    marginVertical: SCREEN_HEIGHT * 0.05,
-    backgroundColor: BG_COLOR, //BG_COLOR, orange
+    // width: SCREEN_WIDTH,
+    // height: SCREEN_HEIGHT,
+    //marginVertical: SCREEN_HEIGHT * 0.02,
+    //backgroundColor: BG_COLOR, //BG_COLOR, orange
   },
   containerLoading: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
+    // height: SCREEN_HEIGHT,
     marginVertical: SCREEN_HEIGHT * 0.1,
     backgroundColor: BG_COLOR, //BG_COLOR, orange
   },
@@ -57,6 +57,7 @@ export const styles = StyleSheet.create({
   loginInputContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: SCREEN_HEIGHT * 0.3,
     marginBottom: SCREEN_HEIGHT * 0.01, // 10
     //width: SCREEN_WIDTH * 0.9,
     //margin: 5,

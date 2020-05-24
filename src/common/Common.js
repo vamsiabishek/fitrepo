@@ -104,6 +104,10 @@ export const MEALS_ICON = require('../../assets/images/extras/meals_icon.svg');
 //export const GRADIENT_BG_BANNER_IMAGE = require('../../assets/images/gradient_image_banner.png');
 //export const NON_VEG_ICON = require('../../assets/images/non-veg.svg');
 //export const VEG_ICON = require('../../assets/images/veg.svg');
+export const LOGIN_BG_IMAGE =
+  SCREEN_WIDTH <= 375
+    ? require('../../assets/images/Login_BG_375.svg')
+    : require('../../assets/images/Login_BG_414.svg');
 export const MALE_BEGINNER_ICON = require('../../assets/images/beginner_1.svg');
 export const MALE_INTERMEDIATE_ICON = require('../../assets/images/intermediate_1.svg');
 export const MALE_ADVANCED_ICON = require('../../assets/images/advanced_1.svg');

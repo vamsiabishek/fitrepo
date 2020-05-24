@@ -137,6 +137,7 @@ export default class PersonalDetails extends Component {
     const hasWeight = this.isValidNumValue(weight);
     const hasHeight = this.isValidNumValue(height);
     const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() - 15);
     const selectedHeight = Heights.find((hght) =>
       hght.startsWith(`${height}cm`),
     );
