@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Alert,
   LayoutAnimation,
@@ -42,302 +42,281 @@ import api from '../common/Api';
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-export default class Signup extends Component {
-  constructor(props) {
-    super(props);
-    // console.log(navigation.getParam('isExistingUser'));
-    this.state = {
-      goal: '',
-      gender: '',
-      fitnessLevel: '',
-      dob: '',
-      age: undefined,
-      weight: undefined,
-      height: undefined,
-      program: undefined,
-      targetWeight: undefined,
-      healthCond: undefined,
-      foodPreference: FOOD_PREF_NON_VEG,
-      foodPrefBtn: 3,
-      numberOfMeals: 4,
-      showTargetWeightButton: false,
-      navButtonActive: false,
-      screen: 1,
-      proteinSources: getSourcesWithImages('protein'),
-      carbSources: getSourcesWithImages('carb'),
-      fatSources: getSourcesWithImages('fat'),
-      selectedProteinSources: [],
-      selectedCarbSources: [],
-      selectedFatSources: [],
-      showModal: false,
-      modalContains: '',
-      searchTerm: '',
-      selectedSources: [],
-      sources: [],
-      filteredSources: [],
-      sourcesButtonLabel: 'SKIP',
-      user: {},
-      isLoading: false,
-      isLoadingComponent: false,
-      userLoginAnimation: false,
-      isLoggedIn: false,
-      showGender: true,
-      showPrivacyTerms: false,
-      privacyTermsAccepted: false,
-      disableBackAndClose: false,
-    };
+function Signup(props) {
+  const onNextDelayed = debounce((screen) => onNext(screen), 600);
 
-    this.onNextDelayed = debounce((screen) => this.onNext(screen), 600);
-  }
+  const scrollRef = useRef();
 
-  componentDidMount = async () => {
-    const {navigation} = this.props;
+  const [gender, setGender] = useState('');
+  const [goal, setGoal] = useState('');
+  const [fitnessLevel, setFitnessLevel] = useState('');
+  const [dob, setDob] = useState('');
+  const [age, setAge] = useState(undefined);
+  const [weight, setWeight] = useState(undefined);
+  const [height, setHeight] = useState(undefined);
+  const [program, setProgram] = useState(undefined);
+  const [targetWeight, setTargetWeight] = useState(undefined);
+  const [foodPreference, setFoodPreference] = useState(FOOD_PREF_NON_VEG);
+  const [showTargetWeightButton, setShowTargetWeightButton] = useState(false);
+  const [showPrivacyTerms, setShowPrivacyTerms] = useState(false);
+  const [privacyTermsAccepted, setPrivacyTermsAccepted] = useState(false);
+  const [foodPrefBtn, setFoodPrefBtn] = useState(3);
+  const [proteinSources, setProteinSources] = useState(
+    getSourcesWithImages('protein'),
+  );
+  const [carbSources, setCarbSources] = useState(getSourcesWithImages('carb'));
+  const [fatSources, setFatSources] = useState(getSourcesWithImages('fat'));
+  const [numberOfMeals, setNumberOfMeals] = useState(4);
+  const [navButtonActive, setNavButtonActive] = useState(false);
+  const [screen, setScreen] = useState(1);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isExistingUser, setIsExistingUser] = useState(false);
+  const [selectedProteinSources, setSelectedProteinSources] = useState([]);
+  const [selectedCarbSources, setSelectedCarbSources] = useState([]);
+  const [selectedFatSources, setSelectedFatSources] = useState([]);
+  const [sources, setSources] = useState([]);
+  const [sourcesButtonLabel, setSourcesButtonLabel] = useState('SKIP');
+  const [user, setUser] = useState({});
+  const [showGender, setShowGender] = useState(true);
+  const [isLoadingComponent, setIsLoadingComponent] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalContains, setModalContains] = useState('');
+  const [selectedSources, setSelectedSources] = useState([]);
+  const [filteredSources, setFilteredSources] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [userLoginAnimation, setUserLoginAnimation] = useState(false);
+  const [disableBackAndClose, setDisableBackAndClose] = useState(false);
+  const [navigation, setNavigation] = useState(props.navigation);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
     const fromLoginScreen = navigation.getParam('fromLogin');
     const fromAddNew = navigation.getParam('fromAddNew');
     if (fromLoginScreen || fromAddNew) {
       try {
-        this.setState({isLoadingComponent: true});
-        const userLoggedIn = await api.get('/getLoggedInUser');
-        LayoutAnimation.easeInEaseOut();
-        const normalizedUser = normalizeUserForSignup(userLoggedIn);
-        //console.log('normalizedUser', normalizedUser);
-        this.setState({
-          user: normalizedUser,
-          ...normalizedUser,
-          showTargetWeightButton: this.changeShowTargetWeightButton(
-            normalizedUser.dob,
-            normalizedUser.weight,
-            normalizedUser.height,
-          ),
-          isLoadingComponent: false,
-          showGender: normalizedUser.hasNoGender,
-          isExistingUser: true,
-        });
+        setIsLoadingComponent(true);
+        fetchLoggedInUser();
       } catch (err) {
-        this.setState({isLoadingComponent: false});
+        setIsLoadingComponent(false);
       }
     }
+  }, [navigation]);
+
+  const fetchLoggedInUser = async () => {
+    const userLoggedIn = await api.get('/getLoggedInUser');
+    LayoutAnimation.easeInEaseOut();
+    const normalizedUser = normalizeUserForSignup(userLoggedIn);
+    setUser(normalizedUser.user);
+    setShowGender(normalizedUser.hasNoGender);
+    setIsExistingUser(true);
+    setIsLoadingComponent(false);
+    setDob(normalizedUser.dob);
+    setAge(normalizedUser.age);
+    setWeight(normalizedUser.weight);
+    setHeight(normalizedUser.height);
+    setGender(normalizedUser.gender);
+    setFitnessLevel(normalizedUser.fitnessLevel);
+    setFoodPrefBtn(normalizedUser.foodPrefBtn);
+    setFoodPreference(normalizedUser.foodPreference);
+    setProteinSources(normalizedUser.proteinSources);
+    setCarbSources(normalizedUser.carbSources);
+    setFatSources(normalizedUser.fatSources);
+    setPrivacyTermsAccepted(normalizedUser.privacyTermsAccepted);
   };
 
-  setShowPrivacyTerms = () => {
-    this.setState({showPrivacyTerms: true});
+  const setUserFitnessLevel = (level) => {
+    setFitnessLevel(level);
+    onNextDelayed(screen);
   };
 
-  onPrivacyTermsAccept = () => {
-    this.setState({showPrivacyTerms: false, privacyTermsAccepted: true});
-  };
+  useEffect(() => {
+    onNextDelayed(screen);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goal, gender]);
 
-  setGoal = (goal) => {
-    this.setState({goal});
-    this.onNextDelayed(this.state.screen);
-  };
-  setGender = (gender) => {
-    this.setState({gender});
-    this.onNextDelayed(this.state.screen);
-  };
-  setFitnessLevel = (fitnessLevel) => {
-    this.setState({fitnessLevel});
-    this.onNextDelayed(this.state.screen);
-  };
-  setFBUser = async (user) => {
-    this.setState({
-      user,
-      dob: user.dob,
-      age: user.age,
-      isLoading: true,
-      userLoginAnimation: true,
-    });
-    await this.saveUserAfterAuthentication(user);
-    this.scrollToNextScreen(4);
-  };
-  setGoogleUser = async (user) => {
-    this.setState({user, isLoading: true, userLoginAnimation: true});
-    await this.saveUserAfterAuthentication(user);
-    this.scrollToNextScreen(4);
-  };
-  setPhoneNumberUser = async (user) => {
-    this.setState({user, isLoading: true, userLoginAnimation: true});
-    await this.saveUserAfterAuthentication(user);
-    this.scrollToNextScreen(4);
-  };
-  setNewUser = async () => {
-    await this.createNewUser(); // saveUserAfterAuthentication(user) is called inside this method
-    this.scrollToNextScreen(4);
-  };
-  setDob = (dob, age) => {
-    const {weight, height} = this.state;
-    let showTargetWeightButton = this.changeShowTargetWeightButton(
+  useEffect(() => {
+    const showTargetWeightBtn = changeShowTargetWeightButton(
       dob,
       weight,
       height,
     );
-    this.setState({dob, age, showTargetWeightButton});
+    setShowTargetWeightButton(showTargetWeightBtn);
+  }, [dob, weight, height]);
+
+  useEffect(() => {
+    setFoodPreference(getFoodPrefByIndex(foodPrefBtn, foodPreference));
+    setProteinSources(getSourcesWithImages('protein', foodPreference));
+    setCarbSources(getSourcesWithImages('carb'));
+    setFatSources(getSourcesWithImages('fat'));
+  }, [foodPrefBtn, foodPreference]);
+
+  useEffect(() => {
+    if (foodPrefBtn >= 0 && foodPrefBtn.length !== 0 && numberOfMeals > 0) {
+      setNavButtonActive(true);
+    } else {
+      setNavButtonActive(false);
+    }
+  }, [foodPrefBtn, numberOfMeals]);
+
+  const onPrivacyTermsAccept = () => {
+    setShowPrivacyTerms(false);
+    setPrivacyTermsAccepted(true);
   };
-  setWeight = (weight) => {
-    const {dob, height, targetWeight, program} = this.state;
-    let showTargetWeightButton = this.changeShowTargetWeightButton(
-      dob,
-      weight,
-      height,
-    );
+
+  const setFBUser = async (user) => {
+    setDob(user.dob);
+    setAge(user.age);
+    await saveUser(user);
+  };
+  const setGoogleUser = async (user) => {
+    await saveUser(user);
+  };
+  const setPhoneNumberUser = async (user) => {
+    await saveUser(user);
+  };
+  const saveUser = async (user) => {
+    setUser(user);
+    setIsLoading(true);
+    setUserLoginAnimation(true);
+    await saveUserAfterAuthentication(user);
+    scrollToNextScreen(4);
+  };
+
+  const setUserDob = (dob, age) => {
+    setDob(dob);
+    setAge(age);
+  };
+  const setUserWeight = (wght) => {
     let newTargetWeight = targetWeight;
     let newProgram = program;
-    if (targetWeight && program && weight !== this.state.weight) {
+    if (targetWeight && program && wght !== weight) {
       newTargetWeight = undefined;
       newProgram = undefined;
     }
-    this.setState({
-      weight,
-      showTargetWeightButton,
-      targetWeight: newTargetWeight,
-      program: newProgram,
-    });
+    setWeight(wght);
+    setTargetWeight(newTargetWeight);
+    setProgram(newProgram);
   };
-  setHeight = (height) => {
-    const {dob, weight} = this.state;
-    let showTargetWeightButton = this.changeShowTargetWeightButton(
-      dob,
-      weight,
-      height,
-    );
-    this.setState({height, showTargetWeightButton});
-  };
-  setHealthCond = (healthCond) => {
-    this.setState({healthCond});
-  };
-  setFoodPref = (foodPrefBtn) => {
-    const {numberOfMeals} = this.state;
-    let {proteinSources, carbSources, fatSources, foodPreference} = this.state;
-    foodPreference = getFoodPrefByIndex(foodPrefBtn, foodPreference);
-    proteinSources = getSourcesWithImages('protein', foodPreference);
-    carbSources = getSourcesWithImages('carb');
-    fatSources = getSourcesWithImages('fat');
-    this.setState({
-      foodPrefBtn,
-      foodPreference,
-      navButtonActive: this.changeNavButtonToActive(foodPrefBtn, numberOfMeals),
-      proteinSources,
-      carbSources,
-      fatSources,
-    });
-  };
-  setNoOfMeals = (numberOfMeals) => {
-    const {foodPrefBtn} = this.state;
-    this.setState({
-      numberOfMeals,
-      navButtonActive: this.changeNavButtonToActive(foodPrefBtn, numberOfMeals),
-    });
-  };
-  changeShowTargetWeightButton = (dob, weight, height) => {
+
+  const changeShowTargetWeightButton = (dob, weight, height) => {
     if (dob && dob.length > 0 && weight > 0 && height > 0) {
       return true;
     } else {
       return false;
     }
   };
-  changeNavButtonToActive = (foodPrefBtn, numberOfMeals) => {
-    if (foodPrefBtn >= 0 && foodPrefBtn.length !== 0 && numberOfMeals > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-  setTargetWeightAndProgram = (targetWeight, program) => {
-    this.setState({targetWeight, program, navButtonActive: true});
+
+  const setTargetWeightAndProgram = (targetWeight, program) => {
+    setTargetWeight(targetWeight);
+    setProgram(program);
+    setNavButtonActive(true);
   };
 
-  showNavButtonIfTargetWeightAvailable = () => {
-    const {navButtonActive} = this.state;
+  const showNavButtonIfTargetWeightAvailable = () => {
     if (!navButtonActive) {
-      this.setState({navButtonActive: true});
+      setNavButtonActive(true);
     }
   };
 
-  scrollToNextScreen = (currentScreen, isLoggedIn = false) => {
+  const scrollToNextScreen = (currentScreen, isLoggedIn = false) => {
+    let screenValue = screen;
+    const node = scrollRef.current;
     if (isLoggedIn && currentScreen === 3) {
       const scrollValue = commonValues.SCREEN_WIDTH * (currentScreen + 1);
-      this.scrollRef.scrollTo({x: scrollValue});
-      this.setState({screen: this.state.screen + 2, navButtonActive: false});
+      node.scrollTo({x: scrollValue});
+      screenValue = screen + 2;
     } else {
       let scrollValue = commonValues.SCREEN_WIDTH * currentScreen;
-      this.scrollRef.scrollTo({x: scrollValue, animated: true});
-      this.setState({screen: this.state.screen + 1, navButtonActive: false});
+      node.scrollTo({x: scrollValue, animated: true});
+      screenValue = screen + 1;
     }
+    setScreen(screenValue);
+    setNavButtonActive(false);
   };
 
-  scrollToNextScreenForExistingOrNewLoggedInUser = (currentScreen) => {
+  const scrollToNextScreenForExistingOrNewLoggedInUser = (currentScreen) => {
     const scrollValue = SCREEN_WIDTH * currentScreen;
-    this.scrollRef.scrollTo({x: scrollValue});
-    this.setState({screen: this.state.screen + 1, navButtonActive: false});
+    scrollRef.current.scrollTo({x: scrollValue});
+    setScreen(screen + 1);
+    setNavButtonActive(false);
   };
 
-  onBack = (currentScreen) => {
-    const {isExistingUser} = this.state;
-    const {navigate} = this.props.navigation;
+  const onBack = (currentScreen) => {
+    const {navigate} = props.navigation;
+    const node = scrollRef.current;
     if (currentScreen === 5 && !isExistingUser) {
       const scrollValue = SCREEN_WIDTH * (currentScreen - 2) - SCREEN_WIDTH;
-      this.scrollRef.scrollTo({x: scrollValue});
-      this.setState({
-        screen: this.state.screen - 2,
-        navButtonActive: true,
-        isLoggedIn: true,
-      });
+      node.scrollTo({x: scrollValue});
+      setScreen(screen - 2);
+      setNavButtonActive(true);
+      setIsLoggedIn(true);
     } else if (currentScreen !== 1) {
       const scrollValue = SCREEN_WIDTH * (currentScreen - 1) - SCREEN_WIDTH;
-      this.scrollRef.scrollTo({x: scrollValue});
-      this.setState({screen: this.state.screen - 1, navButtonActive: true});
+      node.scrollTo({x: scrollValue});
+      setScreen(screen - 1);
+      setNavButtonActive(true);
     } else {
       !isExistingUser ? navigate('StartUp') : navigate('Diet');
     }
   };
 
-  onCancelSignup = () => {
-    const {isExistingUser} = this.state;
-    const {navigate} = this.props.navigation;
+  const onCancelSignup = () => {
+    const {navigate} = props.navigation;
     !isExistingUser ? navigate('StartUp') : navigate('Diet');
   };
 
+  useEffect(() => {
+    const sourcesBtnLabel = changeSourceButtonLabel();
+    setSourcesButtonLabel(sourcesBtnLabel);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProteinSources, selectedCarbSources, selectedFatSources]);
+
   // source selection methods
-  removeProteinSource = (index) => {
-    let {selectedProteinSources} = this.state;
-    const sources = this.unSelectSource(
-      selectedProteinSources[index],
-      'protein',
-    );
+  const removeProteinSource = (index) => {
+    const srcs = unSelectSource(selectedProteinSources[index], 'protein');
     selectedProteinSources.splice(index, 1);
-    let sourcesButtonLabel = this.changeSourceButtonLabel();
-    this.setState({selectedProteinSources, sources, sourcesButtonLabel});
+    setSelectedProteinSources(selectedProteinSources);
+    setSources(srcs);
   };
 
-  removeCarbSource = (index) => {
-    let {selectedCarbSources} = this.state;
-    const sources = this.unSelectSource(selectedCarbSources[index], 'carbs');
+  const removeCarbSource = (index) => {
+    const srcs = unSelectSource(selectedCarbSources[index], 'carbs');
     selectedCarbSources.splice(index, 1);
-    let sourcesButtonLabel = this.changeSourceButtonLabel();
-    this.setState({selectedCarbSources, sources, sourcesButtonLabel});
+    setSelectedCarbSources(selectedCarbSources);
+    setSources(srcs);
   };
 
-  removeFatSource = (index) => {
-    let {selectedFatSources} = this.state;
-    const sources = this.unSelectSource(selectedFatSources[index], 'fat');
+  const removeFatSource = (index) => {
+    const srcs = unSelectSource(selectedFatSources[index], 'fat');
     selectedFatSources.splice(index, 1);
-    let sourcesButtonLabel = this.changeSourceButtonLabel();
-    this.setState({selectedFatSources, sources, sourcesButtonLabel});
+    setSelectedFatSources(selectedFatSources);
+    setSources(srcs);
   };
 
-  removeSource = (index, sourceType) => {
+  const addSource = (sourceType) => {
+    if (sourceType === 'protein') {
+      addProtein();
+    } else if (sourceType === 'carbs') {
+      addCarbs();
+    } else if (sourceType === 'fat') {
+      addFat();
+    }
+  };
+
+  const removeSource = (index, sourceType) => {
     if (index > -1) {
       if (sourceType === 'protein') {
-        this.removeProteinSource(index);
+        removeProteinSource(index);
       } else if (sourceType === 'carbs') {
-        this.removeCarbSource(index);
+        removeCarbSource(index);
       } else if (sourceType === 'fat') {
-        this.removeFatSource(index);
+        removeFatSource(index);
       }
     }
   };
 
-  canSelectCarbsAndFats = (selectedProteinSources, foodPreference) => {
+  const canSelectCarbsAndFats = (selectedProteinSources, foodPreference) => {
     if (foodPreference === FOOD_PREF_NON_VEG) {
       if (selectedProteinSources && selectedProteinSources.length >= 2) {
         let numberOfVegSources = 0;
@@ -356,43 +335,39 @@ export default class Signup extends Component {
     return true;
   };
 
-  unSelectSource = (selectedSource, sourceType) => {
-    let {proteinSources, carbSources, fatSources} = this.state;
-    let selectedSources = [];
+  const unSelectSource = (selectedSource, sourceType) => {
+    let selectedSrcs = [];
     if (sourceType === 'protein') {
-      selectedSources = proteinSources;
+      selectedSrcs = proteinSources;
     } else if (sourceType === 'carbs') {
-      selectedSources = carbSources;
+      selectedSrcs = carbSources;
     } else {
-      selectedSources = fatSources;
+      selectedSrcs = fatSources;
     }
-    const selectedIndexFromSources = selectedSources.findIndex(
+    const selectedIndexFromSources = selectedSrcs.findIndex(
       (source) => source.name === selectedSource.name,
     );
-    selectedSources[selectedIndexFromSources].selected = false;
-    return selectedSources;
+    selectedSrcs[selectedIndexFromSources].selected = false;
+    return selectedSrcs;
   };
-  addProtein = () => {
-    this.setState({
-      showModal: true,
-      modalContains: 'protein',
-      selectedSources: this.state.selectedProteinSources,
-      sources: this.state.proteinSources,
-      filteredSources: this.state.proteinSources,
-      searchTerm: '',
-    });
+
+  const addProtein = () => {
+    console.log('addprotein');
+    setModalContains('protein');
+    setShowModal(true);
+    setSearchTerm('');
+    setSelectedSources(selectedProteinSources);
+    setSources(proteinSources);
+    setFilteredSources(proteinSources);
   };
-  addCarbs = () => {
-    const {selectedProteinSources, foodPreference} = this.state;
-    if (this.canSelectCarbsAndFats(selectedProteinSources, foodPreference)) {
-      this.setState({
-        showModal: true,
-        modalContains: 'carbs',
-        selectedSources: this.state.selectedCarbSources,
-        sources: this.state.carbSources,
-        filteredSources: this.state.carbSources,
-        searchTerm: '',
-      });
+  const addCarbs = () => {
+    if (canSelectCarbsAndFats(selectedProteinSources, foodPreference)) {
+      setModalContains('carbs');
+      setShowModal(true);
+      setSearchTerm('');
+      setSelectedSources(selectedCarbSources);
+      setSources(carbSources);
+      setFilteredSources(carbSources);
     } else {
       Alert.alert(
         'Threshold Reached',
@@ -400,17 +375,14 @@ export default class Signup extends Component {
       );
     }
   };
-  addFat = () => {
-    const {selectedProteinSources, foodPreference} = this.state;
-    if (this.canSelectCarbsAndFats(selectedProteinSources, foodPreference)) {
-      this.setState({
-        showModal: true,
-        modalContains: 'fat',
-        selectedSources: this.state.selectedFatSources,
-        sources: this.state.fatSources,
-        filteredSources: this.state.fatSources,
-        searchTerm: '',
-      });
+  const addFat = () => {
+    if (canSelectCarbsAndFats(selectedProteinSources, foodPreference)) {
+      setModalContains('fat');
+      setShowModal(true);
+      setSearchTerm('');
+      setSelectedSources(selectedFatSources);
+      setSources(fatSources);
+      setFilteredSources(fatSources);
     } else {
       Alert.alert(
         'Threshold Reached',
@@ -418,17 +390,8 @@ export default class Signup extends Component {
       );
     }
   };
-  addSource = (sourceType) => {
-    if (sourceType === 'protein') {
-      this.addProtein();
-    } else if (sourceType === 'carbs') {
-      this.addCarbs();
-    } else if (sourceType === 'fat') {
-      this.addFat();
-    }
-  };
-  onSourceToggle = (index, selected) => {
-    const {sources, selectedSources, modalContains} = this.state;
+
+  const onSourceToggle = (index, selected) => {
     let maxSourcesAllowed = 4;
     if (modalContains === 'fat') {
       maxSourcesAllowed = 2;
@@ -438,7 +401,7 @@ export default class Signup extends Component {
       const selectedSource = sources[index];
       sources[index].selected = !selected;
       if (!selected) {
-        selectedSources.push(this.state.sources[index]);
+        selectedSources.push(sources[index]);
       } else {
         const selectedIndex = selectedSources.findIndex(
           (source) => source.name === selectedSource.name,
@@ -448,29 +411,16 @@ export default class Signup extends Component {
         }
       }
 
-      let sourcesButtonLabel = this.changeSourceButtonLabel();
+      setSources(sources);
+      setSelectedSources(selectedSources);
 
       if (modalContains === 'protein') {
-        this.setState({
-          sources,
-          selectedSources,
-          selectedProteinSources: selectedSources,
-          sourcesButtonLabel,
-        });
+        console.log('setting protein sources', selectedSources)
+        setSelectedProteinSources([...selectedSources]);
       } else if (modalContains === 'carbs') {
-        this.setState({
-          sources,
-          selectedSources,
-          selectedCarbSources: selectedSources,
-          sourcesButtonLabel,
-        });
+        setSelectedCarbSources([...selectedSources]);
       } else if (modalContains === 'fat') {
-        this.setState({
-          sources,
-          selectedSources,
-          selectedFatSources: selectedSources,
-          sourcesButtonLabel,
-        });
+        setSelectedFatSources([...selectedSources]);
       }
     } else {
       Alert.alert(
@@ -483,45 +433,31 @@ export default class Signup extends Component {
       );
     }
   };
-  changeSourceButtonLabel = () => {
-    const {
-      selectedProteinSources,
-      selectedCarbSources,
-      selectedFatSources,
-    } = this.state;
-    let {sourcesButtonLabel} = this.state;
+  const changeSourceButtonLabel = () => {
+    let sourcesBtnLabel = 'SKIP';
     if (
       selectedProteinSources.length > 0 ||
       selectedCarbSources.length > 0 ||
       selectedFatSources.length > 0
     ) {
-      sourcesButtonLabel = 'NEXT';
-    } else {
-      sourcesButtonLabel = 'SKIP';
+      sourcesBtnLabel = 'NEXT';
     }
-    return sourcesButtonLabel;
+    return sourcesBtnLabel;
   };
-  onCancel = () => {
-    this.setState({showModal: false});
-  };
-  onConfirm = () => {
-    const {selectedSources, modalContains} = this.state;
+
+  const onConfirm = () => {
     if (modalContains === 'protein' && selectedSources.length < 2) {
       Alert.alert('Incomplete', 'Select atleast two sources');
     } else {
-      this.setState({showModal: false});
+      setShowModal(false);
       analytics().logEvent('Selected_sources', {
         sources: selectedSources.map((source) => source.key),
         sourceType: modalContains,
       });
     }
   };
-  filterSources = (searchTerm) => {
-    const {sources} = this.state;
-    this.setState({searchTerm});
-
-    let filteredSources = [];
-
+  const filterSources = (searchTerm) => {
+    let filteredSrcs = [];
     sources &&
       sources.forEach((source) => {
         const parts = searchTerm
@@ -531,31 +467,15 @@ export default class Signup extends Component {
         const regex = new RegExp(`(${parts.join('|')})`, 'i');
 
         if (regex.test(source.name)) {
-          filteredSources.push(source);
+          filteredSrcs.push(source);
         }
       });
 
-    //console.log("filteredSources: ", filteredSources);
-
-    this.setState({searchTerm, filteredSources});
+    setSearchTerm(searchTerm);
+    setFilteredSources(filteredSrcs);
   };
 
-  onNext = async (currentScreen) => {
-    const {
-      goal,
-      gender,
-      fitnessLevel,
-      dob,
-      age,
-      weight,
-      height,
-      targetWeight,
-      foodPrefBtn,
-      numberOfMeals,
-      isLoggedIn,
-      isExistingUser,
-      showGender,
-    } = this.state;
+  const onNext = async (currentScreen) => {
     let isScrollable = false;
 
     const comparableScreen = (num) => (showGender ? num : num - 1);
@@ -584,7 +504,6 @@ export default class Signup extends Component {
     }
     if (!isExistingUser) {
       if (currentScreen === 4) {
-        await this.setNewUser();
         isScrollable = true;
       }
       if (currentScreen === 5) {
@@ -609,11 +528,11 @@ export default class Signup extends Component {
         isScrollable = true;
       }
       if (currentScreen === 7) {
-        await this.saveUserDetails();
-        await this.createDietAndMeals();
+        await saveUserDetails();
+        await createDietAndMeals();
       }
-      if (isScrollable && this.scrollRef && currentScreen !== 4) {
-        this.scrollToNextScreen(currentScreen, isLoggedIn);
+      if (isScrollable && scrollRef && currentScreen !== 4) {
+        scrollToNextScreen(currentScreen, isLoggedIn);
       }
     } else {
       if (currentScreen === comparableScreen(4)) {
@@ -639,48 +558,37 @@ export default class Signup extends Component {
       }
       if (currentScreen === comparableScreen(6)) {
         //console.log('saving user details');
-        await this.saveUserDetails();
+        await saveUserDetails();
         // console.log('saving diet details');
-        await this.createDietAndMeals();
+        await createDietAndMeals();
       }
-      if (isScrollable && this.scrollRef) {
-        this.scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
+      if (isScrollable && scrollRef) {
+        scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
       }
     }
   };
 
-  saveUserAfterAuthentication = async (newUser) => {
-    const {gender, fitnessLevel} = this.state;
-    const user = {
+  const saveUserAfterAuthentication = async (newUser) => {
+    const userDetails = {
       ...newUser,
       gender,
       fitnessLevel,
     };
-    const savedUser = await api.post('/saveUser', user);
-    this.setState({
-      user: savedUser,
-      isLoading: false,
-      userLoginAnimation: false,
-    });
-    analytics().logEvent('signup', user);
-    this.setShowPrivacyTerms();
+    const savedUser = await api.post('/saveUser', userDetails);
+    setUser(savedUser);
+    setIsLoading(false);
+    setUserLoginAnimation(false);
+    analytics().logEvent('signup', userDetails);
+    setShowPrivacyTerms(true);
   };
 
-  saveUserDetails = async () => {
-    this.setState({isLoading: true});
-    const {
-      dob,
-      age,
-      weight,
-      height,
-      foodPreference,
-      privacyTermsAccepted,
-    } = this.state;
-    let {user, gender, fitnessLevel, uid} = this.state;
-    // gender = gender === 0 ? "Female" : "Male";
-    user = {
-      ...user,
-      uid,
+  const saveUserDetails = async () => {
+    setIsLoading(true);
+
+    const {diets, ...rest} = user;
+
+    const userDetails = {
+      ...rest,
       gender,
       fitnessLevel,
       dob,
@@ -692,44 +600,26 @@ export default class Signup extends Component {
     };
     try {
       //console.log('updating user', user);
-      await api.post('/updateUser', user);
-      this.setState({user});
+      await api.post('/updateUser', userDetails);
+      setUser(userDetails);
+      setIsLoading(false);
+      setUserLoginAnimation(false);
       //console.log('user saved successfully');
-      const {diets} = await this.fetchUserDiets();
+      // const {diets} = await fetchUserDiets();
       //console.log('mydiets ', diets);
       if (diets.length !== 0) {
         setFirstTimeUser();
       }
     } catch (err) {
       console.error('Error occurred in the save user details method: ', err);
-      this.setState({isLoading: false});
+      setIsLoading(false);
     }
   };
 
-  fetchUserDiets = async () => {
-    try {
-      return await api.get('/userDiets');
-    } catch (err) {
-      console.log('error while fetching my diets in SignUp page', err);
-    }
-  };
-
-  createDietAndMeals = async () => {
-    //this.setState({ isLoading: true });
-    const {navigate} = this.props.navigation;
-    const {
-      selectedProteinSources,
-      selectedFatSources,
-      selectedCarbSources,
-      weight,
-      targetWeight,
-      goal,
-      program,
-      numberOfMeals,
-      fitnessLevel,
-      foodPreference,
-      user: {uid, gender},
-    } = this.state;
+  const createDietAndMeals = async () => {
+    //setState({ isLoading: true });
+    const {navigate} = props.navigation;
+    const {uid, gender} = user;
     const dietInfo = {
       selectedProteinSources,
       selectedFatSources,
@@ -746,7 +636,7 @@ export default class Signup extends Component {
     };
     analytics().logEvent('Diet_creation_started', {...dietInfo, gender});
     const dietId = await createDiet({uid, dietInfo});
-    this.setState({isLoading: false});
+    setIsLoading(false);
     //console.log('navigating to mydiet');
     navigate('MyDiet', {
       uid,
@@ -757,290 +647,227 @@ export default class Signup extends Component {
     });
   };
 
-  setdisableBackAndClose = (value) => {
-    this.setState({disableBackAndClose: value});
-  };
+  const {hasAtleastOneDiet} = props;
 
-  render() {
-    const {
-      goal,
-      gender,
-      fitnessLevel,
-      sourcesButtonLabel,
-      selectedProteinSources,
-      selectedCarbSources,
-      selectedFatSources,
-      showModal,
-      modalContains,
-      selectedSources,
-      filteredSources,
-      email,
-      password,
-      confirmationPassword,
-      usernameValid,
-      emailValid,
-      passwordValid,
-      confirmationPasswordValid,
-      isLoading,
-      isLoadingComponent,
-      dob,
-      weight,
-      height,
-      program,
-      targetWeight,
-      navButtonActive,
-      showTargetWeightButton,
-      screen,
-      healthCond,
-      foodPrefBtn,
-      numberOfMeals,
-      foodPreference,
-      isExistingUser,
-      userLoginAnimation,
-      showGender,
-      showPrivacyTerms,
-      disableBackAndClose,
-    } = this.state;
-    const {hasAtleastOneDiet} = this.props;
-    const signupObject = {
-      email,
-      password,
-      confirmationPassword,
-      usernameValid,
-      emailValid,
-      passwordValid,
-      confirmationPasswordValid,
-      onEmailChange: this.onEmailChange,
-      onPasswordChange: this.onPasswordChange,
-      onConfirmPasswordChange: this.onConfirmPasswordChange,
-      validateEmail: this.validateEmail,
-      validatePassword: this.validatePassword,
-      validateConfirmationPassword: this.validateConfirmationPassword,
-    };
-    const loadingAnimationText = userLoginAnimation
-      ? 'Signing you up with DietRepo ...'
-      : 'Creating your new diet ...';
-    const loadingAnimation = userLoginAnimation
-      ? require('../../assets/jsons/user_animation_4.json')
-      : require('../../assets/jsons/creating_diet_animation.json');
-    return (
-      <View style={commonStyles.container}>
-        <StatusBar hidden={true} />
-        <View style={commonStyles.innerContainer}>
-          {isLoadingComponent ? (
-            <View style={styles.activityIndicatorStyle}>
-              <View style={styles.contactUsAnimationContainer}>
-                <LottieView
-                  resizeMode="contain"
-                  source={require('../../assets/jsons/loading_2_animation.json')}
-                  autoPlay
-                  loop
-                  enableMergePathsAndroidForKitKatAndAbove
-                />
+  const loadingAnimationText = userLoginAnimation
+    ? 'Signing you up with DietRepo ...'
+    : 'Creating your new diet ...';
+  const loadingAnimation = userLoginAnimation
+    ? require('../../assets/jsons/user_animation_4.json')
+    : require('../../assets/jsons/creating_diet_animation.json');
+
+  return (
+    <View style={commonStyles.container}>
+      <StatusBar hidden={true} />
+      <View style={commonStyles.innerContainer}>
+        {isLoadingComponent ? (
+          <View style={styles.activityIndicatorStyle}>
+            <View style={styles.contactUsAnimationContainer}>
+              <LottieView
+                resizeMode="contain"
+                source={require('../../assets/jsons/loading_2_animation.json')}
+                autoPlay
+                loop
+                enableMergePathsAndroidForKitKatAndAbove
+              />
+            </View>
+            <View style={styles.textViewContainer}>
+              <Text style={styles.textStyle}>Getting everything ready...</Text>
+            </View>
+          </View>
+        ) : (
+          <ScrollView
+            horizontal={true}
+            scrollEnabled={false}
+            ref={scrollRef}
+            style={commonStyles.container}
+            pagingEnabled={true}
+            contentContainerStyle={commonStyles.scrollContentContainer}>
+            {showGender && (
+              <View style={commonStyles.subContainer}>
+                <View style={styles.contentWrapper}>
+                  <Header
+                    title="Your gender ?"
+                    screen={screen}
+                    onBack={onBack}
+                    onCancel={onCancelSignup}
+                  />
+                  <Gender gender={gender} setGender={setGender} />
+                </View>
               </View>
-              <View style={styles.textViewContainer}>
-                <Text style={styles.textStyle}>
-                  Getting everything ready...
-                </Text>
+            )}
+            <View style={commonStyles.subContainer}>
+              <View style={styles.contentWrapper}>
+                <Header
+                  title="What is your goal ?"
+                  screen={screen}
+                  onBack={onBack}
+                  onCancel={onCancelSignup}
+                />
+                <Goal goal={goal} setGoal={setGoal} gender={gender} />
               </View>
             </View>
-          ) : (
-            <ScrollView
-              horizontal={true}
-              scrollEnabled={false}
-              ref={(scrollView) => {
-                this.scrollRef = scrollView;
-              }}
-              style={commonStyles.container}
-              pagingEnabled={true}
-              contentContainerStyle={commonStyles.scrollContentContainer}>
-              {showGender && (
-                <View style={commonStyles.subContainer}>
-                  <View style={styles.contentWrapper}>
-                    <Header
-                      title="Your gender ?"
-                      screen={screen}
-                      onBack={this.onBack}
-                      onCancel={this.onCancelSignup}
-                    />
-                    <Gender gender={gender} setGender={this.setGender} />
-                  </View>
-                </View>
-              )}
-              <View style={commonStyles.subContainer}>
-                <View style={styles.contentWrapper}>
-                  <Header
-                    title="What is your goal ?"
-                    screen={screen}
-                    onBack={this.onBack}
-                    onCancel={this.onCancelSignup}
-                  />
-                  <Goal goal={goal} setGoal={this.setGoal} gender={gender} />
-                </View>
-              </View>
-              <View style={commonStyles.subContainer}>
-                <View style={styles.contentWrapper}>
-                  <Header
-                    title="What is your activity level ?"
-                    screen={screen}
-                    onBack={this.onBack}
-                    onCancel={this.onCancelSignup}
-                  />
-                  <FitnessLevel
-                    gender={gender}
-                    selectedLevel={fitnessLevel}
-                    setFitnessLevel={this.setFitnessLevel}
-                    levels={[1, 2, 3]}
-                  />
-                </View>
-              </View>
-              {!isExistingUser && (
-                <View style={commonStyles.subContainer}>
-                  <View style={styles.contentWrapper}>
-                    <Header
-                      title={isLoading ? 'Hold on ...' : 'SIGN UP'}
-                      showOnBack={!(isLoading || disableBackAndClose)}
-                      showOnCancel={!(isLoading || disableBackAndClose)}
-                      screen={screen}
-                      onBack={this.onBack}
-                      onCancel={this.onCancelSignup}
-                    />
-                    {isLoading ? (
-                      <View style={styles.contentWrapper}>
-                        <Loading
-                          resizeMode="contain"
-                          text={loadingAnimationText}
-                          isTextBold={true}
-                          animationStr={loadingAnimation}
-                        />
-                      </View>
-                    ) : (
-                      <SocialMediaSignup
-                        setdisableBackAndClose={this.setdisableBackAndClose}
-                        signupObject={signupObject}
-                        setFBUser={this.setFBUser}
-                        setGoogleUser={this.setGoogleUser}
-                        setPhoneNumberUser={this.setPhoneNumberUser}
-                      />
-                    )}
-                  </View>
-                </View>
-              )}
-              <View style={commonStyles.subContainer}>
-                <View style={styles.contentWrapper}>
-                  <Header
-                    title={"Let's get to know you better!"}
-                    screen={screen}
-                    onBack={this.onBack}
-                    onCancel={this.onCancelSignup}
-                  />
-                  <PersonalDetails
-                    goal={goal}
-                    fitnessLevel={fitnessLevel}
-                    dob={dob}
-                    setDob={this.setDob}
-                    weight={weight}
-                    setWeight={this.setWeight}
-                    height={height}
-                    setHeight={this.setHeight}
-                    showTargetWeightButton={
-                      hasAtleastOneDiet ? true : showTargetWeightButton
-                    }
-                    programs={[4, 8, 12, 16]}
-                    program={program}
-                    targetWeight={targetWeight}
-                    setTargetWeightAndProgram={this.setTargetWeightAndProgram}
-                    showNavButtonIfTargetWeightAvailable={
-                      this.showNavButtonIfTargetWeightAvailable
-                    }
-                  />
-                  <NavNextButton
-                    isActive={navButtonActive}
-                    screen={screen}
-                    onNext={this.onNextDelayed}
-                  />
-                </View>
-              </View>
-              <View style={commonStyles.subContainer}>
-                <View style={styles.contentWrapper}>
-                  <Header
-                    title="Choose your Preference !"
-                    screen={screen}
-                    onBack={this.onBack}
-                    onCancel={this.onCancelSignup}
-                  />
-                  <PreferenceDetails
-                    healthCond={healthCond}
-                    setHealthCond={this.setHealthCond}
-                    foodPreference={foodPrefBtn}
-                    setFoodPref={this.setFoodPref}
-                    numberOfMeals={numberOfMeals}
-                    numberOfMealsOptions={[3, 4, 5, 6]}
-                    setNoOfMeals={this.setNoOfMeals}
-                  />
-                  <NavNextButton
-                    isActive={true}
-                    screen={screen}
-                    onNext={this.onNextDelayed}
-                  />
-                </View>
-              </View>
-              <View style={commonStyles.subContainer}>
+            <View style={commonStyles.subContainer}>
+              <View style={styles.contentWrapper}>
                 <Header
-                  title={
-                    isLoading
-                      ? 'Hold On ...'
-                      : 'Choose your macros or skip this step...'
-                  }
-                  showOnBack={!isLoading}
-                  showOnCancel={!isLoading}
+                  title="What is your activity level ?"
                   screen={screen}
-                  onBack={this.onBack}
-                  onCancel={this.onCancelSignup}
+                  onBack={onBack}
+                  onCancel={onCancelSignup}
                 />
-                {isLoading ? (
-                  <View style={styles.contentWrapper}>
-                    <Loading
-                      resizeMode={'contain'}
-                      isTextBold={true}
-                      text={loadingAnimationText}
-                      animationStr={loadingAnimation}
-                    />
-                  </View>
-                ) : (
-                  <FoodSources
-                    selectedProteinSources={selectedProteinSources}
-                    selectedCarbSources={selectedCarbSources}
-                    selectedFatSources={selectedFatSources}
-                    foodPreference={foodPreference}
-                    showModal={showModal}
-                    modalContains={modalContains}
-                    selectedSources={selectedSources}
-                    filteredSources={filteredSources}
-                    removeSource={this.removeSource}
-                    addSource={this.addSource}
-                    onSourceToggle={this.onSourceToggle}
-                    onCancel={this.onCancel}
-                    onConfirm={this.onConfirm}
-                    filterSources={this.filterSources}
-                  />
-                )}
-                <NavNextButton
-                  isActive={isLoading ? false : true}
-                  screen={screen}
-                  onNext={this.onNextDelayed}
-                  buttonText={sourcesButtonLabel}
+                <FitnessLevel
+                  gender={gender}
+                  selectedLevel={fitnessLevel}
+                  setFitnessLevel={setUserFitnessLevel}
+                  levels={[1, 2, 3]}
                 />
               </View>
-            </ScrollView>
-          )}
-          <PrivacyAndTerms
-            showPrivacyTerms={showPrivacyTerms}
-            onAccept={this.onPrivacyTermsAccept}
-            showCloseBtn={false}
-          />
-        </View>
+            </View>
+            {!isExistingUser && (
+              <View style={commonStyles.subContainer}>
+                <View style={styles.contentWrapper}>
+                  <Header
+                    title={isLoading ? 'Hold on ...' : 'SIGN UP'}
+                    showOnBack={!(isLoading || disableBackAndClose)}
+                    showOnCancel={!(isLoading || disableBackAndClose)}
+                    screen={screen}
+                    onBack={onBack}
+                    onCancel={onCancelSignup}
+                  />
+                  {isLoading ? (
+                    <View style={styles.contentWrapper}>
+                      <Loading
+                        resizeMode="contain"
+                        text={loadingAnimationText}
+                        isTextBold={true}
+                        animationStr={loadingAnimation}
+                      />
+                    </View>
+                  ) : (
+                    <SocialMediaSignup
+                      setdisableBackAndClose={setDisableBackAndClose}
+                      setFBUser={setFBUser}
+                      setGoogleUser={setGoogleUser}
+                      setPhoneNumberUser={setPhoneNumberUser}
+                    />
+                  )}
+                </View>
+              </View>
+            )}
+            <View style={commonStyles.subContainer}>
+              <View style={styles.contentWrapper}>
+                <Header
+                  title={"Let's get to know you better!"}
+                  screen={screen}
+                  onBack={onBack}
+                  onCancel={onCancelSignup}
+                />
+                <PersonalDetails
+                  goal={goal}
+                  fitnessLevel={fitnessLevel}
+                  dob={dob}
+                  setDob={setUserDob}
+                  weight={weight}
+                  setWeight={setUserWeight}
+                  height={height}
+                  setHeight={setHeight}
+                  showTargetWeightButton={
+                    hasAtleastOneDiet ? true : showTargetWeightButton
+                  }
+                  programs={[4, 8, 12, 16]}
+                  program={program}
+                  targetWeight={targetWeight}
+                  setTargetWeightAndProgram={setTargetWeightAndProgram}
+                  showNavButtonIfTargetWeightAvailable={
+                    showNavButtonIfTargetWeightAvailable
+                  }
+                />
+                <NavNextButton
+                  isActive={navButtonActive}
+                  screen={screen}
+                  onNext={onNextDelayed}
+                />
+              </View>
+            </View>
+            <View style={commonStyles.subContainer}>
+              <View style={styles.contentWrapper}>
+                <Header
+                  title="Choose your Preference !"
+                  screen={screen}
+                  onBack={onBack}
+                  onCancel={onCancelSignup}
+                />
+                <PreferenceDetails
+                  foodPreference={foodPrefBtn}
+                  setFoodPref={setFoodPrefBtn}
+                  numberOfMeals={numberOfMeals}
+                  numberOfMealsOptions={[3, 4, 5, 6]}
+                  setNoOfMeals={setNumberOfMeals}
+                />
+                <NavNextButton
+                  isActive={true}
+                  screen={screen}
+                  onNext={onNextDelayed}
+                />
+              </View>
+            </View>
+            <View style={commonStyles.subContainer}>
+              <Header
+                title={
+                  isLoading
+                    ? 'Hold On ...'
+                    : 'Choose your macros or skip this step...'
+                }
+                showOnBack={!isLoading}
+                showOnCancel={!isLoading}
+                screen={screen}
+                onBack={onBack}
+                onCancel={onCancelSignup}
+              />
+              {isLoading ? (
+                <View style={styles.contentWrapper}>
+                  <Loading
+                    resizeMode={'contain'}
+                    isTextBold={true}
+                    text={loadingAnimationText}
+                    animationStr={loadingAnimation}
+                  />
+                </View>
+              ) : (
+                <FoodSources
+                  selectedProteinSources={selectedProteinSources}
+                  selectedCarbSources={selectedCarbSources}
+                  selectedFatSources={selectedFatSources}
+                  foodPreference={foodPreference}
+                  showModal={showModal}
+                  modalContains={modalContains}
+                  selectedSources={selectedSources}
+                  filteredSources={filteredSources}
+                  removeSource={removeSource}
+                  addSource={addSource}
+                  onSourceToggle={onSourceToggle}
+                  onCancel={() => setShowModal(false)}
+                  onConfirm={onConfirm}
+                  filterSources={filterSources}
+                />
+              )}
+              <NavNextButton
+                isActive={isLoading ? false : true}
+                screen={screen}
+                onNext={onNextDelayed}
+                buttonText={sourcesButtonLabel}
+              />
+            </View>
+          </ScrollView>
+        )}
+        <PrivacyAndTerms
+          showPrivacyTerms={showPrivacyTerms}
+          onAccept={onPrivacyTermsAccept}
+          showCloseBtn={false}
+        />
       </View>
-    );
-  }
+    </View>
+  );
 }
+
+export default Signup;
