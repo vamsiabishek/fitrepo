@@ -1,10 +1,8 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   SCREEN_WIDTH,
   styleCommon,
   fontsCommon,
-  DEVICE_NAME,
-  errorTextcolor,
   SCREEN_HEIGHT,
 } from '../../../assets/style/stylesCommonValues';
 
@@ -13,6 +11,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: SCREEN_HEIGHT * 0.3,
+    // borderWidth:1,
+  },
+  signupContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
     // borderWidth:1,
   },
   title: {

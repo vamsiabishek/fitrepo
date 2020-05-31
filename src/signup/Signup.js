@@ -248,7 +248,7 @@ function Signup(props) {
   const scrollToNextScreenForExistingOrNewLoggedInUser = (currentScreen) => {
     const scrollValue = SCREEN_WIDTH * currentScreen;
     scrollRef.current.scrollTo({x: scrollValue});
-    console.log('setting new screen')
+    console.log('setting new screen');
     setScreen(screen + 1);
     setNavButtonActive(false);
   };
@@ -426,7 +426,7 @@ function Signup(props) {
       setSelectedSources(selectedSources);
 
       if (modalContains === 'protein') {
-        console.log('setting protein sources', selectedSources)
+        console.log('setting protein sources', selectedSources);
         setSelectedProteinSources([...selectedSources]);
       } else if (modalContains === 'carbs') {
         setSelectedCarbSources([...selectedSources]);
@@ -487,7 +487,7 @@ function Signup(props) {
   };
 
   const onNext = async (currentScreen) => {
-    console.log('on next', currentScreen,'goal' , goal)
+    console.log('on next', currentScreen, 'goal', goal);
     let isScrollable = false;
 
     const comparableScreen = (num) => (showGender ? num : num - 1);
@@ -506,7 +506,7 @@ function Signup(props) {
       goal.length !== 0
     ) {
       isScrollable = true;
-      console.log('goal', goal)
+      console.log('goal', goal);
     }
     if (
       currentScreen === comparableScreen(3) &&
@@ -576,7 +576,7 @@ function Signup(props) {
         await createDietAndMeals();
       }
       if (isScrollable && scrollRef) {
-        console.log('scrolling to next')
+        console.log('scrolling to next');
         scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
       }
     }
@@ -631,7 +631,7 @@ function Signup(props) {
   };
 
   const createDietAndMeals = async () => {
-    //setState({ isLoading: true });
+    setIsLoading(true);
     const {navigate} = props.navigation;
     const {uid, gender} = user;
     const dietInfo = {

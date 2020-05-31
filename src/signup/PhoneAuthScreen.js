@@ -183,7 +183,7 @@ class PhoneAuthScreen extends Component {
       isLoading,
       sendingSms,
     } = this.state;
-    const {loadingMessage} = this.props;
+    const {loadingMessage, isSignup} = this.props;
     return (
       <React.Fragment>
         {isLoading ? (
@@ -210,6 +210,7 @@ class PhoneAuthScreen extends Component {
               this.renderConfirmationCodeView()
             ) : (
               <PhoneNumberPicker
+                isSignup={isSignup}
                 sendCodeToPhone={this.handleSendCode}
                 phoneNumber={phNumWithoutCountryCode}
                 countryCode={countryCode}
