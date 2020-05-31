@@ -61,11 +61,6 @@ function Signup(props) {
   const [showPrivacyTerms, setShowPrivacyTerms] = useState(false);
   const [privacyTermsAccepted, setPrivacyTermsAccepted] = useState(false);
   const [foodPrefBtn, setFoodPrefBtn] = useState(3);
-  const [proteinSources, setProteinSources] = useState(
-    getSourcesWithImages('protein'),
-  );
-  const [carbSources, setCarbSources] = useState(getSourcesWithImages('carb'));
-  const [fatSources, setFatSources] = useState(getSourcesWithImages('fat'));
   const [numberOfMeals, setNumberOfMeals] = useState(4);
   const [navButtonActive, setNavButtonActive] = useState(false);
   const [screen, setScreen] = useState(1);
@@ -74,16 +69,10 @@ function Signup(props) {
   const [selectedProteinSources, setSelectedProteinSources] = useState([]);
   const [selectedCarbSources, setSelectedCarbSources] = useState([]);
   const [selectedFatSources, setSelectedFatSources] = useState([]);
-  const [sources, setSources] = useState([]);
   const [sourcesButtonLabel, setSourcesButtonLabel] = useState('SKIP');
   const [user, setUser] = useState({});
   const [showGender, setShowGender] = useState(true);
   const [isLoadingComponent, setIsLoadingComponent] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [modalContains, setModalContains] = useState('');
-  const [selectedSources, setSelectedSources] = useState([]);
-  const [filteredSources, setFilteredSources] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [userLoginAnimation, setUserLoginAnimation] = useState(false);
   const [disableBackAndClose, setDisableBackAndClose] = useState(false);
@@ -119,9 +108,6 @@ function Signup(props) {
     setFitnessLevel(normalizedUser.fitnessLevel);
     setFoodPrefBtn(normalizedUser.foodPrefBtn);
     setFoodPreference(normalizedUser.foodPreference);
-    setProteinSources(normalizedUser.proteinSources);
-    setCarbSources(normalizedUser.carbSources);
-    setFatSources(normalizedUser.fatSources);
     setPrivacyTermsAccepted(normalizedUser.privacyTermsAccepted);
   };
 
@@ -156,9 +142,6 @@ function Signup(props) {
 
   useEffect(() => {
     setFoodPreference(getFoodPrefByIndex(foodPrefBtn, foodPreference));
-    setProteinSources(getSourcesWithImages('protein', foodPreference));
-    setCarbSources(getSourcesWithImages('carb'));
-    setFatSources(getSourcesWithImages('fat'));
   }, [foodPrefBtn, foodPreference]);
 
   useEffect(() => {
@@ -248,7 +231,6 @@ function Signup(props) {
   const scrollToNextScreenForExistingOrNewLoggedInUser = (currentScreen) => {
     const scrollValue = SCREEN_WIDTH * currentScreen;
     scrollRef.current.scrollTo({x: scrollValue});
-    console.log('setting new screen')
     setScreen(screen + 1);
     setNavButtonActive(false);
   };
@@ -272,222 +254,36 @@ function Signup(props) {
     }
   };
 
+  const setSelectedSources = ({
+    selectedProteinSources: selectedProteinSrcs,
+    selectedCarbSources: selectedCarbSrcs,
+    selectedFatSources: selectedFatSrcs,
+    modalContains,
+  }) => {
+    if (modalContains === 'protein') {
+      setSelectedProteinSources([...selectedProteinSrcs]);
+    } else if (modalContains === 'carbs') {
+      setSelectedCarbSources([...selectedCarbSrcs]);
+    } else if (modalContains === 'fat') {
+      setSelectedFatSources([...selectedFatSrcs]);
+    }
+    let sourcesBtnLabel = 'SKIP';
+    if (
+      selectedProteinSrcs?.length > 0 ||
+      selectedCarbSrcs?.length > 0 ||
+      selectedFatSrcs?.length > 0
+    ) {
+      sourcesBtnLabel = 'NEXT';
+    }
+    setSourcesButtonLabel(sourcesBtnLabel);
+  };
+
   const onCancelSignup = () => {
     const {navigate} = props.navigation;
     !isExistingUser ? navigate('StartUp') : navigate('Diet');
   };
 
-  useEffect(() => {
-    const sourcesBtnLabel = changeSourceButtonLabel();
-    setSourcesButtonLabel(sourcesBtnLabel);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProteinSources, selectedCarbSources, selectedFatSources]);
-
-  // source selection methods
-  const removeProteinSource = (index) => {
-    const srcs = unSelectSource(selectedProteinSources[index], 'protein');
-    selectedProteinSources.splice(index, 1);
-    setSelectedProteinSources(selectedProteinSources);
-    setSources(srcs);
-  };
-
-  const removeCarbSource = (index) => {
-    const srcs = unSelectSource(selectedCarbSources[index], 'carbs');
-    selectedCarbSources.splice(index, 1);
-    setSelectedCarbSources(selectedCarbSources);
-    setSources(srcs);
-  };
-
-  const removeFatSource = (index) => {
-    const srcs = unSelectSource(selectedFatSources[index], 'fat');
-    selectedFatSources.splice(index, 1);
-    setSelectedFatSources(selectedFatSources);
-    setSources(srcs);
-  };
-
-  const addSource = (sourceType) => {
-    if (sourceType === 'protein') {
-      addProtein();
-    } else if (sourceType === 'carbs') {
-      addCarbs();
-    } else if (sourceType === 'fat') {
-      addFat();
-    }
-  };
-
-  const removeSource = (index, sourceType) => {
-    if (index > -1) {
-      if (sourceType === 'protein') {
-        removeProteinSource(index);
-      } else if (sourceType === 'carbs') {
-        removeCarbSource(index);
-      } else if (sourceType === 'fat') {
-        removeFatSource(index);
-      }
-    }
-  };
-
-  const canSelectCarbsAndFats = (selectedProteinSources, foodPreference) => {
-    if (foodPreference === FOOD_PREF_NON_VEG) {
-      if (selectedProteinSources && selectedProteinSources.length >= 2) {
-        let numberOfVegSources = 0;
-        selectedProteinSources.map((source) => {
-          if (source.isVeg) {
-            numberOfVegSources = numberOfVegSources + 1;
-          }
-        });
-        if (numberOfVegSources > 2) {
-          return false;
-        }
-      }
-    } else {
-      return false;
-    }
-    return true;
-  };
-
-  const unSelectSource = (selectedSource, sourceType) => {
-    let selectedSrcs = [];
-    if (sourceType === 'protein') {
-      selectedSrcs = proteinSources;
-    } else if (sourceType === 'carbs') {
-      selectedSrcs = carbSources;
-    } else {
-      selectedSrcs = fatSources;
-    }
-    const selectedIndexFromSources = selectedSrcs.findIndex(
-      (source) => source.name === selectedSource.name,
-    );
-    selectedSrcs[selectedIndexFromSources].selected = false;
-    return selectedSrcs;
-  };
-
-  const addProtein = () => {
-    console.log('addprotein');
-    setModalContains('protein');
-    setShowModal(true);
-    setSearchTerm('');
-    setSelectedSources(selectedProteinSources);
-    setSources(proteinSources);
-    setFilteredSources(proteinSources);
-  };
-  const addCarbs = () => {
-    if (canSelectCarbsAndFats(selectedProteinSources, foodPreference)) {
-      setModalContains('carbs');
-      setShowModal(true);
-      setSearchTerm('');
-      setSelectedSources(selectedCarbSources);
-      setSources(carbSources);
-      setFilteredSources(carbSources);
-    } else {
-      Alert.alert(
-        'Threshold Reached',
-        'The protein sources so far selected have the required carbohydrates, you do not need to select anymore carbohydrate sources.',
-      );
-    }
-  };
-  const addFat = () => {
-    if (canSelectCarbsAndFats(selectedProteinSources, foodPreference)) {
-      setModalContains('fat');
-      setShowModal(true);
-      setSearchTerm('');
-      setSelectedSources(selectedFatSources);
-      setSources(fatSources);
-      setFilteredSources(fatSources);
-    } else {
-      Alert.alert(
-        'Threshold Reached',
-        'The protein sources so far selected have the required fats, you do not need to select anymore fat sources.',
-      );
-    }
-  };
-
-  const onSourceToggle = (index, selected) => {
-    let maxSourcesAllowed = 4;
-    if (modalContains === 'fat') {
-      maxSourcesAllowed = 2;
-    }
-
-    if (selectedSources.length < maxSourcesAllowed || sources[index].selected) {
-      const selectedSource = sources[index];
-      sources[index].selected = !selected;
-      if (!selected) {
-        selectedSources.push(sources[index]);
-      } else {
-        const selectedIndex = selectedSources.findIndex(
-          (source) => source.name === selectedSource.name,
-        );
-        if (selectedIndex > -1) {
-          selectedSources.splice(selectedIndex, 1);
-        }
-      }
-
-      setSources(sources);
-      setSelectedSources(selectedSources);
-
-      if (modalContains === 'protein') {
-        console.log('setting protein sources', selectedSources)
-        setSelectedProteinSources([...selectedSources]);
-      } else if (modalContains === 'carbs') {
-        setSelectedCarbSources([...selectedSources]);
-      } else if (modalContains === 'fat') {
-        setSelectedFatSources([...selectedSources]);
-      }
-    } else {
-      Alert.alert(
-        'Limit Reached !',
-        'You can only select ' +
-          maxSourcesAllowed +
-          ' ' +
-          modalContains +
-          ' sources.',
-      );
-    }
-  };
-  const changeSourceButtonLabel = () => {
-    let sourcesBtnLabel = 'SKIP';
-    if (
-      selectedProteinSources.length > 0 ||
-      selectedCarbSources.length > 0 ||
-      selectedFatSources.length > 0
-    ) {
-      sourcesBtnLabel = 'NEXT';
-    }
-    return sourcesBtnLabel;
-  };
-
-  const onConfirm = () => {
-    if (modalContains === 'protein' && selectedSources.length < 2) {
-      Alert.alert('Incomplete', 'Select atleast two sources');
-    } else {
-      setShowModal(false);
-      analytics().logEvent('Selected_sources', {
-        sources: selectedSources.map((source) => source.key),
-        sourceType: modalContains,
-      });
-    }
-  };
-  const filterSources = (searchTerm) => {
-    let filteredSrcs = [];
-    sources &&
-      sources.forEach((source) => {
-        const parts = searchTerm
-          .replace(/[\^$\\.*+?()[\]{}|]/g, '\\$&')
-          .trim()
-          .split(' ');
-        const regex = new RegExp(`(${parts.join('|')})`, 'i');
-
-        if (regex.test(source.name)) {
-          filteredSrcs.push(source);
-        }
-      });
-
-    setSearchTerm(searchTerm);
-    setFilteredSources(filteredSrcs);
-  };
-
   const onNext = async (currentScreen) => {
-    console.log('on next', currentScreen,'goal' , goal)
     let isScrollable = false;
 
     const comparableScreen = (num) => (showGender ? num : num - 1);
@@ -506,7 +302,6 @@ function Signup(props) {
       goal.length !== 0
     ) {
       isScrollable = true;
-      console.log('goal', goal)
     }
     if (
       currentScreen === comparableScreen(3) &&
@@ -576,7 +371,6 @@ function Signup(props) {
         await createDietAndMeals();
       }
       if (isScrollable && scrollRef) {
-        console.log('scrolling to next')
         scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
       }
     }
@@ -621,7 +415,7 @@ function Signup(props) {
       //console.log('user saved successfully');
       // const {diets} = await fetchUserDiets();
       //console.log('mydiets ', diets);
-      if (diets.length !== 0) {
+      if (diets?.length !== 0) {
         setFirstTimeUser();
       }
     } catch (err) {
@@ -632,6 +426,7 @@ function Signup(props) {
 
   const createDietAndMeals = async () => {
     //setState({ isLoading: true });
+    setIsLoading(true);
     const {navigate} = props.navigation;
     const {uid, gender} = user;
     const dietInfo = {
@@ -849,20 +644,8 @@ function Signup(props) {
                 </View>
               ) : (
                 <FoodSources
-                  selectedProteinSources={selectedProteinSources}
-                  selectedCarbSources={selectedCarbSources}
-                  selectedFatSources={selectedFatSources}
                   foodPreference={foodPreference}
-                  showModal={showModal}
-                  modalContains={modalContains}
-                  selectedSources={selectedSources}
-                  filteredSources={filteredSources}
-                  removeSource={removeSource}
-                  addSource={addSource}
-                  onSourceToggle={onSourceToggle}
-                  onCancel={() => setShowModal(false)}
-                  onConfirm={onConfirm}
-                  filterSources={filterSources}
+                  setSelectedSources={setSelectedSources}
                 />
               )}
               <NavNextButton
