@@ -180,9 +180,10 @@ export default class PhoneInput extends Component {
       inputValue,
       showPhoneSubmit,
     } = this.state;
+    const {isSignup} = this.props;
     const countryCodeTextStyle = {paddingLeft: 5};
     return (
-      <View style={styles.container}>
+      <View style={isSignup ? styles.signupContainer : styles.container}>
         {/* <View>
           <Text style={styles.title}>Enter your phone number</Text>
         </View> style={styles.modalContainer}

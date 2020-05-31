@@ -46,8 +46,13 @@ export default class SocialMediaSignup extends Component {
       toValue: 0.5,
       restDisplacementThreshold: 0.01,
       restSpeedThreshold: 0.01,
-      useNativeDriver: false,
-    }).start();
+      useNativeDriver: true,
+    }).start(() => {
+      Animated.spring(animatedValue, {
+        toValue: 1,
+        useNativeDriver: true,
+      });
+    });
   };
   handlePressOut = (media) => {
     let animatedValue = this.animatedGValue;
@@ -64,7 +69,12 @@ export default class SocialMediaSignup extends Component {
       friction: 3, //default 7
       tension: 40,
       useNativeDriver: true,
-    }).start();
+    }).start(() => {
+      Animated.spring(animatedValue, {
+        toValue: 1,
+        useNativeDriver: true,
+      });
+    });
 
     if (media === 'FB') {
       this.onPressFBLogin();
@@ -332,6 +342,7 @@ export default class SocialMediaSignup extends Component {
             <View>
               {/* <EmailOrMobileSignup signupObject={signupObject} /> */}
               <PhoneAuth
+                isSignup={true}
                 setShowSocialOptions={this.setShowSocialOptions}
                 createUserWithPhoneNumber={this.createUserWithPhoneNumber}
                 loadingMessage={'Signing you up with DietRepo'}

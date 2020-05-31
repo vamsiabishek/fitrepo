@@ -425,7 +425,6 @@ function Signup(props) {
   };
 
   const createDietAndMeals = async () => {
-    //setState({ isLoading: true });
     setIsLoading(true);
     const {navigate} = props.navigation;
     const {uid, gender} = user;
