@@ -127,13 +127,23 @@ function Signup(props) {
 
   const setUserFitnessLevel = (level) => {
     setFitnessLevel(level);
-    onNextDelayed(screen);
+    onNextDelayed(screen); // this gets executed when same value is selected, for new value useEffect gets executed
+  };
+
+  const setUserGoal = (goal) => {
+    setGoal(goal);
+    onNextDelayed(screen); // this gets executed when same value is selected, for new value useEffect gets executed
+  };
+
+  const setUserGender = (gender) => {
+    setGender(gender);
+    onNextDelayed(screen); // this gets executed when same value is selected, for new value useEffect gets executed
   };
 
   useEffect(() => {
     onNextDelayed(screen);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goal, gender]);
+  }, [gender, fitnessLevel, goal]);
 
   useEffect(() => {
     const showTargetWeightBtn = changeShowTargetWeightButton(
@@ -238,6 +248,7 @@ function Signup(props) {
   const scrollToNextScreenForExistingOrNewLoggedInUser = (currentScreen) => {
     const scrollValue = SCREEN_WIDTH * currentScreen;
     scrollRef.current.scrollTo({x: scrollValue});
+    console.log('setting new screen')
     setScreen(screen + 1);
     setNavButtonActive(false);
   };
@@ -476,6 +487,7 @@ function Signup(props) {
   };
 
   const onNext = async (currentScreen) => {
+    console.log('on next', currentScreen,'goal' , goal)
     let isScrollable = false;
 
     const comparableScreen = (num) => (showGender ? num : num - 1);
@@ -494,6 +506,7 @@ function Signup(props) {
       goal.length !== 0
     ) {
       isScrollable = true;
+      console.log('goal', goal)
     }
     if (
       currentScreen === comparableScreen(3) &&
@@ -563,6 +576,7 @@ function Signup(props) {
         await createDietAndMeals();
       }
       if (isScrollable && scrollRef) {
+        console.log('scrolling to next')
         scrollToNextScreenForExistingOrNewLoggedInUser(currentScreen);
       }
     }
@@ -692,7 +706,7 @@ function Signup(props) {
                     onBack={onBack}
                     onCancel={onCancelSignup}
                   />
-                  <Gender gender={gender} setGender={setGender} />
+                  <Gender gender={gender} setGender={setUserGender} />
                 </View>
               </View>
             )}
@@ -704,7 +718,7 @@ function Signup(props) {
                   onBack={onBack}
                   onCancel={onCancelSignup}
                 />
-                <Goal goal={goal} setGoal={setGoal} gender={gender} />
+                <Goal goal={goal} setGoal={setUserGoal} gender={gender} />
               </View>
             </View>
             <View style={commonStyles.subContainer}>
