@@ -169,4 +169,29 @@ export default StyleSheet.create({
     color: styleCommon.textColorWhite,
     alignSelf: 'center',
   },
+
+  searchBar: {
+    flexDirection: 'row',
+    paddingVertical: SCREEN_HEIGHT * 0.01,
+    backgroundColor: styleCommon.textInputDarkColor, //'#6ac8c2',
+    borderBottomWidth: 1,
+    borderColor: 'lightgrey',
+  },
+  searchTextInput: {
+    flex: 1,
+    fontSize: 17,
+    paddingVertical: 8,
+    color: styleCommon.textColorWhite,
+  },
+  closeButtonContainerStyle: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: -12,
+    right: -12,
+    height: SCREEN_HEIGHT * 0.04,
+    width: SCREEN_HEIGHT * 0.04,
+    backgroundColor: styleCommon.textInputDarkColor, //styleCommon.secondaryColorNew,
+    borderRadius: SCREEN_HEIGHT * 0.04,
+  },
 });

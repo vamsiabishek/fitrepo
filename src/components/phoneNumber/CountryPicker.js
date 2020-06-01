@@ -1,15 +1,22 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View, FlatList, Image} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  FlatList,
+  Image,
+  TextInput,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Modal from 'react-native-modal';
-import {Button} from 'react-native-elements';
 import Country from './country';
 import Flags from './resources/flags';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {
   styleCommon,
-  ICON_SIZE_MED,
+  SCREEN_HEIGHT,
 } from '../../../assets/style/stylesCommonValues';
 
 const propTypes = {
@@ -26,13 +33,15 @@ const propTypes = {
 export default class CountryPicker extends Component {
   constructor(props) {
     super(props);
+    this.countryList = Country.getAll();
 
     this.state = {
       buttonColor: this.props.buttonColor || '#007AFF',
       modalVisible: false,
       selectedCountry: this.props.selectedCountry || Country.getAll()[0],
+      searchTerm: '',
+      filteredCountries: this.countryList,
     };
-    this.countryList = Country.getAll();
   }
 
   onPressCancel = () => {
@@ -68,8 +77,28 @@ export default class CountryPicker extends Component {
     );
   };
 
+  filterCountries = (searchTerm) => {
+    let filteredCountries = [];
+    this.countryList?.forEach((country) => {
+      const parts = searchTerm
+        .replace(/[\^$\\.*+?()[\]{}|]/g, '\\$&')
+        .trim()
+        .split(' ');
+      const regex = new RegExp(`(${parts.join('|')})`, 'i');
+
+      if (regex.test(country.name)) {
+        filteredCountries.push(country);
+      }
+    });
+    this.setState({searchTerm, filteredCountries});
+  };
+
   render() {
     const {showCountryPicker} = this.props;
+    const {searchTerm, filteredCountries} = this.state;
+    const searchPlaceholderTextColor = 'white';
+    const searchPlaceholderText = 'Search country';
+    const searchSelectionColor = 'white'; //"rgba(0,0,0,0.2)";
     return (
       <Modal
         useNativeDriver={true}
@@ -79,22 +108,37 @@ export default class CountryPicker extends Component {
         backdropOpacity={0.5}
         style={styles.countryPickerModal}>
         <View style={styles.basicContainer}>
-          <View style={styles.modalContainer}>
-            <View style={styles.buttonView}>
-              <Button
-                icon={
-                  <Icon
-                    name="close-circle"
-                    size={ICON_SIZE_MED}
-                    color={styleCommon.textColor1}
-                  />
-                }
-                type="clear"
-                onPress={this.onPressCancel}
-                containerStyle={styles.closeBtnStyle}
+          <View style={styles.searchBar}>
+            <View style={{justifyContent: 'center'}}>
+              <MaterialIcon
+                name="search"
+                size={18}
+                style={{marginHorizontal: 15, color: 'white'}}
               />
             </View>
-
+            <TextInput
+              value={searchTerm}
+              selectionColor={searchSelectionColor}
+              onChangeText={(term) => this.filterCountries(term)}
+              placeholder={searchPlaceholderText}
+              autoFocus={false}
+              selectTextOnFocus
+              placeholderTextColor={searchPlaceholderTextColor}
+              underlineColorAndroid="transparent"
+              style={styles.searchTextInput}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.closeButtonContainerStyle}
+            onPress={() => this.onPressCancel()}>
+            <Icon
+              name="close-circle"
+              size={SCREEN_HEIGHT * 0.04}
+              color={styleCommon.secondaryColorNew}
+              style={{marginLeft: 1}}
+            />
+          </TouchableOpacity>
+          <View style={styles.modalContainer}>
             <View style={styles.mainBox}>
               {/* <Picker
                 style={styles.bottomPicker}
@@ -107,7 +151,7 @@ export default class CountryPicker extends Component {
                 )}
               </Picker> */}
               <FlatList
-                data={this.countryList}
+                data={filteredCountries}
                 renderItem={this.renderItem}
                 keyExtractor={(item) => item.iso2}
               />
