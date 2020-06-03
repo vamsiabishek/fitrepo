@@ -41,11 +41,13 @@ class PhoneAuthScreen extends Component {
   };
 
   onAuthStateChanged = (user) => {
+    const {confirmResult, verificationCode} = this.state;
     // For few devices the OTP(verification code) is auto-mapped so does not need to verify the code and the user will be automatically be logged in after signInWithPhoneNumber
-    if (user?.uid) {
+    if (user?.uid && confirmResult && verificationCode?.length !== 6) {
       //this.setState({user});
       this.setState({isLoading: true, sendingSms: false, autoValidating: true});
       const {createUserWithPhoneNumber} = this.props;
+      this.unSubscribe();
       createUserWithPhoneNumber(user);
     }
   };
@@ -112,6 +114,7 @@ class PhoneAuthScreen extends Component {
         .then((user) => {
           //this.setState({userId: user.uid});
           //alert(`Verified! ${user.uid}`);
+          this.unSubscribe();
           createUserWithPhoneNumber(user);
         })
         .catch((error) => {
