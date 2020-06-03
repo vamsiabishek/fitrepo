@@ -3,6 +3,8 @@ import {
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
 } from '../../assets/style/stylesCommonValues';
+import HeightRange from './HeightValues';
+import WeightRange from './WeightValues';
 
 export const LEVELS_OPTIONS = [
   {label: 'Beginner', value: 'Beginner'},
@@ -102,6 +104,10 @@ export const MEALS_ICON = require('../../assets/images/extras/meals_icon.svg');
 //export const GRADIENT_BG_BANNER_IMAGE = require('../../assets/images/gradient_image_banner.png');
 //export const NON_VEG_ICON = require('../../assets/images/non-veg.svg');
 //export const VEG_ICON = require('../../assets/images/veg.svg');
+export const LOGIN_BG_IMAGE =
+  SCREEN_WIDTH <= 375
+    ? require('../../assets/images/Login_BG_375.svg')
+    : require('../../assets/images/Login_BG_414.svg');
 export const MALE_BEGINNER_ICON = require('../../assets/images/beginner_1.svg');
 export const MALE_INTERMEDIATE_ICON = require('../../assets/images/intermediate_1.svg');
 export const MALE_ADVANCED_ICON = require('../../assets/images/advanced_1.svg');
@@ -128,6 +134,10 @@ export const FACEBOOK_ICON = require('../../assets/images/facebook.svg');
 export const INSTAGRAM_ICON = require('../../assets/images/instagram.svg');
 export const PURCHASES_ICON = require('../../assets/images/purchases.svg');
 export const EDIT_PROFILE_ICON = require('../../assets/images/edit_profile.svg');
+export const GENDER_MALE_UNSELECTED = require('../../assets/images/gender/unselectedMale.svg');
+export const GENDER_MALE_SELECTED = require('../../assets/images/gender/selectedMale.svg');
+export const GENDER_FEMALE_UNSELECTED = require('../../assets/images/gender/unselectedFemale.svg');
+export const GENDER_FEMALE_SELECTED = require('../../assets/images/gender/selectedFemale.svg');
 export const BEGINNER_LABEL = 'Beginner';
 export const INTERMEDIATE_LABEL = 'Intermediate';
 export const ADVANCED_LABEL = 'Advanced';
@@ -154,13 +164,40 @@ for (let x = MIN_WEIGHT; x <= MAX_WEIGHT; x++) {
   WEIGHT_RANGE.push(x);
   WEIGHT_RANGE.push(x + 0.5);
 }
-export const WEIGHT_RANGE_FINAL = [...WEIGHT_RANGE];
+export const WEIGHT_RANGE_FINAL = [...WeightRange];
 let HEIGHT_RANGE = [];
 for (let x = MIN_HEIGHT; x <= MAX_HEIGHT; x++) {
   HEIGHT_RANGE.push(x);
 }
-export const HEIGHT_RANGE_FINAL = [...HEIGHT_RANGE];
+export const HEIGHT_RANGE_FINAL = [...HeightRange];
 export const STAR_RATING_MAX = 5;
 export const PROGRESS_BAR_WIDTH = SCREEN_WIDTH * 0.8;
 export const PROGRESS_CIRCLE_RADIUS = SCREEN_HEIGHT * 0.08;
 export const PROGRESS_CIRCLE_BORDER_WIDTH = 6;
+
+export const getHeightLabel = (ht) => {
+  const height = HeightRange.find((hght) => hght.startsWith(`${ht}cm`));
+  if (height) {
+    const feet = height.substring(height.lastIndexOf('  ')).trim();
+    return `${ht} cm  (${feet})`;
+  }
+  return null;
+};
+
+export const getWeightLabel = (wt) => {
+  const weight = WeightRange.find((wgt) => wgt.startsWith(`${wt}kg`));
+  if (weight) {
+    const pounds = weight.substring(weight.lastIndexOf('  ')).trim();
+    return `${wt} kgs  (${pounds})`;
+  }
+  return null;
+};
+
+export const getWeightInPounds = (wt) => {
+  const weight = WeightRange.find((wgt) => wgt.startsWith(`${wt}kg`));
+  if (weight) {
+    const pounds = weight.substring(weight.lastIndexOf('  ')).trim();
+    return pounds;
+  }
+  return null;
+};

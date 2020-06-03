@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.95,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: SCREEN_HEIGHT * 0.15,
+    marginTop: SCREEN_HEIGHT * 0.3,
     //backgroundColor: 'red',
   },
   verificationSignUpContainer: {
@@ -148,5 +148,12 @@ export const styles = StyleSheet.create({
 
   underlineStyleHighLighted: {
     borderColor: '#03DAC6',
+  },
+  modalContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: SCREEN_WIDTH * 0.05,
+    paddingBottom: SCREEN_WIDTH * 0.07,
+    // backgroundColor: 'cyan',
   },
 });

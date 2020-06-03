@@ -826,7 +826,7 @@ export default class Signup extends Component {
     return (
       <View style={commonStyles.container}>
         <StatusBar hidden={true} />
-        <View style={commonStyles.bgImage}>
+        <View style={commonStyles.innerContainer}>
           {isLoadingComponent ? (
             <View style={styles.activityIndicatorStyle}>
               <View style={styles.contactUsAnimationContainer}>

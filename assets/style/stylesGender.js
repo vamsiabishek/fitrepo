@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: SCREEN_HEIGHT * 0.25, // 200
+    paddingTop: SCREEN_HEIGHT * 0.2, // 200
     // backgroundColor: "thistle"
   },
   mainContent: {
@@ -22,8 +22,8 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     width: SCREEN_WIDTH * 0.37, //140,
     height: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_HEIGHT * 0.17
-      : SCREEN_HEIGHT * 0.21, //140,
+      ? SCREEN_HEIGHT * 0.35
+      : SCREEN_HEIGHT * 0.42, //140,
     backgroundColor: styleCommon.secondaryColorNew,
     borderRadius: 20,
     borderBottomWidth: 0,
@@ -34,12 +34,14 @@ export const styles = StyleSheet.create({
     elevation: 5,
     marginHorizontal: 5,
     marginVertical: 5,
+    //justifyContent: 'center',
+    //alignItems: 'center',
   },
   activeButtonStyle: {
     width: SCREEN_WIDTH * 0.37, //140,
     height: DEVICE_NAME.includes('iPhone 11')
-      ? SCREEN_HEIGHT * 0.17
-      : SCREEN_HEIGHT * 0.21, //140,
+      ? SCREEN_HEIGHT * 0.35
+      : SCREEN_HEIGHT * 0.42, //140,
     backgroundColor: styleCommon.selectedButtonColor,
     borderRadius: 20,
     borderBottomWidth: 0,
@@ -61,7 +63,11 @@ export const styles = StyleSheet.create({
   },
   buttonIcon: {
     height:
-      Platform.OS === 'android' ? SCREEN_HEIGHT * 0.15 : SCREEN_HEIGHT * 0.14, // 100,
+      Platform.OS === 'android'
+        ? SCREEN_HEIGHT * 0.68
+        : DEVICE_NAME.includes('iPhone 11')
+        ? SCREEN_HEIGHT * 0.28
+        : SCREEN_HEIGHT * 0.38, // 100,
     justifyContent: 'center',
     alignItems: 'center',
   },

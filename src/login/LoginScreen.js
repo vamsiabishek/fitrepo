@@ -8,10 +8,10 @@ import {
   UIManager,
   KeyboardAvoidingView,
   Animated,
+  ImageBackground,
 } from 'react-native';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {GoogleSignin} from '@react-native-community/google-signin';
-import LottieView from 'lottie-react-native';
 import {Button, SocialIcon} from 'react-native-elements';
 import {styles} from '../../assets/style/stylesLoginScreen';
 import auth from '@react-native-firebase/auth';
@@ -20,6 +20,7 @@ import {
   PASSWORD_LENGTH_MINIMUM,
   PROVIDER_GOOGLE,
   PROVIDER_FACEBOOK,
+  LOGIN_BG_IMAGE,
 } from '../common/Common';
 import {setCurrentUser, getCurrentUser} from '../common/Util';
 import {fontsCommon} from '../../assets/style/stylesCommonValues';
@@ -408,35 +409,14 @@ export default class LoginScreen extends Component {
       ...styles.buttonContainer,
       flexDirection: 'row',
     };
-    const signInContainer = {
-      //marginBottom: 90,
-      //backgroundColor: 'yellow',
-    };
     return (
-      <View style={commonStyles.bgImage}>
-        <KeyboardAvoidingView
+      <View style={commonStyles.container}>
+        <View
           style={
             showSocialOptions && !isLoading
               ? styles.container
               : styles.containerLoading
-          }
-          behavior="padding"
-          enabled>
-          {showSocialOptions && !isLoading && (
-            <View style={styles.logoContainer}>
-              <Text style={styles.logoText}>LOGIN</Text>
-            </View>
-          )}
-          {showSocialOptions && !isLoading && (
-            <View style={styles.loginAnimationView}>
-              <LottieView
-                source={require('../../assets/jsons/login_animation.json')}
-                resizeMode={'cover'}
-                autoPlay
-                enableMergePathsAndroidForKitKatAndAbove
-              />
-            </View>
-          )}
+          }>
           {isLoading ? (
             <Loading
               resizeMode={isLoadingPostPrivacy && 'contain'}
@@ -460,129 +440,18 @@ export default class LoginScreen extends Component {
               takeFullHeight={false}
             />
           ) : (
-            <View style={signInContainer}>
-              <View style={styles.loginInputContainer}>
-                <PhoneAuth
-                  setShowSocialOptions={this.setShowSocialOptions}
-                  createUserWithPhoneNumber={this.loginWithPhoneNumber}
-                  loadingMessage={
-                    isLoadingPostPrivacy
-                      ? 'Signing you up with DietRepo...'
-                      : 'Logging you into DietRepo...'
-                  }
-                />
-                {/* <Input
-                  placeholder="Email"
-                  placeholderTextColor={styleCommon.textColor1}
-                  containerStyle={styles.inputContainer}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  inputStyle={styles.inputStyle}
-                  errorStyle={styles.errorInputStyle}
-                  leftIcon={
-                    <Icon
-                      name="account"
-                      color={styles.loginButtonDes.color}
-                      size={ICON_SIZE}
-                    />
-                  }
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardAppearance="dark"
-                  keyboardType="email-address"
-                  returnKeyType="done"
-                  value={email}
-                  onChangeText={(value) => this.onEmailChange(value)}
-                  ref={(input) => (this.emailInput = input)}
-                  onSubmitEditing={() => {
-                    this.setState({emailValid: this.validateEmail});
-                    this.passwordInput.focus();
-                  }}
-                  errorMessage={
-                    emailValid ? null : 'Please enter a valid email address'
-                  }
-                  style={{
-                    fontSize: fontsCommon.font16,
-                  }}
-                />
-                <Input
-                  placeholder="Password"
-                  placeholderTextColor={styleCommon.textColor1}
-                  leftIcon={
-                    <Icon
-                      name="key-variant"
-                      color={styles.loginButtonDes.color}
-                      size={ICON_SIZE}
-                    />
-                  }
-                  containerStyle={styles.inputContainer}
-                  inputContainerStyle={styles.inputContainerStyle}
-                  inputStyle={styles.inputStyle}
-                  errorStyle={styles.errorInputStyle}
-                  keyboardAppearance="dark"
-                  keyboardType="default"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  returnKeyType="go"
-                  secureTextEntry={secureTextKey}
-                  value={password}
-                  onChangeText={(passwordChg) =>
-                    this.onPasswordChange(passwordChg)
-                  }
-                  ref={(input) => (this.passwordInput = input)}
-                  onSubmitEditing={() => {
-                    this.setState({passwordValid: this.validatePassword});
-                  }}
-                  errorMessage={
-                    passwordValid ? null : 'Please enter a valid password'
-                  }
-                  rightIcon={
-                    <Button
-                      icon={
-                        <Icon
-                          name={secureTextKey ? 'eye' : 'eye-off'}
-                          size={ICON_SIZE}
-                          style={{color: styleCommon.textColor1}}
-                        />
-                      }
-                      buttonStyle={styles.seeUnseeButtonStyle}
-                      onPress={
-                        secureTextKey
-                          ? this.onEyeIconPress
-                          : this.onEyeOffIconPress
-                      }
-                    />
-                  }
-                /> */}
-              </View>
-              {/* <View style={styles.buttonContainer}>
-                <Button
-                  title="LOGIN"
-                  icon={
-                    <Icon
-                      name="login"
-                      size={ICON_SIZE}
-                      style={styles.loginButtonIcon}
-                    />
-                  }
-                  iconRight={true}
-                  ViewComponent={LinearGradient}
-                  linearGradientProps={{
-                    colors: [btnGradientColorLeft, modalBtnGradientColorRight], //btnGradientColorRight
-                    start: {x: 0, y: 0.5},
-                    end: {x: 1, y: 0.5},
-                  }}
-                  containerStyle={styles.loginButtonContainerStyle}
-                  buttonStyle={styles.loginButtonStyle}
-                  titleStyle={styles.loginButtonText}
-                  onPress={() => this.submitLoginCredentials()}
-                />
-                <Button
-                  title="Forgot Password ?"
-                  titleStyle={styles.signUpButtonTitle}
-                  type="clear"
-                  onPress={() => this.onClickForgotPassword()}
-                />
-              </View> */}
+            <ImageBackground
+              source={showSocialOptions && LOGIN_BG_IMAGE}
+              style={commonStyles.bgImage}>
+              <PhoneAuth
+                setShowSocialOptions={this.setShowSocialOptions}
+                createUserWithPhoneNumber={this.loginWithPhoneNumber}
+                loadingMessage={
+                  isLoadingPostPrivacy
+                    ? 'Signing you up with DietRepo...'
+                    : 'Logging you into DietRepo...'
+                }
+              />
               {showSocialOptions && !isLoading && (
                 <View>
                   <View style={socialLoginContainerStyle}>
@@ -614,9 +483,9 @@ export default class LoginScreen extends Component {
                   </View>
                 </View>
               )}
-            </View>
+            </ImageBackground>
           )}
-        </KeyboardAvoidingView>
+        </View>
         {showPrivacyTerms && (
           <PrivacyAndTerms
             showPrivacyTerms={showPrivacyTerms}
