@@ -104,6 +104,10 @@ export const MEALS_ICON = require('../../assets/images/extras/meals_icon.svg');
 //export const GRADIENT_BG_BANNER_IMAGE = require('../../assets/images/gradient_image_banner.png');
 //export const NON_VEG_ICON = require('../../assets/images/non-veg.svg');
 //export const VEG_ICON = require('../../assets/images/veg.svg');
+export const LOGIN_BG_IMAGE =
+  SCREEN_WIDTH <= 375
+    ? require('../../assets/images/Login_BG_375.svg')
+    : require('../../assets/images/Login_BG_414.svg');
 export const MALE_BEGINNER_ICON = require('../../assets/images/beginner_1.svg');
 export const MALE_INTERMEDIATE_ICON = require('../../assets/images/intermediate_1.svg');
 export const MALE_ADVANCED_ICON = require('../../assets/images/advanced_1.svg');
@@ -130,6 +134,10 @@ export const FACEBOOK_ICON = require('../../assets/images/facebook.svg');
 export const INSTAGRAM_ICON = require('../../assets/images/instagram.svg');
 export const PURCHASES_ICON = require('../../assets/images/purchases.svg');
 export const EDIT_PROFILE_ICON = require('../../assets/images/edit_profile.svg');
+export const GENDER_MALE_UNSELECTED = require('../../assets/images/gender/unselectedMale.svg');
+export const GENDER_MALE_SELECTED = require('../../assets/images/gender/selectedMale.svg');
+export const GENDER_FEMALE_UNSELECTED = require('../../assets/images/gender/unselectedFemale.svg');
+export const GENDER_FEMALE_SELECTED = require('../../assets/images/gender/selectedFemale.svg');
 export const BEGINNER_LABEL = 'Beginner';
 export const INTERMEDIATE_LABEL = 'Intermediate';
 export const ADVANCED_LABEL = 'Advanced';

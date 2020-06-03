@@ -1,5 +1,12 @@
 import {StyleSheet} from 'react-native';
-import {styleCommon, fontsCommon, DEVICE_NAME} from './stylesCommonValues';
+import {
+  styleCommon,
+  fontsCommon,
+  DEVICE_NAME,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  BG_COLOR,
+} from './stylesCommonValues';
 
 export const styles = StyleSheet.create({
   mealItemHeaderView: {
@@ -89,8 +96,13 @@ export const styles = StyleSheet.create({
     fontSize: fontsCommon.font14,
     color: styleCommon.textColor1,
   },
-  mealItemQuantity: {
+  mealItemQuantityContainer: {
     width: '40%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  mealItemQuantity: {
     fontSize: fontsCommon.font14,
     color: styleCommon.textColor1,
   },
@@ -99,6 +111,99 @@ export const styles = StyleSheet.create({
     fontSize: fontsCommon.font14,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
+    color: styleCommon.textColor1,
+  },
+  modalOuterContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    width: '100%',
+    backgroundColor: '#1D9A6C', //styleCommon.secondaryColorNew,
+    borderRadius: 20,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    marginTop: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.6
+      : SCREEN_WIDTH * 0.5,
+    marginBottom: DEVICE_NAME.includes('iPhone 11')
+      ? SCREEN_WIDTH * 0.6
+      : SCREEN_WIDTH * 0.5,
+  },
+  closeButtonContainerStyle: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: -12,
+    right: -12,
+    height: SCREEN_HEIGHT * 0.04,
+    width: SCREEN_HEIGHT * 0.04,
+    backgroundColor: BG_COLOR, //styleCommon.secondaryColorNew,
+    borderRadius: SCREEN_HEIGHT * 0.04,
+  },
+  popUpImageContainer: {
+    position: 'absolute',
+    top: -SCREEN_HEIGHT * 0.05,
+    left: SCREEN_WIDTH * 0.3,
+    width: SCREEN_HEIGHT * 0.15,
+    height: SCREEN_HEIGHT * 0.15,
+    borderRadius: SCREEN_HEIGHT * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: styleCommon.textColorWhite, //styleCommon.secondaryColorNew,
+    borderWidth: 5,
+    borderColor: '#CB9257',
+    overflow: 'hidden',
+  },
+  popUpImage: {
+    width: SCREEN_HEIGHT * 0.11,
+    height: SCREEN_HEIGHT * 0.09,
+  },
+  popUpTitleContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  popUpTitle: {
+    position: 'relative',
+    top: '25%',
+    fontSize: fontsCommon.font25,
+    fontWeight: 'bold',
+    // marginTop: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: styleCommon.textColorWhite,
+  },
+  modalHeader: {
+    //flex: 1,
+    flexDirection: 'row',
+    height: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '60%',
+    //paddingHorizontal: SCREEN_WIDTH * 0.05,
+    //paddingBottom: SCREEN_WIDTH * 0.07,
+    backgroundColor: styleCommon.secondaryColorNew,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  modalDescription: {
+    width: '100%',
+  },
+  infoItem: {
+    paddingHorizontal: 20,
+  },
+  infoLabel: {
+    marginVertical: 10,
+    fontSize: fontsCommon.font20,
+    fontWeight: 'bold',
+    color: styleCommon.textColor1,
+  },
+  infoValue: {
+    fontSize: fontsCommon.font16,
+    fontWeight: 'bold',
     color: styleCommon.textColor1,
   },
 });
