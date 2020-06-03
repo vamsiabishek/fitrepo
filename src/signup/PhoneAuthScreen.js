@@ -36,7 +36,27 @@ class PhoneAuthScreen extends Component {
     countryCode: '',
     isLoading: false,
     sendingSms: false,
+    autoValidating: false,
+    user: {},
   };
+
+  onAuthStateChanged = (user) => {
+    // For few devices the OTP(verification code) is auto-mapped so does not need to verify the code and the user will be automatically be logged in after signInWithPhoneNumber
+    if (user?.uid) {
+      //this.setState({user});
+      this.setState({isLoading: true, sendingSms: false, autoValidating: true});
+      const {createUserWithPhoneNumber} = this.props;
+      createUserWithPhoneNumber(user);
+    }
+  };
+
+  componentDidMount() {
+    this.unSubscribe = auth().onAuthStateChanged(this.onAuthStateChanged);
+  }
+
+  componentWillUnmount() {
+    this.unSubscribe();
+  }
 
   validatePhoneNumber = () => {
     var regexp = /^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{8,16})$/;
@@ -182,8 +202,15 @@ class PhoneAuthScreen extends Component {
       countryCode,
       isLoading,
       sendingSms,
+      autoValidating,
     } = this.state;
     const {loadingMessage} = this.props;
+    let loadingMsg = sendingSms
+      ? 'Sending the verification code...'
+      : loadingMessage;
+    if (autoValidating) {
+      loadingMsg = 'Auto-validating the verification code...';
+    }
     return (
       <React.Fragment>
         {isLoading ? (
@@ -191,9 +218,7 @@ class PhoneAuthScreen extends Component {
             resizeMode={
               (sendingSms || loadingMessage.includes('Signing')) && 'contain'
             }
-            text={
-              sendingSms ? 'Sending the verification code...' : loadingMessage
-            }
+            text={loadingMsg}
             animationStr={
               sendingSms
                 ? require('../../assets/jsons/phone_sms_code_animation.json')
