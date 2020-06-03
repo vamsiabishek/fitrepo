@@ -142,9 +142,10 @@ export const getFruits = (fitnessLevel) => {
 
 export const createKeyAndValues = (sources) => {
   return Object.keys(sources).map((key) => {
+    const {info, ...rest} = sources[key];
     return {
       key,
-      value: sources[key],
+      value: {...rest},
     };
   });
 };
@@ -155,9 +156,10 @@ export const createKeyAndValuesForIdList = (idList, sources) => {
     const value = sources[key];
     const source = idList.find((item) => item.key === key);
     if (source) {
+      const {info, ...rest} = value;
       sourceList.push({
         key,
-        value,
+        value: {...rest},
       });
     }
   });
@@ -169,9 +171,10 @@ export const createKeyAndValuesForDefault = (sources) => {
   Object.keys(sources).map((key) => {
     const value = sources[key];
     if (value.beginnerDefault) {
+      const {info, ...rest} = value;
       defaultSources.push({
         key,
-        value,
+        value: {...rest},
       });
     }
   });
@@ -183,9 +186,10 @@ export const createKeyAndValuesForStandard = (sources) => {
   Object.keys(sources).map((key) => {
     const value = sources[key];
     if (value.isStandard) {
+      const {info, ...rest} = value;
       standardSources.push({
         key,
-        value,
+        value: {...rest},
       });
     }
   });
@@ -202,9 +206,10 @@ export const createKeyAndValuesForStandardProtein = (sources, foodPref) => {
       (foodPref === FOOD_PREF_NON_VEG && value.isStandardForNonVeg) ||
       (foodPref === FOOD_PREF_EGGETARIAN && value.isStandardForEgg)
     ) {
+      const {info, ...rest} = value;
       standardSources.push({
         key,
-        value,
+        value: {...rest},
       });
     }
   });
@@ -239,6 +244,40 @@ const getSourcesByType = (type) => {
 
 const getAllSources = () => {
   return [...proteinSources, ...carbSources, ...fatSources];
+};
+
+export const getSourceInfo = (key) => {
+  if (proteinSources[key]) {
+    return proteinSources[key].info;
+  } else if (carbSources[key]) {
+    return carbSources[key].info;
+  } else if (fatSources[key]) {
+    return fatSources[key].info;
+  }
+  return null;
+};
+
+export const getSourceByKey = (key) => {
+  if (proteinSources[key]) {
+    const {uri} = proteinSourcesWithImages.find((source) => source.key === key);
+    return {
+      ...proteinSources[key],
+      imageUrl: uri,
+    };
+  } else if (carbSources[key]) {
+    const {uri} = carbSourcesWithImages.find((source) => source.key === key);
+    return {
+      ...carbSources[key],
+      imageUrl: uri,
+    };
+  } else if (fatSources[key]) {
+    const {uri} = fatSourcesWithImages.find((source) => source.key === key);
+    return {
+      ...fatSources[key],
+      imageUrl: uri,
+    };
+  }
+  return null;
 };
 
 export const resetSourceSelections = (sources) =>

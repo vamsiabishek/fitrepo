@@ -25,10 +25,10 @@ export const proteinSourcesWithImages = [
     key: 'egg-white',
   },
   {
-    name: 'Panner',
+    name: 'Paneer',
     uri: require('../../assets/images/sources/panner.svg'),
     isVeg: true,
-    key: 'panner',
+    key: 'paneer',
   },
   {
     name: 'Pork',

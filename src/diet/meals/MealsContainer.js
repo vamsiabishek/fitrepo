@@ -1,5 +1,13 @@
 import React, {Component} from 'react';
-import {Text, View, Animated, Easing, UIManager} from 'react-native';
+import {
+  Text,
+  View,
+  Animated,
+  Easing,
+  UIManager,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Timeline from 'react-native-timeline-flatlist';
@@ -8,7 +16,11 @@ import {MEALS_ICON} from '../../common/Common';
 import {
   styleCommon,
   fontsCommon,
+  SCREEN_HEIGHT,
 } from '../../../assets/style/stylesCommonValues';
+import Modal from 'react-native-modal';
+import {getSourceInfo, getSourceByKey} from '../../common/SourceUtil';
+import GradiantContainer from '../../components/GradiantContainer';
 
 // Enable LayoutAnimation for Android Devices
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -21,6 +33,8 @@ export default class MealsContainer extends Component {
       setIconUp: false,
       selected: null,
       heartClicked: false,
+      infoPopUpVisible: false,
+      infoSource: null,
     };
     this.onLoadAnimatedValue = new Animated.Value(0);
   }
@@ -34,8 +48,8 @@ export default class MealsContainer extends Component {
     }).start(() => (this.onLoadAnimatedValue = new Animated.Value(0)));
   };
 
-  shouldComponentUpdate = (nextProps) => {
-    return this.props.meals !== nextProps.meals;
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return this.props.meals !== nextProps.meals || this.state !== nextState;
   };
 
   handlePressIn = () => {
@@ -67,6 +81,16 @@ export default class MealsContainer extends Component {
 
   onEventPress = (data) => {
     this.setState({selected: data});
+  };
+
+  showInfoPopUp = (sourceKey) => {
+    const infoSource = getSourceByKey(sourceKey);
+    //console.log('infoSource', infoSource);
+    this.setState({infoPopUpVisible: true, infoSource});
+  };
+
+  closeInfoPopUp = () => {
+    this.setState({infoPopUpVisible: false});
   };
 
   renderDetail = (rowData, sectionID, rowID) => {
@@ -105,7 +129,25 @@ export default class MealsContainer extends Component {
             return (
               <View style={styles.mealItem} key={index}>
                 <Text style={styles.mealItemName}>{source.name}</Text>
-                <Text style={styles.mealItemQuantity}>{quantity}</Text>
+                <View style={styles.mealItemQuantityContainer}>
+                  <Text style={styles.mealItemQuantity}>{quantity}</Text>
+                  {getSourceInfo(source.id) && (
+                    <TouchableOpacity
+                      onPress={() => this.showInfoPopUp(source.id)}>
+                      <Icon
+                        name="information-outline"
+                        size={fontsCommon.font22}
+                        color={styleCommon.textInputDarkColor}
+                        style={
+                          {
+                            //paddingLeft: 3,
+                            // marginRight: Platform.OS === 'ios' ? 2 : 0,
+                          }
+                        }
+                      />
+                    </TouchableOpacity>
+                  )}
+                </View>
               </View>
             );
           })}
@@ -140,6 +182,7 @@ export default class MealsContainer extends Component {
       showDayLabelOnScroll,
       hideDayLabelOnScroll,
     } = this.props;
+    const {infoPopUpVisible, infoSource} = this.state;
     if (meals.length > 0) {
       meals.map((meal) => (meal.icon = MEALS_ICON));
     }
@@ -224,6 +267,49 @@ export default class MealsContainer extends Component {
             containerStyle={stylesExtended.bottomHeartButtonContainerStyle}
           /> */}
         </View>
+
+        <Modal
+          useNativeDriver={true}
+          hideModalContentWhileAnimating={true}
+          isVisible={infoPopUpVisible}
+          backdropColor="black"
+          backdropOpacity={0.5}>
+          {infoSource && (
+            <View style={styles.modalOuterContainer}>
+              <View style={styles.modalHeader}>
+                <GradiantContainer>
+                  <TouchableOpacity
+                    style={styles.closeButtonContainerStyle}
+                    onPress={() => this.closeInfoPopUp()}>
+                    <Icon
+                      name="close-circle"
+                      size={SCREEN_HEIGHT * 0.04}
+                      color={styleCommon.secondaryColorNew}
+                      style={{marginLeft: 1}}
+                    />
+                  </TouchableOpacity>
+                  <View style={styles.popUpImageContainer}>
+                    <Image
+                      source={infoSource.imageUrl}
+                      style={styles.popUpImage}
+                    />
+                  </View>
+                  <View style={styles.popUpTitleContainer}>
+                    <Text style={styles.popUpTitle}>{infoSource.name}</Text>
+                  </View>
+                </GradiantContainer>
+              </View>
+              <View style={styles.modalContainer}>
+                {infoSource.info.map(({label, value}) => (
+                  <View style={styles.infoItem} key={label}>
+                    <Text style={styles.infoLabel}>{label}</Text>
+                    <Text style={styles.infoValue}>{value}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
+        </Modal>
       </Animated.ScrollView>
     );
   }

@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
-import {View, Text, Image, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {Button} from 'react-native-elements';
 import PhoneNumberPicker from '../components/phoneNumber/PhoneNumberPicker';
@@ -10,6 +19,12 @@ import {SMS_ICON} from '../common/Common';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import ResendButton from '../components/ResendButton';
 // import analytics from '@react-native-firebase/analytics';
+
+const DismissKeyboard = ({children}) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 class PhoneAuthScreen extends Component {
   state = {
@@ -110,43 +125,53 @@ class PhoneAuthScreen extends Component {
     const {phoneNumber} = this.state;
     const {loadingMessage} = this.props;
     return (
-      <View
-        style={
-          loadingMessage.includes('Signing')
-            ? styles.verificationSignUpContainer
-            : styles.verificationContainer
-        }>
-        <Text style={styles.verificationTitle}>Verify your phone number</Text>
-        <Text style={styles.verificationDesc}>
-          Enter the 6-digit code we sent to {phoneNumber}
-        </Text>
-        <Image source={SMS_ICON} style={styles.iconImageStyle} />
-        <View style={styles.verificationCodeContainer}>
-          <OTPInputView
-            style={styles.otpInput}
-            pinCount={6}
-            autoFocusOnLoad
-            codeInputFieldStyle={styles.underlineStyleBase}
-            codeInputHighlightStyle={styles.underlineStyleHighLighted}
-            placeholderTextColor={styleCommon.textColor1}
-            onCodeFilled={(code) => {
-              this.handleVerifyCode(code);
-            }}
-          />
-        </View>
-        <ResendButton resendCode={this.resendCode} />
-        <View style={styles.verificationPhNumContainer}>
-          <Text style={styles.clickHere}>
-            Not your number? Click below to change
-          </Text>
-          <Button
-            title={phoneNumber}
-            titleStyle={styles.verificationPhNum}
-            type="clear"
-            onPress={() => this.reEnterPhoneNumber()}
-          />
-        </View>
-      </View>
+      <DismissKeyboard>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={Platform.OS === 'android' && -1000}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalContainer}
+          contentContainerStyle={styles.modalContainer}>
+          <View
+            style={
+              loadingMessage.includes('Signing')
+                ? styles.verificationSignUpContainer
+                : styles.verificationContainer
+            }>
+            <Text style={styles.verificationTitle}>
+              Verify your phone number
+            </Text>
+            <Text style={styles.verificationDesc}>
+              Enter the 6-digit code we sent to {phoneNumber}
+            </Text>
+            <Image source={SMS_ICON} style={styles.iconImageStyle} />
+            <View style={styles.verificationCodeContainer}>
+              <OTPInputView
+                style={styles.otpInput}
+                pinCount={6}
+                autoFocusOnLoad
+                codeInputFieldStyle={styles.underlineStyleBase}
+                codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                placeholderTextColor={styleCommon.textColor1}
+                onCodeFilled={(code) => {
+                  this.handleVerifyCode(code);
+                }}
+              />
+            </View>
+            <ResendButton resendCode={this.resendCode} />
+            <View style={styles.verificationPhNumContainer}>
+              <Text style={styles.clickHere}>
+                Not your number? Click below to change
+              </Text>
+              <Button
+                title={phoneNumber}
+                titleStyle={styles.verificationPhNum}
+                type="clear"
+                onPress={() => this.reEnterPhoneNumber()}
+              />
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </DismissKeyboard>
     );
   };
 
