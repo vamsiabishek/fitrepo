@@ -70,9 +70,10 @@ class PhoneAuthScreen extends Component {
     phNumWithoutCountryCode,
     countryCode,
   }) => {
-    const {setShowSocialOptions} = this.props;
+    const {setShowSocialOptions, setShowSignUp} = this.props;
     this.setState({isLoading: true, sendingSms: true});
     setShowSocialOptions(false, true);
+    setShowSignUp(false);
     // Request to send OTP
     try {
       const confirmResult = await auth().signInWithPhoneNumber(phoneNumber);
@@ -99,6 +100,7 @@ class PhoneAuthScreen extends Component {
       // );
       this.setState({isLoading: false});
       setShowSocialOptions(true, undefined);
+      setShowSignUp(true);
     }
   };
 
@@ -135,9 +137,10 @@ class PhoneAuthScreen extends Component {
   };
 
   reEnterPhoneNumber = () => {
-    const {setShowSocialOptions} = this.props;
+    const {setShowSocialOptions, setShowSignUp} = this.props;
     this.setState({confirmResult: null, phNumWithoutCountryCode: ''});
     setShowSocialOptions(true, false);
+    setShowSignUp(true);
   };
 
   resendCode = () => {
@@ -148,25 +151,23 @@ class PhoneAuthScreen extends Component {
     const {phoneNumber} = this.state;
     const {loadingMessage} = this.props;
     return (
-      <DismissKeyboard>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={Platform.OS === 'android' && -1000}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.modalContainer}
-          contentContainerStyle={styles.modalContainer}>
-          <View
-            style={
-              loadingMessage.includes('Signing')
-                ? styles.verificationSignUpContainer
-                : styles.verificationContainer
-            }>
-            <Text style={styles.verificationTitle}>
-              Verify your phone number
-            </Text>
-            <Text style={styles.verificationDesc}>
-              Enter the 6-digit code we sent to {phoneNumber}
-            </Text>
-            <Image source={SMS_ICON} style={styles.iconImageStyle} />
+      <View
+        style={
+          loadingMessage.includes('Signing')
+            ? styles.verificationSignUpContainer
+            : styles.verificationContainer
+        }>
+        <Text style={styles.verificationTitle}>Verify your phone number</Text>
+        <Text style={styles.verificationDesc}>
+          Enter the 6-digit code we sent to {phoneNumber}
+        </Text>
+        <Image source={SMS_ICON} style={styles.iconImageStyle} />
+        <DismissKeyboard>
+          <KeyboardAvoidingView
+            //keyboardVerticalOffset={Platform.OS === 'android' && -1000}
+            behavior={Platform.OS === 'ios' ? 'padding' : null}
+            style={styles.modalContainer}
+            contentContainerStyle={styles.modalContainer}>
             <View style={styles.verificationCodeContainer}>
               <OTPInputView
                 style={styles.otpInput}
@@ -180,21 +181,21 @@ class PhoneAuthScreen extends Component {
                 }}
               />
             </View>
-            <ResendButton resendCode={this.resendCode} />
-            <View style={styles.verificationPhNumContainer}>
-              <Text style={styles.clickHere}>
-                Not your number? Click below to change
-              </Text>
-              <Button
-                title={phoneNumber}
-                titleStyle={styles.verificationPhNum}
-                type="clear"
-                onPress={() => this.reEnterPhoneNumber()}
-              />
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </DismissKeyboard>
+          </KeyboardAvoidingView>
+        </DismissKeyboard>
+        <ResendButton resendCode={this.resendCode} />
+        <View style={styles.verificationPhNumContainer}>
+          <Text style={styles.clickHere}>
+            Not your number? Click below to change
+          </Text>
+          <Button
+            title={phoneNumber}
+            titleStyle={styles.verificationPhNum}
+            type="clear"
+            onPress={() => this.reEnterPhoneNumber()}
+          />
+        </View>
+      </View>
     );
   };
 
@@ -207,7 +208,7 @@ class PhoneAuthScreen extends Component {
       sendingSms,
       autoValidating,
     } = this.state;
-    const {loadingMessage, isSignup} = this.props;
+    const {loadingMessage, setShowSignUp, isSignup} = this.props;
     let loadingMsg = sendingSms
       ? 'Sending the verification code...'
       : loadingMessage;
@@ -242,6 +243,7 @@ class PhoneAuthScreen extends Component {
                 sendCodeToPhone={this.handleSendCode}
                 phoneNumber={phNumWithoutCountryCode}
                 countryCode={countryCode}
+                setShowSignUp={setShowSignUp}
               />
             )}
           </React.Fragment>
