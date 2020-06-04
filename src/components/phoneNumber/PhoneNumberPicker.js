@@ -80,6 +80,9 @@ export default class PhoneInput extends Component {
 
   onChangePhoneNumber = (number) => {
     const {countryCode} = this.state;
+    number.length > 5
+      ? this.props.setShowSignUp(false)
+      : this.props.setShowSignUp(true);
     const numberWithCode = `${countryCode}${number}`;
     this.setState({
       inputValue: number,
@@ -189,8 +192,8 @@ export default class PhoneInput extends Component {
             contentContainerStyle={styles.modalContainer}*/}
         <DismissKeyboard>
           <KeyboardAvoidingView
-            keyboardVerticalOffset={Platform.OS === 'android' && -500}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            keyboardVerticalOffset={Platform.OS === 'ios' && 500}
+            behavior={Platform.OS === 'ios' ? 'padding' : null}>
             <View style={styles.phoneNumberContainer}>
               <TouchableOpacity
                 onPress={this.onPressFlag}
