@@ -6,7 +6,6 @@ import {
   View,
   LayoutAnimation,
   UIManager,
-  KeyboardAvoidingView,
   Animated,
   ImageBackground,
 } from 'react-native';
@@ -61,6 +60,7 @@ export default class LoginScreen extends Component {
       showPrivacyTerms: false,
       user: null,
       media: '',
+      showSignUp: true,
     };
     this.shakeAnimation = new Animated.Value(0);
   }
@@ -372,6 +372,10 @@ export default class LoginScreen extends Component {
     this.setState({showSocialOptions: show, isLoading: false});
   };
 
+  setShowSignUp = (showSignUpVal) => {
+    this.setState({showSignUp: showSignUpVal, isLoading: false});
+  };
+
   saveUserPrivacyTerms = async () => {
     const {user} = this.state;
     const {navigation} = this.props;
@@ -404,6 +408,7 @@ export default class LoginScreen extends Component {
       showSocialOptions,
       showPrivacyTerms,
       media,
+      showSignUp,
     } = this.state;
     const socialLoginContainerStyle = {
       ...styles.buttonContainer,
@@ -446,13 +451,14 @@ export default class LoginScreen extends Component {
               <PhoneAuth
                 setShowSocialOptions={this.setShowSocialOptions}
                 createUserWithPhoneNumber={this.loginWithPhoneNumber}
+                setShowSignUp={this.setShowSignUp}
                 loadingMessage={
                   isLoadingPostPrivacy
                     ? 'Signing you up with DietRepo...'
                     : 'Logging you into DietRepo...'
                 }
               />
-              {showSocialOptions && !isLoading && (
+              {showSocialOptions && showSignUp && !isLoading && (
                 <View>
                   <View style={socialLoginContainerStyle}>
                     <SocialIcon
