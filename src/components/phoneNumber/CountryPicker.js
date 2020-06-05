@@ -96,7 +96,7 @@ export default class CountryPicker extends Component {
   render() {
     const {showCountryPicker} = this.props;
     const {searchTerm, filteredCountries} = this.state;
-    const searchPlaceholderTextColor = 'white';
+    const searchPlaceholderTextColor = 'lightgrey';
     const searchPlaceholderText = 'Search country';
     const searchSelectionColor = 'white'; //"rgba(0,0,0,0.2)";
     return (

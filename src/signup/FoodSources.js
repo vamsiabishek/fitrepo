@@ -230,7 +230,7 @@ export default function FoodSources(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProteinSources, selectedCarbSources, selectedFatSources]);
 
-  const {selectedSources: selectedSrcs} = props;
+  const {selectedSources: selectedSrcs, foodAllergySources} = props;
   let carbSelectable = true;
   let fatSelectable = true;
   if (
@@ -241,9 +241,19 @@ export default function FoodSources(props) {
     carbSelectable = false;
     fatSelectable = false;
   }
-  const proteinSources = getSourcesWithImages('protein', foodPreference);
-  const carbSources = getSourcesWithImages('carb');
-  const fatSources = getSourcesWithImages('fat');
+  const proteinSources = getSourcesWithImages({
+    type: 'protein',
+    foodPreference,
+    allergies: foodAllergySources,
+  });
+  const carbSources = getSourcesWithImages({
+    type: 'carb',
+    allergies: foodAllergySources,
+  });
+  const fatSources = getSourcesWithImages({
+    type: 'fat',
+    allergies: foodAllergySources,
+  });
   return (
     <View style={styles.mainContent}>
       <View style={styles.imageContainer}>

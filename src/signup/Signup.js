@@ -16,6 +16,7 @@ import Goal from './Goal';
 import Gender from './Gender';
 import PersonalDetails from './PersonalDetails';
 import PreferenceDetails from './PreferenceDetails';
+import FoodAllergies from './FoodAllergies';
 import FitnessLevel from './FitnessLevel';
 import FoodSources from './FoodSources';
 import SocialMediaSignup from './SocialMediaSignup';
@@ -27,11 +28,7 @@ import {
   commonValues,
 } from '../../assets/style/stylesCommonValues';
 import {createDiet} from './UpdateDiet';
-import {
-  getSourcesWithImages,
-  FOOD_PREF_NON_VEG,
-  getFoodPrefByIndex,
-} from '../common/SourceUtil';
+import {FOOD_PREF_NON_VEG, getFoodPrefByIndex} from '../common/SourceUtil';
 import {setFirstTimeUser} from '../common/Util';
 import {normalizeUserForSignup} from '../common/Normalize';
 import analytics from '@react-native-firebase/analytics';
@@ -76,6 +73,7 @@ function Signup(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [userLoginAnimation, setUserLoginAnimation] = useState(false);
   const [disableBackAndClose, setDisableBackAndClose] = useState(false);
+  const [foodAllergySources, setFoodAllergySources] = useState([]);
   const [navigation, setNavigation] = useState(props.navigation);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,6 +107,7 @@ function Signup(props) {
     setFoodPrefBtn(normalizedUser.foodPrefBtn);
     setFoodPreference(normalizedUser.foodPreference);
     setPrivacyTermsAccepted(normalizedUser.privacyTermsAccepted);
+    setFoodAllergySources(normalizedUser.allergies);
   };
 
   const setUserFitnessLevel = (level) => {
@@ -336,6 +335,9 @@ function Signup(props) {
         isScrollable = true;
       }
       if (currentScreen === 7) {
+        isScrollable = true;
+      }
+      if (currentScreen === 8) {
         await saveUserDetails();
         await createDietAndMeals();
       }
@@ -365,6 +367,9 @@ function Signup(props) {
         isScrollable = true;
       }
       if (currentScreen === comparableScreen(6)) {
+        isScrollable = true;
+      }
+      if (currentScreen === comparableScreen(7)) {
         //console.log('saving user details');
         await saveUserDetails();
         // console.log('saving diet details');
@@ -405,7 +410,9 @@ function Signup(props) {
       height,
       foodPreference,
       privacyTermsAccepted,
+      allergies: foodAllergySources.map(({key}) => key),
     };
+   // console.log("foodAllergySources", foodAllergySources)
     try {
       //console.log('updating user', user);
       await api.post('/updateUser', userDetails);
@@ -440,6 +447,7 @@ function Signup(props) {
       fitnessLevel,
       foodPreference,
       paymentStatus: false,
+      foodAllergySources,
       uid,
     };
     analytics().logEvent('Diet_creation_started', {...dietInfo, gender});
@@ -620,6 +628,17 @@ function Signup(props) {
               </View>
             </View>
             <View style={commonStyles.subContainer}>
+              <FoodAllergies
+                foodPreference={foodPreference}
+                setFoodAllergySources={setFoodAllergySources}
+                allergies={foodAllergySources}
+                screen={screen}
+                onBack={onBack}
+                onCancel={onCancelSignup}
+                onNext={onNextDelayed}
+              />
+            </View>
+            <View style={commonStyles.subContainer}>
               <Header
                 title={
                   isLoading
@@ -645,6 +664,7 @@ function Signup(props) {
                 <FoodSources
                   foodPreference={foodPreference}
                   setSelectedSources={setSelectedSources}
+                  foodAllergySources={foodAllergySources}
                 />
               )}
               <NavNextButton

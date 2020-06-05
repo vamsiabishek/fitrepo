@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     //flex: 1,
     marginTop: 0,
     marginLeft: -15,
-    marginRight: 40,
+    marginRight: 20,
     // backgroundColor: 'purple',
   },
   descriptionContainer: {

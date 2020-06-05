@@ -13,6 +13,10 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MyButton from '../components/MyButton';
+import {
+  styleCommon,
+  SCREEN_HEIGHT,
+} from '../../assets/style/stylesCommonValues';
 
 export default function SourceSelectorModal(props) {
   // const { showModal, modalContains } = this.props;
@@ -26,9 +30,10 @@ export default function SourceSelectorModal(props) {
     searchTerm,
     onSearch,
   } = props;
-  const searchPlaceholderTextColor = 'grey';
+
+  const searchPlaceholderTextColor = 'lightgrey';
   const searchPlaceholderText = 'Search sources...';
-  const searchSelectionColor = 'black'; //"rgba(0,0,0,0.2)";
+  const searchSelectionColor = 'white'; //"rgba(0,0,0,0.2)";
 
   return (
     <View>
@@ -36,7 +41,11 @@ export default function SourceSelectorModal(props) {
         <View style={styles.modalContent}>
           <View style={styles.searchBar}>
             <View style={styles.center}>
-              <Icon name="search" size={18} style={{marginHorizontal: 15}} />
+              <Icon
+                name="search"
+                size={18}
+                style={{marginHorizontal: 15, color: 'white'}}
+              />
             </View>
             <TextInput
               value={searchTerm}
@@ -50,6 +59,18 @@ export default function SourceSelectorModal(props) {
               style={styles.searchTextInput}
             />
           </View>
+
+          <TouchableOpacity
+            style={styles.closeButtonContainerStyle}
+            onPress={() => onCancel()}>
+            <MaterialIcon
+              name="close-circle"
+              size={SCREEN_HEIGHT * 0.04}
+              color={styleCommon.secondaryColorNew}
+              style={{marginLeft: 1}}
+            />
+          </TouchableOpacity>
+
           <ScrollView>
             <View style={styles.sourceContainer}>
               {sources.map((source, index) => (
@@ -91,7 +112,6 @@ export default function SourceSelectorModal(props) {
   );
 }
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   sourceContainer: {
     flex: 1,
@@ -117,14 +137,15 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     paddingVertical: 5,
-    backgroundColor: '#6ac8c2',
-    borderBottomWidth: 1,
+    backgroundColor: styleCommon.textInputDarkColor, //'#6ac8c2',
+    borderWidth: 0.3,
     borderColor: 'lightgrey',
   },
   searchTextInput: {
     flex: 1,
     fontSize: 17,
     paddingVertical: 8,
+    color: styleCommon.textColorWhite,
   },
   center: {
     alignItems: 'center',
@@ -143,5 +164,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginVertical: 50,
+  },
+  closeButtonContainerStyle: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: -12,
+    right: -12,
+    height: SCREEN_HEIGHT * 0.04,
+    width: SCREEN_HEIGHT * 0.04,
+    backgroundColor: styleCommon.textInputDarkColor, //styleCommon.secondaryColorNew,
+    borderRadius: SCREEN_HEIGHT * 0.04,
   },
 });
