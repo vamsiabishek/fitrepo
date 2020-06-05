@@ -4,7 +4,16 @@ import {
   FOOD_PREF_NON_VEG,
   FOOD_PREF_EGGETARIAN,
   getSourcesWithImages,
+  getSourcesWithImagesByIdList,
 } from './SourceUtil';
+
+const allergySourcesWithImages = (allergies) => {
+  if (allergies?.length) {
+    console.log('allergies', allergies)
+    return getSourcesWithImagesByIdList(allergies);
+  }
+  return [];
+};
 
 export const normalizeUserForSignup = (user) => {
   const foodPreference = user.foodPreference || FOOD_PREF_NON_VEG;
@@ -26,11 +35,15 @@ export const normalizeUserForSignup = (user) => {
         ? 1
         : 0,
     foodPreference,
-    proteinSources: getSourcesWithImages('protein', user.foodPreference),
-    carbSources: getSourcesWithImages('carb'),
-    fatSources: getSourcesWithImages('fat'),
+    proteinSources: getSourcesWithImages({
+      type: 'protein',
+      foodPreference,
+    }),
+    carbSources: getSourcesWithImages({type: 'carb'}),
+    fatSources: getSourcesWithImages({type: 'fat'}),
     isLoadingComponent: false,
     hasNoGender,
     privacyTermsAccepted: user.privacyTermsAccepted || false,
+    allergies: allergySourcesWithImages(user.allergies),
   };
 };

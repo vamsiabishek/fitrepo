@@ -35,7 +35,21 @@ export const getFatSources = ({onlyNames}) => {
     : createKeyAndValues(fatSources);
 };
 
-export const getProteinSourcesWithImages = (foodPreference) => {
+const removeAllergySources = (sources, allergies) => {
+  const sourcesWithoutAllergies = [];
+  if (allergies?.length) {
+    sources.map((source) => {
+      if (!allergies.some((allergySrc) => allergySrc.name === source.name)) {
+        sourcesWithoutAllergies.push(source);
+      }
+    });
+    return sourcesWithoutAllergies;
+  } else {
+    return sources;
+  }
+};
+
+export const getProteinSourcesWithImages = (foodPreference, allergies) => {
   let proteinSourcesR = [];
   if (foodPreference === FOOD_PREF_VEGAN) {
     proteinSourcesR = proteinSourcesWithImages.filter(
@@ -51,28 +65,35 @@ export const getProteinSourcesWithImages = (foodPreference) => {
     proteinSourcesR = proteinSourcesWithImages;
   }
 
+  proteinSourcesR = removeAllergySources(proteinSourcesR, allergies);
+
   return proteinSourcesR;
 };
 
-export const getCarbSourcesWithImages = () => {
-  return carbSourcesWithImages;
+export const getCarbSourcesWithImages = (allergies) => {
+  return removeAllergySources(carbSourcesWithImages, allergies);
 };
 
-export const getFatSourcesWithImages = () => {
-  return fatSourcesWithImages;
+export const getFatSourcesWithImages = (allergies) => {
+  return removeAllergySources(fatSourcesWithImages, allergies);
 };
 
-export const getSourcesWithImages = (sourceType, foodPreference) => {
+export const getSourcesWithImages = ({type, foodPreference, allergies}) => {
   let sources = [];
-  if (sourceType === 'protein') {
-    sources = getProteinSourcesWithImages(foodPreference);
-  } else if (sourceType === 'carb') {
-    sources = getCarbSourcesWithImages();
-  } else if (sourceType === 'fat') {
-    sources = getFatSourcesWithImages();
+  if (type === 'protein') {
+    sources = getProteinSourcesWithImages(foodPreference, allergies);
+  } else if (type === 'carb') {
+    sources = getCarbSourcesWithImages(allergies);
+  } else if (type === 'fat') {
+    sources = getFatSourcesWithImages(allergies);
   }
   sources = resetSourceSelections(sources);
   return sources;
+};
+
+export const getSourcesWithImagesByIdList = (idList) => {
+  const allSources = getAllSourcesWithImages();
+  return allSources.filter(({key}) => idList?.includes(key));
 };
 
 export const getSourcesByIdList = (idList) => {
@@ -244,6 +265,14 @@ const getSourcesByType = (type) => {
 
 const getAllSources = () => {
   return [...proteinSources, ...carbSources, ...fatSources];
+};
+
+const getAllSourcesWithImages = () => {
+  return [
+    ...proteinSourcesWithImages,
+    ...carbSourcesWithImages,
+    ...fatSourcesWithImages,
+  ];
 };
 
 export const getSourceInfo = (key) => {
