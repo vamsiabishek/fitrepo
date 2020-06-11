@@ -49,6 +49,7 @@ export default class Supplements extends Component {
   render() {
     const {supplements} = this.state;
     const {navigate} = this.props.navigation;
+    console.log('supplements: ', supplements);
     return (
       <View style={styles.container}>
         <View style={styles.supplementContainer}>
