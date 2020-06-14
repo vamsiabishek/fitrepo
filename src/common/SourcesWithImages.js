@@ -113,6 +113,11 @@ export const proteinSourcesWithImages = [
     isVegan: true,
     key: 'lentils',
   },
+  {
+    name: 'Quinoa',
+    uri: require('../../assets/images/sources/quinoa.svg'),
+    key: 'quinoa',
+  },
 ];
 
 export const carbSourcesWithImages = [
