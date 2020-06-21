@@ -31,6 +31,7 @@ export default class TargetWeightTimeline extends Component {
     this.targetWeightLabelsInKg = [];
     this.targetWeightLabelsInPounds = [];
     this.targetWeightOptions = [];
+    this.stateChanged = false;
   }
 
   _getTargetWeightOptions = () => {
@@ -63,6 +64,7 @@ export default class TargetWeightTimeline extends Component {
     this.setState({
       selectedProgram,
     });
+    this.stateChanged = true;
   };
 
   _updateTargetWeight = (targetWeightIndex) => {
@@ -104,18 +106,12 @@ export default class TargetWeightTimeline extends Component {
       targetWeightIndex,
       selectedTargetWeight: this.targetWeightOptions[targetWeightIndex],
     });
+    this.stateChanged = true;
   };
 
   _handleConfirm = () => {
-    const {
-      selectedProgram,
-      selectedTargetWeight,
-      targetWeightIndex,
-    } = this.state;
-    let weightToBeUsed = selectedTargetWeight;
-    if (selectedTargetWeight === undefined) {
-      weightToBeUsed = this.targetWeightOptions[targetWeightIndex];
-    }
+    const {selectedProgram, targetWeightIndex} = this.state;
+    const weightToBeUsed = this.targetWeightOptions[targetWeightIndex];
     const {onConfirm} = this.props;
     onConfirm(weightToBeUsed, selectedProgram);
     this._resetProgramAndTargetWeight();
@@ -126,6 +122,21 @@ export default class TargetWeightTimeline extends Component {
     onClose();
     this._resetProgramAndTargetWeight();
   };
+
+  componentDidUpdate() {
+    const {program, targetWeight} = this.props;
+    const {targetWeightIndex} = this.state;
+    const selectedWeight = this.targetWeightOptions[targetWeightIndex];
+    if (!this.stateChanged && targetWeight && selectedWeight !== targetWeight) {
+      const selectedWtIndex =
+        this.targetWeightOptions.findIndex((wt) => wt === targetWeight) || 1;
+      this.setState({
+        selectedProgram: program || 0,
+        targetWeightIndex: selectedWtIndex,
+      });
+    }
+    this.stateChanged = false;
+  }
 
   render() {
     const {selectedProgram, targetWeightIndex} = this.state;
