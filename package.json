@@ -50,7 +50,7 @@
     "react-native-progress-bar-animated": "^1.0.6",
     "react-native-progress-circle": "^2.1.0",
     "react-native-purchases": "^3.2.0",
-    "react-native-reanimated": "1.8.0",
+    "react-native-reanimated": "2.10.0",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "^2.4.0",
     "react-native-sectioned-multi-select": "^0.7.6",
